@@ -77,7 +77,12 @@ local function LayoutChildren(widget)
             else
                 frame:SetPoint("TOPLEFT", content, "TOPLEFT", 0, -y)
                 frame:SetPoint("TOPRIGHT", content, "TOPRIGHT", 0, -y)
-                y = y + GetWidgetHeight(child)
+                if child.fullHeight then
+                    frame:SetPoint("BOTTOMRIGHT", content, "BOTTOMRIGHT")
+                else
+                    frame:SetHeight(GetWidgetHeight(child))
+                    y = y + GetWidgetHeight(child)
+                end
             end
             frame:Show()
         end
@@ -151,6 +156,9 @@ local function CreateBaseWidget(widgetType, parent)
     }
     widget.frame = CreateBackdropFrame("Frame", parent)
     widget.frame:SetSize(DEFAULT_WIDTH, DEFAULT_HEIGHT)
+    widget.frame:HookScript("OnSizeChanged", function()
+        LayoutChildren(widget)
+    end)
 
     function widget:SetCallback(event, callback)
         self.callbacks[event] = callback
@@ -170,11 +178,11 @@ local function CreateBaseWidget(widgetType, parent)
     end
     function widget:SetFullWidth(full)
         self.fullWidth = full
-        if full then self.frame:SetWidth(1) end
+        LayoutChildren(self)
     end
     function widget:SetFullHeight(full)
         self.fullHeight = full
-        if full then self.frame:SetHeight(1) end
+        LayoutChildren(self)
     end
     function widget:SetRelativeWidth(width)
         self.relativeWidth = width
@@ -254,6 +262,12 @@ local function CreateContainer(widgetType, parent, inset, color)
     widget.border = widget.frame
     SetBackdrop(widget.border, color or {0.08, 0.055, 0.03, 0.96}, {0.35, 0.25, 0.1, 1})
     widget.frame:SetHeight(40)
+    widget.frame:HookScript("OnSizeChanged", function()
+        widget.content:ClearAllPoints()
+        widget.content:SetPoint("TOPLEFT", widget.frame, "TOPLEFT", inset or 6, -(inset or 6))
+        widget.content:SetPoint("BOTTOMRIGHT", widget.frame, "BOTTOMRIGHT", -(inset or 6), inset or 6)
+        LayoutChildren(widget)
+    end)
     return widget
 end
 
@@ -465,14 +479,23 @@ local function CreateScrollFrame(parent)
     widget.frame = CreateFrame("ScrollFrame", nil, parent)
     widget.border = widget.frame
     widget.content = CreateBackdropFrame("Frame", widget.frame)
-    widget.content:SetSize(1, 1)
+    widget.content:SetPoint("TOPLEFT", widget.frame, "TOPLEFT")
+    widget.content:SetPoint("TOPRIGHT", widget.frame, "TOPRIGHT")
+    widget.content:SetHeight(1)
     widget.frame:SetScrollChild(widget.content)
+    widget.frame:EnableMouseWheel(true)
     widget.scrollbar = CreateFrame("Slider", nil, widget.frame, "UIPanelScrollBarTemplate")
     widget.scrollbar:SetPoint("TOPRIGHT", widget.frame, "TOPRIGHT", -2, -2)
     widget.scrollbar:SetPoint("BOTTOMRIGHT", widget.frame, "BOTTOMRIGHT", -2, 2)
     widget.scrollbar:SetMinMaxValues(0, 0)
+    widget.scrollbar:SetValueStep(1)
+    widget.scrollbar:SetScript("OnValueChanged", function(_, value)
+        widget.frame:SetVerticalScroll(value)
+    end)
     widget.frame:HookScript("OnMouseWheel", function(_, delta)
-        widget.frame:SetVerticalScroll(math.max(0, (widget.frame:GetVerticalScroll() or 0) - delta * 30))
+        local minimum, maximum = widget.scrollbar:GetMinMaxValues()
+        local value = widget.scrollbar:GetValue() - delta * 40
+        widget.scrollbar:SetValue(math.max(minimum, math.min(maximum, value)))
     end)
     function widget:SetHeight(height)
         self.frame:SetHeight(height)
@@ -483,7 +506,9 @@ local function CreateScrollFrame(parent)
         local height = 0
         for _, item in ipairs(self.children) do height = height + GetWidgetHeight(item) end
         self.content:SetHeight(math.max(height, self.frame:GetHeight() or 1))
-        self.scrollbar:SetMinMaxValues(0, math.max(0, height - (self.frame:GetHeight() or 0)))
+        local maximum = math.max(0, height - (self.frame:GetHeight() or 0))
+        self.scrollbar:SetMinMaxValues(0, maximum)
+        self.scrollbar:SetShown(maximum > 0)
     end
     return widget
 end
@@ -506,6 +531,11 @@ local function CreateFrameWidget(parent)
     widget.content:ClearAllPoints()
     widget.content:SetPoint("TOPLEFT", widget.frame, "TOPLEFT", 10, -42)
     widget.content:SetPoint("BOTTOMRIGHT", widget.frame, "BOTTOMRIGHT", -10, 10)
+    widget.frame:HookScript("OnSizeChanged", function()
+        widget.content:ClearAllPoints()
+        widget.content:SetPoint("TOPLEFT", widget.frame, "TOPLEFT", 10, -42)
+        widget.content:SetPoint("BOTTOMRIGHT", widget.frame, "BOTTOMRIGHT", -10, 10)
+    end)
     function widget:SetTitle(text)
         self.title:SetText(text or "")
     end
@@ -542,13 +572,36 @@ local function CreateTreeGroup(parent)
     widget.treeframe:SetPoint("TOPLEFT", widget.frame, "TOPLEFT")
     widget.treeframe:SetPoint("BOTTOMLEFT", widget.frame, "BOTTOMLEFT")
     widget.treeframe:SetWidth(220)
-    widget.content:ClearAllPoints()
-    widget.content:SetPoint("TOPLEFT", widget.treeframe, "TOPRIGHT", 6, 0)
-    widget.content:SetPoint("BOTTOMRIGHT", widget.frame, "BOTTOMRIGHT")
+    widget.treeframe:EnableMouse(true)
+    widget.localstatus.groups = {}
+    widget.treeScroll = CreateFrame("ScrollFrame", nil, widget.treeframe)
+    widget.treeScroll:SetPoint("TOPLEFT", widget.treeframe, "TOPLEFT", 4, -4)
+    widget.treeScroll:SetPoint("BOTTOMRIGHT", widget.treeframe, "BOTTOMRIGHT", -22, 4)
+    widget.treeScroll:EnableMouseWheel(true)
+    widget.treeContent = CreateFrame("Frame", nil, widget.treeScroll)
+    widget.treeContent:SetPoint("TOPLEFT", widget.treeScroll, "TOPLEFT")
+    widget.treeContent:SetPoint("TOPRIGHT", widget.treeScroll, "TOPRIGHT")
+    widget.treeContent:SetHeight(1)
+    widget.treeScroll:SetScrollChild(widget.treeContent)
     widget.scrollbar = CreateFrame("Slider", nil, widget.treeframe, "UIPanelScrollBarTemplate")
     widget.scrollbar:SetPoint("TOPRIGHT", widget.treeframe, "TOPRIGHT", -2, -2)
     widget.scrollbar:SetPoint("BOTTOMRIGHT", widget.treeframe, "BOTTOMRIGHT", -2, 2)
+    widget.scrollbar:SetWidth(16)
+    widget.scrollbar:SetMinMaxValues(0, 0)
+    widget.scrollbar:SetValueStep(1)
+    widget.scrollbar:SetValue(0)
+    widget.scrollbar:SetScript("OnValueChanged", function(_, value)
+        widget.treeScroll:SetVerticalScroll(value)
+    end)
+    widget.treeScroll:SetScript("OnMouseWheel", function(_, delta)
+        local minimum, maximum = widget.scrollbar:GetMinMaxValues()
+        local value = widget.scrollbar:GetValue() - delta * 40
+        widget.scrollbar:SetValue(math.max(minimum, math.min(maximum, value)))
+    end)
     SetBackdrop(widget.treeframe, {0.08, 0.055, 0.03, 0.96}, {0.35, 0.25, 0.1, 1})
+    widget.content:ClearAllPoints()
+    widget.content:SetPoint("TOPLEFT", widget.treeframe, "TOPRIGHT", 6, 0)
+    widget.content:SetPoint("BOTTOMRIGHT", widget.frame, "BOTTOMRIGHT")
 
     local function FindNode(nodes, parts, index)
         for _, node in ipairs(nodes or {}) do
@@ -560,26 +613,102 @@ local function CreateTreeGroup(parent)
     end
 
     local function RenderTree()
-        for _, child in ipairs({widget.treeframe:GetChildren()}) do child:Hide() end
+        for _, child in ipairs({widget.treeContent:GetChildren()}) do child:Hide() end
         local y = -4
         local function AddNodes(nodes, path, depth)
             for _, node in ipairs(nodes or {}) do
                 local nodePath = path and (path .. PATH_SEPARATOR .. tostring(node.value)) or tostring(node.value)
-                local button = CreateFrame("Button", nil, widget.treeframe, "UIPanelButtonTemplate")
-                button:SetPoint("TOPLEFT", widget.treeframe, "TOPLEFT", 4 + depth * 10, y)
-                button:SetPoint("TOPRIGHT", widget.treeframe, "TOPRIGHT", -22, y)
+                local button = CreateFrame("Button", nil, widget.treeContent, "OptionsListButtonTemplate")
+                button.treeValue = nodePath
+                button:SetPoint("TOPLEFT", widget.treeContent, "TOPLEFT", depth * 10, y)
+                button:SetPoint("TOPRIGHT", widget.treeContent, "TOPRIGHT", 0, y)
                 button:SetHeight(22)
                 button:SetText(node.text or tostring(node.value))
+                button:SetNormalFontObject(node.children and "GameFontNormal" or "GameFontHighlightSmall")
+                button:SetHighlightFontObject(node.children and "GameFontHighlight" or "GameFontHighlightSmall")
+
+                local toggleOffset = node.children and 18 or 0
+                if node.children and button.toggle then
+                    button.toggle:ClearAllPoints()
+                    button.toggle:SetPoint("LEFT", button, "LEFT", depth * 10, 0)
+                    button.toggle:SetSize(16, 16)
+                    if not button.toggle.treeGlyph then
+                        button.toggle.treeGlyph = button.toggle:CreateFontString(nil, "OVERLAY", "GameFontNormalLarge")
+                        button.toggle.treeGlyph:SetPoint("CENTER")
+                        button.toggle.treeGlyph:SetTextColor(1, 0.82, 0)
+                    end
+                    button.toggle.treeGlyph:SetText(widget.localstatus.groups[nodePath] == false and "+" or "−")
+                    button.toggle:SetScript("OnClick", function()
+                        widget.localstatus.groups[nodePath] = widget.localstatus.groups[nodePath] == false
+                        RenderTree()
+                    end)
+                    button.toggle:Show()
+                elseif button.toggle then
+                    button.toggle:Hide()
+                end
+
+                local iconOffset = depth * 10 + toggleOffset
+                if node.icon then
+                    button.icon = button.icon or button:CreateTexture(nil, "OVERLAY")
+                    button.icon:SetSize(node.iconSize or 14, node.iconSize or 14)
+                    button.icon:SetPoint("LEFT", button, "LEFT", iconOffset, 0)
+                    button.icon:SetTexture(node.icon)
+                    if node.iconCoords then button.icon:SetTexCoord(unpack(node.iconCoords)) else button.icon:SetTexCoord(0, 1, 0, 1) end
+                    iconOffset = iconOffset + (node.iconSize or 14) + 4
+                    button.icon:Show()
+                elseif button.icon then
+                    button.icon:Hide()
+                end
+
+                local label = button.text or button:GetFontString()
+                if label then
+                    label:ClearAllPoints()
+                    label:SetPoint("LEFT", button, "LEFT", iconOffset, 0)
+                    label:SetPoint("RIGHT", button, "RIGHT", -8, 0)
+                    label:SetJustifyH("LEFT")
+                end
+                if button.SetEnabled then button:SetEnabled(not node.disabled) end
                 button:SetScript("OnClick", function()
+                    Fire(widget, "OnClick", nodePath, widget.localstatus.selected == nodePath)
                     widget:SelectByValue(nodePath)
                 end)
+                button:SetScript("OnEnter", function()
+                    Fire(widget, "OnButtonEnter", nodePath, button)
+                    if widget.buttonTooltips then
+                        GameTooltip:SetOwner(button, "ANCHOR_RIGHT")
+                        GameTooltip:SetText(node.tooltipText or node.text or tostring(node.value), 1, 0.82, 0, 1, true)
+                        GameTooltip:Show()
+                    end
+                end)
+                button:SetScript("OnLeave", function()
+                    Fire(widget, "OnButtonLeave", nodePath, button)
+                    if widget.buttonTooltips then GameTooltip:Hide() end
+                end)
+                if widget.localstatus.selected == nodePath then button:LockHighlight() end
                 y = y - 24
-                if node.children then AddNodes(node.children, nodePath, depth + 1) end
+                if node.children and widget.localstatus.groups[nodePath] ~= false then
+                    AddNodes(node.children, nodePath, depth + 1)
+                end
             end
         end
         AddNodes(widget.tree, nil, 0)
-        widget.scrollbar:SetMinMaxValues(0, math.max(0, -y - (widget.treeframe:GetHeight() or 0)))
+        local contentHeight = math.max(1, -y + 4)
+        widget.treeContent:SetHeight(contentHeight)
+        local viewHeight = widget.treeScroll:GetHeight() or 0
+        local maximum = math.max(0, contentHeight - viewHeight)
+        widget.scrollbar:SetMinMaxValues(0, maximum)
+        widget.scrollbar:SetShown(maximum > 0)
+        widget.treeScroll:SetVerticalScroll(math.min(widget.treeScroll:GetVerticalScroll() or 0, maximum))
     end
+
+    local function LayoutTree()
+        widget.content:ClearAllPoints()
+        widget.content:SetPoint("TOPLEFT", widget.treeframe, "TOPRIGHT", 6, 0)
+        widget.content:SetPoint("BOTTOMRIGHT", widget.frame, "BOTTOMRIGHT")
+        RenderTree()
+    end
+    widget.frame:HookScript("OnSizeChanged", LayoutTree)
+    widget.treeframe:HookScript("OnSizeChanged", LayoutTree)
 
     function widget:SetTree(tree)
         self.tree = tree or {}
@@ -587,6 +716,13 @@ local function CreateTreeGroup(parent)
     end
     function widget:SelectByValue(value)
         self.localstatus.selected = tostring(value)
+        for _, button in ipairs({self.treeContent:GetChildren()}) do
+            if button.treeValue == self.localstatus.selected then
+                button:LockHighlight()
+            else
+                button:UnlockHighlight()
+            end
+        end
         Fire(self, "OnGroupSelected", self.localstatus.selected)
     end
     function widget:SelectByPath(...)
