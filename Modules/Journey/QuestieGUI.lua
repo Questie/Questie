@@ -71,6 +71,7 @@ local function LayoutChildren(widget)
     local rowHeight = 0
     local hasFullHeightChild = false
     local contentWidth = content:GetWidth() or 0
+    local rowGap = layout == "list" and 0 or FLOW_GAP
 
     for index, child in ipairs(children) do
         local frame = child.frame
@@ -93,7 +94,7 @@ local function LayoutChildren(widget)
                     or (contentWidth > 0 and x + childWidth > contentWidth)
 
                 if startsNewRow then
-                    if x > 0 then y = y + rowHeight + FLOW_GAP end
+                    if x > 0 then y = y + rowHeight + rowGap end
                     x = 0
                     rowHeight = 0
                 end
@@ -112,9 +113,9 @@ local function LayoutChildren(widget)
                 end
                 rowHeight = math.max(rowHeight, childHeight)
                 if child.fullWidth then
-                    x = contentWidth + FLOW_GAP
+                    x = contentWidth + rowGap
                 else
-                    x = x + childWidth + FLOW_GAP
+                    x = x + childWidth + rowGap
                 end
             end
             frame:Show()
@@ -852,7 +853,9 @@ local function CreateTabGroup(parent)
     widget.tabBar:SetPoint("TOPRIGHT", widget.frame, "TOPRIGHT")
     widget.tabBar:SetHeight(32)
     widget.content:SetFrameLevel(widget.frame:GetFrameLevel() + 1)
-    widget.tabBar:SetFrameLevel(widget.frame:GetFrameLevel() + 2)
+    -- Content widgets create their own child frames, so a small level offset
+    -- is not enough to keep the tabs above the result container.
+    widget.tabBar:SetFrameLevel(widget.frame:GetFrameLevel() + 20)
     widget.content:ClearAllPoints()
     widget.content:SetPoint("TOPLEFT", widget.frame, "TOPLEFT", 0, -34)
     widget.content:SetPoint("BOTTOMRIGHT", widget.frame, "BOTTOMRIGHT")
@@ -867,6 +870,7 @@ local function CreateTabGroup(parent)
             end
             button:SetPoint("TOPLEFT", self.tabBar, "TOPLEFT", x, 0)
             button:SetSize(math.max(90, (tab.text and string.len(tab.text) or 8) * 8 + 24), 28)
+            button:SetFrameLevel(self.tabBar:GetFrameLevel() + 1)
             if button.Text then button.Text:SetText(tab.text or tab.value) else button:SetText(tab.text or tab.value) end
             tab.disabled = tab.disabled and true or false
             if tab.disabled then button:Disable() else button:Enable() end
@@ -945,6 +949,12 @@ function QuestieGUI:Create(widgetType, parent)
         local widget = CreateLabel(widgetType, parent)
         if widgetType == "InteractiveLabel" then
             widget.frame:EnableMouse(true)
+            widget.frame:SetScript("OnEnter", function()
+                Fire(widget, "OnEnter")
+            end)
+            widget.frame:SetScript("OnLeave", function()
+                Fire(widget, "OnLeave")
+            end)
             widget.frame:SetScript("OnMouseUp", function(_, button)
                 Fire(widget, "OnClick", button)
             end)

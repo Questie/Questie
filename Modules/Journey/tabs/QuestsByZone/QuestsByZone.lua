@@ -178,10 +178,8 @@ function _QuestieJourney.questsByZone:ManageTree(container, zoneTree)
     zoneTreeFrame:SetFullWidth(true)
     zoneTreeFrame:SetFullHeight(true)
     zoneTreeFrame:EnableButtonTooltips(false)
-    if QuestieOptionsControls and QuestieOptionsControls.ApplyJourneyContainer then
-        QuestieOptionsControls.ApplyJourneyContainer(zoneTreeFrame.treeframe)
-        QuestieOptionsControls.ApplyJourneyContainer(zoneTreeFrame.content)
-        QuestieOptionsControls.ApplyJourneyContainer(zoneTreeFrame.border)
+    if QuestieOptionsControls and QuestieOptionsControls.ApplyJourneyTreeGroup then
+        QuestieOptionsControls.ApplyJourneyTreeGroup(zoneTreeFrame)
     end
     if QuestieOptionsControls and QuestieOptionsControls.ApplyModernScrollbar then
         QuestieOptionsControls.ApplyModernScrollbar(zoneTreeFrame.scrollbar)

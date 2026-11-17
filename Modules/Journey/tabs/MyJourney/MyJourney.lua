@@ -35,9 +35,8 @@ function _QuestieJourney.myJourney:ManageTree(container)
         journeyTreeFrame:SetFullWidth(true);
         journeyTreeFrame:SetFullHeight(true);
         journeyTreeFrame:EnableButtonTooltips(false)
-        if QuestieOptionsControls and QuestieOptionsControls.ApplyJourneyContainer then
-            QuestieOptionsControls.ApplyJourneyContainer(journeyTreeFrame.treeframe)
-            QuestieOptionsControls.ApplyJourneyContainer(journeyTreeFrame.border)
+        if QuestieOptionsControls and QuestieOptionsControls.ApplyJourneyTreeGroup then
+            QuestieOptionsControls.ApplyJourneyTreeGroup(journeyTreeFrame)
         end
         if QuestieOptionsControls and QuestieOptionsControls.ApplyModernScrollbar then
             QuestieOptionsControls.ApplyModernScrollbar(journeyTreeFrame.scrollbar)

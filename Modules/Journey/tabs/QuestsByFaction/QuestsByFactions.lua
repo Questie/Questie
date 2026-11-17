@@ -372,10 +372,8 @@ function _QuestieJourney.questsByFaction:ManageTree(container, factionTree)
     factionTreeFrame:SetFullWidth(true)
     factionTreeFrame:SetFullHeight(true)
     factionTreeFrame:EnableButtonTooltips(false)
-    if QuestieOptionsControls and QuestieOptionsControls.ApplyJourneyContainer then
-        QuestieOptionsControls.ApplyJourneyContainer(factionTreeFrame.treeframe)
-        QuestieOptionsControls.ApplyJourneyContainer(factionTreeFrame.content)
-        QuestieOptionsControls.ApplyJourneyContainer(factionTreeFrame.border)
+    if QuestieOptionsControls and QuestieOptionsControls.ApplyJourneyTreeGroup then
+        QuestieOptionsControls.ApplyJourneyTreeGroup(factionTreeFrame)
     end
     if QuestieOptionsControls and QuestieOptionsControls.ApplyModernScrollbar then
         QuestieOptionsControls.ApplyModernScrollbar(factionTreeFrame.scrollbar)

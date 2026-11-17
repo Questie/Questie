@@ -172,6 +172,28 @@ function QuestieOptionsControls.ApplyJourneyContainer(frame)
     return frame
 end
 
+---Applies the shared dark surface to both real panes of a Journey TreeGroup.
+---The detail content frame remains transparent so this changes the container
+---surface itself instead of placing an opaque backdrop over its children.
+---@param treeGroup QuestieGUIWidget
+---@return QuestieGUIWidget
+function QuestieOptionsControls.ApplyJourneyTreeGroup(treeGroup)
+    if not treeGroup then
+        return treeGroup
+    end
+
+    local function ApplySurface(frame)
+        if frame and frame.SetBackdropColor then
+            frame:SetBackdropColor(0.08, 0.055, 0.03, 0.96)
+            frame:SetBackdropBorderColor(0.35, 0.25, 0.1, 1)
+        end
+    end
+
+    ApplySurface(treeGroup.border)
+    ApplySurface(treeGroup.treeframe)
+    return treeGroup
+end
+
 ---Applies the Journey surface to a texture-backed detail pane.
 ---@param texture Texture
 ---@return Texture
@@ -1062,6 +1084,29 @@ function QuestieOptionsControls.ApplyModernScrollbar(scrollbar)
                 button.modernScrollbarHidden = true
             end
         end
+    end
+
+    -- Some client versions do not expose the template buttons through the
+    -- named fields above. Hide any remaining legacy button children before
+    -- adding the compact scrollbar art.
+    if scrollbar.GetChildren then
+        for _, child in ipairs({scrollbar:GetChildren()}) do
+            if child.IsObjectType and child:IsObjectType("Button") then
+                child:Hide()
+                child:EnableMouse(false)
+                child:SetAlpha(0)
+            end
+        end
+    end
+
+    -- Keep the complete scrollbar, including its native arrow art, inside the
+    -- surface that owns it. The old template uses small negative offsets that
+    -- can visibly escape Journey panels.
+    local parent = scrollbar.GetParent and scrollbar:GetParent()
+    if parent then
+        scrollbar:ClearAllPoints()
+        scrollbar:SetPoint("TOPRIGHT", parent, "TOPRIGHT", -6, -6)
+        scrollbar:SetPoint("BOTTOMRIGHT", parent, "BOTTOMRIGHT", -6, 6)
     end
 
     local thumb = scrollbar:GetThumbTexture()

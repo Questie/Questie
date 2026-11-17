@@ -783,10 +783,8 @@ function QuestieSearchResults:DrawResultTab(container, resultType)
     resultTree:SetFullWidth(true);
     resultTree:SetFullHeight(true);
     resultTree.treeframe:SetWidth(415);
-    if QuestieOptionsControls and QuestieOptionsControls.ApplyJourneyContainer then
-        QuestieOptionsControls.ApplyJourneyContainer(resultTree.treeframe)
-        QuestieOptionsControls.ApplyJourneyContainer(resultTree.content)
-        QuestieOptionsControls.ApplyJourneyContainer(resultTree.border)
+    if QuestieOptionsControls and QuestieOptionsControls.ApplyJourneyTreeGroup then
+        QuestieOptionsControls.ApplyJourneyTreeGroup(resultTree)
     end
     if QuestieOptionsControls and QuestieOptionsControls.ApplyModernScrollbar then
         QuestieOptionsControls.ApplyModernScrollbar(resultTree.scrollbar)
