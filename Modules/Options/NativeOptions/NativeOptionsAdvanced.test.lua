@@ -5,7 +5,7 @@ describe("native advanced options", function()
     local ContentPhases, QuestieQuest
     local originalTbcPhase, originalIsTBC
     local originalDb
-    local phaseSelector
+    local phaseSelector, reminderToggle
 
     before_each(function()
         originalDb = Questie.db
@@ -23,6 +23,7 @@ describe("native advanced options", function()
         dofile("Modules/Options/NativeOptions/NativeOptionsAdvanced.lua")
         local items = QuestieOptionsEngine.tabs.advanced:Initialize().items
         phaseSelector = items.npcrules_group.items.isleOfQuelDanasPhase
+        reminderToggle = items.npcrules_group.items.isleOfQuelDanasPhaseReminder
     end)
 
     after_each(function()
@@ -67,6 +68,19 @@ describe("native advanced options", function()
             local QuestieOptionsDefaults = QuestieLoader:ImportModule("QuestieOptionsDefaults")
 
             assert.is_nil(QuestieOptionsDefaults:Load().profile.isleOfQuelDanasPhase)
+        end)
+    end)
+
+    describe("Disable Phase reminder toggle", function()
+        it("is enabled on TBC", function()
+            local Expansions = QuestieLoader:ImportModule("Expansions")
+            local originalCurrent = Expansions.Current
+            Expansions.Current = Expansions.Tbc
+
+            local isEnabled = reminderToggle.enabled == nil or reminderToggle.enabled()
+            Expansions.Current = originalCurrent
+
+            assert.is_true(isEnabled)
         end)
     end)
 end)
