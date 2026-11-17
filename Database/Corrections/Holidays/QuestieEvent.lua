@@ -96,7 +96,7 @@ local Expansions = QuestieLoader:ImportModule("Expansions")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
-local _WithinDates, _LoadDarkmoonFaire, _GetDarkmoonFaireLocation, _GetDarkmoonFaireLocationEra, _GetDarkmoonFaireLocationSoD, _GetDarkmoonFaireLocationTBC, _IsDarkmoonFaireWeek, _GetLunarFestivalDates
+local _WithinDates, _LoadDarkmoonFaire, _GetDarkmoonFaireLocation, _GetDarkmoonFaireLocationEra, _GetDarkmoonFaireLocationSoD, _GetDarkmoonFaireLocationTBC, _GetDarkmoonFaireLocationWotlK, _IsDarkmoonFaireWeek, _GetLunarFestivalDates
 
 ---@enum DMFLocation
 local DMF_LOCATIONS = {
@@ -120,9 +120,9 @@ local DMF_CALENDAR_ICON_TEXTURES = {
     [235448] = true, -- Start Texture
 }
 
--- Determine the DMF start day for the month based on what weekday the 1st is.
--- We also require the Monday start to have reached 03:00 server time before considering the event active.
-local DMF_START_DAY_BY_FIRST_WEEKDAY = {
+-- DMF starts on the first Monday after the first full weekend in Era + TBC
+-- Forever also uses this exact timeframe and location rotation
+local DMF_START_DAY_BY_FIRST_WEEKDAY_ERA_TBC = {
     [1] = 9,  -- 1st is a Sunday -> Monday is 9th
     [2] = 8,  -- 1st is a Monday -> Monday is 8th
     [3] = 7,  -- 1st is a Tuesday -> Monday is 7th
@@ -131,6 +131,25 @@ local DMF_START_DAY_BY_FIRST_WEEKDAY = {
     [6] = 4,  -- 1st is a Friday -> Monday is 4th
     [7] = 10, -- 1st is a Saturday -> Monday is 10th
 }
+
+-- DMF starts on the first Sunday of the month in Wotlk
+local DMF_START_DAY_BY_FIRST_WEEKDAY_WOTLK = {
+    [1] = 1,  -- 1st is a Sunday -> Sunday is 1st
+    [2] = 7,  -- 1st is a Monday -> Sunday is 7th
+    [3] = 6,  -- 1st is a Tuesday -> Sunday is 6th
+    [4] = 5,  -- 1st is a Wednesday -> Sunday is 5th
+    [5] = 4,  -- 1st is a Thursday -> Sunday is 4th
+    [6] = 3,  -- 1st is a Friday -> Sunday is 3rd
+    [7] = 2, -- 1st is a Saturday -> Sunday is 2nd
+}
+-- Determine the DMF start day for the month based on what weekday the 1st is.
+local function dmfStartDayByFirstWeekday(firstWeekday)
+    if Expansions.Current < Expansions.Wotlk then
+        return DMF_START_DAY_BY_FIRST_WEEKDAY_ERA_TBC[firstWeekday]
+    else
+        return DMF_START_DAY_BY_FIRST_WEEKDAY_WOTLK[firstWeekday]
+    end
+end
 
 function QuestieEvent.Initialize()
     Questie:RegisterEvent("CALENDAR_UPDATE_EVENT_LIST", function()
@@ -254,9 +273,8 @@ function QuestieEvent:Load()
 
     SetCVar("calendarShowDarkmoon", shouldShowDmfEvents and "1" or "0")
 
-    -- TODO: Also handle WotLK which has a different starting schedule
     if (Questie.IsClassic and (((not Questie.IsAnniversaryEra) and (not Questie.IsAnniversaryHardcore)) or (ContentPhases.activePhases.Anniversary >= 3)))
-            or Questie.IsTBC then
+            or Questie.IsTBC or Questie.IsWotlk then
         _LoadDarkmoonFaire()
     end
 
@@ -288,6 +306,8 @@ _GetDarkmoonFaireLocation = function()
         return _GetDarkmoonFaireLocationSoD(currentDate)
     elseif Questie.IsTBC then
         return _GetDarkmoonFaireLocationTBC(currentDate)
+    elseif Questie.IsWotlk then
+        return _GetDarkmoonFaireLocationWotlK(currentDate)
     else
         return _GetDarkmoonFaireLocationEra(currentDate)
     end
@@ -325,6 +345,25 @@ _GetDarkmoonFaireLocationTBC = function(currentDate)
     return DMF_LOCATIONS.TEROKKAR_FOREST
 end
 
+--- DMF in WotlK rotates monthly through three locations: Mulgore, Terokkar Forest, and Elwynn Forest.
+--- Event starts after midnight on Sunday, and ends right before midnight on Saturday.
+--- Order is different from Era/TBC.
+---@param currentDate CalendarTime
+---@return DMFLocation
+_GetDarkmoonFaireLocationWotlK = function(currentDate)
+    if (not _IsDarkmoonFaireWeek(currentDate)) then
+        return DMF_LOCATIONS.NONE
+    end
+
+    local remainder = currentDate.month % 3
+    if remainder == 1 then
+        return DMF_LOCATIONS.TEROKKAR_FOREST
+    elseif remainder == 2 then
+        return DMF_LOCATIONS.ELWYNN_FOREST
+    end
+    return DMF_LOCATIONS.MULGORE
+end
+
 ---@param currentDate CalendarTime
 ---@return boolean
 _IsDarkmoonFaireWeek = function(currentDate)
@@ -333,20 +372,27 @@ _IsDarkmoonFaireWeek = function(currentDate)
     local monthOffset = (currentDate.year - baseInfo.year) * 12 + (currentDate.month - baseInfo.month)
     local firstWeekday = C_Calendar.GetMonthInfo(monthOffset).firstWeekday
 
-    local startDay = DMF_START_DAY_BY_FIRST_WEEKDAY[firstWeekday]
-    local endDay = startDay + 7
+    -- For Era and TBC the event is from Monday 04:00 to next Monday 04:00
+    -- For Wotlk the event is from Sunday 0:01 to Saturday 23:59
+    local eventDuration = Expansions.Current < Expansions.Wotlk and 7 or 6
+    local dmfStartTime = Expansions.Current < Expansions.Wotlk and 400 or 1
+    local dmfEndTime = Expansions.Current < Expansions.Wotlk and 400 or 2359
+    local startDay = dmfStartDayByFirstWeekday(firstWeekday)
+    local endDay = startDay + eventDuration
     local dayOfMonth = currentDate.monthDay
+    local currentTimeFormatted = currentDate.hour * 100 + currentDate.minute
 
-    -- If we're on the first day (Monday) require hour >= 3
-    if dayOfMonth == startDay and currentDate.hour < 3 then
+    -- If we're on the first day check if it started already
+    if dayOfMonth == startDay and currentTimeFormatted < dmfStartTime then
         return false
     end
 
-    -- The event ends at 03:00 on the following Monday
-    if dayOfMonth == endDay and currentDate.hour >= 3 then
+    -- Check if the event is already finished on the final day
+    if dayOfMonth == endDay and currentTimeFormatted >= dmfEndTime then
         return false
     end
 
+    -- Check if we're inbetween first day and final day
     return dayOfMonth >= startDay and dayOfMonth <= endDay
 end
 
@@ -394,7 +440,7 @@ _LoadDarkmoonFaire = function()
 
     -- The NPC Policy Correction slot is written exactly once per load, outside the Event Quest loop
     -- below: the number of visible Event Quests must not control entity Correction application.
-    if Questie.IsTBC then
+    if Questie.IsTBC or Questie.IsWotlk then
         QuestieCorrections.SetCorrection("Npc", "DarkmoonFaire", QuestieTBCPolicyCorrections:LoadDarkmoonFixes(isInMulgore, isInTerokkar))
     else
         QuestieCorrections.SetCorrection("Npc", "DarkmoonFaire", QuestieClassicPolicyCorrections:LoadDarkmoonFixes(isInMulgore))
