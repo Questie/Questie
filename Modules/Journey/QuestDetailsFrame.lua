@@ -188,9 +188,11 @@ local NPC_PORTRAIT_SIZE = 48
 local NPC_PORTRAIT_MIN_GROUP_HEIGHT = NPC_PORTRAIT_SIZE + 56
 
 local function EnsureNPCInfoHeight(group)
-    if group and group.frame and group.frame.GetHeight and group.SetHeight
-        and group.frame:GetHeight() < NPC_PORTRAIT_MIN_GROUP_HEIGHT then
-        group:SetHeight(NPC_PORTRAIT_MIN_GROUP_HEIGHT)
+    if group and group.frame and group.frame.GetHeight and group.SetHeight then
+        group.minHeight = math.max(group.minHeight or 0, NPC_PORTRAIT_MIN_GROUP_HEIGHT)
+        if group.frame:GetHeight() < group.minHeight then
+            group:SetHeight(group.minHeight)
+        end
     end
 end
 
@@ -203,6 +205,7 @@ local function ResetNPCInfoLayout(group)
 
     group.npcPortraitLayoutActive = false
     group.itemIconLayoutActive = false
+    group.minHeight = nil
     for _, portrait in pairs(group.npcPortraits or {}) do
         if portrait.npcID then
             RemoveNPCPortraitWaiter(portrait, portrait.npcID)
@@ -230,7 +233,11 @@ local function ApplyNPCInfoLayout(group)
     if not group or not group.content or not border then
         return
     end
+    if group.npcPortraitLayoutApplying then
+        return
+    end
 
+    group.npcPortraitLayoutApplying = true
     group.npcPortraitLayoutActive = true
 
     -- Reapply the same first-level surface used by the quest-link panels.
@@ -279,11 +286,12 @@ local function ApplyNPCInfoLayout(group)
     if not group.npcPortraitLayoutHooked and group.frame and group.frame.HookScript then
         group.npcPortraitLayoutHooked = true
         group.frame:HookScript("OnSizeChanged", function()
-            if group.npcPortraitLayoutActive then
+            if group.npcPortraitLayoutActive and not group.npcPortraitLayoutApplying then
                 ApplyNPCInfoLayout(group)
             end
         end)
     end
+    group.npcPortraitLayoutApplying = false
 end
 
 local function ApplyItemInfoLayout(group)
@@ -291,7 +299,11 @@ local function ApplyItemInfoLayout(group)
     if not group or not group.content or not border then
         return
     end
+    if group.itemIconLayoutApplying then
+        return
+    end
 
+    group.itemIconLayoutApplying = true
     group.itemIconLayoutActive = true
     group.content:ClearAllPoints()
     group.content:SetPoint("TOPLEFT", border, "TOPLEFT", 68, -10)
@@ -312,11 +324,12 @@ local function ApplyItemInfoLayout(group)
     if not group.itemIconLayoutHooked and group.frame and group.frame.HookScript then
         group.itemIconLayoutHooked = true
         group.frame:HookScript("OnSizeChanged", function()
-            if group.itemIconLayoutActive then
+            if group.itemIconLayoutActive and not group.itemIconLayoutApplying then
                 ApplyItemInfoLayout(group)
             end
         end)
     end
+    group.itemIconLayoutApplying = false
 end
 
 local function AddItemIcon(group, item)

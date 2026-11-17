@@ -164,7 +164,11 @@ local function LayoutChildren(widget)
         content:SetHeight(desiredContentHeight)
         if #children > 0 then
             local inset = widget.inset or 0
-            local desiredFrameHeight = math.max(desiredContentHeight + inset * 2, widget.explicitHeight or 0)
+            local desiredFrameHeight = math.max(
+                desiredContentHeight + inset * 2,
+                widget.explicitHeight or 0,
+                widget.minHeight or 0
+            )
             if math.abs((widget.frame:GetHeight() or 0) - desiredFrameHeight) > 0.5 then
                 widget.frame:SetHeight(desiredFrameHeight)
             end
@@ -184,7 +188,9 @@ local function AddChild(widget, child)
         if not child.layoutParentHooked then
             child.frame:HookScript("OnSizeChanged", function()
                 LayoutChildren(widget)
-                if widget.UpdateScrollMetrics then widget:UpdateScrollMetrics() end
+                if widget.UpdateScrollMetrics and (not widget.layoutSuspended or widget.layoutSuspended == 0) then
+                    widget:UpdateScrollMetrics()
+                end
             end)
             child.layoutParentHooked = true
         end
@@ -676,7 +682,9 @@ local function CreateScrollFrame(parent)
     widget.frame:HookScript("OnSizeChanged", function()
         local scrollbarWidth = widget.scrollbar.questieNativeMinimalScrollBar and (widget.scrollbar:GetWidth() or 8) or 16
         widget.content:SetWidth(math.max((widget.frame:GetWidth() or 1) - scrollbarWidth, 1))
-        if widget.UpdateScrollMetrics then widget:UpdateScrollMetrics() end
+        if widget.UpdateScrollMetrics and (not widget.layoutSuspended or widget.layoutSuspended == 0) then
+            widget:UpdateScrollMetrics()
+        end
     end)
     if not widget.scrollbar.questieNativeMinimalScrollBar then
         widget.scrollbar:SetMinMaxValues(0, 0)
@@ -704,11 +712,15 @@ local function CreateScrollFrame(parent)
     function widget:SetHeight(height)
         self.explicitHeight = height
         self.frame:SetHeight(height)
-        self:UpdateScrollMetrics()
+        if not self.layoutSuspended or self.layoutSuspended == 0 then
+            self:UpdateScrollMetrics()
+        end
     end
     function widget:AddChild(child)
         AddChild(self, child)
-        self:UpdateScrollMetrics()
+        if not self.layoutSuspended or self.layoutSuspended == 0 then
+            self:UpdateScrollMetrics()
+        end
     end
     return widget
 end
