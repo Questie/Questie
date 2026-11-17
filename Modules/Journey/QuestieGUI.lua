@@ -463,7 +463,11 @@ local function CreateEditBox(widgetType, parent)
         widget.editbox:SetMultiLine(true)
     end
     widget.editbox:SetPoint("TOPLEFT", widget.frame, "TOPLEFT", 4, -20)
-    widget.editbox:SetPoint("TOPRIGHT", widget.frame, "TOPRIGHT", -4, -20)
+    -- Leave room for the scrollbar inside the multiline editor. Previously
+    -- the edit box occupied the entire width and the scrollbar was anchored
+    -- to the outer widget edge, making it look like it belonged to the note
+    -- panel instead of the text editor.
+    widget.editbox:SetPoint("TOPRIGHT", widget.frame, "TOPRIGHT", widgetType == "MultiLineEditBox" and -20 or -4, -20)
     widget.editbox:SetHeight(widgetType == "MultiLineEditBox" and 150 or 22)
     widget.editbox:SetScript("OnEnterPressed", function()
         Fire(widget, "OnEnterPressed", widget.editbox:GetText())
@@ -477,8 +481,13 @@ local function CreateEditBox(widgetType, parent)
     widget.disablebutton = false
     widget.scrollBG = widget.editbox
     widget.scrollBar = CreateFrame("Slider", nil, widget.frame, "UIPanelScrollBarTemplate")
-    widget.scrollBar:SetPoint("TOPRIGHT", widget.frame, "TOPRIGHT", -2, -22)
-    widget.scrollBar:SetPoint("BOTTOMRIGHT", widget.frame, "BOTTOMRIGHT", -2, 4)
+    if widgetType == "MultiLineEditBox" then
+        -- Tell the shared scrollbar styling to use the editor surface rather
+        -- than the outer widget frame as its anchor.
+        widget.scrollBar.modernScrollbarAnchor = widget.editbox
+    end
+    widget.scrollBar:SetPoint("TOPRIGHT", widget.editbox, "TOPRIGHT", -3, 0)
+    widget.scrollBar:SetPoint("BOTTOMRIGHT", widget.editbox, "BOTTOMRIGHT", -3, 0)
     if widgetType ~= "MultiLineEditBox" then widget.scrollBar:Hide() end
     function widget:SetText(text)
         self.value = text or ""

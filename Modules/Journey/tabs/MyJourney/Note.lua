@@ -62,7 +62,7 @@ end
 _CreateNoteWindow = function ()
     local journeyFrame = QuestieJourneyFrame or UIParent
     local popupWidth = math.min(680, journeyFrame:GetWidth() - 40)
-    local popupHeight = math.min(620, journeyFrame:GetHeight() - 40)
+    local popupHeight = math.min(760, math.max(620, UIParent:GetHeight() - 40))
     local notePopup = QuestieOptionsWindow.Create({
         name = "QuestieJourneyNoteFrame",
         title = l10n('Add New Adventure Note'),
@@ -71,7 +71,7 @@ _CreateNoteWindow = function ()
         height = popupHeight,
         resizable = true,
         minWidth = 520,
-        minHeight = 500,
+        minHeight = 620,
     })
     notePopup:ClearAllPoints()
     notePopup:SetPoint("CENTER", journeyFrame, "CENTER")
@@ -152,7 +152,10 @@ end
 _CreateMessageBox = function ()
     local box = QuestieGUI:Create("MultiLineEditBox")
     box:SetFullWidth(true)
-    box:SetNumLines(24)
+    -- Keep the editor tall enough to be useful while leaving the action row
+    -- below it. The multiline widget owns the scrollbar, so it remains
+    -- inside this editor region when the note window is resized.
+    box:SetNumLines(30)
     box:SetLabel(l10n('Journal Entry'))
     box:DisableButton(true)
     if QuestieOptionsControls and QuestieOptionsControls.ApplyModernScrollbar then

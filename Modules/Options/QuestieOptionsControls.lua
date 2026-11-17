@@ -197,8 +197,11 @@ function QuestieOptionsControls.ApplyJourneyTreeGroup(treeGroup)
         treeGroup.border:SetBackdropColor(0, 0, 0, 0)
         treeGroup.border:SetBackdropBorderColor(0, 0, 0, 0)
     end
-    QuestieOptionsControls.ApplyModernContainer(treeGroup.treeframe, true, true)
-    QuestieOptionsControls.ApplyModernContainer(treeGroup.content, true, true)
+    -- These are the visible Journey panes. They sit directly on the Journey
+    -- canvas, so use the same first-level surface as the working Options and
+    -- Add Note panels instead of the nearly-black nested-control tint.
+    QuestieOptionsControls.ApplyModernContainer(treeGroup.treeframe, false, true)
+    QuestieOptionsControls.ApplyModernContainer(treeGroup.content, false, true)
     return treeGroup
 end
 
@@ -1089,10 +1092,11 @@ function QuestieOptionsControls.ApplyModernScrollbar(scrollbar)
     -- surface that owns it. The old template uses small negative offsets that
     -- can visibly escape Journey panels.
     local parent = scrollbar.GetParent and scrollbar:GetParent()
-    if parent then
+    local anchor = scrollbar.modernScrollbarAnchor or parent
+    if anchor then
         scrollbar:ClearAllPoints()
-        scrollbar:SetPoint("TOPRIGHT", parent, "TOPRIGHT", -6, -12)
-        scrollbar:SetPoint("BOTTOMRIGHT", parent, "BOTTOMRIGHT", -6, 12)
+        scrollbar:SetPoint("TOPRIGHT", anchor, "TOPRIGHT", -6, -12)
+        scrollbar:SetPoint("BOTTOMRIGHT", anchor, "BOTTOMRIGHT", -6, 12)
     end
 
     local thumb = scrollbar:GetThumbTexture()
@@ -1169,7 +1173,8 @@ function QuestieOptionsControls.ApplyModernScrollbar(scrollbar)
                 return nil
             end
 
-            local arrow = CreateFrame("Button", nil, parent or scrollbar)
+            local arrowParent = scrollbar.modernScrollbarAnchor or parent or scrollbar
+            local arrow = CreateFrame("Button", nil, arrowParent)
             local info = C_Texture.GetAtlasInfo(atlas)
             arrow:SetSize(info.width or 11, info.height or 9)
             if not arrow.SetNormalAtlas then
@@ -1189,13 +1194,13 @@ function QuestieOptionsControls.ApplyModernScrollbar(scrollbar)
 
         local arrowUp = CreateArrow("up")
         local arrowDown = CreateArrow("down")
-        if arrowUp and parent then
+        if arrowUp and anchor then
             arrowUp:SetFrameLevel(scrollbar:GetFrameLevel() + 1)
-            arrowUp:SetPoint("TOPRIGHT", parent, "TOPRIGHT", -1, -1)
+            arrowUp:SetPoint("TOPRIGHT", anchor, "TOPRIGHT", -1, -1)
         end
-        if arrowDown and parent then
+        if arrowDown and anchor then
             arrowDown:SetFrameLevel(scrollbar:GetFrameLevel() + 1)
-            arrowDown:SetPoint("BOTTOMRIGHT", parent, "BOTTOMRIGHT", -1, 1)
+            arrowDown:SetPoint("BOTTOMRIGHT", anchor, "BOTTOMRIGHT", -1, 1)
         end
 
         local function SyncArrowVisibility()
@@ -1347,6 +1352,19 @@ function QuestieOptionsControls.ApplyModernTabGroup(tabGroup)
     end
 
     if tabGroup.nativeTabs then
+        -- A native TabGroup is only the tab strip plus a host for the real
+        -- result panes. Its own backdrop must not become a third, full-width
+        -- container behind the tabs.
+        if tabGroup.border then
+            tabGroup.border:SetBackdropColor(0, 0, 0, 0)
+            tabGroup.border:SetBackdropBorderColor(0, 0, 0, 0)
+        end
+        if tabGroup.modernContainerSurface then
+            tabGroup.modernContainerSurface:Hide()
+        end
+        if tabGroup.modernContainerPanel then
+            tabGroup.modernContainerPanel:Hide()
+        end
         for _, tab in ipairs(tabGroup.tabs or {}) do
             _InstallTabHoverPreview(tabGroup, tab)
         end
