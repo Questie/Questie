@@ -225,6 +225,8 @@ local function AddLinkedParagraph(frame, linkType, lookup, header, query, addTom
                 text = name.." ("..id..")"
             end
             link:SetText(text);
+            link:SetFullWidth(true)
+            link:SetWordWrap(true)
             if link.modernQuestLinkRefresh then
                 link.modernQuestLinkRefresh()
             end
@@ -606,9 +608,15 @@ function QuestieSearchResults:ItemsFrameAfterTicker(f, itemId)
 
     AddModernDivider(f, query(itemId, "name"))
 
-    local grp = QuestieGUI:Create("SimpleGroup")
+    -- Keep the item identity row inside the same bordered info treatment as
+    -- the other Journey detail sections. A plain flow group left the icon
+    -- and ID label flush against the outer pane and made them look detached.
+    local grp = QuestieGUI:Create("InlineGroup")
     grp:SetFullWidth(true)
     grp:SetLayout("Flow")
+    if QuestieOptionsControls and QuestieOptionsControls.ApplyModernInfoGroup then
+        QuestieOptionsControls.ApplyModernInfoGroup(grp)
+    end
 
     local itemIcon = QuestieJourneyUtils.GetItemIcon(itemId)
     grp:AddChild(itemIcon)

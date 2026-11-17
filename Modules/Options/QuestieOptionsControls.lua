@@ -1114,8 +1114,10 @@ function QuestieOptionsControls.ApplyModernScrollbar(scrollbar)
     local anchor = scrollbar.modernScrollbarAnchor or parent
     if anchor then
         scrollbar:ClearAllPoints()
-        scrollbar:SetPoint("TOPRIGHT", anchor, "TOPRIGHT", -6, -12)
-        scrollbar:SetPoint("BOTTOMRIGHT", anchor, "BOTTOMRIGHT", -6, 12)
+        -- Match the native Options panel's 12px right gutter while keeping
+        -- the bar fully inside the Journey pane/editor that owns it.
+        scrollbar:SetPoint("TOPRIGHT", anchor, "TOPRIGHT", -12, -12)
+        scrollbar:SetPoint("BOTTOMRIGHT", anchor, "BOTTOMRIGHT", -12, 12)
     end
 
     local thumb = scrollbar:GetThumbTexture()
@@ -1135,7 +1137,10 @@ function QuestieOptionsControls.ApplyModernScrollbar(scrollbar)
         and HasAtlas("!minimal-scrollbar-track-middle")
 
     if modernArt and thumb then
-        thumb:SetAlpha(0)
+        -- MinimalScrollBar uses these same atlas pieces. Keep the slider's
+        -- native thumb visible instead of painting a flat color texture over
+        -- it, which made Journey's thumb differ from Questie Options.
+        thumb:SetAlpha(1)
 
         local capTop = scrollbar:CreateTexture(nil, "ARTWORK")
         capTop:SetAtlas("minimal-scrollbar-small-thumb-top", true)
@@ -1163,13 +1168,6 @@ function QuestieOptionsControls.ApplyModernScrollbar(scrollbar)
         trackMiddle:SetPoint("TOPLEFT", trackTop, "BOTTOMLEFT")
         trackMiddle:SetPoint("BOTTOMRIGHT", trackBottom, "TOPRIGHT")
 
-        -- Keep a small guaranteed-visible thumb on clients whose vertical
-        -- atlas art is present but does not render on a Slider child texture.
-        local visibleThumb = scrollbar:CreateTexture(nil, "ARTWORK")
-        visibleThumb:SetColorTexture(0.45, 0.28, 0.1, 0.95)
-        visibleThumb:SetPoint("CENTER", thumb, "CENTER")
-        visibleThumb:SetSize(8, 40)
-
         local function SizeThumb()
             local thumbHeight = 40
             local trackHeight = scrollbar:GetHeight() or 0
@@ -1178,7 +1176,6 @@ function QuestieOptionsControls.ApplyModernScrollbar(scrollbar)
                 thumbHeight = math.min(thumbHeight, maximum)
             end
             thumb:SetSize(8, thumbHeight)
-            visibleThumb:SetHeight(thumbHeight)
 
             local info = C_Texture.GetAtlasInfo("minimal-scrollbar-small-thumb-middle")
             if info and info.height and info.height > 0 then
@@ -1215,11 +1212,11 @@ function QuestieOptionsControls.ApplyModernScrollbar(scrollbar)
         local arrowDown = CreateArrow("down")
         if arrowUp and anchor then
             arrowUp:SetFrameLevel(scrollbar:GetFrameLevel() + 1)
-            arrowUp:SetPoint("TOPRIGHT", anchor, "TOPRIGHT", -6, -3)
+            arrowUp:SetPoint("TOPRIGHT", anchor, "TOPRIGHT", -12, -3)
         end
         if arrowDown and anchor then
             arrowDown:SetFrameLevel(scrollbar:GetFrameLevel() + 1)
-            arrowDown:SetPoint("BOTTOMRIGHT", anchor, "BOTTOMRIGHT", -6, 3)
+            arrowDown:SetPoint("BOTTOMRIGHT", anchor, "BOTTOMRIGHT", -12, 3)
         end
 
         local function SyncArrowVisibility()

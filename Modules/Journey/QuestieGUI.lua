@@ -323,6 +323,24 @@ local function CreateContainer(widgetType, parent, inset, color)
     else
         SetBackdrop(widget.border, {0, 0, 0, 0}, {0, 0, 0, 0})
     end
+
+    -- AceGUI's InlineGroup rendered its title for us. Keep that behavior with
+    -- the native replacement so linked sections do not become blank bordered
+    -- boxes when callers use SetTitle().
+    widget.titletext = widget.frame:CreateFontString(nil, "OVERLAY", "GameFontNormal")
+    widget.titletext:SetPoint("TOPLEFT", widget.frame, "TOPLEFT", 14, -2)
+    widget.titletext:SetPoint("TOPRIGHT", widget.frame, "TOPRIGHT", -14, -2)
+    widget.titletext:SetJustifyH("LEFT")
+    widget.titletext:SetTextColor(1, 0.82, 0)
+    widget.titletext:SetShadowColor(0, 0, 0, 1)
+    widget.titletext:SetShadowOffset(1, -1)
+    widget.titletext:SetHeight(18)
+    widget.titletext:Hide()
+    function widget:SetTitle(text)
+        self.value = text or ""
+        self.titletext:SetText(self.value)
+        self.titletext:SetShown(self.value ~= "")
+    end
     widget.frame:SetHeight(40)
     widget.frame:HookScript("OnSizeChanged", function()
         widget.content:ClearAllPoints()
@@ -593,7 +611,8 @@ local function CreateScrollFrame(parent)
     widget.frame = CreateFrame("ScrollFrame", nil, parent)
     widget.border = widget.frame
     widget.content = CreateBackdropFrame("Frame", widget.frame)
-    widget.content:SetPoint("TOPLEFT", widget.frame, "TOPLEFT")
+    widget.content:SetPoint("TOPLEFT", widget.frame, "TOPLEFT", 8, -8)
+    widget.content:SetPoint("TOPRIGHT", widget.frame, "TOPRIGHT", -8, -8)
     widget.content:SetWidth(1)
     widget.content:SetHeight(1)
     widget.frame:SetScrollChild(widget.content)
@@ -603,7 +622,7 @@ local function CreateScrollFrame(parent)
         widget.frame:SetVerticalScroll(value)
     end)
     widget.frame:HookScript("OnSizeChanged", function()
-        widget.content:SetWidth(math.max(widget.frame:GetWidth() or 1, 1))
+        widget.content:SetWidth(math.max((widget.frame:GetWidth() or 1) - 16, 1))
         if widget.UpdateScrollMetrics then widget:UpdateScrollMetrics() end
     end)
     widget.scrollbar:SetPoint("TOPRIGHT", widget.frame, "TOPRIGHT", -2, -2)
