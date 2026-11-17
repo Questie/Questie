@@ -31,15 +31,18 @@ describe("MapIconTooltip objective wording", function()
             IsShown = function() return false end,
             SetOwner = function() end, SetFrameStrata = function() end, Show = function() end,
         }
-        Questie.db.profile = {trackerColorObjectives = "minimal"}
+        Questie.db.profile = {trackerColorObjectives = "minimal", enableTooltipDroprates = true}
         dofile("Localization/l10n.lua")
         dofile("Modules/Libs/QuestieLib.lua")
         local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
         QuestieLib.GetColoredQuestName = function() return "Quest Name" end
         QuestieLib.GetEffectiveQuestLevel = function() return 1, 0 end
-        QuestieLoader:ImportModule("QuestieDB").GetQuest = function() return {} end
-        QuestieLoader:ImportModule("QuestieDB").QueryItemSingle = function() return "Spell item" end
-        QuestieLoader:ImportModule("QuestieDB").GetQuestTagInfo = function() end
+        local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
+        QuestieDB.GetQuest = function() return {} end
+        QuestieDB.QueryItemSingle = function() return "Spell item" end
+        QuestieDB.GetQuestTagInfo = function() end
+        QuestieDB.GetCreatureLevels = function() return {} end
+        QuestieDB.GetItemDroprate = function() return nil end
         QuestieLoader:ImportModule("QuestXP").GetQuestLogRewardXP = function() return 0 end
         local player = QuestieLoader:ImportModule("QuestiePlayer")
         player.GetPartyMemberByName = function(_, name)
@@ -103,8 +106,8 @@ describe("MapIconTooltip objective wording", function()
         MapIconTooltip.Show(icon)
         local lines = {}
         for _, row in ipairs(GameTooltip.questOrder[1]) do
-            for text in pairs(row) do
-                lines[text] = true
+            for _, line in ipairs(row.lines) do
+                lines[line.text] = true
             end
         end
         return lines
@@ -528,6 +531,234 @@ describe("MapIconTooltip objective wording", function()
             MapIconTooltip.ShowOnTooltip(icon, GameTooltip, nil, {QuestIcon(2, "item")})
 
             assert.is_true(RowOf("Quest 2") < RowOf("Quest 1"))
+        end)
+    end)
+
+    describe("source names and drop rates", function()
+        local rendered
+
+        before_each(function()
+            rendered = {}
+            local layout = QuestieLoader:ImportModule("TooltipLayout")
+            layout.CreateRows = function()
+                local function Add(_, text) rendered[#rendered + 1] = text end
+                return {AddLine = Add, AddDoubleLine = Add}
+            end
+            QuestieLoader:ImportModule("QuestieReputation").GetReputationReward = function() return {} end
+        end)
+
+        ---@return string?
+        local function RowContaining(text)
+            for _, line in ipairs(rendered) do
+                if line:find(text, 1, true) then
+                    return line
+                end
+            end
+        end
+
+        it("always shows the source mob name without holding Shift", function()
+            MapIconTooltip.Show(icon)
+
+            assert.is_not_nil(RowContaining("Windstone"))
+        end)
+
+        it("stores drop rates on sources and renders [N%] on the item objective line", function()
+            objective.Id = 1234
+            icon.data.ObjectiveTargetId = 5678
+            QuestieLoader:ImportModule("QuestieDB").GetItemDroprate = function(itemId, npcId)
+                assert.are.equal(1234, itemId)
+                assert.are.equal(5678, npcId)
+                -- Rates in [2, 10) keep one decimal via FormatDropText (same as world tooltips)
+                return {7.5, "questie"}
+            end
+
+            MapIconTooltip.Show(icon)
+
+            local tipRow = GameTooltip.questOrder[1][1]
+            assert.are.same({name = "Windstone", suffix = "  |cff555555[|cffff26007.5%|cff555555]"}, tipRow.lines[1].sources[5678])
+            local itemLine = RowContaining("Windstone Cluster")
+            assert.is_not_nil(itemLine)
+            assert.is_truthy(itemLine:find("%[7%.5%%%]", 1) or itemLine:find("7.5%", 1, true))
+            -- Mob name stays bare; rate belongs on the item/objective wording (like unit tips).
+            local mobLine = RowContaining("|cFFDDDDDDWindstone")
+            assert.is_not_nil(mobLine)
+            assert.is_nil(mobLine:find("7.5%", 1, true))
+        end)
+
+        it("omits drop rates when enableTooltipDroprates is disabled", function()
+            Questie.db.profile.enableTooltipDroprates = false
+            objective.Id = 1234
+            icon.data.ObjectiveTargetId = 5678
+            QuestieLoader:ImportModule("QuestieDB").GetItemDroprate = function()
+                return {50, "questie"}
+            end
+
+            MapIconTooltip.Show(icon)
+
+            local tipRow = GameTooltip.questOrder[1][1]
+            assert.are.same({name = "Windstone", suffix = ""}, tipRow.lines[1].sources[5678])
+            assert.is_nil(RowContaining("50%"))
+        end)
+
+        it("does not look up drop rates for non-item objectives", function()
+            objective.Type = "monster"
+            objective.Id = 999
+            icon.data.ObjectiveTargetId = 111
+            local called = false
+            QuestieLoader:ImportModule("QuestieDB").GetItemDroprate = function()
+                called = true
+                return {10, "questie"}
+            end
+
+            MapIconTooltip.Show(icon)
+
+            assert.is_false(called)
+            local tipRow = GameTooltip.questOrder[1][1]
+            assert.are.same({name = "Windstone", suffix = ""}, tipRow.lines[1].sources[111])
+        end)
+
+        it("keeps distinct drop rates for same-named sources with different ids", function()
+            objective.Id = 1234
+            icon.data.ObjectiveTargetId = 10
+            local other = {
+                x = 50, y = 50, AreaID = 1,
+                texture = icon.texture,
+                data = {
+                    Id = 1, Type = "item", ObjectiveIndex = 3, ObjectiveData = objective,
+                    Name = "Windstone", ObjectiveTargetId = 20,
+                },
+            }
+            QuestieLoader:ImportModule("QuestieDB").GetItemDroprate = function(_, npcId)
+                if npcId == 10 then return {7.5, "questie"} end
+                if npcId == 20 then return {3.2, "questie"} end
+            end
+
+            MapIconTooltip.ShowOnTooltip(icon, GameTooltip, nil, {icon, other})
+
+            local tipRow = GameTooltip.questOrder[1][1]
+            assert.are.same({name = "Windstone", suffix = "  |cff555555[|cffff26007.5%|cff555555]"}, tipRow.lines[1].sources[10])
+            assert.are.same({name = "Windstone", suffix = "  |cff555555[|cffff10003.2%|cff555555]"}, tipRow.lines[1].sources[20])
+            assert.is_truthy(RowContaining("7.5%"):find("Windstone Cluster", 1, true))
+            assert.is_truthy(RowContaining("3.2%"):find("Windstone Cluster", 1, true))
+        end)
+
+        it("shows a shared source name again on a second objective line", function()
+            local secondObjective = {
+                Index = 4, Type = "item", Description = "Intact Horn", Collected = 0, Needed = 1,
+                Id = 9999, Update = function() end,
+            }
+            local second = {
+                x = 50, y = 50, AreaID = 1,
+                texture = icon.texture,
+                data = {
+                    Id = 1, Type = "item", ObjectiveIndex = 4, ObjectiveData = secondObjective,
+                    Name = "Windstone", ObjectiveTargetId = 5678,
+                },
+            }
+            objective.Id = 1234
+            icon.data.ObjectiveTargetId = 5678
+            QuestieLoader:ImportModule("QuestieDB").GetItemDroprate = function(itemId)
+                if itemId == 1234 then return {7.5, "questie"} end
+                if itemId == 9999 then return {4.1, "questie"} end
+            end
+
+            MapIconTooltip.ShowOnTooltip(icon, GameTooltip, nil, {icon, second})
+
+            local windstoneRows = 0
+            for _, line in ipairs(rendered) do
+                if line:find("Windstone", 1, true) then
+                    windstoneRows = windstoneRows + 1
+                end
+            end
+            assert.is_true(windstoneRows >= 2)
+            assert.is_not_nil(RowContaining("7.5%"))
+            assert.is_not_nil(RowContaining("4.1%"))
+        end)
+
+        it("keeps separate drop rates when two objectives share identical text", function()
+            -- Force identical fallback wording so merge-by-text would collide.
+            objective.Description = "Collect Windstone"
+            objective.Id = 1234
+            icon.data.ObjectiveTargetId = 10
+            local twinObjective = {
+                Index = 4, Type = "item", Description = "Collect Windstone", Collected = 9, Needed = 15,
+                Id = 5678, Update = function() end,
+            }
+            local twin = {
+                x = 50, y = 50, AreaID = 1,
+                texture = icon.texture,
+                data = {
+                    Id = 1, Type = "item", ObjectiveIndex = 4, ObjectiveData = twinObjective,
+                    Name = "Windstone", ObjectiveTargetId = 10,
+                },
+            }
+            QuestieLoader:ImportModule("QuestieDB").GetItemDroprate = function(itemId)
+                if itemId == 1234 then return {7.5, "questie"} end
+                if itemId == 5678 then return {4.1, "questie"} end
+            end
+
+            MapIconTooltip.ShowOnTooltip(icon, GameTooltip, nil, {icon, twin})
+
+            assert.are.equal(2, #GameTooltip.questOrder[1])
+            assert.are.same({name = "Windstone", suffix = "  |cff555555[|cffff26007.5%|cff555555]"}, GameTooltip.questOrder[1][1].lines[1].sources[10])
+            assert.are.same({name = "Windstone", suffix = "  |cff555555[|cffff15004.1%|cff555555]"}, GameTooltip.questOrder[1][2].lines[1].sources[10])
+            assert.is_not_nil(RowContaining("7.5%"))
+            assert.is_not_nil(RowContaining("4.1%"))
+        end)
+
+        it("keeps special objectives distinct when both pins use ObjectiveIndex 0", function()
+            -- Special objectives are populated with ObjectiveIndex 0 but carry Index = 64+n.
+            objective.Index = 65
+            objective.Description = "Special objective"
+            objective.Id = 111
+            icon.data.ObjectiveIndex = 0
+            icon.data.ObjectiveTargetId = 10
+            local otherObjective = {
+                Index = 66, Type = "item", Description = "Special objective", Collected = 9, Needed = 15,
+                Id = 222, Update = function() end,
+            }
+            local other = {
+                x = 50, y = 50, AreaID = 1,
+                texture = icon.texture,
+                data = {
+                    Id = 1, Type = "item", ObjectiveIndex = 0, ObjectiveData = otherObjective,
+                    Name = "Windstone", ObjectiveTargetId = 10,
+                },
+            }
+            QuestieLoader:ImportModule("QuestieDB").GetItemDroprate = function(itemId)
+                if itemId == 111 then return {7.5, "questie"} end
+                if itemId == 222 then return {4.1, "questie"} end
+            end
+
+            MapIconTooltip.ShowOnTooltip(icon, GameTooltip, nil, {icon, other})
+
+            assert.are.equal(2, #GameTooltip.questOrder[1])
+            assert.is_not_nil(RowContaining("7.5%"))
+            assert.is_not_nil(RowContaining("4.1%"))
+        end)
+
+        it("keeps local and party player lines in insertion order", function()
+            cached[1] = {objectives = {[3] = {text = "Windstone Cluster: 9/15"}}}
+            QuestieComms.GetQuest = function() return {Bob = {[3] = {fulfilled = 3, required = 15}}} end
+            QuestieLoader:ImportModule("QuestieLib").GetColoredQuestName = function() return "Quest Name" end
+
+            MapIconTooltip.Show(icon)
+
+            local tipRow = GameTooltip.questOrder[1][1]
+            assert.are.equal(2, #tipRow.lines)
+            local firstText = tipRow.lines[1].text
+            local secondText = tipRow.lines[2].text
+            assert.is_truthy(firstText:find("Bob", 1, true) or secondText:find("Bob", 1, true))
+            assert.is_truthy(firstText:find("Local Fullname", 1, true) or secondText:find("Local Fullname", 1, true))
+
+            local firstRow, secondRow
+            for row, line in ipairs(rendered) do
+                if line:find(firstText, 1, true) then firstRow = row end
+                if line:find(secondText, 1, true) then secondRow = row end
+            end
+            assert.is_not_nil(firstRow)
+            assert.is_not_nil(secondRow)
+            assert.is_true(firstRow < secondRow)
         end)
     end)
 end)

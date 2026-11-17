@@ -1353,7 +1353,7 @@ describe("Tooltip", function()
 
                 local tooltip = QuestieTooltips.GetTooltip("m_123")
 
-                assert.are.same({"Quest Name", "   gold9/15 Windstone Cluster.  |cFF999999[25%]|r"}, tooltip)
+                assert.are.same({"Quest Name", "   gold9/15 Windstone Cluster.  |cff555555[|cffff800025%|cff555555]"}, tooltip)
                 assert.are.equal("9/15 Windstone Cluster.", cached[1].objectives[3].text)
             end)
 
