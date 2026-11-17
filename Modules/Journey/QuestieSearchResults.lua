@@ -204,7 +204,7 @@ local function AddLinkedParagraph(frame, linkType, lookup, header, query, addTom
             QuestDetailsFrame:ResetInfoGroup(group)
         end
         group:SetFullWidth(true);
-        group:SetLayout("flow");
+        group:SetLayout("list");
         group:SetTitle(header);
         frame:AddChild(group);
 

@@ -1325,10 +1325,12 @@ function QuestieOptionsControls.ApplyModernInfoGroup(group)
 
     if group.titletext and group.border.CreateFontString then
         local title = group.border:CreateFontString(nil, "OVERLAY", "GameFontNormal")
-        title:SetPoint("TOPLEFT", group.frame, "TOPLEFT", 14, 0)
+        title:SetPoint("BOTTOMLEFT", group.frame, "TOPLEFT", 14, 4)
+        title:SetPoint("BOTTOMRIGHT", group.frame, "TOPRIGHT", -14, 4)
         title:SetJustifyH("LEFT")
         title:SetHeight(18)
         title:SetText(group.titletext:GetText() or "")
+        title:SetShown((group.titletext:GetText() or "") ~= "")
         title:SetTextColor(1, 0.82, 0)
         title:SetShadowColor(0, 0, 0, 1)
         title:SetShadowOffset(1, -1)
@@ -1340,6 +1342,7 @@ function QuestieOptionsControls.ApplyModernInfoGroup(group)
         group.SetTitle = function(self, text)
             rawSetTitle(self, text)
             self.modernInfoTitle:SetText(text or "")
+            self.modernInfoTitle:SetShown(text ~= nil and text ~= "")
         end
     end
 

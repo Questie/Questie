@@ -73,6 +73,14 @@ local function GetWidgetWidth(widget)
     return width and width > 0 and width or DEFAULT_WIDTH
 end
 
+local function GetWidgetTitleHeight(widget)
+    local title = widget and (widget.modernInfoTitle or widget.titletext)
+    if title and title.IsShown and title:IsShown() then
+        return 20
+    end
+    return 0
+end
+
 local function LayoutChildren(widget)
     local content = widget.content
     if not content then return end
@@ -95,13 +103,15 @@ local function LayoutChildren(widget)
                 frame:SetPoint("BOTTOMRIGHT", content, "BOTTOMRIGHT")
             elseif layout == "table" then
                 local width = child.relativeWidth and content:GetWidth() * child.relativeWidth or content:GetWidth()
-                frame:SetPoint("TOPLEFT", content, "TOPLEFT", 0, -y)
+                local titleHeight = GetWidgetTitleHeight(child)
+                frame:SetPoint("TOPLEFT", content, "TOPLEFT", 0, -(y + titleHeight))
                 frame:SetWidth(width)
-                y = y + GetWidgetHeight(child)
+                y = y + GetWidgetHeight(child) + titleHeight
             else
                 local childWidth = child.fullWidth and (contentWidth > 0 and contentWidth or GetWidgetWidth(child))
                     or (child.relativeWidth and contentWidth * child.relativeWidth or GetWidgetWidth(child))
-                local childHeight = GetWidgetHeight(child)
+                local titleHeight = GetWidgetTitleHeight(child)
+                local childHeight = GetWidgetHeight(child) + titleHeight
                 if layout == "list" and child.text and child.text.SetWordWrap then
                     child.text:SetWordWrap(false)
                     if child.text.SetMaxLines then child.text:SetMaxLines(1) end
@@ -118,7 +128,7 @@ local function LayoutChildren(widget)
                     rowHeight = 0
                 end
 
-                frame:SetPoint("TOPLEFT", content, "TOPLEFT", x, -y)
+                frame:SetPoint("TOPLEFT", content, "TOPLEFT", x, -(y + titleHeight))
                 if child.fullWidth or (contentWidth > 0 and childWidth >= contentWidth) then
                     frame:SetPoint("TOPRIGHT", content, "TOPRIGHT", 0, -y)
                 else
@@ -341,8 +351,8 @@ local function CreateContainer(widgetType, parent, inset, color)
     -- the native replacement so linked sections do not become blank bordered
     -- boxes when callers use SetTitle().
     widget.titletext = widget.frame:CreateFontString(nil, "OVERLAY", "GameFontNormal")
-    widget.titletext:SetPoint("TOPLEFT", widget.frame, "TOPLEFT", 14, -2)
-    widget.titletext:SetPoint("TOPRIGHT", widget.frame, "TOPRIGHT", -14, -2)
+    widget.titletext:SetPoint("BOTTOMLEFT", widget.frame, "TOPLEFT", 14, 4)
+    widget.titletext:SetPoint("BOTTOMRIGHT", widget.frame, "TOPRIGHT", -14, 4)
     widget.titletext:SetJustifyH("LEFT")
     widget.titletext:SetTextColor(1, 0.82, 0)
     widget.titletext:SetShadowColor(0, 0, 0, 1)
@@ -791,7 +801,14 @@ local function CreateTreeGroup(parent)
         end
     end
 
+    local renderingTree = false
+    local layingOutTree = false
+
     local function RenderTree()
+        if renderingTree then
+            return
+        end
+        renderingTree = true
         for _, child in ipairs({widget.treeContent:GetChildren()}) do child:Hide() end
         local y = -4
         local function AddNodes(nodes, path, depth)
@@ -879,14 +896,20 @@ local function CreateTreeGroup(parent)
             widget.scrollbar:SetShown(maximum > 0)
             widget.treeScroll:SetVerticalScroll(math.min(widget.treeScroll:GetVerticalScroll() or 0, maximum))
         end
+        renderingTree = false
     end
 
     local function LayoutTree()
+        if layingOutTree then
+            return
+        end
+        layingOutTree = true
         widget.treeContent:SetWidth(math.max(widget.treeScroll:GetWidth() or 1, 1))
         widget.content:ClearAllPoints()
         widget.content:SetPoint("TOPLEFT", widget.treeframe, "TOPRIGHT", -2, 0)
         widget.content:SetPoint("BOTTOMRIGHT", widget.frame, "BOTTOMRIGHT")
         RenderTree()
+        layingOutTree = false
     end
     widget.frame:HookScript("OnSizeChanged", LayoutTree)
     widget.treeframe:HookScript("OnSizeChanged", LayoutTree)
