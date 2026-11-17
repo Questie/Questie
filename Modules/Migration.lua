@@ -318,6 +318,9 @@ local migrationFunctions = {
         local isTaken = profile.trackerbindOpenQuestLog == "shiftleft" or profile.trackerbindSetTomTom == "shiftleft"
         profile.trackerbindShareQuest = isTaken and "disabled" or "shiftleft"
     end,
+    [51] = function()
+        Questie.db.profile.questAnnounceChannel = "disabled"
+    end,
 }
 
 function Migration:Migrate()
