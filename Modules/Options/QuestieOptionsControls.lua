@@ -215,12 +215,12 @@ function QuestieOptionsControls.ApplyJourneyTreeGroup(treeGroup)
         treeGroup.border:SetBackdropColor(0, 0, 0, 0)
         treeGroup.border:SetBackdropBorderColor(0, 0, 0, 0)
     end
-    -- These are the visible Journey panes. They sit directly on the Journey
-    -- canvas, so use the same first-level surface as the working Options and
-    -- Add Note panels instead of the nearly-black nested-control tint.
+    -- These are two sibling containers on the Journey canvas. Use the darker
+    -- nested Options surface so their fill is visibly distinct from the
+    -- translucent Journey background.
     EnsureJourneyPaneBackdrop(treeGroup.content)
-    QuestieOptionsControls.ApplyModernContainer(treeGroup.treeframe, false, true)
-    QuestieOptionsControls.ApplyModernContainer(treeGroup.content, false, true)
+    QuestieOptionsControls.ApplyModernContainer(treeGroup.treeframe, true, true)
+    QuestieOptionsControls.ApplyModernContainer(treeGroup.content, true, true)
     return treeGroup
 end
 
@@ -1169,11 +1169,16 @@ function QuestieOptionsControls.ApplyModernScrollbar(scrollbar)
         trackMiddle:SetPoint("BOTTOMRIGHT", trackBottom, "TOPRIGHT")
 
         local function SizeThumb()
-            local thumbHeight = 40
             local trackHeight = scrollbar:GetHeight() or 0
-            if trackHeight > 0 then
-                local maximum = math.max(20, math.floor(trackHeight * 0.6))
-                thumbHeight = math.min(thumbHeight, maximum)
+            local minimum, maximum = scrollbar:GetMinMaxValues()
+            local thumbHeight = trackHeight
+            if trackHeight > 0 and maximum > minimum then
+                -- Match MinimalScrollBar: the thumb represents the visible
+                -- fraction of the scrollable content instead of using a
+                -- fixed 40px block.
+                local contentHeight = trackHeight + maximum - minimum
+                thumbHeight = math.floor(trackHeight * trackHeight / contentHeight)
+                thumbHeight = math.max(20, math.min(trackHeight, thumbHeight))
             end
             thumb:SetSize(8, thumbHeight)
 
@@ -1228,6 +1233,9 @@ function QuestieOptionsControls.ApplyModernScrollbar(scrollbar)
         SyncArrowVisibility()
 
         scrollbar:HookScript("OnSizeChanged", SizeThumb)
+        if hooksecurefunc then
+            hooksecurefunc(scrollbar, "SetMinMaxValues", SizeThumb)
+        end
         SizeThumb()
         scrollbar.modernScrollbarTrack = trackMiddle
         scrollbar.modernScrollbarThumb = thumb
