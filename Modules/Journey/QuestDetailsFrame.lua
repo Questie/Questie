@@ -762,6 +762,9 @@ local function AddLinkedParagraph(frame, linkType, lookup, header, query)
             QuestieOptionsControls.ApplyModernInfoGroup(group)
         end
         frame:AddChild(group)
+        if group.BeginUpdate then
+            group:BeginUpdate()
+        end
 
         for _, id in pairs(lookup) do
             id = math.abs(id)
@@ -800,6 +803,9 @@ local function AddLinkedParagraph(frame, linkType, lookup, header, query)
             link:SetCallback("OnEnter", QuestieJourneyUtils.ShowJourneyTooltip)
             link:SetCallback("OnLeave", QuestieJourneyUtils.HideJourneyTooltip)
             group:AddChild(link)
+        end
+        if group.EndUpdate then
+            group:EndUpdate()
         end
     end
 end
@@ -1080,6 +1086,9 @@ function QuestDetailsFrame:Draw(container, quest)
         end
         ApplyNPCInfoLayout(startNPCGroup)
         container:AddChild(startNPCGroup)
+        if startNPCGroup.BeginUpdate then
+            startNPCGroup:BeginUpdate()
+        end
 
         QuestieJourneyUtils:Spacer(startNPCGroup)
 
@@ -1099,6 +1108,7 @@ function QuestDetailsFrame:Draw(container, quest)
         local startNPCZoneLabel = QuestieGUI:Create("Label")
         local startindex = 0
         if (not startNpc.spawns) then
+            if startNPCGroup.EndUpdate then startNPCGroup:EndUpdate() end
             if container.EndUpdate then container:EndUpdate() end
             return
         end
@@ -1107,6 +1117,7 @@ function QuestDetailsFrame:Draw(container, quest)
         end
 
         if startindex == 0 then
+            if startNPCGroup.EndUpdate then startNPCGroup:EndUpdate() end
             if container.EndUpdate then container:EndUpdate() end
             return
         end
@@ -1155,6 +1166,9 @@ function QuestDetailsFrame:Draw(container, quest)
 
         -- The container may restore default content anchors while laying
         -- out children, so apply the portrait column after the group is built.
+        if startNPCGroup.EndUpdate then
+            startNPCGroup:EndUpdate()
+        end
         ApplyNPCInfoLayout(startNPCGroup)
     end
 
@@ -1169,6 +1183,9 @@ function QuestDetailsFrame:Draw(container, quest)
             QuestieOptionsControls.ApplyModernInfoGroup(startObjectGroup)
         end
         container:AddChild(startObjectGroup)
+        if startObjectGroup.BeginUpdate then
+            startObjectGroup:BeginUpdate()
+        end
 
         QuestieJourneyUtils:Spacer(startObjectGroup)
 
@@ -1235,6 +1252,9 @@ function QuestDetailsFrame:Draw(container, quest)
                 end
             end
         end
+        if startObjectGroup.EndUpdate then
+            startObjectGroup:EndUpdate()
+        end
     end
 
     -- Get Quest Start Item
@@ -1249,6 +1269,9 @@ function QuestDetailsFrame:Draw(container, quest)
             QuestieOptionsControls.ApplyModernInfoGroup(startItemGroup)
         end
         container:AddChild(startItemGroup)
+        if startItemGroup.BeginUpdate then
+            startItemGroup:BeginUpdate()
+        end
 
         QuestieJourneyUtils:Spacer(startItemGroup)
 
@@ -1268,6 +1291,9 @@ function QuestDetailsFrame:Draw(container, quest)
 
         ApplyItemInfoLayout(startItemGroup)
         AddItemIcon(startItemGroup, startItem)
+        if startItemGroup.EndUpdate then
+            startItemGroup:EndUpdate()
+        end
     end
 
     AddInfoPanelSpacing(container)
@@ -1283,6 +1309,9 @@ function QuestDetailsFrame:Draw(container, quest)
         end
         ApplyNPCInfoLayout(endNPCGroup)
         container:AddChild(endNPCGroup)
+        if endNPCGroup.BeginUpdate then
+            endNPCGroup:BeginUpdate()
+        end
 
         QuestieJourneyUtils:Spacer(endNPCGroup)
 
@@ -1359,6 +1388,9 @@ function QuestDetailsFrame:Draw(container, quest)
             end
         end
 
+        if endNPCGroup.EndUpdate then
+            endNPCGroup:EndUpdate()
+        end
         ApplyNPCInfoLayout(endNPCGroup)
 
         QuestieJourneyUtils:Spacer(endNPCGroup)
@@ -1377,6 +1409,9 @@ function QuestDetailsFrame:Draw(container, quest)
             QuestieOptionsControls.ApplyModernInfoGroup(endObjectGroup)
         end
         container:AddChild(endObjectGroup)
+        if endObjectGroup.BeginUpdate then
+            endObjectGroup:BeginUpdate()
+        end
 
         QuestieJourneyUtils:Spacer(endObjectGroup)
 
@@ -1452,6 +1487,9 @@ function QuestDetailsFrame:Draw(container, quest)
             end
         end
 
+        if endObjectGroup.EndUpdate then
+            endObjectGroup:EndUpdate()
+        end
         QuestieJourneyUtils:Spacer(endObjectGroup)
 
         -- Fix for sometimes the scroll content will max out and not show everything until window is resized

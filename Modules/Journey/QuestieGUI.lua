@@ -936,7 +936,10 @@ local function CreateTreeGroup(parent)
     end
 
     local function LayoutTree()
-        if layingOutTree then
+        -- Rebuilding buttons changes their visibility and size. Those changes
+        -- can synchronously fire the tree frame's size callbacks; do not start
+        -- another tree render while the current render is still in progress.
+        if layingOutTree or renderingTree then
             return
         end
         layingOutTree = true
