@@ -183,9 +183,7 @@ function QuestieOptionsControls.ApplyJourneyContainer(frame)
     return frame
 end
 
----Applies the shared dark surface to both real panes of a Journey TreeGroup.
----The detail content frame remains transparent so this changes the container
----surface itself instead of placing an opaque backdrop over its children.
+---Applies the Options-style light canvas and dark nested surfaces to a Journey TreeGroup.
 ---@param treeGroup QuestieGUIWidget
 ---@return QuestieGUIWidget
 function QuestieOptionsControls.ApplyJourneyTreeGroup(treeGroup)
@@ -193,8 +191,11 @@ function QuestieOptionsControls.ApplyJourneyTreeGroup(treeGroup)
         return treeGroup
     end
 
+    -- The TreeGroup border is the light canvas/background. The two panes are
+    -- the actual nested containers and use the darker Options surface.
     QuestieOptionsControls.ApplyModernContainer(treeGroup.border, false, false)
-    QuestieOptionsControls.ApplyModernContainer(treeGroup.treeframe, false, false)
+    QuestieOptionsControls.ApplyModernContainer(treeGroup.treeframe, true, false)
+    QuestieOptionsControls.ApplyModernContainer(treeGroup.content, true, false)
     return treeGroup
 end
 
@@ -1087,8 +1088,8 @@ function QuestieOptionsControls.ApplyModernScrollbar(scrollbar)
     local parent = scrollbar.GetParent and scrollbar:GetParent()
     if parent then
         scrollbar:ClearAllPoints()
-        scrollbar:SetPoint("TOPRIGHT", parent, "TOPRIGHT", -6, -6)
-        scrollbar:SetPoint("BOTTOMRIGHT", parent, "BOTTOMRIGHT", -6, 6)
+        scrollbar:SetPoint("TOPRIGHT", parent, "TOPRIGHT", -6, -12)
+        scrollbar:SetPoint("BOTTOMRIGHT", parent, "BOTTOMRIGHT", -6, 12)
     end
 
     local thumb = scrollbar:GetThumbTexture()
@@ -1157,7 +1158,7 @@ function QuestieOptionsControls.ApplyModernScrollbar(scrollbar)
                 return nil
             end
 
-            local arrow = CreateFrame("Button", nil, scrollbar)
+            local arrow = CreateFrame("Button", nil, parent or scrollbar)
             local info = C_Texture.GetAtlasInfo(atlas)
             arrow:SetSize(info.width or 11, info.height or 9)
             if not arrow.SetNormalAtlas then
@@ -1177,8 +1178,14 @@ function QuestieOptionsControls.ApplyModernScrollbar(scrollbar)
 
         local arrowUp = CreateArrow("up")
         local arrowDown = CreateArrow("down")
-        if arrowUp then arrowUp:SetPoint("TOP", scrollbar, "TOP", 0, -1) end
-        if arrowDown then arrowDown:SetPoint("BOTTOM", scrollbar, "BOTTOM", 0, 1) end
+        if arrowUp and parent then
+            arrowUp:SetFrameLevel(scrollbar:GetFrameLevel() + 1)
+            arrowUp:SetPoint("TOPRIGHT", parent, "TOPRIGHT", -1, -1)
+        end
+        if arrowDown and parent then
+            arrowDown:SetFrameLevel(scrollbar:GetFrameLevel() + 1)
+            arrowDown:SetPoint("BOTTOMRIGHT", parent, "BOTTOMRIGHT", -1, 1)
+        end
 
         scrollbar:HookScript("OnSizeChanged", SizeThumb)
         SizeThumb()

@@ -59,6 +59,9 @@ local function CreateJourneyCanvas(parent)
     canvas:SetFullHeight(true)
     canvas.frame:SetParent(parent)
     canvas.frame:SetAllPoints(parent)
+    if QuestieOptionsControls and QuestieOptionsControls.ApplyModernContainer then
+        QuestieOptionsControls.ApplyModernContainer(canvas.border, false, false)
+    end
     canvas.frame:Hide()
     return canvas
 end

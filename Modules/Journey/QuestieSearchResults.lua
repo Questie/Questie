@@ -783,6 +783,9 @@ function QuestieSearchResults:DrawResultTab(container, resultType)
     resultTree:SetFullWidth(true);
     resultTree:SetFullHeight(true);
     resultTree.treeframe:SetWidth(415);
+    if searchResultTabs and searchResultTabs.SetTabBarWidth then
+        searchResultTabs:SetTabBarWidth(resultTree.treeframe:GetWidth())
+    end
     if QuestieOptionsControls and QuestieOptionsControls.ApplyJourneyTreeGroup then
         QuestieOptionsControls.ApplyJourneyTreeGroup(resultTree)
     end

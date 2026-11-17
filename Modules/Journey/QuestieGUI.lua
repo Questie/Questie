@@ -89,6 +89,12 @@ local function LayoutChildren(widget)
                 local childWidth = child.fullWidth and (contentWidth > 0 and contentWidth or GetWidgetWidth(child))
                     or (child.relativeWidth and contentWidth * child.relativeWidth or GetWidgetWidth(child))
                 local childHeight = GetWidgetHeight(child)
+                if layout == "list" and child.text and child.text.SetWordWrap then
+                    child.text:SetWordWrap(false)
+                    if child.text.SetMaxLines then child.text:SetMaxLines(1) end
+                    childHeight = 20
+                    if not child.fullHeight then child.frame:SetHeight(childHeight) end
+                end
                 local startsNewRow = x == 0
                     or child.fullWidth
                     or (contentWidth > 0 and x + childWidth > contentWidth)
@@ -870,13 +876,11 @@ local function CreateTabGroup(parent)
     function widget:SetTabs(tabs)
         self.tabs = tabs or {}
         for _, child in ipairs({self.tabBar:GetChildren()}) do child:Hide() end
-        local x = 0
         for _, tab in ipairs(self.tabs) do
             local nativeOk, button = pcall(CreateFrame, "Button", nil, self.tabBar, "MinimalTabTemplate")
             if not nativeOk or not button then
                 button = CreateFrame("Button", nil, self.tabBar, "UIPanelButtonTemplate")
             end
-            button:SetPoint("TOPLEFT", self.tabBar, "TOPLEFT", x, 0)
             button:SetSize(math.max(90, (tab.text and string.len(tab.text) or 8) * 8 + 24), 28)
             button:SetFrameLevel(self.tabBar:GetFrameLevel() + 1)
             if button.Text then button.Text:SetText(tab.text or tab.value) else button:SetText(tab.text or tab.value) end
@@ -884,8 +888,30 @@ local function CreateTabGroup(parent)
             if tab.disabled then button:Disable() else button:Enable() end
             button:SetScript("OnClick", function() if not tab.disabled then self:SelectTab(tab.value) end end)
             tab.button = button
-            x = x + button:GetWidth() + 4
         end
+        self:LayoutTabs()
+    end
+    function widget:LayoutTabs()
+        local gap = 4
+        local tabCount = #self.tabs
+        local barWidth = self.tabBar:GetWidth() or 0
+        local equalWidth = barWidth > 0 and math.floor((barWidth - gap * math.max(0, tabCount - 1)) / tabCount) or nil
+        local x = 0
+        for _, tab in ipairs(self.tabs) do
+            local button = tab.button
+            if button then
+                button:ClearAllPoints()
+                button:SetPoint("TOPLEFT", self.tabBar, "TOPLEFT", x, 0)
+                if equalWidth then button:SetWidth(math.max(90, equalWidth)) end
+                x = x + button:GetWidth() + gap
+            end
+        end
+    end
+    function widget:SetTabBarWidth(width)
+        self.tabBar:ClearAllPoints()
+        self.tabBar:SetPoint("TOPLEFT", self.frame, "TOPLEFT")
+        self.tabBar:SetWidth(width)
+        self:LayoutTabs()
     end
     function widget:SelectTab(value)
         self.localstatus.selected = value
@@ -937,6 +963,8 @@ local function CreateTooltip(parent)
     function widget:SetHyperlink(link) self.frame:SetHyperlink(link) end
     function widget:SetUnit(unit) self.frame:SetUnit(unit) end
     function widget:SetSpellByID(id) self.frame:SetSpellByID(id) end
+    function widget:ShowTooltip() self.frame:Show() end
+    function widget:HideTooltip() self.frame:Hide() end
     return widget
 end
 
