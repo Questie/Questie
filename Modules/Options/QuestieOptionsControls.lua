@@ -1127,6 +1127,7 @@ function QuestieOptionsControls.ApplyModernScrollbar(scrollbar)
     local anchor = scrollbar.modernScrollbarAnchor or parent
     if anchor then
         scrollbar:ClearAllPoints()
+        scrollbar:SetWidth(20)
         -- Match the native Options panel's 12px right gutter while keeping
         -- the bar fully inside the Journey pane/editor that owns it.
         scrollbar:SetPoint("TOPRIGHT", anchor, "TOPRIGHT", -12, -12)
@@ -1150,10 +1151,9 @@ function QuestieOptionsControls.ApplyModernScrollbar(scrollbar)
         and HasAtlas("!minimal-scrollbar-track-middle")
 
     if modernArt and thumb then
-        -- MinimalScrollBar uses these same atlas pieces. Keep the slider's
-        -- native thumb visible instead of painting a flat color texture over
-        -- it, which made Journey's thumb differ from Questie Options.
-        thumb:SetAlpha(1)
+        -- The Slider's default thumb must be hidden. Leaving it visible under
+        -- the atlas pieces creates the brown/gray split seen in Journey.
+        thumb:SetAlpha(0)
 
         local capTop = scrollbar:CreateTexture(nil, "ARTWORK")
         capTop:SetAtlas("minimal-scrollbar-small-thumb-top", true)
@@ -1167,6 +1167,17 @@ function QuestieOptionsControls.ApplyModernScrollbar(scrollbar)
         body:SetAtlas("minimal-scrollbar-small-thumb-middle")
         body:SetPoint("TOPLEFT", capTop, "BOTTOMLEFT")
         body:SetPoint("BOTTOMRIGHT", capBottom, "TOPRIGHT")
+
+        -- Use one consistent warm-brown surface for the draggable thumb. The
+        -- invisible native thumb remains the interaction anchor, while this
+        -- texture gives it the same readable treatment at every height.
+        local visibleThumb = scrollbar:CreateTexture(nil, "ARTWORK")
+        visibleThumb:SetColorTexture(0.45, 0.28, 0.1, 0.95)
+        visibleThumb:SetPoint("CENTER", thumb, "CENTER")
+        visibleThumb:SetWidth(10)
+        capTop:SetAlpha(0)
+        capBottom:SetAlpha(0)
+        body:SetAlpha(0)
 
         local trackTop = scrollbar:CreateTexture(nil, "BACKGROUND")
         trackTop:SetAtlas("minimal-scrollbar-track-top", true)
@@ -1194,6 +1205,7 @@ function QuestieOptionsControls.ApplyModernScrollbar(scrollbar)
                 thumbHeight = math.max(20, math.min(trackHeight, thumbHeight))
             end
             thumb:SetSize(8, thumbHeight)
+            visibleThumb:SetHeight(thumbHeight)
 
             local info = C_Texture.GetAtlasInfo("minimal-scrollbar-small-thumb-middle")
             if info and info.height and info.height > 0 then
