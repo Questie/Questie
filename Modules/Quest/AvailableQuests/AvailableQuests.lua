@@ -771,6 +771,11 @@ _AddStarter = function(starter, quest, tooltipKey, limit)
 
     local starterName = QuestieTooltips:RegisterQuestStartTooltip(quest.Id, starter.name, starter.id, tooltipKey, (starterType or "NPC"))
 
+    -- cmangos creature rank (0 normal, 1 elite, 2 rare elite, 3 boss, 4 rare); used by the map/minimap tooltip
+    -- to tell the player whether the giver is a plain NPC, a rare or an elite. By now tooltipKey is "m_" for NPCs
+    -- and for monsters dropping the starting item.
+    local starterRank = (tooltipKey == "m_" .. starter.id) and starter.rank or nil
+
     local starterIcons = {}
     local starterLocs = {}
     local added = 0
@@ -792,6 +797,7 @@ _AddStarter = function(starter, quest, tooltipKey, limit)
                         Name = starterName,
                         IsObjectiveNote = false,
                         StarterType = starterType,
+                        StarterRank = starterRank,
                     }
 
                     if (coords[1] == -1 or coords[2] == -1) then
@@ -840,6 +846,7 @@ _AddStarter = function(starter, quest, tooltipKey, limit)
                         Name = starterName,
                         IsObjectiveNote = false,
                         StarterType = starterType,
+                        StarterRank = starterRank,
                     }
                     starterIcons[zone] = QuestieMap:DrawWorldIcon(data, zone, waypoints[1][1][1], waypoints[1][1][2])
                     starterLocs[zone] = {waypoints[1][1][1], waypoints[1][1][2]}

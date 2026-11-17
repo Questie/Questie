@@ -40,6 +40,7 @@ local HBDPins = QuestieLoader:ImportModule("HBDPins")
 ---@field Name string
 ---@field IsObjectiveNote boolean
 ---@field StarterType string|nil
+---@field StarterRank number|nil cmangos creature rank of an NPC starter (0 normal, 1 elite, 2 rare elite, 3 boss, 4 rare)
 ---@field waypointPaths WaypointPath[]? Patrol paths of the NPC, shared by all icons with this data.
 
 ---@class IconTexture : Texture

@@ -149,6 +149,7 @@ function MapIconTooltip.ShowOnTooltip(self, Tooltip, owner, icons)
 
     local usedText = {}
     local npcAndObjectOrder = {};
+    local giverTags = {} -- giver name -> short label telling what kind of starter it is (drop, rare, object, ...)
     local questOrder = {};
     local manualOrder = {}
 
@@ -198,6 +199,9 @@ function MapIconTooltip.ShowOnTooltip(self, Tooltip, owner, icons)
 
                 local tip = _MapIconTooltip:GetAvailableOrCompleteTooltip(icon)
                 npcAndObjectOrder[iconData.Name][tip.title] = tip
+                if iconData.Type == "available" and not giverTags[iconData.Name] then
+                    giverTags[iconData.Name] = _MapIconTooltip.GetStarterTag(iconData)
+                end
             elseif iconData.ObjectiveData and iconData.ObjectiveData.Description then
                 -- Icons are removed over several frames, so a quest that just left the quest log can still have some
                 if (not iconData.ObjectiveData.IsPartyObjective) and (not ActiveQuests.Get(iconData.Id)) then
@@ -241,6 +245,7 @@ function MapIconTooltip.ShowOnTooltip(self, Tooltip, owner, icons)
     end
 
     Tooltip.npcAndObjectOrder = npcAndObjectOrder
+    Tooltip.giverTags = giverTags
     Tooltip.questOrder = questOrder
     Tooltip.manualOrder = manualOrder
     Tooltip.miniMapIcon = self.miniMapIcon
@@ -277,18 +282,23 @@ function MapIconTooltip.ShowOnTooltip(self, Tooltip, owner, icons)
         for _, npcOrObjectName in ipairs(giverNames) do -- this logic really needs to be improved
             local quests = self.npcAndObjectOrder[npcOrObjectName]
             haveGiver = true
+            local giverTag = self.giverTags and self.giverTags[npcOrObjectName]
+            local giverLabel = npcOrObjectName
+            if giverTag then
+                giverLabel = npcOrObjectName .. " " .. giverTag
+            end
             if shift and (not firstLine) then
                 -- Spacer between NPCs
                 tooltipRows:AddLine("             ")
             end
             if (firstLine and not shift) then
-                tooltipRows:AddDoubleLine(npcOrObjectName, l10n("(") .. l10n("Hold Shift") .. l10n(")"), 0.2, 1, 0.2, 0.43, 0.43, 0.43);
+                tooltipRows:AddDoubleLine(giverLabel, l10n("(") .. l10n("Hold Shift") .. l10n(")"), 0.2, 1, 0.2, 0.43, 0.43, 0.43);
                 firstLine = false;
             elseif (firstLine and shift) then
-                tooltipRows:AddLine(npcOrObjectName, 0.2, 1, 0.2);
+                tooltipRows:AddLine(giverLabel, 0.2, 1, 0.2);
                 firstLine = false;
             else
-                tooltipRows:AddLine(npcOrObjectName, 0.2, 1, 0.2);
+                tooltipRows:AddLine(giverLabel, 0.2, 1, 0.2);
             end
 
             -- A giver's quests are keyed by title; sorting by level needs them by quest ID.
@@ -657,6 +667,39 @@ local function _GetQuestTag(quest)
             return l10n("(") .. l10n("Available") .. l10n(")");
         end
     end
+end
+
+-- cmangos creature_template ranks, as stored in QuestieDB.npcKeys.rank
+local RANK_ELITE, RANK_RARE_ELITE, RANK_BOSS, RANK_RARE = 1, 2, 3, 4
+
+--- Short colored label after a quest giver's name, so the player can tell an NPC that hands the quest out
+--- from a monster (or rare) that drops the starting item, or an object.
+---@param iconData IconData
+---@return string|nil
+function _MapIconTooltip.GetStarterTag(iconData)
+    local starterType = iconData.StarterType
+    local rank = iconData.StarterRank
+    local parts = {}
+
+    if rank == RANK_RARE then
+        parts[#parts + 1] = "|cffc0c0ff" .. l10n("Rare") .. "|r"
+    elseif rank == RANK_RARE_ELITE then
+        parts[#parts + 1] = "|cffc0c0ff" .. l10n("Rare Elite") .. "|r"
+    elseif rank == RANK_BOSS then
+        parts[#parts + 1] = "|cffff4040" .. l10n("Boss") .. "|r"
+    elseif rank == RANK_ELITE then
+        parts[#parts + 1] = "|cffffd100" .. l10n("Elite") .. "|r"
+    end
+
+    if starterType == "itemFromMonster" or starterType == "itemFromObject" then
+        parts[#parts + 1] = "|cffff8040" .. l10n("Item Drop") .. "|r"
+    elseif starterType == "Object" then
+        parts[#parts + 1] = "|cff40c0ff" .. l10n("Object") .. "|r"
+    elseif #parts == 0 then
+        parts[#parts + 1] = "|cff9d9d9d" .. l10n("NPC") .. "|r"
+    end
+
+    return "|cff9d9d9d" .. l10n("(") .. "|r" .. table.concat(parts, "|cff9d9d9d, |r") .. "|cff9d9d9d" .. l10n(")") .. "|r"
 end
 
 function _MapIconTooltip:GetAvailableOrCompleteTooltip(icon)
