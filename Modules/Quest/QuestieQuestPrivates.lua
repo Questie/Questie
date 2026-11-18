@@ -103,7 +103,9 @@ monster = function(npcId, objective)
     local rank = QuestieDB.QueryNPCSingle(npcId, "rank")
 
     local enableSpawns = not QuestieCorrections.questNPCBlacklist[npcId]
-    local enableWaypoints = enableSpawns and 2 ~= rank -- a rare mob spawn. todo: option for this
+    -- A rare (cmangos rank 4) or rare elite (rank 2) might not be there, so its patrol is left out. todo: option for this
+    local isRare = rank == 2 or rank == 4
+    local enableWaypoints = enableSpawns and not isRare
 
     ---@type SpawnListNPC
     local monster = {

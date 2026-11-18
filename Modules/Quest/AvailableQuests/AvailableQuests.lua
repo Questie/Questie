@@ -34,7 +34,6 @@ local DailyQuestCommsBlacklist = QuestieLoader:ImportModule("DailyQuestCommsBlac
 local GetQuestGreenRange = QuestieCompat.GetQuestGreenRange
 local yield = coroutine.yield
 local tinsert = table.insert
-local band = bit.band
 
 local QUESTS_PER_YIELD = 24
 
@@ -727,12 +726,14 @@ _DrawAvailableQuest = function(questId)
     end, 0, nil, nil, nil, "_DrawAvailableQuest")
 end
 
--- Corrections list some vendors as dropping the quest-starting item they sell, so that the quest
--- shows. Those friendly to the player aren't fought.
+-- Corrections list some friendly NPCs as dropping a quest-starting item they hand out or sell, so that the quest
+-- shows. They aren't fought for it. This reads friendlyToFaction itself: QuestieDB.IsFriendlyToPlayer also counts
+-- NPCs hostile to both factions as friendly.
 ---@param npc NPC
 ---@return boolean
-local function _IsFriendlyVendor(npc)
-    return npc.friendly == true and npc.npcFlags ~= nil and band(npc.npcFlags, QuestieDB.npcFlags.VENDOR) ~= 0
+local function _IsFriendlyToPlayer(npc)
+    local friendlyToFaction = npc.friendlyToFaction
+    return friendlyToFaction == "AH" or friendlyToFaction == (playerFaction == "Alliance" and "A" or "H")
 end
 
 ---@param starter Object|NPC Either an object or an NPC from QuestieDB.
@@ -771,6 +772,10 @@ _AddStarter = function(starter, quest, tooltipKey, limit)
 
     local starterName = QuestieTooltips:RegisterQuestStartTooltip(quest.Id, starter.name, starter.id, tooltipKey, (starterType or "NPC"))
 
+    -- An NPC dropping the starting item is killed for it, unless it is friendly to the player.
+    local killedForItem = starterType == "itemFromMonster" and not _IsFriendlyToPlayer(starter)
+    local dropperRank = killedForItem and starter.rank or nil
+
     local starterIcons = {}
     local starterLocs = {}
     local added = 0
@@ -792,6 +797,8 @@ _AddStarter = function(starter, quest, tooltipKey, limit)
                         Name = starterName,
                         IsObjectiveNote = false,
                         StarterType = starterType,
+                        StarterInDungeon = dungeons[zone] and true or nil,
+                        DropperRank = dropperRank,
                     }
 
                     if (coords[1] == -1 or coords[2] == -1) then
@@ -823,9 +830,6 @@ _AddStarter = function(starter, quest, tooltipKey, limit)
 
     -- Only for NPCs since objects do not move
     if starter.waypoints then
-        -- An NPC dropping the starting item is killed for it, so its route is hostile like an objective's.
-        -- A friendly vendor listed as dropping it is not.
-        local hostile = starterType == "itemFromMonster" and not _IsFriendlyVendor(starter)
         for zone, waypoints in pairs(starter.waypoints or {}) do
             if not dungeons[zone] and waypoints[1] and waypoints[1][1] and waypoints[1][1][1] then
                 if not starterIcons[zone] then
@@ -840,14 +844,16 @@ _AddStarter = function(starter, quest, tooltipKey, limit)
                         Name = starterName,
                         IsObjectiveNote = false,
                         StarterType = starterType,
+                        DropperRank = dropperRank,
                     }
                     starterIcons[zone] = QuestieMap:DrawWorldIcon(data, zone, waypoints[1][1][1], waypoints[1][1][2])
                     starterLocs[zone] = {waypoints[1][1][1], waypoints[1][1][2]}
                     added = added + 1
                 end
                 -- By now tooltipKey names the NPC or object, also when the quest starts from an item
-                -- it drops, so every quest of one NPC shares his route.
-                QuestieMap:DrawWaypoints(starterIcons[zone], tooltipKey, waypoints, zone, hostile)
+                -- it drops, so every quest of one NPC shares his route. The route of an NPC killed for
+                -- the starting item is hostile like an objective's.
+                QuestieMap:DrawWaypoints(starterIcons[zone], tooltipKey, waypoints, zone, killedForItem)
             end
         end
     end
