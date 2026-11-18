@@ -170,7 +170,7 @@ function _QuestieJourney.myJourney:ManageTree(container)
     -- Reparent the cached tree instead of recreating it. That keeps each
     -- year/month expansion state when the user changes Journey tabs.
     journeyTreeFrame:SetTree(_QuestieJourney:GetHistory())
-    if not journeyTreeFrame.localstatus.selected then
+    if not journeyTreeFrame.localstatus or not journeyTreeFrame.localstatus.selected then
         local latestMonth, latestYear = _QuestieJourney:GetMonthAndYearOfLatestEntry()
         if latestMonth and latestYear then
             journeyTreeFrame:SelectByPath(latestYear, latestMonth)
