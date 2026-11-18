@@ -255,6 +255,8 @@ _IsAllowedNPC = function(unit)
     return true
 end
 
+---@param quest GossipQuestUIInfo
+---@return boolean?
 _IsGossipQuestTrivial = function(quest)
     local questLevel = quest.questLevel
     if quest.questID and quest.questID > 0 then
