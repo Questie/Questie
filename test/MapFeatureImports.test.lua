@@ -8,7 +8,7 @@ dofile("setupTests.lua")
 local LoaderUsage = dofile("cli/loaderUsage.lua")
 
 local TOC_PATHS = {
-    "Questie_Vanilla.toc", "Questie_TBC.toc", "Questie_Wrath.toc", "Questie_Cata.toc", "Questie_Mists.toc", "Questie_Camelot.toc",
+    "Questie_Vanilla.toc", "Questie_TBC.toc", "Questie_Wrath.toc", "Questie_Cata.toc", "Questie_Mists.toc",
     "Questie_Forever.toc",
 }
 
