@@ -204,10 +204,11 @@ function TrackerLine.New(index, parent, previousLine, OnEnter, OnLeave, OnQuestA
         TrackerQuestTooltip.Hide(self)
         _EndPreview(self)
     end)
-    -- A line hidden under the cursor gets no OnLeave, and its preview would dim the map on.
-    line:SetScript("OnHide", _EndPreview)
-
-    line:SetScript("OnHide", TrackerQuestTooltip.Hide)
+    -- A line hidden under the cursor gets no OnLeave: its party tooltip would stay, and its preview would dim the map on.
+    line:SetScript("OnHide", function(self)
+        TrackerQuestTooltip.Hide(self)
+        _EndPreview(self)
+    end)
 
     line.criteriaMark = AchievementCriteriaCheckmark.New(index, line)
     line.expandZone = ExpandZoneButton.New(index, line, OnEnter, OnLeave)
