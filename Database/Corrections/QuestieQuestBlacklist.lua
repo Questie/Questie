@@ -2821,10 +2821,10 @@ function QuestieQuestBlacklist:Load()
         [1371] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [1372] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [1373] = Expansions.Current >= Expansions.Cata, -- Removed with cata
-        [1374] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1374] = Expansions.Current >= Expansions.Cata or Questie.IsForever, -- Removed with cata, replaced by 93128 on Forever
         [1375] = Expansions.Current >= Expansions.Cata, -- Removed with cata
-        [1380] = Expansions.Current >= Expansions.Cata, -- Removed with cata
-        [1381] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1380] = Expansions.Current >= Expansions.Cata or Questie.IsForever, -- Removed with cata, replaced by 96222 on Forever
+        [1381] = Expansions.Current >= Expansions.Cata or Questie.IsForever, -- Removed with cata, replaced by 96222 on Forever
         [1382] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [1383] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [1384] = Expansions.Current >= Expansions.Cata, -- Removed with cata
