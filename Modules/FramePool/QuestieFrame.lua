@@ -30,6 +30,8 @@ local l10n = QuestieLoader:ImportModule("l10n")
 ---@type HBDPins
 local HBDPins = QuestieLoader:ImportModule("HBDPins")
 
+---@alias StarterType "itemFromMonster"|"itemFromObject"|"Object"
+
 ---@class IconData
 ---@field Id QuestId
 ---@field Type string
@@ -39,7 +41,7 @@ local HBDPins = QuestieLoader:ImportModule("HBDPins")
 ---@field QuestData Quest
 ---@field Name string
 ---@field IsObjectiveNote boolean
----@field StarterType string|nil
+---@field StarterType StarterType? What starts an available quest when it is not an NPC handing it out.
 ---@field waypointPaths WaypointPath[]? Patrol paths of the NPC, shared by all icons with this data.
 ---@field DropperRank number? The cmangos rank of a monster killed for the item starting the quest: 0 normal, 1 elite, 2 rare elite, 3 boss, 4 rare.
 ---@field StarterInDungeon true? The starter is inside a dungeon. On the world map, its icons stand at the dungeon's entrance.
@@ -49,6 +51,7 @@ local HBDPins = QuestieLoader:ImportModule("HBDPins")
 ---@field g number
 ---@field b number
 ---@field a number
+---@field overlay Texture? Drawn over this texture as part of the same picture, so it fades with it.
 ---@field OLDSetVertexColor function
 
 ---@param frameId number
@@ -105,6 +108,7 @@ function QuestieFrame.CreateIconFrame(frameId, OnEnter)
     -- Replace SetVertexColor method
     texture.OLDSetVertexColor = texture.SetVertexColor
     texture.SetVertexColor = _QuestieFrame.SetVertexColor
+    texture.overlay = overlayTexture
     texture:SetVertexColor(1, 1, 1, 1)
 
     -- Replace SetVertexColor method
@@ -188,6 +192,10 @@ function _QuestieFrame.SetVertexColor(self, r, g, b, a)
     self.g = g or 1
     self.b = b or 1
     self.a = a or 1
+    -- Icons fade through the alpha set here, such as on the minimap by distance
+    if self.overlay then
+        self.overlay:SetAlpha(self.a)
+    end
 end
 
 -- Right clicks fall through to the map, so Blizzard zooms out/pings securely without causing taints.
@@ -297,7 +305,36 @@ function _QuestieFrame.BaseOnHide(self)
     self.glowTexture:Hide()
 end
 
+-- A quest started by an item or an object shows what starts it, a loot bag or a cogwheel, with the quest's icon as
+-- a badge in the top-right corner.
+local STARTER_BADGE_SIZE = 0.62 -- of the icon
+
+---@param starterType StarterType
+---@return string picture The icon of what starts the quest. Questie's own art, as icon themes may make the objective
+---icons look alike, and the badge's inset is fitted to it.
+---@return number badgeInset How far the badge sits in from the corner, down and left, as a share of the icon.
+local function _GetStarterLook(starterType)
+    if starterType == "Object" then
+        return Questie.icons["object"], 0 -- the cogwheel fills its corner, so the badge sits in it
+    end
+    return Questie.icons["loot"], 0.07 -- the loot bag leaves its corner empty, about a pixel on the map
+end
+
+---Draws the quest's icon on the overlay as a badge in the icon's top-right corner. The texture coordinates shrink it
+---into place and the clamp mode leaves the rest of the overlay clear, so the badge follows the icon's size by itself.
+---@param overlay Texture
+---@param questIcon string
+---@param inset number
+local function _ShowStarterBadge(overlay, questIcon, inset)
+    local left = 1 - STARTER_BADGE_SIZE - inset -- the badge's edges, as shares of the icon
+    local top = inset
+    overlay:SetTexture(questIcon, "CLAMPTOBLACKADDITIVE", "CLAMPTOBLACKADDITIVE")
+    overlay:SetTexCoord(-left / STARTER_BADGE_SIZE, (1 - left) / STARTER_BADGE_SIZE, -top / STARTER_BADGE_SIZE, (1 - top) / STARTER_BADGE_SIZE)
+    overlay:Show()
+end
+
 ---@param self IconFrame
+---@param texture string The quest's icon.
 function _QuestieFrame.UpdateTexture(self, texture)
     --Different settings depending on noteType
     local globalScale
@@ -314,18 +351,14 @@ function _QuestieFrame.UpdateTexture(self, texture)
         alpha = 1;
     end
 
-    self.texture:SetTexture(texture)
-    --self.data.Icon = texture;
     local colors = {1, 1, 1}
 
     if self.data.StarterType then
-        if self.data.StarterType == "itemFromMonster" or self.data.StarterType == "itemFromObject" then
-            self.overlayTexture:SetTexture("Interface/AddOns/Questie/Icons/loot_overlay.png")
-        elseif self.data.StarterType == "Object" then
-            self.overlayTexture:SetTexture("Interface/AddOns/Questie/Icons/object_overlay.png")
-        end
-        self.overlayTexture:Show()
+        local picture, badgeInset = _GetStarterLook(self.data.StarterType)
+        self.texture:SetTexture(picture)
+        _ShowStarterBadge(self.overlayTexture, texture, badgeInset)
     else
+        self.texture:SetTexture(texture)
         self.overlayTexture:Hide()
         self.overlayTexture:SetTexture() -- clear the texture
     end

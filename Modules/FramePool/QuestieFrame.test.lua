@@ -351,6 +351,122 @@ describe("QuestieFrame", function()
         end)
     end)
 
+    describe("UpdateTexture", function()
+        local QUEST_ICON = "available.blp"
+        local LOOT_ICON = "loot.blp"
+        local OBJECT_ICON = "object.blp"
+        local savedIcons, savedCreateFrame
+
+        ---A texture that remembers what it draws.
+        local function FakeTexture()
+            local texture = {}
+            function texture:SetTexture(file, wrapHorizontal, wrapVertical)
+                self.file, self.wrapHorizontal, self.wrapVertical = file, wrapHorizontal, wrapVertical
+            end
+            function texture:SetTexCoord(...) self.texCoords = {...} end
+            function texture:SetVertexColor(r, g, b, a) self.color = {r, g, b, a} end
+            function texture:GetVertexColor() return unpack(self.color) end
+            function texture:SetAlpha(alpha) self.alpha = alpha end
+            function texture:Show() self.shown = true end
+            function texture:Hide() self.shown = false end
+            texture.SetAllPoints, texture.SetPoint, texture.SetSize = function() end, function() end, function() end
+            texture.SetTexelSnappingBias, texture.SetSnapToPixelGrid = function() end, function() end
+            return texture
+        end
+
+        ---@return IconFrame
+        local function IconFrame()
+            local noop = function() end
+            _G.CreateFrame = function()
+                return {CreateTexture = function() return FakeTexture() end, ShouldButtonPassThrough = function() return true end,
+                    SetSize = noop, SetAlpha = noop, SetScript = noop, RegisterForClicks = noop, Hide = noop}
+            end
+            return QuestieFrame.CreateIconFrame(1, noop)
+        end
+
+        ---@param starterType StarterType?
+        local function Draw(frame, starterType)
+            frame.data = {Type = "available", Id = 123, StarterType = starterType}
+            frame:UpdateTexture(QUEST_ICON)
+        end
+
+        ---Where the overlay's texture coordinates put the whole badge, as shares of the icon from its top-left.
+        local function BadgeEdges(overlay)
+            local left, right, top, bottom = unpack(overlay.texCoords)
+            return {left = -left / (right - left), right = (1 - left) / (right - left), top = -top / (bottom - top), bottom = (1 - top) / (bottom - top)}
+        end
+
+        before_each(function()
+            savedIcons, savedCreateFrame = Questie.icons, _G.CreateFrame
+            Questie.icons = {loot = LOOT_ICON, object = OBJECT_ICON}
+            QuestieWaypoints.OwnerChanged = function() end
+        end)
+
+        after_each(function()
+            Questie.icons, _G.CreateFrame = savedIcons, savedCreateFrame
+        end)
+
+        it("should draw a quest started by an NPC as its own icon without a badge", function()
+            local frame = IconFrame()
+
+            Draw(frame, nil)
+
+            assert.are.equal(QUEST_ICON, frame.texture.file)
+            assert.is_false(frame.overlayTexture.shown)
+        end)
+
+        it("should draw a quest started by a dropped item as a loot bag with the quest's icon in its top-right corner", function()
+            local frame = IconFrame()
+
+            Draw(frame, "itemFromMonster")
+
+            assert.are.equal(LOOT_ICON, frame.texture.file)
+            assert.are.equal(QUEST_ICON, frame.overlayTexture.file)
+            assert.is_true(frame.overlayTexture.shown)
+            -- 62% of the icon, set in from the corner by 7%: the loot bag leaves its corner empty
+            local badge = BadgeEdges(frame.overlayTexture)
+            assert.near(0.31, badge.left, 1e-9)
+            assert.near(0.93, badge.right, 1e-9)
+            assert.near(0.07, badge.top, 1e-9)
+            assert.near(0.69, badge.bottom, 1e-9)
+        end)
+
+        it("should draw a quest started by an object as a cogwheel with the quest's icon in its very corner", function()
+            local frame = IconFrame()
+
+            Draw(frame, "Object")
+
+            assert.are.equal(OBJECT_ICON, frame.texture.file)
+            assert.are.equal(QUEST_ICON, frame.overlayTexture.file)
+            local badge = BadgeEdges(frame.overlayTexture)
+            assert.near(0.38, badge.left, 1e-9)
+            assert.near(1, badge.right, 1e-9)
+            assert.near(0, badge.top, 1e-9)
+            assert.near(0.62, badge.bottom, 1e-9)
+        end)
+
+        it("should keep the rest of the badge's texture clear instead of repeating its edges across the icon", function()
+            local frame = IconFrame()
+
+            Draw(frame, "itemFromMonster")
+
+            assert.are.equal("CLAMPTOBLACKADDITIVE", frame.overlayTexture.wrapHorizontal)
+            assert.are.equal("CLAMPTOBLACKADDITIVE", frame.overlayTexture.wrapVertical)
+        end)
+
+        it("should fade the badge with the starter's picture", function()
+            Questie.db.profile.iconFadeLevel = 0.3
+            local frame = IconFrame()
+            Draw(frame, "Object")
+
+            frame:FadeOut()
+            assert.are.equal(0.3, frame.overlayTexture.alpha)
+
+            frame:FadeIn()
+            assert.are.equal(1, frame.overlayTexture.alpha)
+        end)
+    end)
+
     describe("ShouldBeHidden", function()
         it("should return true when all icons are disabled", function()
             Questie.db.profile.enabled = false
