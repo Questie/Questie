@@ -391,14 +391,12 @@ function QuestieTooltips.GetTooltip(key, playerZone)
                             local r, g, b = QuestieLib:GetDifficultyColorPercent(level, questId)
                             colorText = ":" .. tostring(math.floor(r * 255)) .. ":" .. tostring(math.floor(g * 255)) .. ":" .. tostring(math.floor(b * 255))
                         end
-                        if tooltip.type == "NPC" then
-                            questString = "|TInterface\\Addons\\Questie\\Icons\\tooltip_available.png:14:14:0:0:32:32:0:32:0:32" .. colorText .. "|t" .. questString
-                        elseif tooltip.type == "Finisher" then
+                        if tooltip.type == "Finisher" then
                             questString = "|TInterface\\Addons\\Questie\\Icons\\tooltip_complete.png:14:14:0:0:32:32:0:32:0:32" .. colorText .. "|t" .. questString
-                        elseif tooltip.type == "itemFromMonster" or tooltip.type == "itemFromObject" then
-                            questString = "|TInterface\\Addons\\Questie\\Icons\\available_mobdrop.png:14|t" .. questString
-                        elseif tooltip.type == "Object" then
-                            questString = "|TInterface\\Addons\\Questie\\Icons\\available_object.png:14|t" .. questString
+                        else
+                            -- The quest starts here, from this NPC or object or an item it drops. What starts it shows
+                            -- on the map; the tooltip keeps the "!" in the quest's color.
+                            questString = "|TInterface\\Addons\\Questie\\Icons\\tooltip_available.png:14:14:0:0:32:32:0:32:0:32" .. colorText .. "|t" .. questString
                         end
                     end
                     questLines[questId] = questLines[questId] or {}
