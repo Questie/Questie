@@ -729,6 +729,12 @@ describe("AutoQuesting", function()
     end)
 
     describe("OnGossipShow", function()
+        before_each(function()
+            -- Stand-in for a low player level where quest level 0 or lower is grey and everything else is not trivial.
+            QuestieDB.IsTrivial = function(questLevel) return questLevel ~= nil and questLevel <= 0 end
+            QuestieDB.QueryQuestSingle = function() return nil end
+        end)
+
         it("should accept available quest", function()
             _G.UnitGUID = function() return "Creature-0-0-0-0-123-0" end
             QuestieCompat.GetAvailableQuests = function()
@@ -803,7 +809,7 @@ describe("AutoQuesting", function()
 
         it("should not accept trivial quest when setting is disabled", function()
             QuestieCompat.GetAvailableQuests = function()
-                return {getAvailableTestQuest({isTrivial = true})}
+                return {getAvailableTestQuest({isTrivial = true, questLevel = 0})}
             end
 
             AutoQuesting.OnGossipShow()
@@ -813,11 +819,59 @@ describe("AutoQuesting", function()
 
         it("should skip trivial quest when setting is disabled and accept non-trivial", function()
             QuestieCompat.GetAvailableQuests = function()
-                return {getAvailableTestQuest({isTrivial = true}), getAvailableTestQuest({})}
+                return {getAvailableTestQuest({isTrivial = true, questLevel = 0}), getAvailableTestQuest({})}
             end
 
             AutoQuesting.OnGossipShow()
 
+            assert.spy(QuestieCompat.SelectAvailableQuest).was.called_with(2)
+        end)
+
+        it("should select a quest the client flags as trivial when Questie does not consider it trivial", function()
+            QuestieCompat.GetAvailableQuests = function()
+                return {getAvailableTestQuest({isTrivial = true, questLevel = 5}), getAvailableTestQuest({questLevel = 5})}
+            end
+
+            AutoQuesting.OnGossipShow()
+
+            assert.spy(QuestieCompat.SelectAvailableQuest).was.called(1)
+            assert.spy(QuestieCompat.SelectAvailableQuest).was.called_with(1)
+        end)
+
+        it("should skip a quest Questie considers trivial when the client does not flag it", function()
+            QuestieCompat.GetAvailableQuests = function()
+                return {getAvailableTestQuest({isTrivial = false, questLevel = 0}), getAvailableTestQuest({questLevel = 5})}
+            end
+
+            AutoQuesting.OnGossipShow()
+
+            assert.spy(QuestieCompat.SelectAvailableQuest).was.called(1)
+            assert.spy(QuestieCompat.SelectAvailableQuest).was.called_with(2)
+        end)
+
+        it("should use the database level of the quest over the level in the gossip entry", function()
+            QuestieDB.QueryQuestSingle = function(questId) return questId == 11 and 0 or 5 end
+            QuestieCompat.GetAvailableQuests = function()
+                return {
+                    getAvailableTestQuest({questID = 11, questLevel = 5}),
+                    getAvailableTestQuest({questID = 12, questLevel = 0}),
+                }
+            end
+
+            AutoQuesting.OnGossipShow()
+
+            assert.spy(QuestieCompat.SelectAvailableQuest).was.called(1)
+            assert.spy(QuestieCompat.SelectAvailableQuest).was.called_with(2)
+        end)
+
+        it("should fall back to the client flag when the gossip entry has no level", function()
+            QuestieCompat.GetAvailableQuests = function()
+                return {{questID = 0, isTrivial = true}, {questID = 0, isTrivial = false}}
+            end
+
+            AutoQuesting.OnGossipShow()
+
+            assert.spy(QuestieCompat.SelectAvailableQuest).was.called(1)
             assert.spy(QuestieCompat.SelectAvailableQuest).was.called_with(2)
         end)
 
