@@ -1421,6 +1421,14 @@ describe("QuestieCompat Forever paths", function()
         assert.spy(C_Reputation.GetFactionDataByIndex).was.called_with(1)
         assert.spy(C_Reputation.GetFactionDataByID).was.called_with(469)
     end)
+
+    it("should return nil without querying the API when the faction ID is not a number", function()
+        C_Reputation.GetFactionDataByID = spy.new(function() return {} end)
+
+        assert.is_nil(QuestieCompat.GetFactionInfoByID(nil))
+        assert.is_nil(QuestieCompat.GetFactionInfoByID("469"))
+        assert.spy(C_Reputation.GetFactionDataByID).was.not_called()
+    end)
 end)
 
 describe("QuestieCompat super tracking", function()
