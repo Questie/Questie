@@ -18,6 +18,8 @@ local TrackerLayout = QuestieLoader:ImportModule("TrackerLayout")
 local AchievementTracking = QuestieLoader:ImportModule("AchievementTracking")
 ---@type TrackerData
 local TrackerData = QuestieLoader:ImportModule("TrackerData")
+---@type TrackerQuestTimers
+local TrackerQuestTimers = QuestieLoader:ImportModule("TrackerQuestTimers")
 ---@type TrackerRecipes
 local TrackerRecipes = QuestieLoader:ImportModule("TrackerRecipes")
 ---@type TrackerMapEligibility
@@ -796,6 +798,7 @@ function TrackerUtils:GetSortedQuestIds()
         Sorter.byLevelReverse(sortedQuestIds, questDetails)
     elseif sortObj == "byZonePlayerProximity" or sortObj == "byZonePlayerProximityReversed" then
         local toSort = {}
+        local zoneDistances = {}
         local continent = _GetContinent(C_Map.GetBestMapForUnit("player"))
 
         for _, questId in pairs(sortedQuestIds) do
@@ -808,13 +811,43 @@ function TrackerUtils:GetSortedQuestIds()
             sortData.distance = distance
             sortData.continent = _GetContinent(ZoneDB:GetUiMapIdByAreaId(zone))
             toSort[questId] = sortData
+
+            -- Rank each group by its nearest visible, tracked quest location.
+            -- DistanceUtils uses unfinished objectives, or the finisher for completed quests.
+            TrackerQuestTimers:UpdateAndGetRemainingTime(sortData.q)
+            local complete = sortData.q:IsComplete()
+            local showQuest = QuestieTracker.IsTrackedByQuestie(questId)
+                and ((complete ~= 1 and not sortData.q.isComplete)
+                    or Questie.db.profile.trackerShowCompleteQuests or sortData.q.trackTimedQuest)
+            local zoneName = questDetails[questId].zoneName
+            if showQuest and zone and distance then
+                zoneDistances[zoneName] = math.min(zoneDistances[zoneName] or math.huge, distance)
+            end
+        end
+
+        local function _CompareZones(zoneA, zoneB)
+            local distanceA = zoneDistances[zoneA]
+            local distanceB = zoneDistances[zoneB]
+            if distanceA == distanceB then
+                return zoneA < zoneB
+            end
+            -- Groups without a known location follow groups with coordinates in either direction.
+            if not distanceA then
+                return false
+            elseif not distanceB then
+                return true
+            end
+            if sortObj == "byZonePlayerProximityReversed" then
+                return distanceA > distanceB
+            end
+            return distanceA < distanceB
         end
 
         local sorter = function(a, b)
             local qAZone = questDetails[a].zoneName
             local qBZone = questDetails[b].zoneName
 
-            -- If same Zone as Player then sort by Proximity
+            -- Within the same tracker group, sort quests by proximity.
             if qAZone == qBZone then
                 a = toSort[a]
                 b = toSort[b]
@@ -837,7 +870,7 @@ function TrackerUtils:GetSortedQuestIds()
                     return false
                 end
             else
-                return qAZone < qBZone
+                return _CompareZones(qAZone, qBZone)
             end
         end
 
@@ -845,7 +878,7 @@ function TrackerUtils:GetSortedQuestIds()
             local qAZone = questDetails[a].zoneName
             local qBZone = questDetails[b].zoneName
 
-            -- If same Zone as Player then sort by Proximity
+            -- Within the same tracker group, sort quests by proximity.
             if qAZone == qBZone then
                 a = toSort[a]
                 b = toSort[b]
@@ -868,7 +901,7 @@ function TrackerUtils:GetSortedQuestIds()
                     return true
                 end
             else
-                return qAZone < qBZone
+                return _CompareZones(qAZone, qBZone)
             end
         end
 
