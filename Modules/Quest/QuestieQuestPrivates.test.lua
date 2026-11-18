@@ -24,14 +24,29 @@ describe("QuestieQuestPrivates", function()
             return _QuestieQuest.objectiveSpawnListCallTable.monster(100, {Description = "Gruff Swiftbite slain"})[100]
         end
 
-        it("should leave out the patrol of a rare or a rare elite, which might not be there", function()
+        it("should keep the patrol of a rare or a rare elite and mark it rare, for map drawing to decide", function()
             for _, rank in ipairs({4, 2}) do
-                assert.are.same({}, MonsterOfRank(rank).Waypoints, "rank " .. rank)
+                local monster = MonsterOfRank(rank)
+                assert.are.equal(PATROL, monster.Waypoints, "rank " .. rank)
+                assert.is_true(monster.IsRare, "rank " .. rank)
             end
         end)
 
-        it("should keep the patrol of an elite", function()
-            assert.are.equal(PATROL, MonsterOfRank(1).Waypoints)
+        it("should not mark an elite or a boss rare", function()
+            for _, rank in ipairs({1, 3}) do
+                local monster = MonsterOfRank(rank)
+                assert.are.equal(PATROL, monster.Waypoints, "rank " .. rank)
+                assert.is_nil(monster.IsRare, "rank " .. rank)
+            end
+        end)
+
+        it("should mark a rare dropping an objective's item rare", function()
+            QuestieDB.GetItem = function() return {Id = 10, Sources = {{Type = "monster", Id = 100}}} end
+            MonsterOfRank(4)
+
+            local spawnList = _QuestieQuest.objectiveSpawnListCallTable.item(10, {Description = "Gruff's Pelt"})
+
+            assert.is_true(spawnList[100].IsRare)
         end)
     end)
 
