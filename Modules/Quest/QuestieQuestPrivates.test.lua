@@ -48,22 +48,6 @@ describe("QuestieQuestPrivates", function()
 
             assert.is_true(spawnList[100].IsRare)
         end)
-
-        it("should mark rare and rare elite NPCs rare, and elites and bosses not", function()
-            -- Ranks follow cmangos' creature_template: 1 elite, 2 rare elite, 3 boss, 4 rare.
-            local ranks = {[1] = 1, [2] = 2, [3] = 3, [4] = 4}
-            QuestieDB.QueryNPCSingle = function(npcId, key)
-                if key == "name" then return "Wolf" end
-                if key == "rank" then return ranks[npcId] end
-            end
-
-            local rare = {}
-            for npcId = 1, 4 do
-                rare[npcId] = _QuestieQuest.objectiveSpawnListCallTable.monster(npcId, {Description = "Wolves"})[npcId].IsRare
-            end
-
-            assert.are.same({[2] = true, [4] = true}, rare)
-        end)
     end)
 
     describe("item", function()

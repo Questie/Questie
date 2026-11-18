@@ -906,9 +906,9 @@ describe("MapIconTooltip objective wording", function()
             local giver = {x = 50, y = 50, AreaID = 1, texture = icon.texture,
                 data = {Id = 1, Type = "complete", ObjectiveIndex = 0, Name = "Giver", QuestData = {}}}
 
-            MapIconTooltip.ShowOnTooltip(giver, GameTooltip, nil, {giver})
+            -- The objective icon of quest 1 is at the same spot, so its objectives follow the giver.
+            MapIconTooltip.ShowForIcons({}, {giver, icon}, GameTooltip)
 
-            -- The objective icon of quest 1 is on the map at the same spot, so its objectives follow the giver.
             assert.are_same({
                 "Giver",
                 {"Quest 1", "(Complete)"},
