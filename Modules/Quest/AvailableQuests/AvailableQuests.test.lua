@@ -661,6 +661,7 @@ describe("AvailableQuests", function()
 
                 assert.are.equal(1, #drawn)
                 assert.are.equal(RARE, drawn[1].DropperRank)
+                assert.is_nil(drawn[1].StarterInDungeon)
             end)
 
             it("should be noted on the icon drawn on the route of a monster without spawns there", function()
@@ -691,7 +692,7 @@ describe("AvailableQuests", function()
                 assert.is_nil(drawn[1].DropperRank)
             end)
 
-            it("should not be noted on the entrance icons of a monster inside a dungeon", function()
+            it("should be noted on the entrance icons of a monster inside a dungeon, which says where it is", function()
                 ZoneDB.GetDungeons = function() return {[DUNGEON] = {}} end
                 ZoneDB.GetDungeonLocation = function() return {{40, 30.5, 72.8}} end
                 AvailableQuests.Initialize()
@@ -700,7 +701,8 @@ describe("AvailableQuests", function()
                 AvailableQuests.DrawAvailableQuest({Id = QUEST_ID, Starts = {Item = {789}}})
 
                 assert.are.equal(1, #drawn)
-                assert.is_nil(drawn[1].DropperRank)
+                assert.are.equal(ELITE, drawn[1].DropperRank)
+                assert.is_true(drawn[1].StarterInDungeon)
             end)
         end)
     end)

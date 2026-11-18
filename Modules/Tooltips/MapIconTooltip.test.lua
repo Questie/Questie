@@ -553,12 +553,13 @@ describe("MapIconTooltip objective wording", function()
         end)
 
         ---Shows the tooltip of one giver's icons, one icon per quest, hovering the first.
-        ---@param ... number? The DropperRank of each icon
+        ---@param ... table The icon data fields of each icon besides the giver and quest, like DropperRank
         local function ShowGiver(...)
             local icons = {}
-            for i = 1, select("#", ...) do
-                icons[i] = {x = 50, y = 50, AreaID = 1, texture = icon.texture,
-                    data = {Id = 10 + i, Type = "available", Name = "Blackmoss the Fetid", QuestData = {}, DropperRank = (select(i, ...))}}
+            for i, fields in ipairs({...}) do
+                local data = {Id = 10 + i, Type = "available", Name = "Blackmoss the Fetid", QuestData = {}}
+                for key, value in pairs(fields) do data[key] = value end
+                icons[i] = {x = 50, y = 50, AreaID = 1, texture = icon.texture, data = data}
             end
             MapIconTooltip.ShowOnTooltip(icons[1], GameTooltip, nil, icons)
         end
@@ -573,7 +574,7 @@ describe("MapIconTooltip objective wording", function()
         it("should mark a rare or a rare elite killed for the item with a silver dragon", function()
             for _, rank in ipairs({4, 2}) do
                 rendered = {}
-                ShowGiver(rank)
+                ShowGiver({DropperRank = rank})
 
                 assert.is_truthy(GiverLine():find("nameplates-icon-elite-silver", 1, true), "rank " .. rank)
             end
@@ -582,31 +583,37 @@ describe("MapIconTooltip objective wording", function()
         it("should mark an elite or a boss killed for the item with a gold dragon", function()
             for _, rank in ipairs({1, 3}) do
                 rendered = {}
-                ShowGiver(rank)
+                ShowGiver({DropperRank = rank})
 
                 assert.is_truthy(GiverLine():find("nameplates-icon-elite-gold", 1, true), "rank " .. rank)
             end
         end)
 
         it("should leave a normal monster killed for the item unmarked", function()
-            ShowGiver(0)
+            ShowGiver({DropperRank = 0})
 
             assert.are.equal("Blackmoss the Fetid", GiverLine())
         end)
 
         it("should leave a giver without a dropper rank unmarked", function()
-            ShowGiver(nil)
+            ShowGiver({})
 
             assert.are.equal("Blackmoss the Fetid", GiverLine())
         end)
 
         it("should mark a giver when only one of its quests comes from killing it, whichever icon comes first", function()
-            ShowGiver(4, nil)
+            ShowGiver({DropperRank = 4}, {})
             assert.is_truthy(GiverLine():find("nameplates-icon-elite-silver", 1, true))
 
             rendered = {}
-            ShowGiver(nil, 4)
+            ShowGiver({}, {DropperRank = 4})
             assert.is_truthy(GiverLine():find("nameplates-icon-elite-silver", 1, true))
+        end)
+
+        it("should leave a monster inside a dungeon unmarked, as nearly all of them are elite", function()
+            ShowGiver({DropperRank = 1, StarterInDungeon = true})
+
+            assert.are.equal("Blackmoss the Fetid", GiverLine())
         end)
     end)
 end)

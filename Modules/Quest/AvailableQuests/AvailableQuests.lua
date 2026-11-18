@@ -797,8 +797,8 @@ _AddStarter = function(starter, quest, tooltipKey, limit)
                         Name = starterName,
                         IsObjectiveNote = false,
                         StarterType = starterType,
-                        -- Nearly every monster in a dungeon is elite, so there the rank tells nothing
-                        DropperRank = (not dungeons[zone]) and dropperRank or nil,
+                        StarterInDungeon = dungeons[zone] and true or nil,
+                        DropperRank = dropperRank,
                     }
 
                     if (coords[1] == -1 or coords[2] == -1) then

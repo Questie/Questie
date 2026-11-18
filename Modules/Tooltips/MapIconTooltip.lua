@@ -212,7 +212,10 @@ function MapIconTooltip.ShowOnTooltip(self, Tooltip, owner, icons)
 
                 local tip = _MapIconTooltip:GetAvailableOrCompleteTooltip(icon)
                 npcAndObjectOrder[iconData.Name][tip.title] = tip
-                giverRankIcons[iconData.Name] = giverRankIcons[iconData.Name] or DROPPER_RANK_ICON_TEXTURES[iconData.DropperRank]
+                -- Nearly every monster in a dungeon is elite, so there the rank tells nothing
+                if not iconData.StarterInDungeon then
+                    giverRankIcons[iconData.Name] = giverRankIcons[iconData.Name] or DROPPER_RANK_ICON_TEXTURES[iconData.DropperRank]
+                end
             elseif iconData.ObjectiveData and iconData.ObjectiveData.Description then
                 -- Icons are removed over several frames, so a quest that just left the quest log can still have some
                 if (not iconData.ObjectiveData.IsPartyObjective) and (not ActiveQuests.Get(iconData.Id)) then
