@@ -353,7 +353,10 @@ function QuestieLib:GetRaceString(raceMask)
         }
         local firstRun = true
         for k, v in pairs(raceTable) do
-            if v then
+            -- Forever can publish faction masks containing newly introduced race
+            -- bits. Keep known names, but do not abort every Journey detail panel
+            -- while formatting a requirement with an unknown bit.
+            if v and stringTable[k] then
                 if firstRun then
                     firstRun = false
                 else

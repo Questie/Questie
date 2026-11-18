@@ -24,6 +24,10 @@ function _QuestieJourney:HandleTabChange(container, group)
     if group == "journey" then
         local treeGroup = _QuestieJourney.myJourney:DrawTab(container)
         _QuestieJourney.myJourney:ManageTree(treeGroup)
+        if _QuestieJourney.collapseMyJourneyOnNextOpen then
+            _QuestieJourney.myJourney:CollapseAllGroups()
+            _QuestieJourney.collapseMyJourneyOnNextOpen = false
+        end
         _QuestieJourney.lastOpenWindow = "journey"
         return treeGroup
     elseif group == "zone" then

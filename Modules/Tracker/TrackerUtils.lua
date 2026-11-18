@@ -61,6 +61,7 @@ local IsEquippableItem = QuestieCompat.IsEquippableItem
 local tinsert = table.insert
 
 local objectiveFlashTicker
+local _StopFlash
 -- Time between two steps of the map icon flash animation.
 local FLASH_STEP_SECONDS = 0.065
 ---@type table<number, table> Icons of the running flash, to restore their size when a new flash starts.
@@ -135,6 +136,158 @@ function TrackerUtils:SetTomTomTarget(title, zone, x, y)
         local uiMapId = ZoneDB:GetUiMapIdByAreaId(zone)
         Questie.db.char._tom_waypoint = TomTom:AddWaypoint(uiMapId, x / 100, y / 100, {title = title, crazy = true, from = "Questie"})
     end
+end
+
+local JOURNEY_NPC_MARKER_TYPE = "journey_npc"
+local JOURNEY_OBJECT_MARKER_TYPE = "journey_object"
+local journeyMarkerId
+local journeyMarkerType
+local journeyMarkerEntityType
+
+local function ClearJourneyMarker()
+    if journeyMarkerId and journeyMarkerType then
+        QuestieMap:UnloadManualFrames(journeyMarkerId, journeyMarkerType)
+    end
+    journeyMarkerId = nil
+    journeyMarkerType = nil
+    journeyMarkerEntityType = nil
+end
+
+---Pulse the selected Journey entity's legacy Questie map icon without hiding the
+---other map icons. This is the Classic fallback for native user waypoints.
+---@param frames table[]
+---@return boolean started
+local function FlashJourneyEntityIcons(frames)
+    _StopFlash()
+
+    local toFlash = {}
+    for _, frame in ipairs(frames or {}) do
+        if frame and not frame.miniMapIcon and frame.GetWidth then
+            local size = frame:GetWidth()
+            if size and size > 0 then
+                frame._size = size
+                frame:Show()
+                tinsert(toFlash, frame)
+            end
+        end
+    end
+
+    if #toFlash == 0 or not (C_Timer and C_Timer.NewTicker) then
+        return false
+    end
+
+    flashingIcons = toFlash
+    local step = 0
+    local ticker
+    ticker = C_Timer.NewTicker(FLASH_STEP_SECONDS, function()
+        step = step + 1
+        local phase = step % 24
+        local distance = phase <= 12 and phase or (24 - phase)
+        local pulse = distance * 0.8
+        for _, frame in ipairs(toFlash) do
+            frame:SetWidth(frame._size + pulse)
+            frame:SetHeight(frame._size + pulse)
+        end
+
+        if step >= 48 then
+            ticker:Cancel()
+            if objectiveFlashTicker == ticker then
+                objectiveFlashTicker = nil
+                for _, frame in ipairs(toFlash) do
+                    frame:SetWidth(frame._size)
+                    frame:SetHeight(frame._size)
+                    frame._size = nil
+                end
+                flashingIcons = {}
+            end
+        end
+    end)
+    objectiveFlashTicker = ticker
+    return true
+end
+
+---Open the map at an NPC or object location. Forever uses Blizzard's native
+---user waypoint marker; Classic uses the existing Questie marker and pulses it.
+---@param entityType "npc"|"object"
+---@param entityId number
+---@param zone AreaId
+---@param x number Coordinates in percent (0..100).
+---@param y number Coordinates in percent (0..100).
+---@return boolean opened
+local function ShowJourneyEntityOnMap(entityType, entityId, zone, x, y)
+    if (entityType ~= "npc" and entityType ~= "object")
+        or type(entityId) ~= "number" or type(zone) ~= "number"
+        or type(x) ~= "number" or type(y) ~= "number"
+        or x < 0 or x > 100 or y < 0 or y > 100 then
+        return false
+    end
+
+    local zoneOk, uiMapId = pcall(ZoneDB.GetUiMapIdByAreaId, ZoneDB, zone)
+    if not zoneOk or not uiMapId then
+        return false
+    end
+
+    _StopFlash()
+    ClearJourneyMarker()
+
+    if Questie.IsForever and QuestieCompat.SetUserWaypoint
+        and QuestieCompat.SetUserWaypoint(uiMapId, x / 100, y / 100) then
+        return QuestieCompat.OpenWorldMap(uiMapId)
+    end
+
+    journeyMarkerId = entityId
+    journeyMarkerEntityType = entityType
+    journeyMarkerType = entityType == "npc" and JOURNEY_NPC_MARKER_TYPE or JOURNEY_OBJECT_MARKER_TYPE
+    if entityType == "npc" then
+        QuestieMap:ShowNPC(entityId, nil, 1.2, nil, nil, true, journeyMarkerType, false)
+    else
+        QuestieMap:ShowObject(entityId, nil, 1.2, nil, nil, true, journeyMarkerType)
+    end
+    if not QuestieCompat.OpenWorldMap(uiMapId) then
+        ClearJourneyMarker()
+        return false
+    end
+
+    local function PulseMarker()
+        if journeyMarkerId ~= entityId or journeyMarkerEntityType ~= entityType then
+            return
+        end
+
+        local mapFrames = {}
+        for _, frame in ipairs(QuestieMap:GetManualFrames(entityId, journeyMarkerType)) do
+            if frame and frame.UiMapID == uiMapId then
+                mapFrames[#mapFrames + 1] = frame
+            end
+        end
+        FlashJourneyEntityIcons(mapFrames)
+    end
+
+    if C_Timer and C_Timer.After then
+        C_Timer.After(0.1, PulseMarker)
+    else
+        PulseMarker()
+    end
+    return true
+end
+
+---Open the map at an NPC location.
+---@param npcId number
+---@param zone AreaId
+---@param x number Coordinates in percent (0..100).
+---@param y number Coordinates in percent (0..100).
+---@return boolean opened
+function TrackerUtils:ShowNPCOnMap(npcId, zone, x, y)
+    return ShowJourneyEntityOnMap("npc", npcId, zone, x, y)
+end
+
+---Open the map at an object location.
+---@param objectId number
+---@param zone AreaId
+---@param x number Coordinates in percent (0..100).
+---@param y number Coordinates in percent (0..100).
+---@return boolean opened
+function TrackerUtils:ShowObjectOnMap(objectId, zone, x, y)
+    return ShowJourneyEntityOnMap("object", objectId, zone, x, y)
 end
 
 ---Quest navigation and ctrl-click use the same eligibility as the menu, evaluated against current data.
@@ -259,7 +412,7 @@ local function _HideManualIconsForFlash()
 end
 
 ---Ends a running flash right away, so a new flash starts from the icons' real sizes and visibility.
-local function _StopFlash()
+_StopFlash = function()
     if (not objectiveFlashTicker) then
         return
     end

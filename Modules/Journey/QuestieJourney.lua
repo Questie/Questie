@@ -34,6 +34,7 @@ QuestieJourney.tabGroup = nil
 local QuestieGUI = QuestieLoader:ImportModule("QuestieGUI")
 
 local isWindowShown = false
+_QuestieJourney.collapseMyJourneyOnNextOpen = true
 _QuestieJourney.lastOpenWindow = "journey"
 _QuestieJourney.lastZoneSelection = {}
 _QuestieJourney.lastFactionSelection = {}
@@ -171,6 +172,7 @@ function QuestieJourney:BuildMainFrame()
         })
         journeyFrame:HookScript("OnHide", function()
             isWindowShown = false
+            _QuestieJourney.collapseMyJourneyOnNextOpen = true
             if notesPopupWinIsOpen then
                 notesPopupWin:Hide()
                 notesPopupWin = nil

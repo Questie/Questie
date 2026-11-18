@@ -44,12 +44,6 @@ function _QuestieJourney.myJourney:ManageTree(container)
 
         journeyTreeFrame.treeframe:SetWidth(415);
 
-        local journeyTree = _QuestieJourney:GetHistory();
-        journeyTreeFrame:SetTree(journeyTree);
-        local latestMonth, latestYear = _QuestieJourney:GetMonthAndYearOfLatestEntry()
-        if latestMonth and latestYear then
-            journeyTreeFrame:SelectByPath(latestYear, latestMonth)
-        end
         journeyTreeFrame:SetCallback("OnGroupSelected", function(group)
             Questie.Debug(Questie.DEBUG_DEVELOP, "[Journey] OnGroupSelected - Path:", group.localstatus.selected)
 
@@ -68,6 +62,9 @@ function _QuestieJourney.myJourney:ManageTree(container)
                     QuestieOptionsControls.ApplyModernScrollbar(f.scrollbar)
                 end
                 master:AddChild(f);
+                if QuestieOptionsControls and QuestieOptionsControls.ApplyJourneyPane then
+                    QuestieOptionsControls.ApplyJourneyPane(f.frame)
+                end
 
                 local header
                 if QuestieOptionsControls and QuestieOptionsControls.CreateModernDividerGroup then
@@ -168,11 +165,23 @@ function _QuestieJourney.myJourney:ManageTree(container)
             end
         end);
 
-        container:AddChild(journeyTreeFrame);
-    else
-        container:ReleaseChildren();
-        journeyTreeFrame = nil;
-        _QuestieJourney.myJourney:ManageTree(container);
+    end
+
+    -- Reparent the cached tree instead of recreating it. That keeps each
+    -- year/month expansion state when the user changes Journey tabs.
+    journeyTreeFrame:SetTree(_QuestieJourney:GetHistory())
+    if not journeyTreeFrame.localstatus.selected then
+        local latestMonth, latestYear = _QuestieJourney:GetMonthAndYearOfLatestEntry()
+        if latestMonth and latestYear then
+            journeyTreeFrame:SelectByPath(latestYear, latestMonth)
+        end
+    end
+    container:AddChild(journeyTreeFrame)
+end
+
+function _QuestieJourney.myJourney:CollapseAllGroups()
+    if journeyTreeFrame then
+        journeyTreeFrame:CollapseAllGroups()
     end
 end
 

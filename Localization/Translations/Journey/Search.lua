@@ -590,6 +590,18 @@ local searchLocales = {
         ["zhCN"] = "点击以显示",
         ["zhTW"] = "點一下顯示",
     },
+    ["Click to show on map"] = {
+        ["enUS"] = true,
+        ["deDE"] = "Klicken, um auf der Karte anzuzeigen", -- 🤖
+        ["esES"] = "Haz clic para mostrar en el mapa", -- 🤖
+        ["esMX"] = "Haz clic para mostrar en el mapa", -- 🤖
+        ["frFR"] = "Cliquez pour afficher sur la carte", -- 🤖
+        ["koKR"] = "클릭하여 지도에 표시", -- 🤖
+        ["ptBR"] = "Clique para mostrar no mapa", -- 🤖
+        ["ruRU"] = "Нажмите, чтобы показать на карте", -- 🤖
+        ["zhCN"] = "点击以在地图上显示", -- 🤖
+        ["zhTW"] = "點一下在地圖上顯示", -- 🤖
+    },
     ["NPCs dropping this item:"] = {
         ["enUS"] = true,
         ["deDE"] = "NPCs die diesen Gegenstand fallen lassen:",

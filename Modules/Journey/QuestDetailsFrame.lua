@@ -107,6 +107,34 @@ local function CreateTomTomButton(name, zone, x, y)
     return tomTomButton
 end
 
+---@param npcId number
+---@param zone AreaId
+---@param x number Coordinates in percent (0..100).
+---@param y number Coordinates in percent (0..100).
+---@return QuestieGUIWidget|nil
+local function CreateNPCMapLink(npcId, zone, x, y)
+    if type(npcId) ~= "number" or type(zone) ~= "number"
+        or type(x) ~= "number" or type(y) ~= "number"
+        or x < 0 or x > 100 or y < 0 or y > 100 then
+        return nil
+    end
+
+    local link = QuestieGUI:Create("InteractiveLabel")
+    ApplyModernInfoLink(link)
+    link:SetText("[" .. l10n("Click to show on map") .. "]")
+    link:SetColor(0.25, 1, 0.25)
+    link:SetFullWidth(true)
+    link:SetUserData("id", npcId)
+    link:SetUserData("type", "npc")
+    link:SetCallback("OnClick", function()
+        QuestieJourneyUtils.HideJourneyTooltip()
+        TrackerUtils:ShowNPCOnMap(npcId, zone, x, y)
+    end)
+    link:SetCallback("OnEnter", QuestieJourneyUtils.ShowJourneyTooltip)
+    link:SetCallback("OnLeave", QuestieJourneyUtils.HideJourneyTooltip)
+    return link
+end
+
 ---@param questId QuestId
 ---@return string|nil
 local function GetReputationRewardString(questId)
@@ -114,12 +142,113 @@ local function GetReputationRewardString(questId)
         return nil
     end
 
-    local reputationRewards = QuestieReputation.GetReputationReward(questId)
+    local rewardOk, reputationRewards = pcall(QuestieReputation.GetReputationReward, questId)
+    if not rewardOk then
+        return nil
+    end
     if not reputationRewards or not next(reputationRewards) then
         return nil
     end
 
-    return QuestieReputation.GetReputationRewardString(reputationRewards)
+    local stringOk, rewardString = pcall(QuestieReputation.GetReputationRewardString, reputationRewards)
+    return stringOk and rewardString or nil
+end
+
+local function SafeQueryQuestSingle(questId, field)
+    local ok, value = pcall(QuestieDB.QueryQuestSingle, questId, field)
+    return ok and value or nil
+end
+
+local function SafeEffectiveQuestLevel(questId)
+    local ok, level = pcall(QuestieLib.GetEffectiveQuestLevel, questId)
+    if ok and tonumber(level) then
+        return tonumber(level)
+    end
+    return tonumber(SafeQueryQuestSingle(questId, "questLevel")) or 0
+end
+
+local function SafeGetQuest(questId)
+    if not questId then
+        return nil
+    end
+    local ok, quest = pcall(QuestieDB.GetQuest, questId)
+    return ok and quest or nil
+end
+
+local function SafeGetNPC(npcId)
+    if not npcId then
+        return nil
+    end
+    local ok, npc = pcall(QuestieDB.GetNPC, QuestieDB, npcId)
+    return ok and npc or nil
+end
+
+local function SafeGetObject(objectId)
+    if not objectId then
+        return nil
+    end
+    local ok, object = pcall(QuestieDB.GetObject, QuestieDB, objectId)
+    return ok and object or nil
+end
+
+local function SafeGetItem(itemId)
+    if not itemId then
+        return nil
+    end
+    local ok, item = pcall(QuestieDB.GetItem, QuestieDB, itemId)
+    return ok and item or nil
+end
+
+---Return the first entity ID from either the normal QuestieDB list shape or a
+---single ID supplied by a provider.
+---@param ids number|table|nil
+---@return number|nil
+local function FirstEntityId(ids)
+    if type(ids) == "number" then
+        return ids
+    end
+    if type(ids) ~= "table" then
+        return nil
+    end
+    if type(ids[1]) == "number" then
+        return ids[1]
+    end
+    for key, value in pairs(ids) do
+        if type(value) == "number" then
+            return value
+        elseif type(key) == "number" and value == true then
+            return key
+        end
+    end
+    return nil
+end
+
+---@param ids number|table|nil
+---@return number[]
+local function EntityIds(ids)
+    if type(ids) == "number" then
+        return {ids}
+    end
+    if type(ids) ~= "table" then
+        return {}
+    end
+
+    local result = {}
+    if type(ids[1]) == "number" then
+        for _, id in ipairs(ids) do
+            result[#result + 1] = id
+        end
+    else
+        for key, value in pairs(ids) do
+            if type(value) == "number" then
+                result[#result + 1] = value
+            elseif type(key) == "number" and value == true then
+                result[#result + 1] = key
+            end
+        end
+        table.sort(result)
+    end
+    return result
 end
 
 ---@param text string
@@ -163,10 +292,10 @@ local function CreateLabel(text, fullWidth)
     return header
 end
 
-local function AddInfoPanelSpacing(container)
+local function AddInfoPanelSpacing(container, height)
     local spacer = QuestieGUI:Create("SimpleGroup")
     spacer:SetFullWidth(true)
-    spacer:SetHeight(16)
+    spacer:SetHeight(height or 16)
     container:AddChild(spacer)
 end
 
@@ -242,7 +371,9 @@ local function ApplyNPCInfoLayout(group)
 
     -- Reapply the same first-level surface used by the quest-link panels.
     -- NPC panels can come from a recycled InlineGroup with its old backdrop.
-    if QuestieOptionsControls and QuestieOptionsControls.ApplyModernContainer then
+    if QuestieOptionsControls and QuestieOptionsControls.ApplyJourneyInfoContainer then
+        QuestieOptionsControls.ApplyJourneyInfoContainer(border)
+    elseif QuestieOptionsControls and QuestieOptionsControls.ApplyModernContainer then
         QuestieOptionsControls.ApplyModernContainer(border, false)
     end
 
@@ -766,43 +897,57 @@ local function AddLinkedParagraph(frame, linkType, lookup, header, query)
             group:BeginUpdate()
         end
 
-        for _, id in pairs(lookup) do
-            id = math.abs(id)
-            local link = QuestieGUI:Create("InteractiveLabel")
-            ApplyModernInfoLink(link)
-            -- Labels are 200 pixels wide unless stretched, which wraps long quest names and rewards needlessly.
-            link:SetFullWidth(true)
-            local name = query(id, "name")
-            local text
-            if linkType == 'quest' then
-                text = QuestieLib:GetColoredQuestName(id, true, true)
-            elseif linkType == 'npc' then
-                local lvl = query(id, 'maxLevel')
-                text = '['..lvl..'] '..name..' ('..id..')'
-            else
-                text = name.." ("..id..")"
-            end
-            link:SetText(text)
-            if link.modernQuestLinkRefresh then
-                link.modernQuestLinkRefresh()
-            end
-            link:SetUserData("id", id)
-            link:SetUserData("type", linkType)
-            link:SetUserData("name", name)
-            link:SetCallback("OnClick", function()
-                QuestieJourneyUtils.HideJourneyTooltip()
-                if linkType == "quest" and QuestieJourneyUtils.OpenQuestInJourney then
-                    QuestieJourneyUtils.OpenQuestInJourney(id)
-                else
-                    -- NPC/object/item links still use their existing detail
-                    -- search flow; quest links open the target quest directly.
-                    QuestieJourney.tabGroup:SelectTab("search")
-                    QuestieSearchResults:SetSearch(linkType, id)
+        for _, rawId in pairs(lookup) do
+            local id = tonumber(rawId)
+            if id then
+                id = math.abs(id)
+                local ok, errorMessage = pcall(function()
+                    local link = QuestieGUI:Create("InteractiveLabel")
+                    ApplyModernInfoLink(link)
+                    -- Labels are 200 pixels wide unless stretched, which wraps long quest names and rewards needlessly.
+                    link:SetFullWidth(true)
+                    local name = query(id, "name")
+                    if not name and linkType ~= "quest" then
+                        return
+                    end
+                    local text
+                    if linkType == 'quest' then
+                        text = QuestieLib:GetColoredQuestName(id, true, true)
+                    elseif linkType == 'npc' then
+                        local lvl = query(id, 'maxLevel') or 0
+                        text = '['..lvl..'] '..name..' ('..id..')'
+                    else
+                        text = name.." ("..id..")"
+                    end
+                    if not text then
+                        return
+                    end
+                    link:SetText(text)
+                    if link.modernQuestLinkRefresh then
+                        link.modernQuestLinkRefresh()
+                    end
+                    link:SetUserData("id", id)
+                    link:SetUserData("type", linkType)
+                    link:SetUserData("name", name)
+                    link:SetCallback("OnClick", function()
+                        QuestieJourneyUtils.HideJourneyTooltip()
+                        if linkType == "quest" and QuestieJourneyUtils.OpenQuestInJourney then
+                            QuestieJourneyUtils.OpenQuestInJourney(id)
+                        else
+                            -- NPC/object/item links still use their existing detail
+                            -- search flow; quest links open the target quest directly.
+                            QuestieJourney.tabGroup:SelectTab("search")
+                            QuestieSearchResults:SetSearch(linkType, id)
+                        end
+                    end)
+                    link:SetCallback("OnEnter", QuestieJourneyUtils.ShowJourneyTooltip)
+                    link:SetCallback("OnLeave", QuestieJourneyUtils.HideJourneyTooltip)
+                    group:AddChild(link)
+                end)
+                if not ok then
+                    Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestDetailsFrame] Skipping bad relationship link:", id, errorMessage)
                 end
-            end)
-            link:SetCallback("OnEnter", QuestieJourneyUtils.ShowJourneyTooltip)
-            link:SetCallback("OnLeave", QuestieJourneyUtils.HideJourneyTooltip)
-            group:AddChild(link)
+            end
         end
         if group.EndUpdate then
             group:EndUpdate()
@@ -810,9 +955,33 @@ local function AddLinkedParagraph(frame, linkType, lookup, header, query)
     end
 end
 
+---Add a quest link only when the linked quest exists in the active database.
+---Some Forever NPC/object relation lists can contain IDs from another data set;
+---one stale relation must not abort the whole quest detail render.
+---@param container table
+---@param questId QuestId
+local function AddInteractiveQuestLinkIfPresent(container, questId)
+    local linkedQuest = SafeGetQuest(questId)
+    if not linkedQuest then
+        Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestDetailsFrame] Skipping missing linked quest:", questId)
+        return
+    end
+
+    local ok, linkOrError = pcall(QuestieJourneyUtils.GetInteractiveQuestLabel, linkedQuest)
+    if not ok or not linkOrError then
+        Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestDetailsFrame] Skipping bad linked quest label:", questId, linkOrError)
+        return
+    end
+
+    local added, addError = pcall(container.AddChild, container, linkOrError)
+    if not added then
+        Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestDetailsFrame] Could not add linked quest label:", questId, addError)
+    end
+end
+
 ---@param container ScrollFrame
 ---@param quest Quest
-function QuestDetailsFrame:Draw(container, quest)
+local function DrawQuestDetails(container, quest)
     if not container or not quest then
         Questie.Debug(Questie.DEBUG_CRITICAL, "[QuestDetailsFrame:Draw] Missing quest data.")
         return
@@ -915,19 +1084,22 @@ function QuestDetailsFrame:Draw(container, quest)
     local questIdLabel = CreateLabel(Questie:Colorize(l10n("Quest ID") .. l10n(": "), "yellow") .. quest.Id, true)
     container:AddChild(questIdLabel)
 
-    local questLevel = QuestieLib.GetEffectiveQuestLevel(quest.Id)
+    local questLevel = SafeEffectiveQuestLevel(quest.Id)
     local levelLabel = CreateLabel(Questie:Colorize(l10n("Quest Level") .. l10n(": "), "yellow") .. questLevel, true)
     container:AddChild(levelLabel)
 
     -- We need to query this so we don't get wrong results for -1 type quests
-    local requiredLevel = QuestieDB.QueryQuestSingle(quest.Id, "requiredLevel")
-    local questDbLevel = QuestieDB.QueryQuestSingle(quest.Id, "questLevel")
+    local requiredLevel = tonumber(SafeQueryQuestSingle(quest.Id, "requiredLevel")) or 0
+    local questDbLevel = tonumber(SafeQueryQuestSingle(quest.Id, "questLevel")) or questLevel
     local minLevelLabel = CreateLabel(Questie:Colorize(l10n("Required Level") .. l10n(": "), 'yellow') .. requiredLevel, true)
     container:AddChild(minLevelLabel)
 
     -- Required Race / Faction
-    local requiredRaces = QuestieDB.QueryQuestSingle(quest.Id, "requiredRaces")
-    local reqRaces = QuestieLib:GetRaceString(requiredRaces)
+    local requiredRaces = SafeQueryQuestSingle(quest.Id, "requiredRaces")
+    local raceOk, reqRaces = pcall(QuestieLib.GetRaceString, QuestieLib, requiredRaces)
+    if not raceOk then
+        reqRaces = ""
+    end
     if (reqRaces ~= "") then
         local requiredLabel = "Required Race"
         if requiredRaces == QuestieDB.raceKeys.ALL_ALLIANCE or requiredRaces == QuestieDB.raceKeys.ALL_HORDE then
@@ -947,17 +1119,20 @@ function QuestDetailsFrame:Draw(container, quest)
     end
 
     -- Required Class
-    local requiredClasses = QuestieDB.QueryQuestSingle(quest.Id, "requiredClasses")
-    local reqClasses = QuestieLib:GetClassString(requiredClasses)
+    local requiredClasses = SafeQueryQuestSingle(quest.Id, "requiredClasses")
+    local classOk, reqClasses = pcall(QuestieLib.GetClassString, QuestieLib, requiredClasses)
+    if not classOk then
+        reqClasses = ""
+    end
     if (reqClasses ~= "") then
         local reqClassesLabel = CreateLabel(Questie:Colorize(l10n("Required Class") .. l10n(": "), 'yellow') .. reqClasses, true)
         container:AddChild(reqClassesLabel)
     end
 
     -- Required Profession
-    local requiredSkill = QuestieDB.QueryQuestSingle(quest.Id, "requiredSkill")
-    local requiredSpecialization = QuestieDB.QueryQuestSingle(quest.Id, "requiredSpecialization")
-    local requiredRanks = QuestieDB.QueryQuestSingle(quest.Id, "requiredRanks")
+    local requiredSkill = SafeQueryQuestSingle(quest.Id, "requiredSkill")
+    local requiredSpecialization = SafeQueryQuestSingle(quest.Id, "requiredSpecialization")
+    local requiredRanks = SafeQueryQuestSingle(quest.Id, "requiredRanks")
     local professionParts = {}
 
     if requiredSkill and requiredSkill[1] and QuestieProfessions:GetProfessionName(requiredSkill[1]) then
@@ -1011,7 +1186,7 @@ function QuestDetailsFrame:Draw(container, quest)
         container:AddChild(reputationRewardLabel)
     end
 
-    local breadcrumbForQuestId = QuestieDB.QueryQuestSingle(quest.Id, "breadcrumbForQuestId")
+    local breadcrumbForQuestId = SafeQueryQuestSingle(quest.Id, "breadcrumbForQuestId")
     if breadcrumbForQuestId and breadcrumbForQuestId ~= 0 then
         local completedStatus = Questie.db.char.complete[quest.Id] and Questie:Colorize(YES, 'green') or Questie:Colorize(NO, 'red')
         local completedLabel = CreateLabel(Questie:Colorize(l10n("Completed") .. l10n(": "), 'yellow') .. completedStatus, true)
@@ -1034,33 +1209,33 @@ function QuestDetailsFrame:Draw(container, quest)
         end
     end
 
-    local eligibilityText, shouldShowDoableLabel = QuestieDB.IsDoableVerbose(quest.Id, false, true, true)
-    if shouldShowDoableLabel then
+    local doableOk, eligibilityText, shouldShowDoableLabel = pcall(QuestieDB.IsDoableVerbose, quest.Id, false, true, true)
+    if doableOk and shouldShowDoableLabel then
         local eligibilityTextLabel = CreateLabel(Questie:Colorize(l10n("Doable") .. l10n(": "), 'yellow') .. eligibilityText, true)
         container:AddChild(eligibilityTextLabel)
     end
 
     -- Pre Quests - two separate labeled sections
-    if quest.preQuestSingle and next(quest.preQuestSingle) then
+    if type(quest.preQuestSingle) == "table" and next(quest.preQuestSingle) then
         QuestieJourneyUtils:Spacer(container)
         AddLinkedParagraph(container, "quest", quest.preQuestSingle, l10n("Requires one of these quests to be finished"), QuestieDB.QueryQuestSingle)
     end
 
-    if quest.preQuestGroup and next(quest.preQuestGroup) then
+    if type(quest.preQuestGroup) == "table" and next(quest.preQuestGroup) then
         QuestieJourneyUtils:Spacer(container)
         AddLinkedParagraph(container, "quest", quest.preQuestGroup, l10n("Requires all of these quests to be finished"), QuestieDB.QueryQuestSingle)
     end
 
-    local nextQuestInChain = QuestieDB.QueryQuestSingle(quest.Id, "nextQuestInChain")
-    if nextQuestInChain == 0 then nextQuestInChain = QuestieDB.QueryQuestSingle(quest.Id, "breadcrumbForQuestId") or 0 end
+    local nextQuestInChain = tonumber(SafeQueryQuestSingle(quest.Id, "nextQuestInChain")) or 0
+    if nextQuestInChain == 0 then nextQuestInChain = tonumber(SafeQueryQuestSingle(quest.Id, "breadcrumbForQuestId")) or 0 end
     if nextQuestInChain and nextQuestInChain > 0 and (not QuestieCorrections.hiddenQuests[nextQuestInChain]) then
         local nextQuestIDs = {}
         local visitedQuestIds = {}
         while nextQuestInChain > 0 and (not visitedQuestIds[nextQuestInChain]) and (not QuestieCorrections.hiddenQuests[nextQuestInChain]) do
             visitedQuestIds[nextQuestInChain] = true
             nextQuestIDs[#nextQuestIDs + 1] = nextQuestInChain
-            local nextNextQuestId = QuestieDB.QueryQuestSingle(nextQuestInChain, "nextQuestInChain")
-            if nextNextQuestId == 0 then nextNextQuestId = QuestieDB.QueryQuestSingle(nextQuestInChain, "breadcrumbForQuestId") or 0 end
+            local nextNextQuestId = tonumber(SafeQueryQuestSingle(nextQuestInChain, "nextQuestInChain")) or 0
+            if nextNextQuestId == 0 then nextNextQuestId = tonumber(SafeQueryQuestSingle(nextQuestInChain, "breadcrumbForQuestId")) or 0 end
             if nextNextQuestId > 0 then
                 nextQuestInChain = nextNextQuestId
             else
@@ -1068,14 +1243,21 @@ function QuestDetailsFrame:Draw(container, quest)
             end
         end
 
-        QuestieJourneyUtils:Spacer(container)
+        -- Match the section spacing used before the quest starter panel.
+        AddInfoPanelSpacing(container)
         AddLinkedParagraph(container, "quest", nextQuestIDs, l10n("Next in chain"), QuestieDB.QueryQuestSingle)
     end
 
-    AddInfoPanelSpacing(container)
+    -- Keep the turn-in panel close to the preceding quest content so the
+    -- final panel remains comfortably inside the detail viewport.
+    AddInfoPanelSpacing(container, 6)
 
-    -- Get Quest Start NPC
-    if quest.Starts and quest.Starts.NPC then
+    -- Get Quest Start NPC. Some database records reference an NPC that is not
+    -- present in the active client data set; skip that panel instead of
+    -- aborting the entire quest detail render.
+    local startNpcId = quest.Starts and FirstEntityId(quest.Starts.NPC)
+    local startNpc = SafeGetNPC(startNpcId)
+    if startNpc then
         local startNPCGroup = QuestieGUI:Create("InlineGroup")
         ResetNPCInfoLayout(startNPCGroup)
         startNPCGroup:SetLayout("List")
@@ -1092,8 +1274,6 @@ function QuestDetailsFrame:Draw(container, quest)
 
         QuestieJourneyUtils:Spacer(startNPCGroup)
 
-        local startNpc = QuestieDB:GetNPC(quest.Starts.NPC[1])
-
         local startNPCNameLabel = CreateLabel(startNpc.name, true)
         startNPCNameLabel:SetFontObject(GameFontHighlight)
         startNPCNameLabel:SetColor(255, 165, 0)
@@ -1105,65 +1285,44 @@ function QuestDetailsFrame:Draw(container, quest)
         startNPCIdLabel:SetFullWidth(true)
         startNPCGroup:AddChild(startNPCIdLabel)
 
-        local startNPCZoneLabel = QuestieGUI:Create("Label")
         local startindex = 0
-        if (not startNpc.spawns) then
-            if startNPCGroup.EndUpdate then startNPCGroup:EndUpdate() end
-            if container.EndUpdate then container:EndUpdate() end
-            return
-        end
-        for i in pairs(startNpc.spawns) do
-            startindex = i
-        end
+        if startNpc.spawns then
+            for i in pairs(startNpc.spawns) do
+                startindex = i
+            end
 
-        if startindex == 0 then
-            if startNPCGroup.EndUpdate then startNPCGroup:EndUpdate() end
-            if container.EndUpdate then container:EndUpdate() end
-            return
-        end
+            if startindex > 0 then
+                local startSpawn = startNpc.spawns[startindex]
+                local startCoordinates = startSpawn and startSpawn[1]
+                if startCoordinates then
+                    local startx = startCoordinates[1] or -1
+                    local starty = startCoordinates[2] or -1
+                    local mapLink = CreateNPCMapLink(startNpc.id, startindex, startx, starty)
+                    if mapLink then
+                        startNPCGroup:AddChild(mapLink)
+                    end
+                end
 
-        local continent = QuestieJourneyUtils:GetZoneName(startindex)
+                -- Also Starts
+                if startNpc.questStarts and #startNpc.questStarts >= 2 then
+                    -- Keep the related-quest list close to the NPC location.
+                    AddInfoPanelSpacing(startNPCGroup, 6)
 
-        startNPCZoneLabel:SetText(l10n(continent))
-        startNPCZoneLabel:SetFullWidth(true)
-        startNPCGroup:AddChild(startNPCZoneLabel)
+                    local alsoStartsLabel = QuestieGUI:Create("Label")
+                    alsoStartsLabel:SetText(l10n('This NPC Also Starts the following quests:'))
+                    alsoStartsLabel:SetColor(255, 165, 0)
+                    alsoStartsLabel:SetFontObject(GameFontHighlight)
+                    alsoStartsLabel:SetFullWidth(true)
+                    startNPCGroup:AddChild(alsoStartsLabel)
 
-        local startx = startNpc.spawns[startindex][1][1]
-        local starty = startNpc.spawns[startindex][1][2]
-        if (startx ~= -1 or starty ~= -1) then
-            local startNPCLocLabel = QuestieGUI:Create("Label")
-            startNPCLocLabel:SetText("X" .. l10n(": ") .. string.format("%.2f",startx) .." || Y" .. l10n(": ") .. string.format("%.2f",starty))
-            startNPCLocLabel:SetFullWidth(true)
-            startNPCGroup:AddChild(startNPCLocLabel)
-        end
-
-        local tomTomButton = CreateTomTomButton(startNpc.name, startindex, startx, starty)
-        if tomTomButton then
-            QuestieJourneyUtils:Spacer(startNPCGroup)
-            startNPCGroup:AddChild(tomTomButton)
-        end
-
-        -- Also Starts
-        if startNpc.questStarts and #startNpc.questStarts >= 2 then
-            QuestieJourneyUtils:Spacer(startNPCGroup)
-
-            local alsoStartsLabel = QuestieGUI:Create("Label")
-            alsoStartsLabel:SetText(l10n('This NPC Also Starts the following quests:'))
-            alsoStartsLabel:SetColor(255, 165, 0)
-            alsoStartsLabel:SetFontObject(GameFontHighlight)
-            alsoStartsLabel:SetFullWidth(true)
-            startNPCGroup:AddChild(alsoStartsLabel)
-
-            QuestieJourneyUtils:Spacer(startNPCGroup)
-            for _, v in pairs(startNpc.questStarts) do
-                if v ~= quest.Id then
-                    local startQuest = QuestieDB.GetQuest(v)
-                    local label = QuestieJourneyUtils.GetInteractiveQuestLabel(startQuest)
-                    startNPCGroup:AddChild(label)
+                    for _, v in pairs(startNpc.questStarts) do
+                        if v ~= quest.Id then
+                            AddInteractiveQuestLinkIfPresent(startNPCGroup, v)
+                        end
+                    end
                 end
             end
         end
-
         -- The container may restore default content anchors while laying
         -- out children, so apply the portrait column after the group is built.
         if startNPCGroup.EndUpdate then
@@ -1173,7 +1332,8 @@ function QuestDetailsFrame:Draw(container, quest)
     end
 
     -- Get Quest Start GameObject
-    if quest.Starts and quest.Starts.GameObject then
+    local startObjects = quest.Starts and EntityIds(quest.Starts.GameObject)
+    if startObjects and #startObjects > 0 then
         local startObjectGroup = QuestieGUI:Create("InlineGroup")
         ResetNPCInfoLayout(startObjectGroup)
         startObjectGroup:SetLayout("List")
@@ -1189,65 +1349,70 @@ function QuestDetailsFrame:Draw(container, quest)
 
         QuestieJourneyUtils:Spacer(startObjectGroup)
 
-        for _, oid in pairs(quest.Starts.GameObject) do
-            local startObj = QuestieDB:GetObject(oid)
+        for _, oid in ipairs(startObjects) do
+            local startObj = SafeGetObject(oid)
+            if startObj then
+                local startObjectNameLabel = QuestieGUI:Create("Label")
+                startObjectNameLabel:SetText(startObj.name)
+                startObjectNameLabel:SetFontObject(GameFontHighlight)
+                startObjectNameLabel:SetColor(255, 165, 0)
+                startObjectNameLabel:SetFullWidth(true)
+                startObjectGroup:AddChild(startObjectNameLabel)
 
-            local startObjectNameLabel = QuestieGUI:Create("Label")
-            startObjectNameLabel:SetText(startObj.name)
-            startObjectNameLabel:SetFontObject(GameFontHighlight)
-            startObjectNameLabel:SetColor(255, 165, 0)
-            startObjectNameLabel:SetFullWidth(true)
-            startObjectGroup:AddChild(startObjectNameLabel)
+                local startObjectIdLabel = QuestieGUI:Create("Label")
+                startObjectIdLabel:SetText(l10n("Object ID") .. l10n(": ") .. startObj.id)
+                startObjectIdLabel:SetFullWidth(true)
+                startObjectGroup:AddChild(startObjectIdLabel)
 
-            local startObjectIdLabel = QuestieGUI:Create("Label")
-            startObjectIdLabel:SetText(l10n("Object ID") .. l10n(": ") .. startObj.id)
-            startObjectIdLabel:SetFullWidth(true)
-            startObjectGroup:AddChild(startObjectIdLabel)
+                if startObj.spawns and next(startObj.spawns) then
+                    local startObjectZoneLabel = QuestieGUI:Create("Label")
+                    local startindex = 0
+                    for i in pairs(startObj.spawns) do
+                        startindex = i
+                    end
 
-            local startObjectZoneLabel = QuestieGUI:Create("Label")
-            local startindex = 0
-            for i in pairs(startObj.spawns) do
-                startindex = i
-            end
+                    local continent = QuestieJourneyUtils:GetZoneName(startindex)
 
-            local continent = QuestieJourneyUtils:GetZoneName(startindex)
+                    startObjectZoneLabel:SetText(l10n(continent))
+                    startObjectZoneLabel:SetFullWidth(true)
+                    startObjectGroup:AddChild(startObjectZoneLabel)
 
-            startObjectZoneLabel:SetText(l10n(continent))
-            startObjectZoneLabel:SetFullWidth(true)
-            startObjectGroup:AddChild(startObjectZoneLabel)
+                    local startSpawn = startObj.spawns[startindex]
+                    local startCoordinates = startSpawn and startSpawn[1]
+                    if startCoordinates then
+                        local startx = startCoordinates[1] or -1
+                        local starty = startCoordinates[2] or -1
+                        if (startx ~= -1 or starty ~= -1) then
+                            local startObjectLocLabel = QuestieGUI:Create("Label")
+                            startObjectLocLabel:SetText("X" .. l10n(": ") .. string.format("%.2f",startx) .." || Y" .. l10n(": ") .. string.format("%.2f",starty))
+                            startObjectLocLabel:SetFullWidth(true)
+                            startObjectGroup:AddChild(startObjectLocLabel)
+                        end
 
-            local startx = startObj.spawns[startindex][1][1]
-            local starty = startObj.spawns[startindex][1][2]
-            if (startx ~= -1 or starty ~= -1) then
-                local startObjectLocLabel = QuestieGUI:Create("Label")
-                startObjectLocLabel:SetText("X" .. l10n(": ") .. string.format("%.2f",startx) .." || Y" .. l10n(": ") .. string.format("%.2f",starty))
-                startObjectLocLabel:SetFullWidth(true)
-                startObjectGroup:AddChild(startObjectLocLabel)
-            end
+                        local tomTomButton = CreateTomTomButton(startObj.name, startindex, startx, starty)
+                        if tomTomButton then
+                            QuestieJourneyUtils:Spacer(startObjectGroup)
+                            startObjectGroup:AddChild(tomTomButton)
+                        end
+                    end
+                end
 
-            local tomTomButton = CreateTomTomButton(startObj.name, startindex, startx, starty)
-            if tomTomButton then
-                QuestieJourneyUtils:Spacer(startObjectGroup)
-                startObjectGroup:AddChild(tomTomButton)
-            end
+                -- Also Starts
+                if startObj.questStarts and #startObj.questStarts >= 2 then
+                    QuestieJourneyUtils:Spacer(startObjectGroup)
 
-            -- Also Starts
-            if startObj.questStarts and #startObj.questStarts >= 2 then
-                QuestieJourneyUtils:Spacer(startObjectGroup)
+                    local alsoStartsLabel = QuestieGUI:Create("Label")
+                    alsoStartsLabel:SetText(l10n('This Object Also Starts the following quests:'))
+                    alsoStartsLabel:SetColor(255, 165, 0)
+                    alsoStartsLabel:SetFontObject(GameFontHighlight)
+                    alsoStartsLabel:SetFullWidth(true)
+                    startObjectGroup:AddChild(alsoStartsLabel)
 
-                local alsoStartsLabel = QuestieGUI:Create("Label")
-                alsoStartsLabel:SetText(l10n('This Object Also Starts the following quests:'))
-                alsoStartsLabel:SetColor(255, 165, 0)
-                alsoStartsLabel:SetFontObject(GameFontHighlight)
-                alsoStartsLabel:SetFullWidth(true)
-                startObjectGroup:AddChild(alsoStartsLabel)
-
-                QuestieJourneyUtils:Spacer(startObjectGroup)
-                for _, v in pairs(startObj.questStarts) do
-                    if v ~= quest.Id then
-                        local startQuest = QuestieDB.GetQuest(v)
-                        local label = QuestieJourneyUtils.GetInteractiveQuestLabel(startQuest)
-                        startObjectGroup:AddChild(label)
+                    QuestieJourneyUtils:Spacer(startObjectGroup)
+                    for _, v in pairs(startObj.questStarts) do
+                        if v ~= quest.Id then
+                            AddInteractiveQuestLinkIfPresent(startObjectGroup, v)
+                        end
                     end
                 end
             end
@@ -1258,8 +1423,12 @@ function QuestDetailsFrame:Draw(container, quest)
     end
 
     -- Get Quest Start Item
-    if quest.Starts and quest.Starts.Item then
-        AddInfoPanelSpacing(container)
+    local startItemId = quest.Starts and FirstEntityId(quest.Starts.Item)
+    local startItem = SafeGetItem(startItemId)
+    if startItem then
+        -- Item-start details follow the generic quest information directly;
+        -- keep only a small visual separation instead of the full panel gap.
+        AddInfoPanelSpacing(container, 6)
         local startItemGroup = QuestieGUI:Create("InlineGroup")
         ResetNPCInfoLayout(startItemGroup)
         startItemGroup:SetLayout("List")
@@ -1274,8 +1443,6 @@ function QuestDetailsFrame:Draw(container, quest)
         end
 
         QuestieJourneyUtils:Spacer(startItemGroup)
-
-        local startItem = QuestieDB:GetItem(quest.Starts.Item[1])
 
         local startItemNameLabel = QuestieGUI:Create("Label")
         startItemNameLabel:SetText(startItem.name)
@@ -1298,7 +1465,8 @@ function QuestDetailsFrame:Draw(container, quest)
 
     AddInfoPanelSpacing(container)
 
-    if quest.Finisher.NPC then
+    local finisherNPCs = quest.Finisher and EntityIds(quest.Finisher.NPC)
+    if finisherNPCs and #finisherNPCs > 0 then
         local endNPCGroup = QuestieGUI:Create("InlineGroup")
         ResetNPCInfoLayout(endNPCGroup)
         endNPCGroup:SetLayout("List")
@@ -1315,74 +1483,62 @@ function QuestDetailsFrame:Draw(container, quest)
 
         QuestieJourneyUtils:Spacer(endNPCGroup)
 
-        for i, npcId in ipairs(quest.Finisher.NPC) do
+        for i, npcId in ipairs(finisherNPCs) do
             if i > 1 then
                 QuestieJourneyUtils:Spacer(endNPCGroup)
             end
 
-            local endNPC = QuestieDB:GetNPC(npcId)
+            local endNPC = SafeGetNPC(npcId)
+            if endNPC then
+                local endNPCNameLabel = QuestieGUI:Create("Label")
+                endNPCNameLabel:SetText(endNPC.name)
+                endNPCNameLabel:SetFontObject(GameFontHighlight)
+                endNPCNameLabel:SetColor(255, 165, 0)
+                endNPCNameLabel:SetFullWidth(true)
+                endNPCGroup:AddChild(endNPCNameLabel)
+                AddNPCPortrait(endNPCGroup, endNPC, i, endNPCNameLabel)
 
-            local endNPCNameLabel = QuestieGUI:Create("Label")
-            endNPCNameLabel:SetText(endNPC.name)
-            endNPCNameLabel:SetFontObject(GameFontHighlight)
-            endNPCNameLabel:SetColor(255, 165, 0)
-            endNPCNameLabel:SetFullWidth(true)
-            endNPCGroup:AddChild(endNPCNameLabel)
-            AddNPCPortrait(endNPCGroup, endNPC, i, endNPCNameLabel)
+                local endNPCIdLabel = QuestieGUI:Create("Label")
+                endNPCIdLabel:SetText(l10n("NPC ID") .. l10n(": ") .. endNPC.id)
+                endNPCIdLabel:SetFullWidth(true)
+                endNPCGroup:AddChild(endNPCIdLabel)
 
-            local endNPCIdLabel = QuestieGUI:Create("Label")
-            endNPCIdLabel:SetText(l10n("NPC ID") .. l10n(": ") .. endNPC.id)
-            endNPCIdLabel:SetFullWidth(true)
-            endNPCGroup:AddChild(endNPCIdLabel)
-
-            if endNPC.spawns then
-                local endNPCZoneLabel = QuestieGUI:Create("Label")
-                local endindex = 0
-                for zone in pairs(endNPC.spawns) do
-                    endindex = zone
-                end
-
-                local continent = QuestieJourneyUtils:GetZoneName(endindex)
-
-                endNPCZoneLabel:SetText(l10n(continent))
-                endNPCZoneLabel:SetFullWidth(true)
-                endNPCGroup:AddChild(endNPCZoneLabel)
-
-                if next(endNPC.spawns) then
-                    local endx = endNPC.spawns[endindex][1][1]
-                    local endy = endNPC.spawns[endindex][1][2]
-                    if (endx ~= -1 or endy ~= -1) then
-                        local endNPCLocLabel = QuestieGUI:Create("Label")
-                        endNPCLocLabel:SetText("X" .. l10n(": ") .. string.format("%.2f",endx) .." || Y" .. l10n(": ") .. string.format("%.2f",endy))
-                        endNPCLocLabel:SetFullWidth(true)
-                        endNPCGroup:AddChild(endNPCLocLabel)
+                if endNPC.spawns then
+                    local endindex = 0
+                    for zone in pairs(endNPC.spawns) do
+                        endindex = zone
                     end
 
-                    local tomTomButton = CreateTomTomButton(endNPC.name, endindex, endx, endy)
-                    if tomTomButton then
-                        QuestieJourneyUtils:Spacer(endNPCGroup)
-                        endNPCGroup:AddChild(tomTomButton)
+                    if next(endNPC.spawns) then
+                        local endSpawn = endNPC.spawns[endindex]
+                        local endCoordinates = endSpawn and endSpawn[1]
+                        if endCoordinates then
+                            local endx = endCoordinates[1] or -1
+                            local endy = endCoordinates[2] or -1
+                            local mapLink = CreateNPCMapLink(endNPC.id, endindex, endx, endy)
+                            if mapLink then
+                                endNPCGroup:AddChild(mapLink)
+                            end
+                        end
                     end
                 end
-            end
 
-            -- Also ends
-            if endNPC.questEnds and #endNPC.questEnds >= 2 then
-                QuestieJourneyUtils:Spacer(endNPCGroup)
+                -- Also ends
+                if endNPC.questEnds and #endNPC.questEnds >= 2 then
+                    -- Keep the related-quest list close to the NPC location.
+                    AddInfoPanelSpacing(endNPCGroup, 6)
 
-                local alsoEndsLabel = QuestieGUI:Create("Label")
-                alsoEndsLabel:SetText(l10n('This NPC Also Completes the following quests:'))
-                alsoEndsLabel:SetFontObject(GameFontHighlight)
-                alsoEndsLabel:SetColor(255, 165, 0)
-                alsoEndsLabel:SetFullWidth(true)
-                endNPCGroup:AddChild(alsoEndsLabel)
+                    local alsoEndsLabel = QuestieGUI:Create("Label")
+                    alsoEndsLabel:SetText(l10n('This NPC Also Completes the following quests:'))
+                    alsoEndsLabel:SetFontObject(GameFontHighlight)
+                    alsoEndsLabel:SetColor(255, 165, 0)
+                    alsoEndsLabel:SetFullWidth(true)
+                    endNPCGroup:AddChild(alsoEndsLabel)
 
-                QuestieJourneyUtils:Spacer(endNPCGroup)
-                for _, v in ipairs(endNPC.questEnds) do
-                    if v ~= quest.Id then
-                        local endQuest = QuestieDB.GetQuest(v)
-                        local label = QuestieJourneyUtils.GetInteractiveQuestLabel(endQuest)
-                        endNPCGroup:AddChild(label)
+                    for _, v in ipairs(endNPC.questEnds) do
+                        if v ~= quest.Id then
+                            AddInteractiveQuestLinkIfPresent(endNPCGroup, v)
+                        end
                     end
                 end
             end
@@ -1393,13 +1549,10 @@ function QuestDetailsFrame:Draw(container, quest)
         end
         ApplyNPCInfoLayout(endNPCGroup)
 
-        QuestieJourneyUtils:Spacer(endNPCGroup)
-
-        -- Fix for sometimes the scroll content will max out and not show everything until window is resized
-        container.content:SetHeight(10000)
     end
 
-    if quest.Finisher.GameObject then
+    local finisherObjects = quest.Finisher and EntityIds(quest.Finisher.GameObject)
+    if finisherObjects and #finisherObjects > 0 then
         local endObjectGroup = QuestieGUI:Create("InlineGroup")
         ResetNPCInfoLayout(endObjectGroup)
         endObjectGroup:SetLayout("List")
@@ -1415,73 +1568,75 @@ function QuestDetailsFrame:Draw(container, quest)
 
         QuestieJourneyUtils:Spacer(endObjectGroup)
 
-        for i, objectId in ipairs(quest.Finisher.GameObject) do
+        for i, objectId in ipairs(finisherObjects) do
             if i > 1 then
                 QuestieJourneyUtils:Spacer(endObjectGroup)
             end
 
-            local endObject = QuestieDB:GetObject(objectId)
+            local endObject = SafeGetObject(objectId)
+            if endObject then
+                local endObjectNameLabel = QuestieGUI:Create("Label")
+                endObjectNameLabel:SetText(endObject.name)
+                endObjectNameLabel:SetFontObject(GameFontHighlight)
+                endObjectNameLabel:SetColor(255, 165, 0)
+                endObjectNameLabel:SetFullWidth(true)
+                endObjectGroup:AddChild(endObjectNameLabel)
 
-            local endObjectNameLabel = QuestieGUI:Create("Label")
-            endObjectNameLabel:SetText(endObject.name)
-            endObjectNameLabel:SetFontObject(GameFontHighlight)
-            endObjectNameLabel:SetColor(255, 165, 0)
-            endObjectNameLabel:SetFullWidth(true)
-            endObjectGroup:AddChild(endObjectNameLabel)
+                local endObjectIdLabel = QuestieGUI:Create("Label")
+                endObjectIdLabel:SetText(l10n("Object ID") .. l10n(": ") .. endObject.id)
+                endObjectIdLabel:SetFullWidth(true)
+                endObjectGroup:AddChild(endObjectIdLabel)
 
-            local endObjectIdLabel = QuestieGUI:Create("Label")
-            endObjectIdLabel:SetText(l10n("Object ID") .. l10n(": ") .. endObject.id)
-            endObjectIdLabel:SetFullWidth(true)
-            endObjectGroup:AddChild(endObjectIdLabel)
-
-            if endObject.spawns then
-                local endObjectZoneLabel = QuestieGUI:Create("Label")
-                local endindex = 0
-                for zone in pairs(endObject.spawns) do
-                    endindex = zone
-                end
-
-                local continent = QuestieJourneyUtils:GetZoneName(endindex)
-
-                endObjectZoneLabel:SetText(l10n(continent))
-                endObjectZoneLabel:SetFullWidth(true)
-                endObjectGroup:AddChild(endObjectZoneLabel)
-
-                if next(endObject.spawns) then
-                    local endx = endObject.spawns[endindex][1][1]
-                    local endy = endObject.spawns[endindex][1][2]
-                    if (endx ~= -1 or endy ~= -1) then
-                        local endObjectLocLabel = QuestieGUI:Create("Label")
-                        endObjectLocLabel:SetText("X" .. l10n(": ") .. string.format("%.2f",endx) .." || Y" .. l10n(": ") .. string.format("%.2f",endy))
-                        endObjectLocLabel:SetFullWidth(true)
-                        endObjectGroup:AddChild(endObjectLocLabel)
+                if endObject.spawns then
+                    local endObjectZoneLabel = QuestieGUI:Create("Label")
+                    local endindex = 0
+                    for zone in pairs(endObject.spawns) do
+                        endindex = zone
                     end
 
-                    local tomTomButton = CreateTomTomButton(endObject.name, endindex, endx, endy)
-                    if tomTomButton then
-                        QuestieJourneyUtils:Spacer(endObjectGroup)
-                        endObjectGroup:AddChild(tomTomButton)
+                    local continent = QuestieJourneyUtils:GetZoneName(endindex)
+
+                    endObjectZoneLabel:SetText(l10n(continent))
+                    endObjectZoneLabel:SetFullWidth(true)
+                    endObjectGroup:AddChild(endObjectZoneLabel)
+
+                    if next(endObject.spawns) then
+                        local endSpawn = endObject.spawns[endindex]
+                        local endCoordinates = endSpawn and endSpawn[1]
+                        if endCoordinates then
+                            local endx = endCoordinates[1] or -1
+                            local endy = endCoordinates[2] or -1
+                            if (endx ~= -1 or endy ~= -1) then
+                                local endObjectLocLabel = QuestieGUI:Create("Label")
+                                endObjectLocLabel:SetText("X" .. l10n(": ") .. string.format("%.2f",endx) .." || Y" .. l10n(": ") .. string.format("%.2f",endy))
+                                endObjectLocLabel:SetFullWidth(true)
+                                endObjectGroup:AddChild(endObjectLocLabel)
+                            end
+
+                            local tomTomButton = CreateTomTomButton(endObject.name, endindex, endx, endy)
+                            if tomTomButton then
+                                QuestieJourneyUtils:Spacer(endObjectGroup)
+                                endObjectGroup:AddChild(tomTomButton)
+                            end
+                        end
                     end
                 end
-            end
 
-            -- Also ends
-            if endObject.questEnds and #endObject.questEnds >= 2 then
-                QuestieJourneyUtils:Spacer(endObjectGroup)
+                -- Also ends
+                if endObject.questEnds and #endObject.questEnds >= 2 then
+                    QuestieJourneyUtils:Spacer(endObjectGroup)
 
-                local alsoEndsLabel = QuestieGUI:Create("Label")
-                alsoEndsLabel:SetText(l10n('This Object Also Completes the following quests:'))
-                alsoEndsLabel:SetFontObject(GameFontHighlight)
-                alsoEndsLabel:SetColor(255, 165, 0)
-                alsoEndsLabel:SetFullWidth(true)
-                endObjectGroup:AddChild(alsoEndsLabel)
+                    local alsoEndsLabel = QuestieGUI:Create("Label")
+                    alsoEndsLabel:SetText(l10n('This Object Also Completes the following quests:'))
+                    alsoEndsLabel:SetFontObject(GameFontHighlight)
+                    alsoEndsLabel:SetColor(255, 165, 0)
+                    alsoEndsLabel:SetFullWidth(true)
+                    endObjectGroup:AddChild(alsoEndsLabel)
 
-                QuestieJourneyUtils:Spacer(endObjectGroup)
-                for _, v in ipairs(endObject.questEnds) do
-                    if v ~= quest.Id then
-                        local endQuest = QuestieDB.GetQuest(v)
-                        local label = QuestieJourneyUtils.GetInteractiveQuestLabel(endQuest)
-                        endObjectGroup:AddChild(label)
+                    for _, v in ipairs(endObject.questEnds) do
+                        if v ~= quest.Id then
+                            AddInteractiveQuestLinkIfPresent(endObjectGroup, v)
+                        end
                     end
                 end
             end
@@ -1492,9 +1647,12 @@ function QuestDetailsFrame:Draw(container, quest)
         end
         QuestieJourneyUtils:Spacer(endObjectGroup)
 
-        -- Fix for sometimes the scroll content will max out and not show everything until window is resized
-        container.content:SetHeight(10000)
     end
+
+    -- Leave a small amount of parent-level breathing room after the final
+    -- information panel. Padding inside the panel does not move its bottom
+    -- edge away from the scroll viewport boundary.
+    AddInfoPanelSpacing(container, 6)
 
     if Questie.db.profile.debugEnabled then
         QuestieJourneyUtils:Spacer(container)
@@ -1503,6 +1661,66 @@ function QuestDetailsFrame:Draw(container, quest)
 
     if container.EndUpdate then
         container:EndUpdate()
+    end
+    -- Measure the real child stack. A fixed 10000px scroll child makes the
+    -- final relation panel escape the visible detail pane when debug output is
+    -- disabled.
+    if container.RefreshLayout then
+        container:RefreshLayout()
+    end
+end
+
+---Draw quest details without allowing one malformed database relation to leave
+---the custom Journey pane permanently suspended and blank.
+---@param container ScrollFrame
+---@param quest Quest
+function QuestDetailsFrame:Draw(container, quest)
+    if not container or not quest then
+        Questie.Debug(Questie.DEBUG_CRITICAL, "[QuestDetailsFrame:Draw] Missing quest data.")
+        return
+    end
+
+    local function ErrorHandler(message)
+        if debugstack then
+            return debugstack(2, 1, 0) .. "\n" .. tostring(message)
+        end
+        return tostring(message)
+    end
+
+    local ok, errorMessage = xpcall(function()
+        DrawQuestDetails(container, quest)
+    end, ErrorHandler)
+
+    if ok then
+        return
+    end
+
+    if Questie.Debug then
+        Questie.Debug(Questie.DEBUG_CRITICAL, "[QuestDetailsFrame:Draw] Failed to render quest", quest.Id, errorMessage)
+    end
+
+    -- DrawQuestDetails begins one update batch on the detail scroll frame.
+    -- Reset that native widget state before attempting the fallback label.
+    if container.layoutSuspended then
+        container.layoutSuspended = 0
+    end
+    if container.EndUpdate then
+        pcall(container.EndUpdate, container)
+    end
+
+    -- Keep any widgets that were already rendered. Clearing them here made a
+    -- single optional relation failure look like the entire quest had no
+    -- details at all (only the fallback title remained). Add the fallback only
+    -- when the failure happened before the first widget was created.
+    local hasPartialDetails = container.children and #container.children > 0
+    if not hasPartialDetails and container.AddChild then
+        local fallback = QuestieGUI:Create("Label")
+        fallback:SetText(quest.name or ("Quest " .. tostring(quest.Id)))
+        fallback:SetFullWidth(true)
+        container:AddChild(fallback)
+    end
+    if container.RefreshLayout then
+        pcall(container.RefreshLayout, container)
     end
 end
 

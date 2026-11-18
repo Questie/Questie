@@ -8,8 +8,6 @@ _QuestieJourney.notePopup = nil
 -------------------------
 --Import modules
 -------------------------
----@type QuestieJourneyUtils
-local QuestieJourneyUtils = QuestieLoader:ImportModule("QuestieJourneyUtils")
 ---@type QuestDetailsFrame
 local QuestDetailsFrame = QuestieLoader:ImportModule("QuestDetailsFrame")
 ---@type l10n
@@ -35,12 +33,18 @@ end
 
 local function ApplyNoteEditorColor(widget)
     local surface = widget and (widget.scrollBG or widget.editbox)
-    if not surface or not surface.SetBackdropColor then
+    if not surface then
         return
     end
 
-    surface:SetBackdropColor(0.08, 0.055, 0.03, 0.98)
-    if surface.SetBackdropBorderColor then
+    if surface.SetColorTexture then
+        surface:SetColorTexture(0.045, 0.032, 0.02, 0.98)
+    elseif surface.SetBackdropColor then
+        surface:SetBackdropColor(0.045, 0.032, 0.02, 0.98)
+    end
+    if widget.editBorder and widget.editBorder.SetColorTexture then
+        widget.editBorder:SetColorTexture(0.42, 0.29, 0.12, 0.95)
+    elseif surface.SetBackdropBorderColor then
         surface:SetBackdropBorderColor(0.42, 0.29, 0.12, 0.95)
     end
 end
@@ -61,8 +65,8 @@ end
 
 _CreateNoteWindow = function ()
     local journeyFrame = QuestieJourneyFrame or UIParent
-    local popupWidth = math.min(680, journeyFrame:GetWidth() - 40)
-    local popupHeight = math.min(760, math.max(620, UIParent:GetHeight() - 40))
+    local popupWidth = math.max(420, math.min(480, journeyFrame:GetWidth() - 140))
+    local popupHeight = math.min(460, math.max(420, UIParent:GetHeight() - 220))
     local notePopup = QuestieOptionsWindow.Create({
         name = "QuestieJourneyNoteFrame",
         title = l10n('Add New Adventure Note'),
@@ -70,8 +74,8 @@ _CreateNoteWindow = function ()
         width = popupWidth,
         height = popupHeight,
         resizable = true,
-        minWidth = 520,
-        minHeight = 620,
+        minWidth = popupWidth,
+        minHeight = popupHeight,
     })
     notePopup:ClearAllPoints()
     notePopup:SetPoint("CENTER", journeyFrame, "CENTER")
@@ -85,8 +89,8 @@ _CreateNoteWindow = function ()
     content.frame:Show()
 
     -- Keep the divider independent from the flow layout. The editor panel is
-    -- manually anchored below it so its action button cannot flow outside the
-    -- Add Note frame when the multiline box grows.
+    -- manually anchored below it so its action button remains inside the Add
+    -- Note frame when the multiline box grows.
     QuestieOptionsControls.CreateModernDivider(content.frame, l10n('New Note'))
 
     local container = _CreateContainer()
@@ -99,7 +103,10 @@ _CreateNoteWindow = function ()
     local desc = _CreateDescription()
     container:AddChild(desc)
 
-    QuestieJourneyUtils:Spacer(container)
+    local descriptionSpacer = QuestieGUI:Create("SimpleGroup")
+    descriptionSpacer:SetFullWidth(true)
+    descriptionSpacer:SetHeight(4)
+    container:AddChild(descriptionSpacer)
 
     titleBox = _CreateTitleBox()
     container:AddChild(titleBox)
@@ -110,8 +117,8 @@ _CreateNoteWindow = function ()
     ApplyNoteEditorColor(messageBox)
 
     local addEntryBtn = _CreateNoteAddButton()
-    -- The action row is a direct child of the Add Note frame and is anchored
-    -- inside its bottom edge, rather than becoming an overflowing flow child.
+    -- Anchor the action row to the panel bottom so it follows the popup when
+    -- the note frame is resized or the editor is expanded.
     addEntryBtn.frame:SetParent(notePopup.canvasContainer)
     addEntryBtn.frame:ClearAllPoints()
     addEntryBtn.frame:SetPoint("BOTTOMLEFT", container.frame, "BOTTOMLEFT", 10, 10)
@@ -167,9 +174,18 @@ _CreateMessageBox = function ()
     -- Keep the editor tall enough to be useful while leaving the action row
     -- below it. The multiline widget owns the scrollbar, so it remains
     -- inside this editor region when the note window is resized.
-    box:SetNumLines(32)
+    box:SetNumLines(10)
     box:SetLabel(l10n('Journal Entry'))
     box:DisableButton(true)
+    -- Reassert the multiline mode after the label/layout pass. Some client
+    -- builds reset an EditBox to its template's single-line mode when its
+    -- parent changes size.
+    if box.editbox and box.editbox.SetMultiLine then
+        box.editbox:SetMultiLine(true)
+        if box.editbox.SetJustifyV then box.editbox:SetJustifyV("TOP") end
+        if box.editbox.SetTextInsets then box.editbox:SetTextInsets(6, 22, 6, 6) end
+    end
+    if box.scrollBar then box.scrollBar:Show() end
     if QuestieOptionsControls and QuestieOptionsControls.ApplyModernScrollbar then
         QuestieOptionsControls.ApplyModernScrollbar(box.scrollBar)
     end

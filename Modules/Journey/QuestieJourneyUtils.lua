@@ -151,13 +151,14 @@ function QuestieJourneyUtils.OpenQuestInJourney(questId)
 
     local currentWindow = _QuestieJourney.lastOpenWindow
 
-    -- Match the Advanced Search result-click flow: SetSearch rebuilds the
-    -- result set, selects the target row, and opens its details pane. Re-select
-    -- the tab first, matching master and ensuring the current search canvas is
-    -- rebuilt before SetSearch uses its search widgets.
+    -- Keep the existing Advanced Search result tabs when navigating from one
+    -- quest link to another. Only the detail pane needs to change.
     if currentWindow == "search" then
-        QuestieJourney.tabGroup:SelectTab("search")
-        QuestieSearchResults:SetSearch("quest", questId)
+        if QuestieSearchResults.OpenDetails then
+            QuestieSearchResults:OpenDetails("quest", questId)
+        else
+            QuestieSearchResults:SetSearch("quest", questId)
+        end
         return
     end
 
@@ -336,6 +337,13 @@ end
 function QuestieJourneyUtils.GetItemIcon(itemId)
     local itemLink = select(2, GetItemInfo(itemId))
 
+    local function GetItemLink()
+        if not itemLink then
+            itemLink = select(2, GetItemInfo(itemId))
+        end
+        return itemLink
+    end
+
     ---@class QuestieIcon
     local itemIcon = QuestieGUI:Create("Icon")
     itemIcon:SetWidth(25)
@@ -343,28 +351,30 @@ function QuestieJourneyUtils.GetItemIcon(itemId)
     itemIcon:SetImage(GetItemIcon(itemId))
     itemIcon:SetImageSize(25, 25)
     itemIcon:SetCallback("OnEnter", function()
-        if (not itemLink) then
-            itemLink = select(2, GetItemInfo(itemId))
+        GameTooltip:SetOwner(itemIcon.frame, "ANCHOR_CURSOR")
+        local link = GetItemLink()
+        if link then
+            GameTooltip:SetHyperlink(link)
+        elseif GameTooltip.SetItemByID then
+            GameTooltip:SetItemByID(itemId)
         end
-        GameTooltip:SetOwner(UIParent, "ANCHOR_CURSOR")
-        GameTooltip:SetHyperlink(itemLink)
         GameTooltip:Show()
     end)
     itemIcon:SetCallback("OnLeave", function()
         GameTooltip:Hide()
     end)
     itemIcon:SetCallback("OnClick", function()
-        if (not itemLink) then
-            itemLink = select(2, GetItemInfo(itemId))
-        end
+        local link = GetItemLink()
         if IsShiftKeyDown() then
-            if ChatEdit_GetActiveWindow() then
-                ChatEdit_InsertLink(itemLink)
-            else
-                ChatFrame_OpenChat(itemLink)
+            if link then
+                if ChatEdit_GetActiveWindow() then
+                    ChatEdit_InsertLink(link)
+                else
+                    ChatFrame_OpenChat(link)
+                end
             end
-        elseif IsControlKeyDown() then
-            DressUpItemLink(itemLink)
+        elseif IsControlKeyDown() and link then
+            DressUpItemLink(link)
         end
     end)
 

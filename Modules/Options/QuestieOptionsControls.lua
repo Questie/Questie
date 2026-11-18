@@ -61,15 +61,16 @@ local function EnsureJourneyPaneBackdrop(frame)
     })
 end
 
-local function ApplyJourneyPaneSurface(frame)
+local function ApplyJourneyInfoSurface(frame)
     if not frame or not frame.modernContainerSurface then
         return
     end
 
-    -- Questie Options uses a warm brown translucent surface for its boxes.
-    -- Keep Journey panes distinct from the canvas without falling back to the
-    -- nearly-black nested tint.
+    -- Questie Options' native nested boxes are slightly darker and warmer
+    -- than the surrounding panel. This fill reproduces that nested layer for
+    -- Journey information boxes while the pane keeps the shared base color.
     frame.modernContainerSurface:SetColorTexture(0.11, 0.075, 0.045, 0.92)
+    frame.modernContainerSurface:Show()
 end
 
 ---Creates the centered divider heading used by modern Questie sections.
@@ -204,6 +205,30 @@ function QuestieOptionsControls.ApplyModernContainer(frame, nested, addNineSlice
     return frame
 end
 
+---Applies the same warm, translucent panel surface used by the two Journey
+---panes to a detail scroll frame.
+---@param frame Frame
+---@return Frame
+function QuestieOptionsControls.ApplyJourneyPane(frame)
+    if not frame then
+        return frame
+    end
+
+    EnsureJourneyPaneBackdrop(frame)
+    QuestieOptionsControls.ApplyModernContainer(frame, false, true)
+    return frame
+end
+
+---Applies the same base palette and a visually matching nested surface used by
+---Questie Options containers to Journey information boxes.
+---@param frame Frame
+---@return Frame
+function QuestieOptionsControls.ApplyJourneyInfoContainer(frame)
+    local styledFrame = QuestieOptionsControls.ApplyModernContainer(frame, false)
+    ApplyJourneyInfoSurface(styledFrame)
+    return styledFrame
+end
+
 ---Applies the lighter first-level surface used by the Journey panes.
 ---@param frame Frame
 ---@return Frame
@@ -229,11 +254,8 @@ function QuestieOptionsControls.ApplyJourneyTreeGroup(treeGroup)
     -- These are two sibling containers on the Journey canvas. Use the same
     -- warm brown family as the Options boxes, with a slightly stronger
     -- surface so the pane boundaries remain visible over the game world.
-    EnsureJourneyPaneBackdrop(treeGroup.content)
-    QuestieOptionsControls.ApplyModernContainer(treeGroup.treeframe, false, true)
-    QuestieOptionsControls.ApplyModernContainer(treeGroup.content, false, true)
-    ApplyJourneyPaneSurface(treeGroup.treeframe)
-    ApplyJourneyPaneSurface(treeGroup.content)
+    QuestieOptionsControls.ApplyJourneyPane(treeGroup.treeframe)
+    QuestieOptionsControls.ApplyJourneyPane(treeGroup.content)
     return treeGroup
 end
 
@@ -1132,13 +1154,15 @@ function QuestieOptionsControls.ApplyModernScrollbar(scrollbar)
     -- can visibly escape Journey panels.
     local parent = scrollbar.GetParent and scrollbar:GetParent()
     local anchor = scrollbar.modernScrollbarAnchor or parent
+    local verticalInset = scrollbar.modernScrollbarInset or 12
+    local rightInset = scrollbar.modernScrollbarRightInset or 12
     if anchor then
         scrollbar:ClearAllPoints()
         scrollbar:SetWidth(20)
         -- Match the native Options panel's 12px right gutter while keeping
         -- the bar fully inside the Journey pane/editor that owns it.
-        scrollbar:SetPoint("TOPRIGHT", anchor, "TOPRIGHT", -12, -12)
-        scrollbar:SetPoint("BOTTOMRIGHT", anchor, "BOTTOMRIGHT", -12, 12)
+        scrollbar:SetPoint("TOPRIGHT", anchor, "TOPRIGHT", -rightInset, -verticalInset)
+        scrollbar:SetPoint("BOTTOMRIGHT", anchor, "BOTTOMRIGHT", -rightInset, verticalInset)
     end
 
     local thumb = scrollbar:GetThumbTexture()
@@ -1226,7 +1250,11 @@ function QuestieOptionsControls.ApplyModernScrollbar(scrollbar)
                 return nil
             end
 
-            local arrowParent = scrollbar.modernScrollbarAnchor or parent or scrollbar
+            -- Keep the arrows on the scrollbar's owning frame instead of
+            -- making them children of the EditBox itself. Some client builds
+            -- clip EditBox children, which hides the lower arrow and makes the
+            -- bar look like it only occupies the top of the editor.
+            local arrowParent = parent or scrollbar
             local arrow = CreateFrame("Button", nil, arrowParent)
             local info = C_Texture.GetAtlasInfo(atlas)
             arrow:SetSize(info.width or 11, info.height or 9)
@@ -1249,11 +1277,11 @@ function QuestieOptionsControls.ApplyModernScrollbar(scrollbar)
         local arrowDown = CreateArrow("down")
         if arrowUp and anchor then
             arrowUp:SetFrameLevel(scrollbar:GetFrameLevel() + 1)
-            arrowUp:SetPoint("TOPRIGHT", anchor, "TOPRIGHT", -12, -3)
+            arrowUp:SetPoint("TOPRIGHT", anchor, "TOPRIGHT", -rightInset, -3)
         end
         if arrowDown and anchor then
             arrowDown:SetFrameLevel(scrollbar:GetFrameLevel() + 1)
-            arrowDown:SetPoint("BOTTOMRIGHT", anchor, "BOTTOMRIGHT", -12, 3)
+            arrowDown:SetPoint("BOTTOMRIGHT", anchor, "BOTTOMRIGHT", -rightInset, 3)
         end
 
         local function SyncArrowVisibility()
@@ -1297,10 +1325,10 @@ function QuestieOptionsControls.ApplyModernInfoGroup(group)
         return group
     end
 
-    -- Quest information panels use the same first-level surface as the
-    -- referenced Options group, keeping all Journey detail boxes consistent.
+    -- Keep the pane on the shared base surface and give each information box
+    -- the same subtle darker/warmer nested treatment as Questie Options.
     local function ApplyInfoSurface()
-        QuestieOptionsControls.ApplyModernContainer(group.border, false)
+        QuestieOptionsControls.ApplyJourneyInfoContainer(group.border)
     end
 
     ApplyInfoSurface()
@@ -1362,25 +1390,29 @@ end
 local function _InstallTabHoverPreview(tabGroup, tab)
     local button = tab.modernTabButton or tab.button or tab
     if not button or button.modernHoverPreview then
+        if button then button.modernTabData = tab end
         return
     end
 
     button.modernHoverPreview = true
+    button.modernTabData = tab
 
     button:HookScript("OnEnter", function()
-        if tab.disabled or tabGroup.modernHoverLocked then
+        local currentTab = button.modernTabData or tab
+        if currentTab.disabled or tabGroup.modernHoverLocked then
             return
         end
 
-        tabGroup.modernHoveredTab = tab
+        tabGroup.modernHoveredTab = currentTab
         local status = tabGroup.status or tabGroup.localstatus
-        if status.selected ~= tab.value then
-            _SelectTabForHover(tabGroup, tab.value)
+        if status.selected ~= currentTab.value then
+            _SelectTabForHover(tabGroup, currentTab.value)
         end
     end)
 
     button:HookScript("OnLeave", function()
-        if tabGroup.modernHoveredTab ~= tab then
+        local currentTab = button.modernTabData or tab
+        if tabGroup.modernHoveredTab ~= currentTab then
             return
         end
 
@@ -1388,8 +1420,9 @@ local function _InstallTabHoverPreview(tabGroup, tab)
     end)
 
     button:HookScript("OnClick", function()
-        if not tab.disabled then
-            tabGroup.modernPinnedValue = tab.value
+        local currentTab = button.modernTabData or tab
+        if not currentTab.disabled then
+            tabGroup.modernPinnedValue = currentTab.value
         end
     end)
 end
@@ -1424,6 +1457,9 @@ function QuestieOptionsControls.ApplyModernTabGroup(tabGroup)
         if tabGroup.modernContainerPanel then
             tabGroup.modernContainerPanel:Hide()
         end
+        -- Keep the native tab's own hover art, and also preview its pane on
+        -- mouse-over. QuestieGUI keeps stale refreshed buttons hidden, so the
+        -- preview does not produce a second visible tab strip.
         for _, tab in ipairs(tabGroup.tabs or {}) do
             _InstallTabHoverPreview(tabGroup, tab)
         end

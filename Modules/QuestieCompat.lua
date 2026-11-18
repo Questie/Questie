@@ -318,6 +318,34 @@ function QuestieCompat.OpenWorldMap(uiMapId)
     return true
 end
 
+---Places and selects Blizzard's native user waypoint when the client exposes it.
+---Coordinates are map fractions in the 0..1 range, matching UiMapPoint.
+---@param uiMapId number
+---@param x number
+---@param y number
+---@return boolean placed
+function QuestieCompat.SetUserWaypoint(uiMapId, x, y)
+    local mapPointApi = rawget(_G, "UiMapPoint")
+    if not (C_Map and C_Map.SetUserWaypoint and C_SuperTrack
+        and C_SuperTrack.SetSuperTrackedUserWaypoint and mapPointApi
+        and mapPointApi.CreateFromCoordinates) then
+        return false
+    end
+
+    local created, mapPoint = pcall(mapPointApi.CreateFromCoordinates, uiMapId, x, y)
+    if not created or not mapPoint then
+        return false
+    end
+
+    local placed = pcall(C_Map.SetUserWaypoint, mapPoint)
+    if not placed then
+        return false
+    end
+
+    pcall(C_SuperTrack.SetSuperTrackedUserWaypoint, true)
+    return true
+end
+
 ---@class CalendarTime
 ---@field monthDay number
 ---@field month number

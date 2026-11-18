@@ -60,9 +60,16 @@ local searchDebounceGeneration = 0
 local programmaticSearchUpdate = false
 local programmaticSearchText
 local activeResultTree
+local clickHandledResultValue
+local searchResultHost
 
 local BY_NAME = 1
 local BY_ID = 2
+-- A broad text search can match a very large part of the database. Keep the
+-- result tree bounded so the UI does not create thousands of native frames in
+-- one synchronous layout pass. The tab counters still show the full match
+-- count, so users can narrow the query when the cap is reached.
+local MAX_RENDERED_SEARCH_RESULTS = 500
 
 local function ApplyModernButton(button, width)
     if QuestieOptionsControls and QuestieOptionsControls.ApplyStyledButton then
@@ -93,6 +100,13 @@ local function ApplyModernSearchBox(searchBox, placeholder)
     local legacyEditBox = searchBox.editbox
     local originalDisableButton = searchBox.disablebutton
     legacyEditBox:Hide()
+    -- QuestieGUI's note editor uses a custom backdrop and focus surface for
+    -- its EditBox. Advanced Search replaces the real EditBox with Blizzard's
+    -- SearchBoxTemplate, so those note-only layers must not remain visible or
+    -- sit above the new search control.
+    if searchBox.editSkin then searchBox.editSkin:Hide() end
+    if searchBox.focusSurface then searchBox.focusSurface:Hide() end
+    if searchBox.scrollBar then searchBox.scrollBar:Hide() end
 
     local editBox = CreateFrame("EditBox", nil, frame, "SearchBoxTemplate")
     editBox:SetAutoFocus(false)
@@ -501,13 +515,29 @@ function QuestieSearchResults:SpawnDetailsFrame(f, spawn, spawnType)
     local spawns = spawnObject.spawns
 
     if spawns then
-        f:AddChild(CreateShowHideButton(spawnType == "npc" and spawn or -spawn))
-        local startindex = 0;
+        local startindex
         for i in pairs(spawns) do
-            if spawns[i][1] then
+            local coords = spawns[i] and spawns[i][1]
+            if coords and coords[1] and coords[2] and (coords[1] ~= -1 or coords[2] ~= -1) then
                 startindex = i;
                 break;
             end
+        end
+
+        if startindex then
+            local mapButton = QuestieGUI:Create("Button")
+            mapButton:SetText(l10n("Show on Map"))
+            ApplyModernButton(mapButton, 180)
+            local mapX = spawns[startindex][1][1]
+            local mapY = spawns[startindex][1][2]
+            mapButton:SetCallback("OnClick", function()
+                if spawnType == "npc" then
+                    TrackerUtils:ShowNPCOnMap(spawn, startindex, mapX, mapY)
+                else
+                    TrackerUtils:ShowObjectOnMap(spawn, startindex, mapX, mapY)
+                end
+            end)
+            f:AddChild(mapButton)
         end
 
         if TomTom and TomTom.AddWaypoint and spawns[startindex] and spawns[startindex][1] then
@@ -626,13 +656,6 @@ function QuestieSearchResults:ItemsFrameAfterTicker(f, itemId)
     grp:AddChild(spawnIdLabel)
 
     f:AddChild(grp)
-
-    local tooltip = QuestieGUI:Create("GameTooltipWidget", itemId)
-    tooltip:SetOwner(itemIcon.frame, "ANCHOR_BOTTOMRIGHT")
-    tooltip:SetItemByID(itemId)
-    tooltip:ShowTooltip()
-
-    f:AddChild(tooltip)
 
     if QuestieCorrections.questItemBlacklist[itemId] then
         QuestieJourneyUtils:Spacer(f)
@@ -757,12 +780,10 @@ function QuestieSearchResults:DrawResultTab(container, resultType)
     else
         return
     end
-    local max=0
+    local resultTotal = 0
     for k,_ in pairs(QuestieSearch.LastResult[resultType]) do
-        if k > max then max = k end
-    end
-    for k=1, max do
-        if QuestieSearch.LastResult[resultType][k] then
+        resultTotal = resultTotal + 1
+        if #results < MAX_RENDERED_SEARCH_RESULTS then
             local name = database(k, "name")
             if name then
                 local complete = ''
@@ -780,6 +801,13 @@ function QuestieSearchResults:DrawResultTab(container, resultType)
                 })
             end
         end
+    end
+    if resultTotal > MAX_RENDERED_SEARCH_RESULTS then
+        table.insert(results, {
+            ["text"] = "... " .. (resultTotal - MAX_RENDERED_SEARCH_RESULTS) .. " more results; refine your search",
+            ["value"] = "__questie_search_limit__",
+            ["disabled"] = true,
+        })
     end
     local resultFrame = QuestieGUI:Create("SimpleGroup");
     resultFrame:SetLayout("Fill");
@@ -801,9 +829,15 @@ function QuestieSearchResults:DrawResultTab(container, resultType)
         QuestieOptionsControls.ApplyModernScrollbar(resultTree.scrollbar)
     end
     resultTree:SetTree(results);
-    -- Programmatic selection fires OnGroupSelected, not OnClick.
+    -- Programmatic selection fires OnGroupSelected, while a real row click
+    -- must render directly so the custom non-Ace tree does not depend on a
+    -- secondary selection event.
     resultTree:SetCallback("OnGroupSelected", _HandleTreeItemSelected)
-    resultTree:SetCallback("OnClick", function(_, _, selectedId)
+    resultTree:SetCallback("OnClick", function(_, _, selectedId, alreadySelected)
+        if not alreadySelected then
+            clickHandledResultValue = tostring(selectedId)
+            _HandleTreeItemSelected(resultTree, nil, selectedId, true)
+        end
         if IsShiftKeyDown() and lastOpenSearch == "quest" then
             ChatEdit_InsertLink(QuestieLink.GetQuestLinkStringById(tonumber(selectedId)))
         end
@@ -811,25 +845,38 @@ function QuestieSearchResults:DrawResultTab(container, resultType)
 
     resultFrame:AddChild(resultTree)
     container:AddChild(resultFrame);
+    if container.RaiseTabs then
+        container:RaiseTabs()
+    end
     if _selected ~= 0 then
         resultTree:SelectByValue(_selected)
         _selected = 0
     end
 end
 
-_HandleTreeItemSelected = function(group, _, value)
+_HandleTreeItemSelected = function(group, _, value, fromClick, resultTypeOverride)
     if group ~= activeResultTree or (group.IsReleasing and group:IsReleasing()) then
         return
     end
 
+    if not fromClick and clickHandledResultValue == tostring(value) then
+        clickHandledResultValue = nil
+        return
+    end
+
+    if fromClick then
+        clickHandledResultValue = tostring(value)
+    end
+
     searchInteractionGeneration = searchInteractionGeneration + 1
+    local detailType = resultTypeOverride or lastOpenSearch
 
     -- This is either the questId, npcId, objectId or itemId
     local selectedId = tonumber(value)
 
     if searchResultTabs then
         searchResultTabs.modernHoverLocked = true
-        searchResultTabs.modernPinnedValue = lastOpenSearch
+        searchResultTabs.modernPinnedValue = detailType
     end
 
     -- get master frame and create scroll frame inside
@@ -850,14 +897,25 @@ _HandleTreeItemSelected = function(group, _, value)
         QuestieOptionsControls.ApplyModernScrollbar(details.scrollbar)
     end
     master:AddChild(details);
+    if QuestieOptionsControls and QuestieOptionsControls.ApplyJourneyPane then
+        QuestieOptionsControls.ApplyJourneyPane(details.frame)
+    end
+    if searchResultTabs and searchResultTabs.RaiseTabs then
+        searchResultTabs:RaiseTabs()
+    end
 
-    if lastOpenSearch == "quest" then
-        QuestDetailsFrame:Draw(details, QuestieDB.GetQuest(selectedId))
-    elseif lastOpenSearch == "npc" then
+    if detailType == "quest" then
+        local quest = QuestieDB.GetQuest(selectedId)
+        if not quest then
+            Questie.Debug(Questie.DEBUG_CRITICAL, "[QuestieSearchResults] Quest data missing in Journey:", selectedId)
+            return
+        end
+        QuestDetailsFrame:Draw(details, quest)
+    elseif detailType == "npc" then
         QuestieSearchResults:SpawnDetailsFrame(details, selectedId, 'npc');
-    elseif lastOpenSearch == "object" then
+    elseif detailType == "object" then
         QuestieSearchResults:SpawnDetailsFrame(details, selectedId, 'object')
-    elseif lastOpenSearch == "item" then
+    elseif detailType == "item" then
         QuestieSearchResults:ItemDetailsFrame(details, selectedId)
     end
 end
@@ -895,53 +953,62 @@ end
 
 -- Draw search results from advanced search tab
 function QuestieSearchResults:DrawSearchResultTab(searchGroup, searchType, query, useLast)
+    -- Switching Journey tabs releases the canvas children but does not
+    -- recursively release the nested result TabGroup. Never reuse that stale
+    -- group inside a newly-created Advanced Search host.
+    if searchResultTabs and searchResultHost ~= searchGroup then
+        searchResultTabs = nil
+        searchResultHost = nil
+        activeResultTree = nil
+    end
+
     if searchResultTabs then
         -- Hover locking belongs to one result set and must not carry into a new query.
         searchResultTabs.modernHoverLocked = false
         searchResultTabs.modernPinnedValue = nil
     end
 
-    if not searchResultTabs then
-        activeResultTree = nil
-        searchGroup:ReleaseChildren();
-        if searchType == BY_NAME and (not useLast) then
-            QuestieSearch:ByName(query)
-        elseif searchType == BY_ID and (not useLast) then
-            QuestieSearch:ByID(query)
+    activeResultTree = nil
+    if searchType == BY_NAME and (not useLast) then
+        QuestieSearch:ByName(query)
+    elseif searchType == BY_ID and (not useLast) then
+        QuestieSearch:ByID(query)
+    end
+
+    local results = QuestieSearch.LastResult
+    local resultTypes = {
+        ["quest"] = "Quests",
+        ["npc"] = "Mobs",
+        ["object"] = "Objects",
+        ["item"] = "Items",
+    }
+    local resultCountTotal = 0
+    local resultCounts = {
+        total = 0,
+        quest = 0,
+        npc = 0,
+        object = 0,
+        item = 0
+    }
+    for resultType in pairs(resultTypes) do
+        for _,_ in pairs(results[resultType]) do
+            resultCountTotal = resultCountTotal + 1
+            resultCounts[resultType] = resultCounts[resultType] + 1
         end
-        local results = QuestieSearch.LastResult;
-        local resultTypes = {
-            ["quest"] = "Quests",
-            ["npc"] = "Mobs",
-            ["object"] = "Objects",
-            ["item"] = "Items",
-        }
-        local resultCountTotal = 0
-        local resultCounts = {
-            total = 0,
-            quest = 0,
-            npc = 0,
-            object = 0,
-            item = 0
-        }
-        for type,_ in pairs(resultTypes) do
-            for _,_ in pairs(results[type]) do
-                resultCountTotal = resultCountTotal + 1
-                resultCounts[type] = resultCounts[type] + 1
-            end
-        end
-        if (resultCountTotal == 0) then
-            local noresults = QuestieGUI:Create("Label");
-            noresults:SetText(Questie:Colorize(l10n('No Match for Search Results: %s', query), 'yellow'));
-            noresults:SetFullWidth(true);
-            searchGroup:AddChild(noresults);
-            return;
-        end
-        searchResultTabs = QuestieGUI:Create("TabGroup");
-        searchResultTabs:SetFullWidth(true);
-        searchResultTabs:SetFullHeight(true);
-        searchResultTabs:SetLayout("Flow");
-        searchResultTabs:SetTabs({
+    end
+
+    if resultCountTotal == 0 then
+        searchGroup:ReleaseChildren()
+        searchResultTabs = nil
+        searchResultHost = nil
+        local noresults = QuestieGUI:Create("Label")
+        noresults:SetText(Questie:Colorize(l10n('No Match for Search Results: %s', query), 'yellow'))
+        noresults:SetFullWidth(true)
+        searchGroup:AddChild(noresults)
+        return
+    end
+
+    local tabs = {
             {
                 text = l10n('Quests') .. " ("..resultCounts.quest..")",
                 value = "quest",
@@ -962,18 +1029,40 @@ function QuestieSearchResults:DrawSearchResultTab(searchGroup, searchType, query
                 value = "item",
                 disabled = resultCounts.item == 0,
             },
-        })
-        if QuestieOptionsControls and QuestieOptionsControls.ApplyModernTabGroup then
-            QuestieOptionsControls.ApplyModernTabGroup(searchResultTabs)
+    }
+
+    if not searchResultTabs then
+        searchResultTabs = QuestieGUI:Create("TabGroup")
+        searchResultTabs:SetFullWidth(true)
+        searchResultTabs:SetFullHeight(true)
+        searchResultTabs:SetLayout("Flow")
+        searchResultHost = searchGroup
+        searchGroup:ReleaseChildren()
+        searchGroup:AddChild(searchResultTabs)
+    end
+
+    -- Rebuild only the result content. Keeping the outer TabGroup alive
+    -- prevents a query refresh from dropping the native tab strip.
+    searchResultTabs:ReleaseChildren()
+    searchResultTabs:SetTabs(tabs)
+    if QuestieOptionsControls and QuestieOptionsControls.ApplyModernTabGroup then
+        QuestieOptionsControls.ApplyModernTabGroup(searchResultTabs)
+    end
+    searchResultTabs:SetCallback("OnGroupSelected", SelectTabGroup)
+    if _selected == 0 then
+        local selectedType = lastOpenSearch
+        if not resultCounts[selectedType] or resultCounts[selectedType] == 0 then
+            selectedType = "quest"
+            if resultCounts[selectedType] == 0 then
+                for resultType in pairs(resultTypes) do
+                    if resultCounts[resultType] > 0 then
+                        selectedType = resultType
+                        break
+                    end
+                end
+            end
         end
-        searchResultTabs:SetCallback("OnGroupSelected", SelectTabGroup)
-        if _selected == 0 then searchResultTabs:SelectTab("quest"); end
-        searchGroup:AddChild(searchResultTabs);
-    else
-        activeResultTree = nil
-        searchGroup:ReleaseChildren();
-        searchResultTabs = nil;
-        self:DrawSearchResultTab(searchGroup, searchType, query, useLast);
+        searchResultTabs:SelectTab(selectedType)
     end
 end
 
@@ -1014,6 +1103,7 @@ function QuestieSearchResults:DrawSearchTab(container)
                 searchResultTabs.modernPinnedValue = nil
             end
             searchResultTabs = nil
+            searchResultHost = nil
         else
             local function RunSearch()
                 if currentDebounceGeneration == searchDebounceGeneration
@@ -1048,41 +1138,6 @@ function QuestieSearchResults:DrawSearchTab(container)
     searchBox:SetFocus();
 end
 
-function QuestieSearchResults:GetDetailFrame(detailType, id)
-    local frame = QuestieGUI:Create("Frame")
-    frame:SetHeight(500)
-    frame:SetWidth(300)
-    frame:SetLayout("Fill");
-    local details = QuestieGUI:Create("ScrollFrame")
-    details:SetFullWidth(true);
-    details:SetFullHeight(true);
-    details:SetLayout("Flow")
-    details:SetCallback("OnRelease", function(widget)
-        widget.journeyDetailsGeneration = nil
-    end)
-    if QuestieOptionsControls and QuestieOptionsControls.ApplyModernScrollbar then
-        QuestieOptionsControls.ApplyModernScrollbar(details.scrollbar)
-    end
-    frame:AddChild(details)
-    if detailType == "quest" then
-        QuestDetailsFrame:Draw(details, QuestieDB.GetQuest(id))
-        frame:SetTitle(l10n("Quest Details"))
-    elseif detailType == "npc" then
-        QuestieSearchResults:SpawnDetailsFrame(details, id, detailType)
-        frame:SetTitle(l10n("NPC Details"))
-    elseif detailType == "object" then
-        QuestieSearchResults:SpawnDetailsFrame(details, id, detailType)
-        frame:SetTitle(l10n("Object Details"))
-    elseif detailType == "item" then
-        QuestieSearchResults:ItemDetailsFrame(details, id)
-        frame:SetTitle(l10n("Item Details"))
-    else
-        frame:ReleaseChildren()
-        return
-    end
-    frame:Show()
-end
-
 function QuestieSearchResults:SetSearch(detailType, id, selectResult)
     searchInteractionGeneration = searchInteractionGeneration + 1
     _selected = selectResult == false and 0 or id
@@ -1101,6 +1156,18 @@ end
 ---@param detailType string
 ---@param id number
 function QuestieSearchResults:OpenDetails(detailType, id)
+    -- A link opened from an existing Advanced Search result should replace
+    -- only the detail pane. Rebuilding the search group here destroys the
+    -- outer TabGroup, which is why the result tabs used to disappear.
+    if searchResultTabs and activeResultTree then
+        searchResultTabs:SelectTab(detailType)
+        if activeResultTree then
+            clickHandledResultValue = nil
+            activeResultTree:SelectByValue(id)
+            return
+        end
+    end
+
     -- Rebuild the result tabs without selecting during the intermediate
     -- teardown/recreate cycle. The deferred selection below is the only
     -- selection performed for linked navigation.

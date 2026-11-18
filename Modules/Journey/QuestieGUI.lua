@@ -185,19 +185,33 @@ end
 
 local function AddChild(widget, child)
     widget.children = widget.children or {}
+    if child.parent and child.parent ~= widget and child.parent.children then
+        for index, previousChild in ipairs(child.parent.children) do
+            if previousChild == child then
+                table.remove(child.parent.children, index)
+                break
+            end
+        end
+    end
     widget.children[#widget.children + 1] = child
     child.parent = widget
     local parent = widget.content or widget.frame
     if child.frame and parent then
         child.frame:SetParent(parent)
-        if not child.layoutParentHooked then
+        child.layoutParentHooks = child.layoutParentHooks or {}
+        if not child.layoutParentHooks[widget] then
             child.frame:HookScript("OnSizeChanged", function()
+                -- A cached Journey tree can be reparented when its tab is
+                -- rebuilt. Ignore resize notifications from an old parent.
+                if child.parent ~= widget then
+                    return
+                end
                 LayoutChildren(widget)
                 if widget.UpdateScrollMetrics and (not widget.layoutSuspended or widget.layoutSuspended == 0) then
                     widget:UpdateScrollMetrics()
                 end
             end)
-            child.layoutParentHooked = true
+            child.layoutParentHooks[widget] = true
         end
     end
     LayoutChildren(widget)
@@ -244,7 +258,7 @@ local function SetLabel(widget, text)
     end
 end
 
-local function CreateBaseWidget(widgetType, parent)
+local function CreateBaseWidget(widgetType, parent, frame)
     local widget = {
         type = widgetType,
         callbacks = {},
@@ -253,7 +267,7 @@ local function CreateBaseWidget(widgetType, parent)
         layout = "flow",
         autoHeight = true,
     }
-    widget.frame = CreateBackdropFrame("Frame", parent)
+    widget.frame = frame or CreateBackdropFrame("Frame", parent)
     widget.frame:SetSize(DEFAULT_WIDTH, DEFAULT_HEIGHT)
     widget.frame:HookScript("OnSizeChanged", function()
         LayoutChildren(widget)
@@ -533,18 +547,92 @@ end
 local function CreateEditBox(widgetType, parent)
     local widget = CreateBaseWidget(widgetType, parent)
     widget.frame:SetHeight(widgetType == "MultiLineEditBox" and 180 or 42)
-    widget.editbox = CreateFrame("EditBox", nil, widget.frame, "InputBoxTemplate")
+    -- Use one shared skin for both fields. InputBoxTemplate is a one-line
+    -- EditBox template and does not stretch cleanly for the travel entry;
+    -- keeping the skin separate also lets both controls use the same tint and
+    -- border while the real EditBox remains fully interactive.
+    -- Both controls use the same visual skin and real EditBox surface. The
+    -- title used to take a separate InputBoxTemplate path, which made it
+    -- behave differently from the responsive travel entry.
+    widget.editSkin = CreateBackdropFrame("Frame", widget.frame)
+    SetBackdrop(widget.editSkin, {0.08, 0.055, 0.03, 0.98}, {0.42, 0.29, 0.12, 0.95})
+    widget.editSkin:SetFrameLevel(widget.frame:GetFrameLevel() + 1)
+    widget.editSkin:EnableMouse(false)
+    widget.scrollBG = widget.editSkin
+
+    if widgetType == "MultiLineEditBox" then
+        -- The ScrollFrame is the full-size mouse surface for the multiline
+        -- field, including its empty area.
+        widget.scrollFrame = CreateFrame("ScrollFrame", nil, widget.frame)
+        widget.scrollFrame:SetFrameLevel(widget.frame:GetFrameLevel() + 3)
+        widget.scrollFrame:SetPoint("TOPLEFT", widget.frame, "TOPLEFT", 4, -20)
+        widget.scrollFrame:SetPoint("TOPRIGHT", widget.frame, "TOPRIGHT", -4, -20)
+        widget.scrollFrame:SetHeight(150)
+        widget.scrollFrame:EnableMouse(true)
+        widget.editbox = CreateFrame("EditBox", nil, widget.scrollFrame)
+    else
+        widget.editbox = CreateFrame("EditBox", nil, widget.frame)
+    end
+
+    widget.editbox:SetFrameLevel(widget.frame:GetFrameLevel() + 5)
     widget.editbox:SetAutoFocus(false)
+    widget.editbox:EnableMouse(true)
+    if widget.editbox.SetHitRectInsets then
+        widget.editbox:SetHitRectInsets(0, 0, 0, 0)
+    end
     if widgetType == "MultiLineEditBox" and widget.editbox.SetMultiLine then
         widget.editbox:SetMultiLine(true)
+        if widget.editbox.SetFontObject and ChatFontNormal then
+            widget.editbox:SetFontObject(ChatFontNormal)
+        end
+        if widget.editbox.SetJustifyV then widget.editbox:SetJustifyV("TOP") end
+        if widget.editbox.SetTextInsets then widget.editbox:SetTextInsets(6, 22, 6, 6) end
+    elseif widget.editbox.SetTextInsets then
+        if widget.editbox.SetFontObject and ChatFontNormal then
+            widget.editbox:SetFontObject(ChatFontNormal)
+        end
+        widget.editbox:SetTextInsets(6, 6, 2, 2)
     end
-    widget.editbox:SetPoint("TOPLEFT", widget.frame, "TOPLEFT", 4, -20)
-    -- Leave room for the scrollbar inside the multiline editor. Previously
-    -- the edit box occupied the entire width and the scrollbar was anchored
-    -- to the outer widget edge, making it look like it belonged to the note
-    -- panel instead of the text editor.
-    widget.editbox:SetPoint("TOPRIGHT", widget.frame, "TOPRIGHT", widgetType == "MultiLineEditBox" and -20 or -4, -20)
-    widget.editbox:SetHeight(widgetType == "MultiLineEditBox" and 150 or 22)
+    if widgetType == "MultiLineEditBox" then
+        widget.editbox:SetPoint("TOPLEFT", widget.scrollFrame, "TOPLEFT")
+        widget.editbox:SetWidth(math.max(widget.scrollFrame:GetWidth() or 1, 1))
+        widget.editbox:SetHeight(150)
+        widget.scrollFrame:SetScrollChild(widget.editbox)
+    else
+        widget.editbox:SetPoint("TOPLEFT", widget.frame, "TOPLEFT", 4, -20)
+        widget.editbox:SetPoint("TOPRIGHT", widget.frame, "TOPRIGHT", -4, -20)
+        widget.editbox:SetHeight(22)
+    end
+    if widget.editSkin then
+        widget.editSkin:SetPoint("TOPLEFT", widget.frame, "TOPLEFT", 4, -20)
+        widget.editSkin:SetPoint("TOPRIGHT", widget.frame, "TOPRIGHT", -4, -20)
+        widget.editSkin:SetHeight(widget.editbox:GetHeight())
+        widget.editSkin:Show()
+    end
+    widget.editbox:Show()
+    if widget.editbox.SetTextColor then
+        widget.editbox:SetTextColor(1, 1, 1, 1)
+    end
+
+    local function FocusAtEnd()
+        widget.editbox:SetFocus()
+        local textLength = widget.editbox.GetNumLetters and widget.editbox:GetNumLetters()
+            or #(widget.editbox:GetText() or "")
+        widget.editbox:SetCursorPosition(textLength)
+    end
+
+    -- If a client does not give the bare EditBox the full hit rectangle, this
+    -- lower-level surface still makes empty-area clicks focus it. The EditBox
+    -- remains above it, so normal text clicks keep native caret behavior.
+    widget.focusSurface = CreateFrame("Button", nil, widget.frame)
+    widget.focusSurface:SetFrameLevel(widget.frame:GetFrameLevel() + 2)
+    widget.focusSurface:SetPoint("TOPLEFT", widget.frame, "TOPLEFT", 4, -20)
+    widget.focusSurface:SetPoint("TOPRIGHT", widget.frame, "TOPRIGHT", -4, -20)
+    widget.focusSurface:SetHeight(widgetType == "MultiLineEditBox" and 150 or 22)
+    widget.focusSurface:EnableMouse(true)
+    widget.focusSurface:SetScript("OnMouseDown", FocusAtEnd)
+    widget.focusSurface:SetScript("OnMouseUp", FocusAtEnd)
+
     widget.editbox:SetScript("OnEnterPressed", function()
         Fire(widget, "OnEnterPressed", widget.editbox:GetText())
     end)
@@ -552,18 +640,78 @@ local function CreateEditBox(widgetType, parent)
         widget.value = widget.editbox:GetText()
         Fire(widget, "OnTextChanged", widget.value)
     end)
+    -- Blank portions of the ScrollFrame do not naturally focus the child
+    -- EditBox, so explicitly make them focus the editor like Ace's native
+    -- widgets do.
+    if widgetType == "MultiLineEditBox" then
+        widget.scrollFrame:SetScript("OnMouseDown", FocusAtEnd)
+        widget.scrollFrame:SetScript("OnMouseUp", FocusAtEnd)
+        widget.scrollFrame:HookScript("OnSizeChanged", function(_, width)
+            widget.editbox:SetWidth(math.max(width or 1, 1))
+        end)
+        widget.editbox:SetScript("OnMouseDown", function(self)
+            self:SetFocus()
+        end)
+        widget.editbox:SetScript("OnCursorChanged", function(_, _, y, _, cursorHeight)
+            local offset = widget.scrollFrame:GetVerticalScroll() or 0
+            local cursorTop = -(y or 0)
+            if cursorTop < offset then
+                widget.scrollFrame:SetVerticalScroll(cursorTop)
+            else
+                local cursorBottom = cursorTop + (cursorHeight or 0) - widget.scrollFrame:GetHeight()
+                if cursorBottom > offset then
+                    widget.scrollFrame:SetVerticalScroll(cursorBottom)
+                end
+            end
+        end)
+        widget.frame:HookScript("OnSizeChanged", function()
+            local desiredHeight = (widget.numLines or 12) * 16
+            widget.scrollFrame:SetHeight(desiredHeight)
+            widget.focusSurface:SetHeight(desiredHeight)
+            if math.abs((widget.editbox:GetHeight() or 0) - desiredHeight) > 0.5 then
+                widget.editbox:SetHeight(desiredHeight)
+            end
+            if widget.editSkin then
+                widget.editSkin:ClearAllPoints()
+                widget.editSkin:SetPoint("TOPLEFT", widget.frame, "TOPLEFT", 4, -20)
+                widget.editSkin:SetPoint("TOPRIGHT", widget.frame, "TOPRIGHT", -4, -20)
+                widget.editSkin:SetHeight(desiredHeight)
+                widget.editSkin:Show()
+            end
+            widget.editbox:Show()
+        end)
+    end
     widget.button = CreateFrame("Button", nil, widget.frame)
     widget.button:Hide()
     widget.disablebutton = false
-    widget.scrollBG = widget.editbox
     widget.scrollBar = CreateFrame("Slider", nil, widget.frame, "UIPanelScrollBarTemplate")
     if widgetType == "MultiLineEditBox" then
-        -- Tell the shared scrollbar styling to use the editor surface rather
-        -- than the outer widget frame as its anchor.
-        widget.scrollBar.modernScrollbarAnchor = widget.editbox
+        -- Keep the scrollbar above the editable surface and stretch it nearly
+        -- from the top to the bottom of the editor.
+        widget.scrollBar:SetFrameLevel(widget.editbox:GetFrameLevel() + 1)
+        widget.scrollBar.modernScrollbarAnchor = widget.scrollFrame
+        widget.scrollBar.modernScrollbarInset = 2
+        widget.scrollBar.modernScrollbarRightInset = 3
     end
-    widget.scrollBar:SetPoint("TOPRIGHT", widget.editbox, "TOPRIGHT", -3, 0)
-    widget.scrollBar:SetPoint("BOTTOMRIGHT", widget.editbox, "BOTTOMRIGHT", -3, 0)
+    local scrollAnchor = widget.scrollFrame or widget.editbox
+    widget.scrollBar:SetPoint("TOPRIGHT", scrollAnchor, "TOPRIGHT", -3, 0)
+    widget.scrollBar:SetPoint("BOTTOMRIGHT", scrollAnchor, "BOTTOMRIGHT", -3, 0)
+    if widgetType == "MultiLineEditBox" then
+        widget.scrollBar:SetValueStep(16)
+        widget.scrollBar:SetScript("OnValueChanged", function(_, value)
+            local current = widget.scrollFrame:GetVerticalScroll() or 0
+            if math.abs(current - value) > 0.5 then
+                widget.scrollFrame:SetVerticalScroll(value)
+            end
+        end)
+        widget.scrollFrame:HookScript("OnVerticalScroll", function(_, offset)
+            local minimum, maximum = widget.scrollBar:GetMinMaxValues()
+            widget.scrollBar:SetValue(math.max(minimum, math.min(maximum, offset or 0)))
+        end)
+        widget.scrollFrame:HookScript("OnScrollRangeChanged", function(_, _, verticalRange)
+            widget.scrollBar:SetMinMaxValues(0, math.max(verticalRange or 0, 0))
+        end)
+    end
     if widgetType ~= "MultiLineEditBox" then widget.scrollBar:Hide() end
     function widget:SetText(text)
         self.value = text or ""
@@ -584,7 +732,13 @@ local function CreateEditBox(widgetType, parent)
     function widget:SetNumLines(lines)
         self.numLines = lines
         self.frame:SetHeight(math.max(42, lines * 16 + 28))
+        if self.scrollFrame then self.scrollFrame:SetHeight(lines * 16) end
         self.editbox:SetHeight(lines * 16)
+        if self.editSkin then
+            self.editSkin:SetHeight(lines * 16)
+            self.editSkin:Show()
+        end
+        self.editbox:Show()
     end
     function widget:SetMaxLetters(maxLetters)
         self.editbox:SetMaxLetters(maxLetters)
@@ -665,9 +819,15 @@ local function CreateDropdown(parent)
 end
 
 local function CreateScrollFrame(parent)
-    local widget = CreateContainer("ScrollFrame", parent, 0, {0.08, 0.055, 0.03, 0.96})
-    widget.frame = CreateFrame("ScrollFrame", nil, parent)
+    -- Create the scroll frame first and pass that exact frame to the widget
+    -- wrapper. Creating a normal container and replacing widget.frame later
+    -- leaves content attached to an orphaned frame; the pane then appears
+    -- selected but renders empty depending on which layout path ran first.
+    local scrollFrame = CreateBackdropFrame("ScrollFrame", parent)
+    local widget = CreateBaseWidget("ScrollFrame", parent, scrollFrame)
+    widget.inset = 0
     widget.border = widget.frame
+    SetBackdrop(widget.border, {0.08, 0.055, 0.03, 0.96}, {0.35, 0.25, 0.1, 1})
     widget.content = CreateBackdropFrame("Frame", widget.frame)
     widget.content:SetPoint("TOPLEFT", widget.frame, "TOPLEFT")
     widget.content:SetWidth(1)
@@ -688,9 +848,15 @@ local function CreateScrollFrame(parent)
         widget.scrollbar:SetPoint("TOPRIGHT", widget.frame, "TOPRIGHT", -2, -2)
         widget.scrollbar:SetPoint("BOTTOMRIGHT", widget.frame, "BOTTOMRIGHT", -2, 2)
     end
-    widget.frame:HookScript("OnSizeChanged", function()
+    function widget:UpdateContentWidth()
         local scrollbarWidth = widget.scrollbar.questieNativeMinimalScrollBar and (widget.scrollbar:GetWidth() or 8) or 16
         widget.content:SetWidth(math.max((widget.frame:GetWidth() or 1) - scrollbarWidth, 1))
+    end
+
+    widget:UpdateContentWidth()
+    widget.frame:HookScript("OnSizeChanged", function()
+        widget:UpdateContentWidth()
+        LayoutChildren(widget)
         if widget.UpdateScrollMetrics and (not widget.layoutSuspended or widget.layoutSuspended == 0) then
             widget:UpdateScrollMetrics()
         end
@@ -700,12 +866,17 @@ local function CreateScrollFrame(parent)
         widget.scrollbar:SetValueStep(1)
     end
     function widget:UpdateScrollMetrics()
-        local height = 0
-        for _, item in ipairs(self.children) do height = height + GetWidgetHeight(item) end
+        self:UpdateContentWidth()
         local viewHeight = self.frame:GetHeight() or 0
-        self.content:SetHeight(math.max(height + (SCROLL_CONTENT_INSET * 2), viewHeight, 1))
+        -- LayoutChildren accounts for title rows, wrapping, and flow/list gaps.
+        -- Re-summing only the child frame heights here undercounted nested
+        -- Journey panels and let the last panel extend past the viewport.
+        LayoutChildren(self)
+        local contentHeight = self.content:GetHeight() or 0
+        contentHeight = math.max(contentHeight, viewHeight, 1)
+        self.content:SetHeight(contentHeight)
         if not self.scrollbar.questieNativeMinimalScrollBar then
-            local maximum = math.max(0, height - viewHeight)
+            local maximum = math.max(0, contentHeight - viewHeight)
             self.scrollbar:SetMinMaxValues(0, maximum)
             self.scrollbar:SetShown(maximum > 0)
             self.scrollbar:SetValue(math.min(self.scrollbar:GetValue() or 0, maximum))
@@ -721,15 +892,22 @@ local function CreateScrollFrame(parent)
     function widget:SetHeight(height)
         self.explicitHeight = height
         self.frame:SetHeight(height)
+        self:UpdateContentWidth()
         if not self.layoutSuspended or self.layoutSuspended == 0 then
             self:UpdateScrollMetrics()
         end
     end
     function widget:AddChild(child)
+        self:UpdateContentWidth()
         AddChild(self, child)
         if not self.layoutSuspended or self.layoutSuspended == 0 then
             self:UpdateScrollMetrics()
         end
+    end
+    function widget:RefreshLayout()
+        self:UpdateContentWidth()
+        LayoutChildren(self)
+        if self.UpdateScrollMetrics then self:UpdateScrollMetrics() end
     end
     return widget
 end
@@ -799,6 +977,10 @@ local function CreateTreeGroup(parent)
     widget.treeScroll:SetPoint("TOPLEFT", widget.treeframe, "TOPLEFT", 4, -4)
     widget.treeScroll:SetPoint("BOTTOMRIGHT", widget.treeframe, "BOTTOMRIGHT", -22, 4)
     widget.treeScroll:EnableMouseWheel(true)
+    widget.treeScroll:EnableKeyboard(true)
+    if widget.treeScroll.SetPropagateKeyboardInput then
+        widget.treeScroll:SetPropagateKeyboardInput(true)
+    end
     widget.treeContent = CreateFrame("Frame", nil, widget.treeScroll)
     widget.treeContent:SetPoint("TOPLEFT", widget.treeScroll, "TOPLEFT")
     widget.treeContent:SetWidth(1)
@@ -844,6 +1026,89 @@ local function CreateTreeGroup(parent)
     local renderingTree = false
     local layingOutTree = false
 
+    local function FocusTree()
+        if widget.treeScroll.SetFocus then
+            widget.treeScroll:SetFocus()
+        end
+    end
+
+    local function GetVisibleSelectableButtons()
+        local buttons = {}
+        for _, button in ipairs({widget.treeContent:GetChildren()}) do
+            if button.treeValue and button.treeOrder and button:IsShown() and button.treeSelectable then
+                buttons[#buttons + 1] = button
+            end
+        end
+        table.sort(buttons, function(left, right)
+            return left.treeOrder < right.treeOrder
+        end)
+        return buttons
+    end
+
+    local function ScrollButtonIntoView(button)
+        if not button or not button.GetTop or not button.GetBottom
+            or not widget.treeScroll.GetTop or not widget.treeScroll.GetBottom then
+            return
+        end
+
+        local top = button:GetTop()
+        local bottom = button:GetBottom()
+        local viewTop = widget.treeScroll:GetTop()
+        local viewBottom = widget.treeScroll:GetBottom()
+        if not top or not bottom or not viewTop or not viewBottom then
+            return
+        end
+
+        local scroll = widget.treeScroll:GetVerticalScroll() or 0
+        if top > viewTop then
+            widget.treeScroll:SetVerticalScroll(math.max(0, scroll - (top - viewTop)))
+        elseif bottom < viewBottom then
+            widget.treeScroll:SetVerticalScroll(math.max(0, scroll + (viewBottom - bottom)))
+        end
+    end
+
+    local function SelectAdjacentEntry(direction)
+        local buttons = GetVisibleSelectableButtons()
+        if #buttons == 0 then
+            return
+        end
+
+        local selected = tostring(widget.localstatus.selected or "")
+        local selectedIndex
+        for index, button in ipairs(buttons) do
+            if button.treeValue == selected then
+                selectedIndex = index
+                break
+            end
+        end
+
+        local targetIndex
+        if selectedIndex then
+            targetIndex = selectedIndex + direction
+        else
+            targetIndex = direction > 0 and 1 or #buttons
+        end
+        if targetIndex < 1 or targetIndex > #buttons then
+            return
+        end
+
+        local target = buttons[targetIndex]
+        widget:SelectByValue(target.treeValue)
+        ScrollButtonIntoView(target)
+    end
+
+    widget.treeScroll:SetScript("OnKeyDown", function(_, key)
+        local handled = key == "UP" or key == "DOWN"
+        if widget.treeScroll.SetPropagateKeyboardInput then
+            widget.treeScroll:SetPropagateKeyboardInput(not handled)
+        end
+        if key == "UP" then
+            SelectAdjacentEntry(-1)
+        elseif key == "DOWN" then
+            SelectAdjacentEntry(1)
+        end
+    end)
+
     local function RenderTree()
         if renderingTree then
             return
@@ -851,17 +1116,34 @@ local function CreateTreeGroup(parent)
         renderingTree = true
         for _, child in ipairs({widget.treeContent:GetChildren()}) do child:Hide() end
         local y = -4
+        local rowOrder = 0
         local function AddNodes(nodes, path, depth)
             for _, node in ipairs(nodes or {}) do
                 local nodePath = path and (path .. PATH_SEPARATOR .. tostring(node.value)) or tostring(node.value)
                 local button = CreateFrame("Button", nil, widget.treeContent)
                 button.treeValue = nodePath
+                rowOrder = rowOrder + 1
+                button.treeOrder = rowOrder
+                button.treeDisabled = node.disabled
+                button.treeSelectable = not node.children and not node.disabled
                 button:SetPoint("TOPLEFT", widget.treeContent, "TOPLEFT", depth * 10, y)
-                button:SetWidth(math.max(widget.treeContent:GetWidth() or 1, 1) - depth * 10)
+                -- Avoid measuring or setting row widths while a parent is
+                -- laying itself out. SetWidth here re-entered the native
+                -- OnSizeChanged chain for every result in a broad search.
+                -- Anchoring to the viewport gives the row the same width
+                -- without a synchronous width measurement/update loop.
+                button:SetPoint("TOPRIGHT", widget.treeScroll, "TOPRIGHT", -depth * 10, y)
                 button:SetHeight(22)
                 button:SetFrameLevel(widget.treeScroll:GetFrameLevel() + 1)
                 button:EnableMouse(true)
-                button:SetHighlightTexture("Interface\\Buttons\\UI-Listbox-Highlight2")
+                -- The default listbox highlight is a bright white strip that
+                -- clashes with Journey's brown/gold surfaces. Use the same
+                -- bronze family as the modern Journey link hover treatment,
+                -- with enough opacity to remain visible over the pane.
+                local highlight = button:CreateTexture(nil, "BACKGROUND")
+                highlight:SetAllPoints(button)
+                highlight:SetColorTexture(0.42, 0.27, 0.05, 0.68)
+                button:SetHighlightTexture(highlight)
                 button.text = button:CreateFontString(nil, "OVERLAY", node.children and "GameFontNormal" or "GameFontHighlightSmall")
                 button.text:SetText(node.text or tostring(node.value))
                 button.text:SetJustifyH("LEFT")
@@ -882,6 +1164,7 @@ local function CreateTreeGroup(parent)
                         widget.localstatus.groups[nodePath] = widget.localstatus.groups[nodePath] == false
                         RenderTree()
                     end)
+                    button.toggle:SetScript("OnMouseDown", FocusTree)
                     button.toggle:Show()
                 end
 
@@ -903,9 +1186,17 @@ local function CreateTreeGroup(parent)
                 button.text:SetPoint("RIGHT", button, "RIGHT", -8, 0)
                 if button.SetEnabled then button:SetEnabled(not node.disabled) end
                 button:SetScript("OnClick", function()
-                    Fire(widget, "OnClick", nodePath, widget.localstatus.selected == nodePath)
-                    widget:SelectByValue(nodePath)
+                    if node.disabled then
+                        return
+                    end
+                    local alreadySelected = widget.localstatus.selected == nodePath
+                    Fire(widget, "OnClick", nodePath, alreadySelected)
+                    -- A repeated click must be able to restore details after
+                    -- a tree rebuild cleared the pane while retaining the
+                    -- same selected path.
+                    widget:SelectByValue(nodePath, alreadySelected)
                 end)
+                button:SetScript("OnMouseDown", FocusTree)
                 button:SetScript("OnEnter", function()
                     Fire(widget, "OnButtonEnter", nodePath, button)
                     if widget.buttonTooltips then
@@ -940,31 +1231,40 @@ local function CreateTreeGroup(parent)
     end
 
     local function LayoutTree()
-        -- Rebuilding buttons changes their visibility and size. Those changes
-        -- can synchronously fire the tree frame's size callbacks; do not start
-        -- another tree render while the current render is still in progress.
+        -- Keep this callback limited to the detail-pane anchors. Rebuilding
+        -- buttons here causes a recursive OnSizeChanged -> LayoutTree ->
+        -- RenderTree cycle on the native WoW frames used by Journey.
         if layingOutTree or renderingTree then
             return
         end
         layingOutTree = true
-        widget.treeContent:SetWidth(math.max(widget.treeScroll:GetWidth() or 1, 1))
         widget.content:ClearAllPoints()
         widget.content:SetPoint("TOPLEFT", widget.treeframe, "TOPRIGHT", -2, 0)
         widget.content:SetPoint("BOTTOMRIGHT", widget.frame, "BOTTOMRIGHT")
-        RenderTree()
         layingOutTree = false
     end
     widget.frame:HookScript("OnSizeChanged", LayoutTree)
     widget.treeframe:HookScript("OnSizeChanged", LayoutTree)
-    widget.treeScroll:HookScript("OnSizeChanged", function()
-        widget.treeContent:SetWidth(math.max(widget.treeScroll:GetWidth() or 1, 1))
-    end)
 
     function widget:SetTree(tree)
         self.tree = tree or {}
         RenderTree()
     end
-    function widget:SelectByValue(value)
+    function widget:CollapseAllGroups()
+        local function Collapse(nodes, parentPath)
+            for _, node in ipairs(nodes or {}) do
+                local nodePath = parentPath and (parentPath .. PATH_SEPARATOR .. tostring(node.value)) or tostring(node.value)
+                if node.children then
+                    self.localstatus.groups[nodePath] = false
+                    Collapse(node.children, nodePath)
+                end
+            end
+        end
+
+        Collapse(self.tree)
+        RenderTree()
+    end
+    function widget:SelectByValue(value, force)
         self.localstatus.selected = tostring(value)
         for _, button in ipairs({self.treeContent:GetChildren()}) do
             if button.treeValue == self.localstatus.selected then
@@ -973,7 +1273,7 @@ local function CreateTreeGroup(parent)
                 button:UnlockHighlight()
             end
         end
-        Fire(self, "OnGroupSelected", self.localstatus.selected)
+        Fire(self, "OnGroupSelected", self.localstatus.selected, force)
     end
     function widget:SelectByPath(...)
         local parts = {...}
@@ -992,6 +1292,7 @@ local function CreateTabGroup(parent)
     widget.localstatus = {}
     widget.status = widget.localstatus
     widget.tabs = {}
+    widget.tabButtons = {}
     widget.tabBar = CreateFrame("Frame", nil, widget.frame)
     widget.tabBar:SetPoint("TOPLEFT", widget.frame, "TOPLEFT")
     widget.tabBar:SetPoint("TOPRIGHT", widget.frame, "TOPRIGHT")
@@ -1000,6 +1301,25 @@ local function CreateTabGroup(parent)
     -- Content widgets create their own child frames, so a small level offset
     -- is not enough to keep the tabs above the result container.
     widget.tabBar:SetFrameLevel(widget.frame:GetFrameLevel() + 20)
+    local function RaiseTabBar()
+        -- Result trees are added after the tab strip and can otherwise end up
+        -- above it in the native frame stack. Keep the tabs above every
+        -- result/detail child; this is especially important when a search
+        -- query rebuilds the tree without recreating the TabGroup.
+        widget.tabBar:SetFrameLevel(widget.frame:GetFrameLevel() + 100)
+        widget.tabBar:Show()
+        widget.tabBar:Raise()
+        for _, child in ipairs({widget.tabBar:GetChildren()}) do
+            -- A tab refresh can leave retired buttons parented to the tab
+            -- bar. Re-showing every child here would resurrect those stale
+            -- buttons and create the doubled-tab artifact during a hover
+            -- preview refresh.
+            if child:IsShown() then
+                child:SetFrameLevel(widget.tabBar:GetFrameLevel() + 1)
+                child:Raise()
+            end
+        end
+    end
     local function LayoutTabGroup()
         -- CreateContainer reanchors content when the parent is resized. Keep
         -- the content below the tab bar after that generic layout pass.
@@ -1011,21 +1331,45 @@ local function CreateTabGroup(parent)
     widget.frame:HookScript("OnSizeChanged", LayoutTabGroup)
     function widget:SetTabs(tabs)
         self.tabs = tabs or {}
-        for _, child in ipairs({self.tabBar:GetChildren()}) do child:Hide() end
+        self.modernHoveredTab = nil
+        self.tabBar:Show()
+        local activeButtons = {}
         for _, tab in ipairs(self.tabs) do
-            local nativeOk, button = pcall(CreateFrame, "Button", nil, self.tabBar, "MinimalTabTemplate")
-            if not nativeOk or not button then
-                button = CreateFrame("Button", nil, self.tabBar, "UIPanelButtonTemplate")
+            local button = self.tabButtons[tab.value]
+            if not button then
+                local nativeOk
+                nativeOk, button = pcall(CreateFrame, "Button", nil, self.tabBar, "MinimalTabTemplate")
+                if not nativeOk or not button then
+                    button = CreateFrame("Button", nil, self.tabBar, "UIPanelButtonTemplate")
+                end
+                self.tabButtons[tab.value] = button
             end
+            activeButtons[button] = true
+            button.questieTabData = tab
             button:SetSize(math.max(90, (tab.text and string.len(tab.text) or 8) * 8 + 24), 28)
             button:SetFrameLevel(self.tabBar:GetFrameLevel() + 1)
             if button.Text then button.Text:SetText(tab.text or tab.value) else button:SetText(tab.text or tab.value) end
             tab.disabled = tab.disabled and true or false
             if tab.disabled then button:Disable() else button:Enable() end
-            button:SetScript("OnClick", function() if not tab.disabled then self:SelectTab(tab.value) end end)
+            button:SetScript("OnClick", function(currentButton)
+                local currentTab = currentButton.questieTabData
+                if currentTab and not currentTab.disabled then
+                    self:SelectTab(currentTab.value)
+                end
+            end)
+            if button.SetSelected then
+                button:SetSelected(tab.value == self.localstatus.selected)
+            end
             tab.button = button
+            button:Show()
+        end
+        for _, button in pairs(self.tabButtons) do
+            if not activeButtons[button] then
+                button:Hide()
+            end
         end
         self:LayoutTabs()
+        RaiseTabBar()
     end
     function widget:LayoutTabs()
         local gap = 4
@@ -1042,12 +1386,16 @@ local function CreateTabGroup(parent)
                 x = x + button:GetWidth() + gap
             end
         end
+        RaiseTabBar()
     end
     function widget:SetTabBarWidth(width)
         self.tabBar:ClearAllPoints()
         self.tabBar:SetPoint("TOPLEFT", self.frame, "TOPLEFT")
         self.tabBar:SetWidth(width)
         self:LayoutTabs()
+    end
+    function widget:RaiseTabs()
+        RaiseTabBar()
     end
     function widget:SelectTab(value)
         self.localstatus.selected = value
@@ -1070,6 +1418,16 @@ end
 local function CreateIcon(parent)
     local widget = CreateBaseWidget("Icon", parent)
     widget.frame:SetSize(32, 32)
+    widget.frame:EnableMouse(true)
+    widget.frame:SetScript("OnEnter", function()
+        Fire(widget, "OnEnter")
+    end)
+    widget.frame:SetScript("OnLeave", function()
+        Fire(widget, "OnLeave")
+    end)
+    widget.frame:SetScript("OnMouseUp", function(_, button)
+        Fire(widget, "OnClick", button)
+    end)
     widget.image = widget.frame:CreateTexture(nil, "ARTWORK")
     widget.image:SetAllPoints(widget.frame)
     function widget:SetImage(texture)
