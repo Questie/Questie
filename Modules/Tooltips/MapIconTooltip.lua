@@ -53,12 +53,12 @@ local BREADCRUMB_QUEST_ICON_PATH = QuestieLib.AddonPath .. "Icons\\breadcrumbtoo
 local BREADCRUMB_QUEST_ICON_TEXTURE_SIZE = 16
 local BREADCRUMB_QUEST_ICON_TEXTURE = "|T" .. BREADCRUMB_QUEST_ICON_PATH .. ":" .. BREADCRUMB_QUEST_ICON_TEXTURE_SIZE .. ":" .. BREADCRUMB_QUEST_ICON_TEXTURE_SIZE .. ":2:0|t"
 
--- A monster killed for a quest's starting item is marked after its name by its rank with Blizzard's nameplate
--- dragons: gold for elites and bosses, silver for rare elites. Nameplates leave plain rares unmarked; here they
--- get the silver dragon too, as a rare is worth knowing about when it drops the item.
+-- A monster killed for a quest's starting item is marked after its name by its rank, with Blizzard's nameplate
+-- dragons. Silver marks a rare or rare elite: it might not be there, even though its icon shows. Gold marks an
+-- elite or a boss: bring friends.
 local SILVER_DRAGON_ICON_TEXTURE = "|A:nameplates-icon-elite-silver:14:14:0:0|a"
 local GOLD_DRAGON_ICON_TEXTURE = "|A:nameplates-icon-elite-gold:14:14:0:0|a"
----@type table<number, string> By DropperRank
+---@type table<number, string> Dragon atlas markup by DropperRank
 local DROPPER_RANK_ICON_TEXTURES = {
     [1] = GOLD_DRAGON_ICON_TEXTURE, -- elite
     [2] = SILVER_DRAGON_ICON_TEXTURE, -- rare elite

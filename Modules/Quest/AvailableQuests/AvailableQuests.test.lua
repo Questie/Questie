@@ -582,36 +582,31 @@ describe("AvailableQuests", function()
                 assert.spy(QuestieMap.DrawWaypoints).was.called_with(QuestieMap, icon, "m_" .. NPC_ID, WAYPOINTS, ZONE, true)
             end)
 
-            describe("of a vendor listed as dropping the starting item", function()
-                local VENDOR = 128
-                local originalNpcFlags
-
-                before_each(function()
-                    originalNpcFlags = QuestieDB.npcFlags
-                    QuestieDB.npcFlags = {VENDOR = VENDOR}
+            describe("of an NPC listed as dropping the starting item", function()
+                ---@param friendlyToFaction string?
+                local function DrawDroppedBy(friendlyToFaction)
                     QuestieDB.GetItem = function() return {npcDrops = {NPC_ID}} end
-                end)
-
-                after_each(function()
-                    QuestieDB.npcFlags = originalNpcFlags
-                end)
-
-                it("should not draw it as hostile when the vendor is friendly", function()
                     QuestieDB.GetNPC = function()
-                        return {id = NPC_ID, name = "Test NPC", waypoints = {[ZONE] = WAYPOINTS}, friendly = true, npcFlags = VENDOR + 2}
+                        return {id = NPC_ID, name = "Test NPC", waypoints = {[ZONE] = WAYPOINTS}, friendlyToFaction = friendlyToFaction}
                     end
-
                     AvailableQuests.DrawAvailableQuest({Id = QUEST_ID, Starts = {Item = {789}}})
+                end
+
+                -- The test player is Horde
+                it("should not draw it as hostile when it is friendly to the player's faction", function()
+                    DrawDroppedBy("H")
 
                     assert.spy(QuestieMap.DrawWaypoints).was.called_with(QuestieMap, icon, "m_" .. NPC_ID, WAYPOINTS, ZONE, false)
                 end)
 
-                it("should draw it as hostile when the vendor is of the other faction", function()
-                    QuestieDB.GetNPC = function()
-                        return {id = NPC_ID, name = "Test NPC", waypoints = {[ZONE] = WAYPOINTS}, friendly = false, npcFlags = VENDOR}
-                    end
+                it("should not draw it as hostile when it is friendly to both factions", function()
+                    DrawDroppedBy("AH")
 
-                    AvailableQuests.DrawAvailableQuest({Id = QUEST_ID, Starts = {Item = {789}}})
+                    assert.spy(QuestieMap.DrawWaypoints).was.called_with(QuestieMap, icon, "m_" .. NPC_ID, WAYPOINTS, ZONE, false)
+                end)
+
+                it("should draw it as hostile when it is friendly only to the other faction", function()
+                    DrawDroppedBy("A")
 
                     assert.spy(QuestieMap.DrawWaypoints).was.called_with(QuestieMap, icon, "m_" .. NPC_ID, WAYPOINTS, ZONE, true)
                 end)
@@ -625,41 +620,42 @@ describe("AvailableQuests", function()
         end)
 
         describe("dropper rank", function()
-            local RARE, ELITE, VENDOR = 4, 1, 128
+            local RARE, ELITE = 4, 1
+            local DUNGEON = 1581
             local drawn
             local originalDrawWorldIcon
             local originalDrawWaypoints
             local originalGetQuestIcon
-            local originalNpcFlags
+            local originalGetDungeonLocation
 
             before_each(function()
                 drawn = {}
                 originalDrawWorldIcon = QuestieMap.DrawWorldIcon
                 originalDrawWaypoints = QuestieMap.DrawWaypoints
                 originalGetQuestIcon = QuestieLib.GetQuestIcon
-                originalNpcFlags = QuestieDB.npcFlags
+                originalGetDungeonLocation = ZoneDB.GetDungeonLocation
                 QuestieMap.DrawWorldIcon = function(_, data) drawn[#drawn + 1] = data; return {} end
                 QuestieLib.GetQuestIcon = function() return 6 end
-                QuestieDB.npcFlags = {VENDOR = VENDOR}
                 QuestieTooltips.RegisterQuestStartTooltip = function() end
+                QuestieDB.GetItem = function() return {npcDrops = {NPC_ID}} end
             end)
 
             after_each(function()
                 QuestieMap.DrawWorldIcon = originalDrawWorldIcon
                 QuestieMap.DrawWaypoints = originalDrawWaypoints
                 QuestieLib.GetQuestIcon = originalGetQuestIcon
-                QuestieDB.npcFlags = originalNpcFlags
+                ZoneDB.GetDungeonLocation = originalGetDungeonLocation
             end)
 
-            local function NpcWithRank(rank, extra)
+            ---@return fun(): NPC GetNPC The QuestieDB.GetNPC stub returning the NPC.
+            local function GetNpcWithRank(rank, extra)
                 local npc = {id = NPC_ID, name = "Test NPC", rank = rank, spawns = {[12] = {{50, 50}}}}
                 for key, value in pairs(extra or {}) do npc[key] = value end
                 return function() return npc end
             end
 
             it("should be noted for a monster dropping the starting item", function()
-                QuestieDB.GetItem = function() return {npcDrops = {NPC_ID}} end
-                QuestieDB.GetNPC = NpcWithRank(RARE)
+                QuestieDB.GetNPC = GetNpcWithRank(RARE)
 
                 AvailableQuests.DrawAvailableQuest({Id = QUEST_ID, Starts = {Item = {789}}})
 
@@ -668,8 +664,7 @@ describe("AvailableQuests", function()
             end)
 
             it("should be noted on the icon drawn on the route of a monster without spawns there", function()
-                QuestieDB.GetItem = function() return {npcDrops = {NPC_ID}} end
-                QuestieDB.GetNPC = NpcWithRank(RARE, {spawns = {}, waypoints = {[12] = {{{10, 10}, {20, 20}}}}})
+                QuestieDB.GetNPC = GetNpcWithRank(RARE, {spawns = {}, waypoints = {[12] = {{{10, 10}, {20, 20}}}}})
                 QuestieMap.DrawWaypoints = function() end
 
                 AvailableQuests.DrawAvailableQuest({Id = QUEST_ID, Starts = {Item = {789}}})
@@ -679,7 +674,7 @@ describe("AvailableQuests", function()
             end)
 
             it("should not be noted for an NPC handing out the quest", function()
-                QuestieDB.GetNPC = NpcWithRank(ELITE)
+                QuestieDB.GetNPC = GetNpcWithRank(ELITE)
 
                 AvailableQuests.DrawAvailableQuest({Id = QUEST_ID, Starts = {NPC = {NPC_ID}}})
 
@@ -687,9 +682,20 @@ describe("AvailableQuests", function()
                 assert.is_nil(drawn[1].DropperRank)
             end)
 
-            it("should not be noted for a friendly vendor listed as dropping the starting item", function()
-                QuestieDB.GetItem = function() return {npcDrops = {NPC_ID}} end
-                QuestieDB.GetNPC = NpcWithRank(ELITE, {friendly = true, npcFlags = VENDOR})
+            it("should not be noted for an NPC friendly to the player listed as dropping the starting item", function()
+                QuestieDB.GetNPC = GetNpcWithRank(ELITE, {friendlyToFaction = "AH"})
+
+                AvailableQuests.DrawAvailableQuest({Id = QUEST_ID, Starts = {Item = {789}}})
+
+                assert.are.equal(1, #drawn)
+                assert.is_nil(drawn[1].DropperRank)
+            end)
+
+            it("should not be noted on the entrance icons of a monster inside a dungeon", function()
+                ZoneDB.GetDungeons = function() return {[DUNGEON] = {}} end
+                ZoneDB.GetDungeonLocation = function() return {{40, 30.5, 72.8}} end
+                AvailableQuests.Initialize()
+                QuestieDB.GetNPC = GetNpcWithRank(ELITE, {spawns = {[DUNGEON] = {{-1, -1}}}})
 
                 AvailableQuests.DrawAvailableQuest({Id = QUEST_ID, Starts = {Item = {789}}})
 

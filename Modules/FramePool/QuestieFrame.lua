@@ -41,7 +41,7 @@ local HBDPins = QuestieLoader:ImportModule("HBDPins")
 ---@field IsObjectiveNote boolean
 ---@field StarterType string|nil
 ---@field waypointPaths WaypointPath[]? Patrol paths of the NPC, shared by all icons with this data.
----@field DropperRank number? The cmangos rank of a monster killed for the item starting the quest: 0 normal, 1 elite, 2 rare elite, 3 boss, 4 rare.
+---@field DropperRank number? The cmangos rank of a monster killed for the item starting the quest, outside dungeons: 0 normal, 1 elite, 2 rare elite, 3 boss, 4 rare.
 
 ---@class IconTexture : Texture
 ---@field r number

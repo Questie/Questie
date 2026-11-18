@@ -552,11 +552,15 @@ describe("MapIconTooltip objective wording", function()
             QuestieDB.IsRepeatable = function() return false end
         end)
 
-        ---@param dropperRank number?
-        local function ShowGiver(dropperRank)
-            local giver = {x = 50, y = 50, AreaID = 1, texture = icon.texture,
-                data = {Id = 10, Type = "available", Name = "Blackmoss the Fetid", QuestData = {}, DropperRank = dropperRank}}
-            MapIconTooltip.ShowOnTooltip(giver, GameTooltip, nil, {giver})
+        ---Shows the tooltip of one giver's icons, one icon per quest, hovering the first.
+        ---@param ... number? The DropperRank of each icon
+        local function ShowGiver(...)
+            local icons = {}
+            for i = 1, select("#", ...) do
+                icons[i] = {x = 50, y = 50, AreaID = 1, texture = icon.texture,
+                    data = {Id = 10 + i, Type = "available", Name = "Blackmoss the Fetid", QuestData = {}, DropperRank = (select(i, ...))}}
+            end
+            MapIconTooltip.ShowOnTooltip(icons[1], GameTooltip, nil, icons)
         end
 
         ---@return string? line The rendered line naming the giver.
@@ -584,14 +588,25 @@ describe("MapIconTooltip objective wording", function()
             end
         end)
 
-        it("should leave a normal monster and a giver without a dropper rank unmarked", function()
+        it("should leave a normal monster killed for the item unmarked", function()
             ShowGiver(0)
+
+            assert.are.equal("Blackmoss the Fetid", GiverLine())
+        end)
+
+        it("should leave a giver without a dropper rank unmarked", function()
             ShowGiver(nil)
 
-            for _, line in ipairs(rendered) do
-                assert.is_falsy(line:find("nameplates-icon-elite", 1, true))
-            end
             assert.are.equal("Blackmoss the Fetid", GiverLine())
+        end)
+
+        it("should mark a giver when only one of its quests comes from killing it, whichever icon comes first", function()
+            ShowGiver(4, nil)
+            assert.is_truthy(GiverLine():find("nameplates-icon-elite-silver", 1, true))
+
+            rendered = {}
+            ShowGiver(nil, 4)
+            assert.is_truthy(GiverLine():find("nameplates-icon-elite-silver", 1, true))
         end)
     end)
 end)
