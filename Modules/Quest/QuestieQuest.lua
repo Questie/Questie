@@ -1388,10 +1388,23 @@ _GetIconsSortedByDistance = function(icons)
     return iconCount, orderedList
 end
 
+---@param spawnList table<number, SpawnListNPC>
+---@return boolean @True when a target that is not rare has a spawn or patrol to show
+local function _HasCommonTargetToShow(spawnList)
+    for _, spawnData in pairs(spawnList) do
+        if (not spawnData.IsRare) and (next(spawnData.Spawns or {}) or next(spawnData.Waypoints or {})) then
+            return true
+        end
+    end
+    return false
+end
+
 _DrawObjectiveWaypoints = function(objective, icon, iconPerZone, acceptance)
+    -- A rare might not be there, so its patrol shows only when no other target marks where to go. todo: option for this
+    local hideRarePatrols = _HasCommonTargetToShow(objective.spawnList)
     local yieldCount = 0
     for _, spawnData in pairs(objective.spawnList) do -- spawnData.Name, spawnData.Spawns
-        if spawnData.Waypoints then
+        if spawnData.Waypoints and not (hideRarePatrols and spawnData.IsRare) then
             for zone, waypoints in pairs(spawnData.Waypoints) do
                 local firstWaypoint = waypoints[1][1]
 
