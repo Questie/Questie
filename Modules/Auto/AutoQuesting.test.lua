@@ -545,9 +545,98 @@ describe("AutoQuesting", function()
     end)
 
     describe("OnQuestGreeting", function()
+        local originalGetQuestGreetingQuestID
+
+        -- questLevels[i] is the Questie DB level of the greeting entry i; apiFlags[i] is what the client reports as trivial.
+        local function setupGreeting(questLevels, apiFlags)
+            _G.GetNumAvailableQuests = function() return #questLevels end
+            _G.UnitGUID = function() return "Creature-0-0-0-0-123-0" end
+            _G.GetAvailableQuestInfo = function(index) return apiFlags[index] end
+            QuestieCompat.GetQuestGreetingQuestID = function(index) return 1000 + index end
+            QuestieDB.QueryQuestSingle = function(questId) return questLevels[questId - 1000] end
+            -- Stand-in for a low player level where level 0 or lower is grey and a level 1 quest is still green.
+            QuestieDB.IsTrivial = function(questLevel) return questLevel ~= nil and questLevel < 1 end
+        end
+
+        before_each(function()
+            originalGetQuestGreetingQuestID = QuestieCompat.GetQuestGreetingQuestID
+            setupGreeting({5, 5}, {})
+        end)
+
+        after_each(function()
+            QuestieCompat.GetQuestGreetingQuestID = originalGetQuestGreetingQuestID
+            _G.GetAvailableQuestInfo = nil
+        end)
+
         it("should accept quests", function()
             _G.GetNumAvailableQuests = function() return 2 end
             Questie.db.profile.autocomplete = false
+
+            AutoQuesting.OnQuestGreeting()
+
+            assert.spy(_G.SelectAvailableQuest).was.called_with(1)
+        end)
+
+        it("should skip a trivial quest and select the first non-trivial quest when trivial quests are not accepted", function()
+            setupGreeting({0, 5}, {})
+            Questie.db.profile.autocomplete = false
+            Questie.db.profile.autoAccept.trivial = false
+
+            AutoQuesting.OnQuestGreeting()
+
+            assert.spy(_G.SelectAvailableQuest).was.called(1)
+            assert.spy(_G.SelectAvailableQuest).was.called_with(2)
+        end)
+
+        it("should not select a quest when all available quests are trivial and trivial quests are not accepted", function()
+            setupGreeting({0, -3}, {})
+            Questie.db.profile.autocomplete = false
+            Questie.db.profile.autoAccept.trivial = false
+
+            AutoQuesting.OnQuestGreeting()
+
+            assert.spy(_G.SelectAvailableQuest).was.not_called()
+        end)
+
+        it("should select the first quest even when trivial when trivial quests are accepted", function()
+            setupGreeting({0, 5}, {})
+            Questie.db.profile.autocomplete = false
+            Questie.db.profile.autoAccept.trivial = true
+
+            AutoQuesting.OnQuestGreeting()
+
+            assert.spy(_G.SelectAvailableQuest).was.called(1)
+            assert.spy(_G.SelectAvailableQuest).was.called_with(1)
+        end)
+
+        it("should select a low-level quest the client flags as trivial when Questie does not consider it trivial", function()
+            setupGreeting({1, 5}, {true, false})
+            Questie.db.profile.autocomplete = false
+            Questie.db.profile.autoAccept.trivial = false
+
+            AutoQuesting.OnQuestGreeting()
+
+            assert.spy(_G.SelectAvailableQuest).was.called(1)
+            assert.spy(_G.SelectAvailableQuest).was.called_with(1)
+        end)
+
+        it("should skip a quest Questie considers trivial when the client does not flag it", function()
+            setupGreeting({0, 5}, {false, false})
+            Questie.db.profile.autocomplete = false
+            Questie.db.profile.autoAccept.trivial = false
+
+            AutoQuesting.OnQuestGreeting()
+
+            assert.spy(_G.SelectAvailableQuest).was.called(1)
+            assert.spy(_G.SelectAvailableQuest).was.called_with(2)
+        end)
+
+        it("should treat quests missing from the database as not trivial", function()
+            setupGreeting({}, {})
+            Questie.db.profile.autocomplete = false
+            _G.GetNumAvailableQuests = function() return 2 end
+            QuestieCompat.GetQuestGreetingQuestID = function() return 0 end
+            Questie.db.profile.autoAccept.trivial = false
 
             AutoQuesting.OnQuestGreeting()
 
