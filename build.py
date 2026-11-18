@@ -98,8 +98,7 @@ EXPANSIONS = {
     },
     160: { # weird value here because Blizzard broke their versioning scheme with Forever (1.60) and we have to represent it somehow
         "flags": ("-f", "--forever"),
-        "toc_suffix": "Camelot",
-        "extra_toc_suffixes": ("Forever",),
+        "toc_suffix": "Forever",
         "flavor": "forever",
         "default": True,
     },
@@ -110,8 +109,7 @@ allTocs = {}
 for number, expansion in EXPANSIONS.items():
     tocs[number] = f"Questie_{expansion['toc_suffix']}.toc"
     dbTocs[number] = f"QuestieDB_{expansion['toc_suffix']}.toc"
-    # Extra TOCs are shipped and stamped alongside the primary one.
-    allTocs[number] = [tocs[number]] + [f"Questie_{suffix}.toc" for suffix in expansion.get("extra_toc_suffixes", ())]
+    allTocs[number] = [tocs[number]]
 
 directoriesToInclude = ["Database", "Icons", "Libs", "Localization", "Modules", "Public"]
 filesToInclude = ["Bindings.xml", "embeds.xml", "Questie.lua", "Questie.toc", "README.md", "README_ES.md", "README_CN.md", "LICENSE.md", "gpl-3.0.md"]

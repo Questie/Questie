@@ -276,6 +276,18 @@ local trackerUILocales = {
         ["zhCN"] = "将任务链接到聊天框",
         ["zhTW"] = "將任務貼到對話視窗",
     },
+    ["Share Quest"] = {
+        ["enUS"] = true,
+        ["deDE"] = "Quest teilen",
+        ["esES"] = "Compartir misión",
+        ["esMX"] = "Compartir misión",
+        ["frFR"] = "Partager la quête",
+        ["koKR"] = "퀘스트 공유",
+        ["ptBR"] = "Compartilhar missão",
+        ["ruRU"] = "Поделиться заданием",
+        ["zhCN"] = "共享任务",
+        ["zhTW"] = "分享任務",
+    },
     ["Link Achievement to chat"] = {
         ["enUS"] = true,
         ["deDE"] = "Erfolg in Chat verlinken",
@@ -400,6 +412,18 @@ local trackerUILocales = {
         ["ruRU"] = "Невозможно автоматически открыть журнал заданий, находясь в бою. Откройте его вручную.",
         ["zhCN"] = "战斗中无法打开任务日志，需要手动打开",
         ["zhTW"] = "戰鬥中無法打開任務日誌",
+    },
+    ["Can't share a Quest while in combat."] = {
+        ["enUS"] = true,
+        ["deDE"] = "Quests können im Kampf nicht geteilt werden.", -- AI 🤖
+        ["esES"] = "No se puede compartir una misión durante el combate.", -- AI 🤖
+        ["esMX"] = "No se puede compartir una misión durante el combate.", -- AI 🤖
+        ["frFR"] = "Impossible de partager une quête en combat.", -- AI 🤖
+        ["koKR"] = "전투 중에는 퀘스트를 공유할 수 없습니다.", -- AI 🤖
+        ["ptBR"] = "Não é possível compartilhar uma missão durante o combate.", -- AI 🤖
+        ["ruRU"] = "Невозможно поделиться заданием, находясь в бою.", -- AI 🤖
+        ["zhCN"] = "战斗中无法共享任务", -- AI 🤖
+        ["zhTW"] = "戰鬥中無法分享任務", -- AI 🤖
     },
     ["Maximize Quest"] = {
         ["enUS"] = true,

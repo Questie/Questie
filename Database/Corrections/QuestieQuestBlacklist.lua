@@ -7062,6 +7062,7 @@ function QuestieQuestBlacklist:Load()
         [78147] = HIDE_ON_MAP, -- Crimes Against Anatomy
         [78148] = HIDE_ON_MAP, -- Runes of the Sorcerer-Kings
         [78149] = HIDE_ON_MAP, -- Fury of the Land
+        [78917] = not Questie.IsSoD, -- The Heart of the Void
         [79090] = not Questie.IsSoD, -- Repelling Invaders
         [79091] = HIDE_ON_MAP, -- Archmage Antonidas: The Unabridged Autobiography
         [79092] = HIDE_ON_MAP, -- Archmage Theocritus' Research Journal
@@ -7114,6 +7115,10 @@ function QuestieQuestBlacklist:Load()
         [84400] = HIDE_ON_MAP, -- The Knight and the Lady
         [84401] = HIDE_ON_MAP, -- Scourge: Undead Menace or Misunderstood?
         [84402] = HIDE_ON_MAP, -- Necromancy 101
+
+        [87318] = true, -- Hearts of the Lost
+        [88757] = true, -- Accessories of the Lost
+        [88758] = true, -- Sentiments of the Lost
 
         [91899] = HIDE_ON_MAP, -- A Sealed Crate
         [91900] = HIDE_ON_MAP, -- A Sealed Crate

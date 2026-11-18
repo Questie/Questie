@@ -1085,6 +1085,7 @@ describe("QuestieCompat Forever paths", function()
             IsProtected = function() return false end,
             Hide = spy.new(function() end),
             Show = spy.new(function() end),
+            SetAlpha = spy.new(function() end),
             Update = spy.new(function() end),
         }
         questInfo = {title = "A Threat Within", level = 1, suggestedGroup = 0, questID = 783, isHeader = false}
@@ -1296,6 +1297,27 @@ describe("QuestieCompat Forever paths", function()
         QuestieCompat.ShowWatchFrame()
         onShow()
         assert.spy(ObjectiveTrackerFrame.Hide).was.called(3)
+    end)
+
+    it("should make a protected tracker invisible while Blizzard shows it during combat", function()
+        local onShow
+        ObjectiveTrackerFrame.IsProtected = function() return true end
+        ObjectiveTrackerFrame.HookScript = function(_, _, callback) onShow = callback end
+        QuestieCompat.HideWatchFrame()
+        ObjectiveTrackerFrame.SetAlpha:clear()
+
+        _G.InCombatLockdown = function() return true end
+        onShow()
+        assert.spy(ObjectiveTrackerFrame.SetAlpha).was.called_with(ObjectiveTrackerFrame, 0)
+        assert.spy(ObjectiveTrackerFrame.Hide).was.called(1)
+
+        QuestieCompat.ShowWatchFrame()
+        assert.spy(ObjectiveTrackerFrame.SetAlpha).was.not_called_with(ObjectiveTrackerFrame, 1)
+
+        _G.InCombatLockdown = function() return false end
+        onRegen()
+        assert.spy(ObjectiveTrackerFrame.SetAlpha).was.called_with(ObjectiveTrackerFrame, 1)
+        assert.spy(ObjectiveTrackerFrame.Show).was.called(1)
     end)
 
     it("keeps the legacy tuple positions and nil completion for an incomplete quest", function()
@@ -1615,6 +1637,101 @@ describe("QuestieCompat skill lines", function()
             QuestieCompat.ExpandAllSkillHeaders()
 
             assert.spy(ExpandSkillHeader).was.not_called()
+        end)
+    end)
+end)
+
+describe("QuestieCompat quest sharing", function()
+    ---@type QuestieCompat
+    local QuestieCompat
+    local originals, selectedIndex
+    local replacedGlobals = {"C_QuestLog", "GetQuestLogIndexByID", "GetQuestLogSelection", "SelectQuestLogEntry",
+        "GetQuestLogPushable", "QuestLogPushQuest"}
+
+    before_each(function()
+        originals = {}
+        for _, name in ipairs(replacedGlobals) do
+            originals[name] = _G[name]
+        end
+        selectedIndex = 1
+        _G.C_QuestLog = nil
+        _G.GetQuestLogIndexByID = function(questId) return questId == 783 and 4 or 0 end
+        _G.GetQuestLogSelection = function() return selectedIndex end
+        _G.SelectQuestLogEntry = function(index) selectedIndex = index end
+        _G.GetQuestLogPushable = function() return selectedIndex == 4 end
+        _G.QuestLogPushQuest = spy.new(function() assert.are.equal(4, selectedIndex) end)
+        dofile("Modules/QuestieCompat.lua")
+        QuestieCompat = QuestieLoader:ImportModule("QuestieCompat")
+    end)
+
+    after_each(function()
+        for _, name in ipairs(replacedGlobals) do
+            _G[name] = originals[name]
+        end
+    end)
+
+    describe("IsQuestPushable", function()
+        it("should check the quest selected in the quest log and restore the selection", function()
+            assert.is_true(QuestieCompat.IsQuestPushable(783))
+            assert.are.equal(1, selectedIndex)
+        end)
+
+        it("should return false for a quest that is not in the quest log", function()
+            assert.is_false(QuestieCompat.IsQuestPushable(999))
+        end)
+
+        it("should restore an empty quest log selection", function()
+            selectedIndex = 0
+
+            QuestieCompat.IsQuestPushable(783)
+
+            assert.are.equal(0, selectedIndex)
+        end)
+
+        it("should use C_QuestLog.IsPushableQuest when available", function()
+            _G.C_QuestLog = {IsPushableQuest = function(questId) return questId == 783 end}
+
+            assert.is_true(QuestieCompat.IsQuestPushable(783))
+            assert.is_false(QuestieCompat.IsQuestPushable(999))
+        end)
+    end)
+
+    describe("PushQuest", function()
+        it("should push the quest and restore the quest log selection", function()
+            QuestieCompat.PushQuest(783)
+
+            assert.spy(_G.QuestLogPushQuest).was.called(1)
+            assert.are.equal(1, selectedIndex)
+        end)
+
+        it("should clear the selection again on the modern client when nothing was selected", function()
+            local selectedQuestId = 0
+            _G.C_QuestLog = {
+                GetSelectedQuest = function() return selectedQuestId end,
+                SetSelectedQuest = spy.new(function(questId) selectedQuestId = questId end),
+                GetLogIndexForQuestID = function(questId) return questId == 783 and 4 or nil end,
+                GetInfo = function(index) return index == 4 and {questID = 783, isHeader = false} or nil end,
+            }
+            _G.QuestLogPushQuest = spy.new(function() assert.are.equal(783, selectedQuestId) end)
+
+            QuestieCompat.PushQuest(783)
+
+            assert.spy(_G.QuestLogPushQuest).was.called(1)
+            assert.are.equal(0, selectedQuestId)
+        end)
+
+        it("should restore an empty quest log selection after pushing", function()
+            selectedIndex = 0
+
+            QuestieCompat.PushQuest(783)
+
+            assert.are.equal(0, selectedIndex)
+        end)
+
+        it("should not push a quest that is not in the quest log", function()
+            QuestieCompat.PushQuest(999)
+
+            assert.spy(_G.QuestLogPushQuest).was.not_called()
         end)
     end)
 end)

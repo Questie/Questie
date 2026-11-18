@@ -83,6 +83,8 @@ describe("AutoQuesting", function()
         }
 
         QuestieDB = QuestieLoader:ImportModule("QuestieDB")
+        QuestieDB.questTagIds = {ESCORT = 84}
+        QuestieDB.GetQuestTagInfo = function() end
         dofile("Localization/l10n.lua")
 
         dofile("Modules/Auto/AutoQuesting.lua")
@@ -309,6 +311,42 @@ describe("AutoQuesting", function()
             AutoQuesting.OnQuestDetail()
 
             assert.spy(_G.AcceptQuest).was.not_called()
+        end)
+
+        it("should not accept escort quest that is not in the disallowed list", function()
+            _G.GetQuestID = function() return 123 end
+            QuestieDB.questTagIds = {ESCORT = 84}
+            QuestieDB.GetQuestTagInfo = function() return 84, "Escort" end
+            QuestieDB.QueryQuestSingle = spy.new(function() return 10 end)
+            QuestieDB.IsTrivial = spy.new(function() return false end)
+
+            AutoQuesting.OnQuestDetail()
+
+            assert.spy(_G.AcceptQuest).was.not_called()
+        end)
+
+        it("should accept quest with a non-escort tag", function()
+            _G.GetQuestID = function() return 123 end
+            QuestieDB.questTagIds = {ESCORT = 84}
+            QuestieDB.GetQuestTagInfo = function() return 1, "Elite" end
+            QuestieDB.QueryQuestSingle = spy.new(function() return 10 end)
+            QuestieDB.IsTrivial = spy.new(function() return false end)
+
+            AutoQuesting.OnQuestDetail()
+
+            assert.spy(_G.AcceptQuest).was.called(1)
+        end)
+
+        it("should accept quest without tag info", function()
+            _G.GetQuestID = function() return 123 end
+            QuestieDB.questTagIds = {ESCORT = 84}
+            QuestieDB.GetQuestTagInfo = function() end
+            QuestieDB.QueryQuestSingle = spy.new(function() return 10 end)
+            QuestieDB.IsTrivial = spy.new(function() return false end)
+
+            AutoQuesting.OnQuestDetail()
+
+            assert.spy(_G.AcceptQuest).was.called(1)
         end)
 
         it("should not accept quest when questId is 0 - happens when some other addon is faster", function()

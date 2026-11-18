@@ -97,6 +97,15 @@ describe("native tracker options", function()
         assert.spy(tracker.Update).was.called_with(tracker)
     end)
 
+    it("should change the share quest shortcut", function()
+        local shareQuest = LoadTab().group_quests.items.shareQuest
+
+        shareQuest.set("altleft")
+
+        assert.are_same("altleft", shareQuest.get())
+        assert.are_same("altleft", Questie.db.profile.trackerbindShareQuest)
+    end)
+
     it("updates the tracker and publishes visibility when only the modern log exists", function()
         LoadTab().group_quests.items.autoTrackQuests.set(nil, true)
 

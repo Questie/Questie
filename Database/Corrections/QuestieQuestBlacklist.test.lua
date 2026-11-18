@@ -95,4 +95,12 @@ describe("QuestieQuestBlacklist", function()
         assert.is_true(questToBlacklist[8277]) -- Phase 5
         assert.is_true(questToBlacklist[9085]) -- Phase 6
     end)
+
+    it("should blacklist the Hearts of the Lost chain which is not in the game on Forever", function()
+        local questToBlacklist = QuestieQuestBlacklist:Load()
+
+        assert.is_true(questToBlacklist[87318]) -- Hearts of the Lost
+        assert.is_true(questToBlacklist[88757]) -- Accessories of the Lost
+        assert.is_true(questToBlacklist[88758]) -- Sentiments of the Lost
+    end)
 end)

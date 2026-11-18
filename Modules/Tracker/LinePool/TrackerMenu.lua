@@ -299,11 +299,21 @@ TrackerMenu.addLinkToChatOption = function(menu, quest)
         func = function()
             LibDropDown:CloseDropDownMenus()
 
-            if (not ChatFrame1EditBox:IsVisible()) then
-                ChatFrame_OpenChat(TrackerData.GetQuestLink(quest))
-            else
+            if ChatEdit_GetActiveWindow() then
                 ChatEdit_InsertLink(TrackerData.GetQuestLink(quest))
+            else
+                ChatFrame_OpenChat(TrackerData.GetQuestLink(quest))
             end
+        end
+    })
+end
+
+TrackerMenu.addShareQuestOption = function(menu, quest)
+    tinsert(menu, {
+        text = l10n('Share Quest'),
+        func = function()
+            LibDropDown:CloseDropDownMenus()
+            TrackerUtils.ShareQuest(quest.Id)
         end
     })
 end
@@ -536,6 +546,9 @@ function TrackerMenu:GetMenuForQuest(quest)
     tinsert(menu, { text = coloredQuestName, isTitle = true })
 
     TrackerMenu.addObjectiveOption(menu, subMenu, quest)
+    if TrackerUtils.CanShareQuest(quest.Id) then
+        TrackerMenu.addShareQuestOption(menu, quest)
+    end
     if capabilities.canFocusQuest then
         TrackerMenu.addFocusUnfocusOption(menu, enrichedQuest)
     elseif Questie.db.char.TrackerFocus == quest.Id then
@@ -585,10 +598,10 @@ TrackerMenu.addAchieveLinkToChatOption = function(menu, achieve)
         func = function()
             LibDropDown:CloseDropDownMenus()
 
-            if (not ChatFrame1EditBox:IsVisible()) then
-                ChatFrame_OpenChat(GetAchievementLink(achieve.Id))
-            else
+            if ChatEdit_GetActiveWindow() then
                 ChatEdit_InsertLink(GetAchievementLink(achieve.Id))
+            else
+                ChatFrame_OpenChat(GetAchievementLink(achieve.Id))
             end
         end
     })
