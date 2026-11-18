@@ -623,6 +623,80 @@ describe("AvailableQuests", function()
                 assert.spy(QuestieMap.DrawWaypoints).was.called_with(QuestieMap, icon, "m_" .. NPC_ID, WAYPOINTS, ZONE, match.is_falsy())
             end)
         end)
+
+        describe("dropper rank", function()
+            local RARE, ELITE, VENDOR = 4, 1, 128
+            local drawn
+            local originalDrawWorldIcon
+            local originalDrawWaypoints
+            local originalGetQuestIcon
+            local originalNpcFlags
+
+            before_each(function()
+                drawn = {}
+                originalDrawWorldIcon = QuestieMap.DrawWorldIcon
+                originalDrawWaypoints = QuestieMap.DrawWaypoints
+                originalGetQuestIcon = QuestieLib.GetQuestIcon
+                originalNpcFlags = QuestieDB.npcFlags
+                QuestieMap.DrawWorldIcon = function(_, data) drawn[#drawn + 1] = data; return {} end
+                QuestieLib.GetQuestIcon = function() return 6 end
+                QuestieDB.npcFlags = {VENDOR = VENDOR}
+                QuestieTooltips.RegisterQuestStartTooltip = function() end
+            end)
+
+            after_each(function()
+                QuestieMap.DrawWorldIcon = originalDrawWorldIcon
+                QuestieMap.DrawWaypoints = originalDrawWaypoints
+                QuestieLib.GetQuestIcon = originalGetQuestIcon
+                QuestieDB.npcFlags = originalNpcFlags
+            end)
+
+            local function NpcWithRank(rank, extra)
+                local npc = {id = NPC_ID, name = "Test NPC", rank = rank, spawns = {[12] = {{50, 50}}}}
+                for key, value in pairs(extra or {}) do npc[key] = value end
+                return function() return npc end
+            end
+
+            it("should be noted for a monster dropping the starting item", function()
+                QuestieDB.GetItem = function() return {npcDrops = {NPC_ID}} end
+                QuestieDB.GetNPC = NpcWithRank(RARE)
+
+                AvailableQuests.DrawAvailableQuest({Id = QUEST_ID, Starts = {Item = {789}}})
+
+                assert.are.equal(1, #drawn)
+                assert.are.equal(RARE, drawn[1].DropperRank)
+            end)
+
+            it("should be noted on the icon drawn on the route of a monster without spawns there", function()
+                QuestieDB.GetItem = function() return {npcDrops = {NPC_ID}} end
+                QuestieDB.GetNPC = NpcWithRank(RARE, {spawns = {}, waypoints = {[12] = {{{10, 10}, {20, 20}}}}})
+                QuestieMap.DrawWaypoints = function() end
+
+                AvailableQuests.DrawAvailableQuest({Id = QUEST_ID, Starts = {Item = {789}}})
+
+                assert.are.equal(1, #drawn)
+                assert.are.equal(RARE, drawn[1].DropperRank)
+            end)
+
+            it("should not be noted for an NPC handing out the quest", function()
+                QuestieDB.GetNPC = NpcWithRank(ELITE)
+
+                AvailableQuests.DrawAvailableQuest({Id = QUEST_ID, Starts = {NPC = {NPC_ID}}})
+
+                assert.are.equal(1, #drawn)
+                assert.is_nil(drawn[1].DropperRank)
+            end)
+
+            it("should not be noted for a friendly vendor listed as dropping the starting item", function()
+                QuestieDB.GetItem = function() return {npcDrops = {NPC_ID}} end
+                QuestieDB.GetNPC = NpcWithRank(ELITE, {friendly = true, npcFlags = VENDOR})
+
+                AvailableQuests.DrawAvailableQuest({Id = QUEST_ID, Starts = {Item = {789}}})
+
+                assert.are.equal(1, #drawn)
+                assert.is_nil(drawn[1].DropperRank)
+            end)
+        end)
     end)
 
     describe("NPC GUID restrictions", function()

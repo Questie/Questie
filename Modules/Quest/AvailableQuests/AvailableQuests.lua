@@ -771,6 +771,10 @@ _AddStarter = function(starter, quest, tooltipKey, limit)
 
     local starterName = QuestieTooltips:RegisterQuestStartTooltip(quest.Id, starter.name, starter.id, tooltipKey, (starterType or "NPC"))
 
+    -- An NPC dropping the starting item is killed for it. A friendly vendor listed as dropping it is not.
+    local killedForItem = starterType == "itemFromMonster" and not _IsFriendlyVendor(starter)
+    local dropperRank = killedForItem and starter.rank or nil
+
     local starterIcons = {}
     local starterLocs = {}
     local added = 0
@@ -792,6 +796,7 @@ _AddStarter = function(starter, quest, tooltipKey, limit)
                         Name = starterName,
                         IsObjectiveNote = false,
                         StarterType = starterType,
+                        DropperRank = dropperRank,
                     }
 
                     if (coords[1] == -1 or coords[2] == -1) then
@@ -823,9 +828,7 @@ _AddStarter = function(starter, quest, tooltipKey, limit)
 
     -- Only for NPCs since objects do not move
     if starter.waypoints then
-        -- An NPC dropping the starting item is killed for it, so its route is hostile like an objective's.
-        -- A friendly vendor listed as dropping it is not.
-        local hostile = starterType == "itemFromMonster" and not _IsFriendlyVendor(starter)
+        -- The route of an NPC killed for the starting item is hostile like an objective's.
         for zone, waypoints in pairs(starter.waypoints or {}) do
             if not dungeons[zone] and waypoints[1] and waypoints[1][1] and waypoints[1][1][1] then
                 if not starterIcons[zone] then
@@ -840,6 +843,7 @@ _AddStarter = function(starter, quest, tooltipKey, limit)
                         Name = starterName,
                         IsObjectiveNote = false,
                         StarterType = starterType,
+                        DropperRank = dropperRank,
                     }
                     starterIcons[zone] = QuestieMap:DrawWorldIcon(data, zone, waypoints[1][1][1], waypoints[1][1][2])
                     starterLocs[zone] = {waypoints[1][1][1], waypoints[1][1][2]}
@@ -847,7 +851,7 @@ _AddStarter = function(starter, quest, tooltipKey, limit)
                 end
                 -- By now tooltipKey names the NPC or object, also when the quest starts from an item
                 -- it drops, so every quest of one NPC shares his route.
-                QuestieMap:DrawWaypoints(starterIcons[zone], tooltipKey, waypoints, zone, hostile)
+                QuestieMap:DrawWaypoints(starterIcons[zone], tooltipKey, waypoints, zone, killedForItem)
             end
         end
     end

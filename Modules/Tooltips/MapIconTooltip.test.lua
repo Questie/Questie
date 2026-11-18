@@ -530,4 +530,68 @@ describe("MapIconTooltip objective wording", function()
             assert.is_true(RowOf("Quest 2") < RowOf("Quest 1"))
         end)
     end)
+
+    describe("giver of a starting item", function()
+        local rendered
+
+        before_each(function()
+            rendered = {}
+            local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
+            QuestieLib.GetColoredQuestName = function(_, questId) return "Quest " .. questId end
+            QuestieLoader:ImportModule("QuestieReputation").GetReputationReward = function() return {} end
+            QuestieLoader:ImportModule("TooltipLayout").CreateRows = function()
+                local function Add(_, text) rendered[#rendered + 1] = text end
+                return {AddLine = Add, AddDoubleLine = Add}
+            end
+            -- An available quest's tag asks what kind of quest it is
+            QuestieLoader:ImportModule("QuestieEvent").activeQuests = {}
+            local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
+            QuestieDB.IsWeeklyQuest = function() return false end
+            QuestieDB.IsMonthlyQuest = function() return false end
+            QuestieDB.IsDailyQuest = function() return false end
+            QuestieDB.IsRepeatable = function() return false end
+        end)
+
+        ---@param dropperRank number?
+        local function ShowGiver(dropperRank)
+            local giver = {x = 50, y = 50, AreaID = 1, texture = icon.texture,
+                data = {Id = 10, Type = "available", Name = "Blackmoss the Fetid", QuestData = {}, DropperRank = dropperRank}}
+            MapIconTooltip.ShowOnTooltip(giver, GameTooltip, nil, {giver})
+        end
+
+        ---@return string? line The rendered line naming the giver.
+        local function GiverLine()
+            for _, line in ipairs(rendered) do
+                if line:find("Blackmoss the Fetid", 1, true) then return line end
+            end
+        end
+
+        it("should mark a rare or a rare elite killed for the item with a silver dragon", function()
+            for _, rank in ipairs({4, 2}) do
+                rendered = {}
+                ShowGiver(rank)
+
+                assert.is_truthy(GiverLine():find("nameplates-icon-elite-silver", 1, true), "rank " .. rank)
+            end
+        end)
+
+        it("should mark an elite or a boss killed for the item with a gold dragon", function()
+            for _, rank in ipairs({1, 3}) do
+                rendered = {}
+                ShowGiver(rank)
+
+                assert.is_truthy(GiverLine():find("nameplates-icon-elite-gold", 1, true), "rank " .. rank)
+            end
+        end)
+
+        it("should leave a normal monster and a giver without a dropper rank unmarked", function()
+            ShowGiver(0)
+            ShowGiver(nil)
+
+            for _, line in ipairs(rendered) do
+                assert.is_falsy(line:find("nameplates-icon-elite", 1, true))
+            end
+            assert.are.equal("Blackmoss the Fetid", GiverLine())
+        end)
+    end)
 end)
