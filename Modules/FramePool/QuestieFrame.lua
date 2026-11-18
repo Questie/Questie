@@ -363,16 +363,6 @@ function _QuestieFrame.UpdateTexture(self, texture)
         self.overlayTexture:SetTexture() -- clear the texture
     end
 
-    --[[if self.data.FinisherType then
-        if self.data.FinisherType == "Object" then
-            self.overlayTexture:SetTexture("Interface/AddOns/Questie/Icons/object_overlay.png")
-        end
-        self.overlayTexture:Show()
-    else
-        self.overlayTexture:Hide()
-        self.overlayTexture:SetTexture()
-    end]] -- need to see why followup quest from object has no cogwheel anymore
-
     if self.data.IconColor ~= nil and objectiveColor then
         colors = self.data.IconColor
     end
