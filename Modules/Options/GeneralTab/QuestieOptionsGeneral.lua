@@ -515,6 +515,20 @@ function QuestieOptions.tabs.general:Initialize()
                             Questie.db.profile.enableTooltipsNextInChain = value
                         end
                     },
+                    showNextInChainOnActiveQuests = {
+                        type = "toggle",
+                        order = 8.505,
+                        name = function() return l10n("Also for active quests"); end,
+                        desc = function()
+                            return l10n("If checked, the next quests in the chain will also show in the expanded map tooltips of active quests.");
+                        end,
+                        width = 1.5,
+                        disabled = function() return not Questie.db.profile.enableTooltipsNextInChain; end,
+                        get = function() return Questie.db.profile.enableTooltipsNextInChainOnActiveQuests; end,
+                        set = function(_, value)
+                            Questie.db.profile.enableTooltipsNextInChainOnActiveQuests = value
+                        end
+                    },
                     showBreadcrumbQuests = {
                         type = "toggle",
                         order = 8.51,

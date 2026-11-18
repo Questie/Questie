@@ -616,4 +616,103 @@ describe("MapIconTooltip objective wording", function()
             assert.are.equal("Blackmoss the Fetid", GiverLine())
         end)
     end)
+      
+    describe("next in chain", function()
+        local rendered
+
+        before_each(function()
+            rendered = {}
+            _G.IsShiftKeyDown = function() return true end
+            Questie.db.profile.enableTooltipsNextInChain = true
+            Questie.db.profile.enableTooltipsNextInChainOnActiveQuests = true
+            QuestieLoader:ImportModule("QuestieLib").GetColoredQuestName = function(_, questId) return "Quest " .. questId end
+            QuestieLoader:ImportModule("QuestXP").GetQuestRewardMoney = function() return 0 end
+            QuestieLoader:ImportModule("QuestieReputation").GetReputationReward = function() return {} end
+            QuestieLoader:ImportModule("QuestieCorrections").hiddenQuests = {}
+            local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
+            QuestieDB.GetCreatureLevels = function() return {} end
+            -- Quest 1 is followed by quest 5, the end of its chain
+            QuestieDB.QueryQuestSingle = function(questId, key)
+                if key == "nextQuestInChain" then
+                    return questId == 1 and 5 or 0
+                end
+            end
+            QuestieDB.DoableStates = {AVAILABLE = 0, WRONG_RACE = 6, WRONG_CLASS = 8, PROFESSION_SPECIALIZATION = 17, PROFESSION_MISSING = 29}
+            QuestieDB.IsDoableVerbose = function() return "", true, QuestieDB.DoableStates.AVAILABLE end
+            -- A row added with AddLine is its text, one added with AddDoubleLine is its left and right text.
+            QuestieLoader:ImportModule("TooltipLayout").CreateRows = function()
+                return {
+                    AddLine = function(_, text) rendered[#rendered + 1] = text end,
+                    AddDoubleLine = function(_, left, right) rendered[#rendered + 1] = {left, right} end,
+                }
+            end
+        end)
+
+        it("should list the next quests of an active quest below its objectives with Shift", function()
+            MapIconTooltip.ShowOnTooltip(icon, GameTooltip)
+
+            assert.are_same({
+                "Quest 1",
+                "|cFFDDDDDDWindstone",
+                "|cFFededed|cFFEEEEEE9/15 Windstone Cluster",
+                "|TInterface\\Addons\\Questie\\Icons\\nextquest.blp:16:16:2:0|tNext in chain: ",
+                {"Quest 5", ""},
+            }, rendered)
+        end)
+
+        it("should not list the next quests of an active quest without Shift", function()
+            _G.IsShiftKeyDown = function() return false end
+
+            MapIconTooltip.ShowOnTooltip(icon, GameTooltip)
+
+            assert.are_same({
+                {"Quest 1", "(Hold Shift)"},
+                "|cFFededed|cFFEEEEEE9/15 Windstone Cluster",
+            }, rendered)
+        end)
+
+        it("should not list the next quests of an active quest when the option is off", function()
+            Questie.db.profile.enableTooltipsNextInChainOnActiveQuests = false
+
+            MapIconTooltip.ShowOnTooltip(icon, GameTooltip)
+
+            assert.are_same({
+                "Quest 1",
+                "|cFFDDDDDDWindstone",
+                "|cFFededed|cFFEEEEEE9/15 Windstone Cluster",
+            }, rendered)
+        end)
+
+        it("should not list the next quests of an active quest when next in chain is off", function()
+            Questie.db.profile.enableTooltipsNextInChain = false
+
+            MapIconTooltip.ShowOnTooltip(icon, GameTooltip)
+
+            assert.are_same({
+                "Quest 1",
+                "|cFFDDDDDDWindstone",
+                "|cFFededed|cFFEEEEEE9/15 Windstone Cluster",
+            }, rendered)
+        end)
+
+        it("should keep listing the next quests of a giver's quest when the option for active quests is off", function()
+            Questie.db.profile.enableTooltipsNextInChainOnActiveQuests = false
+            local giver = {x = 50, y = 50, AreaID = 1, texture = icon.texture,
+                data = {Id = 1, Type = "complete", ObjectiveIndex = 0, Name = "Giver", QuestData = {}}}
+
+            MapIconTooltip.ShowOnTooltip(giver, GameTooltip, nil, {giver})
+
+            -- The objective icon of quest 1 is on the map at the same spot, so its objectives follow the giver.
+            assert.are_same({
+                "Giver",
+                {"Quest 1", "(Complete)"},
+                "|TInterface\\Addons\\Questie\\Icons\\nextquest.blp:16:16:2:0|tNext in chain: ",
+                {"Quest 5", ""},
+                " ",
+                {"Quest 1", "(Active)"},
+                "|cFFDDDDDDWindstone",
+                "|cFFededed|cFFEEEEEE9/15 Windstone Cluster",
+            }, rendered)
+        end)
+    end)
 end)

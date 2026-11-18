@@ -321,6 +321,9 @@ local migrationFunctions = {
     [51] = function()
         Questie.db.profile.questAnnounceChannel = "disabled"
     end,
+    [52] = function()
+        Questie.db.profile.enableTooltipsNextInChainOnActiveQuests = false
+    end,
 }
 
 function Migration:Migrate()

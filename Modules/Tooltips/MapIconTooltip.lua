@@ -278,6 +278,42 @@ function MapIconTooltip.ShowOnTooltip(self, Tooltip, owner, icons)
     local breadcrumbLabelPrefix = indentTwo .. BREADCRUMB_QUEST_ICON_TEXTURE .. indentHalf -- Keep this in sync with breadcrumbTitleIndent.
     local breadcrumbTitleIndent = TooltipLayout.CreateIndentUI(indentTwoWidth + BREADCRUMB_QUEST_ICON_TEXTURE_SIZE + indentHalfWidth)
 
+    ---Lists the quests that follow a quest in its chain under a "Next in chain" label, up to the first one
+    ---Questie hides or the player's race, class or professions rule out.
+    ---@param tooltipRows TooltipLayoutRowBuilder
+    ---@param questId QuestId
+    local function _AddNextInChainRows(tooltipRows, questId)
+        local DoableStates = QuestieDB.DoableStates
+        local nextQuestId = QuestieDB.QueryQuestSingle(questId, "nextQuestInChain")
+        if nextQuestId == 0 then nextQuestId = QuestieDB.QueryQuestSingle(questId, "breadcrumbForQuestId") or 0 end
+        if nextQuestId > 0 and (not QuestieCorrections.hiddenQuests[nextQuestId]) then
+            local _, _, returnReason = QuestieDB.IsDoableVerbose(nextQuestId, false, true, true)
+            local firstInChain = true;
+            local visitedQuestIds = {}
+            while nextQuestId > 0 and (not visitedQuestIds[nextQuestId]) and (not QuestieCorrections.hiddenQuests[nextQuestId]) and
+                (returnReason ~= DoableStates.WRONG_RACE and returnReason ~= DoableStates.WRONG_CLASS and
+                returnReason ~= DoableStates.PROFESSION_MISSING and returnReason ~= DoableStates.PROFESSION_SPECIALIZATION) do
+                visitedQuestIds[nextQuestId] = true
+                if firstInChain then
+                    tooltipRows:AddLine(nextQuestLabelPrefix .. l10n("Next in chain") .. l10n(": "), 0.86, 0.86, 0.86)
+                    firstInChain = false
+                end
+                local nextQuestLevel, _ = QuestieLib.GetEffectiveQuestLevel(nextQuestId)
+                local questTitle, rewardString = _MapIconTooltip.GetNextQuestInChainLines(nextQuestId, nextQuestLevel, nextQuestTitleIndent)
+                tooltipRows:AddDoubleLine(questTitle, rewardString, 1, 1, 1)
+
+                local nextNextQuestId = QuestieDB.QueryQuestSingle(nextQuestId, "nextQuestInChain")
+                if nextNextQuestId == 0 then nextNextQuestId = QuestieDB.QueryQuestSingle(nextQuestId, "breadcrumbForQuestId") or 0 end
+                if nextNextQuestId > 0 then
+                    nextQuestId = nextNextQuestId
+                    -- check availability for the next nextQuestId
+                    _, _, returnReason = QuestieDB.IsDoableVerbose(nextQuestId, false, true, true)
+                else
+                    break
+                end
+            end
+        end
+    end
 
     Tooltip._Rebuild = function(self)
         -- Build rows first so description wrapping cannot change the width used to wrap itself.
@@ -410,36 +446,7 @@ function MapIconTooltip.ShowOnTooltip(self, Tooltip, owner, icons)
                 end
 
                 if shift and Questie.db.profile.enableTooltipsNextInChain then
-                    local DoableStates = QuestieDB.DoableStates
-                    local nextQuestId = QuestieDB.QueryQuestSingle(questData.questId, "nextQuestInChain")
-                    if nextQuestId == 0 then nextQuestId = QuestieDB.QueryQuestSingle(questData.questId, "breadcrumbForQuestId") or 0 end
-                    if nextQuestId > 0 and (not QuestieCorrections.hiddenQuests[nextQuestId]) then
-                        local _, _, returnReason = QuestieDB.IsDoableVerbose(nextQuestId, false, true, true)
-                        local firstInChain = true;
-                        local visitedQuestIds = {}
-                        while nextQuestId > 0 and (not visitedQuestIds[nextQuestId]) and (not QuestieCorrections.hiddenQuests[nextQuestId]) and
-                            (returnReason ~= DoableStates.WRONG_RACE and returnReason ~= DoableStates.WRONG_CLASS and
-                            returnReason ~= DoableStates.PROFESSION_MISSING and returnReason ~= DoableStates.PROFESSION_SPECIALIZATION) do
-                            visitedQuestIds[nextQuestId] = true
-                            if firstInChain then
-                                tooltipRows:AddLine(nextQuestLabelPrefix .. l10n("Next in chain") .. l10n(": "), 0.86, 0.86, 0.86)
-                                firstInChain = false
-                            end
-                            local nextQuestLevel, _ = QuestieLib.GetEffectiveQuestLevel(nextQuestId)
-                            local questTitle, rewardString = _MapIconTooltip.GetNextQuestInChainLines(nextQuestId, nextQuestLevel, nextQuestTitleIndent)
-                            tooltipRows:AddDoubleLine(questTitle, rewardString, 1, 1, 1)
-
-                            local nextNextQuestId = QuestieDB.QueryQuestSingle(nextQuestId, "nextQuestInChain")
-                            if nextNextQuestId == 0 then nextNextQuestId = QuestieDB.QueryQuestSingle(nextQuestId, "breadcrumbForQuestId") or 0 end
-                            if nextNextQuestId > 0 then
-                                nextQuestId = nextNextQuestId
-                                -- check availability for the next nextQuestId
-                                _, _, returnReason = QuestieDB.IsDoableVerbose(nextQuestId, false, true, true)
-                            else
-                                break
-                            end
-                        end
-                    end
+                    _AddNextInChainRows(tooltipRows, questData.questId)
                 end
             end
         end
@@ -518,6 +525,11 @@ function MapIconTooltip.ShowOnTooltip(self, Tooltip, owner, icons)
                         tooltipRows:AddLine(indentThree .. defaultQuestColor .. textLine);
                     end
                 end
+            end
+
+            -- Below the objectives, so they stay right under the quest they belong to.
+            if shift and Questie.db.profile.enableTooltipsNextInChain and Questie.db.profile.enableTooltipsNextInChainOnActiveQuests then
+                _AddNextInChainRows(tooltipRows, questId)
             end
         end
 
