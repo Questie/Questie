@@ -552,25 +552,25 @@ describe("MapIconTooltip objective wording", function()
             end
             QuestieDB.DoableStates = {AVAILABLE = 0, WRONG_RACE = 6, WRONG_CLASS = 8, PROFESSION_SPECIALIZATION = 17, PROFESSION_MISSING = 29}
             QuestieDB.IsDoableVerbose = function() return "", true, QuestieDB.DoableStates.AVAILABLE end
+            -- A row added with AddLine is its text, one added with AddDoubleLine is its left and right text.
             QuestieLoader:ImportModule("TooltipLayout").CreateRows = function()
-                local function Add(_, text) rendered[#rendered + 1] = text end
-                return {AddLine = Add, AddDoubleLine = Add}
+                return {
+                    AddLine = function(_, text) rendered[#rendered + 1] = text end,
+                    AddDoubleLine = function(_, left, right) rendered[#rendered + 1] = {left, right} end,
+                }
             end
         end)
-
-        ---@return number? row Where the first row containing text was rendered.
-        local function RowOf(text)
-            for row, line in ipairs(rendered) do
-                if line:find(text, 1, true) then return row end
-            end
-        end
 
         it("should list the next quests of an active quest below its objectives with Shift", function()
             MapIconTooltip.ShowOnTooltip(icon, GameTooltip)
 
-            assert.is_not_nil(RowOf("Next in chain"))
-            assert.is_true(RowOf("Windstone Cluster") < RowOf("Next in chain"))
-            assert.is_true(RowOf("Next in chain") < RowOf("Quest 5"))
+            assert.are_same({
+                "Quest 1",
+                "|cFFDDDDDDWindstone",
+                "|cFFededed|cFFEEEEEE9/15 Windstone Cluster",
+                "|TInterface\\Addons\\Questie\\Icons\\nextquest.blp:16:16:2:0|tNext in chain: ",
+                {"Quest 5", ""},
+            }, rendered)
         end)
 
         it("should not list the next quests of an active quest without Shift", function()
@@ -578,8 +578,10 @@ describe("MapIconTooltip objective wording", function()
 
             MapIconTooltip.ShowOnTooltip(icon, GameTooltip)
 
-            assert.is_nil(RowOf("Next in chain"))
-            assert.is_nil(RowOf("Quest 5"))
+            assert.are_same({
+                {"Quest 1", "(Hold Shift)"},
+                "|cFFededed|cFFEEEEEE9/15 Windstone Cluster",
+            }, rendered)
         end)
 
         it("should not list the next quests of an active quest when the option is off", function()
@@ -587,8 +589,11 @@ describe("MapIconTooltip objective wording", function()
 
             MapIconTooltip.ShowOnTooltip(icon, GameTooltip)
 
-            assert.is_nil(RowOf("Next in chain"))
-            assert.is_nil(RowOf("Quest 5"))
+            assert.are_same({
+                "Quest 1",
+                "|cFFDDDDDDWindstone",
+                "|cFFededed|cFFEEEEEE9/15 Windstone Cluster",
+            }, rendered)
         end)
 
         it("should not list the next quests of an active quest when next in chain is off", function()
@@ -596,8 +601,11 @@ describe("MapIconTooltip objective wording", function()
 
             MapIconTooltip.ShowOnTooltip(icon, GameTooltip)
 
-            assert.is_nil(RowOf("Next in chain"))
-            assert.is_nil(RowOf("Quest 5"))
+            assert.are_same({
+                "Quest 1",
+                "|cFFDDDDDDWindstone",
+                "|cFFededed|cFFEEEEEE9/15 Windstone Cluster",
+            }, rendered)
         end)
 
         it("should keep listing the next quests of a giver's quest when the option for active quests is off", function()
@@ -607,8 +615,17 @@ describe("MapIconTooltip objective wording", function()
 
             MapIconTooltip.ShowOnTooltip(giver, GameTooltip, nil, {giver})
 
-            assert.is_not_nil(RowOf("Next in chain"))
-            assert.is_true(RowOf("Next in chain") < RowOf("Quest 5"))
+            -- The objective icon of quest 1 is on the map at the same spot, so its objectives follow the giver.
+            assert.are_same({
+                "Giver",
+                {"Quest 1", "(Complete)"},
+                "|TInterface\\Addons\\Questie\\Icons\\nextquest.blp:16:16:2:0|tNext in chain: ",
+                {"Quest 5", ""},
+                " ",
+                {"Quest 1", "(Active)"},
+                "|cFFDDDDDDWindstone",
+                "|cFFededed|cFFEEEEEE9/15 Windstone Cluster",
+            }, rendered)
         end)
     end)
 end)
