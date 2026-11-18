@@ -53,6 +53,19 @@ local BREADCRUMB_QUEST_ICON_PATH = QuestieLib.AddonPath .. "Icons\\breadcrumbtoo
 local BREADCRUMB_QUEST_ICON_TEXTURE_SIZE = 16
 local BREADCRUMB_QUEST_ICON_TEXTURE = "|T" .. BREADCRUMB_QUEST_ICON_PATH .. ":" .. BREADCRUMB_QUEST_ICON_TEXTURE_SIZE .. ":" .. BREADCRUMB_QUEST_ICON_TEXTURE_SIZE .. ":2:0|t"
 
+-- A monster killed for a quest's starting item is marked after its name by its rank, with Blizzard's nameplate
+-- dragons. Silver marks a rare or rare elite: it might not be there, even though its icon shows. Gold marks an
+-- elite or a boss: bring friends.
+local SILVER_DRAGON_ICON_TEXTURE = "|A:nameplates-icon-elite-silver:14:14:0:0|a"
+local GOLD_DRAGON_ICON_TEXTURE = "|A:nameplates-icon-elite-gold:14:14:0:0|a"
+---@type table<number, string> Dragon atlas markup by DropperRank
+local DROPPER_RANK_ICON_TEXTURES = {
+    [1] = GOLD_DRAGON_ICON_TEXTURE, -- elite
+    [2] = SILVER_DRAGON_ICON_TEXTURE, -- rare elite
+    [3] = GOLD_DRAGON_ICON_TEXTURE, -- boss
+    [4] = SILVER_DRAGON_ICON_TEXTURE, -- rare
+}
+
 local lastTooltipShowTimestamp = GetTime()
 -- The tooltip a hovered minimap path shows, which is not the shared one
 local pathTooltip
@@ -149,6 +162,7 @@ function MapIconTooltip.ShowOnTooltip(self, Tooltip, owner, icons)
 
     local usedText = {}
     local npcAndObjectOrder = {};
+    local giverRankIcons = {} -- Giver name -> rank icon of a monster killed for a starting item
     local questOrder = {};
     local manualOrder = {}
 
@@ -198,6 +212,10 @@ function MapIconTooltip.ShowOnTooltip(self, Tooltip, owner, icons)
 
                 local tip = _MapIconTooltip:GetAvailableOrCompleteTooltip(icon)
                 npcAndObjectOrder[iconData.Name][tip.title] = tip
+                -- Nearly every monster in a dungeon is elite, so there the rank tells nothing
+                if not iconData.StarterInDungeon then
+                    giverRankIcons[iconData.Name] = giverRankIcons[iconData.Name] or DROPPER_RANK_ICON_TEXTURES[iconData.DropperRank]
+                end
             elseif iconData.ObjectiveData and iconData.ObjectiveData.Description then
                 -- Icons are removed over several frames, so a quest that just left the quest log can still have some
                 if (not iconData.ObjectiveData.IsPartyObjective) and (not ActiveQuests.Get(iconData.Id)) then
@@ -241,6 +259,7 @@ function MapIconTooltip.ShowOnTooltip(self, Tooltip, owner, icons)
     end
 
     Tooltip.npcAndObjectOrder = npcAndObjectOrder
+    Tooltip.giverRankIcons = giverRankIcons
     Tooltip.questOrder = questOrder
     Tooltip.manualOrder = manualOrder
     Tooltip.miniMapIcon = self.miniMapIcon
@@ -312,19 +331,21 @@ function MapIconTooltip.ShowOnTooltip(self, Tooltip, owner, icons)
         table.sort(giverNames)
         for _, npcOrObjectName in ipairs(giverNames) do -- this logic really needs to be improved
             local quests = self.npcAndObjectOrder[npcOrObjectName]
+            local rankIcon = self.giverRankIcons[npcOrObjectName]
+            local giverLabel = rankIcon and (npcOrObjectName .. " " .. rankIcon) or npcOrObjectName
             haveGiver = true
             if shift and (not firstLine) then
                 -- Spacer between NPCs
                 tooltipRows:AddLine("             ")
             end
             if (firstLine and not shift) then
-                tooltipRows:AddDoubleLine(npcOrObjectName, l10n("(") .. l10n("Hold Shift") .. l10n(")"), 0.2, 1, 0.2, 0.43, 0.43, 0.43);
+                tooltipRows:AddDoubleLine(giverLabel, l10n("(") .. l10n("Hold Shift") .. l10n(")"), 0.2, 1, 0.2, 0.43, 0.43, 0.43);
                 firstLine = false;
             elseif (firstLine and shift) then
-                tooltipRows:AddLine(npcOrObjectName, 0.2, 1, 0.2);
+                tooltipRows:AddLine(giverLabel, 0.2, 1, 0.2);
                 firstLine = false;
             else
-                tooltipRows:AddLine(npcOrObjectName, 0.2, 1, 0.2);
+                tooltipRows:AddLine(giverLabel, 0.2, 1, 0.2);
             end
 
             -- A giver's quests are keyed by title; sorting by level needs them by quest ID.

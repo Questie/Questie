@@ -8,7 +8,7 @@ local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
-local _StartStoppedTalkingTimer, _AllQuestWindowsClosed, _IsAllowedNPC, _IsQuestAllowedToAccept, _IsQuestAllowedToTurnIn
+local _StartStoppedTalkingTimer, _AllQuestWindowsClosed, _IsAllowedNPC, _IsQuestAllowedToAccept, _IsQuestAllowedToTurnIn, _IsGossipQuestTrivial
 
 local shouldRunAuto = true
 
@@ -131,8 +131,7 @@ function AutoQuesting.OnGossipShow()
                 for i = 1, #availableQuests do
                     local shouldAccept = true
                     if (not Questie.db.profile.autoAccept.trivial) then
-                        local isTrivial = availableQuests[i].isTrivial
-                        if isTrivial then
+                        if _IsGossipQuestTrivial(availableQuests[i]) then
                             shouldAccept = false
                         end
                     end
@@ -254,6 +253,20 @@ _IsAllowedNPC = function(unit)
     end
 
     return true
+end
+
+---@param quest GossipQuestUIInfo
+---@return boolean?
+_IsGossipQuestTrivial = function(quest)
+    local questLevel = quest.questLevel
+    if quest.questID and quest.questID > 0 then
+        questLevel = QuestieDB.QueryQuestSingle(quest.questID, "questLevel") or questLevel
+    end
+    if questLevel == nil then
+        return quest.isTrivial
+    end
+
+    return QuestieDB.IsTrivial(questLevel)
 end
 
 _IsQuestAllowedToAccept = function()
