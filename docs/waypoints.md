@@ -5,7 +5,7 @@ Questie draws NPC patrol paths ("waypoints") as outlined lines on the world map 
 ## Data
 
 QuestieDB's `waypoints` field, read with `QuestieDB.QueryNPCSingle(npcId, "waypoints")`, holds `table<AreaId, CoordPair[][]>`: per zone, a list of patrols in 0–100 map percent. Questie draws them for:
-- objective spawns (`QuestieQuestPrivates`, drawn by `QuestieQuest`). Rank-2 rares and blacklisted NPCs get none;
+- objective spawns (`QuestieQuestPrivates`, drawn by `QuestieQuest`). Rares and rare elites (ranks 4 and 2) and blacklisted NPCs get none;
 - NPCs with available quests (`AvailableQuests`), quest finishers (`QuestFinisher`) and manual notes (`QuestieMap`).
 
 All of them call `QuestieMap:DrawWaypoints(icon, entity, waypoints, zone, hostile)`. `entity` is Questie's tooltip key for whose waypoints they are (`"m_<npcId>"`, `"o_<objectId>"`). `hostile` marks NPCs the player fights, which take the hostile colour: objective NPCs, and NPCs that drop an item starting an available quest. Vendors aren't fought, so they keep the patrol colour: those on an objective item's vendor list, and friendly NPCs with the vendor flag that corrections list as dropping a quest-starting item, so that its quest shows.
