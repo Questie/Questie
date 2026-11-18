@@ -1,6 +1,6 @@
 # Questie world-map polygons
 
-Opt-in, spawn-based objective areas. Select **Questie blobs** in the Icons tab's objective-style preset, or in the initial objective-style popup when offered. The profile setting `enableQuestiePolygons` defaults to false; migration 52 leaves existing profiles opted out unless already explicitly enabled.
+Opt-in, spawn-based objective areas. Select **Questie blobs** in the Icons tab's objective-style preset, or in the initial objective-style popup when offered. The profile setting `enableQuestiePolygons` defaults to false; migration 53 leaves existing profiles opted out unless already explicitly enabled.
 
 ## Player behavior
 
@@ -16,7 +16,7 @@ Opt-in, spawn-based objective areas. Select **Questie blobs** in the Icons tab's
 - Forever's Map & Quest Log shows a box, matching Blizzard's tracking checkbox, in the gutter left of each objective row with areas. While the objective's areas show, a muted fill in its area color with rounded corners (`Icons/quest-log-area-fill.png`) sits inside the box; while they are hidden, the box is empty. Box and fill draw without pixel snapping, so fractional UI scales keep both edges symmetric. Hovering a box previews the objective as hovering its tracker line does, its areas with every cluster highlighted, and a tooltip says what a click does. Clicks follow the same saved-choice rules as marker clicks; shift-click applies the clicked row's new state to every objective of the quest, including special objectives. Quest titles and rows without areas have no box. Other clients' quest logs are not covered yet.
 - A marker's tooltip names every NPC or object its cluster holds, with Shift, not only the one it shows.
 - Isolated, collinear, and small clusters keep a point marker without an area.
-- Rares (rank 2, rare elite, or 4, rare) count only where nothing else shows: while any of an objective's common targets has a spawn phasing shows, its rares get no area, marker or patrol path, since the common areas already show where to go. An objective whose targets are all rare, such as a dungeon boss, still gets them. Spawn lists mark rares (`IsRare`, `QuestieQuestPrivates`).
+- Rares (rank 2, rare elite, or 4, rare) count only where nothing else shows: while any of an objective's common targets has a spawn phasing shows, its rares get no area, marker or patrol path, since the common areas already show where to go. An objective whose targets are all rare still gets them, as nothing else shows where to go. Spawn lists mark rares (`IsRare`, `QuestieQuestPrivates`).
 - The minimap shows the same areas as the world map, beneath the cluster icons. See [Minimap areas](#minimap-areas). Objective NPCs' patrol routes (Questie's waypoint paths) belong to the objective's markers: the cluster the NPC spawns in, else the zone's marker. They follow that marker on both maps: its map icon, and on the minimap its minimap icon of the same spawn, which shares its data.
 - Party-only objectives keep their existing rendering. Quest availability/turn-in markers, quest state, tooltip registration, and tracker behavior remain with Questie.
 
@@ -185,7 +185,7 @@ Keep these hooks small when merging changes from Questie:
 | [TrackerUtils](../../Tracker/TrackerUtils.lua) | Borrow cluster markers for Show on Map; refresh fill visibility and guard delayed animation against recycled frames. |
 | [MapPreview](../MapPreview.lua) | Polygon subscribes once, with its icon events, and shows the areas of each previewed objective, or of every objective for a quest's preview, such as while a tracker line or a quest log box is hovered. |
 | [Questie.lua](../../../Questie.lua) | Reset on addon disable; existing profile refresh reaches `SmoothReset`. |
-| [Icon options](../../Options/IconsTab/QuestieOptionsIcons.lua), [tutorial](../../Tutorial/ChooseObjectiveType.lua), [defaults](../../Options/QuestieOptionsDefaults.lua), [migration](../../Migration.lua) | Preset `polygon`, opt-in flag, selection UI, and migration 52. The minimap icon switch also refreshes minimap areas. |
+| [Icon options](../../Options/IconsTab/QuestieOptionsIcons.lua), [tutorial](../../Tutorial/ChooseObjectiveType.lua), [defaults](../../Options/QuestieOptionsDefaults.lua), [migration](../../Migration.lua) | Preset `polygon`, opt-in flag, selection UI, and migration 53. The minimap icon switch also refreshes minimap areas. |
 | [Objective style preview](../../Tutorial/ObjectivePreview.lua) | The popup's still blobs map draws its generated areas with `PolygonRenderer` directly: it has no quests for the adapter. |
 
 All six flavor TOCs load geometry, renderer, render cache, nudging, minimap, then adapter before `Questie.lua`; only the Forever TOC then loads its quest log file. Polygon sits under `Modules/`, so [release packaging](../../../build.py) ships it without its adjacent tests and [CI](../../../.github/workflows/ci.yml) lints it, with no entry of its own. The geometry/renderer can be reused independently of the adapter, but they still use QuestieLoader and the renderer requires WoW texture/frame APIs.
