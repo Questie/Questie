@@ -224,6 +224,8 @@ describe("Migration", function()
         Migration:Migrate()
 
         assert.is_false(Questie.db.profile.trackQuestsByZone)
+    end)
+
     it("should move Shift + Left Click from untracking to sharing quests when upgrading from version 49", function()
         Questie.db.profile.migrationVersion = 49
         Questie.db.profile.trackerbindUntrack = "shiftleft"

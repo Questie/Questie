@@ -110,6 +110,8 @@ describe("native tracker options", function()
         assert.is_true(Questie.db.profile.trackQuestsByZone)
         assert.spy(resetZoneTrackingOverrides).was.called_with(tracker)
         assert.spy(tracker.Update).was.called_with(tracker)
+    end)
+
     it("should change the share quest shortcut", function()
         local shareQuest = LoadTab().group_quests.items.shareQuest
 
