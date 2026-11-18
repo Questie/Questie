@@ -7062,6 +7062,7 @@ function QuestieQuestBlacklist:Load()
         [78147] = HIDE_ON_MAP, -- Crimes Against Anatomy
         [78148] = HIDE_ON_MAP, -- Runes of the Sorcerer-Kings
         [78149] = HIDE_ON_MAP, -- Fury of the Land
+        [78150] = HIDE_ON_MAP, -- Friend of the Library -- TODO fix questhubs for these 3 quests
         [78917] = not Questie.IsSoD, -- The Heart of the Void
         [79090] = not Questie.IsSoD, -- Repelling Invaders
         [79091] = HIDE_ON_MAP, -- Archmage Antonidas: The Unabridged Autobiography
@@ -7073,6 +7074,7 @@ function QuestieQuestBlacklist:Load()
         [79097] = HIDE_ON_MAP, -- Baxtan: On Destructive Magics
         [79098] = not Questie.IsSoD, -- Clear the Forest!
         [79535] = HIDE_ON_MAP, -- Basilisks: Should Petrification be Feared?
+        [79536] = HIDE_ON_MAP, -- Greater Friend of the Library -- TODO fix questhubs for these 3 quests
         [79947] = HIDE_ON_MAP, -- Geomancy: The Stone-Cold Truth
         [79948] = HIDE_ON_MAP, -- Defensive Magics 101
         [79949] = HIDE_ON_MAP, -- A Web of Lies: Debunking Myths and Legends
@@ -7107,6 +7109,7 @@ function QuestieQuestBlacklist:Load()
         [81954] = HIDE_ON_MAP, -- Venomous Journeys
         [81955] = HIDE_ON_MAP, -- A Mind of Metal
         [81956] = HIDE_ON_MAP, -- Conjurer's Codex
+        [82208] = HIDE_ON_MAP, -- Greater Friend of the Library -- TODO fix questhubs for these 3 quests
         [84395] = HIDE_ON_MAP, -- Undead Potatoes
         [84396] = HIDE_ON_MAP, -- Magma or Lava?
         [84397] = HIDE_ON_MAP, -- Northern Kalimdor - A Comprehensive Guide
