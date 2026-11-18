@@ -510,7 +510,7 @@ describe("TrackerUtils", function()
     end)
 
     describe("polygon objective map highlighting", function()
-        local Polygon, objective, marker, unrelated, originalGlobals, flashTick, quest
+        local Polygon, objective, marker, unrelated, originalGlobals, flashTick, quest, originalGetWorldCoordinatesFromZone
         local QuestieMap, FramePool, QuestieCompat, originalDraw, originalUnload, originalOpenWorldMap
         local originalRendererNew, originalCacheNew
 
@@ -518,12 +518,12 @@ describe("TrackerUtils", function()
             QuestieCompat = QuestieLoader:ImportModule("QuestieCompat")
             originalOpenWorldMap = QuestieCompat.OpenWorldMap
             QuestieCompat.OpenWorldMap = spy.new(function() return true end)
-            originalGlobals = {LibStub = _G.LibStub, WorldMapFrame = _G.WorldMapFrame, C_Timer = _G.C_Timer,
+            originalGlobals = {WorldMapFrame = _G.WorldMapFrame, C_Timer = _G.C_Timer,
                 CreateFromMixins = _G.CreateFromMixins, MapCanvasDataProviderMixin = _G.MapCanvasDataProviderMixin,
                 PolygonTrackerMarker = _G.PolygonTrackerMarker, PolygonTrackerOther = _G.PolygonTrackerOther}
-            _G.LibStub = function()
-                return {GetWorldCoordinatesFromZone = function(_, x, y) return x * 1000, y * 1000, 1 end}
-            end
+            local HBD = QuestieLoader:ImportModule("HBD")
+            originalGetWorldCoordinatesFromZone = HBD.GetWorldCoordinatesFromZone
+            HBD.GetWorldCoordinatesFromZone = function(_, x, y) return x * 1000, y * 1000, 1 end
             _G.MapCanvasDataProviderMixin = {}
             _G.CreateFromMixins = function(base, methods)
                 local result = {}
@@ -615,7 +615,8 @@ describe("TrackerUtils", function()
             QuestieMap.DrawWorldIcon = originalDraw
             FramePool.UnloadFrame = originalUnload
             for name, value in pairs(originalGlobals) do _G[name] = value end
-            _G.LibStub, _G.WorldMapFrame, _G.C_Timer = originalGlobals.LibStub, originalGlobals.WorldMapFrame, originalGlobals.C_Timer
+            _G.WorldMapFrame, _G.C_Timer = originalGlobals.WorldMapFrame, originalGlobals.C_Timer
+            QuestieLoader:ImportModule("HBD").GetWorldCoordinatesFromZone = originalGetWorldCoordinatesFromZone
             _G.CreateFromMixins = originalGlobals.CreateFromMixins
             _G.MapCanvasDataProviderMixin = originalGlobals.MapCanvasDataProviderMixin
             _G.PolygonTrackerMarker, _G.PolygonTrackerOther = originalGlobals.PolygonTrackerMarker, originalGlobals.PolygonTrackerOther

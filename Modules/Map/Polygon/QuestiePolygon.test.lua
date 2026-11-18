@@ -55,7 +55,7 @@ describe("QuestiePolygon world-map adapter", function()
     end
 
     before_each(function()
-        savedGlobals = {LibStub = _G.LibStub, WorldMapFrame = _G.WorldMapFrame, C_Timer = _G.C_Timer,
+        savedGlobals = {WorldMapFrame = _G.WorldMapFrame, C_Timer = _G.C_Timer,
             CreateFromMixins = _G.CreateFromMixins, MapCanvasDataProviderMixin = _G.MapCanvasDataProviderMixin,
             GetMouseFoci = _G.GetMouseFoci, GetCursorPosition = _G.GetCursorPosition, CreateFrame = _G.CreateFrame,
             UIParent = _G.UIParent, hooksecurefunc = _G.hooksecurefunc, GetTimePreciseSec = _G.GetTimePreciseSec,
@@ -67,16 +67,15 @@ describe("QuestiePolygon world-map adapter", function()
         dofile("Modules/Map/Polygon/PolygonNudging.lua")
         _G.GetCursorPosition = nil
         _G.GetMouseFoci = nil
-        HBD = {
-            mapData = {[10] = {mapType = Enum.UIMapType.Zone}, [20] = {mapType = Enum.UIMapType.Zone}},
-            GetWorldCoordinatesFromZone = function(_, x, y, uiMapId) return x * 1000, y * 1000, uiMapId end,
-            TranslateZoneCoordinates = spy.new(function(_, x, y) return x - 0.15, y + 0.3 end),
-            GetPlayerWorldPosition = function() return player.x, player.y, player.instanceId end,
-            GetPlayerZone = function() return 10 end,
-            GetZoneCoordinatesFromWorld = function(_, x, y) return x / 1000, y / 1000 end,
-        }
+        HBD = QuestieLoader:ImportModule("HBD")
+        HBD.mapData = {[10] = {mapType = Enum.UIMapType.Zone}, [20] = {mapType = Enum.UIMapType.Zone}}
+        HBD.GetWorldCoordinatesFromZone = function(_, x, y, uiMapId) return x * 1000, y * 1000, uiMapId end
+        HBD.TranslateZoneCoordinates = spy.new(function(_, x, y) return x - 0.15, y + 0.3 end)
+        HBD.GetPlayerWorldPosition = function() return player.x, player.y, player.instanceId end
+        HBD.GetPlayerZone = function() return 10 end
+        HBD.GetZoneCoordinatesFromWorld = function(_, x, y) return x / 1000, y / 1000 end
+        QuestieLoader:ImportModule("HBDPins").worldmapPinTemplate = "HereBeDragonsPins-Questie-WorldMapPin"
         player = {}
-        _G.LibStub = function() return HBD end
         _G.MapCanvasDataProviderMixin = {}
         _G.CreateFromMixins = function(base, methods)
             local result = {}
@@ -177,7 +176,7 @@ describe("QuestiePolygon world-map adapter", function()
                 GetRect = function(self) return self.x * 10, self.y * 5, 16, 16 end,
                 GetEffectiveScale = function() return 1 end}
             frame.width, frame.height, frame.effectiveScale = 16, 16, 1
-            local parent = {pinTemplate = "HereBeDragonsPinsTemplateQuestie", icon = frame, shown = true,
+            local parent = {pinTemplate = "HereBeDragonsPins-Questie-WorldMapPin", icon = frame, shown = true,
                 centerX = x * 10, centerY = y * 5, effectiveScale = 1,
                 GetCenter = function(self) return self.centerX, self.centerY end,
                 GetRect = function(self) return self.centerX - 0.5, self.centerY - 0.5, 1, 1 end,

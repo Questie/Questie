@@ -3,7 +3,7 @@ dofile("setupTests.lua")
 describe("PolygonMinimap", function()
     local PolygonMinimap, Pins, savedGlobals, savedError, hooks, vertexDraws, player, minimap, cluster, rotateCVar, atlases
     local root, renderer, cursor, focus, QuestieCompat, savedCompat
-    local GLOBALS = {"CreateFrame", "LibStub", "hooksecurefunc", "Minimap", "GetPlayerFacing", "GetMinimapShape",
+    local GLOBALS = {"CreateFrame", "hooksecurefunc", "Minimap", "GetPlayerFacing", "GetMinimapShape",
         "C_Texture", "C_Minimap", "issecretvalue", "GetCVar", "WorldMapFrame", "CreateFramePool", "CreateFromMixins", "GetCursorPosition",
         "CreateUnsecuredRegionPoolInstance", "MapCanvasDataProviderMixin", "MapCanvasPinMixin",
         "UPPER_LEFT_VERTEX", "UPPER_RIGHT_VERTEX", "LOWER_LEFT_VERTEX", "LOWER_RIGHT_VERTEX"}
@@ -168,19 +168,13 @@ describe("PolygonMinimap", function()
         QuestieCompat.IsGamepadUIEnabled = function() return false end
         cluster = {outline = {{x = 40, y = 40}, {x = 44, y = 40}, {x = 42, y = 44}}}
 
-        local HBD = {
-            GetWorldCoordinatesFromZone = function(_, x, y, uiMapId)
-                if MAPS[uiMapId] then return World(uiMapId, x * 100, y * 100) end
-            end,
-            GetPlayerWorldPosition = function() return player.x, player.y, player.instance end,
-            GetPlayerZone = function() return player.zone end,
-            RegisterCallback = function() end,
-        }
-        -- The real HereBeDragons-Pins: its minimap icons are the alignment reference, and its
-        -- GetMinimapView supplies the layer's radius from the zoom table.
-        Pins = {}
-        _G.LibStub = setmetatable({NewLibrary = function() return Pins end},
-            {__call = function(_, name) return name:find("Pins") and Pins or HBD end})
+        local HBD = QuestieLoader:ImportModule("HBD")
+        HBD.GetWorldCoordinatesFromZone = function(_, x, y, uiMapId)
+            if MAPS[uiMapId] then return World(uiMapId, x * 100, y * 100) end
+        end
+        HBD.GetPlayerWorldPosition = function() return player.x, player.y, player.instance end
+        HBD.GetPlayerZone = function() return player.zone end
+        HBD.RegisterCallback = function() end
         _G.CreateFrame = Frame
         _G.CreateFramePool = function() return {} end
         _G.CreateUnsecuredRegionPoolInstance = nil
@@ -201,7 +195,10 @@ describe("PolygonMinimap", function()
         _G.C_Texture = {GetAtlasInfo = function(atlas) return atlases[atlas] end}
         _G.issecretvalue = nil
         _G.UPPER_LEFT_VERTEX, _G.UPPER_RIGHT_VERTEX, _G.LOWER_LEFT_VERTEX, _G.LOWER_RIGHT_VERTEX = 1, 2, 3, 4
+        -- The real HereBeDragons-Pins: its minimap icons are the alignment reference, and its
+        -- GetMinimapView supplies the layer's radius from the zoom table.
         dofile("Libs/HereBeDragons/HereBeDragons-Pins-2.0.lua")
+        Pins = QuestieLoader:ImportModule("HBDPins")
         dofile("Modules/Map/MapGeometry.lua")
         dofile("Modules/Map/Polygon/PolygonStacking.lua")
         dofile("Modules/Map/Polygon/PolygonRenderer.lua")

@@ -1180,16 +1180,15 @@ describe("QuestieQuest", function()
     end)
 
     describe("PopulateObjective", function()
-        local originalLibStub
+        local HBD, originalGetWorldCoordinatesFromZone
         before_each(function()
-            originalLibStub = _G.LibStub
-            _G.LibStub = function()
-                return {GetWorldCoordinatesFromZone = function(_, x, y) return x, y, 1 end}
-            end
+            HBD = QuestieLoader:ImportModule("HBD")
+            originalGetWorldCoordinatesFromZone = HBD.GetWorldCoordinatesFromZone
+            HBD.GetWorldCoordinatesFromZone = function(_, x, y) return x, y, 1 end
             dofile("Modules/Quest/QuestieQuest.lua")
             QuestieQuest.private.objectiveSpawnListCallTable = {}
         end)
-        after_each(function() _G.LibStub = originalLibStub end)
+        after_each(function() HBD.GetWorldCoordinatesFromZone = originalGetWorldCoordinatesFromZone end)
 
         it("leaves both maps to the polygon cluster markers, drawing no ordinary objective icons", function()
             Questie.db.profile = {enableQuestiePolygons = true, enableObjectives = true, objectiveFilterDistance = 0}

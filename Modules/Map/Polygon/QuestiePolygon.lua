@@ -74,7 +74,10 @@ local Phasing = QuestieLoader:ImportModule("Phasing")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
-local HBD = LibStub("HereBeDragonsQuestie-2.0")
+---@type HBD
+local HBD = QuestieLoader:ImportModule("HBD")
+---@type HBDPins
+local HBDPins = QuestieLoader:ImportModule("HBDPins")
 
 ---Whether this quest object is still the logged one: abandoning, turning in or a quest log rebuild replaces it.
 ---@param quest Quest
@@ -300,7 +303,7 @@ function QuestiePolygon.Refresh()
                     -- IsVisible includes native parent visibility. The wrapper check also rejects
                     -- queued or released icons reparented to UIParent, even while UIParent is shown.
                     if outline and frame.data and frame._loaded and frame.polygonMarker == marker and frame:IsVisible()
-                        and parent and parent.pinTemplate == "HereBeDragonsPinsTemplateQuestie" and parent.icon == frame
+                        and parent and parent.pinTemplate == HBDPins.worldmapPinTemplate and parent.icon == frame
                         and not frame.hidden and not frame._hidden_by_flash and not frame:ShouldBeHidden() then
                         local alpha = frame.texture.a or 1
                         if alpha > 0 then

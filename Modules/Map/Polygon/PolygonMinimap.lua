@@ -8,7 +8,8 @@ local PolygonRenderer = QuestieLoader:ImportModule("PolygonRenderer")
 ---@type MinimapCanvas
 local MinimapCanvas = QuestieLoader:ImportModule("MinimapCanvas")
 
-local HBD = LibStub("HereBeDragonsQuestie-2.0")
+---@type HBD
+local HBD = QuestieLoader:ImportModule("HBD")
 
 ---@class PolygonMinimapArea
 ---@field key table Stable identity of one drawn area, such as its marker record.
