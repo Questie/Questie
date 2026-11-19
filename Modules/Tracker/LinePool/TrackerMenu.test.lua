@@ -7,7 +7,7 @@ describe("TrackerMenu", function()
     local QuestieQuest
     ---@type TrackerUtils
     local TrackerUtils
-    local originalLibStub, originalDialogs
+    local originalDialogs
     ---@type QuestiePopup
     local Popup
     local dialogErrors
@@ -19,7 +19,7 @@ describe("TrackerMenu", function()
     local TrackerData, displayQuests
 
     before_each(function()
-        originalLibStub, originalDialogs = _G.LibStub, _G.StaticPopupDialogs
+        originalDialogs = _G.StaticPopupDialogs
         globalOriginals = {
             C_Timer = _G.C_Timer,
             IsControlKeyDown = _G.IsControlKeyDown,
@@ -67,15 +67,6 @@ describe("TrackerMenu", function()
         QuestieQuest.ToggleQuestNotes = function() end
 
         _G.StaticPopupDialogs = {}
-        _G.LibStub = {
-            GetLibrary = function(_, _)
-                return {
-                    Create_UIDropDownMenu = function() end,
-                    CloseDropDownMenus = function() end,
-                }
-            end
-        }
-
         Questie.db = {
             char = {
                 TrackerHiddenObjectives = {},
@@ -98,7 +89,7 @@ describe("TrackerMenu", function()
     end)
 
     after_each(function()
-        _G.LibStub, _G.StaticPopupDialogs = originalLibStub, originalDialogs
+        _G.StaticPopupDialogs = originalDialogs
         for name, value in pairs(globalOriginals) do
             _G[name] = value
         end

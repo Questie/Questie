@@ -27,6 +27,9 @@ describe("MinimapIcon", function()
 
     local match = require("luassert.match")
     local _ = match._ -- any match
+    local function newMinimapFrame()
+        return {GetObjectType = function() return "Button" end}
+    end
 
     before_each(function()
         Questie.started = true
@@ -52,6 +55,7 @@ describe("MinimapIcon", function()
         QuestieMenu = QuestieLoader:ImportModule("QuestieMenu")
         QuestieMenu.Show = spy.new(function() end)
         QuestieMenu.Hide = spy.new(function() end)
+        _G.C_Timer = {After = function(_, callback) callback() end}
 
         QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
         QuestieQuest.SmoothReset = spy.new(function() end)
@@ -273,7 +277,7 @@ describe("MinimapIcon", function()
         Questie.started = false
         local button = "LeftButton"
 
-        MinimapIcon.private:OnClick(button)
+        MinimapIcon.private.OnClick(newMinimapFrame(), button)
 
         assert.spy(QuestieJourney.ToggleJourneyWindow).was.not_called()
         assert.spy(QuestieMenu.Show).was.not_called()
@@ -286,7 +290,7 @@ describe("MinimapIcon", function()
     it("should open My Journey on left click", function()
         local button = "LeftButton"
 
-        MinimapIcon.private:OnClick(button)
+        MinimapIcon.private.OnClick(newMinimapFrame(), button)
 
         assert.spy(QuestieJourney.ToggleJourneyWindow).was.called()
     end)
@@ -295,7 +299,7 @@ describe("MinimapIcon", function()
         local button = "LeftButton"
         _G.IsShiftKeyDown = function() return true end
 
-        MinimapIcon.private:OnClick(button)
+        MinimapIcon.private.OnClick(newMinimapFrame(), button)
 
         assert.spy(QuestieOptionsEngine.ToggleConfigWindow).was.called()
     end)
@@ -305,7 +309,7 @@ describe("MinimapIcon", function()
         _G.IsShiftKeyDown = function() return true end
         _G.InCombatLockdown = function() return true end
 
-        MinimapIcon.private:OnClick(button)
+        MinimapIcon.private.OnClick(newMinimapFrame(), button)
 
         assert.spy(QuestieOptionsEngine.ToggleConfigWindow).was.called()
     end)
@@ -314,7 +318,7 @@ describe("MinimapIcon", function()
         local button = "LeftButton"
         _G.IsControlKeyDown = function() return true end
 
-        MinimapIcon.private:OnClick(button)
+        MinimapIcon.private.OnClick(newMinimapFrame(), button)
 
         assert.spy(QuestieQuest.SmoothReset).was.called()
     end)
@@ -324,7 +328,7 @@ describe("MinimapIcon", function()
         _G.IsControlKeyDown = function() return true end
         _G.IsShiftKeyDown = function() return true end
 
-        MinimapIcon.private:OnClick(button)
+        MinimapIcon.private.OnClick(newMinimapFrame(), button)
 
         assert.is_false(Questie.db.profile.enabled)
         assert.spy(QuestieQuest.ToggleNotes).was.called_with(_, false)
@@ -334,18 +338,83 @@ describe("MinimapIcon", function()
     it("should open drop down menu on right click", function()
         QuestieMenu.IsOpen = function() return false end
         local button = "RightButton"
+        local clickedFrame = {GetObjectType = function() return "Button" end}
 
-        MinimapIcon.private:OnClick(button)
+        MinimapIcon.private.OnClick(clickedFrame, button)
 
-        assert.spy(QuestieMenu.Show).was.called()
+        assert.spy(QuestieMenu.Show).was.called_with(_, clickedFrame)
         assert.spy(QuestieMenu.Hide).was.not_called()
+    end)
+
+    it("should open the context menu from the addon compartment", function()
+        QuestieMenu.IsOpen = function() return false end
+        local button = "LeftButton"
+        local compartmentMenu = {}
+        _G.Menu = {GetManager = function() return {GetOpenMenu = function() return compartmentMenu end} end}
+        local shownAnchor = "unexpected anchor"
+        local deferredOpen
+        _G.C_Timer.After = function(_, callback)
+            deferredOpen = callback
+        end
+        QuestieMenu.Show = spy.new(function(_, anchor)
+            shownAnchor = anchor
+        end)
+
+        MinimapIcon.private.OnClick(compartmentMenu, button)
+
+        assert.spy(QuestieMenu.Show).was.not_called()
+        assert.is_function(deferredOpen)
+        deferredOpen()
+        assert.spy(QuestieMenu.Show).was.called()
+        assert.is_nil(shownAnchor)
+        assert.spy(QuestieMenu.Hide).was.not_called()
+        _G.Menu = nil
+    end)
+
+    describe("when another LibDataBroker display passes its own frame", function()
+        local otherDisplayFrame
+
+        before_each(function()
+            otherDisplayFrame = newMinimapFrame()
+            LibDBIconMock.GetMinimapButton = function() return newMinimapFrame() end
+            _G.Menu = {GetManager = function() return {GetOpenMenu = function() return nil end} end}
+        end)
+
+        after_each(function()
+            LibDBIconMock.GetMinimapButton = nil
+            _G.Menu = nil
+        end)
+
+        it("should toggle the journey on left click", function()
+            MinimapIcon.private.OnClick(otherDisplayFrame, "LeftButton")
+
+            assert.spy(QuestieJourney.ToggleJourneyWindow).was.called()
+            assert.spy(QuestieMenu.Show).was.not_called()
+        end)
+
+        it("should open the menu at the cursor on right click", function()
+            QuestieMenu.IsOpen = function() return false end
+
+            MinimapIcon.private.OnClick(otherDisplayFrame, "RightButton")
+
+            assert.spy(QuestieMenu.Show).was.called_with(_, nil)
+        end)
+
+        it("should hide the menu on right click when it is already shown", function()
+            QuestieMenu.IsOpen = function() return true end
+
+            MinimapIcon.private.OnClick(otherDisplayFrame, "RightButton")
+
+            assert.spy(QuestieMenu.Hide).was.called()
+            assert.spy(QuestieMenu.Show).was.not_called()
+        end)
     end)
 
     it("should hide drop down menu on right click when it is already shown", function()
         QuestieMenu.IsOpen = function() return true end
         local button = "RightButton"
 
-        MinimapIcon.private:OnClick(button)
+        MinimapIcon.private.OnClick(newMinimapFrame(), button)
 
         assert.spy(QuestieMenu.Hide).was.called()
         assert.spy(QuestieMenu.Show).was.not_called()
@@ -355,7 +424,7 @@ describe("MinimapIcon", function()
         local button = "RightButton"
         _G.IsControlKeyDown = function() return true end
 
-        MinimapIcon.private:OnClick(button)
+        MinimapIcon.private.OnClick(newMinimapFrame(), button)
 
         assert.is_true(Questie.db.profile.minimap.hide)
         assert.spy(LibDBIconMock.Hide).was.called_with(_, "Questie")
