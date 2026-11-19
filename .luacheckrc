@@ -2962,7 +2962,6 @@ globals = {
     "InvenUnitFrames_Target",
     "PitBull4_Frames_Target",
     "UIDROPDOWNMENU_MAXLEVELS",
-    "L_UIDROPDOWNMENU_MAXLEVELS",
     "VoiceOver",
     "VoiceOverFrame",
     "Spoken",
