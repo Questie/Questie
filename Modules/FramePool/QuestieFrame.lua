@@ -322,6 +322,9 @@ end
 
 ---Draws the quest's icon on the overlay as a badge in the icon's top-right corner. The texture coordinates shrink it
 ---into place and the clamp mode leaves the rest of the overlay clear, so the badge follows the icon's size by itself.
+---Every supported client has the CLAMPTOBLACKADDITIVE wrap mode: Blizzard's own UI uses it in
+---Blizzard_Channels/VoiceActivityNotification.xml on classic_era, classic_anniversary, classic_titan, 4.4.2 and classic,
+---and in Blizzard_CommunitiesSecure/CommunitiesAddDialog.xml on forever.
 ---@param overlay Texture
 ---@param questIcon string
 ---@param inset number

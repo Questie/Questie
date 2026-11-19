@@ -80,13 +80,7 @@ end
 ---@param key string
 ---@param playerZone AreaId|nil
 _AddFinisherToMap = function(finisher, quest, key, playerZone)
-    --[[-- Need to know when this quest finishes at an object, so we save it later
-    ---@type string|nil
-    local finisherType
-
-    if key == "o_" .. finisher.id then
-        finisherType = "Object"
-    end]] -- need to see why followup quest from object has no cogwheel anymore
+    -- todo: a quest finished at an object could show the cogwheel, as quest starters do (_GetStarterLook in QuestieFrame)
 
     -- Clear duplicate keys if they exist
     if QuestieTooltips.lookupByKey[key] then
@@ -102,17 +96,6 @@ _AddFinisherToMap = function(finisher, quest, key, playerZone)
         if finisherZone and spawns then
             for _, coords in ipairs(spawns) do
                 local data = _GetIconData(quest, finisherName)
-                --[[local data = {
-                    Id = quest.Id,
-                    Icon = _GetIcon(quest),
-                    GetIconScale = _GetIconScale,
-                    IconScale = _GetIconScale(),
-                    Type = "complete",
-                    QuestData = quest,
-                    Name = finisher.name,
-                    IsObjectiveNote = false,
-                    FinisherType = finisherType,
-                }]] -- need to see why followup quest from object has no cogwheel anymore
 
                 if (coords[1] == -1 or coords[2] == -1) then
                     local dungeonLocation = ZoneDB:GetDungeonLocation(finisherZone)
