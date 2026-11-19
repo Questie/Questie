@@ -13,7 +13,7 @@ describe("QuestieCommsData", function()
     local originalData
     local originalGetItem
     local originalGetNpc
-    local originalGetObject
+    local originalQueryObjectSingle
     local originalHaveQuestData
     local originalGetQuestObjectives
     local originalThread
@@ -84,7 +84,7 @@ describe("QuestieCommsData", function()
         originalData = QuestieComms.data
         originalGetItem = QuestieDB.GetItem
         originalGetNpc = QuestieDB.GetNPC
-        originalGetObject = QuestieDB.GetObject
+        originalQueryObjectSingle = QuestieDB.QueryObjectSingle
         originalHaveQuestData = _G.HaveQuestData
         originalGetQuestObjectives = C_QuestLog.GetQuestObjectives
         originalTimer = _G.C_Timer
@@ -96,7 +96,7 @@ describe("QuestieCommsData", function()
         itemCancel = nil
         loadedItemName = "Server item name"
         QuestieDB.GetNPC = function() return nil end
-        QuestieDB.GetObject = function() return nil end
+        QuestieDB.QueryObjectSingle = function() return nil end
         ThreadLib = QuestieLoader:ImportModule("ThreadLib")
         originalThread = ThreadLib.Thread
         loadThread = nil
@@ -123,7 +123,7 @@ describe("QuestieCommsData", function()
         QuestieComms.data = originalData
         QuestieDB.GetItem = originalGetItem
         QuestieDB.GetNPC = originalGetNpc
-        QuestieDB.GetObject = originalGetObject
+        QuestieDB.QueryObjectSingle = originalQueryObjectSingle
         _G.HaveQuestData = originalHaveQuestData
         C_QuestLog.GetQuestObjectives = originalGetQuestObjectives
         ThreadLib.Thread = originalThread
@@ -187,10 +187,24 @@ describe("QuestieCommsData", function()
                 fulfilled = 0, required = 1}, firstResult[questId][playerName][1])
         end)
 
+        it("should fall back to the object's name on an early hover", function()
+            _G.HaveQuestData = function() return false end
+            QuestieDB.QueryObjectSingle = function(objectId, field)
+                if objectId == 200 and field == "name" then
+                    return "Old Lion Statue"
+                end
+            end
+            QuestieComms.data:RegisterTooltip(questId, playerName, {objective("o", 200)})
+
+            local result = QuestieComms.data:GetTooltip("o_200")
+
+            assert.equals("Old Lion Statue", result[questId][playerName][1].text)
+        end)
+
         it("should safely fall back when both API wording and entity data are missing", function()
             apiObjectives = {{text = " : 0/1", type = "monster"}, {text = "Activate the beacon: 0/1"}}
             QuestieDB.GetNPC = function() return nil end
-            QuestieDB.GetObject = function() return nil end
+            QuestieDB.QueryObjectSingle = function() return nil end
             QuestieComms.data:RegisterTooltip(questId, playerName, {objective("m", 100), objective("o", 200)})
 
             local monsterResult = QuestieComms.data:GetTooltip("m_100")

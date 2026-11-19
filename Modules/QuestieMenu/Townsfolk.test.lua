@@ -21,6 +21,7 @@ describe("Townsfolk", function()
     local originalIsClassic
     local originalIsSoD
     local originalUnitLevel
+    local originalUnitClassBase
 
     -- Classic-client NPC flag values, mirroring QuestieDB.npcFlags on Era.
     local NPC_FLAGS = {
@@ -71,6 +72,7 @@ describe("Townsfolk", function()
         originalIsClassic = Questie.IsClassic
         originalIsSoD = Questie.IsSoD
         originalUnitLevel = _G.UnitLevel
+        originalUnitClassBase = _G.UnitClassBase
         Expansions.Current = Expansions.Era
         Questie.IsClassic = true
         Questie.IsSoD = false
@@ -135,6 +137,7 @@ describe("Townsfolk", function()
         Questie.IsClassic = originalIsClassic
         Questie.IsSoD = originalIsSoD
         _G.UnitLevel = originalUnitLevel
+        _G.UnitClassBase = originalUnitClassBase
     end)
 
     describe("Initialize", function()
@@ -183,13 +186,32 @@ describe("Townsfolk", function()
             assert.are_same({6001}, factionSpecific.Alliance["Mailbox"])
         end)
 
-        it("groups pet food Items by food type", function()
+        it("groups pet food Items by food type for hunters", function()
+            -- Townsfolk reads the player's class when its file loads.
+            _G.UnitClassBase = function() return "HUNTER", 3 end
+            dofile("Modules/QuestieMenu/Townsfolk.lua")
+
             _RunInitialize()
 
             local petFood = Townsfolk.petFoodVendorTypes
             assert.are_same({7001}, petFood["Meat"])
             assert.are_same({7002}, petFood["Fish"])
             assert.are_same({}, petFood["Cheese"])
+        end)
+
+        it("skips the pet food Item scan for other classes", function()
+            local foodTypeReads = 0
+            local queryItemSingle = QuestieDB.QueryItemSingle
+            QuestieDB.QueryItemSingle = function(id, field)
+                if field == "foodType" then
+                    foodTypeReads = foodTypeReads + 1
+                end
+                return queryItemSingle(id, field)
+            end
+
+            _RunInitialize() -- as the druid from setupTests.lua
+
+            assert.are_equal(0, foodTypeReads)
         end)
     end)
 

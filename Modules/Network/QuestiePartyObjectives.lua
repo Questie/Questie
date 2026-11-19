@@ -81,8 +81,7 @@ local function _GetObjectiveName(objType, objId)
         local npc = QuestieDB:GetNPC(objId)
         return npc and npc.name
     elseif objType == "object" then
-        local object = QuestieDB:GetObject(objId)
-        return object and object.name
+        return QuestieDB.QueryObjectSingle(objId, "name")
     elseif objType == "item" then
         local item = QuestieDB:GetItem(objId)
         return item and item.name
