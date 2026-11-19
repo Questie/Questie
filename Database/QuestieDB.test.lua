@@ -225,6 +225,19 @@ describe("QuestieDB", function()
             assert.spy(_G.GetQuestTagInfo).was.not_called()
         end)
 
+        it("tags the Forever Ruins of Lordaeron and Excavation Site: Wetlands quests as dungeon quests", function()
+            _G.GetQuestTagInfo = spy.new(function() return 0, "Normal" end)
+            local questIds = {92421, 92422, 95189, 95204, 95216, 95647, 97288, 98815}
+
+            for _, questId in pairs(questIds) do
+                local questTagId, questTagName = QuestieDB.GetQuestTagInfo(questId)
+
+                assert.are_same(QuestieDB.questTagIds.DUNGEON, questTagId)
+                assert.are_same("Dungeon", questTagName)
+            end
+            assert.spy(_G.GetQuestTagInfo).was.not_called()
+        end)
+
         it("uses the API for Titan quest IDs outside Titan Reforged", function()
             _G.GetQuestTagInfo = spy.new(function() return 41, "PvP" end)
 
