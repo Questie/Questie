@@ -105,6 +105,18 @@ describe("QuestieQuestBlacklist", function()
         assert.is_true(questToBlacklist[88758]) -- Sentiments of the Lost
     end)
 
+    it("should hide both factions' The Heart of the Void outside of Season of Discovery", function()
+        Questie.IsSoD = false
+        local nonSodBlacklist = QuestieQuestBlacklist:Load()
+        assert.is_true(nonSodBlacklist[78916]) -- Alliance
+        assert.is_true(nonSodBlacklist[78917]) -- Horde
+
+        Questie.IsSoD = true
+        local sodBlacklist = QuestieQuestBlacklist:Load()
+        assert.is_falsy(sodBlacklist[78916])
+        assert.is_falsy(sodBlacklist[78917])
+    end)
+
     it("should hide the classic Khan Jehn quest on Forever only", function()
         Questie.IsForever = true
         assert.is_true(QuestieQuestBlacklist:Load()[1374])
