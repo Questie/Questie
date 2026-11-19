@@ -531,6 +531,17 @@ function QuestieQuest:ShouldShowQuestNotes(questId)
     return QuestieQuest:IsQuestTracked(questId)
 end
 
+---Whether a completed quest keeps its turn-in pin and tooltip while untracked quests are hidden.
+---@param questId QuestId
+---@return boolean
+function QuestieQuest.KeepsUntrackedTurnIn(questId)
+    if not Questie.db.profile.showUntrackedTurnInIcons then
+        return false
+    end
+    local quest = QuestieDB.GetQuest(questId)
+    return quest ~= nil and quest:IsComplete() == 1
+end
+
 ---@param questId QuestId
 function QuestieQuest:HideQuest(questId)
     Questie.db.char.hidden[questId] = true

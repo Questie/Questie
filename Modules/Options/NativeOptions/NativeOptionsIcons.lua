@@ -102,7 +102,7 @@ function QuestieOptionsEngine.tabs.icons:Initialize()
                                 end
                                 if value == true then
                                     for questId, acceptance in ActiveQuests.Iterate() do
-                                        if acceptance.quest and (not QuestieQuest:ShouldShowQuestNotes(questId)) then
+                                        if acceptance.quest and (not QuestieQuest:ShouldShowQuestNotes(questId)) and not QuestieQuest.KeepsUntrackedTurnIn(questId) then
                                             QuestieTooltips:RemoveQuest(questId)
                                         end
                                     end
@@ -110,6 +110,37 @@ function QuestieOptionsEngine.tabs.icons:Initialize()
                                     for _, acceptance in ActiveQuests.Iterate() do
                                         if acceptance.quest then
                                             QuestieQuest:PopulateObjectiveNotes(acceptance.quest)
+                                        end
+                                    end
+                                end
+                            end)
+                        end,
+                    },
+                    showUntrackedTurnInIconsToggle = {
+                        type = "checkbox",
+                        order = 1.31,
+                        title = "Show completed turn-in icons",
+                        tooltip = "Keep turn-in pins visible for completed quests that are not tracked.",
+                        width = "full",
+                        enabled = function()
+                            return Questie.db.profile.enabled and Questie.db.profile.hideUntrackedQuestsMapIcons
+                        end,
+                        get = function() return Questie.db.profile.showUntrackedTurnInIcons end,
+                        set = function(_, value)
+                            Questie.db.profile.showUntrackedTurnInIcons = value
+                            ThreadLib.ThreadInstant(function()
+                                if value then
+                                    QuestieQuest:ShowQuestIcons()
+                                    for questId, acceptance in ActiveQuests.Iterate() do
+                                        if acceptance.quest and QuestieQuest.KeepsUntrackedTurnIn(questId) then
+                                            QuestieQuest:PopulateObjectiveNotes(acceptance.quest)
+                                        end
+                                    end
+                                else
+                                    QuestieQuest:HideQuestIcons()
+                                    for questId, acceptance in ActiveQuests.Iterate() do
+                                        if acceptance.quest and acceptance.quest:IsComplete() == 1 and (not QuestieQuest:ShouldShowQuestNotes(questId)) then
+                                            QuestieTooltips:RemoveQuest(questId)
                                         end
                                     end
                                 end
