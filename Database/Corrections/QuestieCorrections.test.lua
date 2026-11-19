@@ -18,6 +18,7 @@ describe("QuestieCorrections", function()
     local originalExpansion
     local originalIsHardcore
     local originalIsTitanReforged
+    local originalIsForever
     local originalTBCPhase
 
     before_each(function()
@@ -28,10 +29,12 @@ describe("QuestieCorrections", function()
         originalExpansion = Expansions.Current
         originalIsHardcore = Questie.IsHardcore
         originalIsTitanReforged = Questie.IsTitanReforged
+        originalIsForever = Questie.IsForever
 
         Expansions.Current = Expansions.Era
         Questie.IsHardcore = false
         Questie.IsTitanReforged = false
+        Questie.IsForever = false
         Questie.db.global.isleOfQuelDanasPhase = 1
 
         dofile("Database/Corrections/ContentPhases/ContentPhases.lua")
@@ -80,6 +83,7 @@ describe("QuestieCorrections", function()
         Expansions.Current = originalExpansion
         Questie.IsHardcore = originalIsHardcore
         Questie.IsTitanReforged = originalIsTitanReforged
+        Questie.IsForever = originalIsForever
         ContentPhases.activePhases.TBC = originalTBCPhase
     end)
 
@@ -336,6 +340,34 @@ describe("QuestieCorrections", function()
 
             assert.is_true(QuestieCorrections.hiddenQuests[601])
             assert.is_true(QuestieCorrections.hiddenQuests[602])
+        end)
+    end)
+
+    describe("GoblinLockpicksParent", function()
+        it("keeps Goblin Lockpicks a child of The Horn of Xelthos on Forever", function()
+            local questKeys = QuestieDB.questKeys
+            mock.SetBaseRow("Quest", 78261, {
+                [questKeys.name] = "The Horn of Xelthos",
+                [questKeys.nextQuestInChain] = 78307,
+            })
+            mock.SetBaseRow("Quest", 78270, {[questKeys.name] = "Goblin Lockpicks"})
+            Questie.IsForever = true
+
+            QuestieCorrections.Initialize()
+
+            assert.are_same({78270}, LibQuestieDB.Quest.Get(78261, "childQuests"))
+            assert.are_same(78261, LibQuestieDB.Quest.Get(78270, "parentQuest"))
+            assert.are_same(78307, LibQuestieDB.Quest.Get(78261, "nextQuestInChain"))
+        end)
+
+        it("does not publish the parent link outside Forever", function()
+            local questKeys = QuestieDB.questKeys
+            mock.SetBaseRow("Quest", 78270, {[questKeys.name] = "Goblin Lockpicks"})
+            Questie.IsForever = false
+
+            QuestieCorrections.Initialize()
+
+            assert.are_same(0, LibQuestieDB.Quest.Get(78270, "parentQuest"))
         end)
     end)
 end)

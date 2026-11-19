@@ -46,6 +46,7 @@ QuestieCorrections.hiddenQuests = {}
 --   Npc    DarkmoonFaire               QuestieEvent — calendar state selects the location
 --   Object GatheringNodeDisplayPolicy  Initialize below — static display policy
 --   Quest  ContentPhasePolicy          Initialize below — reads the active Content Phase
+--   Quest  GoblinLockpicksParent       Initialize below — Forever only; optional child of 78261
 --   Item   RuntimeItemRepair           QuestieLib — asynchronous client Item loads, published once per frame
 --
 -- External translation addons do not go through here: `l10n` forwards their entity lookups to the
@@ -163,6 +164,23 @@ local function _GatheringNodeDisplayRows()
     return rows
 end
 
+-- Goblin Lockpicks (78270) is the optional Breaching Charge path for The Horn of Xelthos (78261).
+-- Season of Discovery already records 78270 as a child of 78261. Forever's provider rows do not,
+-- so the lockpick quest stays available after 78261 is turned in. The slot is Forever-only:
+-- SoD already has the link, and these IDs are not this pair on other flavors.
+---@return PolicyCorrectionRows
+local function _GoblinLockpicksParentRows()
+    local questKeys = QuestieDB.questKeys
+    return {
+        [78261] = { -- The Horn of Xelthos
+            [questKeys.childQuests] = {78270},
+        },
+        [78270] = { -- Goblin Lockpicks
+            [questKeys.parentQuest] = 78261,
+        },
+    }
+end
+
 ---------------------------------------------------------------------------------------------------
 -- Blacklist policy plus the static Policy Correction slots. Both express what Questie shows:
 -- blacklists by hiding quests Questie-side, Correction slots by changing composed entity rows.
@@ -217,5 +235,9 @@ function QuestieCorrections.Initialize()
     -- today; a live phase switch would simply re-publish this slot with the producer's new rows.
     if Expansions.Current >= Expansions.Tbc then
         QuestieCorrections.SetCorrection("Quest", "ContentPhasePolicy", QuestieTBCPolicyCorrections:LoadContentPhaseFixes())
+    end
+
+    if Questie.IsForever then
+        QuestieCorrections.SetCorrection("Quest", "GoblinLockpicksParent", _GoblinLockpicksParentRows())
     end
 end
