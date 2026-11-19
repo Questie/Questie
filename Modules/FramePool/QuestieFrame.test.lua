@@ -379,7 +379,8 @@ describe("QuestieFrame", function()
             local noop = function() end
             _G.CreateFrame = function()
                 return {CreateTexture = function() return FakeTexture() end, ShouldButtonPassThrough = function() return true end,
-                    SetSize = noop, SetAlpha = noop, SetScript = noop, RegisterForClicks = noop, Hide = noop}
+                    SetSize = noop, SetAlpha = noop, SetScript = noop, RegisterForClicks = noop, Hide = noop,
+                    GetName = function() return "QuestieFrame1" end}
             end
             return QuestieFrame.CreateIconFrame(1, noop)
         end
@@ -415,20 +416,22 @@ describe("QuestieFrame", function()
             assert.is_false(frame.overlayTexture.shown)
         end)
 
-        it("should draw a quest started by a dropped item as a loot bag with the quest's icon in its top-right corner", function()
-            local frame = IconFrame()
+        it("should draw a quest started by an item a monster or an object drops as a loot bag with the quest's icon in its top-right corner", function()
+            for _, starterType in ipairs({"itemFromMonster", "itemFromObject"}) do
+                local frame = IconFrame()
 
-            Draw(frame, "itemFromMonster")
+                Draw(frame, starterType)
 
-            assert.are.equal(LOOT_ICON, frame.texture.file)
-            assert.are.equal(QUEST_ICON, frame.overlayTexture.file)
-            assert.is_true(frame.overlayTexture.shown)
-            -- 62% of the icon, set in from the corner by 7%: the loot bag leaves its corner empty
-            local badge = BadgeEdges(frame.overlayTexture)
-            assert.near(0.31, badge.left, 1e-9)
-            assert.near(0.93, badge.right, 1e-9)
-            assert.near(0.07, badge.top, 1e-9)
-            assert.near(0.69, badge.bottom, 1e-9)
+                assert.are.equal(LOOT_ICON, frame.texture.file, starterType)
+                assert.are.equal(QUEST_ICON, frame.overlayTexture.file, starterType)
+                assert.is_true(frame.overlayTexture.shown, starterType)
+                -- 62% of the icon, set in from the corner by 7%: the loot bag leaves its corner empty
+                local badge = BadgeEdges(frame.overlayTexture)
+                assert.near(0.31, badge.left, 1e-9)
+                assert.near(0.93, badge.right, 1e-9)
+                assert.near(0.07, badge.top, 1e-9)
+                assert.near(0.69, badge.bottom, 1e-9)
+            end
         end)
 
         it("should draw a quest started by an object as a cogwheel with the quest's icon in its very corner", function()
@@ -443,6 +446,23 @@ describe("QuestieFrame", function()
             assert.near(1, badge.right, 1e-9)
             assert.near(0, badge.top, 1e-9)
             assert.near(0.62, badge.bottom, 1e-9)
+        end)
+
+        it("should draw a starter's frame reused from the pool for an NPC's quest without the starter's picture or badge", function()
+            local HBDPins = QuestieLoader:ImportModule("HBDPins")
+            HBDPins.RemoveMinimapIcon, HBDPins.RemoveWorldMapIcon = function() end, function() end
+            QuestieLoader:ImportModule("QuestieDBMIntegration").UnregisterHudQuestIcon = function() end
+            QuestieWaypoints.RemoveOwner = function() end
+            QuestieMap.questIdFrames = {}
+            local frame = IconFrame()
+            Draw(frame, "Object")
+            frame._loaded = true -- drawn on the map
+
+            frame:Unload()
+            Draw(frame, nil)
+
+            assert.are.equal(QUEST_ICON, frame.texture.file)
+            assert.is_false(frame.overlayTexture.shown)
         end)
 
         it("should keep the rest of the badge's texture clear instead of repeating its edges across the icon", function()
