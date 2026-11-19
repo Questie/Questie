@@ -519,6 +519,29 @@ describe("TrackerUtils", function()
         end)
     end)
 
+    describe("IsTomTomAvailable", function()
+        local originalTomTom
+
+        before_each(function()
+            originalTomTom = _G.TomTom
+        end)
+
+        after_each(function()
+            _G.TomTom = originalTomTom
+        end)
+
+        it("requires TomTom's waypoint API, not only its global", function()
+            _G.TomTom = nil
+            assert.is_false(TrackerUtils.IsTomTomAvailable())
+
+            _G.TomTom = {}
+            assert.is_false(TrackerUtils.IsTomTomAvailable())
+
+            _G.TomTom = {AddWaypoint = function() end}
+            assert.is_true(TrackerUtils.IsTomTomAvailable())
+        end)
+    end)
+
     describe("IsVoiceOverLoaded", function()
         it("requires both the addon and its Vanilla data", function()
             local loaded = {AI_VoiceOver = true}

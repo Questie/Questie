@@ -16,6 +16,8 @@ local TrackerBaseFrame = QuestieLoader:ImportModule("TrackerBaseFrame")
 local TrackerLinePool = QuestieLoader:ImportModule("TrackerLinePool")
 ---@type TrackerUtils
 local TrackerUtils = QuestieLoader:ImportModule("TrackerUtils")
+---@type TrackerShortcuts
+local TrackerShortcuts = QuestieLoader:ImportModule("TrackerShortcuts")
 ---@type Expansions
 local Expansions = QuestieLoader:ImportModule("Expansions")
 ---@type CommsVisibility
@@ -30,7 +32,6 @@ local _GetShortcuts
 local trackerOptions = {}
 
 local SharedMedia = LibStub("LibSharedMedia-3.0")
-local IsAddOnLoaded = QuestieCompat.IsAddOnLoaded
 
 ---Toggle tracker visibility based on a condition
 ---@param shouldHide boolean Whether to hide (true) or show (false) the tracker
@@ -206,95 +207,101 @@ function QuestieOptions.tabs.tracker:Initialize()
                             QuestieTracker:Update()
                         end
                     },
-                    Spacer_Dropdowns = QuestieOptionsUtils:Spacer(5),
-                    openQuestLog = {
-                        type = "select",
+                    group_shortcuts = {
+                        type = "group",
                         order = 7,
-                        values = _GetShortcuts,
-                        style = "dropdown",
-                        name = function()
-                            if Expansions.Current >= Expansions.Wotlk then
-                                return l10n("Show Quest / Achievement")
-                            else
-                                return l10n("Show in Quest Log")
-                            end
-                        end,
-                        desc = function()
-                            if Expansions.Current >= Expansions.Wotlk then
-                                return l10n("This shortcut will open the Quest Log with the clicked Quest selected or open Achievements with the clicked Achievement selected.")
-                            else
-                                return l10n("This shortcut will open the Quest Log with the clicked Quest selected.")
-                            end
-                        end,
+                        inline = true,
+                        name = function() return l10n("Shortcuts") end,
                         disabled = function() return not Questie.db.profile.trackerEnabled end,
-                        get = function() return Questie.db.profile.trackerbindOpenQuestLog end,
-                        set = function(_, key)
-                            Questie.db.profile.trackerbindOpenQuestLog = key
-                        end
-                    },
-                    Space_Y = QuestieOptionsUtils:HorizontalSpacer(7.1, 0.1),
-                    untrackQuest = {
-                        type = "select",
-                        order = 8,
-                        values = _GetShortcuts,
-                        style = "dropdown",
-                        name = function()
-                            if Expansions.Current >= Expansions.Wotlk then
-                                return l10n("Untrack / Link")
-                            else
-                                return l10n("Untrack / Link Quest")
-                            end
-                        end,
-                        desc = function()
-                            if Expansions.Current >= Expansions.Wotlk then
-                                return l10n("This shortcut removes a Quest or an Achievement from the Questie Tracker when the chat input box is NOT visible, otherwise this will link a Quest or an Achievement to chat.")
-                            else
-                                return l10n("This shortcut removes a Quest from the Questie Tracker when the chat input box is NOT visible, otherwise this will link a Quest to chat.")
-                            end
-                        end,
-                        disabled = function() return not Questie.db.profile.trackerEnabled end,
-                        get = function() return Questie.db.profile.trackerbindUntrack end,
-                        set = function(_, key)
-                            Questie.db.profile.trackerbindUntrack = key
-                        end
-                    },
-                    Space_Share = QuestieOptionsUtils:HorizontalSpacer(8.1, 0.1),
-                    shareQuest = {
-                        type = "select",
-                        order = 8.2,
-                        values = _GetShortcuts,
-                        style = "dropdown",
-                        name = function() return l10n("Share / Link Quest") end,
-                        desc = function() return l10n("This shortcut shares a Quest with your group when the chat input box is NOT visible, otherwise this will link a Quest to chat.") end,
-                        disabled = function() return not Questie.db.profile.trackerEnabled end,
-                        get = function() return Questie.db.profile.trackerbindShareQuest end,
-                        set = function(_, key)
-                            Questie.db.profile.trackerbindShareQuest = key
-                        end
-                    },
-                    Spacer_Sliders = QuestieOptionsUtils:Spacer(9),
-                    questPadding = {
-                        type = "range",
-                        order = 10,
-                        name = function() return l10n("Padding Between Quests") end,
-                        desc = function() return l10n("The amount of padding between Quests in the Questie Tracker.\n\nNOTE: Changing this setting while in Sizer Manual Mode will reset the Sizer back to Auto Mode") end,
-                        width = 3,
-                        min = 2,
-                        max = 15,
-                        step = 1,
-                        disabled = function() return not Questie.db.profile.trackerEnabled end,
-                        get = function() return Questie.db.profile.trackerQuestPadding end,
-                        set = function(_, value)
-                            Questie.db.profile.trackerQuestPadding = value
-                            local trackerHeightByManual = Questie.db.profile.TrackerHeight
-                            if IsMouseButtonDown("LeftButton") and trackerHeightByManual == 0 then
-                                QuestieTracker:Update()
-                            elseif IsMouseButtonDown("LeftButton") and trackerHeightByManual > 0 then
-                                Questie.db.profile.TrackerWidth = 0
-                                Questie.db.profile.TrackerHeight = 0
-                                QuestieTracker:Update()
-                            end
-                        end
+                        args = {
+                            openQuestLog = {
+                                type = "select",
+                                order = 7,
+                                values = _GetShortcuts,
+                                style = "dropdown",
+                                name = function()
+                                    if Expansions.Current >= Expansions.Wotlk then
+                                        return l10n("Show Quest / Achievement")
+                                    else
+                                        return l10n("Show in Quest Log")
+                                    end
+                                end,
+                                desc = function()
+                                    if Expansions.Current >= Expansions.Wotlk then
+                                        return l10n("This shortcut will open the Quest Log with the clicked Quest selected or open Achievements with the clicked Achievement selected.")
+                                    else
+                                        return l10n("This shortcut will open the Quest Log with the clicked Quest selected.")
+                                    end
+                                end,
+                                disabled = function() return not Questie.db.profile.trackerEnabled end,
+                                get = function() return Questie.db.profile.trackerbindOpenQuestLog end,
+                                set = function(_, key)
+                                    TrackerShortcuts.Set("trackerbindOpenQuestLog", key)
+                                end
+                            },
+                            Space_Y = QuestieOptionsUtils:HorizontalSpacer(7.1, 0.1),
+                            untrackQuest = {
+                                type = "select",
+                                order = 8,
+                                values = _GetShortcuts,
+                                style = "dropdown",
+                                name = function()
+                                    if Expansions.Current >= Expansions.Wotlk then
+                                        return l10n("Untrack")
+                                    else
+                                        return l10n("Untrack Quest")
+                                    end
+                                end,
+                                desc = function()
+                                    if Expansions.Current >= Expansions.Wotlk then
+                                        return l10n("This shortcut removes a Quest or an Achievement from the Questie Tracker.")
+                                    else
+                                        return l10n("This shortcut removes a Quest from the Questie Tracker.")
+                                    end
+                                end,
+                                disabled = function() return not Questie.db.profile.trackerEnabled end,
+                                get = function() return Questie.db.profile.trackerbindUntrack end,
+                                set = function(_, key)
+                                    TrackerShortcuts.Set("trackerbindUntrack", key)
+                                end
+                            },
+                            Space_Share = QuestieOptionsUtils:HorizontalSpacer(8.1, 0.1),
+                            shareQuest = {
+                                type = "select",
+                                order = 8.2,
+                                values = _GetShortcuts,
+                                style = "dropdown",
+                                name = function() return l10n("Share Quest") end,
+                                desc = function() return l10n("This shortcut shares a Quest with your group.") end,
+                                disabled = function() return not Questie.db.profile.trackerEnabled end,
+                                get = function() return Questie.db.profile.trackerbindShareQuest end,
+                                set = function(_, key)
+                                    TrackerShortcuts.Set("trackerbindShareQuest", key)
+                                end
+                            },
+                            -- Its own row, like in the native options, so it lines up whether or not a fourth dropdown fits the window.
+                            Spacer_TomTom = QuestieOptionsUtils:Spacer(8.3, function() return not TrackerUtils.IsTomTomAvailable() end, "minimal"),
+                            setTomTom = {
+                                type = "select",
+                                order = 8.4,
+                                values = _GetShortcuts,
+                                style = "dropdown",
+                                name = function() return l10n("Set |cFF54e33bTomTom|r Target") end,
+                                desc = function()
+                                    if Expansions.Current >= Expansions.Wotlk then
+                                        return l10n("This shortcut will set the TomTom arrow to point to either an NPC or the first incomplete Quest Objective (if location data is available).\n\nNOTE: This will not work with Achievements.")
+                                    else
+                                        return l10n("This shortcut will set the TomTom arrow to point to either an NPC or the first incomplete Quest Objective (if location data is available).")
+                                    end
+                                end,
+                                disabled = function() return not Questie.db.profile.trackerEnabled end,
+                                hidden = function() return not TrackerUtils.IsTomTomAvailable() end,
+                                get = function() return Questie.db.profile.trackerbindSetTomTom end,
+                                set = function(_, key)
+                                    TrackerShortcuts.Set("trackerbindSetTomTom", key)
+                                end
+                            },
+                        },
                     },
                     group_tracker = {
                         type = "group",
@@ -710,26 +717,6 @@ function QuestieOptions.tabs.tracker:Initialize()
                         end
                     },
                     Spacer_Dropdowns = QuestieOptionsUtils:Spacer(9),
-                    setTomTom = {
-                        type = "select",
-                        order = 13,
-                        values = _GetShortcuts,
-                        style = "dropdown",
-                        name = function() return l10n("Set |cFF54e33bTomTom|r Target") end,
-                        desc = function()
-                            if Expansions.Current >= Expansions.Wotlk then
-                                return l10n("This shortcut will set the TomTom arrow to point to either an NPC or the first incomplete Quest Objective (if location data is available).\n\nNOTE: This will not work with Achievements.")
-                            else
-                                return l10n("This shortcut will set the TomTom arrow to point to either an NPC or the first incomplete Quest Objective (if location data is available).")
-                            end
-                        end,
-                        disabled = function() return not Questie.db.profile.trackerEnabled end,
-                        hidden = function() return not IsAddOnLoaded("TomTom") end,
-                        get = function() return Questie.db.profile.trackerbindSetTomTom end,
-                        set = function(_, key)
-                            Questie.db.profile.trackerbindSetTomTom = key
-                        end
-                    },
                     trackerSetpoint = {
                         type = "select",
                         order = 14,
@@ -742,6 +729,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                             }
                         end,
                         style = "dropdown",
+                        width = 1.5,
                         name = function() return l10n("Tracker Growth Direction") end,
                         desc = function()
                             return l10n("This determines the direction in which the Questie Tracker grows when you add or remove Quests. For example, if you use the \"Up & Right\" option then the ideal place for the Tracker should be in the lower left-hand corner of your screen. This allows the \"Sizer Mode: Auto\" to push the Tracker Height and Width \"Up & Right\" so the Tracker doesn't inadvertently cover up elements of your UI.")
@@ -754,13 +742,38 @@ function QuestieOptions.tabs.tracker:Initialize()
                             QuestieTracker:Update()
                         end
                     },
+                    questPadding = {
+                        type = "range",
+                        order = 14.1,
+                        name = function() return l10n("Padding Between Quests") end,
+                        desc = function() return l10n("The amount of padding between Quests in the Questie Tracker.\n\nNOTE: Changing this setting while in Sizer Manual Mode will reset the Sizer back to Auto Mode") end,
+                        width = 1.5,
+                        min = 2,
+                        max = 15,
+                        step = 1,
+                        disabled = function() return not Questie.db.profile.trackerEnabled end,
+                        get = function() return Questie.db.profile.trackerQuestPadding end,
+                        set = function(_, value)
+                            Questie.db.profile.trackerQuestPadding = value
+                            local trackerHeightByManual = Questie.db.profile.TrackerHeight
+                            if IsMouseButtonDown("LeftButton") and trackerHeightByManual == 0 then
+                                QuestieTracker:Update()
+                            elseif IsMouseButtonDown("LeftButton") and trackerHeightByManual > 0 then
+                                Questie.db.profile.TrackerWidth = 0
+                                Questie.db.profile.TrackerHeight = 0
+                                QuestieTracker:Update()
+                            end
+                        end
+                    },
                     Spacer_Sliders = QuestieOptionsUtils:Spacer(12),
+                    -- Height and width share the row below Growth Direction and Padding
+                    Spacer_Ratios = QuestieOptionsUtils:Spacer(14.2, nil, "minimal"),
                     trackerHeightRatio = {
                         type = "range",
                         order = 15,
                         name = function() return l10n("Tracker Height Ratio") end,
                         desc = function() return l10n("The height of the Questie Tracker based on percentage of usable screen height. A setting of 100 percent would make the Tracker fill the players entire screen height.\n\nNOTE: This setting only applies while in Sizer Mode: Auto") end,
-                        width = 3,
+                        width = 1.5,
                         min = 20,
                         max = 100,
                         step = 1,
@@ -788,7 +801,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                         order = 15.1,
                         name = function() return l10n("Tracker Width Ratio") end,
                         desc = function() return l10n("The width of the Questie Tracker based on percentage of usable screen width. A setting of 100 percent would make the Tracker fill the players entire screen width.\n\nNOTE: This setting only applies while in Sizer Mode: Auto") end,
-                        width = 3,
+                        width = 1.5,
                         min = 15,
                         max = 100,
                         step = 1,

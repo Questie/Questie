@@ -1060,6 +1060,19 @@ local trackerOptionsLocales = {
         ["zhTW"] = "依區域遠近（反向）",
     },
     ---------------------------------------------------------
+    ["Shortcuts"] = {
+        ["enUS"] = true,
+        ["deDE"] = "Shortcuts", -- AI 🤖
+        ["esES"] = "Atajos", -- AI 🤖
+        ["esMX"] = "Atajos", -- AI 🤖
+        ["frFR"] = "Raccourcis", -- AI 🤖
+        ["koKR"] = "단축키", -- AI 🤖
+        ["ptBR"] = "Atalhos", -- AI 🤖
+        ["ruRU"] = "Сочетания клавиш", -- AI 🤖
+        ["zhCN"] = "捷径", -- AI 🤖
+        ["zhTW"] = "捷徑", -- AI 🤖
+    },
+    ---------------------------------------------------------
     ["Set |cFF54e33bTomTom|r Target"] = {
         ["enUS"] = true,
         ["deDE"] = "|cFF54e33bTomTom|r-Ziel setzen",
@@ -1153,82 +1166,57 @@ local trackerOptionsLocales = {
         ["zhTW"] = "此功能會打開任務日誌並顯示選點的任務，或是打開成就視窗並顯示選點的的成就",
     },
     ---------------------------------------------------------
-    ["Share / Link Quest"] = {
+    ["This shortcut shares a Quest with your group."] = {
         ["enUS"] = true,
-        ["deDE"] = "Quest teilen/verlinken", -- AI 🤖
-        ["esES"] = "Compartir/vincular misión", -- AI 🤖
-        ["esMX"] = "Compartir/vincular misión", -- AI 🤖
-        ["frFR"] = "Partager / Lier la quête", -- AI 🤖
-        ["koKR"] = "퀘스트 공유 / 링크", -- AI 🤖
-        ["ptBR"] = "Compartilhar/vincular missão", -- AI 🤖
-        ["ruRU"] = "Поделиться / Ссылка", -- AI 🤖
-        ["zhCN"] = "共享 / 任务链接", -- AI 🤖
-        ["zhTW"] = "分享 / 任務連結", -- AI 🤖
-    },
-    ["This shortcut shares a Quest with your group when the chat input box is NOT visible, otherwise this will link a Quest to chat."] = {
-        ["enUS"] = true,
-        ["deDE"] = "Dieser Shortcut teilt eine Quest mit deiner Gruppe, wenn das Chat-Eingabefeld nicht sichtbar ist, andernfalls wird die Quest verlinkt.", -- AI 🤖
-        ["esES"] = "Este atajo comparte una misión con tu grupo cuando el cuadro de entrada del chat NO está visible; de lo contrario, vinculará una misión al chat.", -- AI 🤖
-        ["esMX"] = "Este atajo comparte una misión con tu grupo cuando el cuadro de entrada del chat NO está visible; de lo contrario, vinculará una misión al chat.", -- AI 🤖
-        ["frFR"] = "Ce raccourci partage une quête avec votre groupe lorsque la boîte de saisie de discussion n'est PAS visible, sinon il liera une quête dans la discussion.", -- AI 🤖
-        ["koKR"] = "이 단축키는 채팅 입력창이 보이지 않을 때 퀘스트를 파티와 공유하며, 그렇지 않으면 퀘스트를 채팅에 링크합니다.", -- AI 🤖
-        ["ptBR"] = "Este atalho compartilha uma missão com seu grupo quando a caixa de entrada do bate-papo NÃO está visível; caso contrário, ele vinculará uma missão ao bate-papo.", -- AI 🤖
-        ["ruRU"] = "Сочетание клавиш, чтобы поделиться заданием с группой. Если активно поле ввода чата, то в чат отправится ссылка на задание", -- AI 🤖
-        ["zhCN"] = "当聊天输入框不可见时，此快捷键会将任务共享给你的队伍；否则，会将任务链接到聊天中", -- AI 🤖
-        ["zhTW"] = "當聊天輸入框不可見時，此快捷鍵會將任務分享給你的隊伍；否則，會將任務連結貼到聊天視窗", -- AI 🤖
+        ["deDE"] = "Dieser Shortcut teilt eine Quest mit deiner Gruppe.", -- AI 🤖
+        ["esES"] = "Este atajo comparte una misión con tu grupo.", -- AI 🤖
+        ["esMX"] = "Este atajo comparte una misión con tu grupo.", -- AI 🤖
+        ["frFR"] = "Ce raccourci partage une quête avec votre groupe.", -- AI 🤖
+        ["koKR"] = "이 단축키는 퀘스트를 파티와 공유합니다.", -- AI 🤖
+        ["ptBR"] = "Este atalho compartilha uma missão com seu grupo.", -- AI 🤖
+        ["ruRU"] = "Сочетание клавиш, чтобы поделиться заданием с группой", -- AI 🤖
+        ["zhCN"] = "此快捷键会将任务共享给你的队伍", -- AI 🤖
+        ["zhTW"] = "此快捷鍵會將任務分享給你的隊伍", -- AI 🤖
     },
     -- Classic and TBC only --
-    ["Untrack / Link Quest"] = {
+    ["This shortcut removes a Quest from the Questie Tracker."] = {
         ["enUS"] = true,
-        ["deDE"] = "Quest verlinken/entfernen",
-        ["esES"] = "No rastrear/vincular misión",
-        ["esMX"] = "No rastrear/vincular misión",
-        ["frFR"] = "Désuivre / Lier la quête",
-        ["koKR"] = "퀘스트 추적 취소 / 링크",
-        ["ptBR"] = "Remover rastreio/vincular missão",
-        ["ruRU"] = "Отмена / Ссылка",
-        ["zhCN"] = "取消追踪 / 任务链接",
-        ["zhTW"] = "取消追蹤 / 任務連結",
-    },
-    -- Classic and TBC only --
-    ["This shortcut removes a Quest from the Questie Tracker when the chat input box is NOT visible, otherwise this will link a Quest to chat."] = {
-        ["enUS"] = true,
-        ["deDE"] = "Dieser Shortcut entfernt eine Quest aus dem Questie-Tracker, wenn das Chat-Eingabefeld nicht sichtbar ist, andernfalls wird die Quest verlinkt.",
-        ["esES"] = "Este atajo elimina una misión del rastreador cuando el cuadro de entrada del chat NO está visible; de lo contrario, vinculará una misión al chat.",
-        ["esMX"] = "Este atajo elimina una misión del rastreador cuando el cuadro de entrada del chat NO está visible; de lo contrario, vinculará una misión al chat.",
-        ["frFR"] = "Ce raccourci retire une quête du suivi lorsque la boîte de saisie de discussion n'est PAS visible, sinon il liera une quête au discussion.",
-        ["koKR"] = "이 단축키는 채팅 입력창이 보이지 않을 때 Questie 추적기에서 퀘스트를 제거하며, 그렇지 않으면 퀘스트를 채팅에 링크합니다.",
-        ["ptBR"] = "Este atalho remove uma missão do rastreador quando a caixa de entrada do bate-papo NÃO está visível; caso contrário, ele vinculará uma missão ao bate-papo.",
-        ["ruRU"] = "Сочетание клавиш для отмены отслеживания задания в трекере. Если активно поле ввода чата, то вместо отмены отслеживания в чат отправится ссылка на задание",
-        ["zhCN"] = "当聊天输入框不可见时，此快捷键会将任务从Questie追踪器中移除；否则，会将任务链接到聊天中",
-        ["zhTW"] = "正在聊天視窗打字時，此功能會產生可以貼到聊天視窗的任務連結。不是正在打字時會從任務清單中移除任務",
+        ["deDE"] = "Dieser Shortcut entfernt eine Quest aus dem Questie-Tracker.", -- AI 🤖
+        ["esES"] = "Este atajo elimina una misión del rastreador.", -- AI 🤖
+        ["esMX"] = "Este atajo elimina una misión del rastreador.", -- AI 🤖
+        ["frFR"] = "Ce raccourci retire une quête du suivi.", -- AI 🤖
+        ["koKR"] = "이 단축키는 Questie 추적기에서 퀘스트를 제거합니다.", -- AI 🤖
+        ["ptBR"] = "Este atalho remove uma missão do rastreador.", -- AI 🤖
+        ["ruRU"] = "Сочетание клавиш для отмены отслеживания задания в трекере", -- AI 🤖
+        ["zhCN"] = "此快捷键会将任务从Questie追踪器中移除", -- AI 🤖
+        ["zhTW"] = "此快捷鍵會將任務從任務清單中移除", -- AI 🤖
     },
     ---------------------------------------------------------
     -- Wrath of the Lich King only --
-    ["Untrack / Link"] = {
+    ["Untrack"] = {
         ["enUS"] = true,
-        ["deDE"] = "Quest verlinken/entfernen",
-        ["esES"] = "No rastrear/vincular misión",
-        ["esMX"] = "No rastrear/vincular misión",
-        ["frFR"] = "Ne plus traquer et partager le lien de la quête",
-        ["koKR"] = "추적종료 / 링크 퀘스트",
-        ["ptBR"] = "Remover rastreio/vincular missão",
-        ["ruRU"] = "Отмена / Ссылка",
-        ["zhCN"] = "停止追踪 / 链接",
-        ["zhTW"] = "取消追蹤 / 任務連結",
+        ["deDE"] = "Nicht mehr verfolgen", -- AI 🤖
+        ["esES"] = "Dejar de rastrear", -- AI 🤖
+        ["esMX"] = "Dejar de rastrear", -- AI 🤖
+        ["frFR"] = "Ne plus suivre", -- AI 🤖
+        ["koKR"] = "추적 취소", -- AI 🤖
+        ["ptBR"] = "Remover rastreio", -- AI 🤖
+        ["ruRU"] = "Отмена отслеживания", -- AI 🤖
+        ["zhCN"] = "取消追踪", -- AI 🤖
+        ["zhTW"] = "取消追蹤", -- AI 🤖
     },
     -- Wrath of the Lich King only --
-    ["This shortcut removes a Quest or an Achievement from the Questie Tracker when the chat input box is NOT visible, otherwise this will link a Quest or an Achievement to chat."] = {
+    ["This shortcut removes a Quest or an Achievement from the Questie Tracker."] = {
         ["enUS"] = true,
-        ["deDE"] = "Dieser Shortcut entfernt eine Quest oder einen Erfolg aus dem Questie-Tracker, wenn das Chat-Eingabefeld nicht sichtbar ist, andernfalls wird die Quest oder der Erfolg verlinkt.",
-        ["esES"] = "Este atajo elimina una misión o un logro del rastreador cuando la caja de entrada de chat NO está visible; de lo contrario, vinculará una misión o un logro al chat.",
-        ["esMX"] = "Este atajo elimina una misión o un logro del rastreador cuando la caja de entrada de chat NO está visible; de lo contrario, vinculará una misión o un logro al chat.",
-        ["frFR"] = "Ce raccourci retire une quête ou un haut fait du suivi lorsque la boîte de saisie de discussion n'est PAS visible, sinon il liera une quête ou un haut fait au discussion.",
-        ["koKR"] = "이 단축키는 채팅 입력창이 보이지 않을 때 Questie 추적기에서 퀘스트나 업적을 제거하며, 그렇지 않으면 퀘스트나 업적을 채팅에 링크합니다.",
-        ["ptBR"] = "Este atalho remove uma missão ou uma conquista do rastreador quando a caixa de entrada do bate-papo NÃO está visível; caso contrário, ele vinculará uma missão ou uma conquista ao bate-papo.",
-        ["ruRU"] = "Сочетание клавиш для отмены отслеживания задания или достижения в трекере. Если активно поле ввода чата, то вместо отмены отслеживания в чат отправится ссылка на задание или достижение",
-        ["zhCN"] = "正在聊天窗口打字时，此功能会产生可以点到聊天窗口的任务或者成就链接。不是正在打字时会从任务列表中移除任务或成就",
-        ["zhTW"] = "正在聊天視窗打字時，此功能會產生可以貼到聊天視窗的任務或成就連結。不是正在打字時會從任務清單中移除任務或成就",
+        ["deDE"] = "Dieser Shortcut entfernt eine Quest oder einen Erfolg aus dem Questie-Tracker.", -- AI 🤖
+        ["esES"] = "Este atajo elimina una misión o un logro del rastreador.", -- AI 🤖
+        ["esMX"] = "Este atajo elimina una misión o un logro del rastreador.", -- AI 🤖
+        ["frFR"] = "Ce raccourci retire une quête ou un haut fait du suivi.", -- AI 🤖
+        ["koKR"] = "이 단축키는 Questie 추적기에서 퀘스트나 업적을 제거합니다.", -- AI 🤖
+        ["ptBR"] = "Este atalho remove uma missão ou uma conquista do rastreador.", -- AI 🤖
+        ["ruRU"] = "Сочетание клавиш для отмены отслеживания задания или достижения в трекере", -- AI 🤖
+        ["zhCN"] = "此快捷键会将任务或成就从Questie追踪器中移除", -- AI 🤖
+        ["zhTW"] = "此快捷鍵會將任務或成就從任務清單中移除", -- AI 🤖
     },
     ---------------------------------------------------------
     ["Tracker Growth Direction"] = {

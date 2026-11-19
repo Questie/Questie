@@ -31,7 +31,6 @@ local l10n = QuestieLoader:ImportModule("l10n")
 local QuestieOptionsEngine = QuestieLoader:ImportModule("QuestieOptionsEngine")
 
 local LSM30 = LibStub("LibSharedMedia-3.0")
-local IsAddOnLoaded = QuestieCompat.IsAddOnLoaded
 
 local headerFrame, trackerBaseFrame
 
@@ -97,16 +96,6 @@ function TrackerHeaderFrame.Initialize(baseFrame, OnTrackedQuestClick)
             Questie:Colorize(l10n("Ctrl + Left Click + Hold"), "lightBlue"),
             Questie:Colorize(l10n("Drag while Locked"), "white")
         )
-
-        if IsAddOnLoaded("TomTom") then
-            GameTooltip:AddLine(" ")
-            GameTooltip:AddLine(Questie:Colorize(l10n("Questie Tracker Integrations"), "gold"))
-            GameTooltip:AddLine(" ")
-            GameTooltip:AddDoubleLine(
-                Questie:Colorize(l10n("TomTom"), "lightBlue"),
-                Questie:Colorize(l10n("Ctrl + Left Click or Right Click a Quest Title"), "white")
-            )
-        end
 
         GameTooltip:Show()
 

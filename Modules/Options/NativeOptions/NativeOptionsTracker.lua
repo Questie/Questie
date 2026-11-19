@@ -16,6 +16,8 @@ local TrackerBaseFrame = QuestieLoader:ImportModule("TrackerBaseFrame")
 local TrackerLinePool = QuestieLoader:ImportModule("TrackerLinePool")
 ---@type TrackerUtils
 local TrackerUtils = QuestieLoader:ImportModule("TrackerUtils")
+---@type TrackerShortcuts
+local TrackerShortcuts = QuestieLoader:ImportModule("TrackerShortcuts")
 ---@type Expansions
 local Expansions = QuestieLoader:ImportModule("Expansions")
 ---@type CommsVisibility
@@ -26,7 +28,6 @@ local l10n = QuestieLoader:ImportModule("l10n")
 QuestieOptionsEngine.tabs.tracker = { ... }
 
 local SharedMedia = LibStub("LibSharedMedia-3.0")
-local IsAddOnLoaded = QuestieCompat.IsAddOnLoaded
 
 local _GetShortcuts
 local _GetObjectiveColors
@@ -192,68 +193,70 @@ function QuestieOptionsEngine.tabs.tracker:Initialize()
                             QuestieTracker:Update()
                         end,
                     },
-                    openQuestLog = {
-                        type = "dropdown",
+                    group_shortcuts = {
+                        type = "container",
                         order = 5,
-                        title = Expansions.Current >= Expansions.Wotlk and "Show Quest / Achievement" or "Show in Quest Log",
-                        tooltip = Expansions.Current >= Expansions.Wotlk and "This shortcut will open the Quest Log with the clicked Quest selected or open Achievements with the clicked Achievement selected." or "This shortcut will open the Quest Log with the clicked Quest selected.",
-                        width = "third",
-                        newline = true,
-                        options = _GetShortcuts,
+                        title = "Shortcuts",
                         enabled = function() return Questie.db.profile.trackerEnabled end,
-                        get = function() return Questie.db.profile.trackerbindOpenQuestLog end,
-                        set = function(key)
-                            Questie.db.profile.trackerbindOpenQuestLog = key
-                        end,
-                    },
-                    untrackQuest = {
-                        type = "dropdown",
-                        order = 6,
-                        title = Expansions.Current >= Expansions.Wotlk and "Untrack / Link" or "Untrack / Link Quest",
-                        tooltip = Expansions.Current >= Expansions.Wotlk and "This shortcut removes a Quest or an Achievement from the Questie Tracker when the chat input box is NOT visible, otherwise this will link a Quest or an Achievement to chat." or "This shortcut removes a Quest from the Questie Tracker when the chat input box is NOT visible, otherwise this will link a Quest to chat.",
-                        width = "third",
-                        options = _GetShortcuts,
-                        enabled = function() return Questie.db.profile.trackerEnabled end,
-                        get = function() return Questie.db.profile.trackerbindUntrack end,
-                        set = function(key)
-                            Questie.db.profile.trackerbindUntrack = key
-                        end,
-                    },
-                    shareQuest = {
-                        type = "dropdown",
-                        order = 6.5,
-                        title = "Share / Link Quest",
-                        tooltip = "This shortcut shares a Quest with your group when the chat input box is NOT visible, otherwise this will link a Quest to chat.",
-                        width = "third",
-                        options = _GetShortcuts,
-                        enabled = function() return Questie.db.profile.trackerEnabled end,
-                        get = function() return Questie.db.profile.trackerbindShareQuest end,
-                        set = function(key)
-                            Questie.db.profile.trackerbindShareQuest = key
-                        end,
-                    },
-                    questPadding = {
-                        type = "slider",
-                        order = 7,
-                        title = "Padding Between Quests",
-                        tooltip = "The amount of padding between Quests in the Questie Tracker.\n\nNOTE: Changing this setting while in Sizer Manual Mode will reset the Sizer back to Auto Mode",
-                        width = "full",
-                        min = 2,
-                        max = 15,
-                        step = 1,
-                        enabled = function() return Questie.db.profile.trackerEnabled end,
-                        get = function() return Questie.db.profile.trackerQuestPadding end,
-                        set = function(_, value)
-                            Questie.db.profile.trackerQuestPadding = value
-                            local trackerHeightByManual = Questie.db.profile.TrackerHeight
-                            if IsMouseButtonDown("LeftButton") and trackerHeightByManual == 0 then
-                                QuestieTracker:Update()
-                            elseif IsMouseButtonDown("LeftButton") and trackerHeightByManual > 0 then
-                                Questie.db.profile.TrackerWidth = 0
-                                Questie.db.profile.TrackerHeight = 0
-                                QuestieTracker:Update()
-                            end
-                        end,
+                        items = {
+                            openQuestLog = {
+                                type = "dropdown",
+                                order = 5,
+                                title = Expansions.Current >= Expansions.Wotlk and "Show Quest / Achievement" or "Show in Quest Log",
+                                tooltip = Expansions.Current >= Expansions.Wotlk and "This shortcut will open the Quest Log with the clicked Quest selected or open Achievements with the clicked Achievement selected." or "This shortcut will open the Quest Log with the clicked Quest selected.",
+                                width = "third",
+                                newline = true,
+                                options = _GetShortcuts,
+                                enabled = function() return Questie.db.profile.trackerEnabled end,
+                                get = function() return Questie.db.profile.trackerbindOpenQuestLog end,
+                                set = function(key)
+                                    TrackerShortcuts.Set("trackerbindOpenQuestLog", key)
+                                end,
+                            },
+                            untrackQuest = {
+                                type = "dropdown",
+                                order = 6,
+                                title = Expansions.Current >= Expansions.Wotlk and "Untrack" or "Untrack Quest",
+                                tooltip = Expansions.Current >= Expansions.Wotlk and "This shortcut removes a Quest or an Achievement from the Questie Tracker." or "This shortcut removes a Quest from the Questie Tracker.",
+                                width = "third",
+                                options = _GetShortcuts,
+                                enabled = function() return Questie.db.profile.trackerEnabled end,
+                                get = function() return Questie.db.profile.trackerbindUntrack end,
+                                set = function(key)
+                                    TrackerShortcuts.Set("trackerbindUntrack", key)
+                                end,
+                            },
+                            shareQuest = {
+                                type = "dropdown",
+                                order = 6.5,
+                                title = "Share Quest",
+                                tooltip = "This shortcut shares a Quest with your group.",
+                                width = "third",
+                                options = _GetShortcuts,
+                                enabled = function() return Questie.db.profile.trackerEnabled end,
+                                get = function() return Questie.db.profile.trackerbindShareQuest end,
+                                set = function(key)
+                                    TrackerShortcuts.Set("trackerbindShareQuest", key)
+                                end,
+                            },
+                            setTomTom = {
+                                type = "dropdown",
+                                order = 6.6,
+                                title = "Set |cFF54e33bTomTom|r Target",
+                                tooltip = Expansions.Current >= Expansions.Wotlk
+                                    and "This shortcut will set the TomTom arrow to point to either an NPC or the first incomplete Quest Objective (if location data is available).\n\nNOTE: This will not work with Achievements."
+                                    or "This shortcut will set the TomTom arrow to point to either an NPC or the first incomplete Quest Objective (if location data is available).",
+                                width = "third",
+                                newline = true,
+                                options = _GetShortcuts,
+                                visible = TrackerUtils.IsTomTomAvailable(),
+                                enabled = function() return Questie.db.profile.trackerEnabled end,
+                                get = function() return Questie.db.profile.trackerbindSetTomTom end,
+                                set = function(key)
+                                    TrackerShortcuts.Set("trackerbindSetTomTom", key)
+                                end,
+                            },
+                        },
                     },
                     group_objectives = {
                         type = "container",
@@ -643,22 +646,6 @@ function QuestieOptionsEngine.tabs.tracker:Initialize()
                             QuestieTracker:Update()
                         end,
                     },
-                    setTomTom = {
-                        type = "dropdown",
-                        order = 13,
-                        title = "Set |cFF54e33bTomTom|r Target",
-                        tooltip = Expansions.Current >= Expansions.Wotlk
-                            and "This shortcut will set the TomTom arrow to point to either an NPC or the first incomplete Quest Objective (if location data is available).\n\nNOTE: This will not work with Achievements."
-                            or "This shortcut will set the TomTom arrow to point to either an NPC or the first incomplete Quest Objective (if location data is available).",
-                        width = "half",
-                        options = _GetShortcuts,
-                        visible = IsAddOnLoaded("TomTom"),
-                        enabled = function() return Questie.db.profile.trackerEnabled end,
-                        get = function() return Questie.db.profile.trackerbindSetTomTom end,
-                        set = function(key)
-                            Questie.db.profile.trackerbindSetTomTom = key
-                        end,
-                    },
                     trackerSetpoint = {
                         type = "dropdown",
                         order = 14,
@@ -675,12 +662,36 @@ function QuestieOptionsEngine.tabs.tracker:Initialize()
                             QuestieTracker:Update()
                         end,
                     },
+                    questPadding = {
+                        type = "slider",
+                        order = 14.1,
+                        title = "Padding Between Quests",
+                        tooltip = "The amount of padding between Quests in the Questie Tracker.\n\nNOTE: Changing this setting while in Sizer Manual Mode will reset the Sizer back to Auto Mode",
+                        width = "half",
+                        min = 2,
+                        max = 15,
+                        step = 1,
+                        enabled = function() return Questie.db.profile.trackerEnabled end,
+                        get = function() return Questie.db.profile.trackerQuestPadding end,
+                        set = function(_, value)
+                            Questie.db.profile.trackerQuestPadding = value
+                            local trackerHeightByManual = Questie.db.profile.TrackerHeight
+                            if IsMouseButtonDown("LeftButton") and trackerHeightByManual == 0 then
+                                QuestieTracker:Update()
+                            elseif IsMouseButtonDown("LeftButton") and trackerHeightByManual > 0 then
+                                Questie.db.profile.TrackerWidth = 0
+                                Questie.db.profile.TrackerHeight = 0
+                                QuestieTracker:Update()
+                            end
+                        end,
+                    },
                     trackerHeightRatio = {
                         type = "slider",
                         order = 15,
                         title = "Tracker Height Ratio",
                         tooltip = "The height of the Questie Tracker based on percentage of usable screen height. A setting of 100 percent would make the Tracker fill the players entire screen height.\n\nNOTE: This setting only applies while in Sizer Mode: Auto",
                         width = "half",
+                        newline = true,
                         min = 20,
                         max = 100,
                         step = 1,
