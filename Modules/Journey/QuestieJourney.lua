@@ -45,7 +45,7 @@ local notesPopupWinIsOpen = false
 
 local journeyTabs = {
     {key = "journey", title = "My Journey", subtitle = "Your character's history", icon = "Interface\\Icons\\INV_Misc_Map02"},
-    {key = "zone", title = "Quests by Zone", subtitle = "Explore quests by zone", icon = "Interface\\AddOns\\Questie\\Icons\\azeroth.tga"},
+    {key = "zone", title = "Quests by Zone", subtitle = "Explore quests by zone", icon = "Interface\\AddOns\\Questie\\Icons\\azeroth.png"},
     {key = "faction", title = "Quests by Faction", subtitle = "Explore quests by faction", icon = "Interface\\Icons\\Achievement_Reputation_01"},
     {key = "search", title = "Advanced Search", subtitle = "Find quests and objectives", icon = "Interface\\Icons\\INV_Misc_Spyglass_03"},
 }
