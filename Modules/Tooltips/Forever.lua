@@ -158,6 +158,27 @@ local function _SelectObjective(candidates, selection, text)
     return output .. _DisplayFragment(unmatched, text)
 end
 
+local function _SelectUnitText(unitName, candidates)
+    local output = ""
+    for _, candidate in ipairs(candidates) do
+        local matches = _AllMatched(_MismatchMarker(unitName, candidate.name))
+        output = output .. _DisplayFragment(C_CurveUtil.EvaluateColorValueFromBoolean(matches, 1, 0), candidate.text)
+    end
+    return output
+end
+
+---Builds display text in which only the candidate named like the possibly secret unit name is visible.
+---The result may be secret: pass it to the tooltip only, never compare or measure it.
+---@param unitName any @Possibly secret
+---@param candidates {name: string, text: string}[] @Public names with their prepared tooltip text
+---@return any? text Nil when the native helpers are unavailable
+function Forever.SelectUnitText(unitName, candidates)
+    if not _CanSelect() then return nil end
+    local ok, text = pcall(_SelectUnitText, unitName, candidates)
+    if ok then return text end
+    return nil
+end
+
 ---@param guid any
 ---@return string? fullName The party member's name, like Questie Comms keys it. Nil for yourself and non-members.
 local function _GetPartyMemberName(guid)

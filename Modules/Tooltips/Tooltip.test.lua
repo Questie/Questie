@@ -214,6 +214,117 @@ describe("Tooltip", function()
             assert.spy(QuestieTooltips.private.AddUnitDataToTooltip).was.called_with(GameTooltip)
         end)
 
+        describe("secret units on Forever", function()
+            local callbacks, savedTooltipUtil, savedSelectUnitText, savedGetTooltip, savedQueryNPCSingle
+
+            before_each(function()
+                callbacks = {}
+                _G.Enum = {TooltipDataType = {Item = 0, Unit = 2, Object = 4}}
+                GameTooltip.GetPrimaryTooltipData = function() return {} end
+                GameTooltip.AddLine = spy.new(function() end)
+                _G.TooltipDataProcessor = {
+                    AddTooltipPostCall = function(kind, callback) callbacks[kind] = callback end,
+                }
+                Questie.IsForever = true
+                _G.IsInInstance = function() return true end
+                savedTooltipUtil = _G.TooltipUtil
+                _G.TooltipUtil = {GetDisplayedUnit = function() return "Secret name" end}
+                _G.issecretvalue = function(value) return value == "Secret name" or value == "Secret GUID" end
+
+                local Forever = QuestieLoader:ImportModule("Forever")
+                savedSelectUnitText = Forever.SelectUnitText
+                Forever.SelectUnitText = spy.new(function() return "Selected text" end)
+                savedGetTooltip = QuestieTooltips.GetTooltip
+                QuestieTooltips.GetTooltip = function(key)
+                    return ({m_1 = {"Hogger quest"}, m_2 = {"Kill quest", "   3/10 Pillager"}, m_3 = {"Other quest"}})[key]
+                end
+                savedQueryNPCSingle = QuestieDB.QueryNPCSingle
+                QuestieDB.QueryNPCSingle = function(id) return ({"Hogger", "Defias Pillager", "Defias Pillager"})[id] end
+                QuestieTooltips.lookupByKey = {m_1 = {}, m_2 = {}, m_3 = {}, o_4 = {}}
+            end)
+
+            after_each(function()
+                _G.TooltipUtil = savedTooltipUtil
+                QuestieLoader:ImportModule("Forever").SelectUnitText = savedSelectUnitText
+                QuestieTooltips.GetTooltip = savedGetTooltip
+                QuestieDB.QueryNPCSingle = savedQueryNPCSingle
+                QuestieTooltips.lookupByKey = {}
+            end)
+
+            it("should add exactly one line selected by the secret unit name inside instances", function()
+                QuestieTooltips:Initialize()
+                callbacks[2](GameTooltip, {type = 2, guid = "Secret GUID"})
+
+                assert.spy(QuestieTooltips.private.AddUnitDataToTooltip).was.not_called()
+                assert.spy(GameTooltip.AddLine).was.called(1)
+                assert.spy(GameTooltip.AddLine).was.called_with(GameTooltip, "Selected text", 1, 1, 1, false)
+                local unitName, candidates = QuestieLoader:ImportModule("Forever").SelectUnitText.calls[1].vals[1],
+                    QuestieLoader:ImportModule("Forever").SelectUnitText.calls[1].vals[2]
+                assert.are.equal("Secret name", unitName)
+                table.sort(candidates, function(a, b) return a.name < b.name end)
+                assert.are.equal(2, #candidates)
+                assert.are.equal("Defias Pillager", candidates[1].name)
+                assert.is_truthy(candidates[1].text:find("Kill quest\n   3/10 Pillager", 1, true))
+                assert.is_truthy(candidates[1].text:find("Other quest", 1, true))
+                assert.are.same({name = "Hogger", text = "Hogger quest"}, candidates[2])
+            end)
+
+            it("should select by unit name when the GUID is secret outside instances", function()
+                _G.IsInInstance = function() return false end
+                QuestieTooltips:Initialize()
+                callbacks[2](GameTooltip, {type = 2, guid = "Secret GUID"})
+
+                assert.spy(QuestieTooltips.private.AddUnitDataToTooltip).was.not_called()
+                assert.spy(GameTooltip.AddLine).was.called_with(GameTooltip, "Selected text", 1, 1, 1, false)
+            end)
+
+            it("should add nothing when no NPC has Questie lines", function()
+                QuestieTooltips.lookupByKey = {o_4 = {}}
+                QuestieTooltips:Initialize()
+                callbacks[2](GameTooltip, {type = 2, guid = "Secret GUID"})
+
+                assert.spy(GameTooltip.AddLine).was.not_called()
+            end)
+
+            it("should add nothing when the unit name cannot be read", function()
+                _G.TooltipUtil.GetDisplayedUnit = function() error("Restricted") end
+                local savedUnitName = _G.UnitName
+                _G.UnitName = function() return nil end
+                QuestieTooltips:Initialize()
+                callbacks[2](GameTooltip, {type = 2, guid = "Secret GUID"})
+                _G.UnitName = savedUnitName
+
+                assert.spy(GameTooltip.AddLine).was.not_called()
+            end)
+
+            it("should fall back to the mouseover name when the displayed unit cannot be read", function()
+                _G.TooltipUtil.GetDisplayedUnit = function() error("Restricted") end
+                local savedUnitName = _G.UnitName
+                _G.UnitName = function(unit) return unit == "mouseover" and "Secret name" or nil end
+                QuestieTooltips:Initialize()
+                callbacks[2](GameTooltip, {type = 2, guid = "Secret GUID"})
+                _G.UnitName = savedUnitName
+
+                assert.spy(GameTooltip.AddLine).was.called_with(GameTooltip, "Selected text", 1, 1, 1, false)
+            end)
+
+            it("should add nothing when tooltips are disabled", function()
+                Questie.db.profile.enableTooltips = false
+                QuestieTooltips:Initialize()
+                callbacks[2](GameTooltip, {type = 2, guid = "Secret GUID"})
+
+                assert.spy(GameTooltip.AddLine).was.not_called()
+            end)
+
+            it("should add nothing in a raid", function()
+                QuestiePlayer.numberOfGroupMembers = 7
+                QuestieTooltips:Initialize()
+                callbacks[2](GameTooltip, {type = 2, guid = "Secret GUID"})
+
+                assert.spy(GameTooltip.AddLine).was.not_called()
+            end)
+        end)
+
         it("retains the Classic tooltip-set scripts when the modern processor is absent", function()
             _G.TooltipDataProcessor = nil
             GameTooltip.GetSpell = function() return "Fireball", 133 end

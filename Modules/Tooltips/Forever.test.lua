@@ -364,4 +364,27 @@ describe("Forever", function()
             assert.is_nil(Forever.GetQuestPartyMembers({lines = {{type = 18, leftText = "secret"}}}))
         end)
     end)
+
+    describe("SelectUnitText", function()
+        local candidates = {
+            {name = "Defias Pillager", text = "Kill quest\n   3/10 Defias Pillager"},
+            {name = "Hogger", text = "Hogger quest"},
+        }
+
+        it("should show only the text of the candidate named like the unit", function()
+            assert.are.equal(OPEN .. "Hogger quest", Forever.SelectUnitText("Hogger", candidates))
+        end)
+
+        it("should show nothing when no candidate matches the unit name", function()
+            assert.are.equal("", Forever.SelectUnitText("Mother Fang", candidates))
+        end)
+
+        it("should return nil when the native helpers are unavailable or fail", function()
+            _G.C_Intl.CompareStrings = function() error("Native helper unavailable") end
+            assert.is_nil(Forever.SelectUnitText("Hogger", candidates))
+
+            _G.C_Intl = nil
+            assert.is_nil(Forever.SelectUnitText("Hogger", candidates))
+        end)
+    end)
 end)

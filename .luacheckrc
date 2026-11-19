@@ -2948,6 +2948,7 @@ globals = {
     "TooltipDataProcessor.AddLinePostCall",
     "TooltipDataProcessor.AddTooltipPreCall",
     "TooltipDataProcessor.AddTooltipPostCall",
+    "TooltipUtil.GetDisplayedUnit",
     "SOUNDKIT",
     -----------------------------------------------------> External Addons
     "AtlasToggleFromWorldMap",
