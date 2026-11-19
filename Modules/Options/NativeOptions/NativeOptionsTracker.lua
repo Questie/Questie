@@ -256,14 +256,6 @@ function QuestieOptionsEngine.tabs.tracker:Initialize()
                                     TrackerShortcuts.Set("trackerbindSetTomTom", key)
                                 end,
                             },
-                            linkNote = {
-                                type = "text",
-                                order = 7,
-                                title = "",
-                                description = "While the chat input is open, Shift + Left Click links to chat instead of running its shortcut.",
-                                width = "full",
-                                newline = true,
-                            },
                         },
                     },
                     group_objectives = {

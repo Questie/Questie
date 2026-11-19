@@ -1219,19 +1219,6 @@ local trackerOptionsLocales = {
         ["zhTW"] = "此快捷鍵會將任務或成就從任務清單中移除", -- AI 🤖
     },
     ---------------------------------------------------------
-    ["While the chat input is open, Shift + Left Click links to chat instead of running its shortcut."] = {
-        ["enUS"] = true,
-        ["deDE"] = "Solange das Chat-Eingabefeld offen ist, verlinkt Umschalt + Linksklick in den Chat, statt seinen Shortcut auszuführen.", -- AI 🤖
-        ["esES"] = "Mientras el cuadro de entrada del chat está abierto, Mayús + clic izquierdo vincula al chat en lugar de ejecutar su atajo.", -- AI 🤖
-        ["esMX"] = "Mientras el cuadro de entrada del chat está abierto, Mayús + clic izquierdo vincula al chat en lugar de ejecutar su atajo.", -- AI 🤖
-        ["frFR"] = "Tant que la boîte de saisie de discussion est ouverte, Maj + clic gauche crée un lien dans la discussion au lieu d'exécuter son raccourci.", -- AI 🤖
-        ["koKR"] = "채팅 입력창이 열려 있는 동안 Shift + 좌클릭은 단축키 대신 채팅에 링크합니다.", -- AI 🤖
-        ["ptBR"] = "Enquanto a caixa de entrada do bate-papo estiver aberta, Shift + clique esquerdo vincula ao bate-papo em vez de executar seu atalho.", -- AI 🤖
-        ["ruRU"] = "Пока открыто поле ввода чата, Shift + ЛКМ отправляет ссылку в чат вместо своего сочетания клавиш", -- AI 🤖
-        ["zhCN"] = "聊天输入框打开时，Shift + 左键单击会将链接发送到聊天中，而不是执行其快捷键", -- AI 🤖
-        ["zhTW"] = "聊天輸入框開啟時，Shift + 左鍵點擊會將連結貼到聊天視窗，而不是執行其快捷鍵", -- AI 🤖
-    },
-    ---------------------------------------------------------
     ["Tracker Growth Direction"] = {
         ["enUS"] = true,
         ["deDE"] = "Tracker Wachstumsrichtung",
