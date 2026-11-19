@@ -46,6 +46,7 @@ QuestieCorrections.hiddenQuests = {}
 --   Npc    DarkmoonFaire               QuestieEvent — calendar state selects the location
 --   Object GatheringNodeDisplayPolicy  Initialize below — static display policy
 --   Quest  ContentPhasePolicy          Initialize below — reads the active Content Phase
+--   Quest  SeekingCaitlinBreadcrumb   Initialize below — Forever only; provider row has no breadcrumb
 --   Item   RuntimeItemRepair           QuestieLib — asynchronous client Item loads, published once per frame
 --
 -- External translation addons do not go through here: `l10n` forwards their entity lookups to the
@@ -163,6 +164,23 @@ local function _GatheringNodeDisplayRows()
     return rows
 end
 
+-- Seeking Caitlin (95737) only sends the player to Caitlin Grassman, who starts Lost in the
+-- Thicket Things (95647). Forever's provider rows record that handoff and not the breadcrumb,
+-- so 95737 stays available after 95647 is finished. These IDs are Forever quests.
+---@return PolicyCorrectionRows
+local function _SeekingCaitlinBreadcrumbRows()
+    local questKeys = QuestieDB.questKeys
+    return {
+        [95737] = { -- Seeking Caitlin
+            [questKeys.breadcrumbForQuestId] = 95647, -- Lost in the Thicket Things
+            [questKeys.nextQuestInChain] = 95647,
+        },
+        [95647] = { -- Lost in the Thicket Things
+            [questKeys.breadcrumbs] = {95737},
+        },
+    }
+end
+
 ---------------------------------------------------------------------------------------------------
 -- Blacklist policy plus the static Policy Correction slots. Both express what Questie shows:
 -- blacklists by hiding quests Questie-side, Correction slots by changing composed entity rows.
@@ -217,5 +235,9 @@ function QuestieCorrections.Initialize()
     -- today; a live phase switch would simply re-publish this slot with the producer's new rows.
     if Expansions.Current >= Expansions.Tbc then
         QuestieCorrections.SetCorrection("Quest", "ContentPhasePolicy", QuestieTBCPolicyCorrections:LoadContentPhaseFixes())
+    end
+
+    if Questie.IsForever then
+        QuestieCorrections.SetCorrection("Quest", "SeekingCaitlinBreadcrumb", _SeekingCaitlinBreadcrumbRows())
     end
 end

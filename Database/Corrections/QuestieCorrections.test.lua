@@ -18,6 +18,7 @@ describe("QuestieCorrections", function()
     local originalExpansion
     local originalIsHardcore
     local originalIsTitanReforged
+    local originalIsForever
     local originalTBCPhase
 
     before_each(function()
@@ -28,10 +29,12 @@ describe("QuestieCorrections", function()
         originalExpansion = Expansions.Current
         originalIsHardcore = Questie.IsHardcore
         originalIsTitanReforged = Questie.IsTitanReforged
+        originalIsForever = Questie.IsForever
 
         Expansions.Current = Expansions.Era
         Questie.IsHardcore = false
         Questie.IsTitanReforged = false
+        Questie.IsForever = false
         Questie.db.global.isleOfQuelDanasPhase = 1
 
         dofile("Database/Corrections/ContentPhases/ContentPhases.lua")
@@ -80,6 +83,7 @@ describe("QuestieCorrections", function()
         Expansions.Current = originalExpansion
         Questie.IsHardcore = originalIsHardcore
         Questie.IsTitanReforged = originalIsTitanReforged
+        Questie.IsForever = originalIsForever
         ContentPhases.activePhases.TBC = originalTBCPhase
     end)
 
@@ -336,6 +340,33 @@ describe("QuestieCorrections", function()
 
             assert.is_true(QuestieCorrections.hiddenQuests[601])
             assert.is_true(QuestieCorrections.hiddenQuests[602])
+        end)
+    end)
+
+    describe("SeekingCaitlinBreadcrumb", function()
+        it("marks Seeking Caitlin as the breadcrumb for Lost in the Thicket Things on Forever", function()
+            local questKeys = QuestieDB.questKeys
+            mock.SetBaseRow("Quest", 95737, {[questKeys.name] = "Seeking Caitlin"})
+            mock.SetBaseRow("Quest", 95647, {[questKeys.name] = "Lost in the Thicket Things"})
+            Questie.IsForever = true
+
+            QuestieCorrections.Initialize()
+
+            assert.are_same(95647, LibQuestieDB.Quest.Get(95737, "breadcrumbForQuestId"))
+            assert.are_same(95647, LibQuestieDB.Quest.Get(95737, "nextQuestInChain"))
+            assert.are_same({95737}, LibQuestieDB.Quest.Get(95647, "breadcrumbs"))
+            assert.are_same("Seeking Caitlin", LibQuestieDB.Quest.Get(95737, "name"))
+            assert.are_same("Questie", LibQuestieDB.Corrections.GetProvenance("Quest", 95737, "breadcrumbForQuestId"))
+        end)
+
+        it("does not publish the breadcrumb outside Forever", function()
+            local questKeys = QuestieDB.questKeys
+            mock.SetBaseRow("Quest", 95737, {[questKeys.name] = "Seeking Caitlin"})
+            Questie.IsForever = false
+
+            QuestieCorrections.Initialize()
+
+            assert.are_same(0, LibQuestieDB.Quest.Get(95737, "breadcrumbForQuestId"))
         end)
     end)
 end)
