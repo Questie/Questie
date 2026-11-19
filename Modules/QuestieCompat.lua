@@ -370,6 +370,10 @@ local visibilityFrame
 
 ---Hides Blizzard's tracker when requested, or lets Blizzard restore its normal visibility.
 local function ApplyObjectiveTrackerVisibility()
+    if ObjectiveTrackerFrame and hideObjectiveTracker then
+        -- Alpha is not protected, so a protected tracker shown by Blizzard during combat stays invisible until it can be hidden.
+        ObjectiveTrackerFrame:SetAlpha(0)
+    end
     if InCombatLockdown() and (not hideObjectiveTracker or (ObjectiveTrackerFrame and ObjectiveTrackerFrame:IsProtected())) then
         -- Retry after combat using the latest request, not the state when combat began.
         visibilityFrame:RegisterEvent("PLAYER_REGEN_ENABLED")
@@ -380,6 +384,7 @@ local function ApplyObjectiveTrackerVisibility()
         if hideObjectiveTracker then
             ObjectiveTrackerFrame:Hide()
         else
+            ObjectiveTrackerFrame:SetAlpha(1)
             -- Forever: calling Update() here would run Blizzard's layout (and its secret aura reads) and taint it.
             ObjectiveTrackerFrame:Show()
         end
@@ -811,6 +816,8 @@ end
 ---@param factionID number
 ---@return any ... Positional faction information, or nil when absent.
 function QuestieCompat.GetFactionInfoByID(factionID)
+    -- C_Reputation.GetFactionDataByID throws on non-number IDs, whereas the legacy API returned nothing
+    if type(factionID) ~= "number" then return nil end
     if C_Reputation and C_Reputation.GetFactionDataByID then
         -- Keep the same return positions as the index-based query above, including the bonus flag at 15.
         local d = C_Reputation.GetFactionDataByID(factionID)
@@ -1110,6 +1117,58 @@ function QuestieCompat.GetNumGossipAvailableQuests()
         return GetNumGossipAvailableQuests()
     end
     error(errorMsg, 2)
+end
+
+---Unlike SelectQuestLogEntry, this also restores an empty selection on legacy clients.
+---@param questLogIndex number
+local function _RestoreQuestLogSelection(questLogIndex)
+    if questLogIndex <= 0 then
+        if C_QuestLog and C_QuestLog.SetSelectedQuest then
+            C_QuestLog.SetSelectedQuest(0)
+        elseif SelectQuestLogEntry then
+            SelectQuestLogEntry(0)
+        end
+        return
+    end
+    QuestieCompat.SelectQuestLogEntry(questLogIndex)
+end
+
+---[Documentation](https://warcraft.wiki.gg/wiki/API_C_QuestLog.IsPushableQuest)
+---Whether the quest in the player's quest log can be shared with party members.
+---@param questId QuestId
+---@return boolean
+function QuestieCompat.IsQuestPushable(questId)
+    if C_QuestLog and C_QuestLog.IsPushableQuest then
+        return C_QuestLog.IsPushableQuest(questId) == true
+    end
+
+    local questLogIndex = QuestieCompat.GetQuestLogIndexByID(questId)
+    if (not questLogIndex) or questLogIndex == 0 then
+        return false
+    end
+
+    -- GetQuestLogPushable reads the selected quest
+    local lastSelection = QuestieCompat.GetQuestLogSelection()
+    QuestieCompat.SelectQuestLogEntry(questLogIndex)
+    local pushable = GetQuestLogPushable() and true or false
+    _RestoreQuestLogSelection(lastSelection)
+    return pushable
+end
+
+---[Documentation](https://warcraft.wiki.gg/wiki/API_QuestLogPushQuest)
+---Shares the quest in the player's quest log with party members.
+---@param questId QuestId
+function QuestieCompat.PushQuest(questId)
+    local questLogIndex = QuestieCompat.GetQuestLogIndexByID(questId)
+    if (not questLogIndex) or questLogIndex == 0 then
+        return
+    end
+
+    -- QuestLogPushQuest shares the selected quest
+    local lastSelection = QuestieCompat.GetQuestLogSelection()
+    QuestieCompat.SelectQuestLogEntry(questLogIndex)
+    QuestLogPushQuest()
+    _RestoreQuestLogSelection(lastSelection)
 end
 
 ---[Documentation](https://warcraft.wiki.gg/wiki/API_SetAbandonQuest)

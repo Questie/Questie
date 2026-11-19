@@ -579,6 +579,9 @@ end
 
 local function _CreateDropdown(control, _, item, width)
     local function FillMenu(rootDescription)
+        -- Without this, long lists like the sound packs of SharedMedia can't be scrolled and run off the screen
+        rootDescription:SetScrollMode(250)
+
         local options = _GetDropdownOptions(item)
 
         local sorting = item.sortOrder

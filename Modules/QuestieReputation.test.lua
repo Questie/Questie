@@ -716,6 +716,13 @@ describe("QuestieReputation", function()
     end)
 
     describe("GetFactionName", function()
+        it("should return nil without querying the API when the faction ID is not a number", function()
+            _G.C_GossipInfo = {GetFriendshipReputation = spy.new(function() return {} end)}
+
+            assert.is_nil(QuestieReputation.GetFactionName(nil))
+            assert.spy(_G.C_GossipInfo.GetFriendshipReputation).was.not_called()
+        end)
+
         it("should return friend name when found", function()
             _G.C_GossipInfo = {
                 GetFriendshipReputation = spy.new(function()

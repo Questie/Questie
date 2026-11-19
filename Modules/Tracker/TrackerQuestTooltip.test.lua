@@ -4,7 +4,7 @@ local match = require("luassert.match")
 describe("TrackerQuestTooltip", function()
     local TrackerQuestTooltip, QuestieTooltips
     local saved, quests, tooltip, tickers, nativeAvailable, nativeProgress
-    local setNativeProgress, getNativeProgress, pool
+    local setNativeProgress, getNativeProgress, pool, canShare
 
     local function _Line(mode, id)
         local quest = {Id = id or 783}
@@ -36,9 +36,19 @@ describe("TrackerQuestTooltip", function()
             return nativeAvailable
         end)
         getNativeProgress = spy.new(function() error("must use the secure tooltip accessor") end)
+        canShare = false
+        saved.Colorize = Questie.Colorize
+        Questie.Colorize = function(_, text, color) return color .. ":" .. text end
+        local TrackerUtils = QuestieLoader:ImportModule("TrackerUtils")
+        saved.CanShareQuest = TrackerUtils.CanShareQuest
+        TrackerUtils.CanShareQuest = function() return canShare end
+        Questie.db.profile.trackerbindShareQuest = "shiftleft"
         tooltip = {
             SetOwner = spy.new(function() end),
             SetPoint = spy.new(function() end),
+            SetText = spy.new(function(self) self.visible = true end),
+            AddLine = spy.new(function() end),
+            Show = spy.new(function(self) self.visible = true end),
             Hide = spy.new(function(self) self.visible = false end),
             SetQuestPartyProgress = function(...) return setNativeProgress(...) end,
             GetPrimaryTooltipData = function() error("must not inspect native progress") end,
@@ -54,7 +64,11 @@ describe("TrackerQuestTooltip", function()
             tickers[#tickers + 1] = ticker
             return ticker
         end)}
-        QuestieLoader:ImportModule("TrackerData").GetQuest = function(id) return quests[id] end
+        local TrackerData = QuestieLoader:ImportModule("TrackerData")
+        TrackerData.GetQuest = function(id) return quests[id] end
+        saved.GetColoredQuestName = TrackerData.GetColoredQuestName
+        TrackerData.GetColoredQuestName = function(quest) return "Quest " .. quest.Id end
+        dofile("Localization/l10n.lua")
         QuestieTooltips = QuestieLoader:ImportModule("QuestieTooltips")
         QuestieTooltips.RegisterNativeQuestTooltip = spy.new(function() end)
         dofile("Modules/Tracker/TrackerQuestTooltip.lua")
@@ -65,12 +79,15 @@ describe("TrackerQuestTooltip", function()
         TrackerQuestTooltip.Hide()
         local TrackerLinePool = QuestieLoader:ImportModule("TrackerLinePool")
         TrackerLinePool.GetHighestIndex, TrackerLinePool.GetLine = saved.GetHighestIndex, saved.GetLine
+        QuestieLoader:ImportModule("TrackerUtils").CanShareQuest = saved.CanShareQuest
+        Questie.Colorize = saved.Colorize
+        QuestieLoader:ImportModule("TrackerData").GetColoredQuestName = saved.GetColoredQuestName
         _G.CreateFrame, _G.C_TooltipInfo, _G.C_Timer = saved.CreateFrame, saved.C_TooltipInfo, saved.C_Timer
         _G.GameTooltip, _G.IsInGroup, Questie.IsForever = saved.GameTooltip, saved.IsInGroup, saved.IsForever
         Questie.db.profile.enableTooltips, Questie.db.profile.trackerEnabled = saved.enableTooltips, saved.trackerEnabled
     end)
 
-    it("does nothing without the native API namespace or function", function()
+    it("should do nothing without the native API namespace or function when the quest can not be shared", function()
         local line = _Line()
         _G.C_TooltipInfo = nil
         TrackerQuestTooltip.Show(line)
@@ -80,7 +97,7 @@ describe("TrackerQuestTooltip", function()
         assert.spy(C_Timer.NewTicker).was.not_called()
     end)
 
-    it("does nothing when the tooltip template lacks the native accessor", function()
+    it("should do nothing when the tooltip template lacks the native accessor and the quest can not be shared", function()
         tooltip.SetQuestPartyProgress = nil
         TrackerQuestTooltip.Show(_Line())
         assert.spy(C_Timer.NewTicker).was.not_called()
@@ -185,6 +202,66 @@ describe("TrackerQuestTooltip", function()
         nativeAvailable = true
         tickers[1].callback()
         assert.is_true(tooltip.visible)
+    end)
+
+    it("should add the share hint below the party progress when the quest can be shared", function()
+        canShare = true
+
+        TrackerQuestTooltip.Show(_Line())
+
+        assert.spy(setNativeProgress).was.called(1)
+        assert.spy(tooltip.AddLine).was.called_with(match.is_ref(tooltip), "gray:(Shift + Left Click: Share Quest)")
+        assert.spy(tooltip.Show).was.called(1)
+    end)
+
+    it("should not add the share hint when the quest can not be shared", function()
+        TrackerQuestTooltip.Show(_Line())
+
+        assert.spy(tooltip.AddLine).was.not_called()
+    end)
+
+    it("should not add the share hint when the share shortcut is disabled", function()
+        canShare = true
+        Questie.db.profile.trackerbindShareQuest = "disabled"
+
+        TrackerQuestTooltip.Show(_Line())
+
+        assert.spy(tooltip.AddLine).was.not_called()
+    end)
+
+    it("should show the share hint with the configured shortcut", function()
+        canShare = true
+        Questie.db.profile.trackerbindShareQuest = "altright"
+
+        TrackerQuestTooltip.Show(_Line())
+
+        assert.spy(tooltip.AddLine).was.called_with(match.is_ref(tooltip), "gray:(Alt + Right Click: Share Quest)")
+    end)
+
+    it("should show the quest title with the share hint without the native party progress", function()
+        _G.C_TooltipInfo = nil
+        canShare = true
+        local line = _Line()
+
+        TrackerQuestTooltip.Show(line)
+
+        assert.spy(tooltip.SetPoint).was.called_with(match.is_ref(tooltip), "BOTTOMLEFT", match.is_ref(line), "TOPLEFT")
+        assert.spy(tooltip.SetText).was.called_with(match.is_ref(tooltip), "Quest 783")
+        assert.spy(tooltip.AddLine).was.called_with(match.is_ref(tooltip), "gray:(Shift + Left Click: Share Quest)")
+        assert.is_true(tooltip.visible)
+        assert.spy(setNativeProgress).was.not_called()
+    end)
+
+    it("should hide the share-only tooltip when the quest can no longer be shared", function()
+        _G.C_TooltipInfo = nil
+        canShare = true
+        TrackerQuestTooltip.Show(_Line())
+
+        canShare = false
+        tickers[1].callback()
+
+        assert.is_false(tooltip.visible)
+        assert.is_true(tickers[1].cancelled)
     end)
 
     it("excludes headers, scenarios, recipes and achievement ID collisions", function()

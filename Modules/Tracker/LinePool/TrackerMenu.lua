@@ -299,11 +299,21 @@ TrackerMenu.addLinkToChatOption = function(menu, quest)
         func = function()
             LibDropDown:CloseDropDownMenus()
 
-            if (not ChatFrame1EditBox:IsVisible()) then
-                ChatFrame_OpenChat(TrackerData.GetQuestLink(quest))
-            else
+            if ChatEdit_GetActiveWindow() then
                 ChatEdit_InsertLink(TrackerData.GetQuestLink(quest))
+            else
+                ChatFrame_OpenChat(TrackerData.GetQuestLink(quest))
             end
+        end
+    })
+end
+
+TrackerMenu.addShareQuestOption = function(menu, quest)
+    tinsert(menu, {
+        text = l10n('Share Quest'),
+        func = function()
+            LibDropDown:CloseDropDownMenus()
+            TrackerUtils.ShareQuest(quest.Id)
         end
     })
 end
@@ -498,13 +508,17 @@ function TrackerMenu:GetMenuForQuest(quest)
 
     local capabilities = TrackerMapEligibility.GetCapabilities(quest)
     local enrichedQuest = capabilities.quest
+    -- Setting a TomTom target does nothing without TomTom, so its entries are left out.
+    local isTomTomAvailable = TrackerUtils.IsTomTomAvailable()
     for _, objective in pairs(quest.Objectives) do
         local enrichedObjective = objective.enrichment
         if capabilities.objectives[enrichedObjective] then
             local objectiveMenu = {}
 
             -- Map actions mutate the original objective, never the display snapshot.
-            TrackerMenu.addTomTomOptionForObjective(objectiveMenu, enrichedQuest, enrichedObjective)
+            if isTomTomAvailable then
+                TrackerMenu.addTomTomOptionForObjective(objectiveMenu, enrichedQuest, enrichedObjective)
+            end
             if capabilities.focusObjectives[enrichedObjective.Index] == enrichedObjective then
                 TrackerMenu.addShowHideObjectivesOption(objectiveMenu, enrichedQuest, enrichedObjective)
             end
@@ -520,7 +534,9 @@ function TrackerMenu:GetMenuForQuest(quest)
             if capabilities.objectives[objective] then
                 local objectiveMenu = {}
 
-                TrackerMenu.addTomTomOptionForObjective(objectiveMenu, enrichedQuest, objective)
+                if isTomTomAvailable then
+                    TrackerMenu.addTomTomOptionForObjective(objectiveMenu, enrichedQuest, objective)
+                end
                 if capabilities.focusObjectives[objective.Index] == objective then
                     TrackerMenu.addShowHideObjectivesOption(objectiveMenu, enrichedQuest, objective)
                 end
@@ -536,13 +552,16 @@ function TrackerMenu:GetMenuForQuest(quest)
     tinsert(menu, { text = coloredQuestName, isTitle = true })
 
     TrackerMenu.addObjectiveOption(menu, subMenu, quest)
+    if TrackerUtils.CanShareQuest(quest.Id) then
+        TrackerMenu.addShareQuestOption(menu, quest)
+    end
     if capabilities.canFocusQuest then
         TrackerMenu.addFocusUnfocusOption(menu, enrichedQuest)
     elseif Questie.db.char.TrackerFocus == quest.Id then
         -- Lost eligibility while focused.
         _AddUnfocusEntry(menu, function() return Questie.db.char.TrackerFocus == quest.Id end)
     end
-    if capabilities.canNavigateQuest then
+    if isTomTomAvailable and capabilities.canNavigateQuest then
         TrackerMenu.addTomTomOptionForQuest(menu, quest)
     end
     if capabilities.canShowFinisher then
@@ -585,10 +604,10 @@ TrackerMenu.addAchieveLinkToChatOption = function(menu, achieve)
         func = function()
             LibDropDown:CloseDropDownMenus()
 
-            if (not ChatFrame1EditBox:IsVisible()) then
-                ChatFrame_OpenChat(GetAchievementLink(achieve.Id))
-            else
+            if ChatEdit_GetActiveWindow() then
                 ChatEdit_InsertLink(GetAchievementLink(achieve.Id))
+            else
+                ChatFrame_OpenChat(GetAchievementLink(achieve.Id))
             end
         end
     })

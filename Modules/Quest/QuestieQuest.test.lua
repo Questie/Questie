@@ -1411,4 +1411,66 @@ describe("QuestieQuest", function()
             assert.spy(QuestieCompat.IsQuestWatched).was.not_called()
         end)
     end)
+
+    describe("PopulateObjective", function()
+        local HBD, originalGetWorldCoordinatesFromZone, patrolsDrawn
+
+        before_each(function()
+            HBD = QuestieLoader:ImportModule("HBD")
+            originalGetWorldCoordinatesFromZone = HBD.GetWorldCoordinatesFromZone
+            HBD.GetWorldCoordinatesFromZone = function(_, x, y) return x, y, 1 end
+            Questie.db.profile = {enableObjectives = true, objectiveFilterDistance = 0}
+            QuestieLoader:ImportModule("Phasing").IsSpawnVisible = function() return true end
+            ZoneDB.GetUiMapIdByAreaId = function(_, areaId) return areaId * 10 end
+            ZoneDB.GetDungeonLocation = function() return nil end
+            QuestieLoader:ImportModule("QuestieLib").Euclid = function() return 0 end
+            QuestieLoader:ImportModule("QuestieTooltips").RegisterObjectiveTooltip = function() end
+            QuestieMap.DrawWorldIcon = function(_, data, areaId, x, y)
+                return {data = data, AreaID = areaId, x = x, y = y}, {data = data, AreaID = areaId, miniMapIcon = true}
+            end
+            patrolsDrawn = {}
+            QuestieMap.DrawWaypoints = function(_, _, tooltipKey) patrolsDrawn[#patrolsDrawn + 1] = tooltipKey end
+        end)
+
+        after_each(function()
+            HBD.GetWorldCoordinatesFromZone = originalGetWorldCoordinatesFromZone
+        end)
+
+        ---An NPC target spawning and patrolling in zone 1.
+        ---@param isRare true?
+        local function Target(npcId, isRare)
+            return {Id = npcId, Name = "Wolf " .. npcId, Icon = 1, GetIconScale = function() return 1 end,
+                Spawns = {[1] = {{10, 20}}}, Waypoints = {[1] = {{{30, 40}, {40, 50}}}}, TooltipKey = "m_" .. npcId,
+                Hostile = true, IsRare = isRare}
+        end
+
+        ---@return string[] patrolsDrawn The tooltip keys of the NPCs whose patrols were drawn, sorted.
+        local function Populate(spawnList)
+            local objective = {Index = 1, Description = "Wolves", Type = "monster", Update = function() end,
+                Color = {1, 1, 1}, AlreadySpawned = {}, spawnList = spawnList}
+            local quest = {Id = 42, Color = {1, 1, 1}, ObjectiveData = {objective}}
+            local thread = coroutine.create(function() QuestieQuest:PopulateObjective(quest, 1, objective, false) end)
+            while coroutine.status(thread) ~= "dead" do
+                local ok, err = coroutine.resume(thread)
+                assert.is_true(ok, err)
+            end
+            table.sort(patrolsDrawn)
+            return patrolsDrawn
+        end
+
+        it("should leave out a rare target's patrol while a common target shows where to go", function()
+            assert.are.same({"m_1"}, Populate({[1] = Target(1), [2] = Target(2, true)}))
+        end)
+
+        it("should draw a rare target's patrol when every target is rare", function()
+            assert.are.same({"m_2", "m_3"}, Populate({[2] = Target(2, true), [3] = Target(3, true)}))
+        end)
+
+        it("should draw a rare target's patrol when the other targets have nothing to show", function()
+            local unknown = Target(1)
+            unknown.Spawns, unknown.Waypoints = {}, {}
+
+            assert.are.same({"m_2"}, Populate({[1] = unknown, [2] = Target(2, true)}))
+        end)
+    end)
 end)

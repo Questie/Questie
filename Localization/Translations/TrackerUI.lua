@@ -115,44 +115,7 @@ local trackerUILocales = {
         ["zhCN"] = "锁定时拖动",
         ["zhTW"] = "鎖定時拖曳移動",
     },
-    ["Questie Tracker Integrations"] = {
-        ["enUS"] = true,
-        ["deDE"] = "Tracker-Integrationen",
-        ["esES"] = "Integraciones del rastreador",
-        ["esMX"] = "Integraciones del rastreador",
-        ["frFR"] = "Intégrations de suivi",
-        ["koKR"] = "통합 퀘스티 추적기",
-        ["ptBR"] = "Integrações do rastreador",
-        ["ruRU"] = "Интеграции трекера",
-        ["zhCN"] = "Questie追踪器集成",
-        ["zhTW"] = "整合插件",
-    },
     -- VoiceOver Integration
-    -- TomTom Integration
-    ["TomTom"] = {
-        ["enUS"] = true,
-        ["deDE"] = true,
-        ["esES"] = true,
-        ["esMX"] = true,
-        ["frFR"] = true,
-        ["koKR"] = true,
-        ["ptBR"] = true,
-        ["ruRU"] = true,
-        ["zhCN"] = true,
-        ["zhTW"] = true,
-    },
-    ["Ctrl + Left Click or Right Click a Quest Title"] = {
-        ["enUS"] = true,
-        ["deDE"] = "Strg + Links- oder Rechtsklick auf einen Quest-Titel",
-        ["esES"] = "Ctrl + clic izquierdo o clic derecho en el título de una misión",
-        ["esMX"] = "Ctrl + clic izquierdo o clic derecho en el título de una misión",
-        ["frFR"] = "Ctrl + Clic gauche ou clic droit sur un titre de quête",
-        ["koKR"] = "퀘스트 제목 컨트롤 + 좌클릭 혹은 우클릭",
-        ["ptBR"] = "Ctrl + Clique esquerdo ou direito em um título de missão",
-        ["ruRU"] = "Ctrl + ЛКМ или ПКМ на названии задания",
-        ["zhCN"] = "Ctrl + 左键单击或右键单击任务标题",
-        ["zhTW"] = "Ctrl+左鍵或右鍵點擊任務標題",
-    },
     ["Toggle Questie Tracker"] = {
         ["enUS"] = true,
         ["deDE"] = "Questie-Tracker zeigen/verstecken",
@@ -275,6 +238,18 @@ local trackerUILocales = {
         ["ruRU"] = "Ссылка на задание в чат",
         ["zhCN"] = "将任务链接到聊天框",
         ["zhTW"] = "將任務貼到對話視窗",
+    },
+    ["Share Quest"] = {
+        ["enUS"] = true,
+        ["deDE"] = "Quest teilen",
+        ["esES"] = "Compartir misión",
+        ["esMX"] = "Compartir misión",
+        ["frFR"] = "Partager la quête",
+        ["koKR"] = "퀘스트 공유",
+        ["ptBR"] = "Compartilhar missão",
+        ["ruRU"] = "Поделиться заданием",
+        ["zhCN"] = "共享任务",
+        ["zhTW"] = "分享任務",
     },
     ["Link Achievement to chat"] = {
         ["enUS"] = true,
@@ -400,6 +375,18 @@ local trackerUILocales = {
         ["ruRU"] = "Невозможно автоматически открыть журнал заданий, находясь в бою. Откройте его вручную.",
         ["zhCN"] = "战斗中无法打开任务日志，需要手动打开",
         ["zhTW"] = "戰鬥中無法打開任務日誌",
+    },
+    ["Can't share a Quest while in combat."] = {
+        ["enUS"] = true,
+        ["deDE"] = "Quests können im Kampf nicht geteilt werden.", -- AI 🤖
+        ["esES"] = "No se puede compartir una misión durante el combate.", -- AI 🤖
+        ["esMX"] = "No se puede compartir una misión durante el combate.", -- AI 🤖
+        ["frFR"] = "Impossible de partager une quête en combat.", -- AI 🤖
+        ["koKR"] = "전투 중에는 퀘스트를 공유할 수 없습니다.", -- AI 🤖
+        ["ptBR"] = "Não é possível compartilhar uma missão durante o combate.", -- AI 🤖
+        ["ruRU"] = "Невозможно поделиться заданием, находясь в бою.", -- AI 🤖
+        ["zhCN"] = "战斗中无法共享任务", -- AI 🤖
+        ["zhTW"] = "戰鬥中無法分享任務", -- AI 🤖
     },
     ["Maximize Quest"] = {
         ["enUS"] = true,

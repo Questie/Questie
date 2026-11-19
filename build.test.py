@@ -139,7 +139,7 @@ class BuildModeTests(unittest.TestCase):
         self.provider_manifest = {"releases": [{"filename": "QuestieDB-1.0.0-all.zip"}], "questiedb": self.database}
         self.trace_zip = self.root / "trace.zip"
         with zipfile.ZipFile(self.trace_zip, "w") as archive:
-            for toc in ("QuestieTrace-Classic.toc", "QuestieTrace-Camelot.toc"):
+            for toc in ("QuestieTrace-Classic.toc", "QuestieTrace-Forever.toc"):
                 archive.writestr("QuestieTrace/" + toc, "## Version: 1.10.0\n")
         self.trace = {
             "repository": "https://github.com/Questie/QuestieTrace",
@@ -264,7 +264,7 @@ class BuildModeTests(unittest.TestCase):
     def test_should_reject_a_questietrace_archive_with_any_toc_differing_from_its_manifest(self):
         with zipfile.ZipFile(self.trace_zip, "w") as archive:
             archive.writestr("QuestieTrace/QuestieTrace-Classic.toc", "## Version: 1.10.0\n")
-            archive.writestr("QuestieTrace/QuestieTrace-Camelot.toc", "## Version: 1.9.2\n")
+            archive.writestr("QuestieTrace/QuestieTrace-Forever.toc", "## Version: 1.9.2\n")
         self.trace["artifacts"][0].update(bytes=self.trace_zip.stat().st_size,
                                           sha256=hashlib.sha256(self.trace_zip.read_bytes()).hexdigest())
         with self.assertRaisesRegex(ValueError, "QuestieTrace TOC does not match"):
@@ -350,11 +350,11 @@ class BuildModeTests(unittest.TestCase):
                         self.assertEqual([f"Questie_{suffix}.toc"], packaged_tocs)
         self.downloads.assert_not_called()
 
-    def test_forever_build_ships_both_camelot_and_forever_tocs(self):
+    def test_forever_build_ships_forever_toc(self):
         output, manifest = self.run_build("--standalone", "-r", selection=("--forever",))
         with zipfile.ZipFile(output / manifest["releases"][0]["filename"]) as archive:
             packaged_tocs = sorted(name for name in archive.namelist() if name.endswith(".toc"))
-        self.assertEqual(["Questie_Camelot.toc", "Questie_Forever.toc"], packaged_tocs)
+        self.assertEqual(["Questie_Forever.toc"], packaged_tocs)
 
     def test_flat_provider_manifest_is_not_silently_accepted(self):
         self.provider_manifest = self.database

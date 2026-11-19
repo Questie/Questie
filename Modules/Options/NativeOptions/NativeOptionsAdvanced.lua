@@ -330,20 +330,6 @@ function QuestieOptionsEngine.tabs.advanced:Initialize()
                     Questie.db.profile.bugWorkarounds = value
                 end,
             },
-            enableBugHintsForAllFlavors = {
-                type = "checkbox",
-                order = 5.015,
-                title = "Enable bug hints for all game versions",
-                tooltip = "Enables the bug hint windows for all game versions, usually used for bug reports in SoD.",
-                visible = not Questie.IsSoD,
-                width = "half",
-                get = function()
-                    return Questie.db.profile.enableBugHintsForAllFlavors
-                end,
-                set = function(self, value)
-                    Questie.db.profile.enableBugHintsForAllFlavors = value
-                end,
-            },
             showItemIDs = {
                 type = "checkbox",
                 order = 5.02,

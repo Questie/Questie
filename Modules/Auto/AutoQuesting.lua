@@ -8,7 +8,7 @@ local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
-local _StartStoppedTalkingTimer, _AllQuestWindowsClosed, _IsAllowedNPC, _IsQuestAllowedToAccept, _IsQuestAllowedToTurnIn
+local _StartStoppedTalkingTimer, _AllQuestWindowsClosed, _IsAllowedNPC, _IsQuestAllowedToAccept, _IsQuestAllowedToTurnIn, _IsGossipQuestTrivial
 
 local shouldRunAuto = true
 
@@ -73,7 +73,23 @@ function AutoQuesting.OnQuestGreeting()
         if availableQuestsCount > 0 then
             -- It is correct to use SelectAvailableQuest, instead of QuestieCompat.SelectAvailableQuest
             -- TODO: Do we want to call SelectAvailableQuest in QuestieCompat.SelectAvailableQuest when C_GossipInfo.GetAvailableQuests() is an empty table?
-            SelectAvailableQuest(1)
+            local indexToAccept = 1
+            if not Questie.db.profile.autoAccept.trivial then
+                indexToAccept = 0
+                local npcGuid = UnitGUID("npc")
+                for i = 1, availableQuestsCount do
+                    local questId = QuestieCompat.GetQuestGreetingQuestID(i, false, npcGuid)
+                    local questLevel = questId > 0 and QuestieDB.QueryQuestSingle(questId, "questLevel") or nil
+                    if not QuestieDB.IsTrivial(questLevel) then
+                        indexToAccept = i
+                        break
+                    end
+                end
+            end
+
+            if indexToAccept > 0 then
+                SelectAvailableQuest(indexToAccept)
+            end
         end
     end
 end
@@ -115,8 +131,7 @@ function AutoQuesting.OnGossipShow()
                 for i = 1, #availableQuests do
                     local shouldAccept = true
                     if (not Questie.db.profile.autoAccept.trivial) then
-                        local isTrivial = availableQuests[i].isTrivial
-                        if isTrivial then
+                        if _IsGossipQuestTrivial(availableQuests[i]) then
                             shouldAccept = false
                         end
                     end
@@ -240,10 +255,29 @@ _IsAllowedNPC = function(unit)
     return true
 end
 
+---@param quest GossipQuestUIInfo
+---@return boolean?
+_IsGossipQuestTrivial = function(quest)
+    local questLevel = quest.questLevel
+    if quest.questID and quest.questID > 0 then
+        questLevel = QuestieDB.QueryQuestSingle(quest.questID, "questLevel") or questLevel
+    end
+    if questLevel == nil then
+        return quest.isTrivial
+    end
+
+    return QuestieDB.IsTrivial(questLevel)
+end
+
 _IsQuestAllowedToAccept = function()
     local questId = GetQuestID()
     if questId > 0 then
         if AutoQuesting.private.disallowedQuests.accept[questId] then
+            return false
+        end
+
+        local questTagId = QuestieDB.GetQuestTagInfo(questId)
+        if questTagId == QuestieDB.questTagIds.ESCORT then
             return false
         end
     end

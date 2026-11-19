@@ -1,5 +1,5 @@
 ## Interface: 11508, 11509
-## Title: Questie|cFF00FF00 v12.9.0|r
+## Title: Questie|cFF00FF00 v12.11.1|r
 ## Author: Aero/Logon/Muehe/TheCrux(BreakBB)/Drejjmit/Dyaxler/Cheeq/TechnoHunter/Yttrium/Everyone else
 ## Notes: A standalone Classic QuestHelper
 ## Notes-deDE: Ein Quest-Helfer
@@ -22,7 +22,7 @@
 ## Category-ruRU: Задания
 ## Category-zhCN: 任务
 ## Category-zhTW: 任務
-## Version: 12.9.0
+## Version: 12.11.1
 ## X-QuestieDB-Contract: 4
 ## OptionalDeps: QuestieDB, QuestieTrace, Ace3, CallbackHandler-1.0, HereBeDragons, Krowi_WorldMapButtons, LibDataBroker-1.1, LibDBIcon-1.0, LibSharedMedia-3.0, LibStub, LibUIDropDownMenu
 ## LoadSavedVariablesFirst: 1
@@ -158,7 +158,6 @@ Modules\QuestieAnnounce.lua
 Modules\QuestieShutUp.lua
 Modules\Sounds.lua
 Modules\QuestiePlayer.lua
-Modules\QuestieDebugOffer.lua
 Modules\WatchFrameHook.lua
 Modules\WorldMapButton\WorldMapButton.lua
 Modules\WorldMapButton\QuestieWorldMapButtonTemplate.xml
@@ -269,6 +268,7 @@ Modules\Tracker\Sorter\byComplete.lua
 Modules\Tracker\Sorter\byLevel.lua
 Modules\Tracker\Sorter\byZone.lua
 Modules\Tracker\TrackerUtils.lua
+Modules\Tracker\TrackerShortcuts.lua
 Modules\Tracker\TrackerSuperTrack.lua
 Modules\Tracker\TrackerFadeTicker.lua
 Modules\Tracker\TrackerBaseFrame.lua
