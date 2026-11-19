@@ -407,7 +407,7 @@ def copy_trace_content_to(release_folder_path):
     shutil.unpack_archive(zipPath, release_folder_path)
     os.remove(zipPath)
 
-    for toc_name in ("QuestieTrace-Classic.toc", "QuestieTrace-Camelot.toc"):
+    for toc_name in ("QuestieTrace-Classic.toc", "QuestieTrace-Forever.toc"):
         with open(release_folder_path + "/QuestieTrace/" + toc_name, encoding="utf-8") as toc:
             versions = re.findall(r"^## Version: (.*?)$", toc.read(), re.MULTILINE)
         if versions != [manifest["version"]]:
