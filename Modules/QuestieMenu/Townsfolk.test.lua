@@ -143,7 +143,10 @@ describe("Townsfolk", function()
 
             local townsfolk = Townsfolk.townsfolk
             assert.are_same({1001}, townsfolk["Repair"])
-            assert.are_same({1003,1002}, townsfolk["Banker"])
+            -- NPC order comes from pairs() and is not defined, so compare sorted
+            local bankers = {unpack(townsfolk["Banker"])}
+            table.sort(bankers)
+            assert.are_same({1002,1003}, bankers)
             assert.are_same({1005}, townsfolk["Innkeeper"])
             assert.are_same({}, townsfolk["Auctioneer"])
             assert.is_nil(townsfolk["Barber"])
