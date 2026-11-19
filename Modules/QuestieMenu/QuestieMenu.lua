@@ -3,8 +3,6 @@ local QuestieMenu = QuestieLoader:CreateModule("QuestieMenu")
 
 ---@type QuestieLib
 local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
----@type QuestieOptions
-local QuestieOptions = QuestieLoader:ImportModule("QuestieOptions")
 ---@type QuestieJourney
 local QuestieJourney = QuestieLoader:ImportModule("QuestieJourney")
 ---@type QuestieMap

@@ -17,8 +17,6 @@ local TrackerUtils = QuestieLoader:ImportModule("TrackerUtils")
 -------------------------
 ---@type QuestieLib
 local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
----@type QuestieOptions
-local QuestieOptions = QuestieLoader:ImportModule("QuestieOptions")
 ---@type QuestieJourney
 local QuestieJourney = QuestieLoader:ImportModule("QuestieJourney")
 ---@type QuestLogCache
@@ -63,8 +61,6 @@ function TrackerHeaderFrame.Initialize(baseFrame, OnTrackedQuestClick)
 
             return
         elseif button == "RightButton" then
-            QuestieOptions:HideFrame()
-
             if QuestieOptionsEngine:IsShown() then
                 QuestieOptionsEngine:ToggleConfigWindow()
             end

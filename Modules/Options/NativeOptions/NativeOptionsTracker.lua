@@ -4,8 +4,6 @@ local QuestieCompat = QuestieLoader:ImportModule("QuestieCompat")
 -------------------------
 --Import modules.
 -------------------------
----@type QuestieOptions
-local QuestieOptions = QuestieLoader:ImportModule("QuestieOptions")
 ---@type QuestieOptionsEngine
 local QuestieOptionsEngine = QuestieLoader:ImportModule("QuestieOptionsEngine")
 ---@type QuestieTracker

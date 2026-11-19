@@ -77,12 +77,11 @@ describe("QuestiePopup consumers", function()
             return frame
         end
 
-        options = QuestieLoader:ImportModule("QuestieOptions")
+        options = QuestieLoader:ImportModule("QuestieOptionsEngine")
         options.tabs = {}
         QuestieLoader:ImportModule("QuestieOptionsDefaults").Load = function()
             return {profile = {enabled = true, lowLevelStyle = "default", minimap = {hide = false}}, char = {hiddenDailies = {}}}
         end
-        QuestieLoader:ImportModule("QuestieOptionsUtils").Spacer = function() return {} end
     end)
 
     after_each(function()
@@ -121,17 +120,17 @@ describe("QuestiePopup consumers", function()
         local fixture = dofile("cli/testData/addonDialog/PopupUIHarness.lua")
         local _, errors, _, private = fixture.NewEnvironment()
         assert(loadfile("Modules/Libs/QuestiePopup.lua"))("Questie", private)
-        dofile("Modules/Options/AdvancedTab/QuestieOptionsAdvanced.lua")
-        local args = options.tabs.advanced:Initialize().args
-        args.locale_dropdown.set(nil, "deDE")
-        args.locale_dropdown.set(nil, "frFR")
-        local frame = Popup.FindVisible("QUESTIE_LOCALE_CHANGE_CONFIRM")
+        dofile("Modules/Options/NativeOptions/NativeOptionsAdvanced.lua")
+        local items = options.tabs.advanced:Initialize().items
+        items.locale_dropdown.set("deDE")
+        items.locale_dropdown.set("frFR")
+        local frame = Popup.FindVisible("QUESTIE_LOCALE_CHANGE_CONFIRM_NATIVE")
         assert.is_not_nil(frame)
         frame:GetButton2():Click()
         assert.spy(ReloadUI).was.not_called()
         assert.is_nil(Questie.db.global.questieLocale)
-        args.locale_dropdown.set(nil, "deDE")
-        frame = Popup.FindVisible("QUESTIE_LOCALE_CHANGE_CONFIRM")
+        items.locale_dropdown.set("deDE")
+        frame = Popup.FindVisible("QUESTIE_LOCALE_CHANGE_CONFIRM_NATIVE")
         frame:GetButton1():Click()
         assert.equals("deDE", Questie.db.global.questieLocale)
         assert.spy(ReloadUI).was.called(1)
@@ -142,11 +141,11 @@ describe("QuestiePopup consumers", function()
         local fixture = dofile("cli/testData/addonDialog/PopupUIHarness.lua")
         local _, errors, _, private = fixture.NewEnvironment()
         assert(loadfile("Modules/Libs/QuestiePopup.lua"))("Questie", private)
-        dofile("Modules/Options/AdvancedTab/QuestieOptionsAdvanced.lua")
-        options.tabs.advanced:Initialize().args.questieReset.func()
-        local first = Popup.FindVisible("QUESTIE_RESET_CONFIRM")
+        dofile("Modules/Options/NativeOptions/NativeOptionsAdvanced.lua")
+        options.tabs.advanced:Initialize().items.questieReset.func()
+        local first = Popup.FindVisible("QUESTIE_RESET_CONFIRM_NATIVE")
         assert.equals("FULLSCREEN_DIALOG", first:GetFrameStrata())
-        Popup.Hide("QUESTIE_RESET_CONFIRM")
+        Popup.Hide("QUESTIE_RESET_CONFIRM_NATIVE")
 
         Questie.db.profile.debugEnabled = true
         QuestieLoader:ImportModule("QuestieDB").QueryQuestSingle = function(id, field)
@@ -168,14 +167,14 @@ describe("QuestiePopup consumers", function()
     end)
 
     it("confirms the latest locale after reopening without losing the pending selection", function()
-        dofile("Modules/Options/AdvancedTab/QuestieOptionsAdvanced.lua")
-        local args = options.tabs.advanced:Initialize().args
-        args.locale_dropdown.set(nil, "deDE")
-        args.locale_dropdown.set(nil, "frFR")
+        dofile("Modules/Options/NativeOptions/NativeOptionsAdvanced.lua")
+        local items = options.tabs.advanced:Initialize().items
+        items.locale_dropdown.set("deDE")
+        items.locale_dropdown.set("frFR")
         assert.is_nil(Questie.db.global.questieLocale)
         assert.spy(ReloadUI).was.not_called()
 
-        local key = "QUESTIE_LOCALE_CHANGE_CONFIRM"
+        local key = "QUESTIE_LOCALE_CHANGE_CONFIRM_NATIVE"
         Popup.Dialogs[key].OnAccept(Popup.FindVisible(key))
         assert.equals("frFR", Questie.db.global.questieLocale)
         assert.is_true(Questie.db.global.questieLocaleDiff)
@@ -183,9 +182,9 @@ describe("QuestiePopup consumers", function()
     end)
 
     it("cancels locale changes without writing settings or reloading", function()
-        dofile("Modules/Options/AdvancedTab/QuestieOptionsAdvanced.lua")
-        options.tabs.advanced:Initialize().args.locale_dropdown.set(nil, "deDE")
-        local info = Popup.Dialogs.QUESTIE_LOCALE_CHANGE_CONFIRM
+        dofile("Modules/Options/NativeOptions/NativeOptionsAdvanced.lua")
+        options.tabs.advanced:Initialize().items.locale_dropdown.set("deDE")
+        local info = Popup.Dialogs.QUESTIE_LOCALE_CHANGE_CONFIRM_NATIVE
         info.OnCancel()
         info.OnAccept()
         assert.is_nil(Questie.db.global.questieLocale)
@@ -193,15 +192,15 @@ describe("QuestiePopup consumers", function()
     end)
 
     it("resets settings only on acceptance and preserves localization", function()
-        dofile("Modules/Options/AdvancedTab/QuestieOptionsAdvanced.lua")
+        dofile("Modules/Options/NativeOptions/NativeOptionsAdvanced.lua")
         Questie.db.profile.enabled = false
         Questie.db.profile.migrationVersion = 42
         Questie.db.char.hidden = {123}
         Questie.db.global.questieLocale = "deDE"
-        options.tabs.advanced:Initialize().args.questieReset.func()
+        options.tabs.advanced:Initialize().items.questieReset.func()
         assert.is_false(Questie.db.profile.enabled)
         assert.spy(ReloadUI).was.not_called()
-        Popup.Dialogs.QUESTIE_RESET_CONFIRM.OnAccept()
+        Popup.Dialogs.QUESTIE_RESET_CONFIRM_NATIVE.OnAccept()
         assert.is_true(Questie.db.profile.enabled)
         assert.is_nil(Questie.db.profile.migrationVersion)
         assert.is_nil(Questie.db.char.hidden)
@@ -210,12 +209,12 @@ describe("QuestiePopup consumers", function()
     end)
 
     it("resets only the current character journey after acceptance", function()
-        dofile("Modules/Options/AdvancedTab/QuestieOptionsAdvanced.lua")
+        dofile("Modules/Options/NativeOptions/NativeOptionsAdvanced.lua")
         Questie.db.char.journey = {{Event = "Note"}}
-        options.tabs.advanced:Initialize().args.questieJourneyReset.func()
+        options.tabs.advanced:Initialize().items.questieJourneyReset.func()
         assert.equals(1, #Questie.db.char.journey)
         assert.spy(ReloadUI).was.not_called()
-        Popup.Dialogs.QUESTIE_JOURNEY_RESET_CONFIRM.OnAccept()
+        Popup.Dialogs.QUESTIE_JOURNEY_RESET_CONFIRM_NATIVE.OnAccept()
         assert.is_nil(Questie.db.char.journey)
         assert.spy(ReloadUI).was.called(1)
     end)

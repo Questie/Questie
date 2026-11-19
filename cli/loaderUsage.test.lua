@@ -103,7 +103,7 @@ local QuestieDB = QuestieLoader:ImportModule("QuestieDB")]]))
 
         it("reports a callback nested deep inside options tables", function()
             assert.is_true(LoaderUsage.IsInsideFunction([[
-QuestieOptions.tabs.general = {
+QuestieOptionsEngine.tabs.general = {
     args = {
         yell = {
             set = function(_, value)
