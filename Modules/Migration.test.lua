@@ -271,20 +271,28 @@ describe("Migration", function()
         assert.are_same(53, Questie.db.profile.migrationVersion)
     end)
 
-    it("should keep the tracker shortcut that ran on a shared click and disable the others when upgrading from version 52", function()
+    it("should keep a quest log shortcut on the share click, which achievement and recipe lines still run, when upgrading from version 52", function()
+        Questie.db.profile.migrationVersion = 52
+        Questie.db.profile.trackerbindShareQuest = "left"
+        Questie.db.profile.trackerbindOpenQuestLog = "left"
+        Questie.db.profile.trackerbindUntrack = "disabled"
+
+        Migration:Migrate()
+
+        assert.are_same("left", Questie.db.profile.trackerbindShareQuest)
+        assert.are_same("left", Questie.db.profile.trackerbindOpenQuestLog)
+        assert.are_same(53, Questie.db.profile.migrationVersion)
+    end)
+
+    it("should keep an untrack shortcut on the share click, which achievement and recipe lines still run, when upgrading from version 52", function()
         Questie.db.profile.migrationVersion = 52
         Questie.db.profile.trackerbindShareQuest = "shiftleft"
         Questie.db.profile.trackerbindUntrack = "shiftleft"
-        Questie.db.profile.trackerbindOpenQuestLog = "shiftleft"
-        Questie.db.profile.trackerbindSetTomTom = "disabled"
 
         Migration:Migrate()
 
         assert.are_same("shiftleft", Questie.db.profile.trackerbindShareQuest)
-        assert.are_same("disabled", Questie.db.profile.trackerbindUntrack)
-        assert.are_same("disabled", Questie.db.profile.trackerbindOpenQuestLog)
-        assert.are_same("disabled", Questie.db.profile.trackerbindSetTomTom)
-        assert.are_same(53, Questie.db.profile.migrationVersion)
+        assert.are_same("shiftleft", Questie.db.profile.trackerbindUntrack)
     end)
 
     it("should leave a click shared with the TomTom shortcut as it is when upgrading from version 52", function()
