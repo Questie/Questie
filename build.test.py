@@ -139,7 +139,7 @@ class BuildModeTests(unittest.TestCase):
         self.provider_manifest = {"releases": [{"filename": "QuestieDB-1.0.0-all.zip"}], "questiedb": self.database}
         self.trace_zip = self.root / "trace.zip"
         with zipfile.ZipFile(self.trace_zip, "w") as archive:
-            for toc in ("QuestieTrace-Classic.toc", "QuestieTrace-Camelot.toc"):
+            for toc in ("QuestieTrace-Classic.toc", "QuestieTrace-Forever.toc"):
                 archive.writestr("QuestieTrace/" + toc, "## Version: 1.10.0\n")
         self.trace = {
             "repository": "https://github.com/Questie/QuestieTrace",
@@ -264,7 +264,7 @@ class BuildModeTests(unittest.TestCase):
     def test_should_reject_a_questietrace_archive_with_any_toc_differing_from_its_manifest(self):
         with zipfile.ZipFile(self.trace_zip, "w") as archive:
             archive.writestr("QuestieTrace/QuestieTrace-Classic.toc", "## Version: 1.10.0\n")
-            archive.writestr("QuestieTrace/QuestieTrace-Camelot.toc", "## Version: 1.9.2\n")
+            archive.writestr("QuestieTrace/QuestieTrace-Forever.toc", "## Version: 1.9.2\n")
         self.trace["artifacts"][0].update(bytes=self.trace_zip.stat().st_size,
                                           sha256=hashlib.sha256(self.trace_zip.read_bytes()).hexdigest())
         with self.assertRaisesRegex(ValueError, "QuestieTrace TOC does not match"):
