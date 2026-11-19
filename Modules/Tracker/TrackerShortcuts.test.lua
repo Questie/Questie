@@ -68,6 +68,42 @@ describe("TrackerShortcuts", function()
         end)
     end)
 
+    describe("IsLinkClick", function()
+        local originalGetActiveWindow
+
+        before_each(function()
+            originalGetActiveWindow = _G.ChatEdit_GetActiveWindow
+            _G.ChatEdit_GetActiveWindow = function() return {} end
+        end)
+
+        after_each(function()
+            _G.ChatEdit_GetActiveWindow = originalGetActiveWindow
+        end)
+
+        it("links on Shift + Left Click while the chat input is open", function()
+            _HoldModifiers({shift = true})
+
+            assert.is_true(TrackerShortcuts.IsLinkClick("LeftButton"))
+        end)
+
+        it("does not link on any other click while the chat input is open", function()
+            assert.is_false(TrackerShortcuts.IsLinkClick("LeftButton"))
+            _HoldModifiers({shift = true})
+            assert.is_false(TrackerShortcuts.IsLinkClick("RightButton"))
+            _HoldModifiers({shift = true, ctrl = true})
+            assert.is_false(TrackerShortcuts.IsLinkClick("LeftButton"))
+            _HoldModifiers({alt = true})
+            assert.is_false(TrackerShortcuts.IsLinkClick("LeftButton"))
+        end)
+
+        it("does not link on Shift + Left Click while the chat input is closed", function()
+            _G.ChatEdit_GetActiveWindow = function() return nil end
+            _HoldModifiers({shift = true})
+
+            assert.is_false(TrackerShortcuts.IsLinkClick("LeftButton"))
+        end)
+    end)
+
     describe("Set", function()
         it("disables the action that had the click before, and only that one", function()
             TrackerShortcuts.Set("trackerbindUntrack", "ctrlleft")

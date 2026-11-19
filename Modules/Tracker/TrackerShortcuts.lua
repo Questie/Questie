@@ -5,6 +5,7 @@ local TrackerShortcuts = QuestieLoader:CreateModule("TrackerShortcuts")
 -- modifier followed by the button, e.g. "left", "shiftleft" or "ctrlright". Every click is exactly one
 -- shortcut, so a Left Click never runs a Ctrl + Left Click shortcut, and Ctrl + Left Click never runs
 -- a Left Click shortcut. Together with Set, which keeps a click bound to one action, a click runs at most one action.
+-- The one exception is linking to chat, which no shortcut does: Shift + Left Click links while the chat input is open.
 
 ---@alias TrackerShortcutSetting "trackerbindOpenQuestLog"|"trackerbindUntrack"|"trackerbindShareQuest"|"trackerbindSetTomTom"
 
@@ -31,6 +32,14 @@ local function _GetClickShortcut(button)
         return nil
     end
     return (heldModifiers[1] or "") .. buttonName
+end
+
+---Checks whether the current click links a tracker line to chat: Shift + Left Click while the chat input is open.
+---This is fixed, like Shift-clicking a link anywhere else, and goes before the shortcut bound to Shift + Left Click.
+---@param button string The mouse button of the click, e.g. "LeftButton"
+---@return boolean
+function TrackerShortcuts.IsLinkClick(button)
+    return _GetClickShortcut(button) == "shiftleft" and ChatEdit_GetActiveWindow() ~= nil
 end
 
 ---Checks whether the current click is the shortcut bound to an action. A disabled action matches no click.

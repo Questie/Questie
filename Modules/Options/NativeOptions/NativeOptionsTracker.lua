@@ -216,8 +216,8 @@ function QuestieOptionsEngine.tabs.tracker:Initialize()
                             untrackQuest = {
                                 type = "dropdown",
                                 order = 6,
-                                title = Expansions.Current >= Expansions.Wotlk and "Untrack / Link" or "Untrack / Link Quest",
-                                tooltip = Expansions.Current >= Expansions.Wotlk and "This shortcut removes a Quest or an Achievement from the Questie Tracker when the chat input box is NOT visible, otherwise this will link a Quest or an Achievement to chat." or "This shortcut removes a Quest from the Questie Tracker when the chat input box is NOT visible, otherwise this will link a Quest to chat.",
+                                title = Expansions.Current >= Expansions.Wotlk and "Untrack" or "Untrack Quest",
+                                tooltip = Expansions.Current >= Expansions.Wotlk and "This shortcut removes a Quest or an Achievement from the Questie Tracker." or "This shortcut removes a Quest from the Questie Tracker.",
                                 width = "third",
                                 options = _GetShortcuts,
                                 enabled = function() return Questie.db.profile.trackerEnabled end,
@@ -229,8 +229,8 @@ function QuestieOptionsEngine.tabs.tracker:Initialize()
                             shareQuest = {
                                 type = "dropdown",
                                 order = 6.5,
-                                title = "Share / Link Quest",
-                                tooltip = "This shortcut shares a Quest with your group when the chat input box is NOT visible, otherwise this will link a Quest to chat.",
+                                title = "Share Quest",
+                                tooltip = "This shortcut shares a Quest with your group.",
                                 width = "third",
                                 options = _GetShortcuts,
                                 enabled = function() return Questie.db.profile.trackerEnabled end,
@@ -255,6 +255,14 @@ function QuestieOptionsEngine.tabs.tracker:Initialize()
                                 set = function(key)
                                     TrackerShortcuts.Set("trackerbindSetTomTom", key)
                                 end,
+                            },
+                            linkNote = {
+                                type = "text",
+                                order = 7,
+                                title = "",
+                                description = "While the chat input is open, Shift + Left Click links to chat instead of running its shortcut.",
+                                width = "full",
+                                newline = true,
                             },
                         },
                     },

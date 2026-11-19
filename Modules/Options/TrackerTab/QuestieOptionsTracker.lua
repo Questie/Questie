@@ -247,16 +247,16 @@ function QuestieOptions.tabs.tracker:Initialize()
                                 style = "dropdown",
                                 name = function()
                                     if Expansions.Current >= Expansions.Wotlk then
-                                        return l10n("Untrack / Link")
+                                        return l10n("Untrack")
                                     else
-                                        return l10n("Untrack / Link Quest")
+                                        return l10n("Untrack Quest")
                                     end
                                 end,
                                 desc = function()
                                     if Expansions.Current >= Expansions.Wotlk then
-                                        return l10n("This shortcut removes a Quest or an Achievement from the Questie Tracker when the chat input box is NOT visible, otherwise this will link a Quest or an Achievement to chat.")
+                                        return l10n("This shortcut removes a Quest or an Achievement from the Questie Tracker.")
                                     else
-                                        return l10n("This shortcut removes a Quest from the Questie Tracker when the chat input box is NOT visible, otherwise this will link a Quest to chat.")
+                                        return l10n("This shortcut removes a Quest from the Questie Tracker.")
                                     end
                                 end,
                                 disabled = function() return not Questie.db.profile.trackerEnabled end,
@@ -271,8 +271,8 @@ function QuestieOptions.tabs.tracker:Initialize()
                                 order = 8.2,
                                 values = _GetShortcuts,
                                 style = "dropdown",
-                                name = function() return l10n("Share / Link Quest") end,
-                                desc = function() return l10n("This shortcut shares a Quest with your group when the chat input box is NOT visible, otherwise this will link a Quest to chat.") end,
+                                name = function() return l10n("Share Quest") end,
+                                desc = function() return l10n("This shortcut shares a Quest with your group.") end,
                                 disabled = function() return not Questie.db.profile.trackerEnabled end,
                                 get = function() return Questie.db.profile.trackerbindShareQuest end,
                                 set = function(_, key)
@@ -300,6 +300,12 @@ function QuestieOptions.tabs.tracker:Initialize()
                                 set = function(_, key)
                                     TrackerShortcuts.Set("trackerbindSetTomTom", key)
                                 end
+                            },
+                            linkNote = {
+                                type = "description",
+                                order = 9,
+                                fontSize = "medium",
+                                name = function() return l10n("While the chat input is open, Shift + Left Click links to chat instead of running its shortcut.") end,
                             },
                         },
                     },
