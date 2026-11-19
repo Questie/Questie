@@ -47,10 +47,15 @@ describe("QuestEventHandler", function()
     local QuestEventHandler
     ---@type BreadcrumbQuests
     local BreadcrumbQuests
-    local originalTimer, originalTime, newTimerMock, retryTimers
+    ---@type Expansions
+    local Expansions
+    local originalTimer, originalTime, originalExpansion, newTimerMock, retryTimers
 
     before_each(function()
         originalTimer, originalTime = _G.C_Timer, _G.GetTime
+        Expansions = QuestieLoader:ImportModule("Expansions")
+        originalExpansion = Expansions.Current
+        Expansions.Current = Expansions.Cata
         retryTimers = {}
         newTimerMock = spy.new(function(delay, callback)
             local timer = {delay = delay, callback = callback, Cancel = spy.new(function() end)}
@@ -76,6 +81,7 @@ describe("QuestEventHandler", function()
         QuestieNameplate = QuestieLoader:ImportModule("QuestieNameplate")
         WatchFrameHook = QuestieLoader:ImportModule("WatchFrameHook")
         AutoCompleteFrame = QuestieLoader:ImportModule("AutoCompleteFrame")
+        AutoCompleteFrame.HideIfShowing = spy.new(function() end)
         dofile("Public/Enums.lua")
         QuestieAPI = QuestieLoader:ImportModule("QuestieAPI")
         QuestieAPI.PropagateQuestUpdate = spy.new(function() end)
@@ -93,6 +99,7 @@ describe("QuestEventHandler", function()
 
     after_each(function()
         _G.C_Timer, _G.GetTime = originalTimer, originalTime
+        Expansions.Current = originalExpansion
     end)
 
     describe("quest item deletion warning", function()
@@ -354,6 +361,29 @@ describe("QuestEventHandler", function()
         assert.spy(QuestieJourney.AbandonQuest).was.called_with(QuestieJourney, QUEST_ID)
         assert.spy(QuestieAnnounce.AbandonedQuest).was.called_with(QuestieAnnounce, QUEST_ID)
         assert.spy(AvailableQuests.ResetLastNpcGuid).was.called()
+        assert.spy(AutoCompleteFrame.HideIfShowing).was.called_with(QUEST_ID)
+    end)
+
+    it("should mark quest as abandoned without an AutoCompleteFrame before Cata", function()
+        Expansions.Current = Expansions.Tbc
+        AutoCompleteFrame.HideIfShowing = nil
+        QuestLogCache.RemoveQuest = spy.new(function() end)
+        QuestLifecycle.AbandonQuest = spy.new(function() end)
+        QuestieJourney.AbandonQuest = spy.new(function() end)
+        QuestieAnnounce.AbandonedQuest = spy.new(function() end)
+        local callbacks = {}
+        _G.C_Timer = {
+            NewTicker = function(_, callback)
+                table.insert(callbacks, callback)
+                return {}
+            end
+        }
+
+        QuestEventHandler.QuestRemoved(QUEST_ID)
+        callbacks[1]()
+
+        assert.spy(QuestieAnnounce.AbandonedQuest).was.called_with(QuestieAnnounce, QUEST_ID)
+        assert.spy(QuestiePartyObjectives.ScheduleUpdate).was.called_with(QuestiePartyObjectives, QUEST_ID)
     end)
 
     describe("QUEST_TURNED_IN arriving after the abandon check", function()
@@ -455,6 +485,7 @@ describe("QuestEventHandler", function()
         assert.spy(QuestLifecycle.CompleteQuest).was.called_with(QuestLifecycle, QUEST_ID)
         assert.spy(QuestieJourney.CompleteQuest).was.called_with(QuestieJourney, QUEST_ID)
         assert.spy(QuestieAnnounce.CompletedQuest).was.called_with(QuestieAnnounce, QUEST_ID)
+        assert.spy(AutoCompleteFrame.HideIfShowing).was.not_called()
     end)
 
     it("should end the acceptance before the quest leaves QuestLogCache on turn in", function()

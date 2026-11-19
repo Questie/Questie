@@ -98,3 +98,10 @@ function AutoCompleteFrame.CheckAutoCompleteQuests()
         autoCompleteFrame:Hide()
     end
 end
+
+---@param questId QuestId
+function AutoCompleteFrame.HideIfShowing(questId)
+    if autoCompleteFrame and autoCompleteFrame.questId == questId then
+        autoCompleteFrame:Hide()
+    end
+end
