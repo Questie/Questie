@@ -471,6 +471,9 @@ function _QuestEventHandler:MarkQuestAsAbandoned(questId)
 
         AvailableQuests.ResetLastNpcGuid()
         QuestieJourney:AbandonQuest(questId)
+        if Expansions.Current >= Expansions.Cata then
+            AutoCompleteFrame.HideIfShowing(questId)
+        end
         QuestieAnnounce:AbandonedQuest(questId)
 
         -- The local player no longer has this quest; a party member may still need it.

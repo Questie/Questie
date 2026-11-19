@@ -14,6 +14,43 @@ describe("AutoCompleteFrame", function()
         Questie.db.profile.trackerBackdropColor = {r = 0, g = 0, b = 0, a = 1}
     end)
 
+    describe("HideIfShowing", function()
+        -- Runs before any Initialize call, so the module has no frame yet
+        it("should not error before the frame is initialized", function()
+            assert.has_no.errors(function()
+                AutoCompleteFrame.HideIfShowing(1)
+            end)
+        end)
+
+        it("should hide the frame if it shows the given quest", function()
+            AutoCompleteFrame.Initialize({
+                GetPoint = function()
+                    return "BOTTOMLEFT", nil, nil, screenWidth
+                end
+            })
+            local frame = CreateFrame.mockedFrames[1]
+            AutoCompleteFrame.ShowAutoComplete(1)
+
+            AutoCompleteFrame.HideIfShowing(1)
+
+            assert.is_false(frame:IsVisible())
+        end)
+
+        it("should not hide the frame if it shows another quest", function()
+            AutoCompleteFrame.Initialize({
+                GetPoint = function()
+                    return "BOTTOMLEFT", nil, nil, screenWidth
+                end
+            })
+            local frame = CreateFrame.mockedFrames[1]
+            AutoCompleteFrame.ShowAutoComplete(1)
+
+            AutoCompleteFrame.HideIfShowing(2)
+
+            assert.is_true(frame:IsVisible())
+        end)
+    end)
+
     describe("ShowAutoComplete", function()
         it("should set quest data and show frame", function()
             AutoCompleteFrame.Initialize({
