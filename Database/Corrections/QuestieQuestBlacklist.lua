@@ -7063,6 +7063,7 @@ function QuestieQuestBlacklist:Load()
         [78148] = HIDE_ON_MAP, -- Runes of the Sorcerer-Kings
         [78149] = HIDE_ON_MAP, -- Fury of the Land
         [78150] = HIDE_ON_MAP, -- Friend of the Library -- TODO fix questhubs for these 3 quests
+        [78916] = not Questie.IsSoD, -- The Heart of the Void
         [78917] = not Questie.IsSoD, -- The Heart of the Void
         [79090] = not Questie.IsSoD, -- Repelling Invaders
         [79091] = HIDE_ON_MAP, -- Archmage Antonidas: The Unabridged Autobiography
