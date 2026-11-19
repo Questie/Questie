@@ -388,7 +388,7 @@ describe("AvailableQuests", function()
             function overlayTexture:Show() self.shown = true end
             function overlayTexture:Hide() self.shown = false end
             return {data = data, miniMapIcon = isMinimapIcon, texture = texture, overlayTexture = overlayTexture,
-                SetSize = function() end, SetAlpha = function() end,
+                SetSize = function() end, SetAlpha = function() end, SetFlattensRenderLayers = function() end,
                 UpdateTexture = QuestieFrame.private.UpdateTexture, SetQuestIcon = QuestieFrame.private.SetQuestIcon}
         end
 

@@ -80,7 +80,9 @@ function QuestieFrame.CreateIconFrame(frameId, OnEnter)
     --     .glowTexture behind the main one
     --   All these textures are always in the "OVERLAY" drawlayer and each texture has sublayer set to define ordering within the IconFrame.
     -- IconFrames itself are ordered behind/infront of each other by FrameLevel.
-    -- Frames having same FrameLevel (and Strata) show up inorder which is first :Show() (explicit or implicit).
+    -- Icons of one type share a FrameLevel (QuestieMap.utils.SetDrawOrder). The client draws the textures of frames on one
+    -- level sublayer by sublayer across all of them, so overlapping icons mix their layers. A quest starter draws as one
+    -- piece instead (UpdateTexture).
     --! Do not :SetDrawLayer() for these textures. Use parent frame FrameLevel for z-ordering as needed elsewhere in code.
 
     ---@type IconTexture
@@ -371,6 +373,13 @@ function _QuestieFrame.UpdateTexture(self, texture)
 
     local colors = {1, 1, 1}
 
+    -- A quest starter's picture and badge are one icon: where starters overlap, the badge of the one below would otherwise
+    -- show on the picture above it, as frames on one level draw sublayer by sublayer across all of them. Other icons keep
+    -- drawing that way, so an objective's glow stays behind its neighbours' pictures.
+    -- Every supported client has SetFlattensRenderLayers: SimpleFrameAPIDocumentation.lua lists it on classic_era,
+    -- classic_anniversary, classic_titan, 4.4.2, classic and forever.
+    self:SetFlattensRenderLayers(self.data.StarterType ~= nil)
+
     if self.data.StarterType then
         self.texture:SetTexture((_GetStarterLook(self.data.StarterType)))
     else
@@ -448,6 +457,7 @@ function _QuestieFrame.Unload(self)
     self:Hide()
     self.glowTexture:Hide()
     self.overlayTexture:Hide()
+    self:SetFlattensRenderLayers(false) -- a starter draws as one piece; townsfolk icons drawn on it next keep the default
     self.data = nil -- Just to be safe
     self.x = nil
     self.y = nil

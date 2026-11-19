@@ -299,7 +299,7 @@ describe("QuestieFrame", function()
             local function Region() return {Hide = function() end, SetVertexColor = function() end} end
             local icon = {_loaded = true, data = {Id = 123}, minimapTwin = {}, texture = Region(), glowTexture = Region(),
                 overlayTexture = Region(), SetScript = function() end, GetName = function() return "QuestieFrame1" end,
-                Hide = function() end}
+                Hide = function() end, SetFlattensRenderLayers = function() end}
 
             QuestieFrame.private.Unload(icon)
 
@@ -320,7 +320,7 @@ describe("QuestieFrame", function()
             local function Region() return {Hide = function() end, SetVertexColor = function() end} end
             local icon = {_loaded = true, _hidden_by_flash = true, data = {Id = 123}, texture = Region(), glowTexture = Region(),
                 overlayTexture = Region(), SetScript = function() end, GetName = function() return "QuestieFrame1" end,
-                Hide = function() end}
+                Hide = function() end, SetFlattensRenderLayers = function() end}
 
             QuestieFrame.private.Unload(icon)
 
@@ -380,7 +380,8 @@ describe("QuestieFrame", function()
             _G.CreateFrame = function()
                 return {CreateTexture = function() return FakeTexture() end, ShouldButtonPassThrough = function() return true end,
                     SetSize = noop, SetAlpha = noop, SetScript = noop, RegisterForClicks = noop, Hide = noop,
-                    GetName = function() return "QuestieFrame1" end}
+                    GetName = function() return "QuestieFrame1" end,
+                    SetFlattensRenderLayers = function(self, flatten) self.flattensRenderLayers = flatten end}
             end
             return QuestieFrame.CreateIconFrame(1, noop)
         end
@@ -405,6 +406,18 @@ describe("QuestieFrame", function()
 
         after_each(function()
             Questie.icons, _G.CreateFrame = savedIcons, savedCreateFrame
+        end)
+
+        it("should draw a quest starter as one piece, so a starter below does not show its badge on the picture above it", function()
+            -- Icons of one type share a frame level, where the client draws sublayer by sublayer across them
+            local starter, giver = IconFrame(), IconFrame()
+
+            Draw(starter, "itemFromMonster")
+            Draw(giver, nil)
+
+            assert.is_true(starter.flattensRenderLayers)
+            -- Other icons keep drawing across each other, which leaves an objective's glow behind its neighbours
+            assert.is_false(giver.flattensRenderLayers)
         end)
 
         it("should draw a quest started by an NPC as its own icon without a badge", function()
@@ -463,6 +476,22 @@ describe("QuestieFrame", function()
 
             assert.are.equal(QUEST_ICON, frame.texture.file)
             assert.is_false(frame.overlayTexture.shown)
+        end)
+
+        it("should stop drawing a starter's frame as one piece before the pool hands it out again", function()
+            -- Townsfolk icons drawn on a pooled frame set only its image
+            local HBDPins = QuestieLoader:ImportModule("HBDPins")
+            HBDPins.RemoveMinimapIcon, HBDPins.RemoveWorldMapIcon = function() end, function() end
+            QuestieLoader:ImportModule("QuestieDBMIntegration").UnregisterHudQuestIcon = function() end
+            QuestieWaypoints.RemoveOwner = function() end
+            QuestieMap.questIdFrames = {}
+            local frame = IconFrame()
+            Draw(frame, "Object")
+            frame._loaded = true -- drawn on the map
+
+            frame:Unload()
+
+            assert.is_false(frame.flattensRenderLayers)
         end)
 
         it("should keep the rest of the badge's texture clear instead of repeating its edges across the icon", function()
