@@ -334,6 +334,10 @@ local migrationFunctions = {
             profile.trackerbindOpenQuestLog = "disabled"
         end
     end,
+    [54] = function()
+        -- The pfQuest/ClassicCodex icon toggle is gone; the icon theme choice replaced it.
+        Questie.db.profile.usePfQuestIcons = nil
+    end,
 }
 
 function Migration:Migrate()

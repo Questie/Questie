@@ -133,8 +133,8 @@ end
 
 ---Shortens a full profiler path by dropping only the segments that do not identify the function.
 ---Every other segment is kept, so two different functions can never collapse into one row: an earlier rule
----folded everything between the first and last segment, which merged eight distinct tab initialisers into a
----single QuestieOptions.Initialize and hid which one was slow. Grouped view therefore shortens identities
+---folded everything between the first and last segment, which merged the distinct tab initialisers into a
+---single QuestieOptionsEngine.Initialize and hid which one was slow. Grouped view therefore shortens identities
 ---rather than aggregating them; entries still combine when two paths genuinely shorten to the same name.
 ---A ThreadLib job named after a file keeps its whole identity: its call site is what distinguishes it, and a
 ---path's segments are not module segments to drop. A job named after a function is shortened by the same rule

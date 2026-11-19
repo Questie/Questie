@@ -2782,7 +2782,6 @@
         "ICON_TYPE_TALK",
         "Questie_Toggle",
         "QuestieJourneyFrame",
-        "QuestieConfigFrame",
         "QuestieConfig",
         "QuestieCompat",
         "QuestieWorldMapButtonMixin",

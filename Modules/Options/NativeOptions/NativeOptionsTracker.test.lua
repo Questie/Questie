@@ -63,6 +63,27 @@ describe("native tracker options", function()
         assert.is_true(LoadTab().group_quests.items.group_shortcuts.items.setTomTom.visible)
     end)
 
+    it("should show the follow super tracking option only when super tracking is supported", function()
+        local isSuperTrackingSupportedStub = stub(compat, "IsSuperTrackingSupported", function() return false end)
+        local visibleWithoutSupport = LoadTab().group_quests.items.followSuperTracking.visible
+        isSuperTrackingSupportedStub.invokes(function() return true end)
+        local visibleWithSupport = LoadTab().group_quests.items.followSuperTracking.visible
+        isSuperTrackingSupportedStub:revert()
+
+        assert.is_false(visibleWithoutSupport)
+        assert.is_true(visibleWithSupport)
+    end)
+
+    it("should change the follow super tracking setting", function()
+        Questie.db.profile.trackerFollowSuperTracking = false
+        local followSuperTracking = LoadTab().group_quests.items.followSuperTracking
+
+        followSuperTracking.set(nil, true)
+
+        assert.is_true(followSuperTracking.get())
+        assert.is_true(Questie.db.profile.trackerFollowSuperTracking)
+    end)
+
     it("should show the sticky VoiceOver frame option only when VoiceOver is used", function()
         assert.is_false(LoadTab().group_tracker_window.items.stickyVoiceOverFrame.visible)
 

@@ -10,8 +10,6 @@ describe("MinimapIcon", function()
     local QuestieMenu
     ---@type QuestieQuest
     local QuestieQuest
-    ---@type QuestieOptions
-    local QuestieOptions
     ---@type QuestieOptionsEngine
     local QuestieOptionsEngine
     ---@type QuestieCombatQueue
@@ -58,10 +56,6 @@ describe("MinimapIcon", function()
         QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
         QuestieQuest.SmoothReset = spy.new(function() end)
         QuestieQuest.ToggleNotes = spy.new(function() end)
-
-        QuestieOptions = QuestieLoader:ImportModule("QuestieOptions")
-        QuestieOptions.HideFrame = spy.new(function() end)
-        QuestieOptions.ToggleConfigWindow = spy.new(function() end)
 
         QuestieOptionsEngine = QuestieLoader:ImportModule("QuestieOptionsEngine")
         QuestieOptionsEngine.IsShown = spy.new(function() end)

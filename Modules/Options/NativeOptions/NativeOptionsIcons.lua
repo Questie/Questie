@@ -1,5 +1,3 @@
----@type QuestieOptions
-local QuestieOptions = QuestieLoader:ImportModule("QuestieOptions")
 ---@type QuestieOptionsEngine
 local QuestieOptionsEngine = QuestieLoader:ImportModule("QuestieOptionsEngine")
 ---@type QuestieOptionsDefaults
@@ -1117,37 +1115,6 @@ _GetIconThemesSort = function()
             "custom",
         }
     end
-end
-
-function QuestieOptionsUtils.SetPfQuestIcons(info, value)
-    Questie.db.profile.usePfQuestIcons = value
-    if value then
-        Questie.db.profile.ICON_SLAY = Questie.icons["node"]
-        Questie.db.profile.ICON_LOOT = Questie.icons["node"]
-        Questie.db.profile.ICON_EVENT = Questie.icons["node"]
-        Questie.db.profile.ICON_OBJECT = Questie.icons["node"]
-        Questie.db.profile.ICON_TALK = Questie.icons["node"]
-        Questie.db.profile.ICON_INTERACT = Questie.icons["node"]
-        Questie.db.profile.questObjectiveColors = true
-        Questie.db.profile.alwaysGlowMap = false
-        Questie.db.profile.questMinimapObjectiveColors = true
-        Questie.db.profile.alwaysGlowMinimap = false
-        Questie.db.profile.objectiveFilterDistance = 0
-    else
-        Questie.db.profile.ICON_SLAY = Questie.icons["slay"]
-        Questie.db.profile.ICON_LOOT = Questie.icons["loot"]
-        Questie.db.profile.ICON_EVENT = Questie.icons["event"]
-        Questie.db.profile.ICON_OBJECT = Questie.icons["object"]
-        Questie.db.profile.ICON_TALK = Questie.icons["talk"]
-        Questie.db.profile.ICON_INTERACT = Questie.icons["interact"]
-        Questie.db.profile.questObjectiveColors = false
-        Questie.db.profile.alwaysGlowMap = true
-        Questie.db.profile.questMinimapObjectiveColors = false
-        Questie.db.profile.alwaysGlowMinimap = false
-        Questie.db.profile.objectiveFilterDistance = optionsDefaults.profile.objectiveFilterDistance
-    end
-    Questie:SetIcons()
-    QuestieQuest:SmoothReset()
 end
 
 function QuestieOptionsUtils.DetermineTheme()

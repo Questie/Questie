@@ -2982,7 +2982,6 @@ globals = {
     "Questie_BaseFrame",
     "Questie_Toggle",
     "QuestieJourneyFrame",
-    "QuestieConfigFrame",
     "QuestieConfig",
     "QuestieProfilerEnabled",
     "ReloadUI",

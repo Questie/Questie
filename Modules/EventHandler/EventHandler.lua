@@ -607,7 +607,7 @@ function _EventHandler:ChatMsgCompatFactionChange()
     end
 end
 
-local optionsHiddenByCombat, journeyHiddenByCombat = false, false
+local journeyHiddenByCombat = false
 
 function _EventHandler:PlayerRegenDisabled()
     Questie.Debug(Questie.DEBUG_DEVELOP, "[EVENT] PLAYER_REGEN_DISABLED")
@@ -618,14 +618,6 @@ function _EventHandler:PlayerRegenDisabled()
     end
 
     -- Let's make sure the frame exists - might be nil if player is in combat upon login
-    if QuestieConfigFrame then
-        if QuestieConfigFrame:IsShown() then
-            optionsHiddenByCombat = true
-            QuestieConfigFrame:Hide()
-        end
-    end
-
-    -- Let's make sure the frame exists - might be nil if player is in combat upon login
     if QuestieJourney then
         if QuestieJourney:IsShown() then
             journeyHiddenByCombat = true
@@ -633,7 +625,7 @@ function _EventHandler:PlayerRegenDisabled()
         end
     end
 
-    -- The Native settings panel can be shown in combat, unlike Ace, but some of its options
+    -- The settings panel can be shown in combat, but some of its options
     -- (like toggling the tracker) cannot be changed in combat, so we disable those ones in combat.
     -- Changing their enabled/disabled visible state requires calling RefreshStates(),
     -- so we refresh them at the start and end of combat if the settings panel is visible.
@@ -645,11 +637,6 @@ function _EventHandler:PlayerRegenEnabled()
     Questie.Debug(Questie.DEBUG_DEVELOP, "[EVENT] PLAYER_REGEN_ENABLED")
 
     QuestieTracker.HandleCombatEnded()
-
-    if optionsHiddenByCombat then
-        QuestieConfigFrame:Show()
-        optionsHiddenByCombat = false
-    end
 
     if journeyHiddenByCombat then
         QuestieJourney:ToggleJourneyWindow()

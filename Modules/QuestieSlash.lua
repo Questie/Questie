@@ -4,8 +4,6 @@ local Popup = QuestieLoader:ImportModule("QuestiePopup")
 ---@class QuestieSlash
 local QuestieSlash = QuestieLoader:CreateModule("QuestieSlash")
 
----@type QuestieOptions
-local QuestieOptions = QuestieLoader:ImportModule("QuestieOptions")
 ---@type QuestieOptionsEngine
 local QuestieOptionsEngine = QuestieLoader:ImportModule("QuestieOptionsEngine");
 ---@type QuestieJourney
@@ -328,11 +326,6 @@ function QuestieSlash.HandleCommands(input)
         }
 
         Popup.Show("QUESTIE_ITEMDROPOUTPUT") -- display a popup with a copyable text field so we can get the list out of the game
-        return
-    end
-
-    if mainCommand == "oldoptions" then -- temporary dev command only. opens the old settings popup rather than the new Native one (/questie)
-        QuestieOptions:ToggleConfigWindow()
         return
     end
 
