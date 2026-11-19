@@ -164,6 +164,7 @@ function QuestieOptionsDefaults:Load()
             showPartyQuestObjectives = true,
             hideUnexploredMapIcons = false,
             hideUntrackedQuestsMapIcons = false,
+            showUntrackedTurnInIcons = true,
             showRepeatableQuests = true,
             showEventQuests = true,
             showDungeonQuests = true,

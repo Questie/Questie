@@ -32,6 +32,7 @@ describe("QuestieFrame", function()
             enableAvailableItems = true,
             hideUnexploredMapIcons = false,
             hideUntrackedQuestsMapIcons = false,
+            showUntrackedTurnInIcons = true,
         }
 
         QuestieDB = QuestieLoader:ImportModule("QuestieDB")
@@ -469,6 +470,28 @@ describe("QuestieFrame", function()
 
             assert.is_false(result)
             assert.spy(QuestieQuest.ShouldShowQuestNotes).was.called_with(QuestieQuest, 123)
+        end)
+
+        it("should keep a completed turn-in pin when untracked icons are hidden", function()
+            QuestieQuest.ShouldShowQuestNotes = spy.new(function() return false end)
+            Questie.db.profile.hideUntrackedQuestsMapIcons = true
+            Questie.db.profile.showUntrackedTurnInIcons = true
+            QuestieFrameInstance.data.Type = "complete"
+
+            local result = QuestieFrame.private.ShouldBeHidden(QuestieFrameInstance)
+
+            assert.is_false(result)
+        end)
+
+        it("should hide a completed turn-in pin when untracked turn-ins are turned off", function()
+            QuestieQuest.ShouldShowQuestNotes = spy.new(function() return false end)
+            Questie.db.profile.hideUntrackedQuestsMapIcons = true
+            Questie.db.profile.showUntrackedTurnInIcons = false
+            QuestieFrameInstance.data.Type = "complete"
+
+            local result = QuestieFrame.private.ShouldBeHidden(QuestieFrameInstance)
+
+            assert.is_true(result)
         end)
 
         it("should return false for available icons when untracked icons should be hidden", function()
