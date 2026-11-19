@@ -26,6 +26,39 @@ local _LibDBIcon = LibStub("LibDBIcon-1.0")
 local minimapButton
 local statusBadge
 
+---@param candidate any
+---@return Frame?
+local function _GetMenuAnchor(candidate)
+    local registeredButton = minimapButton
+    if not registeredButton and type(_LibDBIcon.GetMinimapButton) == "function" then
+        registeredButton = _LibDBIcon:GetMinimapButton("Questie")
+    end
+
+    if registeredButton then
+        if candidate == registeredButton then
+            return candidate
+        end
+        return
+    end
+
+    if candidate and type(candidate.GetObjectType) == "function" then
+        return candidate
+    end
+end
+
+---LibDBIcon passes the addon compartment's open menu as the clicked frame, other displays pass their own frame.
+---@param candidate any
+---@return boolean
+local function _IsCompartmentMenu(candidate)
+    return candidate ~= nil and Menu ~= nil and Menu.GetManager ~= nil and Menu.GetManager():GetOpenMenu() == candidate
+end
+
+local function _ShowMenuFromCompartment()
+    C_Timer.After(0, function()
+        QuestieMenu:Show()
+    end)
+end
+
 local statusStyles = {
     [QuestieStatus.Severity.Error] = {
         label = "Error", r = 1, g = 0.2, b = 0.2,
@@ -139,8 +172,14 @@ function _MinimapIcon:CreateDataBrokerObject()
     return LDBDataObject
 end
 
-function _MinimapIcon.OnClick(_, button)
+function _MinimapIcon.OnClick(clickedFrame, button)
     if (not Questie.started) then
+        return
+    end
+
+    local menuAnchor = _GetMenuAnchor(clickedFrame)
+    if (not menuAnchor) and _IsCompartmentMenu(clickedFrame) then
+        _ShowMenuFromCompartment()
         return
     end
 
@@ -191,7 +230,7 @@ function _MinimapIcon.OnClick(_, button)
             return
         end
 
-        QuestieMenu:Show()
+        QuestieMenu:Show(menuAnchor)
     end
 end
 

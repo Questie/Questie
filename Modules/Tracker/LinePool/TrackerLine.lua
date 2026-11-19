@@ -44,9 +44,10 @@ local Expansions = QuestieLoader:ImportModule("Expansions")
 local AchievementTracking = QuestieLoader:ImportModule("AchievementTracking")
 ---@type TrackerRecipes
 local TrackerRecipes = QuestieLoader:ImportModule("TrackerRecipes")
+---@type QuestieMenuBuilder
+local QuestieMenuBuilder = QuestieLoader:ImportModule("QuestieMenuBuilder")
 
 local LSM30 = LibStub("LibSharedMedia-3.0")
-local LibDropDown = LibStub:GetLibrary("LibUIDropDownMenuQuestie-4.0")
 
 local _SetMode, _OnClickQuest, _OnClickAchieve, _OnClickRecipe
 
@@ -229,8 +230,8 @@ _OnClickQuest = function(self, button)
         return
     end
 
-    if TrackerMenu.menuFrame:IsShown() then
-        LibDropDown:CloseDropDownMenus()
+    if QuestieMenuBuilder.IsOpen() then
+        QuestieMenuBuilder.Close()
     end
 
     if TrackerShortcuts.IsLinkClick(button) then
@@ -252,7 +253,7 @@ _OnClickQuest = function(self, button)
         TrackerUtils:ShowQuestLog(self.Quest)
     elseif button == "RightButton" then
         local menu = TrackerMenu:GetMenuForQuest(self.Quest)
-        LibDropDown:EasyMenu(menu, TrackerMenu.menuFrame, "cursor", 0, 0, "MENU")
+        QuestieMenuBuilder.Show(menu)
     end
 end
 
@@ -263,8 +264,8 @@ _OnClickAchieve = function(self, button)
         return
     end
 
-    if TrackerMenu.menuFrame:IsShown() then
-        LibDropDown:CloseDropDownMenus()
+    if QuestieMenuBuilder.IsOpen() then
+        QuestieMenuBuilder.Close()
     end
 
     if TrackerShortcuts.IsLinkClick(button) then
@@ -301,7 +302,7 @@ _OnClickAchieve = function(self, button)
         end
     elseif button == "RightButton" then
         local menu = TrackerMenu:GetMenuForAchievement(self.Quest)
-        LibDropDown:EasyMenu(menu, TrackerMenu.menuFrame, "cursor", 0, 0, "MENU")
+        QuestieMenuBuilder.Show(menu)
     end
 end
 
@@ -312,8 +313,8 @@ _OnClickRecipe = function(self, button)
         return
     end
 
-    if TrackerMenu.menuFrame:IsShown() then
-        LibDropDown:CloseDropDownMenus()
+    if QuestieMenuBuilder.IsOpen() then
+        QuestieMenuBuilder.Close()
     end
 
     if TrackerShortcuts.IsLinkClick(button) then

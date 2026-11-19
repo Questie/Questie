@@ -33,8 +33,8 @@ local ProfessionStations = QuestieLoader:ImportModule("ProfessionStations")
 local QuestieOptionsEngine = QuestieLoader:ImportModule("QuestieOptionsEngine")
 ---@type QuestieTraceMenu
 local QuestieTraceMenu = QuestieLoader:ImportModule("QuestieTraceMenu")
-
-local LibDropDown = LibStub:GetLibrary("LibUIDropDownMenuQuestie-4.0")
+---@type QuestieMenuBuilder
+local QuestieMenuBuilder = QuestieLoader:ImportModule("QuestieMenuBuilder")
 
 local tinsert = tinsert
 
@@ -236,77 +236,29 @@ local function build(key)
         text = l10n(tostring(key)),
         func = function() Questie.db.profile.townsfolkConfig[key] = not Questie.db.profile.townsfolkConfig[key] toggle(key) end,
         icon=icon,
-        notCheckable=false,
-        checked=Questie.db.profile.townsfolkConfig[key],
-        isNotRadio=true,
+        checked=function() return Questie.db.profile.townsfolkConfig[key] end,
         keepShownOnClick=true
     }
 end
 
-local refreshProfessionButtons
-
----@param profMenu table The menuList this entry belongs to
-local function buildProfession(key, localizedText, profMenu)
+local function buildProfession(key, localizedText)
     local icon = _townsfolk_texturemap[key] or ("Interface\\Minimap\\tracking\\" .. strlower(key))
 
     return {
         text = localizedText,
-        func = function(button)
-            -- Locked rows still get clicks forwarded from their icon, which bypasses the disabled button
+        func = function()
+            -- A locked row must never be toggled, even if the click reaches it despite being disabled
             if not isTrackedAsKnownProfession(key) then
                 Questie.db.profile.townsfolkConfig[key] = not Questie.db.profile.townsfolkConfig[key]
                 toggle(key)
             end
-            -- Unchecking a known profession leaves it tracked through "Known Professions", so it turns gray.
-            -- This also restores the check the dropdown flipped before calling us on a locked row.
-            refreshProfessionButtons(profMenu, button:GetParent())
         end,
-        arg1=key,
         icon=icon,
-        notCheckable=false,
         checked=function() return isTracked(key) end,
         -- Gray, locked check while the trainer is tracked only through "Known Professions"
-        disabled=isTrackedAsKnownProfession(key),
-        isNotRadio=true,
+        disabled=function() return isTrackedAsKnownProfession(key) end,
         keepShownOnClick=true
     }
-end
-
----Redraws the profession entries of an open dropdown list after "Known Professions" was toggled
----@param profMenu table The menuList the dropdown list was built from
----@param listFrame Frame The dropdown list showing profMenu
-function refreshProfessionButtons(profMenu, listFrame)
-    for _, info in pairs(profMenu) do
-        if info.arg1 then
-            info.disabled = isTrackedAsKnownProfession(info.arg1)
-        end
-    end
-
-    local listFrameName = listFrame:GetName()
-    for i = 1, listFrame.numButtons or 0 do
-        local buttonName = listFrameName .. "Button" .. i
-        local button = _G[buttonName]
-        local key = button.arg1
-        if key and Townsfolk.professionTrainers[key] then
-            local locked = isTrackedAsKnownProfession(key)
-            local checked = isTracked(key)
-            local check, uncheck = _G[buttonName .. "Check"], _G[buttonName .. "UnCheck"]
-
-            button:SetEnabled(not locked)
-            _G[buttonName .. "InvisibleButton"]:SetShown(locked)
-            check:SetShown(checked)
-            uncheck:SetShown(not checked)
-            check:SetDesaturated(locked)
-            check:SetAlpha(locked and 0.5 or 1)
-            uncheck:SetDesaturated(locked)
-            uncheck:SetAlpha(locked and 0.5 or 1)
-            if checked then
-                button:LockHighlight()
-            else
-                button:UnlockHighlight()
-            end
-        end
-    end
 end
 
 ---Syncs the map with "Known Professions": shows trainers of known professions and hides those of
@@ -354,33 +306,7 @@ function QuestieMenu:OnLogin(forceRemove) -- toggle all icons
     end
 end
 
-local div = { -- from libEasyMenu code
-    hasArrow = false,
-    dist = 0,
-    isTitle = true,
-    isUninteractable = true,
-    notCheckable = true,
-    iconOnly = true,
-    isSeparator = true,
-    icon = "Interface\\Common\\UI-TooltipDivider-Transparent",
-    tCoordLeft = 0,
-    tCoordRight = 1,
-    tCoordTop = 0,
-    tCoordBottom = 1,
-    tSizeX = 0,
-    tSizeY = 8,
-    tFitDropDownSizeX = true,
-    text="",
-    iconInfo = {
-        tCoordLeft = 0,
-        tCoordRight = 1,
-        tCoordTop = 0,
-        tCoordBottom = 1,
-        tSizeX = 0,
-        tSizeY = 8,
-        tFitDropDownSizeX = true
-    },
-}
+local div = { isDivider = true }
 -- On Forever ReloadUI is blocked when called from the dropdown's click handler, so the reload happens in this dialog's button
 QuestiePopup.Dialogs["QUESTIE_MENU_RELOAD_UI"] = {
     text = "", -- we set it in OnShow
@@ -412,16 +338,15 @@ function QuestieMenu.buildProfessionMenu()
     local profMenuData = {}
     local ridingMenu = {}
 
-    tinsert(profMenu, { text= l10n("Known Professions"), func = function(button)
+    tinsert(profMenu, { text= l10n("Known Professions"), func = function()
         Questie.db.profile.townsfolkKnownProfessions = not Questie.db.profile.townsfolkKnownProfessions
         QuestieMenu.RefreshKnownProfessionTrainers()
-        refreshProfessionButtons(profMenu, button:GetParent())
-    end, icon="Interface\\Minimap\\tracking\\profession", notCheckable=false, checked=function() return Questie.db.profile.townsfolkKnownProfessions end, isNotRadio=true, keepShownOnClick=true})
+    end, icon="Interface\\Minimap\\tracking\\profession", checked=function() return Questie.db.profile.townsfolkKnownProfessions end, keepShownOnClick=true})
     tinsert(profMenu, div)
 
     for key, _ in pairs(Townsfolk.professionTrainers) do
         local localizedKey = l10n(QuestieProfessions:GetProfessionName(key))
-        profMenuData[localizedKey] = buildProfession(key, localizedKey, profMenu)
+        profMenuData[localizedKey] = buildProfession(key, localizedKey)
         if secondaryProfessions[key] then
             tinsert(secondaryProfMenuSorted, localizedKey)
         elseif ridingProfessions[key] then
@@ -484,13 +409,10 @@ function QuestieMenu.buildTownsfolkMenu()
 end
 
 ---Shows the main Questie menu and its optional QuestieTrace entry.
----@param hideDelay number|nil
-function QuestieMenu:Show(hideDelay)
+---@param anchorFrame Frame? Opens the menu to the right of this frame instead of at the cursor
+function QuestieMenu:Show(anchorFrame)
     if not Questie.db.profile.townsfolkConfig then
         Questie.db.profile.townsfolkConfig = {}
-    end
-    if not QuestieMenu.menu then
-        QuestieMenu.menu = LibDropDown:Create_UIDropDownMenu("QuestieTownsfolkMenuFrame", UIParent)
     end
     local menuTable = QuestieMenu.buildTownsfolkMenu()
     tinsert(menuTable, { text= l10n("Available Quest"), func = function()
@@ -498,7 +420,7 @@ function QuestieMenu:Show(hideDelay)
         Questie.db.profile.showAvailableQuests = value
         QuestieQuest:ToggleNotes(value)
         QuestieQuest:SmoothReset()
-    end, icon=QuestieLib.AddonPath.."Icons\\available.blp", notCheckable=false, checked=Questie.db.profile.showAvailableQuests, isNotRadio=true, keepShownOnClick=true})
+    end, icon=QuestieLib.AddonPath.."Icons\\available.blp", checked=function() return Questie.db.profile.showAvailableQuests end, keepShownOnClick=true})
     tinsert(menuTable, { text= l10n("Trivial Quest"), func = function()
         local value = Questie.db.profile.lowLevelStyle == Questie.LOWLEVEL_ALL
         if value then
@@ -508,15 +430,15 @@ function QuestieMenu:Show(hideDelay)
         end
         AvailableQuests.ResetLevelRequirementCache()
         AvailableQuests.CalculateAndDrawAll()
-    end, icon=QuestieLib.AddonPath.."Icons\\available_gray.blp", notCheckable=false, checked=Questie.db.profile.lowLevelStyle==Questie.LOWLEVEL_ALL, isNotRadio=true, keepShownOnClick=true})
+    end, icon=QuestieLib.AddonPath.."Icons\\available_gray.blp", checked=function() return Questie.db.profile.lowLevelStyle==Questie.LOWLEVEL_ALL end, keepShownOnClick=true})
     tinsert(menuTable, { text= l10n("Objective"), func = function()
         local value = not Questie.db.profile.enableObjectives
         Questie.db.profile.enableObjectives = value
         QuestieQuest:ToggleNotes(value)
         QuestieQuest:SmoothReset()
-    end, icon=QuestieLib.AddonPath.."Icons\\event.blp", notCheckable=false, checked=Questie.db.profile.enableObjectives, isNotRadio=true, keepShownOnClick=true})
-    tinsert(menuTable, {text= l10n("Profession Trainers"), func = function() end, keepShownOnClick=true, hasArrow=true, menuList=QuestieMenu.buildProfessionMenu(), notCheckable=true})
-    tinsert(menuTable, {text= l10n("Vendor"), func = function() end, keepShownOnClick=true, hasArrow=true, menuList=QuestieMenu.buildVendorMenu(), notCheckable=true})
+    end, icon=QuestieLib.AddonPath.."Icons\\event.blp", checked=function() return Questie.db.profile.enableObjectives end, keepShownOnClick=true})
+    tinsert(menuTable, {text= l10n("Profession Trainers"), menuList=QuestieMenu.buildProfessionMenu()})
+    tinsert(menuTable, {text= l10n("Vendor"), menuList=QuestieMenu.buildVendorMenu()})
 
     tinsert(menuTable, div)
 
@@ -524,8 +446,8 @@ function QuestieMenu:Show(hideDelay)
         if button == "RightButton" then
             QuestieTraceMenu.Toggle(api)
         else
-            QuestieMenu:Hide()
             api.ShowExportWindow()
+            return MenuResponse.CloseAll
         end
     end)
     if traceMenu then
@@ -572,59 +494,49 @@ function QuestieMenu:Show(hideDelay)
     end})
 
     if Questie.db.profile.debugEnabled then
+        -- TEMP: testing whether ReloadUI works directly from a MenuUtil entry on Forever
         tinsert(menuTable, { text= l10n('Reload UI'), func=function()
-            if Questie.IsForever then
-                -- With Forever the ReloadUI API is restricted with "#hwevent", which means it needs a direct user interaction (e.g. a button click).
-                QuestiePopup.Show("QUESTIE_MENU_RELOAD_UI")
-            else
-                ReloadUI()
-            end
+            ReloadUI()
         end})
     end
     tinsert(menuTable, {text= CANCEL, func=function() end})
-    LibDropDown:EasyMenu(menuTable, QuestieMenu.menu, "cursor", -80, -15, "MENU", hideDelay or 2)
+    QuestieMenuBuilder.Show(menuTable, anchorFrame)
 end
 
 function QuestieMenu:Hide()
-    LibDropDown:CloseDropDownMenus()
+    QuestieMenuBuilder.Close()
 end
 
 function QuestieMenu.IsOpen()
-   return LibDropDown:getOpen()
+    return QuestieMenuBuilder.IsOpen()
 end
 
-function QuestieMenu:ShowTownsfolk(hideDelay)
+---@param anchorFrame Frame? Opens the menu below this frame instead of at the cursor
+function QuestieMenu:ShowTownsfolk(anchorFrame)
     if not Questie.db.profile.townsfolkConfig then
         Questie.db.profile.townsfolkConfig = {}
-    end
-    if not QuestieMenu.menuTowns then
-        QuestieMenu.menuTowns = LibDropDown:Create_UIDropDownMenu("QuestieTownsfolkMenuFrameTownsfolk", UIParent)
     end
     local menuTable = QuestieMenu.buildTownsfolkMenu()
     tinsert(menuTable, {text= CANCEL, func=function() end})
-    LibDropDown:EasyMenu(menuTable, QuestieMenu.menuTowns, "cursor", -80, -15, "MENU", hideDelay)
+    QuestieMenuBuilder.Show(menuTable, anchorFrame, "TOPLEFT", "BOTTOMLEFT")
 end
 
-function QuestieMenu:ShowProfessions(hideDelay)
+---@param anchorFrame Frame? Opens the menu below this frame instead of at the cursor
+function QuestieMenu:ShowProfessions(anchorFrame)
     if not Questie.db.profile.townsfolkConfig then
         Questie.db.profile.townsfolkConfig = {}
-    end
-    if not QuestieMenu.menuProfs then
-        QuestieMenu.menuProfs = LibDropDown:Create_UIDropDownMenu("QuestieTownsfolkMenuFrameProfs", UIParent)
     end
     local menuTable = QuestieMenu.buildProfessionMenu()
     tinsert(menuTable, {text= CANCEL, func=function() end})
-    LibDropDown:EasyMenu(menuTable, QuestieMenu.menuProfs, "cursor", -75, -15, "MENU", hideDelay)
+    QuestieMenuBuilder.Show(menuTable, anchorFrame, "TOPLEFT", "BOTTOMLEFT")
 end
 
-function QuestieMenu:ShowVendors(hideDelay)
+---@param anchorFrame Frame? Opens the menu below this frame instead of at the cursor
+function QuestieMenu:ShowVendors(anchorFrame)
     if not Questie.db.profile.townsfolkConfig then
         Questie.db.profile.townsfolkConfig = {}
     end
-    if not QuestieMenu.menuVendors then
-        QuestieMenu.menuVendors = LibDropDown:Create_UIDropDownMenu("QuestieTownsfolkMenuFrameVendors", UIParent)
-    end
     local menuTable = QuestieMenu.buildVendorMenu()
     tinsert(menuTable, {text= CANCEL, func=function() end})
-    LibDropDown:EasyMenu(menuTable, QuestieMenu.menuVendors, "cursor", -60, -15, "MENU", hideDelay)
+    QuestieMenuBuilder.Show(menuTable, anchorFrame, "TOPLEFT", "BOTTOMLEFT")
 end

@@ -44,7 +44,7 @@ describe("TrackerLine untrack click", function()
             return frame
         end
         Questie.db = {profile = {trackerbindUntrack = "left"}}
-        QuestieLoader:ImportModule("TrackerMenu").menuFrame = {IsShown = function() return false end}
+        QuestieLoader:ImportModule("QuestieMenuBuilder").IsOpen = function() return false end
         QuestieLoader:ImportModule("AchievementCriteriaCheckmark").New = function() return {} end
         QuestieLoader:ImportModule("ExpandZoneButton").New = function() return {} end
         QuestieLoader:ImportModule("VoiceOverPlayButton").New = _HookableButton

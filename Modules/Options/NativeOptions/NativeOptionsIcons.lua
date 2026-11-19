@@ -357,8 +357,8 @@ function QuestieOptionsEngine.tabs.icons:Initialize()
                         width = "third",
                         align = "CENTER",
                         enabled = _IsEnabled,
-                        func = function()
-                            QuestieMenu:ShowTownsfolk(1)
+                        func = function(button)
+                            QuestieMenu:ShowTownsfolk(button)
                         end,
                     },
                     professionOptions = {
@@ -370,8 +370,8 @@ function QuestieOptionsEngine.tabs.icons:Initialize()
                         width = "third",
                         align = "CENTER",
                         enabled = _IsEnabled,
-                        func = function()
-                            QuestieMenu:ShowProfessions(1)
+                        func = function(button)
+                            QuestieMenu:ShowProfessions(button)
                         end,
                     },
                     vendorOptions = {
@@ -383,8 +383,8 @@ function QuestieOptionsEngine.tabs.icons:Initialize()
                         width = "third",
                         align = "CENTER",
                         enabled = _IsEnabled,
-                        func = function()
-                            QuestieMenu:ShowVendors(1)
+                        func = function(button)
+                            QuestieMenu:ShowVendors(button)
                         end,
                     },
                 },

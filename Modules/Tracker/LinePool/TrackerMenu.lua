@@ -33,10 +33,6 @@ local l10n = QuestieLoader:ImportModule("l10n")
 ---@type AchievementTracking
 local AchievementTracking = QuestieLoader:ImportModule("AchievementTracking")
 
-local LibDropDown = LibStub:GetLibrary("LibUIDropDownMenuQuestie-4.0")
-
-TrackerMenu.menuFrame = LibDropDown:Create_UIDropDownMenu("QuestieTrackerMenuFrame", UIParent)
-
 local tinsert = table.insert
 
 -- Commands recheck the snapshot and original-object identity before any map mutation. A menu can
@@ -62,7 +58,6 @@ local function _AddUnfocusEntry(menu, isStillFocused)
     tinsert(menu, {
         text = l10n('Unfocus'),
         func = function()
-            LibDropDown:CloseDropDownMenus()
             if not isStillFocused() then
                 return
             end
@@ -80,8 +75,6 @@ TrackerMenu.addTomTomOptionForQuest = function(menu, quest)
     tinsert(menu, {
         text = l10n('Set |cFF54e33bTomTom|r Target'),
         func = function()
-            LibDropDown:CloseDropDownMenus()
-
             TrackerUtils.SetQuestTomTomTarget(quest.Id, expectedQuest)
         end
     })
@@ -94,8 +87,6 @@ TrackerMenu.addTomTomOptionForObjective = function(menu, quest, objective)
     tinsert(menu, {
         text = l10n('Set |cFF54e33bTomTom|r Target'),
         func = function()
-            LibDropDown:CloseDropDownMenus()
-
             if not _GetCurrentMapCapabilities(quest, objective) then
                 return
             end
@@ -138,7 +129,6 @@ TrackerMenu.addShowHideObjectivesOption = function(menu, quest, objective)
         tinsert(menu, {
             text = l10n('Show Icons'),
             func = function()
-                LibDropDown:CloseDropDownMenus()
                 -- Unlike quest Show Icons, keep the identity check. The saved key is the original index, which
                 -- a replacement objective can reuse; a stale menu must not clear the replacement's state.
                 local _, capabilities = _GetCurrentMapCapabilities(quest, objective)
@@ -154,7 +144,6 @@ TrackerMenu.addShowHideObjectivesOption = function(menu, quest, objective)
         tinsert(menu, {
             text = l10n('Hide Icons'),
             func = function()
-                LibDropDown:CloseDropDownMenus()
                 local _, capabilities = _GetCurrentMapCapabilities(quest, objective)
                 if not capabilities or capabilities.focusObjectives[objective.Index] ~= objective then
                     return
@@ -198,8 +187,6 @@ TrackerMenu.addShowObjectivesOnMapOption = function(menu, quest, objective)
     tinsert(menu, {
         text = l10n('Show on Map'),
         func = function()
-            LibDropDown:CloseDropDownMenus()
-
             if not _GetCurrentMapCapabilities(quest, objective) then
                 return
             end
@@ -237,8 +224,6 @@ TrackerMenu.addShowQuestObjectivesOnMapOption = function(menu, quest)
     tinsert(menu, {
         text = l10n('Show on Map'),
         func = function()
-            LibDropDown:CloseDropDownMenus()
-
             local _, capabilities = _GetCurrentMapCapabilities(quest)
             -- A quest completed since the menu opened has no objective locations left.
             if not capabilities or not next(capabilities.objectives) then
@@ -278,7 +263,6 @@ TrackerMenu.addShowFinisherOnMapOption = function(menu, quest)
     tinsert(menu, {
         text = l10n('Show on Map'),
         func = function()
-            LibDropDown:CloseDropDownMenus()
             local _, capabilities = _GetCurrentMapCapabilities(quest)
             if capabilities and capabilities.canShowFinisher then
                 TrackerUtils:ShowFinisherOnMap(quest)
@@ -289,7 +273,7 @@ end
 
 TrackerMenu.addObjectiveOption = function(menu, subMenu, quest)
     if quest:IsComplete() == 0 and not quest.isComplete and #subMenu > 0 then
-        tinsert(menu, { text = l10n('Objectives'), hasArrow = true, menuList = subMenu })
+        tinsert(menu, { text = l10n('Objectives'), menuList = subMenu })
     end
 end
 
@@ -297,8 +281,6 @@ TrackerMenu.addLinkToChatOption = function(menu, quest)
     tinsert(menu, {
         text = l10n('Link Quest to chat'),
         func = function()
-            LibDropDown:CloseDropDownMenus()
-
             if ChatEdit_GetActiveWindow() then
                 ChatEdit_InsertLink(TrackerData.GetQuestLink(quest))
             else
@@ -312,7 +294,6 @@ TrackerMenu.addShareQuestOption = function(menu, quest)
     tinsert(menu, {
         text = l10n('Share Quest'),
         func = function()
-            LibDropDown:CloseDropDownMenus()
             TrackerUtils.ShareQuest(quest.Id)
         end
     })
@@ -322,7 +303,6 @@ TrackerMenu.addShowInQuestLogOption = function(menu, quest)
     tinsert(menu, {
         text = l10n('Show in Quest Log'),
         func = function()
-            LibDropDown:CloseDropDownMenus()
             TrackerUtils:ShowQuestLog(quest)
         end
     })
@@ -332,7 +312,6 @@ TrackerMenu.addAbandonedQuest = function(menu, quest)
     tinsert(menu, {
         text = l10n('Abandon Quest'),
         func = function()
-            LibDropDown:CloseDropDownMenus()
             local lastQuest = QuestieCompat.GetQuestLogSelection()
             QuestieCompat.SelectQuestLogEntry(QuestieCompat.GetQuestLogIndexByID(quest.Id))
             QuestieCompat.SetAbandonQuest()
@@ -360,7 +339,6 @@ TrackerMenu.addUntrackOption = function(menu, quest)
     tinsert(menu, {
         text = l10n('Untrack Quest'),
         func = function()
-            LibDropDown:CloseDropDownMenus()
             QuestieTracker:UntrackQuestId(quest.Id)
             local questLogFrame = QuestLogExFrame or ClassicQuestLog or QuestLogFrame
 
@@ -378,7 +356,6 @@ TrackerMenu.addFocusUnfocusOption = function(menu, quest)
         tinsert(menu, {
             text = l10n('Focus Quest'),
             func = function()
-                LibDropDown:CloseDropDownMenus()
                 if TrackerUtils:FocusQuest(quest.Id, quest) then
                     QuestieQuest.ToggleQuestNotes(false)
                 end
@@ -392,7 +369,6 @@ TrackerMenu.addLockUnlockOption = function(menu)
         tinsert(menu, {
             text = l10n('Unlock Tracker'),
             func = function()
-                LibDropDown:CloseDropDownMenus()
                 Questie.db.profile.trackerLocked = false
                 TrackerBaseFrame:Update()
             end
@@ -401,7 +377,6 @@ TrackerMenu.addLockUnlockOption = function(menu)
         tinsert(menu, {
             text = l10n('Lock Tracker'),
             func = function()
-                LibDropDown:CloseDropDownMenus()
                 Questie.db.profile.trackerLocked = true
                 TrackerBaseFrame:Update()
             end
@@ -524,7 +499,7 @@ function TrackerMenu:GetMenuForQuest(quest)
             end
             TrackerMenu.addShowObjectivesOnMapOption(objectiveMenu, enrichedQuest, enrichedObjective)
 
-            tinsert(subMenu, { text = objective.Description, hasArrow = true, menuList = objectiveMenu })
+            tinsert(subMenu, { text = objective.Description, menuList = objectiveMenu })
         end
     end
 
@@ -542,7 +517,7 @@ function TrackerMenu:GetMenuForQuest(quest)
                 end
                 TrackerMenu.addShowObjectivesOnMapOption(objectiveMenu, enrichedQuest, objective)
 
-                tinsert(subMenu, { text = objective.Description, hasArrow = true, menuList = objectiveMenu })
+                tinsert(subMenu, { text = objective.Description, menuList = objectiveMenu })
             end
         end
     end
@@ -602,8 +577,6 @@ TrackerMenu.addAchieveLinkToChatOption = function(menu, achieve)
     tinsert(menu, {
         text = l10n('Link Achievement to chat'),
         func = function()
-            LibDropDown:CloseDropDownMenus()
-
             if ChatEdit_GetActiveWindow() then
                 ChatEdit_InsertLink(GetAchievementLink(achieve.Id))
             else
@@ -617,8 +590,6 @@ TrackerMenu.addShowInAchievementsOption = function(menu, achieve)
     tinsert(menu, {
         text = l10n('Show in Achievements Log'),
         func = function()
-            LibDropDown:CloseDropDownMenus()
-
             if (not AchievementFrame) then
                 AchievementFrame_LoadUI()
             end
@@ -639,7 +610,6 @@ TrackerMenu.addUntrackAchieveOption = function(menu, achieve)
     tinsert(menu, {
         text = l10n('Untrack Achievement'),
         func = function()
-            LibDropDown:CloseDropDownMenus()
             AchievementTracking.Untrack(achieve.Id)
 
             if (not AchievementFrame) then

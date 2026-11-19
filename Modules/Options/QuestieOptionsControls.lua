@@ -965,9 +965,9 @@ local function _CreateButton(control, parent, item, width)
 
     button:SetText(item.btnLabel)
     button:SetPoint(item.align, wrapper, item.align, 0, 0)
-    button:SetScript("OnClick", function()
+    button:SetScript("OnClick", function(self)
         if item.func then
-            item.func()
+            item.func(self)
         end
     end)
 
