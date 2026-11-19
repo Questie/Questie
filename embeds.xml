@@ -27,7 +27,6 @@
     <Script file="Libs\Krowi_WorldMapButtons\Krowi_WorldMapButtons.lua"/>
 
     <!-- Questie's map and menu libraries. Keep HereBeDragons core before its Pins extension. -->
-    <Include file="Libs\LibUIDropDownMenu\LibUIDropDownMenu.xml"/>
     <Script file="Libs\HereBeDragons\HereBeDragons-2.0.lua"/>
     <Script file="Libs\HereBeDragons\HereBeDragons-Pins-2.0.lua"/>
     <Script file="Libs\HereBeDragons\HereBeDragons-Migrate.lua"/>

@@ -1071,16 +1071,6 @@ describe("QuestieProfiler", function()
             assert.are_not_equal(original, mockedModules.HBD.GetZoneDistance)
         end)
 
-        it("profiles an allowlisted LibStub library under its Libraries name", function()
-            local original = function() end
-            MockLibStub({["LibUIDropDownMenuQuestie-4.0"] = {UIDropDownMenu_Initialize = original}})
-
-            Profiler:Start(false)
-
-            assert.are_same(0, Profiler.hookCallCount["Libs.LibDropDown.UIDropDownMenu_Initialize"])
-            assert.are_not_equal(original, libraries["LibUIDropDownMenuQuestie-4.0"].UIDropDownMenu_Initialize)
-        end)
-
         it("measures a library call and names the Questie function that made it", function()
             MockModules({HBDPins = {
                 AddWorldMapIconMap = function() clock = clock + 4 end,
