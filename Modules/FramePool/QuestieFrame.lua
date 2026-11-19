@@ -131,6 +131,7 @@ function QuestieFrame.CreateIconFrame(frameId, OnEnter)
     newFrame.BaseOnHide = _QuestieFrame.BaseOnHide
 
     newFrame.UpdateTexture = _QuestieFrame.UpdateTexture
+    newFrame.SetQuestIcon = _QuestieFrame.SetQuestIcon
     newFrame.Unload = _QuestieFrame.Unload
 
     -- functions for fake hide/unhide
@@ -336,6 +337,20 @@ local function _ShowStarterBadge(overlay, questIcon, inset)
     overlay:Show()
 end
 
+---Shows the quest's icon on the frame: as the picture, or as the badge of a starter whose picture is what starts the
+---quest. Only the image changes, so a drawn icon keeps its size and the alpha its fade code gave it, such as when its
+---quest turns from gray to yellow.
+---@param self IconFrame
+---@param questIcon string
+function _QuestieFrame.SetQuestIcon(self, questIcon)
+    if self.data.StarterType then
+        local _, badgeInset = _GetStarterLook(self.data.StarterType)
+        _ShowStarterBadge(self.overlayTexture, questIcon, badgeInset)
+    else
+        self.texture:SetTexture(questIcon)
+    end
+end
+
 ---@param self IconFrame
 ---@param texture string The quest's icon.
 function _QuestieFrame.UpdateTexture(self, texture)
@@ -357,14 +372,12 @@ function _QuestieFrame.UpdateTexture(self, texture)
     local colors = {1, 1, 1}
 
     if self.data.StarterType then
-        local picture, badgeInset = _GetStarterLook(self.data.StarterType)
-        self.texture:SetTexture(picture)
-        _ShowStarterBadge(self.overlayTexture, texture, badgeInset)
+        self.texture:SetTexture((_GetStarterLook(self.data.StarterType)))
     else
-        self.texture:SetTexture(texture)
         self.overlayTexture:Hide()
         self.overlayTexture:SetTexture() -- clear the texture
     end
+    _QuestieFrame.SetQuestIcon(self, texture)
 
     if self.data.IconColor ~= nil and objectiveColor then
         colors = self.data.IconColor

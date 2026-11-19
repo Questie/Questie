@@ -382,9 +382,14 @@ describe("AvailableQuests", function()
             local texture = {SetTexture = spy.new(function(self, file) self.file = file end)}
             function texture:SetVertexColor(r, g, b, a) self.r, self.g, self.b, self.a = r, g, b, a end
             texture:SetVertexColor(1, 1, 1, alpha or 1)
-            return {data = data, miniMapIcon = isMinimapIcon, texture = texture,
-                overlayTexture = {Hide = function() end, SetTexture = function() end},
-                SetSize = function() end, SetAlpha = function() end, UpdateTexture = QuestieFrame.private.UpdateTexture}
+            local overlayTexture = {}
+            function overlayTexture:SetTexture(file, wrapMode) self.file, self.wrapMode = file, wrapMode end
+            function overlayTexture:SetTexCoord() end
+            function overlayTexture:Show() self.shown = true end
+            function overlayTexture:Hide() self.shown = false end
+            return {data = data, miniMapIcon = isMinimapIcon, texture = texture, overlayTexture = overlayTexture,
+                SetSize = function() end, SetAlpha = function() end,
+                UpdateTexture = QuestieFrame.private.UpdateTexture, SetQuestIcon = QuestieFrame.private.SetQuestIcon}
         end
 
         before_each(function()
@@ -494,6 +499,23 @@ describe("AvailableQuests", function()
             assert.are_equal("available-texture", minimapStarterFrame.texture.file)
             assert.are_equal(0.6, minimapStarterFrame.texture.a)
             assert.are_equal(0.3, fadedMapStarterFrame.texture.a)
+        end)
+
+        it("should keep the loot bag of a starter from an item and show the quest's new icon as its badge", function()
+            local originalIcons = Questie.icons
+            Questie.icons = {loot = "loot-bag"}
+            local starterFrame = IconFrame({QuestData = {Id = QUEST_ID}, Type = "available", Icon = 7, StarterType = "itemFromMonster"})
+            starterFrame:UpdateTexture("gray-texture") -- drawn while the quest was gray
+            QuestieMap.GetFramesForQuest = function() return {starterFrame} end
+
+            AvailableQuests.CalculateAndDrawAll()
+            submittedJobs[1].threadFunction()
+            Questie.icons = originalIcons
+
+            assert.are_equal("loot-bag", starterFrame.texture.file)
+            assert.are_equal("available-texture", starterFrame.overlayTexture.file)
+            assert.are_equal("CLAMPTOBLACKADDITIVE", starterFrame.overlayTexture.wrapMode)
+            assert.is_true(starterFrame.overlayTexture.shown)
         end)
 
         it("should refresh the starter textures of a changed quest icon only once", function()
