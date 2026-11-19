@@ -418,20 +418,19 @@ def copy_trace_content_to(release_folder_path):
 def zip_release_folder(zip_name, version_dir, is_release_build, dbVersion=None, dbHash=None):
     """Write one ZIP, remove successful staging, and restore the caller's working directory.
 
-    A database version selects the bundled addon-folder layout; otherwise Questie's
-    files remain at the archive root, matching the existing standalone layout.
+    Staging already places each addon in its own folder. Archiving that directory keeps
+    Questie under Questie/ for standalone builds, the same layout bundled builds use for
+    Questie, QuestieDB, and QuestieTrace.
     """
     root = os.getcwd()
     os.chdir("releases/%s" % version_dir)
     try:
-        archive_root = "tmp/Questie"
         if dbVersion is not None:
             zip_name += "+v" + dbVersion
             if not is_release_build:
                 zip_name += "-" + dbHash[:9]
-            archive_root = "tmp"
         print("Creating %s.zip" % zip_name)
-        shutil.make_archive(zip_name, "zip", archive_root, ".")
+        shutil.make_archive(zip_name, "zip", "tmp", ".")
         shutil.rmtree("tmp")
     finally:
         os.chdir(root)
