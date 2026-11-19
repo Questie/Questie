@@ -46,6 +46,7 @@ QuestieCorrections.hiddenQuests = {}
 --   Npc    DarkmoonFaire               QuestieEvent — calendar state selects the location
 --   Object GatheringNodeDisplayPolicy  Initialize below — static display policy
 --   Quest  ContentPhasePolicy          Initialize below — reads the active Content Phase
+--   Quest  FallOfDunModrBreadcrumb     Initialize below — Forever only; provider row has no breadcrumb
 --   Item   RuntimeItemRepair           QuestieLib — asynchronous client Item loads, published once per frame
 --
 -- External translation addons do not go through here: `l10n` forwards their entity lookups to the
@@ -163,6 +164,23 @@ local function _GatheringNodeDisplayRows()
     return rows
 end
 
+-- Fall of Dun Modr (472) sends the player to Longbraid the Grim, who starts A Grim Task (304).
+-- On Forever the breadcrumb is no longer offered once 304 is complete. Classic does not record
+-- that link, so this slot stays Forever-only.
+---@return PolicyCorrectionRows
+local function _FallOfDunModrBreadcrumbRows()
+    local questKeys = QuestieDB.questKeys
+    return {
+        [472] = { -- Fall of Dun Modr
+            [questKeys.breadcrumbForQuestId] = 304, -- A Grim Task
+            [questKeys.nextQuestInChain] = 304,
+        },
+        [304] = { -- A Grim Task
+            [questKeys.breadcrumbs] = {472},
+        },
+    }
+end
+
 ---------------------------------------------------------------------------------------------------
 -- Blacklist policy plus the static Policy Correction slots. Both express what Questie shows:
 -- blacklists by hiding quests Questie-side, Correction slots by changing composed entity rows.
@@ -217,5 +235,9 @@ function QuestieCorrections.Initialize()
     -- today; a live phase switch would simply re-publish this slot with the producer's new rows.
     if Expansions.Current >= Expansions.Tbc then
         QuestieCorrections.SetCorrection("Quest", "ContentPhasePolicy", QuestieTBCPolicyCorrections:LoadContentPhaseFixes())
+    end
+
+    if Questie.IsForever then
+        QuestieCorrections.SetCorrection("Quest", "FallOfDunModrBreadcrumb", _FallOfDunModrBreadcrumbRows())
     end
 end
