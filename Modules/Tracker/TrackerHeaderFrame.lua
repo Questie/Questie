@@ -97,16 +97,6 @@ function TrackerHeaderFrame.Initialize(baseFrame, OnTrackedQuestClick)
             Questie:Colorize(l10n("Drag while Locked"), "white")
         )
 
-        if TrackerUtils.IsTomTomAvailable() then
-            GameTooltip:AddLine(" ")
-            GameTooltip:AddLine(Questie:Colorize(l10n("Questie Tracker Integrations"), "gold"))
-            GameTooltip:AddLine(" ")
-            GameTooltip:AddDoubleLine(
-                Questie:Colorize(l10n("TomTom"), "lightBlue"),
-                Questie:Colorize(l10n("Ctrl + Left Click or Right Click a Quest Title"), "white")
-            )
-        end
-
         GameTooltip:Show()
 
         TrackerFadeTicker.Unfade(self)
