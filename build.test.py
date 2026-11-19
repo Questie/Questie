@@ -208,9 +208,11 @@ class BuildModeTests(unittest.TestCase):
         self.assertEqual([{"flavor": "classic", "interface": 11508},
                           {"flavor": "classic", "interface": 11509}], release["metadata"])
         with zipfile.ZipFile(output / release["filename"]) as archive:
-            self.assertIn(build.tocs[1], archive.namelist())
-            self.assertNotIn(build.tocs[2], archive.namelist())
-            self.assertFalse(any(name.startswith("QuestieDB/") for name in archive.namelist()))
+            names = archive.namelist()
+            self.assertEqual({"Questie"}, {name.split("/")[0] for name in names})
+            self.assertIn("Questie/" + build.tocs[1], names)
+            self.assertNotIn("Questie/" + build.tocs[2], names)
+            self.assertFalse(any(name.startswith("QuestieDB/") for name in names))
 
     def test_standalone_is_default_without_a_provider_download(self):
         output, manifest = self.run_build("-r")
@@ -219,8 +221,10 @@ class BuildModeTests(unittest.TestCase):
         filename = manifest["releases"][0]["filename"]
         self.assertEqual("Questie-v11.38.0.zip", filename)
         with zipfile.ZipFile(output / filename) as archive:
-            self.assertIn(build.tocs[1], archive.namelist())
-            self.assertFalse(any(name.startswith("QuestieDB/") for name in archive.namelist()))
+            names = archive.namelist()
+            self.assertEqual({"Questie"}, {name.split("/")[0] for name in names})
+            self.assertIn("Questie/" + build.tocs[1], names)
+            self.assertFalse(any(name.startswith("QuestieDB/") for name in names))
 
     def test_bundled_preserves_the_complete_provider_section(self):
         output, manifest = self.run_build("--bundled", "-r")
@@ -301,7 +305,7 @@ class BuildModeTests(unittest.TestCase):
         self.assertEqual("11.38.0", manifest["questie"]["version"])
         self.downloads.assert_not_called()
         with zipfile.ZipFile(output / filename) as archive:
-            self.assertIn(build.tocs[1], archive.namelist())
+            self.assertIn("Questie/" + build.tocs[1], archive.namelist())
 
     def test_all_flavors_advertise_every_declared_interface(self):
         output, manifest = self.run_build("--bundled", "--all", "-r")
@@ -325,7 +329,7 @@ class BuildModeTests(unittest.TestCase):
                                      for flavor in expected_flavors for interface in (11508, 11509)]
                 self.assertEqual(expected_metadata, manifest["releases"][0]["metadata"])
                 with zipfile.ZipFile(output / manifest["releases"][0]["filename"]) as archive:
-                    self.assertEqual("cata" in expected_flavors, "Questie_Cata.toc" in archive.namelist())
+                    self.assertEqual("cata" in expected_flavors, "Questie/Questie_Cata.toc" in archive.namelist())
         self.downloads.assert_not_called()
 
     def test_expansion_aliases_select_matching_tocs_and_metadata(self):
@@ -347,14 +351,14 @@ class BuildModeTests(unittest.TestCase):
                     ], release["metadata"])
                     with zipfile.ZipFile(output / release["filename"]) as archive:
                         packaged_tocs = [name for name in archive.namelist() if name.endswith(".toc")]
-                        self.assertEqual([f"Questie_{suffix}.toc"], packaged_tocs)
+                        self.assertEqual([f"Questie/Questie_{suffix}.toc"], packaged_tocs)
         self.downloads.assert_not_called()
 
     def test_forever_build_ships_forever_toc(self):
         output, manifest = self.run_build("--standalone", "-r", selection=("--forever",))
         with zipfile.ZipFile(output / manifest["releases"][0]["filename"]) as archive:
             packaged_tocs = sorted(name for name in archive.namelist() if name.endswith(".toc"))
-        self.assertEqual(["Questie_Forever.toc"], packaged_tocs)
+        self.assertEqual(["Questie/Questie_Forever.toc"], packaged_tocs)
 
     def test_flat_provider_manifest_is_not_silently_accepted(self):
         self.provider_manifest = self.database
@@ -370,9 +374,8 @@ class BuildModeTests(unittest.TestCase):
                 self.assertEqual(f"Questie-{directory}{db_suffix}.zip", manifest["releases"][0]["filename"])
                 output, manifest = self.run_build(mode, "-r", "-v", "v12.0.0.alpha0", directory="v12.0.0.alpha0")
                 self.assertEqual("v12.0.0.alpha0", manifest["questie"]["version"])
-                prefix = "Questie/" if mode == "--bundled" else ""
                 with zipfile.ZipFile(output / manifest["releases"][0]["filename"]) as archive:
-                    self.assertIn("## Version: v12.0.0.alpha0\n", archive.read(prefix + build.tocs[1]).decode())
+                    self.assertIn("## Version: v12.0.0.alpha0\n", archive.read("Questie/" + build.tocs[1]).decode())
 
     def test_database_update_does_not_change_questie_metadata(self):
         _, first = self.run_build("--standalone", "-r")
