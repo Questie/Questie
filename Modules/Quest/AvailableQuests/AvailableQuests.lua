@@ -529,14 +529,29 @@ end
 ---@return boolean hasAvailableFrames @True even when the existing starter textures need no update.
 local function _UpdateDrawnAvailableIcons(questId)
     local hasAvailableFrames = false
+    ---@type table<IconData, number>?
+    local newIconByData -- Several frames share one data table, such as a map icon and its minimap twin
     for _, frame in pairs(QuestieMap:GetFramesForQuest(questId)) do
         if frame and frame.data and frame.data.Type == "available" and frame.data.QuestData then
             hasAvailableFrames = true
             local newIcon = QuestieLib.GetQuestIcon(frame.data.QuestData)
 
             if newIcon ~= frame.data.Icon then
-                frame:UpdateTexture(Questie.usedIcons[newIcon])
+                -- Only the image follows the icon. UpdateTexture sets an icon up as if new, which would reset its
+                -- size and the alpha its fade code gave it. The minimap fade logic applies a fade only when it
+                -- changes, so a minimap icon would stay invisible.
+                frame.texture:SetTexture(Questie.usedIcons[newIcon])
+                newIconByData = newIconByData or {}
+                newIconByData[frame.data] = newIcon
             end
+        end
+    end
+
+    if newIconByData then
+        -- Stored only now, so every frame sharing the data got the new texture first.
+        -- Later calculations then find the icon unchanged and leave these frames alone.
+        for data, newIcon in pairs(newIconByData) do
+            data.Icon = newIcon
         end
     end
     return hasAvailableFrames
