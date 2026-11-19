@@ -45,7 +45,6 @@
         "------------------ Questie globals --------------------",
         "QuestieCompat",
         "QuestieConfig",
-        "QuestieConfigFrame",
         "QuestieImportJourneyFrame",
         "QuestieJourneyFrame",
         "QuestieLoader",

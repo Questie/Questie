@@ -20,7 +20,6 @@ if Questie.IsForever then
     KButtons.HasNoOverlay = false
 end
 
-
 local mapButton
 
 function WorldMapButton.Initialize()
