@@ -8,6 +8,8 @@ local TrackerLine = QuestieLoader:CreateModule("TrackerLine")
 local QuestieTracker = QuestieLoader:ImportModule("QuestieTracker") -- TODO: Remove this explicit dependency
 ---@type TrackerUtils
 local TrackerUtils = QuestieLoader:ImportModule("TrackerUtils")
+---@type TrackerShortcuts
+local TrackerShortcuts = QuestieLoader:ImportModule("TrackerShortcuts")
 ---@type TrackerBaseFrame
 local TrackerBaseFrame = QuestieLoader:ImportModule("TrackerBaseFrame")
 ---@type TrackerQuestTimers
@@ -231,16 +233,17 @@ _OnClickQuest = function(self, button)
         LibDropDown:CloseDropDownMenus()
     end
 
-    if TrackerUtils:IsBindTrue(Questie.db.profile.trackerbindSetTomTom, button) then
+    -- Without TomTom its shortcut is hidden in the options and does nothing, so it must not take the click from another shortcut.
+    if TrackerUtils.IsTomTomAvailable() and TrackerShortcuts.Matches("trackerbindSetTomTom", button) then
         TrackerUtils.SetQuestTomTomTarget(self.Quest.Id, self.Quest.enrichment)
-    elseif TrackerUtils:IsBindTrue(Questie.db.profile.trackerbindShareQuest, button) then
+    elseif TrackerShortcuts.Matches("trackerbindShareQuest", button) then
         if ChatEdit_GetActiveWindow() then
             ChatEdit_InsertLink(TrackerData.GetQuestLink(self.Quest))
         elseif TrackerUtils.CanShareQuest(self.Quest.Id) then
             TrackerUtils.ShareQuest(self.Quest.Id)
         end
-    elseif TrackerUtils:IsBindTrue(Questie.db.profile.trackerbindUntrack, button) then
-        if (IsModifiedClick("CHATLINK") and ChatEdit_GetActiveWindow()) then
+    elseif TrackerShortcuts.Matches("trackerbindUntrack", button) then
+        if ChatEdit_GetActiveWindow() then
             ChatEdit_InsertLink(TrackerData.GetQuestLink(self.Quest))
         else
             QuestieTracker:UntrackQuestId(self.Quest.Id)
@@ -249,7 +252,7 @@ _OnClickQuest = function(self, button)
                 QuestieCompat.QuestLog_Update()
             end
         end
-    elseif TrackerUtils:IsBindTrue(Questie.db.profile.trackerbindOpenQuestLog, button) then
+    elseif TrackerShortcuts.Matches("trackerbindOpenQuestLog", button) then
         TrackerUtils:ShowQuestLog(self.Quest)
     elseif button == "RightButton" then
         local menu = TrackerMenu:GetMenuForQuest(self.Quest)
@@ -268,8 +271,8 @@ _OnClickAchieve = function(self, button)
         LibDropDown:CloseDropDownMenus()
     end
 
-    if TrackerUtils:IsBindTrue(Questie.db.profile.trackerbindUntrack, button) then
-        if (IsModifiedClick("CHATLINK") and ChatEdit_GetActiveWindow()) then
+    if TrackerShortcuts.Matches("trackerbindUntrack", button) then
+        if ChatEdit_GetActiveWindow() then
             ChatEdit_InsertLink(GetAchievementLink(self.Quest.Id))
         else
             if AchievementTracking.IsTracked(self.Quest.Id) then
@@ -289,7 +292,7 @@ _OnClickAchieve = function(self, button)
                 UIErrorsFrame:AddMessage(format(l10n("You can't untrack an objective of an achievement.")), 1.0, 0.1, 0.1, 1.0)
             end
         end
-    elseif TrackerUtils:IsBindTrue(Questie.db.profile.trackerbindOpenQuestLog, button) then
+    elseif TrackerShortcuts.Matches("trackerbindOpenQuestLog", button) then
         if (not AchievementFrame) then
             AchievementFrame_LoadUI()
         end
@@ -319,13 +322,13 @@ _OnClickRecipe = function(self, button)
         LibDropDown:CloseDropDownMenus()
     end
 
-    if TrackerUtils:IsBindTrue(Questie.db.profile.trackerbindUntrack, button) then
-        if (IsModifiedClick("CHATLINK") and ChatEdit_GetActiveWindow()) then
+    if TrackerShortcuts.Matches("trackerbindUntrack", button) then
+        if ChatEdit_GetActiveWindow() then
             ChatEdit_InsertLink(TrackerRecipes.GetLink(self.Recipe.Id))
         else
             TrackerRecipes.Untrack(self.Recipe.Id)
         end
-    elseif TrackerUtils:IsBindTrue(Questie.db.profile.trackerbindOpenQuestLog, button) then
+    elseif TrackerShortcuts.Matches("trackerbindOpenQuestLog", button) then
         TrackerRecipes.OpenRecipe(self.Recipe.Id)
     end
 end

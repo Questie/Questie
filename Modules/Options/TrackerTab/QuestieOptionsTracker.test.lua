@@ -2,7 +2,6 @@ dofile("setupTests.lua")
 local stub = require("luassert.stub")
 
 describe("tracker automatic tracking option", function()
-    local isAddOnLoadedMock
     local originals
     local options, tracker, compat, visibility
 
@@ -28,15 +27,14 @@ describe("tracker automatic tracking option", function()
         tracker = QuestieLoader:ImportModule("QuestieTracker")
         tracker.Update = spy.new(function() end)
         compat = QuestieLoader:ImportModule("QuestieCompat")
-        isAddOnLoadedMock = stub(compat, "IsAddOnLoaded", function() return false end)
         compat.QuestLog_Update = spy.new(function() end)
         visibility = QuestieLoader:ImportModule("CommsVisibility")
         visibility.ScheduleSnapshot = spy.new(function() end)
+        dofile("Modules/Tracker/TrackerShortcuts.lua")
         dofile("Modules/Options/TrackerTab/QuestieOptionsTracker.lua")
     end)
 
     after_each(function()
-        isAddOnLoadedMock:revert()
         _G.LibStub = originals.LibStub
         _G.QuestLogExFrame = originals.QuestLogExFrame
         _G.ClassicQuestLog = originals.ClassicQuestLog
@@ -44,14 +42,15 @@ describe("tracker automatic tracking option", function()
         _G.QuestMapFrame = originals.QuestMapFrame
     end)
 
-    it("shows TomTom integration options only when the addon is loaded", function()
+    it("shows TomTom integration options only while TomTom is available", function()
+        local isTomTomAvailable = false
+        QuestieLoader:ImportModule("TrackerUtils").IsTomTomAvailable = function() return isTomTomAvailable end
         local settings = options.tabs.tracker:Initialize()
-        local tomTom = settings.args.group_tracker.args.setTomTom
+        local tomTom = settings.args.group_quests.args.group_shortcuts.args.setTomTom
 
         assert.is_true(tomTom.hidden())
-        isAddOnLoadedMock.returns(true)
+        isTomTomAvailable = true
         assert.is_false(tomTom.hidden())
-        assert.spy(isAddOnLoadedMock).was.called_with("TomTom")
     end)
 
     it("should show the sticky VoiceOver frame option only when VoiceOver is used", function()
@@ -116,12 +115,34 @@ describe("tracker automatic tracking option", function()
 
     it("should change the share quest shortcut", function()
         local settings = options.tabs.tracker:Initialize()
-        local shareQuest = settings.args.group_quests.args.shareQuest
+        local shareQuest = settings.args.group_quests.args.group_shortcuts.args.shareQuest
 
         shareQuest.set(nil, "altleft")
 
         assert.are_same("altleft", shareQuest.get())
         assert.are_same("altleft", Questie.db.profile.trackerbindShareQuest)
+    end)
+
+    it("disables the other action when a shortcut dropdown takes its click", function()
+        local shortcutDropdowns = {
+            openQuestLog = "trackerbindOpenQuestLog",
+            untrackQuest = "trackerbindUntrack",
+            shareQuest = "trackerbindShareQuest",
+            setTomTom = "trackerbindSetTomTom",
+        }
+        local args = options.tabs.tracker:Initialize().args.group_quests.args.group_shortcuts.args
+
+        for dropdown, setting in pairs(shortcutDropdowns) do
+            for _, otherSetting in pairs(shortcutDropdowns) do
+                Questie.db.profile[otherSetting] = otherSetting == setting and "disabled" or "altright"
+            end
+
+            args[dropdown].set(nil, "altright")
+
+            for _, otherSetting in pairs(shortcutDropdowns) do
+                assert.are_same(otherSetting == setting and "altright" or "disabled", Questie.db.profile[otherSetting], dropdown)
+            end
+        end
     end)
 
     it("updates the tracker and publishes visibility when only the modern log exists", function()

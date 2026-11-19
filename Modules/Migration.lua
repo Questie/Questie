@@ -324,6 +324,24 @@ local migrationFunctions = {
     [52] = function()
         Questie.db.profile.enableTooltipsNextInChainOnActiveQuests = false
     end,
+    [53] = function()
+        -- Tracker shortcuts can no longer share a click. A click ran only the first action bound to it, so disable the others,
+        -- which never ran. TomTom's shortcut is left out: it ran only while TomTom was available, which migrations run too
+        -- early to know. The tracker skips it without TomTom, and with TomTom it keeps running first as before.
+        local profile = Questie.db.profile
+        local takenShortcuts = {}
+        -- In the order the tracker checks them
+        for _, setting in ipairs({"trackerbindShareQuest", "trackerbindUntrack", "trackerbindOpenQuestLog"}) do
+            local shortcut = profile[setting]
+            if shortcut and shortcut ~= "disabled" then
+                if takenShortcuts[shortcut] then
+                    profile[setting] = "disabled"
+                else
+                    takenShortcuts[shortcut] = true
+                end
+            end
+        end
+    end,
 }
 
 function Migration:Migrate()

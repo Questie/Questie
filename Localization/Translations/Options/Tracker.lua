@@ -1060,6 +1060,19 @@ local trackerOptionsLocales = {
         ["zhTW"] = "依區域遠近（反向）",
     },
     ---------------------------------------------------------
+    ["Shortcuts"] = {
+        ["enUS"] = true,
+        ["deDE"] = "Shortcuts", -- AI 🤖
+        ["esES"] = "Atajos", -- AI 🤖
+        ["esMX"] = "Atajos", -- AI 🤖
+        ["frFR"] = "Raccourcis", -- AI 🤖
+        ["koKR"] = "단축키", -- AI 🤖
+        ["ptBR"] = "Atalhos", -- AI 🤖
+        ["ruRU"] = "Сочетания клавиш", -- AI 🤖
+        ["zhCN"] = "捷径", -- AI 🤖
+        ["zhTW"] = "捷徑", -- AI 🤖
+    },
+    ---------------------------------------------------------
     ["Set |cFF54e33bTomTom|r Target"] = {
         ["enUS"] = true,
         ["deDE"] = "|cFF54e33bTomTom|r-Ziel setzen",

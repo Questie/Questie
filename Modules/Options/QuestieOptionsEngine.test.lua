@@ -756,6 +756,7 @@ describe("QuestieOptionsEngine", function()
             local trackerUtils = QuestieLoader:ImportModule("TrackerUtils")
             trackerUtils.IsVoiceOverLoaded = function() return false end
             trackerUtils.IsSpokenLoaded = function() return false end
+            trackerUtils.IsTomTomAvailable = function() return false end
             QuestieLoader:ImportModule("QuestiePopup").Dialogs = {}
             dofile("Modules/Expansions.lua")
 

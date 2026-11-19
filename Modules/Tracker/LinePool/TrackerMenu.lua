@@ -508,13 +508,17 @@ function TrackerMenu:GetMenuForQuest(quest)
 
     local capabilities = TrackerMapEligibility.GetCapabilities(quest)
     local enrichedQuest = capabilities.quest
+    -- Setting a TomTom target does nothing without TomTom, so its entries are left out.
+    local isTomTomAvailable = TrackerUtils.IsTomTomAvailable()
     for _, objective in pairs(quest.Objectives) do
         local enrichedObjective = objective.enrichment
         if capabilities.objectives[enrichedObjective] then
             local objectiveMenu = {}
 
             -- Map actions mutate the original objective, never the display snapshot.
-            TrackerMenu.addTomTomOptionForObjective(objectiveMenu, enrichedQuest, enrichedObjective)
+            if isTomTomAvailable then
+                TrackerMenu.addTomTomOptionForObjective(objectiveMenu, enrichedQuest, enrichedObjective)
+            end
             if capabilities.focusObjectives[enrichedObjective.Index] == enrichedObjective then
                 TrackerMenu.addShowHideObjectivesOption(objectiveMenu, enrichedQuest, enrichedObjective)
             end
@@ -530,7 +534,9 @@ function TrackerMenu:GetMenuForQuest(quest)
             if capabilities.objectives[objective] then
                 local objectiveMenu = {}
 
-                TrackerMenu.addTomTomOptionForObjective(objectiveMenu, enrichedQuest, objective)
+                if isTomTomAvailable then
+                    TrackerMenu.addTomTomOptionForObjective(objectiveMenu, enrichedQuest, objective)
+                end
                 if capabilities.focusObjectives[objective.Index] == objective then
                     TrackerMenu.addShowHideObjectivesOption(objectiveMenu, enrichedQuest, objective)
                 end
@@ -555,7 +561,7 @@ function TrackerMenu:GetMenuForQuest(quest)
         -- Lost eligibility while focused.
         _AddUnfocusEntry(menu, function() return Questie.db.char.TrackerFocus == quest.Id end)
     end
-    if capabilities.canNavigateQuest then
+    if isTomTomAvailable and capabilities.canNavigateQuest then
         TrackerMenu.addTomTomOptionForQuest(menu, quest)
     end
     if capabilities.canShowFinisher then
