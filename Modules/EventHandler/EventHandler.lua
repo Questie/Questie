@@ -22,6 +22,8 @@ local GroupEventHandler = QuestieLoader:ImportModule("GroupEventHandler")
 local QuestieJourney = QuestieLoader:ImportModule("QuestieJourney")
 ---@type QuestieProfessions
 local QuestieProfessions = QuestieLoader:ImportModule("QuestieProfessions")
+---@type ProfessionStations
+local ProfessionStations = QuestieLoader:ImportModule("ProfessionStations")
 ---@type QuestieTracker
 local QuestieTracker = QuestieLoader:ImportModule("QuestieTracker")
 ---@type TrackerBaseFrame
@@ -585,6 +587,7 @@ function _EventHandler:ChatMsgSkill()
     if Questie.db.profile.townsfolkKnownProfessions then
         QuestieMenu.RefreshKnownProfessionTrainers()
     end
+    ProfessionStations.HideUnlearned()
 
     -- Skill based Achievement updates
     if Expansions.Current >= Expansions.Wotlk then

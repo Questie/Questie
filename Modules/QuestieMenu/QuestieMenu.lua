@@ -27,8 +27,8 @@ local QuestiePopup = QuestieLoader:ImportModule("QuestiePopup")
 local AvailableQuests = QuestieLoader:ImportModule("AvailableQuests")
 ---@type Townsfolk
 local Townsfolk = QuestieLoader:ImportModule("Townsfolk")
----@type Moonwell
-local Moonwell = QuestieLoader:ImportModule("Moonwell")
+---@type ProfessionStations
+local ProfessionStations = QuestieLoader:ImportModule("ProfessionStations")
 ---@type QuestieOptionsEngine
 local QuestieOptionsEngine = QuestieLoader:ImportModule("QuestieOptionsEngine")
 ---@type QuestieTraceMenu
@@ -48,7 +48,6 @@ local _townsfolk_texturemap = {
     ["Spirit Healer"] = "Interface\\raidframe\\raid-icon-rez",
     ["Weapon Master"] = QuestieLib.AddonPath.."Icons\\weaponmaster.blp",
     ["Mailbox"] = "Interface\\Minimap\\tracking\\mailbox",
-    ["Moonwell"] = "Interface\\Icons\\inv_fabric_moonrag_01.blp",
     ["Profession Trainers"] = "Interface\\Minimap\\tracking\\profession",
     ["Ammo"] = "Interface\\Minimap\\tracking\\ammunition",
     ["Bags"] = 133634,--select(10, GetItemInfo(4496)) -- small brown pouch
@@ -99,6 +98,10 @@ local _townsfolk_order = {
     "Barber",
     "Arcane Reforger",
     "Transmogrifier",
+    "Alchemy Lab",
+    "Anvil",
+    "Forge",
+    "Moonwell",
     "Spirit Healer",
 }
 
@@ -142,11 +145,11 @@ local function isTracked(key)
 end
 
 local function toggle(key, forceRemove) -- /run QuestieLoader:ImportModule("QuestieMap"):ShowNPC(525, nil, 1, "teaste", {}, true)
-    if key == "Moonwell" then
-        if Questie.db.profile.townsfolkConfig[key] and (not forceRemove) then
-            Moonwell:ShowAll()
+    if ProfessionStations.stations[key] then
+        if (not forceRemove) and Questie.db.profile.townsfolkConfig[key] and ProfessionStations.IsStationAvailable(key) then
+            ProfessionStations.ShowAll(key)
         else
-            Moonwell:HideAll()
+            ProfessionStations.HideAll(key)
         end
         return
     end
@@ -226,7 +229,8 @@ local function toggle(key, forceRemove) -- /run QuestieLoader:ImportModule("Ques
 end
 
 local function build(key)
-    local icon = _townsfolk_texturemap[key] or ("Interface\\Minimap\\tracking\\" .. strlower(key))
+    local station = ProfessionStations.stations[key]
+    local icon = (station and station.icon) or _townsfolk_texturemap[key] or ("Interface\\Minimap\\tracking\\" .. strlower(key))
 
     return {
         text = l10n(tostring(key)),
@@ -326,7 +330,10 @@ function QuestieMenu:OnLogin(forceRemove) -- toggle all icons
             ["Flight Master"] = true,
             ["Mailbox"] = true,
             ["Meeting Stones"] = true,
-            ["Moonwell"] = false
+            ["Moonwell"] = false,
+            ["Anvil"] = false,
+            ["Forge"] = false,
+            ["Alchemy Lab"] = false,
         }
     end
     for key in pairs(Questie.db.profile.townsfolkConfig) do
@@ -456,9 +463,20 @@ function QuestieMenu.buildVendorMenu()
 end
 
 function QuestieMenu.buildTownsfolkMenu()
+    -- Refresh the player's professions so station entries reflect freshly
+    -- learned (or unlearned) skills instead of the bucketed event state
+    local isProfUpdate, isNewProfession = QuestieProfessions:Update()
+    if isProfUpdate or isNewProfession then
+        AvailableQuests.CalculateAndDrawAll()
+    end
+
     local townsfolkMenu = {}
     for _, key in ipairs(_townsfolk_order) do
-        if Townsfolk.townsfolk[key] or Questie.db.char.townsfolk[key] then
+        if ProfessionStations.stations[key] then
+            if ProfessionStations.IsStationAvailable(key) then
+                tinsert(townsfolkMenu, build(key))
+            end
+        elseif Townsfolk.townsfolk[key] or Questie.db.char.townsfolk[key] then
             tinsert(townsfolkMenu, build(key))
         end
     end
@@ -475,10 +493,6 @@ function QuestieMenu:Show(hideDelay)
         QuestieMenu.menu = LibDropDown:Create_UIDropDownMenu("QuestieTownsfolkMenuFrame", UIParent)
     end
     local menuTable = QuestieMenu.buildTownsfolkMenu()
-    local hasTailoring = QuestieProfessions:HasProfessionAndSkillLevel({professionKeys.TAILORING, 1})
-    if hasTailoring then
-        tinsert(menuTable, build("Moonwell"))
-    end
     tinsert(menuTable, { text= l10n("Available Quest"), func = function()
         local value = not Questie.db.profile.showAvailableQuests
         Questie.db.profile.showAvailableQuests = value

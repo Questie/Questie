@@ -10,7 +10,6 @@ local Expansions = QuestieLoader:ImportModule("Expansions")
 
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
-
 local playerProfessions = {}
 local professionTable = {}
 local professionNames = {}

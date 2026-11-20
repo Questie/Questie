@@ -59,6 +59,7 @@ describe("QuestieTraceMenu", function()
         api.ShowExportWindow = function() shown = shown + 1 end
         local questieLib = QuestieLoader:ImportModule("QuestieLib")
         local questieProfessions = QuestieLoader:ImportModule("QuestieProfessions")
+        local professionStations = QuestieLoader:ImportModule("ProfessionStations")
         local townsfolk = QuestieLoader:ImportModule("Townsfolk")
         local professionKeys = {}
         for _, key in ipairs({
@@ -71,7 +72,9 @@ describe("QuestieTraceMenu", function()
 
         questieLib.AddonPath = ""
         questieProfessions.professionKeys = professionKeys
+        questieProfessions.Update = function() end
         questieProfessions.HasProfessionAndSkillLevel = function() return false end
+        professionStations.stations = {}
         townsfolk.townsfolk = {}
         townsfolk.professionTrainers = {}
         Questie.db = {
