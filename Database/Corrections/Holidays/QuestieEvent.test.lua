@@ -27,6 +27,7 @@ describe("QuestieEvent", function()
         _G.SetCVar = function() end
         QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
         QuestieCorrections.hiddenQuests = {}
+        QuestieCorrections.questNPCBlacklist = {}
         QuestieCorrections.SetCorrection = function() end
         -- The Darkmoon NPC producers are exercised in their own QuestiePolicy tests; here they only need to exist.
         QuestieLoader:ImportModule("QuestieClassicPolicyCorrections").LoadDarkmoonFixes = function() return {} end
