@@ -24,7 +24,7 @@
 ## Category-zhTW: 任務
 ## Version: 12.11.1
 ## X-QuestieDB-Contract: 4
-## OptionalDeps: QuestieDB, QuestieTrace, HereBeDragons, Krowi_WorldMapButtons, LibDataBroker-1.1, LibDBIcon-1.0, LibSharedMedia-3.0, LibStub, LibUIDropDownMenu
+## OptionalDeps: QuestieDB, QuestieTrace, Ace3, CallbackHandler-1.0, HereBeDragons, Krowi_WorldMapButtons, LibDataBroker-1.1, LibDBIcon-1.0, LibSharedMedia-3.0, LibStub
 ## LoadSavedVariablesFirst: 1
 ## SavedVariables: QuestieConfig, QuestieProfilerEnabled
 ## SavedVariablesPerCharacter: QuestieConfigCharacter
@@ -43,8 +43,6 @@ Modules\Profiler\QuestieProfilerPreHook.lua
 Modules\QuestieCompat.lua
 
 embeds.xml
-Modules\QuestieRuntime.lua
-Modules\QuestieDatabase.lua
 
 Modules\VersionCheck.lua
 Modules\Status\QuestieStatus.lua
@@ -241,6 +239,7 @@ Modules\Network\QuestiePartyObjectives.lua
 
 # Journey
 Modules\Journey\JourneyData.lua
+Modules\Journey\QuestieGUI.lua
 Modules\Journey\QuestieJourney.lua
 Modules\Journey\QuestieJourneyPrivates.lua
 Modules\Journey\QuestieJourneyUtils.lua
@@ -310,7 +309,6 @@ Modules\QuestieSlash.lua
 
 # Options
 Modules\Options\QuestieOptionsDefaults.lua
-Modules\Journey\QuestieGUI.lua
 Modules\Options\QuestieOptionsControls.lua
 Modules\Options\QuestieOptionsLayout.lua
 Modules\Options\QuestieOptionsWindow.lua

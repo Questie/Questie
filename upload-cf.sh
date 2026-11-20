@@ -128,6 +128,7 @@ CF_METADATA=$(cat <<-EOF
     "relations": {
         "projects": [
             {slug: "questiedb", type: "requiredDependency"},
+            {slug: "Ace3", type: "embeddedLibrary"},
             {slug: "CallbackHandler", type: "embeddedLibrary"},
             {slug: "HereBeDragons", type: "embeddedLibrary"},
             {slug: "LibCompress", type: "embeddedLibrary"},

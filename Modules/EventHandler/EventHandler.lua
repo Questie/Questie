@@ -374,7 +374,7 @@ end
 function _EventHandler:PlayerLogin()
     -- Check config exists
     if not Questie.db or not QuestieConfig then
-        -- Did you move Questie.db initialization out of Questie:OnInitialize()?
+        -- Did you move Questie.db = LibStub("AceDB-3.0"):New("QuestieConfig",.......) out of Questie:OnInitialize() ?
         Questie.Error("Config DB from saved variables is not loaded and initialized. Please report this issue on Questie github or discord.")
         error("Config DB from saved variables is not loaded and initialized. Please report this issue on Questie github or discord.")
         return
@@ -628,7 +628,7 @@ function _EventHandler:PlayerRegenDisabled()
         end
     end
 
-    -- The native settings panel can be shown in combat, but some of its options
+    -- The settings panel can be shown in combat, but some of its options
     -- (like toggling the tracker) cannot be changed in combat, so we disable those ones in combat.
     -- Changing their enabled/disabled visible state requires calling RefreshStates(),
     -- so we refresh them at the start and end of combat if the settings panel is visible.

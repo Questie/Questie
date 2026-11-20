@@ -780,7 +780,7 @@ end
 -- before the module pass, which skips tables already visited.
 --
 -- Other libraries resolve through LibStub (`major`), and only Questie-suffixed majors are listed. The other 22
--- libraries LibStub holds here are generic - CallbackHandler, LibSharedMedia, LibDBIcon, Krowi - and
+-- libraries LibStub holds here are generic - Ace3, CallbackHandler, LibSharedMedia, LibDBIcon, Krowi - and
 -- registration is not ownership: the loaded copy may belong to another addon, so wrapping those tables would
 -- count other addons' calls, add overhead to them, and let this report claim work that is not Questie's. An
 -- explicit list rather than a name pattern, because "Questie" in a major is a naming convention rather than a
@@ -937,7 +937,7 @@ function QuestieProfiler:RefreshHooks()
         end
     end
 
-    -- Runtime services attach non-Questie internals and saved/profile data to the Runtime Addon Object.
+    -- AceAddon and AceDB attach non-Questie internals and saved/profile data to the Runtime Addon Object.
     if Questie.db then
         excludedTables[Questie.db] = true
     end

@@ -716,7 +716,7 @@ describe("QuestieCompat.GetQuestGreenRange", function()
     local MISTS_INTERFACE = 50503
     local QuestieCompat
     local originals
-    -- Loading as Forever also creates the tracker visibility frame.
+    -- Loading as Forever also creates the tracker visibility frame and installs SetDesaturation.
     local globalNames = {"GetBuildInfo", "CreateFrame", "SetDesaturation", "C_QuestLog", "GetQuestGreenRange", "print"}
 
     ---isForever is resolved from the interface version when the module loads.
@@ -1107,6 +1107,18 @@ describe("QuestieCompat Forever paths", function()
         for _, name in ipairs(dependencies) do
             _G[name] = savedGlobals[name]
         end
+    end)
+
+    it("installs the missing AceGUI desaturation bridge before Questie exists", function()
+        assert.is_nil(_G.Questie)
+        assert.is_nil(_G.QuestieCompat)
+        local texture = {SetDesaturated = spy.new(function() end)}
+        SetDesaturation(texture, true)
+        assert.spy(texture.SetDesaturated).was.called_with(texture, true)
+
+        local textureBridge = SetDesaturation
+        dofile("Modules/QuestieCompat.lua")
+        assert.are.equal(textureBridge, SetDesaturation)
     end)
 
     describe("GetQuestDifficulty", function()
