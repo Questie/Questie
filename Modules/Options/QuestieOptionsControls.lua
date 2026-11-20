@@ -1767,14 +1767,21 @@ end
 local function _ApplyStyledButton(button, width, text)
     local existingStyle = button.questieStyledButton
     if existingStyle then
-        if width and width ~= existingStyle.width then
+        if width then
             existingStyle.width = width
-            button:SetText(button:GetText())
         end
+        if text and text ~= existingStyle.text then
+            text:ClearAllPoints()
+            text:SetPoint("CENTER", button, "CENTER", 0, 0)
+            text:SetFontObject("GameFontHighlight")
+            button:SetFontString(text)
+            existingStyle.text = text
+        end
+        button:SetText(button:GetText())
         return button
     end
 
-    local style = { width = width }
+    local style = { width = width or button:GetWidth() }
     button.questieStyledButton = style
 
     for _, texture in ipairs({
@@ -1787,6 +1794,7 @@ local function _ApplyStyledButton(button, width, text)
     end
 
     text = text or button:CreateFontString(nil, "ARTWORK", "GameFontHighlight")
+    style.text = text
     text:ClearAllPoints()
     text:SetPoint("CENTER", button, "CENTER", 0, 0)
     text:SetFontObject("GameFontHighlight")
@@ -1809,11 +1817,11 @@ local function _ApplyStyledButton(button, width, text)
         slices.normal:SetShown(isEnabled and not isPushed)
 
         if not isEnabled then
-            text:SetTextColor(unpack(DISABLED_TEXT_COLOR))
+            style.text:SetTextColor(unpack(DISABLED_TEXT_COLOR))
         elseif self.isHovered then
-            text:SetTextColor(unpack(DEFAULT_TEXT_COLOR))
+            style.text:SetTextColor(unpack(DEFAULT_TEXT_COLOR))
         else
-            text:SetTextColor(unpack(DEFAULT_LABEL_COLOR))
+            style.text:SetTextColor(unpack(DEFAULT_LABEL_COLOR))
         end
     end
 
@@ -1853,14 +1861,15 @@ local function _ApplyStyledButton(button, width, text)
     local minLeftWidth, minRightWidth = _GetButtonEndWidths(BUTTON_HEIGHT)
     local rawSetText = button.SetText
     button.SetText = function(self, newText)
-        text:SetFontObject("GameFontHighlight")
-        text:SetWidth(0)
-        text:SetHeight(0)
-        text:SetWordWrap(false)
+        local label = style.text
+        label:SetFontObject("GameFontHighlight")
+        label:SetWidth(0)
+        label:SetHeight(0)
+        label:SetWordWrap(false)
 
         rawSetText(self, newText)
 
-        local targetWidth = math.max(minLeftWidth + minRightWidth, (text:GetStringWidth() or 0) + BUTTON_HORIZONTAL_PADDING)
+        local targetWidth = math.max(minLeftWidth + minRightWidth, (label:GetStringWidth() or 0) + BUTTON_HORIZONTAL_PADDING)
         local isExpanded = targetWidth > style.width
         if isExpanded then
             targetWidth = style.width
@@ -1878,10 +1887,10 @@ local function _ApplyStyledButton(button, width, text)
         end
 
         if isExpanded then
-            text:SetWidth(targetWidth - BUTTON_HORIZONTAL_PADDING)
-            text:SetHeight(currentHeight - 8)
-            text:SetWordWrap(true)
-            text:SetJustifyV("MIDDLE")
+            label:SetWidth(targetWidth - BUTTON_HORIZONTAL_PADDING)
+            label:SetHeight(currentHeight - 8)
+            label:SetWordWrap(true)
+            label:SetJustifyV("MIDDLE")
         end
     end
 
