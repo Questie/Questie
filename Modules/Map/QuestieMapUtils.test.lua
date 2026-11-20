@@ -182,8 +182,8 @@ describe("QuestieMapUtils", function()
         end)
 
         it("should handle all valid icon type indices", function()
-            -- Test indices 1-24 (all icon types in DRAW_ORDER_BY_ICON_TYPE_LOOKUP)
-            for iconIndex = 1, 24 do
+            -- Test indices 1-25 (all icon types in DRAW_ORDER_BY_ICON_TYPE_LOOKUP)
+            for iconIndex = 1, 25 do
                 local frame = CreateMockFrameWithData(iconIndex, false)
                 local SetFrameLevelSpy = spy.on(frame, "SetFrameLevel")
 

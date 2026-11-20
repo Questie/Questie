@@ -881,8 +881,9 @@ function QuestieLib.GetSpawnDistance(spawnA, spawnB)
 end
 
 ---@param quest Quest
+---@param starterType string? @"itemFromMonster" or "itemFromObject" when the quest starts from an item
 ---@return number iconType The number representing the type of icon
-function QuestieLib.GetQuestIcon(quest)
+function QuestieLib.GetQuestIcon(quest, starterType)
     if Questie.IsSoD and QuestieDB.IsSoDRuneQuest(quest.Id) then
         return Questie.ICON_TYPE_SODRUNE
     elseif QuestieDB.IsActiveEventQuest(quest.Id) then
@@ -899,6 +900,9 @@ function QuestieLib.GetQuestIcon(quest)
     end
     if QuestieDB.IsTrivial(quest.level) then
         return Questie.ICON_TYPE_AVAILABLE_GRAY
+    end
+    if starterType == "itemFromMonster" or starterType == "itemFromObject" then
+        return Questie.ICON_TYPE_AVAILABLE_ITEM
     end
     return Questie.ICON_TYPE_AVAILABLE
 end

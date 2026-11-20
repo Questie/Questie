@@ -995,6 +995,26 @@ function QuestieOptionsEngine.tabs.icons:Initialize()
                             QuestieQuest:SmoothReset()
                         end,
                     },
+                    iconTypeAvailableItem = {
+                        type = "dropdown",
+                        order = 18,
+                        title = "Available quests from items",
+                        tooltip = "The icon that is displayed for available quests that start from an item a monster drops or an object holds",
+                        width = "half",
+                        options = _GetIconTypes,
+                        sortOrder = _GetIconTypesSort,
+                        enabled = _IsEnabled,
+                        get = function()
+                            -- Until a player picks an icon, quests from items use the available quests icon.
+                            local profile = Questie.db.profile
+                            return Questie:GetIconNameFromPath(profile.ICON_AVAILABLE_ITEM or profile.ICON_AVAILABLE) or "available"
+                        end,
+                        set = function(key)
+                            Questie.db.profile.ICON_AVAILABLE_ITEM = Questie.icons[key]
+                            Questie:SetIcons()
+                            QuestieQuest:SmoothReset()
+                        end,
+                    },
                 },
             },
         },
@@ -1013,6 +1033,7 @@ _GetIconTypes = function()
         ["interact"] = "|T" .. Questie.icons["interact"] .. ":0|t " .. l10n("Interact"),
         ["available"] = "|T" .. Questie.icons["available"] .. ":0|t " .. l10n("Available"),
         ["available_gray"] = "|T" .. Questie.icons["available_gray"] .. ":0|t " .. l10n("Available gray"),
+        ["available_item"] = "|T" .. Questie.icons["available_item"] .. ":0|t " .. l10n("Available purple"),
         ["complete"] = "|T" .. Questie.icons["complete"] .. ":0|t " .. l10n("Complete"),
         ["incomplete"] = "|T" .. Questie.icons["incomplete"] .. ":0|t " .. l10n("Incomplete"),
         ["repeatable"] = "|T" .. Questie.icons["repeatable"] .. ":0|t " .. l10n("Repeatable"),
@@ -1055,6 +1076,7 @@ _GetIconTypesSort = function()
         "interact",
         "available",
         "available_gray",
+        "available_item",
         "incomplete",
         "complete",
         "repeatable",

@@ -534,7 +534,7 @@ local function _UpdateDrawnAvailableIcons(questId)
     for _, frame in pairs(QuestieMap:GetFramesForQuest(questId)) do
         if frame and frame.data and frame.data.Type == "available" and frame.data.QuestData then
             hasAvailableFrames = true
-            local newIcon = QuestieLib.GetQuestIcon(frame.data.QuestData)
+            local newIcon = QuestieLib.GetQuestIcon(frame.data.QuestData, frame.data.StarterType)
 
             if newIcon ~= frame.data.Icon then
                 -- Only the image follows the icon. UpdateTexture sets an icon up as if new, which would reset its
@@ -804,7 +804,7 @@ _AddStarter = function(starter, quest, tooltipKey, limit)
                     ---@type IconData
                     local data = {
                         Id = quest.Id,
-                        Icon = QuestieLib.GetQuestIcon(quest),
+                        Icon = QuestieLib.GetQuestIcon(quest, starterType),
                         GetIconScale = _GetIconScaleForAvailable,
                         IconScale = _GetIconScaleForAvailable(),
                         Type = "available",
@@ -851,7 +851,7 @@ _AddStarter = function(starter, quest, tooltipKey, limit)
                     ---@type IconData
                     local data = {
                         Id = quest.Id,
-                        Icon = QuestieLib.GetQuestIcon(quest),
+                        Icon = QuestieLib.GetQuestIcon(quest, starterType),
                         GetIconScale = _GetIconScaleForAvailable,
                         IconScale = _GetIconScaleForAvailable(),
                         Type = "available",

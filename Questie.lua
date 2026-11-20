@@ -279,6 +279,7 @@ Questie.icons = {
     ["node_ore"] = "Interface\\Addons\\Questie\\Icons\\node_ore.blp",
     ["chest"] = "Interface\\Addons\\Questie\\Icons\\chest.blp",
     ["petbattle"] = "Interface\\Addons\\Questie\\Icons\\petbattle.png",
+    ["available_item"] = "Interface\\Addons\\Questie\\Icons\\available_item.png",
 }
 
 Questie.usedIcons = {}
@@ -308,6 +309,7 @@ Questie.ICON_TYPE_NODE_HERB = 21
 Questie.ICON_TYPE_NODE_ORE = 22
 Questie.ICON_TYPE_CHEST = 23
 Questie.ICON_TYPE_PET_BATTLE = 24
+Questie.ICON_TYPE_AVAILABLE_ITEM = 25
 
 -- Load icon pathes from SavedVariables or set the default ones
 function Questie.SetIcons()
@@ -317,6 +319,8 @@ function Questie.SetIcons()
     Questie.usedIcons[Questie.ICON_TYPE_OBJECT] = Questie.db.profile.ICON_OBJECT or Questie.icons["object"]
     Questie.usedIcons[Questie.ICON_TYPE_TALK] = Questie.db.profile.ICON_TALK or Questie.icons["talk"]
     Questie.usedIcons[Questie.ICON_TYPE_AVAILABLE] = Questie.db.profile.ICON_AVAILABLE or Questie.icons["available"]
+    -- Quests from items look like other available quests until the player picks an icon for them.
+    Questie.usedIcons[Questie.ICON_TYPE_AVAILABLE_ITEM] = Questie.db.profile.ICON_AVAILABLE_ITEM or Questie.usedIcons[Questie.ICON_TYPE_AVAILABLE]
     Questie.usedIcons[Questie.ICON_TYPE_AVAILABLE_GRAY] = Questie.db.profile.ICON_AVAILABLE_GRAY or Questie.icons["available_gray"]
     Questie.usedIcons[Questie.ICON_TYPE_COMPLETE] = Questie.db.profile.ICON_COMPLETE or Questie.icons["complete"]
     Questie.usedIcons[Questie.ICON_TYPE_INCOMPLETE] = Questie.db.profile.ICON_INCOMPLETE or Questie.icons["incomplete"]

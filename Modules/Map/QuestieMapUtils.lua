@@ -33,6 +33,7 @@ local DRAW_ORDER_BY_ICON_TYPE_LOOKUP = {
     0, -- ICON_TYPE_NODE_ORE
     0, -- ICON_TYPE_CHEST
     0, -- ICON_TYPE_PET_BATTLE
+    1, -- ICON_TYPE_AVAILABLE_ITEM
 }
 
 -- Maximum value used in the above table. (value, not key/index)

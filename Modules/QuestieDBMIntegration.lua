@@ -44,6 +44,7 @@ local function IsHudIconEnabled(icon)
     if not Questie.db.profile.dbmHUDShowSlay and icon == Questie.ICON_TYPE_SLAY or
         not Questie.db.profile.dbmHUDShowQuest and (
             icon == Questie.ICON_TYPE_AVAILABLE or
+            icon == Questie.ICON_TYPE_AVAILABLE_ITEM or
             icon == Questie.ICON_TYPE_AVAILABLE_GRAY or
             icon == Questie.ICON_TYPE_COMPLETE or
             icon == Questie.ICON_TYPE_EVENTQUEST or

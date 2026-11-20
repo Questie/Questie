@@ -191,6 +191,53 @@ describe("QuestieLib", function()
         end)
     end)
 
+    describe("GetQuestIcon", function()
+        local QuestiePlayer
+        local quest
+
+        before_each(function()
+            Questie.IsSoD = false
+            Questie.ICON_TYPE_AVAILABLE = 6
+            Questie.ICON_TYPE_AVAILABLE_GRAY = 7
+            Questie.ICON_TYPE_REPEATABLE = 10
+            Questie.ICON_TYPE_EVENTQUEST = 13
+            Questie.ICON_TYPE_PVPQUEST = 15
+            Questie.ICON_TYPE_AVAILABLE_ITEM = 25
+            QuestieDB.IsActiveEventQuest = function() return false end
+            QuestieDB.IsPvPQuest = function() return false end
+            QuestieDB.IsTrivial = function() return false end
+            QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
+            stub(QuestiePlayer, "GetPlayerLevel", function() return 20 end)
+            quest = {Id = QUEST_ID, requiredLevel = 10, level = 20}
+        end)
+
+        after_each(function()
+            QuestiePlayer.GetPlayerLevel:revert()
+        end)
+
+        it("should return the available icon for a quest from an NPC", function()
+            assert.are_same(Questie.ICON_TYPE_AVAILABLE, QuestieLib.GetQuestIcon(quest, "NPC"))
+            assert.are_same(Questie.ICON_TYPE_AVAILABLE, QuestieLib.GetQuestIcon(quest, nil))
+        end)
+
+        it("should return the item icon for a quest from an item", function()
+            assert.are_same(Questie.ICON_TYPE_AVAILABLE_ITEM, QuestieLib.GetQuestIcon(quest, "itemFromMonster"))
+            assert.are_same(Questie.ICON_TYPE_AVAILABLE_ITEM, QuestieLib.GetQuestIcon(quest, "itemFromObject"))
+        end)
+
+        it("should keep the gray icon for a trivial quest from an item", function()
+            QuestieDB.IsTrivial = function() return true end
+
+            assert.are_same(Questie.ICON_TYPE_AVAILABLE_GRAY, QuestieLib.GetQuestIcon(quest, "itemFromMonster"))
+        end)
+
+        it("should keep the repeatable icon for a repeatable quest from an item", function()
+            quest.IsRepeatable = true
+
+            assert.are_same(Questie.ICON_TYPE_REPEATABLE, QuestieLib.GetQuestIcon(quest, "itemFromObject"))
+        end)
+    end)
+
     describe("GetLevelString", function()
         it("should handle regular quests", function()
             local levelString = QuestieLib:GetLevelString(QUEST_ID, 60)
