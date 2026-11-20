@@ -614,6 +614,8 @@ local function ResolveNPCPortrait(portrait, npcID)
     local now = GetTime and GetTime() or 0
     local request = npcPortraitRequests[npcID]
     if request and now - request.first > NPC_PORTRAIT_TIMEOUT_SECONDS then
+        request.expired = true
+        request.retryScheduled = false
         npcPortraitModels[npcID] = nil
         npcPortraitRequests[npcID] = nil
         -- Stop this retry chain. A later panel acquisition will register a
