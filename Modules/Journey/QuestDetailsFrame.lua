@@ -343,6 +343,9 @@ local function ResetNPCInfoLayout(group)
         portrait:Hide()
         portrait.npcID = nil
     end
+    -- ResetInfoGroup can recycle a panel without an AceGUI release event.
+    -- Allow the next NPC acquisition to reinstall its waiter cleanup hook.
+    group.npcPortraitReleaseHooked = false
     -- Keep the cache table on the pooled group even when this is its first
     -- reset, so later acquisitions always reuse the same texture slots.
     group.npcPortraits = portraits
