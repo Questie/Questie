@@ -1180,7 +1180,10 @@ function QuestieSearchResults:OpenDetails(detailType, id)
         searchResultTabs:SelectTab(detailType)
         if activeResultTree then
             clickHandledResultValue = nil
-            activeResultTree:SelectByValue(id)
+            -- Render the linked quest directly in the existing result pane.
+            -- The target may not belong to the current query, so selecting it
+            -- in the tree would either do nothing or replace the search.
+            _HandleTreeItemSelected(activeResultTree, nil, id, true, detailType)
             return
         end
     end
