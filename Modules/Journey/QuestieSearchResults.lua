@@ -1135,6 +1135,7 @@ function QuestieSearchResults:DrawSearchTab(container)
         end
     end);
     searchBox:SetCallback("OnEnterPressed", function(...)
+        searchInteractionGeneration = searchInteractionGeneration + 1
         searchDebounceGeneration = searchDebounceGeneration + 1
         performSearch(...)
     end);
