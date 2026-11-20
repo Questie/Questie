@@ -392,6 +392,14 @@ function MapIconTooltip.ShowOnTooltip(self, Tooltip, owner, icons)
                             end
                         end
                     end
+                    if shift and Questie.db.profile.enableTooltipsItemDropHint then
+                        -- The icon's giver is the dropper of the quest's starting item, not a quest giver
+                        if questData.starterType == "itemFromMonster" then
+                            tooltipRows:AddLine(indentTwo .. l10n("This quest starts from an item obtained from this creature."), 0.7, 0.7, 0.7)
+                        elseif questData.starterType == "itemFromObject" then
+                            tooltipRows:AddLine(indentTwo .. l10n("This quest starts from an item dropped by this object."), 0.7, 0.7, 0.7)
+                        end
+                    end
                 end
                 if questData.subData and shift then
                     local dataType = type(questData.subData)
@@ -686,6 +694,9 @@ local function _GetQuestTag(quest)
             return l10n("(") .. questTagName .. l10n(")");
         elseif (Questie.IsSoD and QuestieDB.IsSoDRuneQuest(quest.Id)) then
             return l10n("(") .. l10n("Rune") .. l10n(")");
+        elseif (quest.StarterType == "itemFromMonster" or quest.StarterType == "itemFromObject") then
+            -- It is available, but never from a conversation: the quest starts from an item the giver drops
+            return l10n("(") .. l10n("Item drop") .. l10n(")");
         else
             return l10n("(") .. l10n("Available") .. l10n(")");
         end
@@ -698,6 +709,7 @@ function _MapIconTooltip:GetAvailableOrCompleteTooltip(icon)
     tip.title = QuestieLib:GetColoredQuestName(icon.data.Id, Questie.db.profile.enableTooltipsQuestLevel, false)
     tip.subData = icon.data.QuestData.Description
     tip.questId = icon.data.Id;
+    tip.starterType = icon.data.StarterType
 
     return tip
 end

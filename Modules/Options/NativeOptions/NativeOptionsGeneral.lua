@@ -539,6 +539,17 @@ function QuestieOptionsEngine.tabs.general:Initialize()
                             Questie.db.profile.enableTooltipsBreadcrumbQuests = value
                         end
                     },
+                    showItemDropHint = {
+                        type = "checkbox",
+                        order = 8.52,
+                        title = "Show item drop hint",
+                        tooltip = "If checked, the expanded map tooltips explain quests that start from an item drop.",
+                        width = "half",
+                        get = function() return Questie.db.profile.enableTooltipsItemDropHint; end,
+                        set = function(info, value)
+                            Questie.db.profile.enableTooltipsItemDropHint = value
+                        end
+                    },
                     showDropRates = {
                         type = "checkbox",
                         order = 8.6,
