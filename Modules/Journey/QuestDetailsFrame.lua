@@ -563,6 +563,11 @@ local function PaintWaitingNPCPortraits(npcID, displayID)
 end
 
 local function RegisterNPCPortraitWaiter(portrait, npcID)
+    local previousNPCID = portrait.npcID
+    if previousNPCID and previousNPCID ~= npcID then
+        RemoveNPCPortraitWaiter(portrait, previousNPCID)
+    end
+    portrait.npcID = npcID
     npcPortraitWaiters[npcID] = npcPortraitWaiters[npcID] or {}
     npcPortraitWaiters[npcID][portrait] = true
 end
@@ -738,7 +743,6 @@ local function AddNPCPortrait(group, npc, portraitIndex, anchor)
     -- shown until the new model finishes loading.
     portrait:SetTexture("Interface\\Icons\\INV_Misc_QuestionMark")
     portrait:SetTexCoord(0, 1, 0, 1)
-    portrait.npcID = npc.id
     RegisterNPCPortraitWaiter(portrait, npc.id)
     ResolveNPCPortrait(portrait, npc.id)
 
