@@ -80,6 +80,7 @@ _AutoQuesting.disallowedQuests = {
         [1120] = true, -- Get the Gnomes Drunk
         [1121] = true, -- Get the Goblins Drunk
         [1222] = true, -- Stinky Ignatz (Stinky's Escape)
+        [1249] = true, -- The Missing Diplomat (Fleeing Tapoke Jahn)
         [1270] = true, -- Stinky Ignatz (Stinky's Escape)
         [1273] = true, -- Ogron (Questioning Reethe)
         [1324] = true, -- Private Hendel (The Missing Diplomat)
