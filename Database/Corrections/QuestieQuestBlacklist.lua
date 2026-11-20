@@ -7112,6 +7112,7 @@ function QuestieQuestBlacklist:Load()
         [81954] = HIDE_ON_MAP, -- Venomous Journeys
         [81955] = HIDE_ON_MAP, -- A Mind of Metal
         [81956] = HIDE_ON_MAP, -- Conjurer's Codex
+        [82068] = not Questie.IsSoD, -- Fight the Nightmare Incursions
         [82208] = HIDE_ON_MAP, -- Greater Friend of the Library -- TODO fix questhubs for these 3 quests
         [84395] = HIDE_ON_MAP, -- Undead Potatoes
         [84396] = HIDE_ON_MAP, -- Magma or Lava?
