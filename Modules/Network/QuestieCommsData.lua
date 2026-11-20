@@ -10,6 +10,8 @@ local QuestieDB = QuestieLoader:ImportModule("QuestieDB");
 local QuestieComms = QuestieLoader:ImportModule("QuestieComms");
 ---@type QuestieLib
 local QuestieLib = QuestieLoader:ImportModule("QuestieLib");
+---@type QuestieTooltips
+local QuestieTooltips = QuestieLoader:ImportModule("QuestieTooltips");
 
 local GetItemInfo = QuestieCompat.GetItemInfo
 
@@ -154,6 +156,7 @@ function QuestieComms.data:RegisterTooltip(questId, playerName, objectives)
             end
         end
     end
+    QuestieTooltips.InvalidateSecretUnitCandidates()
 
     -- Prime Blizzard's cache before the first hover; GetTooltip reads and validates the result later.
     C_QuestLog.GetQuestObjectives(questId)
@@ -210,6 +213,7 @@ function QuestieComms.data:RemoveQuestFromPlayer(questId, playerName)
             end
         end
         playerRegisteredTooltips[playerName][questId] = nil;
+        QuestieTooltips.InvalidateSecretUnitCandidates()
     end
 end
 
@@ -217,4 +221,5 @@ end
 function QuestieComms.data:ResetAll()
     commsTooltipLookup = {}
     playerRegisteredTooltips = {}
+    QuestieTooltips.InvalidateSecretUnitCandidates()
 end

@@ -216,6 +216,7 @@ describe("Tooltip", function()
 
         describe("secret units on Forever", function()
             local callbacks, savedTooltipUtil, savedSelectUnitText, savedGetTooltip, savedQueryNPCSingle
+            local savedUnitIsPlayer
 
             before_each(function()
                 callbacks = {}
@@ -228,6 +229,8 @@ describe("Tooltip", function()
                 Questie.IsForever = true
                 _G.IsInInstance = function() return true end
                 savedTooltipUtil = _G.TooltipUtil
+                savedUnitIsPlayer = _G.UnitIsPlayer
+                _G.UnitIsPlayer = function() return false end
                 _G.TooltipUtil = {GetDisplayedUnit = function() return "Secret name" end}
                 _G.issecretvalue = function(value) return value == "Secret name" or value == "Secret GUID" end
 
@@ -236,15 +239,21 @@ describe("Tooltip", function()
                 Forever.SelectUnitText = spy.new(function() return "Selected text" end)
                 savedGetTooltip = QuestieTooltips.GetTooltip
                 QuestieTooltips.GetTooltip = function(key)
-                    return ({m_1 = {"Hogger quest"}, m_2 = {"Kill quest", "   3/10 Pillager"}, m_3 = {"Other quest"}})[key]
+                    return ({m_1 = {"Hogger quest"}, m_2 = {"Kill quest", "   3/10 Pillager"}, m_3 = {"Other quest"},
+                        m_5 = {"Far quest"}})[key]
                 end
                 savedQueryNPCSingle = QuestieDB.QueryNPCSingle
-                QuestieDB.QueryNPCSingle = function(id) return ({"Hogger", "Defias Pillager", "Defias Pillager"})[id] end
-                QuestieTooltips.lookupByKey = {m_1 = {}, m_2 = {}, m_3 = {}, o_4 = {}}
+                -- NPC 5 has quest lines but spawns in another zone.
+                QuestieDB.QueryNPCSingle = function(id, field)
+                    if field == "spawns" then return id == 5 and {[12] = {}} or {[440] = {}} end
+                    return ({"Hogger", "Defias Pillager", "Defias Pillager", nil, "Far away"})[id]
+                end
+                QuestieTooltips.lookupByKey = {m_1 = {}, m_2 = {}, m_3 = {}, o_4 = {}, m_5 = {}}
             end)
 
             after_each(function()
                 _G.TooltipUtil = savedTooltipUtil
+                _G.UnitIsPlayer = savedUnitIsPlayer
                 QuestieLoader:ImportModule("Forever").SelectUnitText = savedSelectUnitText
                 QuestieTooltips.GetTooltip = savedGetTooltip
                 QuestieDB.QueryNPCSingle = savedQueryNPCSingle
@@ -322,6 +331,57 @@ describe("Tooltip", function()
                 callbacks[2](GameTooltip, {type = 2, guid = "Secret GUID"})
 
                 assert.spy(GameTooltip.AddLine).was.not_called()
+            end)
+
+            it("should add nothing for players such as party members", function()
+                _G.UnitIsPlayer = function(unit) return unit == "mouseover" end
+                QuestieTooltips:Initialize()
+                callbacks[2](GameTooltip, {type = 2, guid = "Secret GUID"})
+
+                assert.spy(GameTooltip.AddLine).was.not_called()
+            end)
+
+            it("should reuse the candidates in the same zone until they are invalidated", function()
+                local getTooltip = spy.new(QuestieTooltips.GetTooltip)
+                QuestieTooltips.GetTooltip = getTooltip
+                QuestieTooltips:Initialize()
+
+                callbacks[2](GameTooltip, {type = 2, guid = "Secret GUID"})
+                callbacks[2](GameTooltip, {type = 2, guid = "Secret GUID"})
+                assert.spy(getTooltip).was.called(3)
+
+                QuestieTooltips.InvalidateSecretUnitCandidates()
+                callbacks[2](GameTooltip, {type = 2, guid = "Secret GUID"})
+                assert.spy(getTooltip).was.called(6)
+
+                QuestiePlayer.GetCurrentZoneId = function() return 12 end
+                callbacks[2](GameTooltip, {type = 2, guid = "Secret GUID"})
+                assert.spy(getTooltip).was.called(7)
+                assert.spy(getTooltip).was.called_with("m_5")
+            end)
+
+            it("should rebuild the candidates after a tooltip is registered or a quest is removed", function()
+                local getTooltip = spy.new(QuestieTooltips.GetTooltip)
+                QuestieTooltips.GetTooltip = getTooltip
+                QuestieTooltips:Initialize()
+                callbacks[2](GameTooltip, {type = 2, guid = "Secret GUID"})
+                assert.spy(getTooltip).was.called(3)
+
+                QuestieTooltips:RegisterObjectiveTooltip(1, "m_1", {Index = 1})
+                callbacks[2](GameTooltip, {type = 2, guid = "Secret GUID"})
+                assert.spy(getTooltip).was.called(6)
+
+                QuestieTooltips:RegisterQuestStartTooltip(2, "Hogger", 1, "m_1", "NPC")
+                callbacks[2](GameTooltip, {type = 2, guid = "Secret GUID"})
+                assert.spy(getTooltip).was.called(9)
+
+                QuestieTooltips:RemoveQuest(3)
+                callbacks[2](GameTooltip, {type = 2, guid = "Secret GUID"})
+                assert.spy(getTooltip).was.called(9)
+                QuestieTooltips.lookupKeysByQuestId[3] = {}
+                QuestieTooltips:RemoveQuest(3)
+                callbacks[2](GameTooltip, {type = 2, guid = "Secret GUID"})
+                assert.spy(getTooltip).was.called(12)
             end)
         end)
 

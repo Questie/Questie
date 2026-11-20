@@ -11,6 +11,8 @@ describe("GroupEventHandler", function()
     local CommsVisibility
     ---@type QuestiePartyObjectives
     local QuestiePartyObjectives
+    ---@type QuestieTooltips
+    local QuestieTooltips
 
     before_each(function()
         _G.GetNumGroupMembers = function() return 2 end
@@ -33,6 +35,9 @@ describe("GroupEventHandler", function()
         QuestiePartyObjectives.ScheduleUpdate = spy.new(function() end)
         QuestiePartyObjectives.Clear = spy.new(function() end)
 
+        QuestieTooltips = QuestieLoader:ImportModule("QuestieTooltips")
+        QuestieTooltips.InvalidateSecretUnitCandidates = spy.new(function() end)
+
         dofile("Modules/EventHandler/GroupEventHandler.lua")
         GroupEventHandler = QuestieLoader:ImportModule("GroupEventHandler")
     end)
@@ -47,12 +52,21 @@ describe("GroupEventHandler", function()
         assert.spy(QuestiePartyObjectives.ScheduleUpdate).was.called_with(QuestiePartyObjectives)
     end)
 
+    it("should invalidate the secret unit candidates when the group size changes", function()
+        _G.GetNumGroupMembers = function() return 3 end
+
+        GroupEventHandler.GroupRosterUpdate()
+
+        assert.spy(QuestieTooltips.InvalidateSecretUnitCandidates).was.called(1)
+    end)
+
     it("should not redraw for an unchanged roster", function()
         GroupEventHandler.GroupRosterUpdate()
 
         assert.spy(QuestieComms.PruneRemotePlayers).was.called_with(QuestieComms)
         assert.spy(CommsVisibility.ScheduleSnapshot).was.not_called()
         assert.spy(QuestiePartyObjectives.ScheduleUpdate).was.not_called()
+        assert.spy(QuestieTooltips.InvalidateSecretUnitCandidates).was.not_called()
     end)
 
     it("should remove only group quest data when the local player leaves", function()

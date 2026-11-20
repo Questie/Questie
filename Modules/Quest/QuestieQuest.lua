@@ -348,6 +348,7 @@ function QuestieQuest:ClearAllToolTips()
 
     QuestieTooltips.lookupByKey = {}
     QuestieTooltips.lookupKeyByQuestId = {}
+    QuestieTooltips.InvalidateSecretUnitCandidates()
 end
 
 -- This is only needed for SmoothReset(), normally special objectives don't need to update
@@ -570,6 +571,8 @@ function QuestieQuest:UpdateQuest(questId)
 
     if quest and (not Questie.db.char.complete[questId]) then
         QuestieQuest:PopulateQuestLogInfo(quest)
+        -- Secret unit tooltips prepare progress text ahead of the hover.
+        QuestieTooltips.InvalidateSecretUnitCandidates()
 
         local isComplete = quest:IsComplete()
 

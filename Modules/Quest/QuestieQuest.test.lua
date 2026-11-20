@@ -41,6 +41,7 @@ describe("QuestieQuest", function()
         CommsVisibility.ScheduleSnapshot = spy.new(function() end)
         l10n = QuestieLoader:ImportModule("l10n")
         setmetatable(l10n, {__call = function(_, key, ...) return key end})
+        QuestieLoader:ImportModule("QuestieTooltips").InvalidateSecretUnitCandidates = function() end
 
         dofile("Modules/Quest/QuestieQuest.lua")
         QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
@@ -80,6 +81,20 @@ describe("QuestieQuest", function()
             compat.IsQuestSequenced = originalIsSequenced
             Questie.SendMessage = originalSendMessage
             QuestieLoader:ImportModule("ThreadLib").ThreadCallbackInstant = originalThreadCallback
+        end)
+
+        it("should invalidate the secret unit candidates after reading the quest's progress", function()
+            local calls = {}
+            QuestieQuest.PopulateQuestLogInfo = function() calls[#calls + 1] = "populate" end
+            local QuestieTooltips = QuestieLoader:ImportModule("QuestieTooltips")
+            local original = QuestieTooltips.InvalidateSecretUnitCandidates
+            QuestieTooltips.InvalidateSecretUnitCandidates = function() calls[#calls + 1] = "invalidate" end
+
+            local ok, err = pcall(QuestieQuest.UpdateQuest, QuestieQuest, 93927)
+            QuestieTooltips.InvalidateSecretUnitCandidates = original
+
+            assert.is_true(ok, err)
+            assert.are.same({"populate", "invalidate"}, calls)
         end)
 
         it("updates a finished visible stage without promoting the whole quest to complete", function()
