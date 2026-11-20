@@ -51,6 +51,18 @@ describe("QuestieQuestPrivates", function()
     end)
 
     describe("item", function()
+        it("should mark an item rare where a rare drops it", function()
+            QuestieDB.GetItem = function() return {Id = 10, Sources = {{Type = "monster", Id = 1}, {Type = "monster", Id = 4}}} end
+            QuestieDB.QueryNPCSingle = function(npcId, key)
+                if key == "name" then return "Wolf" end
+                if key == "rank" then return npcId == 4 and 4 or 0 end
+            end
+
+            local spawnList = _QuestieQuest.objectiveSpawnListCallTable.item(10, {Description = "Wolf Meat"})
+
+            assert.are.same({nil, true}, {spawnList[1].IsRare, spawnList[4].IsRare})
+        end)
+
         it("should mark monsters dropping the item hostile, and vendors selling it and objects holding it not", function()
             QuestieDB.GetItem = function()
                 return {Id = 10, Sources = {{Type = "monster", Id = 1}, {Type = "monster", Id = 3, Vendor = true}, {Type = "object", Id = 2}}}

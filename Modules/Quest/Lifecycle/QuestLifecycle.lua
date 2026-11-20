@@ -23,6 +23,8 @@ local CommsVisibility = QuestieLoader:ImportModule("CommsVisibility")
 local QuestLogCache = QuestieLoader:ImportModule("QuestLogCache")
 ---@type ActiveQuests
 local ActiveQuests = QuestieLoader:ImportModule("ActiveQuests")
+---@type QuestiePolygon
+local QuestiePolygon = QuestieLoader:ImportModule("QuestiePolygon")
 
 local pairs = pairs
 
@@ -208,6 +210,7 @@ end
 ---@param questId number
 function QuestLifecycle:CompleteQuest(questId)
     local acceptance = ActiveQuests.Remove(questId)
+    QuestiePolygon.ForgetQuest(questId)
     -- Quests which are turn in only were never added to the quest log
     if acceptance and acceptance.quest then
         acceptance.quest.WasComplete = nil
@@ -262,6 +265,7 @@ end
 ---@param questId number
 function QuestLifecycle:AbandonQuest(questId)
     local acceptance = ActiveQuests.Remove(questId)
+    QuestiePolygon.ForgetQuest(questId)
     -- Unknown quests have tracker state without an entry in the enriched map quest log.
     QuestieTracker:RemoveQuest(questId)
     QuestieCombatQueue:Queue(function()

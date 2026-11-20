@@ -7,8 +7,8 @@ local QuestieOptionsEngine = QuestieLoader:ImportModule("QuestieOptionsEngine")
 local QuestieOptionsDefaults = QuestieLoader:ImportModule("QuestieOptionsDefaults")
 ---@type QuestieWaypoints
 local QuestieWaypoints = QuestieLoader:ImportModule("QuestieWaypoints")
----@type WaypointRenderer
-local WaypointRenderer = QuestieLoader:ImportModule("WaypointRenderer")
+---@type QuestiePolygon
+local QuestiePolygon = QuestieLoader:ImportModule("QuestiePolygon")
 
 QuestieOptionsEngine.tabs.map = { ... }
 local optionsDefaults = QuestieOptionsDefaults:Load()
@@ -45,6 +45,12 @@ local function _WaypointsEnabled()
     return (profile.waypointMapEnabled or profile.waypointMinimapEnabled) and true or false
 end
 
+-- The quest area settings only matter with icons on and the Questie blobs style chosen.
+local function _BlobSettingsEnabled()
+    local profile = Questie.db.profile
+    return (profile.enabled and profile.enableQuestiePolygons) and true or false
+end
+
 function QuestieOptionsEngine.tabs.map:Initialize()
     return {
         title = "Map",
@@ -52,6 +58,38 @@ function QuestieOptionsEngine.tabs.map:Initialize()
         order = 1.5,
         icon = 134269,
         items = {
+            blobs_header = {
+                type = "divider",
+                order = 0.1,
+                title = "Blobs",
+            },
+            -- Clicked markers override it per objective.
+            showPolygonsOnAcceptToggle = {
+                type = "checkbox",
+                order = 0.2,
+                title = "Show quest areas when accepted",
+                tooltip = "When unchecked, quest areas only show while you are near them. Click a map marker to always show or hide its areas.",
+                width = "half",
+                enabled = _BlobSettingsEnabled,
+                get = _Get("showPolygonsOnAccept"),
+                set = function(_, value)
+                    Questie.db.profile.showPolygonsOnAccept = value
+                    QuestiePolygon.RefreshVisibility()
+                end,
+            },
+            -- Read on the next hover.
+            polygonAreaTooltipsToggle = {
+                type = "checkbox",
+                order = 0.3,
+                title = "Show quest area tooltips",
+                tooltip = "Hovering a quest area on the world map lists its quest and objectives.",
+                width = "half",
+                enabled = _BlobSettingsEnabled,
+                get = _Get("polygonAreaTooltips"),
+                set = function(_, value)
+                    Questie.db.profile.polygonAreaTooltips = value
+                end,
+            },
             waypoint_header = {
                 type = "divider",
                 order = 1,
@@ -70,7 +108,7 @@ function QuestieOptionsEngine.tabs.map:Initialize()
                 type = "checkbox",
                 order = 1.2,
                 title = "Enable Minimap Waypoints",
-                tooltip = "Draws the patrol paths of the NPCs Questie shows on the minimap. Minimap icons must be enabled too.",
+                tooltip = "Draws the patrol paths of the NPCs Questie marks on the minimap, by their icons or their quest areas' markers. Minimap icons must be enabled too.",
                 width = "half",
                 get = _Get("waypointMinimapEnabled"),
                 set = _SetAndRefresh("waypointMinimapEnabled"),
@@ -165,7 +203,7 @@ function QuestieOptionsEngine.tabs.map:Initialize()
                         type = "slider",
                         order = 3.1,
                         title = "Waypoint smoothing",
-                        tooltip = {"Rounds the corners of NPC patrol lines. Higher values round them more; 0 draws sharp corners. (Default: %s)", optionsDefaults.profile.waypointSmoothing},
+                        tooltip = {"Rounds the corners of NPC patrol paths. Higher values round them more; 0 draws sharp corners. (Default: %s)", optionsDefaults.profile.waypointSmoothing},
                         width = "half",
                         min = 0,
                         max = 2,
@@ -173,7 +211,7 @@ function QuestieOptionsEngine.tabs.map:Initialize()
                         get = _Get("waypointSmoothing"),
                         set = function(_, value)
                             Questie.db.profile.waypointSmoothing = value
-                            WaypointRenderer.RedrawAll()
+                            QuestieWaypoints.Redraw()
                         end,
                         enabled = _WaypointsEnabled,
                     },
