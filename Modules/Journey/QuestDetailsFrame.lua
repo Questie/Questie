@@ -732,9 +732,10 @@ local function AddNPCPortrait(group, npc, portraitIndex, anchor)
 
     portrait:ClearAllPoints()
     portrait:SetPoint("TOPLEFT", border, "TOPLEFT", 12, -24)
-    if anchor and anchor.frame then
+    local anchorFrame = anchor and (anchor.frame or anchor)
+    if anchorFrame then
         portrait:ClearAllPoints()
-        portrait:SetPoint("TOPRIGHT", anchor.frame, "TOPLEFT", -8, 0)
+        portrait:SetPoint("TOPRIGHT", anchorFrame, "TOPLEFT", -8, 0)
     end
 
     -- Portrait textures are kept by the panel frame and may be reused when a
