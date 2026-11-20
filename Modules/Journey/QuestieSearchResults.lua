@@ -62,6 +62,8 @@ local programmaticSearchText
 local activeResultTree
 local clickHandledResultValue
 local searchResultHost
+local activeModernSearchEditBox
+local modernSearchLinkHookInstalled = false
 
 local BY_NAME = 1
 local BY_ID = 2
@@ -70,6 +72,27 @@ local BY_ID = 2
 -- one synchronous layout pass. The tab counters still show the full match
 -- count, so users can narrow the query when the cap is reached.
 local MAX_RENDERED_SEARCH_RESULTS = 500
+
+local function InstallModernSearchLinkHook()
+    if modernSearchLinkHookInstalled or type(hooksecurefunc) ~= "function" then
+        return
+    end
+
+    local function InsertSearchLink(text)
+        local editBox = activeModernSearchEditBox
+        if editBox and editBox:IsShown() and editBox:HasFocus() then
+            editBox:Insert(text)
+        end
+    end
+
+    if ChatFrameUtil and ChatFrameUtil.InsertLink then
+        hooksecurefunc(ChatFrameUtil, "InsertLink", InsertSearchLink)
+        modernSearchLinkHookInstalled = true
+    elseif ChatEdit_InsertLink then
+        hooksecurefunc("ChatEdit_InsertLink", InsertSearchLink)
+        modernSearchLinkHookInstalled = true
+    end
+end
 
 local function ApplyModernButton(button, width)
     if QuestieOptionsControls and QuestieOptionsControls.ApplyStyledButton then
@@ -121,6 +144,8 @@ local function ApplyModernSearchBox(searchBox, placeholder)
     end
 
     searchBox.editbox = editBox
+    activeModernSearchEditBox = editBox
+    InstallModernSearchLinkHook()
     editBox.obj = searchBox
     searchBox.disablebutton = true
     searchBox.button:Hide()
@@ -136,22 +161,6 @@ local function ApplyModernSearchBox(searchBox, placeholder)
     searchBox.SetText = function(self, text)
         rawSetText(self, text)
         self.editbox:SetTextInsets(22, 4, 3, 3)
-    end
-
-    -- The chat link hook only knows about its named native
-    -- edit boxes. Forward links to this anonymous SearchBoxTemplate edit box
-    -- while it is active so shift-click continues to work after restyling.
-    if type(hooksecurefunc) == "function" then
-        local function InsertSearchLink(text)
-            if editBox:IsShown() and editBox:HasFocus() then
-                editBox:Insert(text)
-            end
-        end
-        if ChatFrameUtil and ChatFrameUtil.InsertLink then
-            hooksecurefunc(ChatFrameUtil, "InsertLink", InsertSearchLink)
-        elseif ChatEdit_InsertLink then
-            hooksecurefunc("ChatEdit_InsertLink", InsertSearchLink)
-        end
     end
 
     editBox:SetScript("OnEscapePressed", function()
@@ -194,6 +203,9 @@ local function ApplyModernSearchBox(searchBox, placeholder)
             return
         end
 
+        if activeModernSearchEditBox == state.editBox then
+            activeModernSearchEditBox = nil
+        end
         state.editBox:Hide()
         state.legacyEditBox:Show()
         widget.editbox = state.legacyEditBox
