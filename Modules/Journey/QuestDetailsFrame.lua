@@ -655,6 +655,9 @@ local function ResolveNPCPortrait(portrait, npcID)
         request.previous = ReadNPCDisplayID(model)
         if model.SetScript then
             pcall(model.SetScript, model, "OnModelLoaded", function(loadedModel)
+                if npcPortraitRequests[npcID] ~= request or request.expired then
+                    return
+                end
                 local loadedDisplayID = ReadNPCDisplayID(loadedModel)
                 if loadedDisplayID then
                     npcPortraitDisplays[npcID] = loadedDisplayID
@@ -693,7 +696,7 @@ local function ResolveNPCPortrait(portrait, npcID)
         request.retryScheduled = true
         C_Timer.After(NPC_PORTRAIT_RETRY_SECONDS, function()
             local currentRequest = npcPortraitRequests[npcID]
-            if currentRequest ~= request then
+            if currentRequest ~= request or request.expired then
                 return
             end
             request.retryScheduled = false
