@@ -1267,6 +1267,9 @@ function QuestieOptionsControls.ApplyModernScrollbar(scrollbar)
             arrow:SetScript("OnClick", function()
                 local minimum, maximum = scrollbar:GetMinMaxValues()
                 local step = scrollbar.GetValueStep and scrollbar:GetValueStep() or 1
+                if step <= 0 then
+                    step = 1
+                end
                 local value = scrollbar:GetValue() + (direction == "up" and -step or step)
                 scrollbar:SetValue(math.max(minimum, math.min(maximum, value)))
             end)
