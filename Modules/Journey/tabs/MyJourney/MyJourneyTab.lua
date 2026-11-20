@@ -105,6 +105,7 @@ function _QuestieJourney.myJourney:DrawTab(container)
         end
         nativeButton:Show()
         nativeButton:SetText(noteButtonText)
+        nativeButton:ClearAllPoints()
         nativeButton:SetPoint("LEFT", noteButton.content, "LEFT", 0, 0)
         nativeButton:SetScript("OnClick", _QuestieJourney.ShowNotePopup)
     else
