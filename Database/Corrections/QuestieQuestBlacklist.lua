@@ -7084,6 +7084,8 @@ function QuestieQuestBlacklist:Load()
         [79952] = HIDE_ON_MAP, -- RwlRwlRwlRwl!
         [79953] = HIDE_ON_MAP, -- A Ludite's Guide to Caring for Your Demonic Pet        
         [80001] = not Questie.IsSoD, -- Rekinde
+        [80324] = not Questie.IsSoD, -- The Mad King
+        [80325] = not Questie.IsSoD, -- The Mad King
         [81730] = not Questie.IsSoD, -- Duskwood Mission I: Defeat Worgen
         [81731] = not Questie.IsSoD, -- Duskwood Mission II: Defeat Ogres
         [81732] = not Questie.IsSoD, -- Duskwood Mission III: Defeat Dragonkin
@@ -7119,6 +7121,7 @@ function QuestieQuestBlacklist:Load()
         [84400] = HIDE_ON_MAP, -- The Knight and the Lady
         [84401] = HIDE_ON_MAP, -- Scourge: Undead Menace or Misunderstood?
         [84402] = HIDE_ON_MAP, -- Necromancy 101
+        [84555] = not Questie.IsSoD, -- Nostro's Compendium
 
         [87318] = true, -- Hearts of the Lost
         [88757] = true, -- Accessories of the Lost
@@ -7135,6 +7138,8 @@ function QuestieQuestBlacklist:Load()
         [93862] = HIDE_ON_MAP, -- Crate Return
 
         [93928] = true, -- Of Mice and Milk
+        [94969] = not Questie.IsSoD, -- Krol'dok No More!
+        [95056] = not Questie.IsSoD, -- Krol'dok No More!
 
         [96339] = HIDE_ON_MAP, -- Legacy Reward: Replica Ironforge Air Rifle -- todo fix
         [96383] = HIDE_ON_MAP, -- Legacy Reward: Spectral Bear Cub -- todo fix
