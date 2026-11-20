@@ -1427,8 +1427,8 @@ function QuestiePolygon.UpdateObjective(quest, objective, objectiveIndex)
         })
         renderCache = PolygonRenderCache.New(renderer)
         nudging = PolygonNudging.New()
-        -- Preference setters resize before writing their new value. Read configured
-        -- widths on the next frame; this single retained hook is inert while detached.
+        -- Icon scale settings and profile switches rescale the icons. Nudging reads their new widths on
+        -- the next frame, once however often a slider fires; this single retained hook is inert while detached.
         hooksecurefunc(QuestieMap, "RescaleIcons", QuestiePolygon.ScheduleNudging)
         -- The provider is created once, before the first marker.
         _FollowIcons()

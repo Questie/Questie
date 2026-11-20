@@ -28,12 +28,6 @@ local ENTRY_POINTS = {
     ["Modules/Tooltips/MapIconTooltip.lua"] = {
         QuestiePolygon = "objective lines start with their area colour; icons list the areas beneath them; markers hint their click",
     },
-    ["Modules/Options/MapTab/QuestieOptionsMap.lua"] = {
-        QuestieWaypoints = "Map > Waypoints settings",
-        QuestiePolygon = "Map > Blobs settings",
-    },
-    ["Modules/Options/AdvancedTab/QuestieOptionsAdvanced.lua"] = {QuestieWaypoints = "Show waypoint hover area"},
-    ["Modules/Options/IconsTab/QuestieOptionsIcons.lua"] = {QuestiePolygon = "Enable Minimap Icons redraws the minimap areas"},
     ["Modules/Options/NativeOptions/NativeOptionsMap.lua"] = {
         QuestieWaypoints = "Map > Waypoints settings",
         QuestiePolygon = "Map > Blobs settings",

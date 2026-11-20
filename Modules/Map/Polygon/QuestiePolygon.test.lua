@@ -2377,7 +2377,7 @@ describe("QuestiePolygon world-map adapter", function()
         end)
     end)
 
-    it("observes configured icon-size changes once and reads the new setting after the setter completes", function()
+    it("observes configured icon-size changes once and applies the new size on the next frame", function()
         local resizeHook
         _G.hooksecurefunc = spy.new(function(owner, name, callback)
             assert.are.equal(QuestieMap, owner)
@@ -2397,8 +2397,10 @@ describe("QuestiePolygon world-map adapter", function()
         FlushRefresh()
         local meat, ribs = frames[2], frames[3]
         assert.are_near(-5.6, meat.point[4], 0.000001)
-        resizeHook() -- RescaleIcons runs before SetProfileValue.
+        -- The icon scale settings write the new value, then rescale.
         Questie.db.profile.globalScale = 1.5
+        resizeHook()
+        assert.are_near(-5.6, meat.point[4], 0.000001) -- Nudging waits for the next frame.
         FlushRefresh()
         assert.are_near(-8.4, meat.point[4], 0.000001)
         assert.are_near(8.4, ribs.point[4], 0.000001)
@@ -2406,38 +2408,31 @@ describe("QuestiePolygon world-map adapter", function()
     end)
 
     describe("per-icon setting refresh", function()
-        local options, defaults, utils, originalOptions
+        local engine, defaults, utils, originalOptions
 
         before_each(function()
-            options = QuestieLoader:ImportModule("QuestieOptions")
+            engine = QuestieLoader:ImportModule("QuestieOptionsEngine")
             defaults = QuestieLoader:ImportModule("QuestieOptionsDefaults")
             utils = QuestieLoader:ImportModule("QuestieOptionsUtils")
-            originalOptions = {tabs = options.tabs, SetProfileValue = options.SetProfileValue, Load = defaults.Load,
-                SetPfQuestIcons = utils.SetPfQuestIcons, DetermineTheme = utils.DetermineTheme,
-                ExecuteTheme = utils.ExecuteTheme, Spacer = utils.Spacer}
-            options.tabs = {}
-            utils.Spacer = function() return {} end
+            originalOptions = {tabs = engine.tabs, Load = defaults.Load, DetermineTheme = utils.DetermineTheme,
+                ExecuteTheme = utils.ExecuteTheme}
+            engine.tabs = {}
             defaults.Load = function() return {profile = {}} end
-            options.SetProfileValue = function(_, info, value) Questie.db.profile[info[#info]] = value end
             dofile("Localization/l10n.lua")
-            dofile("Modules/Options/IconsTab/QuestieOptionsIcons.lua")
+            dofile("Modules/Options/NativeOptions/NativeOptionsIcons.lua")
         end)
 
         after_each(function()
-            options.tabs, options.SetProfileValue = originalOptions.tabs, originalOptions.SetProfileValue
+            engine.tabs = originalOptions.tabs
             defaults.Load = originalOptions.Load
-            utils.Spacer = originalOptions.Spacer
-            utils.SetPfQuestIcons, utils.DetermineTheme, utils.ExecuteTheme =
-                originalOptions.SetPfQuestIcons, originalOptions.DetermineTheme, originalOptions.ExecuteTheme
+            utils.DetermineTheme, utils.ExecuteTheme = originalOptions.DetermineTheme, originalOptions.ExecuteTheme
         end)
 
-        it("reads the new loot scale after the actual option setter finishes, without refreshing cached geometry", function()
+        it("applies a new loot scale from its setting on the next refresh, without refreshing cached geometry", function()
             Questie.db.profile.lootScale = 1
             objective.Type = "item"
             objective.spawnList[123].GetIconScale = function() return Questie.db.profile.lootScale end
-            QuestieMap.RescaleIcons = spy.new(function()
-                assert.are.equal(1, Questie.db.profile.lootScale) -- The setter has not written the new value yet.
-            end)
+            QuestieMap.RescaleIcons = spy.new(function() end)
             _G.hooksecurefunc = function(owner, name, callback)
                 local original = owner[name]
                 owner[name] = function(...)
@@ -2456,8 +2451,8 @@ describe("QuestiePolygon world-map adapter", function()
             assert.are_near(-5.6, frames[1].point[4], 0.000001)
             assert.are_near(5.6, frames[2].point[4], 0.000001)
 
-            local iconOptions = options.tabs.icons:Initialize()
-            iconOptions.args.icon_scales_group.args.lootScale.set({"lootScale"}, 2)
+            local iconOptions = engine.tabs.icons:Initialize()
+            iconOptions.items.icon_scales_group.items.lootScale.set(nil, 2)
             assert.are.equal(2, Questie.db.profile.lootScale)
             assert.are.equal(1, frames[1].data.IconScale) -- RescaleIcons/geometry cached the old setting.
             assert.are_near(-5.6, frames[1].point[4], 0.000001) -- Waiting for the scheduled refresh.

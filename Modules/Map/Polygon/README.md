@@ -1,6 +1,6 @@
 # Questie world-map polygons
 
-Opt-in, spawn-based objective areas. Select **Questie blobs** in the Icons tab's objective-style preset, or in the initial objective-style popup when offered. The profile setting `enableQuestiePolygons` defaults to false; migration 53 leaves existing profiles opted out unless already explicitly enabled.
+Opt-in, spawn-based objective areas. Select **Questie blobs** in the Icons tab's objective-style preset, or in the initial objective-style popup when offered. The profile setting `enableQuestiePolygons` defaults to false; migration 55 leaves existing profiles opted out unless already explicitly enabled.
 
 ## Player behavior
 
@@ -185,7 +185,7 @@ Keep these hooks small when merging changes from Questie:
 | [TrackerUtils](../../Tracker/TrackerUtils.lua) | Borrow cluster markers for Show on Map; refresh fill visibility and guard delayed animation against recycled frames. |
 | [MapPreview](../MapPreview.lua) | Polygon subscribes once, with its icon events, and shows the areas of each previewed objective, or of every objective for a quest's preview, such as while a tracker line or a quest log box is hovered. |
 | [Questie.lua](../../../Questie.lua) | Reset on addon disable; existing profile refresh reaches `SmoothReset`. |
-| [Icon options](../../Options/IconsTab/QuestieOptionsIcons.lua), [tutorial](../../Tutorial/ChooseObjectiveType.lua), [defaults](../../Options/QuestieOptionsDefaults.lua), [migration](../../Migration.lua) | Preset `polygon`, opt-in flag, selection UI, and migration 53. The minimap icon switch also refreshes minimap areas. |
+| [Icon options](../../Options/NativeOptions/NativeOptionsIcons.lua), [tutorial](../../Tutorial/ChooseObjectiveType.lua), [defaults](../../Options/QuestieOptionsDefaults.lua), [migration](../../Migration.lua) | Preset `polygon`, opt-in flag, selection UI, and migration 55. The minimap icon switch also refreshes minimap areas. |
 | [Objective style preview](../../Tutorial/ObjectivePreview.lua) | The popup's still blobs map draws its generated areas with `PolygonRenderer` directly: it has no quests for the adapter. |
 
 All six flavor TOCs load geometry, renderer, render cache, nudging, minimap, then adapter before `Questie.lua`; only the Forever TOC then loads its quest log file. Polygon sits under `Modules/`, so [release packaging](../../../build.py) ships it without its adjacent tests and [CI](../../../.github/workflows/ci.yml) lints it, with no entry of its own. The geometry/renderer can be reused independently of the adapter, but they still use QuestieLoader and the renderer requires WoW texture/frame APIs.
