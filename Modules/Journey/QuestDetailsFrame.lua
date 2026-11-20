@@ -335,13 +335,17 @@ local function ResetNPCInfoLayout(group)
     group.npcPortraitLayoutActive = false
     group.itemIconLayoutActive = false
     group.minHeight = nil
-    for _, portrait in pairs(group.npcPortraits or {}) do
+    local portraits = group.npcPortraits or {}
+    for _, portrait in pairs(portraits) do
         if portrait.npcID then
             RemoveNPCPortraitWaiter(portrait, portrait.npcID)
         end
         portrait:Hide()
         portrait.npcID = nil
     end
+    -- Keep the cache table on the pooled group even when this is its first
+    -- reset, so later acquisitions always reuse the same texture slots.
+    group.npcPortraits = portraits
 
     -- InlineGroups are reused. Hide an item icon left by a
     -- previous item-start panel before this group is reused for links or NPCs.
