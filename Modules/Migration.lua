@@ -338,6 +338,9 @@ local migrationFunctions = {
         -- The pfQuest/ClassicCodex icon toggle is gone; the icon theme choice replaced it.
         Questie.db.profile.usePfQuestIcons = nil
     end,
+    [55] = function()
+        Questie.db.profile.enableTooltipsItemDropHint = true
+    end,
 }
 
 function Migration:Migrate()

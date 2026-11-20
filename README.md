@@ -130,6 +130,8 @@ Checkout the [README of the Questie API](./Public/README.md).
 ### Tooltips
 - Show tooltips on map notes and quest NPCs/objects.
 - Holding Shift while hovering over a map icon displays more information, like quest XP.
+- Quests that start from an item obtained from a creature or dropped by an object show the tag "(Item drop)" in the map icon tooltip in place of the plain "(Available)" tag; specialized tags such as "(Repeatable)" or "(Event)" are unchanged.
+- In the expanded (Shift) view, a gray hint line under the quest explains that it starts from an item obtained from that creature or object. This hint can be toggled off with the "Show item drop hint" option (on by default).
 
 ### Journey Log
 - Questie records the steps of your journey in the "My Journey" window. (left-click on minimap button and select the "My Journey" tab or type `/questie journey`)

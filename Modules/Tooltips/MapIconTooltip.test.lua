@@ -616,7 +616,113 @@ describe("MapIconTooltip objective wording", function()
             assert.are.equal("Blackmoss the Fetid", GiverLine())
         end)
     end)
-      
+
+    describe("item drop", function()
+        local rendered
+
+        before_each(function()
+            rendered = {}
+            _G.IsShiftKeyDown = function() return true end
+            Questie.db.profile.enableTooltipsItemDropHint = true
+            Questie.db.profile.enableTooltipsNextInChain = false
+            Questie.db.profile.enableTooltipsBreadcrumbQuests = false
+            QuestieLoader:ImportModule("QuestieLib").GetColoredQuestName = function(_, questId) return "Quest " .. questId end
+            QuestieLoader:ImportModule("QuestXP").GetQuestRewardMoney = function() return 0 end
+            QuestieLoader:ImportModule("QuestieReputation").GetReputationReward = function() return {} end
+            QuestieLoader:ImportModule("QuestieEvent").activeQuests = {}
+            local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
+            QuestieDB.IsWeeklyQuest = function() return false end
+            QuestieDB.IsMonthlyQuest = function() return false end
+            QuestieDB.IsDailyQuest = function() return false end
+            QuestieDB.IsRepeatable = function() return false end
+            QuestieDB.GetCreatureLevels = function() return {} end
+            QuestieLoader:ImportModule("TooltipLayout").CreateRows = function()
+                return {
+                    AddLine = function(_, text) rendered[#rendered + 1] = text end,
+                    AddDoubleLine = function(_, left, right) rendered[#rendered + 1] = {left, right} end,
+                }
+            end
+        end)
+
+        ---Shows the tooltip of one available quest's icon, hovering it.
+        ---@param fields table? The icon data fields besides the giver and quest, like StarterType
+        local function ShowAvailable(fields)
+            local data = {Id = 11, Type = "available", Name = "Blackmoss the Fetid", QuestData = {}}
+            for key, value in pairs(fields or {}) do data[key] = value end
+            local available = {x = 50, y = 50, AreaID = 1, texture = icon.texture, data = data}
+            MapIconTooltip.ShowOnTooltip(available, GameTooltip, nil, {available})
+        end
+
+        ---@return string? tag The tag rendered next to the quest's title.
+        local function TagOf()
+            for _, row in ipairs(rendered) do
+                if type(row) == "table" and row[1]:find("Quest 11", 1, true) then return row[2] end
+            end
+        end
+
+        ---@return string? line The item drop hint, if rendered at all.
+        local function HintLine()
+            for _, row in ipairs(rendered) do
+                if type(row) == "string" and row:find("This quest starts from an item", 1, true) then return row end
+            end
+        end
+
+        it("should tag an available quest that starts from an item the monster drops and explain it with Shift", function()
+            ShowAvailable({StarterType = "itemFromMonster"})
+
+            assert.are.equal("(Item drop)", TagOf())
+            assert.are.equal("This quest starts from an item obtained from this creature.", HintLine())
+        end)
+
+        it("should tag an available quest that starts from an item the object drops and explain it with Shift", function()
+            ShowAvailable({StarterType = "itemFromObject"})
+
+            assert.are.equal("(Item drop)", TagOf())
+            assert.are.equal("This quest starts from an item dropped by this object.", HintLine())
+        end)
+
+        it("should keep the item drop tag without Shift, and explain only with Shift", function()
+            _G.IsShiftKeyDown = function() return false end
+
+            ShowAvailable({StarterType = "itemFromMonster"})
+
+            assert.are.equal("(Item drop)", TagOf())
+            assert.is_nil(HintLine())
+        end)
+
+        it("should keep the available tag of a regular starter and stay unexplained", function()
+            ShowAvailable({})
+
+            assert.are.equal("(Available)", TagOf())
+            assert.is_nil(HintLine())
+        end)
+
+        it("should keep the repeatable tag of a repeatable quest that starts from an item", function()
+            QuestieLoader:ImportModule("QuestieDB").IsRepeatable = function() return true end
+
+            ShowAvailable({StarterType = "itemFromMonster"})
+
+            assert.are.equal("(Repeatable)", TagOf())
+        end)
+
+        it("should keep the event tag of an event quest that starts from an item", function()
+            QuestieLoader:ImportModule("QuestieEvent").activeQuests = {[11] = true}
+
+            ShowAvailable({StarterType = "itemFromMonster"})
+
+            assert.are.equal("(Event)", TagOf())
+        end)
+
+        it("should hide the item drop hint when the option is off, while the tag stays", function()
+            Questie.db.profile.enableTooltipsItemDropHint = false
+
+            ShowAvailable({StarterType = "itemFromMonster"})
+
+            assert.are.equal("(Item drop)", TagOf())
+            assert.is_nil(HintLine())
+        end)
+    end)
+
     describe("next in chain", function()
         local rendered
 
