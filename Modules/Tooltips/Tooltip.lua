@@ -74,6 +74,7 @@ function QuestieTooltips:RegisterObjectiveTooltip(questId, key, objective)
     };
     QuestieTooltips.lookupByKey[key][tostring(questId) .. " " .. objective.Index] = tooltip
     tinsert(QuestieTooltips.lookupKeysByQuestId[questId], key)
+    QuestieTooltips.InvalidateSecretUnitCandidates()
 end
 
 ---@param questId number
@@ -100,6 +101,7 @@ function QuestieTooltips:RegisterQuestStartTooltip(questId, name, starterId, key
     };
     QuestieTooltips.lookupByKey[key][tostring(questId) .. " " .. name .. " " .. starterId] = tooltip
     tinsert(QuestieTooltips.lookupKeysByQuestId[questId], key)
+    QuestieTooltips.InvalidateSecretUnitCandidates()
     return name
 end
 
@@ -149,6 +151,7 @@ function QuestieTooltips:RemoveQuest(questId)
     end
 
     QuestieTooltips.lookupKeysByQuestId[questId] = nil
+    QuestieTooltips.InvalidateSecretUnitCandidates()
 end
 
 -- This function contains the rules for formatting text for drop rate tooltips.
@@ -606,13 +609,45 @@ end
 
 local initialized = false
 
----Questie's tooltip text for every NPC with quest lines, merged by NPC name, which is all a secret unit can match on.
+-- Built on the next hover after anything changes Questie's NPC tooltip lines, see InvalidateSecretUnitCandidates.
+local secretUnitCandidates, secretUnitCandidatesZone
+-- Spawns do not change, so whether an NPC spawns in the current zone is kept until the zone changes.
+local spawnsInZone, spawnsInZoneId = {}, nil
+
+---@param npcId NpcId
+---@param playerZone AreaId
+---@return boolean
+local function _SpawnsInZone(npcId, playerZone)
+    if spawnsInZoneId ~= playerZone then
+        spawnsInZone, spawnsInZoneId = {}, playerZone
+    end
+    local cached = spawnsInZone[npcId]
+    if cached ~= nil then return cached end
+    local found = false
+    local spawns = QuestieDB.QueryNPCSingle(npcId, "spawns")
+    if spawns then
+        -- Dungeon floors report their own AreaId while NPCs are listed under the dungeon, like objects in GetTooltip.
+        local parentZone = ZoneDB:GetParentZoneId(playerZone)
+        for zoneId in pairs(spawns) do
+            if zoneId == playerZone or zoneId == parentZone then
+                found = true
+                break
+            end
+        end
+    end
+    spawnsInZone[npcId] = found
+    return found
+end
+
+---Questie's tooltip text for every NPC with quest lines in the current zone, merged by NPC name, which is all a
+---secret unit can match on.
+---@param playerZone AreaId
 ---@return {name: string, text: string}[]
-local function _GetSecretUnitCandidates()
+local function _BuildSecretUnitCandidates(playerZone)
     local candidates, byName = {}, {}
     for key in pairs(QuestieTooltips.lookupByKey) do
         local npcId = key:sub(1, 2) == "m_" and tonumber(key:sub(3))
-        local name = npcId and QuestieDB.QueryNPCSingle(npcId, "name")
+        local name = npcId and _SpawnsInZone(npcId, playerZone) and QuestieDB.QueryNPCSingle(npcId, "name")
         local tooltipLines = name and QuestieTooltips.GetTooltip(key)
         if tooltipLines then
             local lines = {}
@@ -635,6 +670,28 @@ local function _GetSecretUnitCandidates()
     return candidates
 end
 
+---Drops the prepared secret unit text. Call it whenever Questie's NPC tooltip lines or their progress change.
+---@return nil
+function QuestieTooltips.InvalidateSecretUnitCandidates()
+    secretUnitCandidates = nil
+end
+
+---@return {name: string, text: string}[]
+local function _GetSecretUnitCandidates()
+    local playerZone = QuestiePlayer:GetCurrentZoneId()
+    if not secretUnitCandidates or secretUnitCandidatesZone ~= playerZone then
+        secretUnitCandidates = _BuildSecretUnitCandidates(playerZone)
+        secretUnitCandidatesZone = playerZone
+    end
+    return secretUnitCandidates
+end
+
+---@return boolean
+local function _IsReadablePlayer()
+    local isPlayer = UnitIsPlayer("mouseover")
+    return not (issecretvalue and issecretvalue(isPlayer)) and isPlayer == true
+end
+
 ---Adds Questie's NPC lines to a unit whose GUID is secret. The native helpers pick the candidate named like the
 ---unit, so Lua never learns which NPC it is. The added line count must not depend on the secret: always one line.
 ---@param tooltip GameTooltip
@@ -647,6 +704,8 @@ local function _AddSecretUnitData(tooltip)
     -- Mythic+ keeps tooltips light; every hover would compare against all candidates.
     if C_ChallengeMode and C_ChallengeMode.IsChallengeModeActive and C_ChallengeMode.IsChallengeModeActive() then return end
     if not (TooltipUtil and TooltipUtil.GetDisplayedUnit) then return end
+    -- Players, e.g. party members, never carry Questie's NPC lines.
+    if _IsReadablePlayer() then return end
 
     -- ATT reads secret units the same way. Should it fail, the hovered unit's name still is the tooltip's unit.
     local ok, unitName = pcall(TooltipUtil.GetDisplayedUnit, tooltip)
