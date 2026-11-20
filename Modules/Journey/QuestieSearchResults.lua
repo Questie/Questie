@@ -207,10 +207,14 @@ local function ApplyModernSearchBox(searchBox, placeholder)
             activeModernSearchEditBox = nil
         end
         state.editBox:Hide()
+        state.editBox.obj = nil
         state.legacyEditBox:Show()
         widget.editbox = state.legacyEditBox
         widget.SetText = state.rawSetText
         widget.disablebutton = state.disablebutton
+        if not state.disablebutton then
+            widget.button:Show()
+        end
         widget.modernSearchBox = nil
     end)
 end
