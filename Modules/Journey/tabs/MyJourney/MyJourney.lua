@@ -70,9 +70,10 @@ function _QuestieJourney.myJourney:ManageTree(container)
                     if QuestieOptionsControls and QuestieOptionsControls.ApplyJourneyContainerTexture then
                         QuestieOptionsControls.ApplyJourneyContainerTexture(nestedBackground)
                     end
-                    if not f.modernJourneyBackgroundReleaseHooked and f.SetCallback then
+                    if f.SetCallback then
                         f.modernJourneyBackgroundReleaseHooked = true
                         f:SetCallback("OnRelease", function(widget)
+                            widget.modernJourneyBackgroundReleaseHooked = false
                             if widget.modernJourneyBackground then
                                 widget.modernJourneyBackground:Hide()
                             end
