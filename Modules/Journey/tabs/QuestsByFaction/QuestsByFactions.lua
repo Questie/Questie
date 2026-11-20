@@ -484,8 +484,9 @@ function _QuestieJourney.questsByFaction:ManageTree(container, factionTree)
 
         local _, questId = strsplit("\001", treeValue)
         local getQuestOk, quest = false, nil
-        if questId then
-            getQuestOk, quest = pcall(QuestieDB.GetQuest, tonumber(questId))
+        local numericQuestId = questId and tonumber(questId)
+        if numericQuestId then
+            getQuestOk, quest = pcall(QuestieDB.GetQuest, numericQuestId)
         end
         if IsModifiedClick("CHATLINK") and ChatEdit_GetActiveWindow() and getQuestOk and quest then
             ChatEdit_InsertLink(QuestieLink.GetQuestLinkStringById(quest.Id))
