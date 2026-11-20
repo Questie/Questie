@@ -61,6 +61,7 @@ local IsEquippableItem = QuestieCompat.IsEquippableItem
 local tinsert = table.insert
 
 local objectiveFlashTicker
+local _StopFlash
 -- Time between two steps of the map icon flash animation.
 local FLASH_STEP_SECONDS = 0.065
 ---@type table<number, table> Icons of the running flash, to restore their size when a new flash starts.
@@ -135,6 +136,81 @@ function TrackerUtils:SetTomTomTarget(title, zone, x, y)
         local uiMapId = ZoneDB:GetUiMapIdByAreaId(zone)
         Questie.db.char._tom_waypoint = TomTom:AddWaypoint(uiMapId, x / 100, y / 100, {title = title, crazy = true, from = "Questie"})
     end
+end
+
+local JOURNEY_NPC_MARKER_TYPE = "journey_npc"
+local JOURNEY_OBJECT_MARKER_TYPE = "journey_object"
+local journeyMarkerId
+local journeyMarkerType
+
+local function ClearJourneyMarker()
+    if journeyMarkerId and journeyMarkerType then
+        QuestieMap:UnloadManualFrames(journeyMarkerId, journeyMarkerType)
+    end
+    journeyMarkerId = nil
+    journeyMarkerType = nil
+end
+
+---Open the map at a Journey NPC or object location.
+---@param entityType "npc"|"object"
+---@param entityId number
+---@param zone AreaId
+---@param x number Coordinates in percent (0..100).
+---@param y number Coordinates in percent (0..100).
+---@return boolean opened
+local function ShowJourneyEntityOnMap(entityType, entityId, zone, x, y)
+    if (entityType ~= "npc" and entityType ~= "object")
+        or type(entityId) ~= "number" or type(zone) ~= "number"
+        or type(x) ~= "number" or type(y) ~= "number"
+        or x < 0 or x > 100 or y < 0 or y > 100 then
+        return false
+    end
+
+    local zoneOk, uiMapId = pcall(ZoneDB.GetUiMapIdByAreaId, ZoneDB, zone)
+    if not zoneOk or not uiMapId then
+        return false
+    end
+
+    ClearJourneyMarker()
+
+    if Questie.IsForever and QuestieCompat.SetUserWaypoint
+        and QuestieCompat.SetUserWaypoint(uiMapId, x / 100, y / 100) then
+        return QuestieCompat.OpenWorldMap(uiMapId)
+    end
+
+    journeyMarkerId = entityId
+    journeyMarkerType = entityType == "npc" and JOURNEY_NPC_MARKER_TYPE or JOURNEY_OBJECT_MARKER_TYPE
+    if entityType == "npc" then
+        QuestieMap:ShowNPC(entityId, nil, 1.2, nil, nil, true, journeyMarkerType, false)
+    else
+        QuestieMap:ShowObject(entityId, nil, 1.2, nil, nil, true, journeyMarkerType)
+    end
+
+    if not QuestieCompat.OpenWorldMap(uiMapId) then
+        ClearJourneyMarker()
+        return false
+    end
+    return true
+end
+
+---Open the map at an NPC location.
+---@param npcId number
+---@param zone AreaId
+---@param x number Coordinates in percent (0..100).
+---@param y number Coordinates in percent (0..100).
+---@return boolean opened
+function TrackerUtils:ShowNPCOnMap(npcId, zone, x, y)
+    return ShowJourneyEntityOnMap("npc", npcId, zone, x, y)
+end
+
+---Open the map at an object location.
+---@param objectId number
+---@param zone AreaId
+---@param x number Coordinates in percent (0..100).
+---@param y number Coordinates in percent (0..100).
+---@return boolean opened
+function TrackerUtils:ShowObjectOnMap(objectId, zone, x, y)
+    return ShowJourneyEntityOnMap("object", objectId, zone, x, y)
 end
 
 ---Quest navigation and ctrl-click use the same eligibility as the menu, evaluated against current data.
@@ -259,7 +335,7 @@ local function _HideManualIconsForFlash()
 end
 
 ---Ends a running flash right away, so a new flash starts from the icons' real sizes and visibility.
-local function _StopFlash()
+_StopFlash = function()
     if (not objectiveFlashTicker) then
         return
     end
