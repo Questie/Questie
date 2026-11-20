@@ -905,6 +905,7 @@ _HandleTreeItemSelected = function(group, _, value, fromClick, resultTypeOverrid
     local details = QuestieGUI:Create("ScrollFrame");
     details:SetLayout("Flow");
     details:SetCallback("OnRelease", function(widget)
+        detailsFrameGeneration = detailsFrameGeneration + 1
         widget.journeyDetailsGeneration = nil
     end)
     detailsFrameGeneration = detailsFrameGeneration + 1
