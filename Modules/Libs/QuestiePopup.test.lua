@@ -77,6 +77,15 @@ describe("QuestiePopup consumers", function()
             return frame
         end
 
+        dofile("Modules/Journey/QuestieGUI.lua")
+        local QuestieGUI = QuestieLoader:ImportModule("QuestieGUI")
+        QuestieGUI.Create = function(_, kind)
+            local widget = Widget()
+            widgets[kind] = widget
+            return widget
+        end
+        QuestieGUI.Release = function() end
+
         options = QuestieLoader:ImportModule("QuestieOptionsEngine")
         options.tabs = {}
         QuestieLoader:ImportModule("QuestieOptionsDefaults").Load = function()
