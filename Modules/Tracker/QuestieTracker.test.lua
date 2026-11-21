@@ -53,8 +53,18 @@ describe("QuestieTracker", function()
     describe("QuestItemLooted", function()
         local getItemInfoMock, getItemCountMock, usableItemMock, afterMock, registerEventMock
         local originalTimer
+        local lootGlobals = {"LOOT_ITEM", "LOOT_ITEM_SELF", "LOOT_ITEM_PUSHED_SELF", "LOOT_ITEM_CREATED_SELF"}
+        local originalLootGlobals
 
         before_each(function()
+            originalLootGlobals = {}
+            for _, name in ipairs(lootGlobals) do
+                originalLootGlobals[name] = _G[name]
+            end
+            _G.LOOT_ITEM = "%s receives loot: %s."
+            _G.LOOT_ITEM_SELF = "You receive loot: %s."
+            _G.LOOT_ITEM_PUSHED_SELF = "You receive item: %s."
+            _G.LOOT_ITEM_CREATED_SELF = "You create: %s."
             local compat = QuestieLoader:ImportModule("QuestieCompat")
             getItemInfoMock = stub(compat, "GetItemInfo")
             getItemInfoMock.returns(nil, nil, nil, nil, nil, "Quest")
@@ -74,6 +84,9 @@ describe("QuestieTracker", function()
             usableItemMock:revert()
             _G.C_Timer = originalTimer
             registerEventMock:revert()
+            for _, name in ipairs(lootGlobals) do
+                _G[name] = originalLootGlobals[name]
+            end
         end)
 
         it("schedules a tracker refresh when the looted quest item is already in the bag", function()
@@ -96,6 +109,42 @@ describe("QuestieTracker", function()
             assert.spy(registerEventMock).was.called(1)
             assert.equal("BAG_UPDATE_DELAYED", registerEventMock.calls[1].vals[2])
             assert.spy(afterMock).was.called(1)
+        end)
+
+        it("schedules a tracker refresh for the localized own loot message of a non-English client", function()
+            _G.LOOT_ITEM_SELF = "Du erhältst Beute: %s."
+            _G.LOOT_ITEM_PUSHED_SELF = "Du erhältst den Gegenstand: %s."
+            _G.LOOT_ITEM_CREATED_SELF = "Du stellst her: %s."
+
+            QuestieTracker:QuestItemLooted("Du erhältst Beute: |Hitem:123|h[Brief]|h.")
+
+            assert.spy(afterMock).was.called(2)
+        end)
+
+        it("treats pattern characters in the localized loot prefix literally", function()
+            _G.LOOT_ITEM_SELF = "Vous recevez (le) butin-: %s."
+
+            QuestieTracker:QuestItemLooted("Vous recevez (le) butin-: |Hitem:123|h[Lettre]|h.")
+
+            assert.spy(afterMock).was.called(2)
+        end)
+
+        it("does not schedule a tracker refresh when another player loots the quest item", function()
+            QuestieTracker:QuestItemLooted("Bob receives loot: |Hitem:123|h[A Letter]|h.")
+
+            assert.spy(afterMock).was.not_called()
+            assert.spy(registerEventMock).was.not_called()
+        end)
+
+        it("does not error when the loot globals are not defined", function()
+            _G.LOOT_ITEM_SELF = nil
+            _G.LOOT_ITEM_PUSHED_SELF = nil
+            _G.LOOT_ITEM_CREATED_SELF = nil
+
+            assert.has_no.errors(function()
+                QuestieTracker:QuestItemLooted("You receive loot: |Hitem:123|h[A Letter]|h.")
+            end)
+            assert.spy(afterMock).was.not_called()
         end)
     end)
 

@@ -530,11 +530,23 @@ function QuestieTracker:UpdateVoiceOverFrame()
     end
 end
 
+---@param text string
+---@return boolean
+local function _IsOwnLootMessage(text)
+    for _, lootFormat in pairs({LOOT_ITEM_SELF, LOOT_ITEM_PUSHED_SELF, LOOT_ITEM_CREATED_SELF}) do
+        local placeholderStart = string.find(lootFormat, "%", 1, true)
+        if placeholderStart and placeholderStart > 1 and string.sub(text, 1, placeholderStart - 1) == string.sub(lootFormat, 1, placeholderStart - 1) then
+            return true
+        end
+    end
+    return false
+end
+
 -- If the player loots a "Quest Item" then this triggers a Tracker Update so the
 -- Quest Item Button can be switched on and appear in the tracker.
 ---@param text string
 function QuestieTracker:QuestItemLooted(text)
-    local playerLoot = strmatch(text, "You receive ") or strmatch(text, "You create")
+    local playerLoot = _IsOwnLootMessage(text)
     local itemId = tonumber(string.match(text, "item:(%d+)"))
 
     if playerLoot and itemId then
