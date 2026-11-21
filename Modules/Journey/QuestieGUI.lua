@@ -1031,6 +1031,7 @@ local function CreateTreeGroup(parent)
         end
         widget.treeframe:SetWidth(width)
         journeyTreeWidths[widget.treeWidthKey] = width
+        Fire(widget, "OnTreeResize", width)
     end
 
     -- Use a manual dragger instead of Frame:StartSizing. The tree pane is
