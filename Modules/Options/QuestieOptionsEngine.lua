@@ -94,6 +94,8 @@ local canvases = {}
 
 ---@type table<string, Frame> Canvases of Questie's own window by tab key
 local popupCanvases = {}
+---@type Frame? Canvas showing matching options from every tab
+local searchResultsCanvas
 ---@type table<string, Frame> Buttons of Questie's own window by tab key
 local sideTabs = {}
 
@@ -355,11 +357,20 @@ end
 
 ---@param selectedKey string
 local function _SelectPopupTab(selectedKey)
+    searchResultsCanvas:Hide()
     for _, tab in ipairs(visibleTabs) do
         local isSelected = tab.key == selectedKey
         popupCanvases[tab.key]:SetShown(isSelected)
         QuestieOptionsWindow.SetSideTabSelected(sideTabs[tab.key], isSelected)
     end
+end
+
+local function _SelectSearchResults()
+    for _, tab in ipairs(visibleTabs) do
+        popupCanvases[tab.key]:Hide()
+        QuestieOptionsWindow.SetSideTabSelected(sideTabs[tab.key], false)
+    end
+    searchResultsCanvas:Show()
 end
 
 ---@return Frame window
@@ -374,6 +385,21 @@ local function _CreatePopup()
         sideTabs[tab.key] = QuestieOptionsWindow.CreateSideTab(window, tab.key, tab.data, previousSideTab, _SelectPopupTab)
         previousSideTab = sideTabs[tab.key]
     end
+
+    local searchItems = {}
+    for index, tab in ipairs(visibleTabs) do
+        searchItems["tab_" .. tab.key] = {
+            type = "container",
+            title = tab.data.title,
+            order = index,
+            items = tab.data.items,
+        }
+    end
+    searchResultsCanvas = _CreateCanvas(window.canvasContainer, {
+        key = "search",
+        data = {title = "Search", subtitle = "Search", items = searchItems},
+    }, RenderMode.POPUP)
+    popupCanvases.search = searchResultsCanvas
 
     _SelectPopupTab(visibleTabs[1].key)
 
@@ -480,15 +506,14 @@ function QuestieOptionsEngine:SetSearchText(searchText)
     end
 
     if searchText ~= "" then
+        _SelectSearchResults()
         for _, tab in ipairs(visibleTabs) do
-            if _PopupTabMatchesSearch(tab) then
-                _SelectPopupTab(tab.key)
-                break
-            end
+            sideTabs[tab.key]:Hide()
         end
+    else
+        _SelectPopupTab(visibleTabs[1].key)
+        _UpdatePopupTabVisibility()
     end
-
-    _UpdatePopupTabVisibility()
     _RebuildPopupCanvases()
 end
 
