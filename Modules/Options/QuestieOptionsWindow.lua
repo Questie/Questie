@@ -10,19 +10,94 @@ local l10n = QuestieLoader:ImportModule("l10n")
 
 local WINDOW_NAME = "QuestieStandaloneSettings"
 local WINDOW_WIDTH = 675
+local RESIZER_SIZE = 16
+local RESIZER_UP = "Interface\\ChatFrame\\UI-ChatIM-SizeGrabber-Up"
+local RESIZER_DOWN = "Interface\\ChatFrame\\UI-ChatIM-SizeGrabber-Down"
+local RESIZER_HIGHLIGHT = "Interface\\ChatFrame\\UI-ChatIM-SizeGrabber-Highlight"
+
+local function ApplyResizeBounds(window, settings)
+    local minWidth = settings.minWidth or 700
+    local minHeight = settings.minHeight or 400
+    local maxWidth = settings.maxWidth or math.floor((UIParent:GetWidth() or 1920) * 0.95)
+    local maxHeight = settings.maxHeight or math.floor((UIParent:GetHeight() or 1080) * 0.95)
+
+    if window.SetResizeBounds then
+        window:SetResizeBounds(minWidth, minHeight, maxWidth, maxHeight)
+    else
+        window:SetMinResize(minWidth, minHeight)
+        window:SetMaxResize(maxWidth, maxHeight)
+    end
+end
+
+local function PinTopLeft(window)
+    local left, top = window:GetLeft(), window:GetTop()
+    if not left or not top then
+        return
+    end
+
+    window:ClearAllPoints()
+    window:SetPoint("TOPLEFT", UIParent, "BOTTOMLEFT", left, top)
+end
+
+local function AddResizeGrip(window, settings)
+    if not settings.resizable or not window.SetResizable then
+        return
+    end
+
+    window:SetResizable(true)
+    ApplyResizeBounds(window, settings)
+
+    local resizer = CreateFrame("Button", nil, window)
+    resizer:SetPoint("BOTTOMRIGHT", window, "BOTTOMRIGHT", -2, 2)
+    resizer:SetSize(RESIZER_SIZE, RESIZER_SIZE)
+    resizer:SetNormalTexture(RESIZER_UP)
+    resizer:SetPushedTexture(RESIZER_DOWN)
+    resizer:SetHighlightTexture(RESIZER_HIGHLIGHT)
+    resizer:SetFrameLevel(window:GetFrameLevel() + 5)
+    resizer:SetScript("OnEnter", function()
+        if SetCursor then SetCursor("Interface\\Cursor\\UI-Cursor-SizeRight") end
+    end)
+    resizer:SetScript("OnLeave", function()
+        if SetCursor then SetCursor(nil) end
+    end)
+    resizer:SetScript("OnMouseDown", function(_, button)
+        if button ~= "LeftButton" then
+            return
+        end
+
+        local highlight = resizer:GetHighlightTexture()
+        if highlight then highlight:Hide() end
+        PinTopLeft(window)
+        window.isResizing = true
+        window:StartSizing("BOTTOMRIGHT")
+    end)
+    resizer:SetScript("OnMouseUp", function()
+        local highlight = resizer:GetHighlightTexture()
+        if highlight then highlight:Show() end
+        window:StopMovingOrSizing()
+        window.isResizing = false
+        if SetCursor then SetCursor(nil) end
+    end)
+
+    window.ResizeGrip = resizer
+end
 
 ---Creates the hidden window. Tab canvases go in its canvasContainer.
+---@param settings table? Optional window settings for other Questie panels.
 ---@return Frame window
-function QuestieOptionsWindow.Create()
-    local window = CreateFrame("Frame", WINDOW_NAME, UIParent, "PortraitFrameTemplate")
-    window:SetSize(WINDOW_WIDTH, math.floor(GetScreenHeight() * 0.7))
+function QuestieOptionsWindow.Create(settings)
+    settings = settings or {}
+    local windowName = settings.name or WINDOW_NAME
+    local window = CreateFrame("Frame", windowName, UIParent, "PortraitFrameTemplate")
+    window:SetSize(settings.width or WINDOW_WIDTH, settings.height or math.floor(GetScreenHeight() * 0.7))
     window:SetPoint("CENTER")
     window:SetMovable(true)
     window:SetClampedToScreen(true)
     window:SetFrameStrata("HIGH")
     window:Hide()
-    window:SetTitle("Questie")
+    window:SetTitle(settings.title or "Questie")
     window:EnableMouse(true)
+    AddResizeGrip(window, settings)
 
     local closeButton = window.CloseButton
     local textures = {
@@ -61,9 +136,14 @@ function QuestieOptionsWindow.Create()
             window:StopMovingOrSizing()
             window.isMoving = false
         end
+        if window.isResizing then
+            window:StopMovingOrSizing()
+            window.isResizing = false
+            if SetCursor then SetCursor(nil) end
+        end
     end)
 
-    window:SetPortraitTextureRaw("Interface\\AddOns\\Questie\\Icons\\questie_portrait.png", nil, nil, "TRILINEAR")
+    window:SetPortraitTextureRaw(settings.portrait or "Interface\\AddOns\\Questie\\Icons\\questie_portrait.png", nil, nil, "TRILINEAR")
     local portrait = window.PortraitContainer.portrait
     if Questie.IsForever then
         if portrait then portrait:SetTexCoord(0.16, 0.86, 0.17, 0.87) end
@@ -79,7 +159,7 @@ function QuestieOptionsWindow.Create()
     window.canvasContainer:SetPoint("BOTTOMRIGHT", window, "BOTTOMRIGHT", -10, 10)
 
     -- Lets the Escape key close the window
-    tinsert(UISpecialFrames, WINDOW_NAME)
+    tinsert(UISpecialFrames, windowName)
 
     return window
 end

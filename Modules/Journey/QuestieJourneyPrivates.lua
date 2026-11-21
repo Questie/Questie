@@ -17,15 +17,17 @@ _QuestieJourney.treeCache = nil
 
 
 function _QuestieJourney:HandleTabChange(container, group)
-    if not _QuestieJourney.containerCache then
-        _QuestieJourney.containerCache = container
-    end
+    _QuestieJourney.containerCache = container
 
     container:ReleaseChildren()
 
     if group == "journey" then
         local treeGroup = _QuestieJourney.myJourney:DrawTab(container)
         _QuestieJourney.myJourney:ManageTree(treeGroup)
+        if _QuestieJourney.collapseMyJourneyOnNextOpen then
+            _QuestieJourney.myJourney:CollapseAllGroups()
+            _QuestieJourney.collapseMyJourneyOnNextOpen = false
+        end
         _QuestieJourney.lastOpenWindow = "journey"
         return treeGroup
     elseif group == "zone" then

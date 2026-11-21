@@ -30,11 +30,134 @@ local ActiveQuests = QuestieLoader:ImportModule("ActiveQuests")
 local Expansions = QuestieLoader:ImportModule("Expansions")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
+---@type QuestieOptionsControls
+local QuestieOptionsControls = QuestieLoader:ImportModule("QuestieOptionsControls")
 
-local AceGUI = LibStub("AceGUI-3.0")
+--- QuestieGUI
+local QuestieGUI = QuestieLoader:ImportModule("QuestieGUI")
 
 local factionTreeFrame
 local factionQuestMap
+
+local function FinalizeFactionQuestDetails(master, scrollFrame, quest, questId)
+    -- The replacement widgets can be sized by the parent one pass after they
+    -- are added. Finish the pane only after that pass so its labels are laid
+    -- out against the real right-pane width rather than the 1px initial width.
+    if master.content then master.content:Show() end
+    if master.frame then master.frame:Show() end
+    if scrollFrame.frame then scrollFrame.frame:Show() end
+    if scrollFrame.content then scrollFrame.content:Show() end
+    if scrollFrame.layoutSuspended and scrollFrame.layoutSuspended > 0 then
+        scrollFrame.layoutSuspended = 0
+    end
+    if scrollFrame.RefreshLayout then
+        scrollFrame:RefreshLayout()
+    end
+
+    -- Keep a valid selection visibly actionable even if a malformed optional
+    -- relation made the detailed renderer produce no children.
+    if not scrollFrame.children or #scrollFrame.children == 0 then
+        local nameOk, name = pcall(QuestieDB.QueryQuestSingle, questId, "name")
+        name = nameOk and name or nil
+        local fallback = QuestieGUI:Create("Label")
+        fallback:SetText((quest and quest.name) or name or ("Quest " .. tostring(questId)))
+        fallback:SetFullWidth(true)
+        scrollFrame:AddChild(fallback)
+        if scrollFrame.RefreshLayout then
+            scrollFrame:RefreshLayout()
+        end
+    end
+end
+
+---Create and populate the right-hand quest pane from one tree selection.
+---@param group table
+---@param questId number
+---@return boolean
+local function ShowFactionQuestDetails(group, questId)
+    if not group or group ~= factionTreeFrame or (group.IsReleasing and group:IsReleasing()) then
+        return false
+    end
+
+    local master = group.frame and group.frame.obj
+    if not master then
+        return false
+    end
+
+    local getQuestOk, quest = pcall(QuestieDB.GetQuest, questId)
+    if not getQuestOk then
+        Questie.Debug(Questie.DEBUG_CRITICAL, "[questsByFaction] Quest lookup failed:", questId, quest)
+        quest = nil
+    end
+
+    master:ReleaseChildren()
+    master:SetLayout("fill")
+    master:SetFullWidth(true)
+    master:SetFullHeight(true)
+    if master.content then master.content:Show() end
+    if master.frame then master.frame:Show() end
+
+    local scrollFrame = QuestieGUI:Create("ScrollFrame")
+    scrollFrame:SetLayout("flow")
+    scrollFrame:SetFullWidth(true)
+    scrollFrame:SetFullHeight(true)
+    master:AddChild(scrollFrame)
+    if master.RefreshLayout then
+        master:RefreshLayout()
+    end
+    if QuestieOptionsControls and QuestieOptionsControls.ApplyJourneyPane then
+        QuestieOptionsControls.ApplyJourneyPane(scrollFrame.frame)
+    end
+    if scrollFrame.frame then scrollFrame.frame:Show() end
+    if scrollFrame.content then scrollFrame.content:Show() end
+
+    if quest then
+        local drawOk, drawError = pcall(QuestDetailsFrame.Draw, QuestDetailsFrame, scrollFrame, quest)
+        if not drawOk then
+            Questie.Debug(Questie.DEBUG_CRITICAL, "[questsByFaction] Quest detail draw failed:", questId, drawError)
+        end
+    else
+        local name = QuestieDB.QueryQuestSingle and QuestieDB.QueryQuestSingle(questId, "name")
+        local missingLabel = QuestieGUI:Create("Label")
+        missingLabel:SetText(name or ("Quest " .. tostring(questId)))
+        missingLabel:SetFullWidth(true)
+        scrollFrame:AddChild(missingLabel)
+    end
+
+    FinalizeFactionQuestDetails(master, scrollFrame, quest, questId)
+    return quest ~= nil
+end
+
+---Select and open a quest that is present in the currently displayed faction tree.
+---@param questId QuestId
+---@return boolean opened
+function _QuestieJourney.questsByFaction:OpenQuest(questId)
+    if not factionTreeFrame or not factionTreeFrame.tree then
+        return false
+    end
+
+    for _, category in ipairs(factionTreeFrame.tree) do
+        for _, quest in ipairs(category.children or {}) do
+            if tonumber(quest.value) == questId then
+                local selection = tostring(category.value) .. "\001" .. tostring(questId)
+                factionTreeFrame:SelectByValue(selection)
+                return true
+            end
+        end
+    end
+
+    return false
+end
+
+---Render a quest in the current Faction details pane when it is not in the tree.
+---@param questId QuestId
+---@return boolean opened
+function _QuestieJourney.questsByFaction:OpenQuestDetails(questId)
+    if not factionTreeFrame or not factionTreeFrame.frame or not factionTreeFrame.frame.obj then
+        return false
+    end
+
+    return ShowFactionQuestDetails(factionTreeFrame, questId)
+end
 
 local expansionDefinitions = {
     { key = "classic", label = EXPANSION_NAME0, order = Expansions.Era },
@@ -315,49 +438,68 @@ function _QuestieJourney.questsByFaction:ManageTree(container, factionTree)
         return
     end
 
-    factionTreeFrame = AceGUI:Create("TreeGroup")
+    factionTreeFrame = QuestieGUI:Create("TreeGroup")
     factionTreeFrame:SetFullWidth(true)
     factionTreeFrame:SetFullHeight(true)
     factionTreeFrame:EnableButtonTooltips(false)
+    if QuestieOptionsControls and QuestieOptionsControls.ApplyJourneyTreeGroup then
+        QuestieOptionsControls.ApplyJourneyTreeGroup(factionTreeFrame)
+    end
+    if QuestieOptionsControls and QuestieOptionsControls.ApplyModernScrollbar then
+        QuestieOptionsControls.ApplyModernScrollbar(factionTreeFrame.scrollbar)
+    end
     factionTreeFrame:SetTree(factionTree)
+    factionTreeFrame:CollapseAllGroups()
 
-    factionTreeFrame.treeframe:SetWidth(415)
-    factionTreeFrame:SetCallback("OnClick", function(group, ...)
-        local treePath = {...}
-
-        if not treePath[2] then
-            Questie.Debug(Questie.DEBUG_CRITICAL, "[factionTreeFrame:OnClick] No tree path given in Journey.")
+    local lastRenderedTreeValue
+    local function RenderFactionQuestDetails(group, treeValue, force)
+        if group ~= factionTreeFrame or (group.IsReleasing and group:IsReleasing()) then
             return
         end
 
-        local sel, questId = strsplit("\001", treePath[2])
-        if (sel == nil or sel == "a" or sel == "p" or sel == "c" or sel == "r" or sel == "u" or sel == "b" or sel == "h") and (not questId) then
+        if type(treeValue) ~= "string" then
+            Questie.Debug(Questie.DEBUG_CRITICAL, "[factionTreeFrame:OnGroupSelected] No tree path given in Journey.")
             return
         end
 
-        local master = group.frame.obj
-        master:ReleaseChildren()
-        master:SetLayout("fill")
-        master:SetFullWidth(true)
-        master:SetFullHeight(true)
+        local _, questId = strsplit("\001", treeValue)
+        if not questId then
+            return
+        end
 
-        ---@class ScrollFrame
-        local scrollFrame = AceGUI:Create("ScrollFrame")
-        scrollFrame:SetLayout("flow")
-        scrollFrame:SetFullHeight(true)
-        master:AddChild(scrollFrame)
+        if not force and lastRenderedTreeValue == treeValue then
+            return
+        end
 
         questId = tonumber(questId)
-        local quest = QuestieDB.GetQuest(questId)
+        ShowFactionQuestDetails(group, questId)
+        lastRenderedTreeValue = treeValue
+    end
 
-        if (IsModifiedClick("CHATLINK") and ChatEdit_GetActiveWindow()) then
+    factionTreeFrame:SetCallback("OnClick", function(group, _, treeValue)
+        if type(treeValue) ~= "string" then
+            return
+        end
+
+        local _, questId = strsplit("\001", treeValue)
+        local getQuestOk, quest = false, nil
+        local numericQuestId = questId and tonumber(questId)
+        if numericQuestId then
+            getQuestOk, quest = pcall(QuestieDB.GetQuest, numericQuestId)
+        end
+        if IsModifiedClick("CHATLINK") and ChatEdit_GetActiveWindow() and getQuestOk and quest then
             ChatEdit_InsertLink(QuestieLink.GetQuestLinkStringById(quest.Id))
         end
 
-        QuestDetailsFrame:Draw(scrollFrame, quest)
+    end)
+    factionTreeFrame:SetCallback("OnGroupSelected", function(group, _, treeValue, force)
+        RenderFactionQuestDetails(group, treeValue, force)
     end)
 
     container:AddChild(factionTreeFrame)
+    if factionTreeFrame.SetTreeWidthKey then
+        factionTreeFrame:SetTreeWidthKey("quests-by-faction")
+    end
 end
 
 ---Build the quest tree for a faction grouping

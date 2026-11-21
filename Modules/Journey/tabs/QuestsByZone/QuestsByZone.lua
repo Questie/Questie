@@ -23,12 +23,142 @@ local QuestieEvent = QuestieLoader:ImportModule("QuestieEvent")
 local QuestieLink = QuestieLoader:ImportModule("QuestieLink")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
+---@type QuestieOptionsControls
+local QuestieOptionsControls = QuestieLoader:ImportModule("QuestieOptionsControls")
 
-local AceGUI = LibStub("AceGUI-3.0")
+--- QuestieGUI
+local QuestieGUI = QuestieLoader:ImportModule("QuestieGUI")
 local zoneTreeFrame
 
+local function FinalizeZoneQuestDetails(master, scrollFrame, quest, questId)
+    -- The replacement widgets can be sized by the parent one pass after they
+    -- are added. Finish the pane only after that pass so its labels are laid
+    -- out against the real right-pane width rather than the 1px initial width.
+    if master.content then master.content:Show() end
+    if master.frame then master.frame:Show() end
+    if scrollFrame.frame then scrollFrame.frame:Show() end
+    if scrollFrame.content then scrollFrame.content:Show() end
+    if scrollFrame.layoutSuspended and scrollFrame.layoutSuspended > 0 then
+        scrollFrame.layoutSuspended = 0
+    end
+    if scrollFrame.RefreshLayout then
+        scrollFrame:RefreshLayout()
+    end
+
+    -- Keep a valid selection visibly actionable even if a malformed optional
+    -- relation made the detailed renderer produce no children.
+    if not scrollFrame.children or #scrollFrame.children == 0 then
+        local nameOk, name = pcall(QuestieDB.QueryQuestSingle, questId, "name")
+        name = nameOk and name or nil
+        local fallback = QuestieGUI:Create("Label")
+        fallback:SetText((quest and quest.name) or name or ("Quest " .. tostring(questId)))
+        fallback:SetFullWidth(true)
+        scrollFrame:AddChild(fallback)
+        if scrollFrame.RefreshLayout then
+            scrollFrame:RefreshLayout()
+        end
+    end
+end
+
+---Create and populate the right-hand quest pane from one tree selection.
+---The native tree has two notifications (click and selection); this helper
+---keeps pane construction independent from which notification caused it.
+---@param group table
+---@param questId number
+---@return boolean
+local function ShowZoneQuestDetails(group, questId)
+    if not group or group ~= zoneTreeFrame or (group.IsReleasing and group:IsReleasing()) then
+        return false
+    end
+
+    local master = group.frame and group.frame.obj
+    if not master then
+        return false
+    end
+
+    local getQuestOk, quest = pcall(QuestieDB.GetQuest, questId)
+    if not getQuestOk then
+        Questie.Debug(Questie.DEBUG_CRITICAL, "[questsByZone] Quest lookup failed:", questId, quest)
+        quest = nil
+    end
+
+    master:ReleaseChildren()
+    master:SetLayout("fill")
+    master:SetFullWidth(true)
+    master:SetFullHeight(true)
+    if master.content then master.content:Show() end
+    if master.frame then master.frame:Show() end
+
+    local scrollFrame = QuestieGUI:Create("ScrollFrame")
+    scrollFrame:SetLayout("flow")
+    scrollFrame:SetFullWidth(true)
+    scrollFrame:SetFullHeight(true)
+    master:AddChild(scrollFrame)
+    if master.RefreshLayout then
+        master:RefreshLayout()
+    end
+    if QuestieOptionsControls and QuestieOptionsControls.ApplyJourneyPane then
+        QuestieOptionsControls.ApplyJourneyPane(scrollFrame.frame)
+    end
+    if scrollFrame.frame then scrollFrame.frame:Show() end
+    if scrollFrame.content then scrollFrame.content:Show() end
+
+    if quest then
+        local drawOk, drawError = pcall(QuestDetailsFrame.Draw, QuestDetailsFrame, scrollFrame, quest)
+        if not drawOk then
+            Questie.Debug(Questie.DEBUG_CRITICAL, "[questsByZone] Quest detail draw failed:", questId, drawError)
+        end
+    else
+        local name = QuestieDB.QueryQuestSingle and QuestieDB.QueryQuestSingle(questId, "name")
+        local missingLabel = QuestieGUI:Create("Label")
+        missingLabel:SetText(name or ("Quest " .. tostring(questId)))
+        missingLabel:SetFullWidth(true)
+        scrollFrame:AddChild(missingLabel)
+    end
+
+    FinalizeZoneQuestDetails(master, scrollFrame, quest, questId)
+    return quest ~= nil
+end
+
+function _QuestieJourney.questsByZone:ResetTree()
+    zoneTreeFrame = nil
+end
+
+---Select and open a quest that is present in the currently displayed zone tree.
+---@param questId QuestId
+---@return boolean opened
+function _QuestieJourney.questsByZone:OpenQuest(questId)
+    if not zoneTreeFrame or not zoneTreeFrame.tree then
+        return false
+    end
+
+    for _, category in ipairs(zoneTreeFrame.tree) do
+        for _, quest in ipairs(category.children or {}) do
+            if tonumber(quest.value) == questId then
+                local selection = tostring(category.value) .. "\001" .. tostring(questId)
+                _QuestieJourney.lastZoneSelection[3] = selection
+                zoneTreeFrame:SelectByValue(selection)
+                return true
+            end
+        end
+    end
+
+    return false
+end
+
+---Render a quest in the current Zone details pane when it is not in the tree.
+---@param questId QuestId
+---@return boolean opened
+function _QuestieJourney.questsByZone:OpenQuestDetails(questId)
+    if not zoneTreeFrame or not zoneTreeFrame.frame or not zoneTreeFrame.frame.obj then
+        return false
+    end
+
+    return ShowZoneQuestDetails(zoneTreeFrame, questId)
+end
+
 ---Restore the previously selected quest in the zone tree
----@param treeFrame table @The AceGUI TreeGroup frame
+---@param treeFrame table @The QuestieGUI TreeGroup frame
 ---@param zoneTree table @The zone tree table
 function _QuestieJourney.questsByZone:RestoreSavedQuestSelection(treeFrame, zoneTree)
     if not treeFrame or not zoneTree then return end
@@ -69,24 +199,14 @@ function _QuestieJourney.questsByZone:RestoreSavedQuestSelection(treeFrame, zone
         treeFrame:SelectByValue(currentSelection)
 
         C_Timer.After(0.1, function()
+            -- A zone/category change can replace this tree before the
+            -- deferred restore runs. Do not let the old tree repaint the new
+            -- zone's detail pane with stale quest data.
+            if zoneTreeFrame ~= treeFrame then return end
+            if _QuestieJourney.lastZoneSelection[3] ~= currentSelection then return end
             if not treeFrame.frame or not treeFrame.frame.obj then return end
 
-            local quest = QuestieDB.GetQuest(questId)
-            if quest then
-                local master = treeFrame.frame.obj
-                master:ReleaseChildren()
-                master:SetLayout("fill")
-                master:SetFullWidth(true)
-                master:SetFullHeight(true)
-
-                ---@class ScrollFrame
-                local scrollFrame = AceGUI:Create("ScrollFrame")
-                scrollFrame:SetLayout("flow")
-                scrollFrame:SetFullHeight(true)
-                master:AddChild(scrollFrame)
-
-                QuestDetailsFrame:Draw(scrollFrame, quest)
-            end
+            ShowZoneQuestDetails(treeFrame, questId)
         end)
     else
         _QuestieJourney.lastZoneSelection[3] = nil
@@ -104,58 +224,74 @@ function _QuestieJourney.questsByZone:ManageTree(container, zoneTree)
         return
     end
 
-    zoneTreeFrame = AceGUI:Create("TreeGroup")
+    zoneTreeFrame = QuestieGUI:Create("TreeGroup")
     zoneTreeFrame:SetFullWidth(true)
     zoneTreeFrame:SetFullHeight(true)
     zoneTreeFrame:EnableButtonTooltips(false)
+    if QuestieOptionsControls and QuestieOptionsControls.ApplyJourneyTreeGroup then
+        QuestieOptionsControls.ApplyJourneyTreeGroup(zoneTreeFrame)
+    end
+    if QuestieOptionsControls and QuestieOptionsControls.ApplyModernScrollbar then
+        QuestieOptionsControls.ApplyModernScrollbar(zoneTreeFrame.scrollbar)
+    end
     zoneTreeFrame:SetTree(zoneTree)
-
-    zoneTreeFrame.treeframe:SetWidth(415)
+    zoneTreeFrame:CollapseAllGroups()
 
     _QuestieJourney.questsByZone:RestoreSavedQuestSelection(zoneTreeFrame, zoneTree)
 
-    zoneTreeFrame:SetCallback("OnClick", function(group, ...)
-        local treePath = {...}
+    local lastRenderedTreeValue
+    local function RenderQuestDetails(group, treeValue, force)
+        if group ~= zoneTreeFrame or (group.IsReleasing and group:IsReleasing()) then
+            return
+        end
 
-        if not treePath[2] then
-            Questie.Debug(Questie.DEBUG_CRITICAL, "[zoneTreeFrame:OnClick] No tree path given in Journey.")
+        if type(treeValue) ~= "string" then
+            Questie.Debug(Questie.DEBUG_CRITICAL, "[zoneTreeFrame:OnGroupSelected] No tree path given in Journey.")
             return
         end
         -- if they clicked on a header, don't do anything
-        local sel, questId = strsplit("\001", treePath[2]) -- treePath[2] looks like "a?1234" for an available quest with ID 1234
-        if (sel == nil or sel == "a" or sel == "p" or sel == "c" or sel == "r" or sel == "u" or sel == "b" or sel == "h") and (not questId) then
+        local _, questId = strsplit("\001", treeValue)
+        if not questId then
+            return
+        end
+
+        if not force and lastRenderedTreeValue == treeValue then
             return
         end
 
         -- save the selected quest for persistence
-        _QuestieJourney.lastZoneSelection[3] = treePath[2]
-
-        -- get master frame and create scroll frame inside
-        local master = group.frame.obj
-        master:ReleaseChildren()
-        master:SetLayout("fill")
-        master:SetFullWidth(true)
-        master:SetFullHeight(true)
-
-        ---@class ScrollFrame
-        local scrollFrame = AceGUI:Create("ScrollFrame")
-        scrollFrame:SetLayout("flow")
-        scrollFrame:SetFullHeight(true)
-        master:AddChild(scrollFrame)
+        _QuestieJourney.lastZoneSelection[3] = treeValue
 
         ---@type number
         questId = tonumber(questId)
-        local quest = QuestieDB.GetQuest(questId)
 
-        -- Add the quest to the open chat window if it was a shift click
-        if (IsModifiedClick("CHATLINK") and ChatEdit_GetActiveWindow()) then
-            ChatEdit_InsertLink(QuestieLink.GetQuestLinkStringById(quest.Id))
+        ShowZoneQuestDetails(group, questId)
+        lastRenderedTreeValue = treeValue
+    end
+
+    zoneTreeFrame.renderQuestDetails = RenderQuestDetails
+    zoneTreeFrame:SetCallback("OnClick", function(group, _, treeValue)
+        if type(treeValue) ~= "string" then
+            return
         end
 
-        QuestDetailsFrame:Draw(scrollFrame, quest)
+        local _, questId = strsplit("\001", treeValue)
+        local getQuestOk, quest = false, nil
+        if questId then
+            getQuestOk, quest = pcall(QuestieDB.GetQuest, tonumber(questId))
+        end
+        if IsModifiedClick("CHATLINK") and ChatEdit_GetActiveWindow() and getQuestOk and quest then
+            ChatEdit_InsertLink(QuestieLink.GetQuestLinkStringById(quest.Id))
+        end
+    end)
+    zoneTreeFrame:SetCallback("OnGroupSelected", function(group, _, treeValue, force)
+        RenderQuestDetails(group, treeValue, force)
     end)
 
     container:AddChild(zoneTreeFrame)
+    if zoneTreeFrame.SetTreeWidthKey then
+        zoneTreeFrame:SetTreeWidthKey("quests-by-zone")
+    end
 end
 
 ---Get all the available/completed/repeatable/unavailable quests

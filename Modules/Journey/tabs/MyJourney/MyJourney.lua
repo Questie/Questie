@@ -15,25 +15,31 @@ local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
+---@type QuestieOptionsControls
+local QuestieOptionsControls = QuestieLoader:ImportModule("QuestieOptionsControls")
 
-local AceGUI = LibStub("AceGUI-3.0");
+--- QuestieGUI
+local QuestieGUI = QuestieLoader:ImportModule("QuestieGUI")
 local journeyTreeFrame
+
+local function ApplyStyledButton(button, width)
+    if QuestieOptionsControls and QuestieOptionsControls.ApplyStyledButton then
+        QuestieOptionsControls.ApplyStyledButton(button.frame, width, button.text)
+    end
+end
 
 -- manage the journey tree
 function _QuestieJourney.myJourney:ManageTree(container)
     if not journeyTreeFrame then
-        journeyTreeFrame = AceGUI:Create("TreeGroup");
+        journeyTreeFrame = QuestieGUI:Create("TreeGroup");
         journeyTreeFrame:SetFullWidth(true);
         journeyTreeFrame:SetFullHeight(true);
         journeyTreeFrame:EnableButtonTooltips(false)
-
-        journeyTreeFrame.treeframe:SetWidth(415);
-
-        local journeyTree = _QuestieJourney:GetHistory();
-        journeyTreeFrame:SetTree(journeyTree);
-        local latestMonth, latestYear = _QuestieJourney:GetMonthAndYearOfLatestEntry()
-        if latestMonth and latestYear then
-            journeyTreeFrame:SelectByPath(latestYear, latestMonth)
+        if QuestieOptionsControls and QuestieOptionsControls.ApplyJourneyTreeGroup then
+            QuestieOptionsControls.ApplyJourneyTreeGroup(journeyTreeFrame)
+        end
+        if QuestieOptionsControls and QuestieOptionsControls.ApplyModernScrollbar then
+            QuestieOptionsControls.ApplyModernScrollbar(journeyTreeFrame.scrollbar)
         end
         journeyTreeFrame:SetCallback("OnGroupSelected", function(group)
             Questie.Debug(Questie.DEBUG_DEVELOP, "[Journey] OnGroupSelected - Path:", group.localstatus.selected)
@@ -47,28 +53,68 @@ function _QuestieJourney.myJourney:ManageTree(container)
                 master:SetFullWidth(true);
                 master:SetFullHeight(true);
 
-                local f = AceGUI:Create("ScrollFrame");
+                local f = QuestieGUI:Create("ScrollFrame");
                 f:SetLayout("flow");
+                if f.frame and f.frame.CreateTexture then
+                    local nestedBackground = f.modernJourneyBackground
+                    if not nestedBackground then
+                        nestedBackground = f.frame:CreateTexture(nil, "BACKGROUND")
+                        f.modernJourneyBackground = nestedBackground
+                    end
+                    nestedBackground:ClearAllPoints()
+                    nestedBackground:SetAllPoints(f.frame)
+                    nestedBackground:Show()
+                    if QuestieOptionsControls and QuestieOptionsControls.ApplyJourneyContainerTexture then
+                        QuestieOptionsControls.ApplyJourneyContainerTexture(nestedBackground)
+                    end
+                    if f.SetCallback then
+                        f.modernJourneyBackgroundReleaseHooked = true
+                        f:SetCallback("OnRelease", function(widget)
+                            widget.modernJourneyBackgroundReleaseHooked = false
+                            if widget.modernJourneyBackground then
+                                widget.modernJourneyBackground:Hide()
+                            end
+                        end)
+                    end
+                end
+                if QuestieOptionsControls and QuestieOptionsControls.ApplyModernScrollbar then
+                    QuestieOptionsControls.ApplyModernScrollbar(f.scrollbar)
+                end
                 master:AddChild(f);
+                if QuestieOptionsControls and QuestieOptionsControls.ApplyJourneyPane then
+                    QuestieOptionsControls.ApplyJourneyPane(f.frame)
+                end
 
-                local header = AceGUI:Create("Heading");
-                header:SetFullWidth(true);
-                f:AddChild(header);
+                local header
+                if QuestieOptionsControls and QuestieOptionsControls.CreateModernDividerGroup then
+                    header = QuestieOptionsControls.CreateModernDividerGroup(f, "")
+                else
+                    header = QuestieGUI:Create("Heading")
+                    header:SetFullWidth(true)
+                    f:AddChild(header)
+                end
+                local function SetHeaderText(text)
+                    if header.modernDivider and header.modernDivider.title then
+                        header.modernDivider.title:SetText(text)
+                    else
+                        header:SetText(text)
+                    end
+                end
 
                 QuestieJourneyUtils:Spacer(f);
 
-                local created = AceGUI:Create("Label");
+                local created = QuestieGUI:Create("Label");
                 created:SetFullWidth(true);
 
                 local entry = Questie.db.char.journey[tonumber(e)];
                 local timestamp = Questie:Colorize(QuestieLib.FormatDate(entry.Timestamp), 'lightBlue');
 
                 if entry.Event == "Note" then
-                    header:SetText(l10n('Note: %s', entry.Title));
+                    SetHeaderText(l10n('Note: %s', entry.Title));
 
-                    local note = AceGUI:Create("Label");
+                    local note = QuestieGUI:Create("Label");
                     note:SetFullWidth(true);
-                    note:SetText(Questie:Colorize( entry.Note , 'yellow'));
+                    note:SetText(entry.Note);
                     f:AddChild(note);
                     QuestieJourneyUtils:Spacer(f);
 
@@ -77,18 +123,20 @@ function _QuestieJourney.myJourney:ManageTree(container)
 
                     QuestieJourneyUtils:Spacer(f);
 
-                    local deleteButton = AceGUI:Create("Button");
+                    local deleteButton = QuestieGUI:Create("Button");
                     deleteButton:SetText(l10n('Delete Note'));
                     deleteButton:SetWidth(150);
+                    deleteButton:SetHeight(40);
+                    ApplyStyledButton(deleteButton, 150)
                     deleteButton:SetCallback("OnClick", function()
                         Popup.Show("QUESTIE_DELETE_NOTE_CONFIRM", nil, nil, tonumber(e));
                     end);
                     f:AddChild(deleteButton);
 
                 elseif entry.Event == "Level" then
-                    header:SetText(l10n('You Reached Level %s', entry.NewLevel));
+                    SetHeaderText(l10n('You Reached Level %s', entry.NewLevel));
 
-                    local congrats = AceGUI:Create("Label");
+                    local congrats = QuestieGUI:Create("Label");
                     congrats:SetText(l10n('Congratulations! You reached %s !', entry.NewLevel));
                     congrats:SetFullWidth(true);
                     f:AddChild(congrats);
@@ -111,10 +159,10 @@ function _QuestieJourney.myJourney:ManageTree(container)
                     local quest = QuestieDB.GetQuest(entry.Quest)
                     if quest then
                         local qName = quest.name;
-                        header:SetText(l10n('Quest %s: %s', state, qName));
+                        SetHeaderText(l10n('Quest %s: %s', state, qName));
 
 
-                        local obj = AceGUI:Create("Label");
+                        local obj = QuestieGUI:Create("Label");
                         obj:SetFullWidth(true);
                         obj:SetText(QuestieJourneyUtils.CreateObjectiveText(quest.Description));
                         f:AddChild(obj);
@@ -125,22 +173,37 @@ function _QuestieJourney.myJourney:ManageTree(container)
                     created:SetText(l10n('Quest %s: %s', state, timestamp));
                     f:AddChild(created);
 
-                    local questIdLabel = AceGUI:Create("Label");
+                    local questIdLabel = QuestieGUI:Create("Label");
                     questIdLabel:SetFullWidth(true);
                     questIdLabel:SetText(l10n("Quest ID") .. l10n(": ") .. entry.Quest);
                     f:AddChild(questIdLabel);
                 else
-                    header:SetText("ERROR!!");
+                    SetHeaderText("ERROR!!");
                 end
 
             end
         end);
 
-        container:AddChild(journeyTreeFrame);
-    else
-        container:ReleaseChildren();
-        journeyTreeFrame = nil;
-        _QuestieJourney.myJourney:ManageTree(container);
+    end
+
+    -- Reparent the cached tree instead of recreating it. That keeps each
+    -- year/month expansion state when the user changes Journey tabs.
+    journeyTreeFrame:SetTree(_QuestieJourney:GetHistory())
+    if not journeyTreeFrame.localstatus or not journeyTreeFrame.localstatus.selected then
+        local latestMonth, latestYear = _QuestieJourney:GetMonthAndYearOfLatestEntry()
+        if latestMonth and latestYear then
+            journeyTreeFrame:SelectByPath(latestYear, latestMonth)
+        end
+    end
+    container:AddChild(journeyTreeFrame)
+    if journeyTreeFrame.SetTreeWidthKey then
+        journeyTreeFrame:SetTreeWidthKey("my-journey")
+    end
+end
+
+function _QuestieJourney.myJourney:CollapseAllGroups()
+    if journeyTreeFrame then
+        journeyTreeFrame:CollapseAllGroups()
     end
 end
 

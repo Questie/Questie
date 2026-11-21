@@ -13,20 +13,36 @@ local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
-local AceGUI = LibStub("AceGUI-3.0");
+--- QuestieGUI
+local QuestieGUI = QuestieLoader:ImportModule("QuestieGUI")
+
+---@type QuestieOptionsControls
+local QuestieOptionsControls = QuestieLoader:ImportModule("QuestieOptionsControls")
+
+local function AddModernDivider(container, text)
+    if QuestieOptionsControls and QuestieOptionsControls.CreateModernDividerGroup then
+        QuestieOptionsControls.CreateModernDividerGroup(container, text)
+        return
+    end
+
+    local header = QuestieGUI:Create("Heading")
+    header:SetText(text)
+    header:SetFullWidth(true)
+    container:AddChild(header)
+end
 
 --- Draw the "My Journey" tab
 ---@param container Frame
 ---@return SimpleGroup
 function _QuestieJourney.myJourney:DrawTab(container)
-    local header = AceGUI:Create("Heading");
-    header:SetText(l10n('Your Recent History'));
-    header:SetFullWidth(true);
-    container:AddChild(header);
-    QuestieJourneyUtils:Spacer(container);
+    AddModernDivider(container, l10n('Your Recent History'))
 
     -- get last 5 elements from table for history
     local counter = #Questie.db.char.journey;
+    local recentGroup = QuestieGUI:Create("SimpleGroup")
+    recentGroup:SetLayout("list")
+    recentGroup:SetFullWidth(true)
+    container:AddChild(recentGroup)
     local recentEvents = {};
     for i = counter, counter-4, -1 do
         if i <= 0 then
@@ -34,8 +50,9 @@ function _QuestieJourney.myJourney:DrawTab(container)
         end
 
         recentEvents[i] = {};
-        recentEvents[i] = AceGUI:Create("Label");
+        recentEvents[i] = QuestieGUI:Create("Label");
         recentEvents[i]:SetFullWidth(true);
+        recentEvents[i]:SetWordWrap(false)
 
         local timestamp = Questie:Colorize(QuestieLib.FormatDate(Questie.db.char.journey[i].Timestamp) .. " ", 'lightBlue');
 
@@ -61,33 +78,59 @@ function _QuestieJourney.myJourney:DrawTab(container)
             recentEvents[i]:SetText(timestamp .. Questie:Colorize(l10n('Note Created: %s', title), 'yellow'));
         end
 
-        container:AddChild(recentEvents[i]);
+        recentGroup:AddChild(recentEvents[i]);
     end
 
     if counter == 0 then
-        local justdoit = AceGUI:Create("Label");
+        local justdoit = QuestieGUI:Create("Label");
         justdoit:SetFullWidth(true);
+        justdoit:SetWordWrap(false)
         justdoit:SetText(Questie:Colorize(l10n("It's about time you embark on your first Journey!"), 'yellow'));
-        container:AddChild(justdoit);
+        recentGroup:AddChild(justdoit);
     end
 
-    QuestieJourneyUtils:Spacer(container);
+    AddModernDivider(container, l10n("%s's Journey", GetUnitName("player", true)))
 
-    local treeHeader = AceGUI:Create("Heading");
-    treeHeader:SetText(l10n("%s's Journey", GetUnitName("player", true)));
-    treeHeader:SetFullWidth(true);
-    container:AddChild(treeHeader);
+    local noteButtonText = l10n('Add New Adventure Note')
+    local noteButton = QuestieGUI:Create("SimpleGroup")
+    noteButton:SetLayout("Fill")
+    noteButton:SetFullWidth(true)
+    noteButton:SetHeight(32)
 
-    local noteButton = AceGUI:Create("Button");
-    noteButton:SetText(l10n('Add New Adventure Note'));
-    noteButton:SetPoint("RIGHT");
-    noteButton:SetCallback("OnClick", _QuestieJourney.ShowNotePopup);
-    container:AddChild(noteButton);
+    if QuestieOptionsControls and QuestieOptionsControls.CreateStyledButton then
+        local nativeButton = noteButton.nativeButton
+        if not nativeButton then
+            nativeButton = QuestieOptionsControls.CreateStyledButton(noteButton.content, 220)
+            noteButton.nativeButton = nativeButton
+        end
+        nativeButton:Show()
+        nativeButton:SetText(noteButtonText)
+        nativeButton:ClearAllPoints()
+        nativeButton:SetPoint("LEFT", noteButton.content, "LEFT", 0, 0)
+        nativeButton:SetScript("OnClick", _QuestieJourney.ShowNotePopup)
+    else
+        local legacyButton = QuestieGUI:Create("Button")
+        legacyButton:SetText(noteButtonText)
+        legacyButton:SetWidth(220)
+        legacyButton:SetHeight(32)
+        legacyButton:SetCallback("OnClick", _QuestieJourney.ShowNotePopup)
+        noteButton:AddChild(legacyButton)
+    end
 
-    QuestieJourneyUtils:Spacer(container);
+    noteButton:SetCallback("OnRelease", function(widget)
+        if widget.nativeButton then
+            widget.nativeButton:Hide()
+        end
+    end)
+    container:AddChild(noteButton)
+
+    local treeSpacing = QuestieGUI:Create("SimpleGroup")
+    treeSpacing:SetFullWidth(true)
+    treeSpacing:SetHeight(8)
+    container:AddChild(treeSpacing)
 
     ---@class SimpleGroup
-    local treeGroup = AceGUI:Create("SimpleGroup");
+    local treeGroup = QuestieGUI:Create("SimpleGroup");
     treeGroup:SetLayout("fill");
     treeGroup:SetFullHeight(true);
     treeGroup:SetFullWidth(true);

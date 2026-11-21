@@ -8,13 +8,46 @@ _QuestieJourney.notePopup = nil
 -------------------------
 --Import modules
 -------------------------
----@type QuestieJourneyUtils
-local QuestieJourneyUtils = QuestieLoader:ImportModule("QuestieJourneyUtils")
+---@type QuestDetailsFrame
+local QuestDetailsFrame = QuestieLoader:ImportModule("QuestDetailsFrame")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
+---@type QuestieOptionsControls
+local QuestieOptionsControls = QuestieLoader:ImportModule("QuestieOptionsControls")
+---@type QuestieOptionsWindow
+local QuestieOptionsWindow = QuestieLoader:ImportModule("QuestieOptionsWindow")
 
-local AceGUI = LibStub("AceGUI-3.0")
+--- QuestieGUI
+local QuestieGUI = QuestieLoader:ImportModule("QuestieGUI")
 local titleBox, messageBox
+
+local function ApplyNoteLayerColors(container)
+    if not container or not container.border then
+        return
+    end
+
+    -- Use the same NineSlice container treatment as Questie Options. The
+    -- editor surfaces are darker nested controls, applied separately below.
+    QuestieOptionsControls.ApplyModernContainer(container.border, false, true)
+end
+
+local function ApplyNoteEditorColor(widget)
+    local surface = widget and (widget.scrollBG or widget.editbox)
+    if not surface then
+        return
+    end
+
+    if surface.SetColorTexture then
+        surface:SetColorTexture(0.045, 0.032, 0.02, 0.98)
+    elseif surface.SetBackdropColor then
+        surface:SetBackdropColor(0.045, 0.032, 0.02, 0.98)
+    end
+    if widget.editBorder and widget.editBorder.SetColorTexture then
+        widget.editBorder:SetColorTexture(0.42, 0.29, 0.12, 0.95)
+    elseif surface.SetBackdropBorderColor then
+        surface:SetBackdropBorderColor(0.42, 0.29, 0.12, 0.95)
+    end
+end
 
 local _CreateNoteWindow, _CreateContainer, _CreateDescription, _CreateTitleBox, _CreateMessageBox
 local _CreateNoteAddButton, _HandleNoteEntry, _DeleteNote
@@ -31,57 +64,103 @@ function _QuestieJourney:ShowNotePopup()
 end
 
 _CreateNoteWindow = function ()
-    local notePopup = AceGUI:Create("Window")
-    notePopup:Show()
-    notePopup:SetTitle(l10n('Add New Adventure Note'))
-    notePopup:SetWidth(400)
-    notePopup:SetHeight(400)
-    notePopup:EnableResize(false)
-    notePopup.frame:SetFrameStrata(_QuestieJourney.containerCache.frame:GetFrameStrata())
-    notePopup.frame:SetFrameLevel(_QuestieJourney.containerCache.frame:GetFrameLevel())
-    notePopup.frame:Raise()
-    notePopup:SetCallback("OnClose", function()
-        notePopup:Hide()
-    end)
+    local journeyFrame = QuestieJourneyFrame or UIParent
+    local popupWidth = math.max(420, math.min(480, journeyFrame:GetWidth() - 140))
+    local popupHeight = math.min(460, math.max(420, UIParent:GetHeight() - 220))
+    local notePopup = QuestieOptionsWindow.Create({
+        name = "QuestieJourneyNoteFrame",
+        title = l10n('Add New Adventure Note'),
+        portrait = "Interface\\Icons\\INV_Misc_Note_03",
+        width = popupWidth,
+        height = popupHeight,
+        resizable = true,
+        minWidth = popupWidth,
+        minHeight = popupHeight,
+    })
+    notePopup:ClearAllPoints()
+    notePopup:SetPoint("CENTER", journeyFrame, "CENTER")
+    notePopup:Raise()
+
+    local content = QuestieGUI:Create("SimpleGroup")
+    content:SetFullHeight(true)
+    content:SetFullWidth(true)
+    content.frame:SetParent(notePopup.canvasContainer)
+    content.frame:SetAllPoints(notePopup.canvasContainer)
+    content.frame:Show()
+
+    -- Keep the divider independent from the flow layout. The editor panel is
+    -- manually anchored below it so its action button remains inside the Add
+    -- Note frame when the multiline box grows.
+    QuestieOptionsControls.CreateModernDivider(content.frame, l10n('New Note'))
 
     local container = _CreateContainer()
-    notePopup:AddChild(container)
+    container.frame:SetParent(content.frame)
+    container.frame:ClearAllPoints()
+    container.frame:SetPoint("TOPLEFT", content.frame, "TOPLEFT", 0, -28)
+    container.frame:SetPoint("BOTTOMRIGHT", content.frame, "BOTTOMRIGHT", 0, 0)
+    container.frame:Show()
 
     local desc = _CreateDescription()
     container:AddChild(desc)
 
-    QuestieJourneyUtils:Spacer(container)
+    local descriptionSpacer = QuestieGUI:Create("SimpleGroup")
+    descriptionSpacer:SetFullWidth(true)
+    descriptionSpacer:SetHeight(4)
+    container:AddChild(descriptionSpacer)
 
     titleBox = _CreateTitleBox()
     container:AddChild(titleBox)
 
     messageBox = _CreateMessageBox()
     container:AddChild(messageBox)
+    ApplyNoteEditorColor(titleBox)
+    ApplyNoteEditorColor(messageBox)
 
     local addEntryBtn = _CreateNoteAddButton()
-    container:AddChild(addEntryBtn)
+    -- Anchor the action row to the panel bottom so it follows the popup when
+    -- the note frame is resized or the editor is expanded.
+    addEntryBtn.frame:SetParent(notePopup.canvasContainer)
+    addEntryBtn.frame:ClearAllPoints()
+    addEntryBtn.frame:SetPoint("BOTTOMLEFT", container.frame, "BOTTOMLEFT", 10, 10)
+    addEntryBtn.frame:SetSize(150, 32)
+    addEntryBtn.frame:Show()
 
+    notePopup:Show()
+    -- The container may restore its backdrop while laying out its children;
+    -- apply the shared Journey panel treatment after the completed layout too.
+    if QuestieOptionsControls and QuestieOptionsControls.ApplyModernContainer then
+        QuestieOptionsControls.ApplyModernContainer(container.border)
+    end
+    ApplyNoteLayerColors(container)
     return notePopup
 end
 
 _CreateContainer = function ()
-    local container = AceGUI:Create("InlineGroup")
+    local container = QuestieGUI:Create("InlineGroup")
+    -- Clear any NPC portrait/item icon and
+    -- shifted content anchors left by a previously displayed Journey panel.
+    if QuestDetailsFrame and QuestDetailsFrame.ResetInfoGroup then
+        QuestDetailsFrame:ResetInfoGroup(container)
+    end
     container:SetFullHeight(true)
     container:SetFullWidth(true)
     container:SetLayout('flow')
-    container:SetTitle(l10n('New Note'))
+    if QuestieOptionsControls and QuestieOptionsControls.ApplyModernContainer then
+        QuestieOptionsControls.ApplyModernContainer(container.border)
+    end
+    ApplyNoteLayerColors(container)
     return container
 end
 
 _CreateDescription  =function ()
-    local desc = AceGUI:Create("Label")
-    desc:SetText(Questie:Colorize(l10n('Create an entry in your journal to remember a specific moment. Simply supply a title and description and Questie will remember it for you!'), 'yellow'))
+    local desc = QuestieGUI:Create("Label")
+    desc:SetText(l10n('Create an entry in your journal to remember a specific moment. Simply supply a title and description and Questie will remember it for you!'))
     desc:SetFullWidth(true)
     return desc
 end
 
 _CreateTitleBox = function ()
-    local box = AceGUI:Create("EditBox")
+    local box = QuestieGUI:Create("EditBox")
     box:SetFullWidth(true)
     box:SetLabel(l10n('Entry Title'))
     box:DisableButton(true)
@@ -90,18 +169,56 @@ _CreateTitleBox = function ()
 end
 
 _CreateMessageBox = function ()
-    local box = AceGUI:Create("MultiLineEditBox")
+    local box = QuestieGUI:Create("MultiLineEditBox")
     box:SetFullWidth(true)
-    box:SetNumLines(12)
+    -- Keep the editor tall enough to be useful while leaving the action row
+    -- below it. The multiline widget owns the scrollbar, so it remains
+    -- inside this editor region when the note window is resized.
+    box:SetNumLines(10)
     box:SetLabel(l10n('Journal Entry'))
     box:DisableButton(true)
+    -- Reassert the multiline mode after the label/layout pass. Some client
+    -- builds reset an EditBox to its template's single-line mode when its
+    -- parent changes size.
+    if box.editbox and box.editbox.SetMultiLine then
+        box.editbox:SetMultiLine(true)
+        if box.editbox.SetJustifyV then box.editbox:SetJustifyV("TOP") end
+        if box.editbox.SetTextInsets then box.editbox:SetTextInsets(6, 22, 6, 6) end
+    end
+    if box.scrollBar then box.scrollBar:Show() end
+    if QuestieOptionsControls and QuestieOptionsControls.ApplyModernScrollbar then
+        QuestieOptionsControls.ApplyModernScrollbar(box.scrollBar)
+    end
     return box
 end
 
 _CreateNoteAddButton = function ()
-    local addEntryBtn = AceGUI:Create("Button")
-    addEntryBtn:SetText(l10n('Add Entry'))
-    addEntryBtn:SetCallback("OnClick", _HandleNoteEntry)
+    local addEntryBtn = QuestieGUI:Create("SimpleGroup")
+    addEntryBtn:SetLayout("Fill")
+    addEntryBtn:SetFullWidth(true)
+    addEntryBtn:SetHeight(32)
+
+    if QuestieOptionsControls and QuestieOptionsControls.CreateStyledButton then
+        local nativeButton = QuestieOptionsControls.CreateStyledButton(addEntryBtn.content, 150)
+        nativeButton:SetText(l10n('Add Entry'))
+        nativeButton:SetPoint("LEFT", addEntryBtn.content, "LEFT", 0, 0)
+        nativeButton:SetScript("OnClick", _HandleNoteEntry)
+        addEntryBtn.nativeButton = nativeButton
+    else
+        local legacyButton = QuestieGUI:Create("Button")
+        legacyButton:SetText(l10n('Add Entry'))
+        legacyButton:SetWidth(150)
+        legacyButton:SetHeight(32)
+        legacyButton:SetCallback("OnClick", _HandleNoteEntry)
+        addEntryBtn:AddChild(legacyButton)
+    end
+
+    addEntryBtn:SetCallback("OnRelease", function(widget)
+        if widget.nativeButton then
+            widget.nativeButton:Hide()
+            widget.nativeButton = nil
+        end
+    end)
     return addEntryBtn
 end
 

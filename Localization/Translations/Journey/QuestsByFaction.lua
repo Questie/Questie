@@ -14,6 +14,18 @@ local questsByFactionLocales = {
         ["zhCN"] = "按阵营查寻",
         ["zhTW"] = "依陣營查看",
     },
+    ["Explore quests by faction"] = {
+        ["enUS"] = true,
+        ["deDE"] = "Quests nach Fraktion erkunden", -- 🤖
+        ["esES"] = "Explora misiones por facción", -- 🤖
+        ["esMX"] = "Explora misiones por facción", -- 🤖
+        ["frFR"] = "Explorez les quêtes par faction", -- 🤖
+        ["koKR"] = "진영별 퀘스트 탐색", -- 🤖
+        ["ptBR"] = "Explora missões por facção", -- 🤖
+        ["ruRU"] = "Поиск заданий по фракции", -- 🤖
+        ["zhCN"] = "按阵营浏览任务", -- 🤖
+        ["zhTW"] = "依陣營探索任務", -- 🤖
+    },
     ["Select Expansion and Faction"] = {
         ["enUS"] = true,
         ["deDE"] = "Erweiterung und Fraktion wählen",
