@@ -4,14 +4,6 @@
          precedes this group.-->
     <Script>QuestieLoader:StampLoadBoundary()</Script>
 
-    <Script file="ExtraObjectives\CataObjectives.lua"/>
-    <Script file="ExtraObjectives\ClassicObjectives.lua"/>
-    <Script file="ExtraObjectives\SeasonObjectives.lua"/>
-    <Script file="ExtraObjectives\TbcObjectives.lua"/>
-    <Script file="ExtraObjectives\WotlkObjectives.lua"/>
-    <Script file="ExtraObjectives\MopObjectives.lua"/>
-    <Script file="ExtraObjectives\ForeverObjectives.lua"/>
-
     <Script file="Journey\MyJourney.lua"/>
     <Script file="Journey\QuestsByZone.lua"/>
     <Script file="Journey\QuestsByFaction.lua"/>
