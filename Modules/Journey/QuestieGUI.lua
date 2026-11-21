@@ -9,7 +9,7 @@ local SCROLL_CONTENT_INSET = 16
 local TREE_MIN_WIDTH = 220
 local TREE_DEFAULT_WIDTH = 415
 local TREE_MAX_WIDTH = 600
-local TREE_DRAGGER_WIDTH = 10
+local TREE_DRAGGER_WIDTH = 6
 
 local function CreateBackdropFrame(frameType, parent, template)
     local ok, frame = pcall(CreateFrame, frameType, nil, parent, template or "BackdropTemplate")
@@ -1033,39 +1033,56 @@ local function CreateTreeGroup(parent)
     -- anchored to the Journey canvas, and native sizing can temporarily clear
     -- those anchors while the mouse is down. Tracking the cursor only changes
     -- the pane width and leaves the two-pane anchors intact.
-    local dragger = CreateFrame("Button", nil, widget.frame)
+    local dragger = CreateBackdropFrame("Button", widget.frame)
     dragger:SetSize(TREE_DRAGGER_WIDTH, 1)
     dragger:SetPoint("TOPLEFT", widget.treeframe, "TOPRIGHT")
     dragger:SetPoint("BOTTOMLEFT", widget.treeframe, "BOTTOMRIGHT")
     dragger:SetFrameLevel(widget.frame:GetFrameLevel() + 5)
     dragger:EnableMouse(true)
-    local draggerSurface = dragger:CreateTexture(nil, "BACKGROUND")
-    draggerSurface:SetAllPoints(dragger)
-    draggerSurface:SetColorTexture(0.035, 0.02, 0.01, 0.95)
-    local draggerBorder = dragger:CreateTexture(nil, "ARTWORK")
-    draggerBorder:SetPoint("TOPLEFT", dragger, "TOPLEFT", 1, 0)
-    draggerBorder:SetPoint("BOTTOMRIGHT", dragger, "BOTTOMRIGHT", -1, 0)
-    draggerBorder:SetColorTexture(0.42, 0.27, 0.05, 1)
-    local draggerHighlight = dragger:CreateTexture(nil, "OVERLAY")
-    draggerHighlight:SetPoint("TOP", dragger, "TOP", 0, -4)
-    draggerHighlight:SetPoint("BOTTOM", dragger, "BOTTOM", 0, 4)
-    draggerHighlight:SetWidth(2)
-    draggerHighlight:SetColorTexture(0.42, 0.27, 0.05, 0.68)
+    if dragger.SetBackdrop then
+        dragger:SetBackdrop({
+            edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
+            edgeSize = 6,
+            insets = {left = 1, right = 1, top = 1, bottom = 1},
+        })
+        dragger:SetBackdropColor(0, 0, 0, 0)
+        dragger:SetBackdropBorderColor(0.42, 0.27, 0.05, 0)
+    end
     local resizing = false
+    local hovering = false
     local resizeStartX = 0
     local resizeStartWidth = 0
     local function GetCursorX()
         local scale = widget.frame.GetEffectiveScale and widget.frame:GetEffectiveScale() or 1
         return GetCursorPosition() / scale
     end
+    local function SetDraggerVisible(visible)
+        if dragger.SetBackdropBorderColor then
+            dragger:SetBackdropBorderColor(0.42, 0.27, 0.05, visible and 0.95 or 0)
+        end
+    end
     local function StopResizing()
         resizing = false
+        if not hovering then
+            SetDraggerVisible(false)
+        end
         widget.localstatus.treewidth = widget.treeframe:GetWidth()
     end
+    dragger:SetScript("OnEnter", function()
+        hovering = true
+        SetDraggerVisible(true)
+    end)
+    dragger:SetScript("OnLeave", function()
+        hovering = false
+        if not resizing then
+            SetDraggerVisible(false)
+        end
+    end)
     dragger:SetScript("OnMouseDown", function(_, button)
         if button ~= "LeftButton" then
             return
         end
+        SetDraggerVisible(true)
         resizeStartX = GetCursorX()
         resizeStartWidth = widget.treeframe:GetWidth()
         resizing = true
