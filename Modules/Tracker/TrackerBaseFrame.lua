@@ -339,6 +339,11 @@ local function _UpdateTrackerPosition()
     end
 
     local xLeft, yTop, xRight, yBottom = baseFrame:GetLeft(), baseFrame:GetTop(), baseFrame:GetRight(), baseFrame:GetBottom()
+    if (not xLeft) or (not yTop) or (not xRight) or (not yBottom) then
+        Questie.Debug(Questie.DEBUG_DEVELOP, "[TrackerBaseFrame:UpdateTrackerPosition] - Frame has no resolved position! --> Exiting.")
+        return
+    end
+
     local trackerSetPoint = Questie.db.profile.trackerSetpoint
     baseFrame:ClearAllPoints()
 
