@@ -7,6 +7,7 @@ local DEFAULT_HEIGHT = 24
 local FLOW_GAP = 3
 local SCROLL_CONTENT_INSET = 16
 local TREE_MIN_WIDTH = 220
+local TREE_DEFAULT_WIDTH = 415
 local TREE_MAX_WIDTH = 600
 local TREE_DRAGGER_WIDTH = 8
 
@@ -1083,6 +1084,12 @@ local function CreateTreeGroup(parent)
         SetTreeWidth(resizeStartWidth + GetCursorX() - resizeStartX)
     end)
     dragger:SetScript("OnMouseUp", StopResizing)
+    dragger:SetScript("OnDoubleClick", function(_, button)
+        if button == "LeftButton" then
+            StopResizing()
+            SetTreeWidth(TREE_DEFAULT_WIDTH)
+        end
+    end)
     widget.dragger = dragger
 
     local function FindNode(nodes, parts, index)
