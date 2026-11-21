@@ -179,7 +179,11 @@ function _MinimapIcon.OnClick(clickedFrame, button)
 
     local menuAnchor = _GetMenuAnchor(clickedFrame)
     if (not menuAnchor) and _IsCompartmentMenu(clickedFrame) then
-        _ShowMenuFromCompartment()
+        if button == "RightButton" then
+            _ShowMenuFromCompartment()
+        else
+            QuestieOptionsEngine:ToggleConfigWindow()
+        end
         return
     end
 
