@@ -113,7 +113,11 @@ end
 
 local function _RestoreNativeQuestWatch(questId)
     if Questie.IsForever and C_QuestLog and C_QuestLog.AddQuestWatch then
+        -- The secure hook below routes native watches through AQW_Insert. Mark this
+        -- restoration so the hook preserves the player's collapsed tracker state.
+        QuestieTracker._restoringNativeQuestWatch = true
         C_QuestLog.AddQuestWatch(questId)
+        QuestieTracker._restoringNativeQuestWatch = nil
     end
 end
 
@@ -1399,7 +1403,9 @@ function QuestieTracker:HookBaseTracker()
                     return
                 end
                 if C_QuestLog.GetQuestWatchType(questId) ~= nil then
-                    QuestieTracker:AQW_Insert(QuestieCompat.GetQuestLogIndexByID(questId), QUEST_WATCH_NO_EXPIRE)
+                    local keepCollapsed = QuestieTracker._restoringNativeQuestWatch
+                    QuestieTracker._restoringNativeQuestWatch = nil
+                    QuestieTracker:AQW_Insert(QuestieCompat.GetQuestLogIndexByID(questId), QUEST_WATCH_NO_EXPIRE, keepCollapsed)
                 end
             end)
             hooksecurefunc(C_QuestLog, "RemoveQuestWatch", function(questId)

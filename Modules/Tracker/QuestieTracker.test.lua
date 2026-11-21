@@ -396,7 +396,7 @@ describe("QuestieTracker", function()
     end)
 
     describe("native-only quest tracking", function()
-        local originalForever, originalQuestLog
+        local originalForever, originalQuestLog, originalHooksecurefunc
         local titleMock, removeWatchMock, quest, QuestEventHandler
 
         before_each(function()
@@ -426,6 +426,9 @@ describe("QuestieTracker", function()
         after_each(function()
             Questie.IsForever = originalForever
             _G.C_QuestLog = originalQuestLog
+            if originalHooksecurefunc then
+                _G.hooksecurefunc = originalHooksecurefunc
+            end
             titleMock:revert()
             removeWatchMock:revert()
         end)
@@ -458,6 +461,40 @@ describe("QuestieTracker", function()
             assert.is_nil(Questie.db.char.collapsedZones["Northshire Abbey"])
             assert.spy(removeWatchMock).was.not_called()
             assert.spy(QuestieTracker.Update).was.called()
+        end)
+
+        it("preserves collapsed state when the installed native-watch hook restores a quest", function()
+            local addQuestWatchHook
+            local QuestieCompat = QuestieLoader:ImportModule("QuestieCompat")
+            local indexMock = stub(QuestieCompat, "GetQuestLogIndexByID", function() return 2 end)
+            originalHooksecurefunc = _G.hooksecurefunc
+            _G.hooksecurefunc = function(target, method, callback)
+                if target == _G.C_QuestLog and method == "AddQuestWatch" then
+                    addQuestWatchHook = callback
+                end
+            end
+
+            Questie.IsForever = true
+            _G.C_QuestLog = {
+                AddQuestWatch = function(questId)
+                    addQuestWatchHook(questId)
+                end,
+                GetQuestWatchType = function() return 1 end,
+            }
+            QuestieTracker.alreadyHooked = nil
+            QuestieTracker.alreadyHookedSecure = nil
+            Questie.db.char.AutoUntrackedQuests[91741] = true
+            Questie.db.char.ZoneAutoUntrackedQuests[91741] = true
+            Questie.db.char.collapsedQuests[91741] = true
+            Questie.db.char.collapsedZones["Northshire Abbey"] = true
+            Questie.db.profile.trackQuestsByZone = false
+
+            QuestieTracker:HookBaseTracker()
+            QuestieTracker:UpdateZoneTracking()
+
+            assert.is_true(Questie.db.char.collapsedQuests[91741])
+            assert.is_true(Questie.db.char.collapsedZones["Northshire Abbey"])
+            indexMock:revert()
         end)
 
         it("expands the tracker group the quest is listed under on retrack", function()
