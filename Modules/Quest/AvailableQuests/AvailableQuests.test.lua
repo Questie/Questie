@@ -2073,7 +2073,7 @@ describe("AvailableQuests", function()
             before_each(function()
                 originalGlobalPhase = Questie.db.global.isleOfQuelDanasPhase
                 originalProfilePhase = Questie.db.profile.isleOfQuelDanasPhase
-                Questie.IsClassic = true
+                Expansions.Current = Expansions.Era
                 IsleOfQuelDanas.quests = {{}, {}, {[2] = true}}
             end)
 
