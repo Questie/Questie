@@ -300,7 +300,7 @@ end
 _BuildCanvas = function(canvas, buildGeneration)
     local isPopup = canvas.mode == RenderMode.POPUP
     local searchText = isPopup and QuestieOptionsEngine.searchText or nil
-    local tabTitleMatches = isPopup and canvas.tab.key ~= "search" and QuestieOptionsLayout.MatchesSearch({
+    local tabTitleMatches = isPopup and QuestieOptionsLayout.MatchesSearch({
         title = canvas.tab.data.title,
         description = canvas.tab.data.subtitle,
     }, searchText)
@@ -413,8 +413,8 @@ _BuildCanvas = function(canvas, buildGeneration)
             stableAnchor:SetSize(searchAnchor:GetSize())
             stableAnchor:SetPoint("TOPRIGHT", canvas, "TOPRIGHT", -36, 7)
             window.searchAnchor = stableAnchor
+            QuestieOptionsWindow.AnchorSearchTo(window, window.searchAnchor)
         end
-        QuestieOptionsWindow.AnchorSearchTo(window, window.searchAnchor)
     end
 end
 

@@ -795,7 +795,7 @@ describe("QuestieOptionsEngine", function()
 
                 ui.RunUntilIdle()
                 assert.is_true(CheckboxesIn(window)[1]:IsVisible())
-                assert.are.equal(anchorPoints + 1, #window.searchBox.points)
+                assert.are.equal(anchorPoints, #window.searchBox.points)
                 assert.are.equal(stableAnchor, window.searchAnchor)
             end)
 
