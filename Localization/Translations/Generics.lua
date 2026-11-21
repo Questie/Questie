@@ -590,6 +590,7 @@ local genericsLocales = {
         ["zhCN"] = "Shift+点击隐藏",
         ["zhTW"] = "Shift+點擊隱藏",
     },
+    -- 🤖
     ["No matching options"] = {
         ["enUS"] = "No matching options",
         ["deDE"] = "Keine passenden Optionen",
