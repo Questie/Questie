@@ -1025,8 +1025,10 @@ local function CreateTreeGroup(parent)
         return math.min(TREE_MAX_WIDTH, math.max(TREE_MIN_WIDTH, available))
     end
 
-    local function SetTreeWidth(width)
-        width = math.max(TREE_MIN_WIDTH, math.min(GetMaxTreeWidth(), width))
+    local function SetTreeWidth(width, clamp)
+        if clamp ~= false then
+            width = math.max(TREE_MIN_WIDTH, math.min(GetMaxTreeWidth(), width))
+        end
         widget.treeframe:SetWidth(width)
         journeyTreeWidths[widget.treeWidthKey] = width
     end
@@ -1080,7 +1082,7 @@ local function CreateTreeGroup(parent)
         if not hovering then
             SetDraggerVisible(false)
         end
-        SetTreeWidth(widget.treeframe:GetWidth())
+        journeyTreeWidths[widget.treeWidthKey] = widget.treeframe:GetWidth()
     end
     dragger:SetScript("OnEnter", function()
         hovering = true
@@ -1115,12 +1117,12 @@ local function CreateTreeGroup(parent)
     dragger:SetScript("OnDoubleClick", function(_, button)
         if button == "LeftButton" then
             StopResizing()
-            SetTreeWidth(TREE_DEFAULT_WIDTH)
+            SetTreeWidth(TREE_DEFAULT_WIDTH, false)
         end
     end)
     function widget:SetTreeWidthKey(key)
         self.treeWidthKey = key or "default"
-        SetTreeWidth(journeyTreeWidths[self.treeWidthKey] or TREE_DEFAULT_WIDTH)
+        SetTreeWidth(journeyTreeWidths[self.treeWidthKey] or TREE_DEFAULT_WIDTH, false)
     end
     local function FindNode(nodes, parts, index)
         for _, node in ipairs(nodes or {}) do
