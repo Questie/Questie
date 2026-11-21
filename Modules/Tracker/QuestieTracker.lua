@@ -151,6 +151,23 @@ end
 ---@param quest TrackerQuest
 ---@param currentZoneId number
 ---@return boolean
+local function _HasObjectiveInCurrentZone(quest, currentZoneId)
+    for _, objective in pairs(quest.Objectives or {}) do
+        local enrichment = objective.enrichment
+        for _, spawnData in pairs(enrichment and enrichment.spawnList or {}) do
+            for objectiveZoneId in pairs(spawnData.Spawns or {}) do
+                if _IsZoneOrChild(currentZoneId, objectiveZoneId) or _IsZoneOrChild(objectiveZoneId, currentZoneId) then
+                    return true
+                end
+            end
+        end
+    end
+    return false
+end
+
+---@param quest TrackerQuest
+---@param currentZoneId number
+---@return boolean
 local function _IsQuestInCurrentZone(quest, currentZoneId)
     local questZoneId = _GetQuestZoneId(quest)
     if type(questZoneId) ~= "number" or questZoneId <= 0 then
@@ -159,6 +176,7 @@ local function _IsQuestInCurrentZone(quest, currentZoneId)
     end
 
     return _IsZoneOrChild(currentZoneId, questZoneId) or _IsZoneOrChild(questZoneId, currentZoneId)
+        or _HasObjectiveInCurrentZone(quest, currentZoneId)
 end
 
 -- Map-icon refresh used while the tracker UI is DISABLED. In that mode the normal

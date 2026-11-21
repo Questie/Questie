@@ -203,6 +203,34 @@ describe("QuestieTracker", function()
             assert.is_true(Questie.db.char.ZoneAutoUntrackedQuests[952])
         end)
 
+        it("keeps a quest tracked when an objective is in the current zone despite its native header", function()
+            currentZoneId = 12 -- Elwynn Forest
+            quests = {
+                [953] = {
+                    Id = 953,
+                    zoneOrSort = 1519, -- Stormwind City
+                    zoneName = "Stormwind City",
+                    Objectives = {
+                        {
+                            enrichment = {
+                                spawnList = {
+                                    {Spawns = {[12] = {{50, 50}}}}, -- Elwynn Forest
+                                },
+                            },
+                        },
+                    },
+                },
+            }
+            ZoneDB.GetAreaIdByName = function(_, zoneName)
+                return zoneName == "Stormwind City" and 1519 or nil
+            end
+
+            QuestieTracker:UpdateZoneTracking()
+
+            assert.is_nil(Questie.db.char.AutoUntrackedQuests[953])
+            assert.is_nil(Questie.db.char.ZoneAutoUntrackedQuests[953])
+        end)
+
         it("restores zone filtering state when the option is disabled", function()
             Questie.db.char.AutoUntrackedQuests[2] = true
             Questie.db.char.ZoneAutoUntrackedQuests[2] = true
