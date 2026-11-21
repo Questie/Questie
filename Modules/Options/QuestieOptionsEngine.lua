@@ -120,6 +120,10 @@ end
 ---Not right away, because an error that isn't a passing one would then repeat every frame.
 ---@param canvas Frame
 local function _DiscardFailedBuild(canvas)
+    if canvas.buildTimer then
+        canvas.buildTimer:Cancel()
+        canvas.buildTimer = nil
+    end
     canvas.buildGeneration = (canvas.buildGeneration or 0) + 1
     if canvas.content then
         canvas.content:Hide()
@@ -139,10 +143,19 @@ local function _OnCanvasShown(canvas)
         canvas.isBuildStarted = true
         canvas.buildGeneration = (canvas.buildGeneration or 0) + 1
         local buildGeneration = canvas.buildGeneration
-        ThreadLib.Thread(
+        local buildTimer
+        local function IsCurrentBuild()
+            return canvas.buildGeneration == buildGeneration and canvas.buildTimer == buildTimer
+        end
+        buildTimer = ThreadLib.Thread(
             function() _BuildCanvas(canvas, buildGeneration) end, 0, "Error while building a Questie settings tab:", nil,
-            function() _DiscardFailedBuild(canvas) end, "QuestieOptionsEngine.BuildCanvas"
+            function()
+                if IsCurrentBuild() then
+                    _DiscardFailedBuild(canvas)
+                end
+            end, "QuestieOptionsEngine.BuildCanvas"
         )
+        canvas.buildTimer = buildTimer
         return
     end
 
