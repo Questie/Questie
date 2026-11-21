@@ -404,10 +404,17 @@ _BuildCanvas = function(canvas, buildGeneration)
     canvas.UpdateScrollLayout()
     content:Show()
     if searchAnchor and canvas:IsShown() then
-        -- Keep the search box on the currently displayed Journey button until the replacement
-        -- is complete. Anchoring during construction makes fast search input follow hidden,
-        -- superseded buttons and causes the search box itself to flicker.
-        QuestieOptionsWindow.AnchorSearchTo(canvas:GetParent():GetParent(), searchAnchor)
+        local window = canvas:GetParent():GetParent()
+        if not window.searchAnchor then
+            -- The Journey button belongs to the canvas and is replaced on every search. Copy
+            -- its geometry to a window-owned anchor so the search box never follows a transient
+            -- or hidden button during a rebuild.
+            local stableAnchor = CreateFrame("Frame", nil, window)
+            stableAnchor:SetSize(searchAnchor:GetSize())
+            stableAnchor:SetPoint("TOPRIGHT", canvas, "TOPRIGHT", -36, 7)
+            window.searchAnchor = stableAnchor
+        end
+        QuestieOptionsWindow.AnchorSearchTo(window, window.searchAnchor)
     end
 end
 

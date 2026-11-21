@@ -777,6 +777,8 @@ describe("QuestieOptionsEngine", function()
                 local window = OpenWindow()
                 local original = CheckboxesIn(window)[1]
                 local anchorPoints = #window.searchBox.points
+                local stableAnchor = window.searchAnchor
+                assert.is_not_nil(stableAnchor)
                 local canvas = ui.FindAll(window.canvasContainer, function(frame)
                     return frame.tab ~= nil and frame.tab.key == "general"
                 end)[1]
@@ -794,6 +796,7 @@ describe("QuestieOptionsEngine", function()
                 ui.RunUntilIdle()
                 assert.is_true(CheckboxesIn(window)[1]:IsVisible())
                 assert.are.equal(anchorPoints + 1, #window.searchBox.points)
+                assert.are.equal(stableAnchor, window.searchAnchor)
             end)
 
             it("should refresh replacement controls before displaying them", function()
