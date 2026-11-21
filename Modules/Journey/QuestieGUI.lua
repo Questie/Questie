@@ -1015,7 +1015,7 @@ local function CreateTreeGroup(parent)
     end
     SetBackdrop(widget.treeframe, {0.08, 0.055, 0.03, 0.96}, {0.35, 0.25, 0.1, 1})
     widget.content:ClearAllPoints()
-    widget.content:SetPoint("TOPLEFT", widget.treeframe, "TOPRIGHT", TREE_DRAGGER_WIDTH, 0)
+    widget.content:SetPoint("TOPLEFT", widget.treeframe, "TOPRIGHT")
     widget.content:SetPoint("BOTTOMRIGHT", widget.frame, "BOTTOMRIGHT")
 
     local function GetMaxTreeWidth()
@@ -1035,8 +1035,8 @@ local function CreateTreeGroup(parent)
     -- the pane width and leaves the two-pane anchors intact.
     local dragger = CreateBackdropFrame("Button", widget.frame)
     dragger:SetSize(TREE_DRAGGER_WIDTH, 1)
-    dragger:SetPoint("TOPLEFT", widget.treeframe, "TOPRIGHT")
-    dragger:SetPoint("BOTTOMLEFT", widget.treeframe, "BOTTOMRIGHT")
+    dragger:SetPoint("TOP", widget.treeframe, "TOPRIGHT")
+    dragger:SetPoint("BOTTOM", widget.treeframe, "BOTTOMRIGHT")
     dragger:SetFrameLevel(widget.frame:GetFrameLevel() + 5)
     dragger:EnableMouse(true)
     if dragger.SetBackdrop then
@@ -1048,6 +1048,16 @@ local function CreateTreeGroup(parent)
         dragger:SetBackdropColor(0, 0, 0, 0)
         dragger:SetBackdropBorderColor(0.42, 0.27, 0.05, 0)
     end
+    local draggerShadow = dragger:CreateTexture(nil, "ARTWORK")
+    draggerShadow:SetPoint("TOP", dragger, "TOP", 0, -2)
+    draggerShadow:SetPoint("BOTTOM", dragger, "BOTTOM", 0, 2)
+    draggerShadow:SetWidth(4)
+    draggerShadow:SetColorTexture(0.01, 0.005, 0.002, 0)
+    local draggerAccent = dragger:CreateTexture(nil, "OVERLAY")
+    draggerAccent:SetPoint("TOP", dragger, "TOP", 0, -2)
+    draggerAccent:SetPoint("BOTTOM", dragger, "BOTTOM", 0, 2)
+    draggerAccent:SetWidth(2)
+    draggerAccent:SetColorTexture(0.42, 0.27, 0.05, 0)
     local resizing = false
     local hovering = false
     local resizeStartX = 0
@@ -1058,8 +1068,10 @@ local function CreateTreeGroup(parent)
     end
     local function SetDraggerVisible(visible)
         if dragger.SetBackdropBorderColor then
-            dragger:SetBackdropBorderColor(0.42, 0.27, 0.05, visible and 0.95 or 0)
+            dragger:SetBackdropBorderColor(0.42, 0.27, 0.05, visible and 1 or 0)
         end
+        draggerShadow:SetColorTexture(0.01, 0.005, 0.002, visible and 0.95 or 0)
+        draggerAccent:SetColorTexture(0.42, 0.27, 0.05, visible and 1 or 0)
     end
     local function StopResizing()
         resizing = false
@@ -1331,7 +1343,7 @@ local function CreateTreeGroup(parent)
         end
         layingOutTree = true
         widget.content:ClearAllPoints()
-        widget.content:SetPoint("TOPLEFT", widget.treeframe, "TOPRIGHT", TREE_DRAGGER_WIDTH, 0)
+        widget.content:SetPoint("TOPLEFT", widget.treeframe, "TOPRIGHT")
         widget.content:SetPoint("BOTTOMRIGHT", widget.frame, "BOTTOMRIGHT")
         layingOutTree = false
         LayoutChildren(widget)
