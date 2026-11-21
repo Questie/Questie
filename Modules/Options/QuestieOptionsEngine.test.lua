@@ -732,9 +732,14 @@ describe("QuestieOptionsEngine", function()
             it("should search across tabs and rebuild the popup with matching options", function()
                 local window = OpenWindow()
 
+                -- Search must reuse the real tab canvases instead of creating a phantom results canvas.
+                assert.are.equal(2, #window.canvasContainer.children)
+
                 window.searchBox:SetText("map options")
                 window.searchBox.scripts.OnTextChanged(window.searchBox, true)
                 ui.RunUntilIdle()
+
+                assert.are.equal(2, #window.canvasContainer.children)
 
                 local titles = {}
                 for _, control in ipairs(ControlsIn(window)) do
