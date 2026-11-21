@@ -1050,7 +1050,7 @@ local function CreateTreeGroup(parent)
     draggerHighlight:SetPoint("TOP", dragger, "TOP", 0, -4)
     draggerHighlight:SetPoint("BOTTOM", dragger, "BOTTOM", 0, 4)
     draggerHighlight:SetWidth(2)
-    draggerHighlight:SetColorTexture(0.98, 0.72, 0.18, 0)
+    draggerHighlight:SetColorTexture(0.42, 0.27, 0.05, 0)
     local resizing = false
     local resizeStartX = 0
     local resizeStartWidth = 0
@@ -1062,14 +1062,14 @@ local function CreateTreeGroup(parent)
         resizing = false
         draggerSurface:SetColorTexture(0.035, 0.02, 0.01, 0)
         draggerBorder:SetColorTexture(0.42, 0.27, 0.05, 0)
-        draggerHighlight:SetColorTexture(0.98, 0.72, 0.18, 0)
+        draggerHighlight:SetColorTexture(0.42, 0.27, 0.05, 0)
         widget.localstatus.treewidth = widget.treeframe:GetWidth()
     end
     dragger:SetScript("OnEnter", function()
         if not resizing then
             draggerSurface:SetColorTexture(0.035, 0.02, 0.01, 0.8)
             draggerBorder:SetColorTexture(0.42, 0.27, 0.05, 0.95)
-            draggerHighlight:SetColorTexture(0.98, 0.72, 0.18, 0.8)
+            draggerHighlight:SetColorTexture(0.42, 0.27, 0.05, 0.68)
         end
     end)
     dragger:SetScript("OnLeave", function()
@@ -1086,7 +1086,7 @@ local function CreateTreeGroup(parent)
         resizing = true
         draggerSurface:SetColorTexture(0.035, 0.02, 0.01, 0.9)
         draggerBorder:SetColorTexture(0.42, 0.27, 0.05, 1)
-        draggerHighlight:SetColorTexture(0.98, 0.72, 0.18, 1)
+        draggerHighlight:SetColorTexture(0.42, 0.27, 0.05, 0.85)
     end)
     dragger:SetScript("OnUpdate", function()
         if not resizing then
