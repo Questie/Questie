@@ -48,6 +48,7 @@ describe("utf8", function()
     it("should lowercase common UTF-8 alphabets without changing character boundaries", function()
         assert.are.equal("общее", utf8.lower("Общее"))
         assert.are.equal("säume", utf8.lower("SÄUME"))
+        assert.are.equal("größe", utf8.lower("GRÖẞE"))
     end)
 
     describe("computeOffsets", function()

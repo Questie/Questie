@@ -63,6 +63,8 @@ local function _LowerCodepoint(codepoint)
   -- case-bearing alphabets used by Questie's translations.
   if (codepoint >= 0xC0 and codepoint <= 0xD6) or (codepoint >= 0xD8 and codepoint <= 0xDE) then
     return codepoint + 0x20
+  elseif codepoint == 0x1E9E then
+    return 0xDF
   elseif codepoint >= 0x100 and codepoint <= 0x12F and codepoint % 2 == 0 then
     return codepoint + 1
   elseif codepoint >= 0x139 and codepoint <= 0x148 and codepoint % 2 == 1 then
