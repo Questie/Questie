@@ -497,7 +497,9 @@ function _QuestieJourney.questsByFaction:ManageTree(container, factionTree)
     end)
 
     container:AddChild(factionTreeFrame)
-    factionTreeFrame:SetTreeWidthKey("quests-by-faction")
+    if factionTreeFrame.SetTreeWidthKey then
+        factionTreeFrame:SetTreeWidthKey("quests-by-faction")
+    end
 end
 
 ---Build the quest tree for a faction grouping

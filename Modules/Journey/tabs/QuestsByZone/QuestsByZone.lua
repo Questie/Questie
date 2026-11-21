@@ -289,7 +289,9 @@ function _QuestieJourney.questsByZone:ManageTree(container, zoneTree)
     end)
 
     container:AddChild(zoneTreeFrame)
-    zoneTreeFrame:SetTreeWidthKey("quests-by-zone")
+    if zoneTreeFrame.SetTreeWidthKey then
+        zoneTreeFrame:SetTreeWidthKey("quests-by-zone")
+    end
 end
 
 ---Get all the available/completed/repeatable/unavailable quests

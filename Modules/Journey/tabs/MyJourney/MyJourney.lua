@@ -196,7 +196,9 @@ function _QuestieJourney.myJourney:ManageTree(container)
         end
     end
     container:AddChild(journeyTreeFrame)
-    journeyTreeFrame:SetTreeWidthKey("my-journey")
+    if journeyTreeFrame.SetTreeWidthKey then
+        journeyTreeFrame:SetTreeWidthKey("my-journey")
+    end
 end
 
 function _QuestieJourney.myJourney:CollapseAllGroups()
