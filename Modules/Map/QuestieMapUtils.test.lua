@@ -256,6 +256,13 @@ describe("QuestieMapUtils", function()
     end)
 
     describe("MapExplorationUpdate", function()
+        local QuestieQuest
+
+        before_each(function()
+            QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
+            QuestieQuest.private.ShowManualIcons = spy.new(function() end)
+        end)
+
         it("should keep map icons hidden when settings hide them", function()
             local frame = {
                 x = 50,
@@ -276,6 +283,14 @@ describe("QuestieMapUtils", function()
             QuestieMap.utils.MapExplorationUpdate()
 
             assert.spy(fakeShowSpy).was.not_called()
+        end)
+
+        it("should re-evaluate the townsfolk icons", function()
+            QuestieMap.questIdFrames = {}
+
+            QuestieMap.utils.MapExplorationUpdate()
+
+            assert.spy(QuestieQuest.private.ShowManualIcons).was.called(1)
         end)
     end)
 end)

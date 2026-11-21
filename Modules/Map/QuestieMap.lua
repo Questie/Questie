@@ -576,6 +576,7 @@ function QuestieMap:DrawManualIcon(data, areaID, x, y, typ)
     -- create the map icon
     local icon = QuestieFramePool:GetFrame()
     icon.isManualIcon = true
+    icon.manualType = typ
     icon.data = data
     icon.x = x
     icon.y = y
@@ -593,6 +594,7 @@ function QuestieMap:DrawManualIcon(data, areaID, x, y, typ)
     -- create the minimap icon
     local iconMinimap = QuestieFramePool:GetFrame()
     iconMinimap.isManualIcon = true
+    iconMinimap.manualType = typ
     local colorsMinimap = {1, 1, 1}
     if data.IconColor ~= nil and Questie.db.profile.questMinimapObjectiveColors then
         colorsMinimap = data.IconColor
@@ -624,10 +626,11 @@ function QuestieMap:DrawManualIcon(data, areaID, x, y, typ)
         icon:FakeHide()
         iconMinimap:FakeHide()
     else
-        if (not Questie.db.profile.enableMapIcons) then
+        local isUnexplored = typ ~= "any" and Questie.db.profile.hideUnexploredMapIcons and (not QuestieMap.utils.IsExplored(uiMapId, x, y))
+        if isUnexplored or (not Questie.db.profile.enableMapIcons) then
             icon:FakeHide()
         end
-        if (not Questie.db.profile.enableMiniMapIcons) then
+        if isUnexplored or (not Questie.db.profile.enableMiniMapIcons) then
             iconMinimap:FakeHide()
         end
     end
