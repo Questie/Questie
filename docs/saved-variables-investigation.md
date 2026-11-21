@@ -211,7 +211,8 @@ All probe addons were disabled and confirmed unloaded, and the original non-prob
 
 ## Retained code
 
-Only a small session-only cache diagnostic was kept from the runtime experiments:
+Only a small session-only cache diagnostic was kept from the runtime experiments. Outside Questie's own files,
+such as `/run`, `QuestieLoader` is a global only with debug enabled:
 
 ```lua
 QuestieLoader:ImportModule("QuestieInit").cacheStatus

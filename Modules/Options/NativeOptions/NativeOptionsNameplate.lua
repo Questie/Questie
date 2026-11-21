@@ -1,3 +1,6 @@
+---@type QuestieLoader
+local QuestieLoader = select(2, ...).QuestieLoader
+
 -------------------------
 --Import modules.
 -------------------------
@@ -8,7 +11,7 @@ local QuestieOptionsDefaults = QuestieLoader:ImportModule("QuestieOptionsDefault
 ---@type QuestieNameplate
 local QuestieNameplate = QuestieLoader:ImportModule("QuestieNameplate")
 
-QuestieOptionsEngine.tabs.nameplate = { ... }
+QuestieOptionsEngine.tabs.nameplate = {}
 local optionsDefaults = QuestieOptionsDefaults:Load()
 
 function QuestieOptionsEngine.tabs.nameplate:Initialize()

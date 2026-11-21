@@ -1,3 +1,6 @@
+---@type QuestieLoader
+local QuestieLoader = select(2, ...).QuestieLoader
+
 ---@class QuestieMenu
 local QuestieMenu = QuestieLoader:CreateModule("QuestieMenu")
 
@@ -144,7 +147,7 @@ local function isTracked(key)
     return Questie.db.profile.townsfolkConfig[key] or isTrackedAsKnownProfession(key)
 end
 
-local function toggle(key, forceRemove) -- /run QuestieLoader:ImportModule("QuestieMap"):ShowNPC(525, nil, 1, "teaste", {}, true)
+local function toggle(key, forceRemove) -- With debug enabled: /run QuestieLoader:ImportModule("QuestieMap"):ShowNPC(525, nil, 1, "teaste", {}, true)
     if ProfessionStations.stations[key] then
         if (not forceRemove) and Questie.db.profile.townsfolkConfig[key] and ProfessionStations.IsStationAvailable(key) then
             ProfessionStations.ShowAll(key)

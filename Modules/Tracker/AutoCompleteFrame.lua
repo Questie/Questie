@@ -1,3 +1,6 @@
+---@type QuestieLoader
+local QuestieLoader = select(2, ...).QuestieLoader
+
 ---@type QuestieCompat
 local QuestieCompat = QuestieLoader:ImportModule("QuestieCompat")
 
@@ -59,7 +62,7 @@ function AutoCompleteFrame.Initialize(baseFrame)
     AutoCompleteFrame.CheckAutoCompleteQuests()
 end
 
--- /run QuestieLoader:ImportModule("AutoCompleteFrame"):ShowAutoComplete(123)
+-- With debug enabled: /run QuestieLoader:ImportModule("AutoCompleteFrame"):ShowAutoComplete(123)
 
 ---@param questId number @The questId to show the auto complete frame for
 function AutoCompleteFrame.ShowAutoComplete(questId)

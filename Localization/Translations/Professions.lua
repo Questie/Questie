@@ -1,3 +1,6 @@
+---@type QuestieLoader
+local QuestieLoader = select(2, ...).QuestieLoader
+
 ---@type Expansions
 local Expansions = QuestieLoader:ImportModule("Expansions")
 ---@type l10n

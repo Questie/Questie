@@ -1,3 +1,6 @@
+---@type QuestieLoader
+local QuestieLoader = select(2, ...).QuestieLoader
+
 ---@class IsleOfQuelDanas
 local IsleOfQuelDanas = QuestieLoader:CreateModule("IsleOfQuelDanas")
 ---@type l10n

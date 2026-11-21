@@ -1,3 +1,6 @@
+---@type QuestieLoader
+local QuestieLoader = select(2, ...).QuestieLoader
+
 ---@type QuestiePopup
 local Popup = QuestieLoader:ImportModule("QuestiePopup")
 

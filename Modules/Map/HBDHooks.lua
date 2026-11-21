@@ -1,3 +1,6 @@
+---@type QuestieLoader
+local QuestieLoader = select(2, ...).QuestieLoader
+
 ---@class HBDHooks
 local HBDHooks = QuestieLoader:CreateModule("HBDHooks");
 local _HBDHooks = {}

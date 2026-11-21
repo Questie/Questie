@@ -1,3 +1,6 @@
+---@type QuestieLoader
+local QuestieLoader = select(2, ...).QuestieLoader
+
 -------------------------
 --Import modules.
 -------------------------
@@ -6,7 +9,7 @@ local QuestieOptionsEngine = QuestieLoader:ImportModule("QuestieOptionsEngine")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
-QuestieOptionsEngine.tabs.auto = { ... }
+QuestieOptionsEngine.tabs.auto = {}
 
 local _GetShortcuts
 

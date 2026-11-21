@@ -44,7 +44,7 @@ describe("QuestiePopup consumers", function()
 
         -- Mock the external popup API, including cancellation on reuse and data-before-OnShow.
         externalPopup = {Dialogs = {}}
-        addon = { Dialog = externalPopup }
+        addon = { Dialog = externalPopup, QuestieLoader = QuestieLoader }
         function externalPopup.FindVisible(key) return visible[key] end
         function externalPopup.Hide(key) visible[key] = nil end
         function externalPopup.Show(key, arg1, arg2, data)
@@ -119,6 +119,7 @@ describe("QuestiePopup consumers", function()
     it("runs locale reuse, cancellation and acceptance through the real dialog", function()
         local fixture = dofile("cli/testData/addonDialog/PopupUIHarness.lua")
         local _, errors, _, private = fixture.NewEnvironment()
+        private.QuestieLoader = QuestieLoader
         assert(loadfile("Modules/Libs/QuestiePopup.lua"))("Questie", private)
         dofile("Modules/Options/NativeOptions/NativeOptionsAdvanced.lua")
         local items = options.tabs.advanced:Initialize().items
@@ -140,6 +141,7 @@ describe("QuestiePopup consumers", function()
     it("uses direct edit-box references and keeps styles separate between dialog purposes", function()
         local fixture = dofile("cli/testData/addonDialog/PopupUIHarness.lua")
         local _, errors, _, private = fixture.NewEnvironment()
+        private.QuestieLoader = QuestieLoader
         assert(loadfile("Modules/Libs/QuestiePopup.lua"))("Questie", private)
         dofile("Modules/Options/NativeOptions/NativeOptionsAdvanced.lua")
         options.tabs.advanced:Initialize().items.questieReset.func()
@@ -280,6 +282,7 @@ describe("QuestiePopup consumers", function()
     it("accepts only the current hide confirmation when its dedicated frame is reopened", function()
         local fixture = dofile("cli/testData/addonDialog/PopupUIHarness.lua")
         local _, errors, _, private = fixture.NewEnvironment()
+        private.QuestieLoader = QuestieLoader
         assert(loadfile("Modules/Libs/QuestiePopup.lua"))("Questie", private)
         dofile("Modules/FramePool/QuestieFramePool.lua")
         local quest = QuestieLoader:ImportModule("QuestieQuest")

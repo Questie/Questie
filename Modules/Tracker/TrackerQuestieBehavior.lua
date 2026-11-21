@@ -1,3 +1,6 @@
+---@type QuestieLoader
+local QuestieLoader = select(2, ...).QuestieLoader
+
 -- Owns quest completion and Questie-specific additions to the shared tracker display record.
 -- Completion is not optional metadata: every refresh, including a cache miss, is resolved here.
 ---@class TrackerQuestieBehavior

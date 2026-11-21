@@ -1,5 +1,8 @@
 -- HereBeDragons is a data API for the World of Warcraft mapping system
 
+---@type QuestieLoader
+local QuestieLoader = select(2, ...).QuestieLoader
+
 -- Questie modification: a Questie module instead of a LibStub library. Questie's copy has diverged from
 -- upstream, so no other addon's copy may replace it, and it never upgrades another copy in place.
 -- Other addons should embed upstream HereBeDragons (https://github.com/Nevcairiel/HereBeDragons), not this copy.

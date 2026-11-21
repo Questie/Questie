@@ -1,3 +1,6 @@
+---@type QuestieLoader
+local QuestieLoader = select(2, ...).QuestieLoader
+
 -- Builds the header, title and objective lines of the tracker sections.
 -- A section decides what to show, the builder decides how a line is sized and placed.
 ---@class LineBuilder

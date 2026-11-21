@@ -44,8 +44,9 @@ Three execution contexts, deliberately treated differently:
 consecutive main-chunk `CreateModule`/`ImportModule` calls, and charges it to whichever file opened it. Rows
 are therefore intervals, not parse costs: anything the client does between two stamps lands on the file that
 opened the interval, garbage collection included, and a file that makes no loader call at all is charged to
-its predecessor. XML groups that would otherwise be invisible open with
-`<Script>QuestieLoader:StampLoadBoundary()</Script>` so they name their own interval.
+its predecessor. XML groups that would otherwise be invisible first load a small Lua file that calls
+`QuestieLoader:StampLoadBoundary("<the XML's path>")`, so they name their own interval. An inline `<Script>` can't:
+it gets no addon namespace to reach the loader through.
 
 ## Rules that will break something if you change them
 

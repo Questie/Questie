@@ -1,3 +1,6 @@
+---@type QuestieLoader
+local QuestieLoader = select(2, ...).QuestieLoader
+
 -- small binary stream library with "base 89" decoder (credit to Aero for the algorithm)
 ---@class QuestieStreamLib
 local QuestieStreamLib = QuestieLoader:CreateModule("QuestieStreamLib");

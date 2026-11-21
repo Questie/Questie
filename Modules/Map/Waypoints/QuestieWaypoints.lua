@@ -1,3 +1,6 @@
+---@type QuestieLoader
+local QuestieLoader = select(2, ...).QuestieLoader
+
 ---Registry of NPC patrol paths, and Questie's adapter to them. Questie's icons add and release
 ---paths; WaypointMap and WaypointMinimap read which paths show and how, and draw them.
 ---@class QuestieWaypoints

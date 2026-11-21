@@ -1,3 +1,6 @@
+---@type QuestieLoader
+local QuestieLoader = select(2, ...).QuestieLoader
+
 -- Owns native metadata, objective display records and their lifetime for every tracked quest.
 -- TrackerQuestieBehavior owns quest completion, database additions and Questie compatibility exceptions.
 -- Shared formatting at the end of this file affects both known and database-unknown quests.

@@ -1,3 +1,6 @@
+---@type QuestieLoader
+local QuestieLoader = select(2, ...).QuestieLoader
+
 -- Turns the game's tracked achievements into the display data used by the tracker's achievement section.
 ---@class TrackerAchievements
 local TrackerAchievements = QuestieLoader:CreateModule("TrackerAchievements")

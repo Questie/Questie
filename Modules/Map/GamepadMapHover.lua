@@ -1,3 +1,6 @@
+---@type QuestieLoader
+local QuestieLoader = select(2, ...).QuestieLoader
+
 ---@class GamepadMapHover
 local GamepadMapHover = QuestieLoader:CreateModule("GamepadMapHover")
 local _GamepadMapHover = GamepadMapHover.private

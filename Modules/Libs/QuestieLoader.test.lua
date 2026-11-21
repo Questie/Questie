@@ -64,6 +64,43 @@ describe("QuestieLoader", function()
         end)
     end)
 
+    describe("visibility to other addons", function()
+        before_each(function()
+            _G.QuestieProfilerEnabled = nil
+        end)
+
+        ---Loads a fresh loader the way the client does, into a namespace of its own, and returns that namespace.
+        local function LoadIntoNamespace()
+            local namespace = {}
+            assert(loadfile("Modules/Libs/QuestieLoader.lua"))("Questie", namespace)
+            return namespace
+        end
+
+        it("does not make itself a global when loaded", function()
+            local testGlobal = _G.QuestieLoader
+            _G.QuestieLoader = nil
+
+            LoadIntoNamespace()
+            local leakedGlobal = rawget(_G, "QuestieLoader")
+            _G.QuestieLoader = testGlobal
+
+            assert.is_nil(leakedGlobal)
+        end)
+
+        it("publishes itself next to the modules when debug globals are populated", function()
+            local loader = LoadIntoNamespace().QuestieLoader
+            local module = loader:CreateModule("DebugGlobalsProbe")
+            local testGlobal = _G.QuestieLoader
+
+            loader:PopulateGlobals()
+            local publishedLoader, publishedModule = _G.QuestieLoader, _G.DebugGlobalsProbe
+            _G.QuestieLoader, _G.DebugGlobalsProbe = testGlobal, nil
+
+            assert.are_equal(loader, publishedLoader)
+            assert.are_equal(module, publishedModule)
+        end)
+    end)
+
     describe("module call observer", function()
         before_each(function()
             _G.QuestieProfilerEnabled = nil
@@ -247,12 +284,12 @@ describe("QuestieLoader", function()
             assert.are_same(12, QuestieLoader.loadTimings["Modules/Libs/QuestieLoader.lua"])
         end)
 
-        it("names the embedded-library interval from the boundary stamp in embeds.xml", function()
-            -- The real startup sequence: the loader's own remainder, then the embeds boundary, then the
+        it("names the embedded-library interval after embeds.xml from the boundary file it loads first", function()
+            -- The real startup sequence: the loader's own remainder, then the embeds boundary file, then the
             -- libraries, closed by the first Lua file's module call.
             AdvanceClock(2)
-            currentSourceFile = "embeds.xml:<Scripts>"
-            QuestieLoader:StampLoadBoundary()
+            currentSourceFile = "Modules/Libs/EmbedsLoadBoundary.lua"
+            dofile("Modules/Libs/EmbedsLoadBoundary.lua")
             AdvanceClock(400)
 
             currentSourceFile = "Questie.lua"
@@ -260,36 +297,8 @@ describe("QuestieLoader", function()
 
             assert.are_same(2, QuestieLoader.loadTimings["Modules/Libs/QuestieLoader.lua"])
             assert.are_same(400, QuestieLoader.loadTimings["embeds.xml"])
-        end)
-
-        it("opens an interval named after an XML group at a boundary stamp", function()
-            currentSourceFile = "Localization/lookups/lookupZones.lua"
-            QuestieLoader:ImportModule("l10n")
-            AdvanceClock(3)
-
-            -- An inline Script chunk reports the XML's own path, ":<Scripts>" suffixed, in main chunk.
-            currentSourceFile = "Localization/Translations/Translations.xml:<Scripts>"
-            QuestieLoader:StampLoadBoundary()
-            AdvanceClock(200)
-
-            currentSourceFile = "Modules/Libs/DistanceUtils.lua"
-            QuestieLoader:CreateModule("DistanceUtils")
-
-            -- Without the boundary, the group's whole parse cost lands on lookupZones.lua.
-            assert.are_same(3, QuestieLoader.loadTimings["Localization/lookups/lookupZones.lua"])
-            assert.are_same(200, QuestieLoader.loadTimings["Localization/Translations/Translations.xml"])
-        end)
-
-        it("uses an explicit source name for a boundary interval", function()
-            currentSourceFile = "Libs/ThirdPartyLibraries.xml:<Scripts>"
-            QuestieLoader:StampLoadBoundary("Libs/Vendor/Library.lua")
-            AdvanceClock(30)
-
-            currentSourceFile = "Modules/Beta.lua"
-            QuestieLoader:CreateModule("Beta")
-
-            assert.are_same(30, QuestieLoader.loadTimings["Libs/Vendor/Library.lua"])
-            assert.is_nil(QuestieLoader.loadTimings["Libs/ThirdPartyLibraries.xml"])
+            -- The interval is named after the XML group, never after the small file that announced it.
+            assert.is_nil(QuestieLoader.loadTimings["Modules/Libs/EmbedsLoadBoundary.lua"])
         end)
 
         it("ignores a boundary stamp that does not come from a main chunk", function()

@@ -2,7 +2,7 @@
     <!-- Names the leading edge of this group after this XML. The files below stamp individually (they all
          import l10n at file scope), but the first one's parse would otherwise land on whichever TOC entry
          precedes this group.-->
-    <Script>QuestieLoader:StampLoadBoundary()</Script>
+    <Script file="TranslationsLoadBoundary.lua"/>
 
     <Script file="ExtraObjectives\CataObjectives.lua"/>
     <Script file="ExtraObjectives\ClassicObjectives.lua"/>

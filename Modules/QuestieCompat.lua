@@ -1,4 +1,7 @@
 ---@diagnostic disable: undefined-global, return-type-mismatch, undefined-field
+---@type QuestieLoader
+local QuestieLoader = select(2, ...).QuestieLoader
+
 ---@class QuestieCompat
 local QuestieCompat = QuestieLoader:CreateModule("QuestieCompat")
 

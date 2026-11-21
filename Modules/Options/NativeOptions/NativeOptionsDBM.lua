@@ -1,3 +1,6 @@
+---@type QuestieLoader
+local QuestieLoader = select(2, ...).QuestieLoader
+
 -------------------------
 --Import modules.
 -------------------------
@@ -10,7 +13,7 @@ local QuestieOptionsDefaults = QuestieLoader:ImportModule("QuestieOptionsDefault
 ---@type QuestieDBMIntegration
 local QuestieDBMIntegration = QuestieLoader:ImportModule("QuestieDBMIntegration")
 
-QuestieOptionsEngine.tabs.dbm = { ... }
+QuestieOptionsEngine.tabs.dbm = {}
 local optionsDefaults = QuestieOptionsDefaults:Load()
 
 local function _IsDBMEnabled()

@@ -2,6 +2,8 @@
 
 The files in this directory provide an API for interacting with Questie. Everything that is exposed via `Questie.API` should be considered stable and safe to use.
 
+`Questie.API` is the only supported way in. Questie's modules are private to the addon and can't be imported by other addons. If you need something the API doesn't offer yet, ask us.
+
 ## How to use it
 
 To use the Questie API, you first need to ensure that Questie is loaded, e.g. by using the `IsAddOnLoaded` API.

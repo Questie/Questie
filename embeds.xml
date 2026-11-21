@@ -2,7 +2,7 @@
     <!-- Names the embedded libraries' load interval after this XML. Apart from HereBeDragons, which is a set of
          Questie modules and gets its own rows, none of them call QuestieLoader, so they cannot be told apart
          from one another; the stamp draws the boundary where the group starts.-->
-    <Script>QuestieLoader:StampLoadBoundary()</Script>
+    <Script file="Modules\Libs\EmbedsLoadBoundary.lua"/>
 
     <Script file="Libs\LibStub\LibStub.lua"/>
     <Script file="Libs\LibDeflate\LibDeflate.lua"/>

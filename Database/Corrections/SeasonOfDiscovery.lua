@@ -1,3 +1,6 @@
+---@type QuestieLoader
+local QuestieLoader = select(2, ...).QuestieLoader
+
 ---@class SeasonOfDiscovery
 local SeasonOfDiscovery = QuestieLoader:CreateModule("SeasonOfDiscovery")
 -------------------------

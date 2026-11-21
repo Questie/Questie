@@ -1,3 +1,6 @@
+---@type QuestieLoader
+local QuestieLoader = select(2, ...).QuestieLoader
+
 -------------------------
 --Import modules.
 -------------------------
@@ -10,7 +13,7 @@ local QuestieWaypoints = QuestieLoader:ImportModule("QuestieWaypoints")
 ---@type WaypointRenderer
 local WaypointRenderer = QuestieLoader:ImportModule("WaypointRenderer")
 
-QuestieOptionsEngine.tabs.map = { ... }
+QuestieOptionsEngine.tabs.map = {}
 local optionsDefaults = QuestieOptionsDefaults:Load()
 
 local function _Get(key)

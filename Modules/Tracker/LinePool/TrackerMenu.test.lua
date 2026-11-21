@@ -39,6 +39,7 @@ describe("TrackerMenu", function()
 
         local fixture = dofile("cli/testData/addonDialog/PopupUIHarness.lua")
         local _, errors, _, private = fixture.NewEnvironment()
+        private.QuestieLoader = QuestieLoader
         dialogErrors = errors
         assert(loadfile("Modules/Libs/QuestiePopup.lua"))("Questie", private)
         Popup = QuestieLoader:ImportModule("QuestiePopup")

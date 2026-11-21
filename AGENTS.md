@@ -83,7 +83,18 @@ setupTests.lua       - Test environment setup (mocks WoW API globals)
 
 ### Module System
 
-Every module uses the `QuestieLoader` system. Only `Questie` and `QuestieLoader` are globals.
+Every module uses the `QuestieLoader` system. Only `Questie` is global. `QuestieLoader` is private to Questie: the
+client passes it to every addon file in the addon namespace, so each file that uses it binds it first, at the top:
+
+```lua
+---@type QuestieLoader
+local QuestieLoader = select(2, ...).QuestieLoader
+```
+
+Other addons can't reach the loader or any module; their supported surface is `Questie.API` (`Public/`). With debug
+enabled, `QuestieLoader:PopulateGlobals()` publishes the loader and every module as globals for `/run` and `/dump`.
+Code that runs without the namespace, such as key binding bodies in `Bindings.xml` and inline XML `<Script>`
+blocks, can't reach the loader: bindings call entry points on `Questie`, and XML loads a small Lua file instead.
 
 **Creating a module** (owning file):
 
@@ -103,6 +114,9 @@ local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 ### Standard File Boilerplate
 
 ```lua
+---@type QuestieLoader
+local QuestieLoader = select(2, ...).QuestieLoader
+
 ---@class MyModule
 local MyModule = QuestieLoader:CreateModule("MyModule")
 local _MyModule = MyModule.private
@@ -254,7 +268,12 @@ end)
 - Tests live alongside source files as `*.test.lua`
 - Integration tests go in `cli/integrationTests/` named by issue number
 - Mocking: override `_G.*` globals; use `spy.new()` for call verification
-- Use `dofile` to load the module under test, not `require` any file
+- Use `dofile` to load the module under test, not `require` any file. `setupTests.lua` makes `dofile` pass the
+  addon name and namespace the way the client does, so the file's `select(2, ...).QuestieLoader` binding works
+- In tests `QuestieLoader` is a global that `setupTests.lua` provides and keeps in sync with the namespace. Addon
+  files loaded with `dofile` can't see that global, as in the client, so a file missing its binding fails its tests.
+  A test that calls `loadfile(path)(addonName, namespace)` itself must put `QuestieLoader = QuestieLoader` in that
+  namespace
 - Use `QuestieLoader` to stub modules, then mock functions called by the module under test. Exceptions are:
     - `l10n`, which should be loaded directly using `dofile("Localization/l10n.lua")`
     - `ContentPhases`, which should be loaded directly using `dofile("Database/Corrections/ContentPhases/ContentPhases.lua")`

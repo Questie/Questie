@@ -1,3 +1,6 @@
+---@type QuestieLoader
+local QuestieLoader = select(2, ...).QuestieLoader
+
 ---@class ExpandZoneButton
 local ExpandZoneButton = QuestieLoader:CreateModule("ExpandZoneButton")
 

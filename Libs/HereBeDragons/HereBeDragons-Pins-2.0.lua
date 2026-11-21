@@ -1,5 +1,8 @@
 -- HereBeDragons-Pins is a library to show pins/icons on the world map and minimap
 
+---@type QuestieLoader
+local QuestieLoader = select(2, ...).QuestieLoader
+
 -- Questie modification: a Questie module instead of a LibStub library, like HereBeDragons-2.0.lua.
 ---@class HBDPins
 local pins = QuestieLoader:CreateModule("HBDPins")
@@ -26,9 +29,9 @@ pins.worldmapProviderPin  = CreateFromMixins(MapCanvasPinMixin)
 
 -- Questie modification: every addon's world map pins share WorldMapFrame.pinPools, keyed by template name.
 -- Naming the template after the loading addon keeps pins apart from addons that copied an earlier version of
--- this file. A copy of this version still registers into Questie's module, so embed upstream HereBeDragons.
--- Use pins.worldmapPinTemplate to enumerate the pins this library placed.
-local addonName = ... or "Questie" -- the test runner loads files without the addon name
+-- this file. This version needs Questie's private loader, so a copy in another addon fails to load: embed upstream
+-- HereBeDragons. Use pins.worldmapPinTemplate to enumerate the pins this library placed.
+local addonName = ...
 local WORLDMAP_PIN_TEMPLATE = "HereBeDragonsPins-" .. addonName .. "-WorldMapPin"
 pins.worldmapPinTemplate  = WORLDMAP_PIN_TEMPLATE
 

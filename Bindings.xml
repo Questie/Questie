@@ -1,8 +1,8 @@
 <Bindings>
     <Binding name="QUESTIE_TOGGLE_JOURNEY" category="Questie">
-        QuestieLoader:ImportModule("QuestieJourney"):ToggleJourneyWindow()
+        Questie.ToggleJourneyWindow()
     </Binding>
     <Binding name="QUESTIE_TOGGLE_TRACKER" category="Questie">
-        QuestieLoader:ImportModule("QuestieTracker").ToggleTracker()
+        Questie.ToggleTracker()
     </Binding>
 </Bindings>

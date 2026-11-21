@@ -1,3 +1,6 @@
+---@type QuestieLoader
+local QuestieLoader = select(2, ...).QuestieLoader
+
 ---@class QuestDetailsFrame
 local QuestDetailsFrame = QuestieLoader:CreateModule("QuestDetailsFrame")
 

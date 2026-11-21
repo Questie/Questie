@@ -1,3 +1,6 @@
+---@type QuestieLoader
+local QuestieLoader = select(2, ...).QuestieLoader
+
 --DBM HudMap integration written by MysticalOS
 --HUD API: https://github.com/DeadlyBossMods/DBM-HudMap
 ------------------------

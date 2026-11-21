@@ -1,3 +1,6 @@
+---@type QuestieLoader
+local QuestieLoader = select(2, ...).QuestieLoader
+
 ---@class QuestieProfilerUI
 local QuestieProfilerUI = QuestieLoader:CreateModule("ProfilerUI")
 local _QuestieProfilerUI = QuestieProfilerUI.private

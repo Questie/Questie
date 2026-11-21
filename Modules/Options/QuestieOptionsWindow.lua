@@ -1,3 +1,6 @@
+---@type QuestieLoader
+local QuestieLoader = select(2, ...).QuestieLoader
+
 ---The art and frames of Questie's own settings window and its side tabs.
 ---Which tab is shown and what it contains belongs to QuestieOptionsEngine.
 ---@class QuestieOptionsWindow

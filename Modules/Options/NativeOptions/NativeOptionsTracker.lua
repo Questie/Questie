@@ -1,3 +1,6 @@
+---@type QuestieLoader
+local QuestieLoader = select(2, ...).QuestieLoader
+
 ---@type QuestieCompat
 local QuestieCompat = QuestieLoader:ImportModule("QuestieCompat")
 
@@ -23,7 +26,7 @@ local CommsVisibility = QuestieLoader:ImportModule("CommsVisibility")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
-QuestieOptionsEngine.tabs.tracker = { ... }
+QuestieOptionsEngine.tabs.tracker = {}
 
 local SharedMedia = LibStub("LibSharedMedia-3.0")
 

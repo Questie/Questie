@@ -1,3 +1,6 @@
+---@type QuestieLoader
+local QuestieLoader = select(2, ...).QuestieLoader
+
 ---Pure geometry for NPC patrol paths. BuildPolylines turns one zone's waypoint data into
 ---polylines once per icon, in map percent and world yards. Every redraw then runs Smooth, Trim and
 ---Quads in the units the caller draws in (WaypointRenderer), and Nearest finds the path under the

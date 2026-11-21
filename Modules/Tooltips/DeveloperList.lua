@@ -1,6 +1,9 @@
 -- Use /dump UnitGUID("player") to get the GUID of your character.
 -- The first 4 digits represent the server ID, the next 4 digits represent the character ID.
 
+---@type QuestieLoader
+local QuestieLoader = select(2, ...).QuestieLoader
+
 -- This file does not use the module system, so it names its own load-timing interval.
 QuestieLoader:StampLoadBoundary()
 

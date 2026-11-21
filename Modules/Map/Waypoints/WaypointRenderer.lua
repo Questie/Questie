@@ -1,4 +1,7 @@
 -- luacheck: globals DrawLine UPPER_LEFT_VERTEX LOWER_LEFT_VERTEX UPPER_RIGHT_VERTEX LOWER_RIGHT_VERTEX
+---@type QuestieLoader
+local QuestieLoader = select(2, ...).QuestieLoader
+
 ---Draws patrol paths as outlined lines onto a canvas: the world map's, or the minimap layer's
 ---container. Each path is one view frame with one pooled texture per segment, plus two fills at
 ---each sharp turn and a cap at each sharp turn, turn back and open end.
