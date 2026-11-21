@@ -776,12 +776,18 @@ describe("QuestieOptionsEngine", function()
             it("should keep the active tab visible while a search replacement builds", function()
                 local window = OpenWindow()
                 local original = CheckboxesIn(window)[1]
+                local canvas = ui.FindAll(window.canvasContainer, function(frame)
+                    return frame.tab ~= nil and frame.tab.key == "general"
+                end)[1]
+                local hides = 0
+                canvas:HookScript("OnHide", function() hides = hides + 1 end)
 
                 window.searchBox:SetText("parent")
                 window.searchBox.scripts.OnTextChanged(window.searchBox, true)
                 ui.RunFrame()
 
                 assert.is_true(original:IsVisible())
+                assert.are.equal(0, hides)
 
                 ui.RunUntilIdle()
                 assert.is_true(CheckboxesIn(window)[1]:IsVisible())

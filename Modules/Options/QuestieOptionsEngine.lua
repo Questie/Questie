@@ -514,8 +514,9 @@ local function _RebuildPopupCanvases()
         local wasShown = canvas:IsShown()
         _DiscardFailedBuild(canvas, wasShown)
         if wasShown then
-            canvas:Hide()
-            canvas:Show()
+            -- Start the replacement directly. The old content remains visible until the new
+            -- content is committed, so restarting a search build must not hide the canvas.
+            _OnCanvasShown(canvas)
         end
     end
 end
