@@ -184,7 +184,7 @@ local function _CreateCanvasHeader(canvas, content, leftInset)
     headerWrapper:SetPoint("TOPLEFT", canvas, "TOPLEFT", 0, -4)
 
     local subtitle = content:CreateFontString(nil, "OVERLAY", "Game13Font")
-    subtitle:SetPoint("TOPLEFT", canvas, "TOPLEFT", 8 + leftInset, -4)
+    subtitle:SetPoint("TOPLEFT", canvas, "TOPLEFT", 8 + leftInset, -10)
     subtitle:SetTextColor(0.9, 0.9, 0.9, 1.0)
     subtitle:SetText(l10n(tabData.subtitle or tabData.title))
 
