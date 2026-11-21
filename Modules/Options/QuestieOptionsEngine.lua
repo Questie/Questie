@@ -404,6 +404,7 @@ local function _CreatePopup()
         searchItems["tab_" .. tab.key] = {
             type = "container",
             title = tab.data.title,
+            description = tab.data.subtitle,
             order = index,
             items = tab.data.items,
         }

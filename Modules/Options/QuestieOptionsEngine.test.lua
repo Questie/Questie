@@ -60,6 +60,7 @@ describe("QuestieOptionsEngine", function()
             map = {Initialize = function()
                 return {
                     title = "Map",
+                    subtitle = "Map Options",
                     order = 1,
                     items = {
                         mapOption = CreateCheckbox(1, "mapOption"),
@@ -731,7 +732,7 @@ describe("QuestieOptionsEngine", function()
             it("should search across tabs and rebuild the popup with matching options", function()
                 local window = OpenWindow()
 
-                window.searchBox:SetText("map")
+                window.searchBox:SetText("map options")
                 window.searchBox.scripts.OnTextChanged(window.searchBox, true)
                 ui.RunUntilIdle()
 
@@ -741,7 +742,7 @@ describe("QuestieOptionsEngine", function()
                 end
                 assert.is_true(titles.mapOption)
                 assert.is_nil(titles.parent)
-                assert.are.equal("map", QuestieOptionsEngine.searchText)
+                assert.are.equal("map options", QuestieOptionsEngine.searchText)
 
                 window.searchBox:SetText("")
                 window.searchBox.scripts.OnTextChanged(window.searchBox, true)
