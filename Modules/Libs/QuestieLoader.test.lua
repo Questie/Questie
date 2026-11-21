@@ -64,6 +64,44 @@ describe("QuestieLoader", function()
         end)
     end)
 
+    describe("visibility to other addons", function()
+        before_each(function()
+            _G.QuestieProfilerEnabled = nil
+        end)
+
+        ---Loads a fresh loader the way the client does, into a namespace of its own, and returns that namespace.
+        local function LoadIntoNamespace()
+            local namespace = {}
+            assert(loadfile("Modules/Libs/QuestieLoader.lua"))("Questie", namespace)
+            return namespace
+        end
+
+        it("is reachable only through the addon namespace", function()
+            local testGlobal = _G.QuestieLoader
+            _G.QuestieLoader = nil
+
+            local namespace = LoadIntoNamespace()
+            local leakedGlobal = rawget(_G, "QuestieLoader")
+            _G.QuestieLoader = testGlobal
+
+            assert.is_nil(leakedGlobal)
+            assert.are_same("function", type(namespace.QuestieLoader.ImportModule))
+        end)
+
+        it("publishes itself next to the modules when debug globals are populated", function()
+            local loader = LoadIntoNamespace().QuestieLoader
+            local module = loader:CreateModule("DebugGlobalsProbe")
+            local testGlobal = _G.QuestieLoader
+
+            loader:PopulateGlobals()
+            local publishedLoader, publishedModule = _G.QuestieLoader, _G.DebugGlobalsProbe
+            _G.QuestieLoader, _G.DebugGlobalsProbe = testGlobal, nil
+
+            assert.are_equal(loader, publishedLoader)
+            assert.are_equal(module, publishedModule)
+        end)
+    end)
+
     describe("module call observer", function()
         before_each(function()
             _G.QuestieProfilerEnabled = nil

@@ -200,7 +200,10 @@ function QuestieLoader:StampLoadBoundary(sourceOverride)
     end
 end
 
-function QuestieLoader:PopulateGlobals() -- called when debugging is enabled
+---Publishes the loader and every module as globals, so /run and /dump can reach them while debugging. Called at
+---login when debug is enabled, and when it is switched on. Switching debug off leaves them until /reload.
+function QuestieLoader:PopulateGlobals()
+    _G.QuestieLoader = QuestieLoader
     for name, module in pairs(modules) do
         _G[name] = module
     end
