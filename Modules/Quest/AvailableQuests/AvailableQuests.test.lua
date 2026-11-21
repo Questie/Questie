@@ -3,6 +3,7 @@ dofile("Modules/Quest/ActiveQuests.lua")
 ---@type ActiveQuests
 local ActiveQuests = QuestieLoader:ImportModule("ActiveQuests")
 local QuestieCompat = QuestieLoader:ImportModule("QuestieCompat")
+local Expansions = QuestieLoader:ImportModule("Expansions")
 
 local match = require("luassert.match")
 local LoadQuestieDBMock = dofile("test/QuestieDBMock.lua")
@@ -232,13 +233,13 @@ describe("AvailableQuests", function()
     end)
 
     describe("_ScheduleDailyResetTimer (via Initialize)", function()
-        it("should schedule a timer when not Questie.IsClassic", function()
+        it("should schedule a timer when not Era content", function()
             local realmName = "TestRealm"
             _G.GetRealmName = function() return realmName end
             _G.GetServerTime = function() return 1000 end
             _G.GetQuestResetTime = function() return 86400 end
             _G.C_Timer = {After = spy.new(function() end)}
-            Questie.IsClassic = false
+            Expansions.Current = Expansions.Tbc
             Questie.db.global.lastKnownDailyReset[realmName] = 90000
 
             AvailableQuests.Initialize()
@@ -246,13 +247,13 @@ describe("AvailableQuests", function()
             assert.spy(_G.C_Timer.After).was.called()
         end)
 
-        it("should not schedule a timer when Questie.IsClassic is true", function()
+        it("should not schedule a timer on Era content", function()
             local realmName = "TestRealm"
             _G.GetRealmName = function() return realmName end
             _G.GetServerTime = function() return 1000 end
             _G.GetQuestResetTime = function() return 86400 end
             _G.C_Timer = {After = spy.new(function() end)}
-            Questie.IsClassic = true
+            Expansions.Current = Expansions.Era
             Questie.db.global.lastKnownDailyReset[realmName] = 90000
 
             AvailableQuests.Initialize()
@@ -269,7 +270,7 @@ describe("AvailableQuests", function()
             _G.GetQuestResetTime = function() return 86400 end
             local afterMock = spy.new(function() end)
             _G.C_Timer = {After = afterMock}
-            Questie.IsClassic = false
+            Expansions.Current = Expansions.Tbc
             Questie.db.global.lastKnownDailyReset[realmName] = resetTime
 
             AvailableQuests.Initialize()
@@ -285,7 +286,7 @@ describe("AvailableQuests", function()
             _G.GetQuestResetTime = function() return 86400 end
             local afterMock = spy.new(function() end)
             _G.C_Timer = {After = afterMock}
-            Questie.IsClassic = false
+            Expansions.Current = Expansions.Tbc
             Questie.db.global.lastKnownDailyReset[realmName] = 1000 -- Already passed
 
             AvailableQuests.Initialize()
@@ -300,7 +301,7 @@ describe("AvailableQuests", function()
             _G.GetQuestResetTime = function() return 86400 end
             local afterMock = spy.new(function() end)
             _G.C_Timer = {After = afterMock}
-            Questie.IsClassic = false
+            Expansions.Current = Expansions.Tbc
             Questie.db.global.lastKnownDailyReset = {[realmName] = nil}
 
             AvailableQuests.Initialize()
@@ -314,7 +315,7 @@ describe("AvailableQuests", function()
             _G.GetRealmName = function() return realmName end
             _G.GetServerTime = function() return 1000 end
             _G.GetQuestResetTime = function() return 86400 end
-            Questie.IsClassic = false
+            Expansions.Current = Expansions.Tbc
             Questie.db.global.lastKnownDailyReset[realmName] = 90000
             Questie.db.global.unavailableQuestsDeterminedByTalking[realmName] = {[QUEST_ID] = true}
             Questie.db.global.unavailableDailyQuestsByNpc[realmName] = {[NPC_ID] = {[QUEST_ID] = true}}
@@ -345,7 +346,7 @@ describe("AvailableQuests", function()
             _G.GetRealmName = function() return realmName end
             _G.GetServerTime = function() return 1000 end
             _G.GetQuestResetTime = function() return 86400 end
-            Questie.IsClassic = false
+            Expansions.Current = Expansions.Tbc
             Questie.db.global.lastKnownDailyReset[realmName] = 90000
             QuestieLib.UpdateLastKnownDailyReset = spy.new(function() end)
             AvailableQuests.CalculateAndDrawAll = spy.new(function() end)
@@ -1995,13 +1996,13 @@ describe("AvailableQuests", function()
         end)
     end)
     describe("composed Quest enumeration", function()
-        local originalIsClassic
+        local originalExpansion
         local originalIsSoD
         local originalGetFramesForQuest
         local submittedJobs
 
         before_each(function()
-            originalIsClassic = Questie.IsClassic
+            originalExpansion = Expansions.Current
             originalIsSoD = Questie.IsSoD
             originalGetFramesForQuest = QuestieMap.GetFramesForQuest
 
@@ -2032,7 +2033,7 @@ describe("AvailableQuests", function()
             QuestieLoader:ImportModule("QuestieQuestBlacklist").AQWarEffortQuests = {}
             Questie.db.char.complete = {[4] = true}
             Questie.db.char.hidden = {}
-            Questie.IsClassic = false
+            Expansions.Current = Expansions.Tbc
             Questie.IsSoD = false
             IsleOfQuelDanas.quests = {}
             ActiveQuests.Reset()
@@ -2048,7 +2049,7 @@ describe("AvailableQuests", function()
         end)
 
         after_each(function()
-            Questie.IsClassic = originalIsClassic
+            Expansions.Current = originalExpansion
             Questie.IsSoD = originalIsSoD
             QuestieMap.GetFramesForQuest = originalGetFramesForQuest
         end)

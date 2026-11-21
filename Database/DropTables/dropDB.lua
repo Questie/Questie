@@ -29,7 +29,7 @@ DropDB.correctionKeys = { -- all keys must be negative or they'll be parsed as r
 function DropDB:Initialize()
     local QuestieItemDropCorrections = LibQuestieDB.Support.Get("QuestieItemDropCorrections")
     local wowheadModule, pserverModule, pserverField
-    if Questie.IsClassic then
+    if Expansions.Current == Expansions.Era then
         -- Classic Wowhead data includes SoD IDs, which Era quests never reference.
         wowheadModule, pserverModule = "QuestieClassicItemDrops", "QuestieClassicItemDrops"
         pserverField, DropDB.sourcePserver = "cmangosData", "cmangos"

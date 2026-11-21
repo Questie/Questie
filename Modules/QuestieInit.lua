@@ -320,7 +320,7 @@ QuestieInit.Stages[3] = function() -- run as a coroutine
     CommsEncoding.Init()
     CommsVisibility:Initialize()
     DailyQuestComms.Initialize()
-    if (not Questie.IsClassic) then
+    if (Expansions.Current ~= Expansions.Era) then
         -- There are no random daily quests on Era, HC or SoD so we skip this
         DailyQuestComms.RequestUnavailableDailyQuests(true)
     end

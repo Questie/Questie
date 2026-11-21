@@ -955,7 +955,7 @@ describe("Forever race encoding across provider and consumer", function()
     local foreverProvider, QuestiePlayer, QuestieDB, QuestieLib
     local savedGlobals, savedFlags
     local globals = {"LibQuestieDB", "UnitRace", "UnitClass", "UnitLevel", "UnitFactionGroup"}
-    local flags = {"IsForever", "IsClassic", "IsTBC", "IsWotlk", "IsCata", "IsMoP"}
+    local flags = {"IsForever", "IsTBC", "IsWotlk", "IsCata", "IsMoP"}
 
     setup(function()
         foreverProvider = LoadProvider("Forever")
@@ -970,7 +970,7 @@ describe("Forever race encoding across provider and consumer", function()
             savedFlags[name] = Questie[name]
             Questie[name] = false
         end
-        Questie.IsForever, Questie.IsClassic = true, true
+        Questie.IsForever = true
         _G.LibQuestieDB = foreverProvider
         _G.UnitRace = function() return "High Order Skyborne", "Skyborne", 95 end
         _G.UnitFactionGroup = function() return "Alliance" end

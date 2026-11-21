@@ -712,17 +712,17 @@ describe("QuestieCompat status messages", function()
 end)
 
 describe("QuestieCompat.GetQuestGreenRange", function()
-    local FOREVER_INTERFACE = 16001
-    local MISTS_INTERFACE = 50503
+    local FOREVER_PROJECT_ID = 18
+    local MISTS_PROJECT_ID = 19
     local QuestieCompat
     local originals
     -- Loading as Forever also creates the tracker visibility frame and installs SetDesaturation.
-    local globalNames = {"GetBuildInfo", "CreateFrame", "SetDesaturation", "C_QuestLog", "GetQuestGreenRange", "print"}
+    local globalNames = {"WOW_PROJECT_ID", "CreateFrame", "SetDesaturation", "C_QuestLog", "GetQuestGreenRange", "print"}
 
-    ---isForever is resolved from the interface version when the module loads.
-    ---@param interfaceVersion number
-    local function loadCompat(interfaceVersion)
-        _G.GetBuildInfo = function() return "", "0", "", interfaceVersion end
+    ---isForever is resolved from the project ID when the module loads.
+    ---@param projectID number
+    local function loadCompat(projectID)
+        _G.WOW_PROJECT_ID = projectID
         dofile("Modules/QuestieCompat.lua")
         QuestieCompat = QuestieLoader:ImportModule("QuestieCompat")
     end
@@ -746,7 +746,7 @@ describe("QuestieCompat.GetQuestGreenRange", function()
 
     describe("on Forever", function()
         before_each(function()
-            loadCompat(FOREVER_INTERFACE)
+            loadCompat(FOREVER_PROJECT_ID)
         end)
 
         it("returns C_QuestLog.GetTrivialRange unchanged instead of the legacy helper", function()
@@ -773,7 +773,7 @@ describe("QuestieCompat.GetQuestGreenRange", function()
 
     describe("on Classic", function()
         before_each(function()
-            loadCompat(MISTS_INTERFACE)
+            loadCompat(MISTS_PROJECT_ID)
         end)
 
         it("keeps the legacy helper even when C_QuestLog.GetTrivialRange exists", function()
@@ -954,7 +954,7 @@ describe("QuestieCompat Classic paths", function()
     local QuestieCompat
     local originals
     local names = {
-        "GetBuildInfo", "Questie", "QuestWatchFrame", "WatchFrame", "CreateFrame",
+        "WOW_PROJECT_ID", "Questie", "QuestWatchFrame", "WatchFrame", "CreateFrame",
         "SetDesaturation", "IsQuestWatched", "MouseIsOver", "GetQuestTimers", "C_PlayerInfo", "HaveQuestData",
     }
     local watchFrame
@@ -962,7 +962,7 @@ describe("QuestieCompat Classic paths", function()
     before_each(function()
         originals = {}
         for _, name in ipairs(names) do originals[name] = _G[name] end
-        _G.GetBuildInfo = function() return "1.15.9", "0", "", 11509 end
+        _G.WOW_PROJECT_ID = 2
         _G.Questie = {IsTitanReforged = false}
         watchFrame = {
             Hide = spy.new(function() end),
@@ -983,8 +983,8 @@ describe("QuestieCompat Classic paths", function()
 
     it("retains legacy tracker visibility and anchors across Classic expansions", function()
         -- Era, TBC, Wrath, Cataclysm and Mists must not use Forever's visibility policy.
-        for index, interfaceVersion in ipairs({11509, 20505, 30403, 40402, 50500}) do
-            _G.GetBuildInfo = function() return "", "0", "", interfaceVersion end
+        for index, projectID in ipairs({2, 5, 11, 14, 19}) do
+            _G.WOW_PROJECT_ID = projectID
             dofile("Modules/QuestieCompat.lua")
             ---@type QuestieCompat
             QuestieCompat = QuestieLoader:ImportModule("QuestieCompat")
@@ -1030,8 +1030,8 @@ describe("QuestieCompat Classic paths", function()
         assert.spy(HaveQuestData).was.not_called()
     end)
 
-    it("does not treat Retail's interface version as Forever", function()
-        _G.GetBuildInfo = function() return "12.0.0", "0", "", 120000 end
+    it("should not treat Retail's project ID as Forever", function()
+        _G.WOW_PROJECT_ID = 1
         dofile("Modules/QuestieCompat.lua")
         assert.spy(CreateFrame).was.not_called()
         assert.is_nil(SetDesaturation)
@@ -1049,7 +1049,7 @@ describe("QuestieCompat Forever paths", function()
     }
     local dependencies = {
         "QuestieLoader", "QuestieCompat", "C_QuestLog", "C_Reputation", "Enum", "CreateFrame",
-        "ObjectiveTrackerFrame", "InCombatLockdown", "GetBuildInfo", "Questie", "C_UnitAuras", "AuraUtil",
+        "ObjectiveTrackerFrame", "InCombatLockdown", "WOW_PROJECT_ID", "Questie", "C_UnitAuras", "AuraUtil",
         "GetCVarBool", "C_PlayerInfo", "HaveQuestData",
     }
     local savedGlobals
@@ -1068,7 +1068,7 @@ describe("QuestieCompat Forever paths", function()
         end
         -- Compatibility must work at TOC load, before Questie and VersionCheck exist.
         _G.Questie = nil
-        _G.GetBuildInfo = function() return "1.60.1", "69913", "", 16001 end
+        _G.WOW_PROJECT_ID = 18
         _G.GetCVarBool = function() return false end
         dofile("Modules/Libs/QuestieLoader.lua")
         _G.C_Reputation = {}

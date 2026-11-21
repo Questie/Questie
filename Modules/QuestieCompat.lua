@@ -17,9 +17,7 @@ local INDIZES_ACTIVE = 6
 local tinsert = table.insert
 
 -- Compatibility loads before VersionCheck and embedded libraries, so Questie.IsForever is not available yet.
--- Forever shares Retail's project ID; use the same interface range as VersionCheck instead.
-local _, _, _, interfaceVersion = GetBuildInfo()
-local isForever = interfaceVersion >= 16000 and interfaceVersion < 17000
+local isForever = WOW_PROJECT_ID == WOW_PROJECT_CAMELOT
 
 -- QuestieDB loads later; the loader returns the module table that its owning file will populate.
 ---@type QuestieDB

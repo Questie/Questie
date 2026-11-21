@@ -23,7 +23,7 @@ describe("SourceModeStatus", function()
             if addon == "Questie" and key == "X-QuestieDB-Contract" then return "3" end
         end
         _G.Questie = {
-            IsForever = true, IsClassic = true, IsEra = true,
+            IsForever = true, IsClassic = false, IsEra = false,
             IsTBC = false, IsWotlk = false, IsCata = false, IsMoP = false,
             IsSoM = false, IsSoD = false, IsTitanReforged = false, IsAnniversaryEra = false,
             IsAnniversaryTBC = false, IsAnniversaryHardcore = false, IsHardcore = false,
@@ -68,7 +68,7 @@ describe("SourceModeStatus", function()
             {message = "Season: %s (%s), active: %s", args = {GOLD .. "None|r", GOLD .. "0|r", RED .. "false|r"}},
             {message = "Region: %s (%s), locale: %s", args = {GOLD .. "EU|r", GOLD .. "3|r", GOLD .. "enUS|r"}},
             {message = "Client flags: %s", args = {
-                "IsForever: " .. GREEN .. "true|r, IsClassic: " .. GREEN .. "true|r, IsEra: " .. GREEN .. "true|r, " ..
+                "IsForever: " .. GREEN .. "true|r, IsClassic: " .. RED .. "false|r, IsEra: " .. RED .. "false|r, " ..
                 "IsTBC: " .. RED .. "false|r, IsWotlk: " .. RED .. "false|r, IsCata: " .. RED .. "false|r, IsMoP: " .. RED .. "false|r",
             }},
             {message = "Realm flags: %s", args = {

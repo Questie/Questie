@@ -15,7 +15,6 @@ describe("QuestieEvent", function()
     local printMock
 
     before_each(function()
-        Questie.IsClassic = false
         Questie.IsAnniversaryEra = false
         Questie.IsAnniversaryHardcore = false
         Questie.IsTBC = false
@@ -33,6 +32,7 @@ describe("QuestieEvent", function()
         QuestieLoader:ImportModule("QuestieTBCPolicyCorrections").LoadDarkmoonFixes = function() return {} end
 
         Expansions = QuestieLoader:ImportModule("Expansions")
+        Expansions.Current = Expansions.Wotlk
 
         dofile("Database/Corrections/ContentPhases/ContentPhases.lua")
         ContentPhases = QuestieLoader:ImportModule("ContentPhases")
@@ -59,7 +59,7 @@ describe("QuestieEvent", function()
                 end
             ContentPhases.activePhases.Anniversary = 1
 
-            Questie.IsClassic = true
+            Expansions.Current = Expansions.Era
             Questie.IsAnniversaryEra = true
 
             QuestieEvent:Load()
@@ -82,7 +82,7 @@ describe("QuestieEvent", function()
                 end
             ContentPhases.activePhases.Anniversary = 1
 
-            Questie.IsClassic = true
+            Expansions.Current = Expansions.Era
             Questie.IsAnniversaryEra = false
             Questie.IsAnniversaryHardcore = true
 
@@ -106,7 +106,7 @@ describe("QuestieEvent", function()
                 end
             ContentPhases.activePhases.Anniversary = 2
 
-            Questie.IsClassic = true
+            Expansions.Current = Expansions.Era
             Questie.IsAnniversaryEra = true
 
             QuestieEvent:Load()
@@ -129,7 +129,7 @@ describe("QuestieEvent", function()
                 end
             ContentPhases.activePhases.Anniversary = 2
 
-            Questie.IsClassic = true
+            Expansions.Current = Expansions.Era
             Questie.IsAnniversaryEra = false
             Questie.IsAnniversaryHardcore = true
 
@@ -162,7 +162,7 @@ describe("QuestieEvent", function()
             }
             ContentPhases.activePhases.Anniversary = 3
 
-            Questie.IsClassic = true
+            Expansions.Current = Expansions.Era
             Questie.IsAnniversaryEra = true
 
             QuestieEvent:Load()
@@ -194,7 +194,7 @@ describe("QuestieEvent", function()
             }
             ContentPhases.activePhases.Anniversary = 3
 
-            Questie.IsClassic = true
+            Expansions.Current = Expansions.Era
             Questie.IsAnniversaryEra = false
             Questie.IsAnniversaryHardcore = true
 
@@ -226,7 +226,7 @@ describe("QuestieEvent", function()
                 end
             }
 
-            Questie.IsClassic = true
+            Expansions.Current = Expansions.Era
 
             QuestieEvent:Load()
 
@@ -248,7 +248,6 @@ describe("QuestieEvent", function()
                     }
                 end
 
-            Questie.IsClassic = true
             Expansions.Current = Expansions.Era
 
             _G.C_Calendar = {
@@ -280,7 +279,6 @@ describe("QuestieEvent", function()
                     }
                 end
 
-            Questie.IsClassic = true
             Expansions.Current = Expansions.Era
 
             _G.C_Calendar = {
@@ -311,7 +309,6 @@ describe("QuestieEvent", function()
                     }
                 end
 
-            Questie.IsClassic = true
             Expansions.Current = Expansions.Era
 
             _G.C_Calendar = {
@@ -343,7 +340,6 @@ describe("QuestieEvent", function()
                     }
                 end
 
-            Questie.IsClassic = true
             Expansions.Current = Expansions.Era
 
             _G.C_Calendar = {
@@ -679,7 +675,6 @@ describe("QuestieEvent", function()
         it("publishes the Classic Mulgore table exactly once, independent of the Event Quest count", function()
             -- December 2024, an even month: Mulgore. The 1st is a Sunday, so the faire runs from Monday the 9th.
             _MockCalendar(2024, 12, 11, 0, 1)
-            Questie.IsClassic = true
             Expansions.Current = Expansions.Era
 
             QuestieEvent:Load()
@@ -691,7 +686,6 @@ describe("QuestieEvent", function()
         it("publishes the Classic Elwynn Forest table in an odd month", function()
             -- March 2025, an odd month: Elwynn Forest. The 1st is a Monday, so the faire runs from the 8th until 03:00 on the 15th.
             _MockCalendar(2025, 3, 15, 2, 2)
-            Questie.IsClassic = true
             Expansions.Current = Expansions.Era
 
             QuestieEvent:Load()
@@ -740,7 +734,7 @@ describe("QuestieEvent", function()
             -- December 2024 would be a Mulgore faire week; phases 1 and 2 have no faire at all.
             _MockCalendar(2024, 12, 11, 0, 1)
             ContentPhases.activePhases.Anniversary = 2
-            Questie.IsClassic = true
+            Expansions.Current = Expansions.Era
             Questie.IsAnniversaryEra = true
 
             QuestieEvent:Load()
@@ -752,7 +746,7 @@ describe("QuestieEvent", function()
             -- December 2024, an even month: Mulgore. The 1st is a Sunday, so the faire runs from Monday the 9th.
             _MockCalendar(2024, 12, 11, 0, 1)
             ContentPhases.activePhases.Anniversary = 3
-            Questie.IsClassic = true
+            Expansions.Current = Expansions.Era
             Questie.IsAnniversaryEra = true
 
             QuestieEvent:Load()

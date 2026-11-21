@@ -273,7 +273,7 @@ function QuestieEvent:Load()
 
     SetCVar("calendarShowDarkmoon", shouldShowDmfEvents and "1" or "0")
 
-    if (Questie.IsClassic and (((not Questie.IsAnniversaryEra) and (not Questie.IsAnniversaryHardcore)) or (ContentPhases.activePhases.Anniversary >= 3)))
+    if (Expansions.Current == Expansions.Era and (((not Questie.IsAnniversaryEra) and (not Questie.IsAnniversaryHardcore)) or (ContentPhases.activePhases.Anniversary >= 3)))
             or Questie.IsTBC or Questie.IsWotlk then
         _LoadDarkmoonFaire()
     end

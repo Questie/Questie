@@ -14,7 +14,7 @@ Only the temporary runtime data edit remains in the intended provider: 64 additi
 
 The planned DBC support exporter should supersede this data-only patch when its reviewed output is adopted. Normal `generate.lua` builds currently load this support file rather than regenerate it. Preserve the relationships until the replacement supplies them; do not rerun the staging DBC generator over its protected manual handoff.
 
-Provider native TOC conditions select Forever despite project ID 1. Its independent Forever inputs include the five reviewed maps below and all 65 reviewed parent relationships. Source mode has no Base translations; Dynamic Translation Corrections remain available. Provider content is not complete for new Forever entities. See the provider checkout's `docs/forever.md` and `docs/forever-data.md` for data provenance and Source/Baked limitations.
+Provider native TOC conditions select Forever by project ID 18 (`WOW_PROJECT_CAMELOT`). Its independent Forever inputs include the five reviewed maps below and all 65 reviewed parent relationships. Source mode has no Base translations; Dynamic Translation Corrections remain available. Provider content is not complete for new Forever entities. See the provider checkout's `docs/forever.md` and `docs/forever-data.md` for data provenance and Source/Baked limitations.
 
 ### Integration decisions
 
@@ -29,7 +29,7 @@ Provider native TOC conditions select Forever despite project ID 1. Its independ
 
 The separate `QuestieForever` module duplicated conversions already implemented in `QuestieCompat`. Its wrappers and tracker-visibility handling now live beside their shared counterparts in `Modules/QuestieCompat.lua`; the old source/test files and Camelot TOC entry are removed. The existing Forever tests moved into the shared module's test file.
 
-Capability-based branches explain the conversion back to Classic contracts. Explicit Forever branches remain where legacy globals exist but are broken, where native watch state must bypass Questie's legacy interception, and where modern tracker visibility needs combat deferral. This file loads before `VersionCheck`, so its early Forever detection uses the same interface range, not the shared Retail project ID. Only Forever installs the missing `SetDesaturation` global for AceGUI checkboxes before embedded libraries load. The former `GetSpellInfo` shim and unused tuple wrapper were removed: bundled spell widgets already prefer `C_Spell.GetSpellName`. AceGUI itself is unchanged.
+Capability-based branches explain the conversion back to Classic contracts. Explicit Forever branches remain where legacy globals exist but are broken, where native watch state must bypass Questie's legacy interception, and where modern tracker visibility needs combat deferral. This file loads before `VersionCheck`, so its early Forever detection uses the same project ID check (`WOW_PROJECT_ID == WOW_PROJECT_CAMELOT`). Only Forever installs the missing `SetDesaturation` global for AceGUI checkboxes before embedded libraries load. The former `GetSpellInfo` shim and unused tuple wrapper were removed: bundled spell widgets already prefer `C_Spell.GetSpellName`. AceGUI itself is unchanged.
 
 Validation: 45 focused compatibility tests and 1,938 full-suite tests passed; lint and loader-usage checks passed. Coverage includes early loading without `Questie`, Classic/Titan visibility, Forever combat deferral, existing broken globals, full aura/tag tuples, and library shims. At that checkpoint, review identified and guarded a possible self-call through the spell bridge if the native API disappeared. The subsequent spell-shim removal also removed that obsolete test; the results below describe the earlier implementation.
 
@@ -101,7 +101,7 @@ Evidence and diagnostic scripts are ignored local files under `cli/output/foreve
 
 ## Historical live baseline before QuestieDB integration
 
-Developed against Forever `1.60.1`, builds `69893` and `69913`, interface `16001`. Forever reports `WOW_PROJECT_ID = 1`, like Retail, but uses Classic content. No season was active during these checks.
+Developed against Forever `1.60.1`, builds `69893` and `69913`, interface `16001`. Forever reports `WOW_PROJECT_ID = WOW_PROJECT_CAMELOT` (18) and uses Era content. No season was active during these checks.
 
 Verified in-game on a Human character before the provider migration:
 
@@ -119,7 +119,7 @@ The subsequent Skyborne zone/race fixes passed local tests and review. The integ
 
 | Area | Implementation and reason |
 | --- | --- |
-| Content detection | `Modules/VersionCheck.lua` detects Forever using interface range `16000–16999`; `IsClassic` includes Forever. `Modules/Expansions.lua` maps only that flag to Era. Actual Retail and unknown project IDs stay unmapped. |
+| Content detection | `Modules/VersionCheck.lua` detects Forever by `WOW_PROJECT_ID == WOW_PROJECT_CAMELOT`; `IsClassic`, `IsEra` and the season flags exclude it. `Modules/Expansions.lua` maps project ID 18 to the Era expansion, so content checks use `Expansions.Current == Expansions.Era`. Actual Retail and unknown project IDs stay unmapped. |
 | Early API translations | `QuestieLoader.lua` precedes `Modules/QuestieCompat.lua` on every client. That single module owns the client conversions and installs the missing AceGUI `SetDesaturation` bridge only on Forever, before embedded libraries and first-party consumers load. |
 | Quest acceptance | `Modules/EventHandler/EventHandler.lua` translates Forever's single quest-ID event argument into the existing index-plus-ID handler contract. A missing timer API had previously interrupted acceptance after an empty quest state was created. |
 | Professions | `Modules/QuestieProfessions.lua` reads skill lines through `QuestieCompat`, which uses Forever's `C_SkillInfo` instead of the removed global skill-line API. Forever professions, including Riding, are matched by skill line ID instead of localized name. Learning and unlearning refresh availability through `SKILL_LINES_CHANGED` on every client; the former `AbandonSkill` hook is gone. |
@@ -193,7 +193,7 @@ Before the provider migration, on build `69913`, tested five zones, both contine
 
 Counts exclude minimap and townsfolk frames. The character was level 1 Alliance with unchanged availability filters. Sparse higher-level/Horde-zone icons are not evidence of missing map support. Navigation produced no Lua or printed Questie errors, but exposed a visual world-map displacement.
 
-HBD selected Retail world transforms because Forever shares its project ID. For the same player position, Blizzard returned normalized world-map coordinates `(0.732438, 0.631989)` while HBD returned `(0.855365, 0.645588)`. The existing Classic constants produced `(0.732437, 0.631987)`.
+HBD selected Retail world transforms because Forever used to share its project ID (before it became 18). For the same player position, Blizzard returned normalized world-map coordinates `(0.732438, 0.631989)` while HBD returned `(0.855365, 0.645588)`. The existing Classic constants produced `(0.732437, 0.631987)`.
 
 HBD version 34 now recognizes Forever before Questie's client flags exist. Era and Forever independently derive Azeroth transforms from continent world bounds and `C_Map.GetMapRectOnMap(continent, 947)`:
 
