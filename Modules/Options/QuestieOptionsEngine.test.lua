@@ -60,6 +60,7 @@ describe("QuestieOptionsEngine", function()
             map = {Initialize = function()
                 return {
                     title = "Map",
+                    subtitle = "Map Options",
                     order = 1,
                     items = {
                         mapOption = CreateCheckbox(1, "mapOption"),
@@ -363,7 +364,7 @@ describe("QuestieOptionsEngine", function()
                 assert.are.equal(1, #checkboxes)
                 assert.is_true(checkboxes[1]:IsVisible())
                 assert.is_true(checkboxes[1]:GetChecked())
-                assert.are.equal(1, #ui.FindAll(window, function(frame) return frame.text == "Questie" end))
+                assert.are.equal(1, #ui.FindAll(window, function(frame) return frame.text == "Flaky" end))
             end)
         end)
     end)
@@ -726,6 +727,100 @@ describe("QuestieOptionsEngine", function()
 
                 assert.is_false(QuestieOptionsEngine:IsShown())
                 assert.are.equal(1, journeyToggles)
+            end)
+
+            it("should search across tabs and rebuild the popup with matching options", function()
+                local window = OpenWindow()
+
+                -- Search must reuse the real tab canvases instead of creating a phantom results canvas.
+                assert.are.equal(2, #window.canvasContainer.children)
+
+                window.searchBox:SetText("map options")
+                window.searchBox.scripts.OnTextChanged(window.searchBox, true)
+                ui.RunUntilIdle()
+
+                assert.are.equal(2, #window.canvasContainer.children)
+
+                local titles = {}
+                for _, control in ipairs(ControlsIn(window)) do
+                    titles[control.itemData.title] = true
+                end
+                assert.is_true(titles.mapOption)
+                assert.is_nil(titles.parent)
+                assert.are.equal("map options", QuestieOptionsEngine.searchText)
+
+                window.searchBox:SetText("")
+                window.searchBox.scripts.OnTextChanged(window.searchBox, true)
+                ui.RunUntilIdle()
+
+                titles = {}
+                for _, control in ipairs(ControlsIn(window)) do
+                    titles[control.itemData.title] = true
+                end
+                assert.is_true(titles.parent)
+                assert.is_nil(titles.mapOption)
+                assert.are.equal("", QuestieOptionsEngine.searchText)
+
+                window.searchBox:SetText("sea")
+                window.searchBox.scripts.OnTextChanged(window.searchBox, true)
+                ui.RunUntilIdle()
+
+                titles = {}
+                for _, control in ipairs(ControlsIn(window)) do
+                    titles[control.itemData.title] = true
+                end
+                assert.is_nil(titles.parent)
+                assert.is_nil(titles.mapOption)
+            end)
+
+            it("should keep the active tab visible while a search replacement builds", function()
+                local window = OpenWindow()
+                local original = CheckboxesIn(window)[1]
+                local anchorPoints = #window.searchBox.points
+                local stableAnchor = window.searchAnchor
+                assert.is_not_nil(stableAnchor)
+                local canvas = ui.FindAll(window.canvasContainer, function(frame)
+                    return frame.tab ~= nil and frame.tab.key == "general"
+                end)[1]
+                local hides = 0
+                canvas:HookScript("OnHide", function() hides = hides + 1 end)
+
+                window.searchBox:SetText("parent")
+                window.searchBox.scripts.OnTextChanged(window.searchBox, true)
+                ui.RunFrame()
+
+                assert.is_true(original:IsVisible())
+                assert.are.equal(0, hides)
+                assert.are.equal(anchorPoints, #window.searchBox.points)
+
+                ui.RunUntilIdle()
+                assert.is_true(CheckboxesIn(window)[1]:IsVisible())
+                assert.are.equal(anchorPoints, #window.searchBox.points)
+                assert.are.equal(stableAnchor, window.searchAnchor)
+            end)
+
+            it("should refresh replacement controls before displaying them", function()
+                local window = OpenWindow()
+                settingReadSeconds = 0.003
+                settings.parent = false
+
+                window.searchBox:SetText("parent")
+                window.searchBox.scripts.OnTextChanged(window.searchBox, true)
+                ui.RunFrame()
+
+                local pending = ui.FindAll(window, function(frame)
+                    return frame.itemData ~= nil and frame.itemData.title == "parent"
+                end)
+                assert.is_true(#pending > 1)
+                settings.parent = true
+                QuestieOptionsEngine:RefreshStates()
+
+                ui.RunUntilIdle()
+
+                local displayed = ui.FindAll(window, function(frame)
+                    return frame.itemData ~= nil and frame.itemData.title == "parent"
+                end)[1]
+                assert.is_true(displayed.widget:GetChecked())
             end)
         end)
     end)

@@ -590,6 +590,18 @@ local genericsLocales = {
         ["zhCN"] = "Shift+点击隐藏",
         ["zhTW"] = "Shift+點擊隱藏",
     },
+    ["No matching options"] = {
+        ["enUS"] = "No matching options", -- 🤖
+        ["deDE"] = "Keine passenden Optionen", -- 🤖
+        ["esES"] = "No hay opciones coincidentes", -- 🤖
+        ["esMX"] = "No hay opciones coincidentes", -- 🤖
+        ["frFR"] = "Aucune option correspondante", -- 🤖
+        ["koKR"] = "일치하는 옵션이 없습니다", -- 🤖
+        ["ptBR"] = "Nenhuma opção correspondente", -- 🤖
+        ["ruRU"] = "Подходящих параметров нет", -- 🤖
+        ["zhCN"] = "没有匹配的选项", -- 🤖
+        ["zhTW"] = "沒有符合的選項", -- 🤖
+    },
 }
 
 for k, v in pairs(genericsLocales) do
