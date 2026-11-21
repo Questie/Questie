@@ -46,6 +46,35 @@ describe("QuestieQuest", function()
         QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
     end)
 
+    describe("KeepsUntrackedTurnIn", function()
+        it("keeps a completed quest when the option is on", function()
+            Questie.db.profile.showUntrackedTurnInIcons = true
+            QuestieDB.GetQuest = function()
+                return {IsComplete = function() return 1 end}
+            end
+
+            assert.is_true(QuestieQuest.KeepsUntrackedTurnIn(123))
+        end)
+
+        it("does not keep an incomplete quest", function()
+            Questie.db.profile.showUntrackedTurnInIcons = true
+            QuestieDB.GetQuest = function()
+                return {IsComplete = function() return 0 end}
+            end
+
+            assert.is_false(QuestieQuest.KeepsUntrackedTurnIn(123))
+        end)
+
+        it("does not keep a completed quest when the option is off", function()
+            Questie.db.profile.showUntrackedTurnInIcons = false
+            QuestieDB.GetQuest = function()
+                return {IsComplete = function() return 1 end}
+            end
+
+            assert.is_false(QuestieQuest.KeepsUntrackedTurnIn(123))
+        end)
+    end)
+
     describe("sequenced completion overrides", function()
         local quest, compat, originalIsSequenced, finisher
         local originalSendMessage, originalThreadCallback

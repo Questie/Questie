@@ -159,7 +159,7 @@ DisabledWatchRefresh = function()
             QuestieQuest:ShowQuestIcons()
             QuestieQuest:HideQuestIcons()
             for questId, acceptance in ActiveQuests.Iterate() do
-                if acceptance.quest and (not QuestieQuest:ShouldShowQuestNotes(questId)) then
+                if acceptance.quest and (not QuestieQuest:ShouldShowQuestNotes(questId)) and not QuestieQuest.KeepsUntrackedTurnIn(questId) then
                     QuestieTooltips:RemoveQuest(questId)
                 end
             end
@@ -1380,10 +1380,12 @@ function QuestieTracker:UntrackQuestId(questId)
     if Questie.db.profile.hideUntrackedQuestsMapIcons then
         ThreadLib.ThreadInstant(function()
             -- Hides objective icons for untracked quests. We don't want to hide townsfolk icons.
+            -- Completed turn-in pins stay unless the player turns that off.
             QuestieQuest:HideQuestIcons()
 
-            -- Removes objective tooltips for untracked quests.
-            QuestieTooltips:RemoveQuest(questId)
+            if not QuestieQuest.KeepsUntrackedTurnIn(questId) then
+                QuestieTooltips:RemoveQuest(questId)
+            end
         end)
     end
 
