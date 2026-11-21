@@ -786,6 +786,30 @@ describe("QuestieOptionsEngine", function()
                 ui.RunUntilIdle()
                 assert.is_true(CheckboxesIn(window)[1]:IsVisible())
             end)
+
+            it("should refresh replacement controls before displaying them", function()
+                local window = OpenWindow()
+                settingReadSeconds = 0.003
+                settings.parent = false
+
+                window.searchBox:SetText("parent")
+                window.searchBox.scripts.OnTextChanged(window.searchBox, true)
+                ui.RunFrame()
+
+                local pending = ui.FindAll(window, function(frame)
+                    return frame.itemData ~= nil and frame.itemData.title == "parent"
+                end)
+                assert.is_true(#pending > 1)
+                settings.parent = true
+                QuestieOptionsEngine:RefreshStates()
+
+                ui.RunUntilIdle()
+
+                local displayed = ui.FindAll(window, function(frame)
+                    return frame.itemData ~= nil and frame.itemData.title == "parent"
+                end)[1]
+                assert.is_true(displayed.widget:GetChecked())
+            end)
         end)
     end)
 

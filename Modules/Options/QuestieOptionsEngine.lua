@@ -107,10 +107,18 @@ local _BuildCanvas
 -- Canvases
 -------------------------
 
+---@param controls QuestieOptionsControl[]
+local function _RefreshControls(controls)
+    for _, control in ipairs(controls) do
+        QuestieOptionsControls.Refresh(control)
+    end
+end
+
 ---@param canvas Frame
 local function _RefreshCanvas(canvas)
-    for _, control in ipairs(canvas.controls) do
-        QuestieOptionsControls.Refresh(control)
+    _RefreshControls(canvas.controls)
+    if canvas.pendingControls and canvas.pendingControls ~= canvas.controls then
+        _RefreshControls(canvas.pendingControls)
     end
 end
 
@@ -130,6 +138,7 @@ local function _DiscardFailedBuild(canvas, keepContent)
         canvas.pendingContent:SetParent(nil)
         canvas.pendingContent = nil
     end
+    canvas.pendingControls = nil
 
     if not keepContent and canvas.content then
         canvas.content:Hide()
@@ -302,6 +311,7 @@ _BuildCanvas = function(canvas, buildGeneration)
         -- controls as they are created. Replacement builds keep the old controls until commit.
         canvas.controls = controls
     end
+    canvas.pendingControls = controls
     local function AddControl(control)
         table.insert(controls, control)
         _YieldIfFrameBudgetSpent()
@@ -367,6 +377,9 @@ _BuildCanvas = function(canvas, buildGeneration)
         if canvas.pendingContent == content then
             canvas.pendingContent = nil
         end
+        if canvas.pendingControls == controls then
+            canvas.pendingControls = nil
+        end
         return
     end
 
@@ -376,6 +389,7 @@ _BuildCanvas = function(canvas, buildGeneration)
     end
     canvas.content = content
     canvas.pendingContent = nil
+    canvas.pendingControls = nil
     canvas.controls = controls
     canvas.noResults = noResults
 
