@@ -53,7 +53,7 @@ describe("QuestieTracker", function()
     describe("QuestItemLooted", function()
         local getItemInfoMock, getItemCountMock, usableItemMock, afterMock, registerEventMock
         local originalTimer
-        local lootGlobals = {"LOOT_ITEM", "LOOT_ITEM_SELF", "LOOT_ITEM_PUSHED_SELF", "LOOT_ITEM_CREATED_SELF"}
+        local lootGlobals = {"LOOT_ITEM", "LOOT_ITEM_SELF", "LOOT_ITEM_PUSHED_SELF", "LOOT_ITEM_CREATED_SELF", "LOOT_ITEM_BONUS_ROLL_SELF"}
         local originalLootGlobals
 
         before_each(function()
@@ -117,6 +117,14 @@ describe("QuestieTracker", function()
             _G.LOOT_ITEM_CREATED_SELF = "Du stellst her: %s."
 
             QuestieTracker:QuestItemLooted("Du erhältst Beute: |Hitem:123|h[Brief]|h.")
+
+            assert.spy(afterMock).was.called(2)
+        end)
+
+        it("schedules a tracker refresh for a bonus roll loot message", function()
+            _G.LOOT_ITEM_BONUS_ROLL_SELF = "You receive bonus loot: %s."
+
+            QuestieTracker:QuestItemLooted("You receive bonus loot: |Hitem:123|h[A Letter]|h.")
 
             assert.spy(afterMock).was.called(2)
         end)

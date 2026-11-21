@@ -533,7 +533,7 @@ end
 ---@param text string
 ---@return boolean
 local function _IsOwnLootMessage(text)
-    for _, lootFormat in pairs({LOOT_ITEM_SELF, LOOT_ITEM_PUSHED_SELF, LOOT_ITEM_CREATED_SELF}) do
+    for _, lootFormat in pairs({LOOT_ITEM_SELF, LOOT_ITEM_PUSHED_SELF, LOOT_ITEM_CREATED_SELF, LOOT_ITEM_BONUS_ROLL_SELF}) do
         local placeholderStart = string.find(lootFormat, "%", 1, true)
         if placeholderStart and placeholderStart > 1 and string.sub(text, 1, placeholderStart - 1) == string.sub(lootFormat, 1, placeholderStart - 1) then
             return true
