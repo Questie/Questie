@@ -89,6 +89,88 @@ describe("QuestieMap", function()
         end)
     end)
 
+    describe("DrawManualIcon", function()
+        local originalProfile, originalUtils, originalQueueDraw
+        local ZoneDB, getUiMapId
+        local mapIcon, minimapIcon
+        local isExplored
+
+        local function _CreateIcon()
+            return {
+                texture = {SetTexture = function() end, SetVertexColor = function() end},
+                SetWidth = function() end,
+                SetHeight = function() end,
+                GetName = function() return "QuestieManualTestIcon" end,
+                FakeHide = spy.new(function() end),
+            }
+        end
+
+        local data = {id = 1, Name = "Innkeeper", GetIconScale = function() return 1 end}
+
+        before_each(function()
+            originalProfile = Questie.db.profile
+            originalUtils = QuestieMap.utils
+            originalQueueDraw = QuestieMap.QueueDraw
+            Questie.db.profile = {enabled = true, enableMapIcons = true, enableMiniMapIcons = true, hideUnexploredMapIcons = true}
+            isExplored = true
+            QuestieMap.utils = {
+                IsExplored = spy.new(function() return isExplored end),
+                RescaleIcon = function() end,
+            }
+            QuestieMap.QueueDraw = function() end
+            QuestieMap.manualFrames = {}
+            ZoneDB = QuestieLoader:ImportModule("ZoneDB")
+            getUiMapId = stub(ZoneDB, "GetUiMapIdByAreaId", function() return 1429 end)
+            mapIcon = _CreateIcon()
+            minimapIcon = _CreateIcon()
+            local frames = {mapIcon, minimapIcon}
+            QuestieFramePool.GetFrame = function() return table.remove(frames, 1) end
+        end)
+
+        after_each(function()
+            Questie.db.profile = originalProfile
+            QuestieMap.utils = originalUtils
+            QuestieMap.QueueDraw = originalQueueDraw
+            getUiMapId:revert()
+        end)
+
+        it("should hide the map and minimap icon when the area is unexplored", function()
+            isExplored = false
+
+            QuestieMap:DrawManualIcon(data, 12, 50, 60, "Inn")
+
+            assert.spy(QuestieMap.utils.IsExplored).was.called_with(1429, 50, 60)
+            assert.spy(mapIcon.FakeHide).was.called(1)
+            assert.spy(minimapIcon.FakeHide).was.called(1)
+        end)
+
+        it("should show the icons when the area is explored", function()
+            QuestieMap:DrawManualIcon(data, 12, 50, 60, "Inn")
+
+            assert.spy(mapIcon.FakeHide).was.not_called()
+            assert.spy(minimapIcon.FakeHide).was.not_called()
+        end)
+
+        it("should show the icons in an unexplored area when the option is off", function()
+            isExplored = false
+            Questie.db.profile.hideUnexploredMapIcons = false
+
+            QuestieMap:DrawManualIcon(data, 12, 50, 60, "Inn")
+
+            assert.spy(mapIcon.FakeHide).was.not_called()
+            assert.spy(minimapIcon.FakeHide).was.not_called()
+        end)
+
+        it("should show icons the user explicitly shows from search in an unexplored area", function()
+            isExplored = false
+
+            QuestieMap:DrawManualIcon(data, 12, 50, 60)
+
+            assert.spy(mapIcon.FakeHide).was.not_called()
+            assert.spy(minimapIcon.FakeHide).was.not_called()
+        end)
+    end)
+
     describe("UnloadQuestFrames", function()
         local QuestiePartyObjectives, originalScheduleUpdate
 

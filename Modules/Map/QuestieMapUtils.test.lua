@@ -255,7 +255,40 @@ describe("QuestieMapUtils", function()
         end)
     end)
 
+    describe("IsExplored", function()
+        local originalExplorationInfo, originalCreateVector2D
+
+        before_each(function()
+            originalExplorationInfo = _G.C_MapExplorationInfo
+            originalCreateVector2D = _G.CreateVector2D
+            _G.C_MapExplorationInfo = {GetExploredAreaIDsAtPosition = function() return nil end}
+            _G.CreateVector2D = function(x, y) return {x = x, y = y} end
+        end)
+
+        after_each(function()
+            _G.C_MapExplorationInfo = originalExplorationInfo
+            _G.CreateVector2D = originalCreateVector2D
+        end)
+
+        for name, uiMapId in pairs({Stormwind = 1453, Ironforge = 1455, Darnassus = 1457, Undercity = 1458, Orgrimmar = 1454, ["Thunder Bluff"] = 1456}) do
+            it("should count " .. name .. " as explored without exploration data", function()
+                assert.is_true(QuestieMap.utils.IsExplored(uiMapId, 50, 60))
+            end)
+        end
+
+        it("should count a zone without exploration data as unexplored", function()
+            assert.is_false(QuestieMap.utils.IsExplored(1429, 50, 60))
+        end)
+    end)
+
     describe("MapExplorationUpdate", function()
+        local QuestieQuest
+
+        before_each(function()
+            QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
+            QuestieQuest.private.ShowManualIcons = spy.new(function() end)
+        end)
+
         it("should keep map icons hidden when settings hide them", function()
             local frame = {
                 x = 50,
@@ -276,6 +309,14 @@ describe("QuestieMapUtils", function()
             QuestieMap.utils.MapExplorationUpdate()
 
             assert.spy(fakeShowSpy).was.not_called()
+        end)
+
+        it("should re-evaluate the townsfolk icons", function()
+            QuestieMap.questIdFrames = {}
+
+            QuestieMap.utils.MapExplorationUpdate()
+
+            assert.spy(QuestieQuest.private.ShowManualIcons).was.called(1)
         end)
     end)
 end)
