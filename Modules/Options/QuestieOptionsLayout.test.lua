@@ -12,11 +12,11 @@ describe("QuestieOptionsLayout", function()
     local ROOT_INDENT = 20
     local HALF_WIDTH = 287.5 -- Half of MAX_WIDTH, leaving room for half of the gap between neighbors
 
-    local function Build(items, level)
+    local function Build(items, level, searchQuery, forceInclude)
         created = {}
         return QuestieOptionsLayout.Build(parent, items, MAX_WIDTH, level or 1, function(control)
             created[control.itemData.title] = control
-        end)
+        end, searchQuery, forceInclude)
     end
 
     ---@return number x
@@ -145,6 +145,50 @@ describe("QuestieOptionsLayout", function()
 
         assert.is_nil(created.hidden)
         assert.are.equal(0, select(2, PositionOf(created.shown)))
+    end)
+
+    it("should only place options matching every search keyword", function()
+        Build({
+            tracker = {type = "spacer", title = "Tracker visibility", description = "Show quest objectives", order = 1, width = "full"},
+            map = {type = "spacer", title = "Map icons", description = "Show quest markers", order = 2, width = "full"},
+            sound = {type = "spacer", title = "Sound", description = "Play effects", order = 3, width = "full"},
+        }, 1, "quest markers")
+
+        assert.is_nil(created["Tracker visibility"])
+        assert.is_not_nil(created["Map icons"])
+        assert.is_nil(created.Sound)
+    end)
+
+    it("should keep a matching container and its matching child", function()
+        Build({
+            tracker = {
+                type = "container", title = "Tracker", order = 1,
+                items = {
+                    matching = {type = "spacer", title = "Quest levels", order = 1, width = "full"},
+                    unrelated = {type = "spacer", title = "Map icons", order = 2, width = "full"},
+                },
+            },
+        }, 1, "quest levels")
+
+        assert.is_not_nil(created.Tracker)
+        assert.is_not_nil(created["Quest levels"])
+        assert.is_nil(created["Map icons"])
+    end)
+
+    it("should include all children when a container title matches", function()
+        Build({
+            tracker = {
+                type = "container", title = "Tracker", order = 1,
+                items = {
+                    first = {type = "spacer", title = "Quest levels", order = 1, width = "full"},
+                    second = {type = "spacer", title = "Map icons", order = 2, width = "full"},
+                },
+            },
+        }, 1, "tracker")
+
+        assert.is_not_nil(created.Tracker)
+        assert.is_not_nil(created["Quest levels"])
+        assert.is_not_nil(created["Map icons"])
     end)
 
     it("should report the height used by everything it placed", function()

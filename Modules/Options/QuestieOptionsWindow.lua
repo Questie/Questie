@@ -12,8 +12,9 @@ local WINDOW_NAME = "QuestieStandaloneSettings"
 local WINDOW_WIDTH = 675
 
 ---Creates the hidden window. Tab canvases go in its canvasContainer.
+---@param onSearchChanged fun(text: string)?
 ---@return Frame window
-function QuestieOptionsWindow.Create()
+function QuestieOptionsWindow.Create(onSearchChanged)
     local window = CreateFrame("Frame", WINDOW_NAME, UIParent, "PortraitFrameTemplate")
     window:SetSize(WINDOW_WIDTH, math.floor(GetScreenHeight() * 0.7))
     window:SetPoint("CENTER")
@@ -23,6 +24,29 @@ function QuestieOptionsWindow.Create()
     window:Hide()
     window:SetTitle("Questie")
     window:EnableMouse(true)
+
+    local searchLabel = window:CreateFontString(nil, "OVERLAY", "GameFontNormalSmall")
+    searchLabel:SetPoint("TOPLEFT", window, "TOPLEFT", 125, -8)
+    searchLabel:SetText(l10n("Search"))
+
+    local searchBox = CreateFrame("EditBox", nil, window, "InputBoxTemplate")
+    searchBox:SetSize(155, 22)
+    searchBox:SetPoint("TOPLEFT", window, "TOPLEFT", 175, -4)
+    searchBox:SetAutoFocus(false)
+    searchBox:SetFontObject("GameFontHighlightSmall")
+    searchBox:SetScript("OnTextChanged", function(self)
+        if onSearchChanged then
+            onSearchChanged(self:GetText() or "")
+        end
+    end)
+    searchBox:SetScript("OnEscapePressed", function(self)
+        self:ClearFocus()
+    end)
+    searchBox:SetScript("OnEnterPressed", function(self)
+        self:ClearFocus()
+    end)
+    window.searchLabel = searchLabel
+    window.searchBox = searchBox
 
     local closeButton = window.CloseButton
     local textures = {

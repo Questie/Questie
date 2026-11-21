@@ -96,6 +96,11 @@ local canvases = {}
 local popupCanvases = {}
 ---@type table<string, Frame> Buttons of Questie's own window by tab key
 local sideTabs = {}
+local selectedPopupTab
+
+---Text currently entered in Questie's own options window.
+---@type string
+QuestieOptionsEngine.searchText = ""
 
 local _BuildCanvas
 
@@ -268,6 +273,11 @@ end
 ---@param canvas Frame
 _BuildCanvas = function(canvas)
     local isPopup = canvas.mode == RenderMode.POPUP
+    local searchText = isPopup and QuestieOptionsEngine.searchText or nil
+    local tabTitleMatches = isPopup and QuestieOptionsLayout.MatchesSearch({
+        title = canvas.tab.data.title,
+        description = canvas.tab.data.subtitle,
+    }, searchText)
 
     local function AddControl(control)
         table.insert(canvas.controls, control)
@@ -311,8 +321,17 @@ _BuildCanvas = function(canvas)
     QuestieOptionsUtils.DisableSnapping(divider)
 
     local contentWidth = CANVAS_WIDTH - QuestieOptionsControls.ROOT_INDENT * 2
-    local contentHeight = QuestieOptionsLayout.Build(scrollChild, canvas.tab.data.items, contentWidth, 1, AddControl)
+    local contentHeight, visibleCount = QuestieOptionsLayout.Build(
+        scrollChild, canvas.tab.data.items, contentWidth, 1, AddControl, searchText, tabTitleMatches
+    )
     scrollChild:SetHeight(contentHeight + 20)
+
+    if isPopup and searchText ~= "" and visibleCount == 0 then
+        local noResults = scrollChild:CreateFontString(nil, "OVERLAY", "GameFontHighlight")
+        noResults:SetPoint("TOPLEFT", scrollChild, "TOPLEFT", 10, 0)
+        noResults:SetText(l10n("No matching options"))
+        canvas.noResults = noResults
+    end
 
     -- Laying out a finished tab is a lot of work at once, so it gets a frame of its own
     _YieldForFrameOfItsOwn()
@@ -333,6 +352,7 @@ end
 
 ---@param selectedKey string
 local function _SelectPopupTab(selectedKey)
+    selectedPopupTab = selectedKey
     for _, tab in ipairs(visibleTabs) do
         local isSelected = tab.key == selectedKey
         popupCanvases[tab.key]:SetShown(isSelected)
@@ -342,7 +362,9 @@ end
 
 ---@return Frame window
 local function _CreatePopup()
-    local window = QuestieOptionsWindow.Create()
+    local window = QuestieOptionsWindow.Create(function(searchText)
+        QuestieOptionsEngine:SetSearchText(searchText)
+    end)
 
     local previousSideTab
     for _, tab in ipairs(visibleTabs) do
@@ -409,6 +431,65 @@ function QuestieOptionsEngine:RefreshStates()
             _RefreshCanvas(canvas)
         end
     end
+end
+
+local function _PopupTabMatchesSearch(tab)
+    if QuestieOptionsEngine.searchText == "" then
+        return true
+    end
+
+    return QuestieOptionsLayout.MatchesSearch({
+        title = tab.data.title,
+        description = tab.data.subtitle,
+        items = tab.data.items,
+    }, QuestieOptionsEngine.searchText)
+end
+
+local function _RebuildPopupCanvases()
+    for _, canvas in pairs(popupCanvases) do
+        local wasShown = canvas:IsShown()
+        _DiscardFailedBuild(canvas)
+        if wasShown then
+            canvas:Hide()
+            canvas:Show()
+        end
+    end
+end
+
+---Changes the popup's option search and rebuilds the selected tab with matching items.
+---@param searchText string
+function QuestieOptionsEngine:SetSearchText(searchText)
+    searchText = strtrim(searchText or "")
+    if self.searchText == searchText then
+        return
+    end
+
+    self.searchText = searchText
+
+    if not self.popup then
+        return
+    end
+
+    if searchText ~= "" and selectedPopupTab then
+        local selectedTab
+        for _, tab in ipairs(visibleTabs) do
+            if tab.key == selectedPopupTab then
+                selectedTab = tab
+                break
+            end
+        end
+
+        if selectedTab and not _PopupTabMatchesSearch(selectedTab) then
+            for _, tab in ipairs(visibleTabs) do
+                if _PopupTabMatchesSearch(tab) then
+                    _SelectPopupTab(tab.key)
+                    break
+                end
+            end
+        end
+    end
+
+    _RebuildPopupCanvases()
 end
 
 local isRefreshQueued = false

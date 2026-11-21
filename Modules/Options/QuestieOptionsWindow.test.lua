@@ -33,6 +33,16 @@ describe("QuestieOptionsWindow", function()
     end)
 
     describe("Create", function()
+        it("should forward search text changes", function()
+            local searchText
+            local window = QuestieOptionsWindow.Create(function(text) searchText = text end)
+
+            window.searchBox:SetText("tracker")
+            window.searchBox.scripts.OnTextChanged(window.searchBox, true)
+
+            assert.are.equal("tracker", searchText)
+        end)
+
         it("should start hidden and close with the Escape key", function()
             local window = QuestieOptionsWindow.Create()
 

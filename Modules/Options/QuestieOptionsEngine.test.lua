@@ -727,6 +727,33 @@ describe("QuestieOptionsEngine", function()
                 assert.is_false(QuestieOptionsEngine:IsShown())
                 assert.are.equal(1, journeyToggles)
             end)
+
+            it("should search across tabs and rebuild the popup with matching options", function()
+                local window = OpenWindow()
+
+                window.searchBox:SetText("map")
+                window.searchBox.scripts.OnTextChanged(window.searchBox, true)
+                ui.RunUntilIdle()
+
+                local titles = {}
+                for _, control in ipairs(ControlsIn(window)) do
+                    titles[control.itemData.title] = true
+                end
+                assert.is_true(titles.mapOption)
+                assert.is_nil(titles.parent)
+                assert.are.equal("map", QuestieOptionsEngine.searchText)
+
+                window.searchBox:SetText("")
+                window.searchBox.scripts.OnTextChanged(window.searchBox, true)
+                ui.RunUntilIdle()
+
+                titles = {}
+                for _, control in ipairs(ControlsIn(window)) do
+                    titles[control.itemData.title] = true
+                end
+                assert.is_true(titles.mapOption)
+                assert.are.equal("", QuestieOptionsEngine.searchText)
+            end)
         end)
     end)
 
