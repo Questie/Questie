@@ -3123,6 +3123,7 @@ l10n.zoneCategoryLookup = {
         [-402] = "Harvest Festival",
         [-404] = "Winter Veil",
         [-1000] = "Special", -- for actual "Special" quests that are not part of events
+        [16941] = "Crafting",
     },
     [14] = {
         [-394] = "Battle Pets",
