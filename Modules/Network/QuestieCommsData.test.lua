@@ -112,6 +112,7 @@ describe("QuestieCommsData", function()
 
         QuestieComms.data = {}
         mockItemDb({})
+        QuestieLoader:ImportModule("QuestieTooltips").InvalidateSecretUnitCandidates = spy.new(function() end)
 
         -- Loading the file gives it fresh lookup tables, so each test starts with empty tooltip data
         dofile("Modules/Network/QuestieCommsData.lua")
@@ -421,6 +422,21 @@ describe("QuestieCommsData", function()
             QuestieComms.data:RegisterTooltip(questId, playerName, objectives)
 
             assert.is_true(QuestieComms.data:KeyExists("m_2002"))
+        end)
+    end)
+
+    describe("secret unit candidates", function()
+        it("should be invalidated when a party member's quest is registered, removed or reset", function()
+            local invalidate = QuestieLoader:ImportModule("QuestieTooltips").InvalidateSecretUnitCandidates
+
+            QuestieComms.data:RegisterTooltip(questId, playerName, {objective("m", 2002)})
+            assert.spy(invalidate).was.called(1)
+
+            QuestieComms.data:RemoveQuestFromPlayer(questId, playerName)
+            assert.spy(invalidate).was.called(2)
+
+            QuestieComms.data:ResetAll()
+            assert.spy(invalidate).was.called(3)
         end)
     end)
 end)

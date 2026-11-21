@@ -11,6 +11,8 @@ local CommsVisibility = QuestieLoader:ImportModule("CommsVisibility")
 local QuestiePartyObjectives = QuestieLoader:ImportModule("QuestiePartyObjectives")
 ---@type DailyQuestComms
 local DailyQuestComms = QuestieLoader:ImportModule("DailyQuestComms")
+---@type QuestieTooltips
+local QuestieTooltips = QuestieLoader:ImportModule("QuestieTooltips")
 
 -- Snapshot of online/offline state for party members who have shared quests, used to decide
 -- whether a GROUP_ROSTER_UPDATE actually requires a party-objective redraw.
@@ -63,6 +65,8 @@ function GroupEventHandler.GroupRosterUpdate()
     if sizeChanged or onlineChanged or groupMembersChanged then
         CommsVisibility:ScheduleSnapshot("GROUP_ROSTER_UPDATE")
         QuestiePartyObjectives:ScheduleUpdate()
+        -- Party member suffixes and the raid cutoff in NPC tooltip lines depend on the group.
+        QuestieTooltips.InvalidateSecretUnitCandidates()
     end
 end
 
