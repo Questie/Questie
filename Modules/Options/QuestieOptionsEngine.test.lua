@@ -730,7 +730,7 @@ describe("QuestieOptionsEngine", function()
                 assert.are.equal(1, journeyToggles)
             end)
 
-            it("should search across tabs without creating new controls", function()
+            it("should search across tabs and rebuild the popup with matching options", function()
                 local window = OpenWindow()
 
                 -- Search must reuse the real tab canvases instead of creating a phantom results canvas.
@@ -743,24 +743,19 @@ describe("QuestieOptionsEngine", function()
                 assert.are.equal(2, #window.canvasContainer.children)
 
                 local titles = {}
-                for _, control in ipairs(ui.FindAll(window, function(candidate)
-                    return candidate.itemData ~= nil and candidate:IsVisible()
-                end)) do
+                for _, control in ipairs(ControlsIn(window)) do
                     titles[control.itemData.title] = true
                 end
                 assert.is_true(titles.mapOption)
                 assert.is_nil(titles.parent)
                 assert.are.equal("map options", QuestieOptionsEngine.searchText)
-                local frameCountAfterFirstSearch = #ui.frames
 
                 window.searchBox:SetText("")
                 window.searchBox.scripts.OnTextChanged(window.searchBox, true)
                 ui.RunUntilIdle()
 
                 titles = {}
-                for _, control in ipairs(ui.FindAll(window, function(candidate)
-                    return candidate.itemData ~= nil and candidate:IsVisible()
-                end)) do
+                for _, control in ipairs(ControlsIn(window)) do
                     titles[control.itemData.title] = true
                 end
                 assert.is_true(titles.parent)
@@ -772,17 +767,14 @@ describe("QuestieOptionsEngine", function()
                 ui.RunUntilIdle()
 
                 titles = {}
-                for _, control in ipairs(ui.FindAll(window, function(candidate)
-                    return candidate.itemData ~= nil and candidate:IsVisible()
-                end)) do
+                for _, control in ipairs(ControlsIn(window)) do
                     titles[control.itemData.title] = true
                 end
                 assert.is_nil(titles.parent)
                 assert.is_nil(titles.mapOption)
-                assert.are.equal(frameCountAfterFirstSearch, #ui.frames)
             end)
 
-            it("should keep the active tab visible while filtering", function()
+            it("should keep the active tab visible while a search replacement builds", function()
                 local window = OpenWindow()
                 local original = CheckboxesIn(window)[1]
                 local anchorPoints = #window.searchBox.points
@@ -796,6 +788,7 @@ describe("QuestieOptionsEngine", function()
 
                 window.searchBox:SetText("parent")
                 window.searchBox.scripts.OnTextChanged(window.searchBox, true)
+                ui.RunFrame()
 
                 assert.is_true(original:IsVisible())
                 assert.are.equal(0, hides)
@@ -807,12 +800,19 @@ describe("QuestieOptionsEngine", function()
                 assert.are.equal(stableAnchor, window.searchAnchor)
             end)
 
-            it("should refresh filtered controls", function()
+            it("should refresh replacement controls before displaying them", function()
                 local window = OpenWindow()
+                settingReadSeconds = 0.003
                 settings.parent = false
 
                 window.searchBox:SetText("parent")
                 window.searchBox.scripts.OnTextChanged(window.searchBox, true)
+                ui.RunFrame()
+
+                local pending = ui.FindAll(window, function(frame)
+                    return frame.itemData ~= nil and frame.itemData.title == "parent"
+                end)
+                assert.is_true(#pending > 1)
                 settings.parent = true
                 QuestieOptionsEngine:RefreshStates()
 

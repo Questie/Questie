@@ -110,19 +110,6 @@ local function _MatchesItem(item, terms)
     return false, false
 end
 
----@param rawItem table
----@param searchTerms string[]
----@param forceInclude boolean?
----@return boolean includeItem
----@return boolean includeChildren
-local function _ShouldInclude(rawItem, searchTerms, forceInclude)
-    if #searchTerms == 0 or forceInclude then
-        return true, forceInclude
-    end
-
-    return _MatchesItem(rawItem, searchTerms)
-end
-
 ---@param item table
 ---@param query string?
 ---@return boolean
@@ -220,11 +207,19 @@ function QuestieOptionsLayout.Build(parentFrame, rawItems, maxWidth, level, onCo
     local rowControls = {}
     local visibleCount = 0
     local searchTerms = _GetSearchTerms(searchQuery)
-    local nodes = {}
+
+    local function ShouldInclude(rawItem)
+        if #searchTerms == 0 or forceInclude then
+            return true, forceInclude
+        end
+
+        local matches, directMatch = _MatchesItem(rawItem, searchTerms)
+        return matches, directMatch
+    end
 
     for _, rawItem in ipairs(_GetSortedItems(rawItems)) do
         local item = _NormalizeItem(rawItem)
-        local includeItem, includeChildren = _ShouldInclude(rawItem, searchTerms, forceInclude)
+        local includeItem, includeChildren = ShouldInclude(rawItem)
 
         if item.visible ~= false and includeItem then
             visibleCount = visibleCount + 1
@@ -263,20 +258,11 @@ function QuestieOptionsLayout.Build(parentFrame, rawItems, maxWidth, level, onCo
             table.insert(rowControls, control)
             onControlCreated(control)
 
-            local node = {
-                item = item,
-                rawItem = rawItem,
-                control = control,
-                children = {},
-            }
-            table.insert(nodes, node)
-
             if item.type == "container" and item.items then
-                local contentHeight, childCount, children = QuestieOptionsLayout.Build(
+                local contentHeight, childCount = QuestieOptionsLayout.Build(
                     control.contentArea, item.items, maxWidth, level + 1, onControlCreated, searchQuery,
                     forceInclude or includeChildren
                 )
-                node.children = children
                 visibleCount = visibleCount + childCount
                 control:SetHeight(contentHeight + VERTICAL_GAP)
             end
@@ -299,42 +285,7 @@ function QuestieOptionsLayout.Build(parentFrame, rawItems, maxWidth, level, onCo
 
     _AlignRowVertically(rowControls, rowHeight, cursorY)
 
-    return math.abs(cursorY - rowHeight), visibleCount, nodes
-end
-
----Updates the visibility of an already-built search tree without creating or moving frames.
----The original layout is intentionally preserved so filtering cannot invalidate control geometry.
----@param nodes table[]
----@param searchQuery string?
----@param forceInclude boolean?
----@return number visibleCount
-local function _ApplySearchVisibility(nodes, searchQuery, forceInclude)
-    local visibleCount = 0
-    local searchTerms = _GetSearchTerms(searchQuery)
-
-    for _, node in ipairs(nodes) do
-        local includeItem, includeChildren = _ShouldInclude(node.rawItem, searchTerms, forceInclude)
-        local childCount
-        if #node.children > 0 then
-            childCount = _ApplySearchVisibility(node.children, searchQuery, forceInclude or includeChildren)
-            includeItem = includeItem or childCount > 0
-        end
-
-        node.control:SetShown(includeItem)
-        if includeItem then
-            visibleCount = visibleCount + 1
-        end
-    end
-
-    return visibleCount
-end
-
----@param nodes table[]
----@param searchQuery string?
----@param forceInclude boolean?
----@return number visibleCount
-function QuestieOptionsLayout.ApplySearchVisibility(nodes, searchQuery, forceInclude)
-    return _ApplySearchVisibility(nodes, searchQuery, forceInclude)
+    return math.abs(cursorY - rowHeight), visibleCount
 end
 
 return QuestieOptionsLayout
