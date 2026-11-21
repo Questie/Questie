@@ -1026,7 +1026,6 @@ local function CreateTreeGroup(parent)
     local function SetTreeWidth(width)
         width = math.max(TREE_MIN_WIDTH, math.min(GetMaxTreeWidth(), width))
         widget.treeframe:SetWidth(width)
-        widget.localstatus.treewidth = width
     end
 
     -- Use a manual dragger instead of Frame:StartSizing. The tree pane is
@@ -1078,7 +1077,6 @@ local function CreateTreeGroup(parent)
         if not hovering then
             SetDraggerVisible(false)
         end
-        widget.localstatus.treewidth = widget.treeframe:GetWidth()
     end
     dragger:SetScript("OnEnter", function()
         hovering = true
@@ -1116,8 +1114,6 @@ local function CreateTreeGroup(parent)
             SetTreeWidth(TREE_DEFAULT_WIDTH)
         end
     end)
-    widget.dragger = dragger
-
     local function FindNode(nodes, parts, index)
         for _, node in ipairs(nodes or {}) do
             if tostring(node.value) == tostring(parts[index]) then
