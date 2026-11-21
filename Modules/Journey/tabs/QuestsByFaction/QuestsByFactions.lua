@@ -448,7 +448,6 @@ function _QuestieJourney.questsByFaction:ManageTree(container, factionTree)
     if QuestieOptionsControls and QuestieOptionsControls.ApplyModernScrollbar then
         QuestieOptionsControls.ApplyModernScrollbar(factionTreeFrame.scrollbar)
     end
-    factionTreeFrame:SetTreeWidthKey("quests-by-faction")
     factionTreeFrame:SetTree(factionTree)
     factionTreeFrame:CollapseAllGroups()
 
@@ -498,6 +497,7 @@ function _QuestieJourney.questsByFaction:ManageTree(container, factionTree)
     end)
 
     container:AddChild(factionTreeFrame)
+    factionTreeFrame:SetTreeWidthKey("quests-by-faction")
 end
 
 ---Build the quest tree for a faction grouping

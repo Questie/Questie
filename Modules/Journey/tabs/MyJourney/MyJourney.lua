@@ -186,8 +186,6 @@ function _QuestieJourney.myJourney:ManageTree(container)
 
     end
 
-    journeyTreeFrame:SetTreeWidthKey("my-journey")
-
     -- Reparent the cached tree instead of recreating it. That keeps each
     -- year/month expansion state when the user changes Journey tabs.
     journeyTreeFrame:SetTree(_QuestieJourney:GetHistory())
@@ -198,6 +196,7 @@ function _QuestieJourney.myJourney:ManageTree(container)
         end
     end
     container:AddChild(journeyTreeFrame)
+    journeyTreeFrame:SetTreeWidthKey("my-journey")
 end
 
 function _QuestieJourney.myJourney:CollapseAllGroups()

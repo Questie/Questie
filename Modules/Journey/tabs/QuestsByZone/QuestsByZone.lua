@@ -234,7 +234,6 @@ function _QuestieJourney.questsByZone:ManageTree(container, zoneTree)
     if QuestieOptionsControls and QuestieOptionsControls.ApplyModernScrollbar then
         QuestieOptionsControls.ApplyModernScrollbar(zoneTreeFrame.scrollbar)
     end
-    zoneTreeFrame:SetTreeWidthKey("quests-by-zone")
     zoneTreeFrame:SetTree(zoneTree)
     zoneTreeFrame:CollapseAllGroups()
 
@@ -290,6 +289,7 @@ function _QuestieJourney.questsByZone:ManageTree(container, zoneTree)
     end)
 
     container:AddChild(zoneTreeFrame)
+    zoneTreeFrame:SetTreeWidthKey("quests-by-zone")
 end
 
 ---Get all the available/completed/repeatable/unavailable quests
