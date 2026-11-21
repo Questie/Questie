@@ -118,6 +118,7 @@ end
 ---Not right away, because an error that isn't a passing one would then repeat every frame.
 ---@param canvas Frame
 local function _DiscardFailedBuild(canvas)
+    canvas.buildGeneration = (canvas.buildGeneration or 0) + 1
     if canvas.content then
         canvas.content:Hide()
         canvas.content:SetParent(nil)
@@ -134,8 +135,10 @@ end
 local function _OnCanvasShown(canvas)
     if not canvas.isBuildStarted then
         canvas.isBuildStarted = true
+        canvas.buildGeneration = (canvas.buildGeneration or 0) + 1
+        local buildGeneration = canvas.buildGeneration
         ThreadLib.Thread(
-            function() _BuildCanvas(canvas) end, 0, "Error while building a Questie settings tab:", nil,
+            function() _BuildCanvas(canvas, buildGeneration) end, 0, "Error while building a Questie settings tab:", nil,
             function() _DiscardFailedBuild(canvas) end, "QuestieOptionsEngine.BuildCanvas"
         )
         return
@@ -261,7 +264,8 @@ end
 ---Each control shows the current setting from the moment it exists, so settings changing mid-build are no problem.
 ---@async
 ---@param canvas Frame
-_BuildCanvas = function(canvas)
+---@param buildGeneration number
+_BuildCanvas = function(canvas, buildGeneration)
     local isPopup = canvas.mode == RenderMode.POPUP
     local searchText = isPopup and QuestieOptionsEngine.searchText or nil
     local tabTitleMatches = isPopup and QuestieOptionsLayout.MatchesSearch({
@@ -326,6 +330,14 @@ _BuildCanvas = function(canvas)
 
     -- Laying out a finished tab is a lot of work at once, so it gets a frame of its own
     _YieldForFrameOfItsOwn()
+
+    if canvas.buildGeneration ~= buildGeneration then
+        content:Hide()
+        if canvas.content == content then
+            canvas.content = nil
+        end
+        return
+    end
 
     scrollBox:Show()
 
