@@ -7,6 +7,7 @@ local TOC_PATHS = {
     "Questie_Wrath.toc",
     "Questie_Cata.toc",
     "Questie_Mists.toc",
+    "Questie_Forever.toc",
 }
 
 print("\n\27[36mChecking QuestieLoader module call sites...\27[0m")

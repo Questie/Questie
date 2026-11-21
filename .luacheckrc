@@ -2974,7 +2974,6 @@ globals = {
     "QUESTIE_LOCALES_OVERRIDE",
     -----------------------------------------------------> Project Specific
     "Questie",
-    "QuestieLoader",
     "LibQuestieDB",
     "ICON_TYPE_COMPLETE",
     "ICON_TYPE_EVENT",
@@ -3007,4 +3006,12 @@ globals = {
     "teardown",
     "spy",
     "mock",
+}
+
+-- Addon files bind QuestieLoader from the addon namespace, so it is no global there. The test harness
+-- (setupTests.lua) keeps the loader in a global that tests read and reload.
+files["**/*.test.lua"] = {
+    globals = {
+        "QuestieLoader",
+    },
 }

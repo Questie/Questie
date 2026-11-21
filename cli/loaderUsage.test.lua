@@ -174,6 +174,7 @@ function Something.Update()
             "Questie_Wrath.toc",
             "Questie_Cata.toc",
             "Questie_Mists.toc",
+            "Questie_Forever.toc",
         }
 
         it("has no runtime call outside the reviewed files", function()
