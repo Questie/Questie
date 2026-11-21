@@ -27,14 +27,14 @@ function QuestieOptionsWindow.Create(onSearchChanged)
 
     local searchLabel = window:CreateFontString(nil, "OVERLAY", "GameFontNormalSmall")
     -- Keep the search control in the page header, below the decorative title bar.
-    searchLabel:SetPoint("TOPLEFT", window, "TOPLEFT", 300, -62)
+    searchLabel:SetPoint("TOPLEFT", window, "TOPLEFT", 300, -91)
     searchLabel:SetText(l10n("Search"))
     searchLabel:SetTextColor(1, 0.82, 0)
     searchLabel:SetDrawLayer("OVERLAY", 7)
 
     local searchBox = CreateFrame("EditBox", nil, window, "InputBoxTemplate")
     searchBox:SetSize(155, 22)
-    searchBox:SetPoint("TOPLEFT", window, "TOPLEFT", 355, -58)
+    searchBox:SetPoint("TOPLEFT", window, "TOPLEFT", 355, -87)
     searchBox:SetAutoFocus(false)
     searchBox:SetFontObject("GameFontHighlightSmall")
     searchBox:SetFrameLevel(window:GetFrameLevel() + 10)
