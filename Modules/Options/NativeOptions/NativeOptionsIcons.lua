@@ -256,7 +256,7 @@ function QuestieOptionsEngine.tabs.icons:Initialize()
                         title = "Available AQ War Effort Quests",
                         tooltip = "If checked, the locations of the AQ War Effort quests will be shown on the map/minimap.",
                         width = "half",
-                        visible = Questie.IsClassic,
+                        visible = Expansions.Current == Expansions.Era,
                         enabled = _IsEnabled,
                         get = function() return Questie.db.profile.showAQWarEffortQuests end,
                         set = function(_, value)

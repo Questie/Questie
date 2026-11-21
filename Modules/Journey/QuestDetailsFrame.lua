@@ -26,6 +26,8 @@ local l10n = QuestieLoader:ImportModule("l10n")
 local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
 ---@type QuestieProfessions
 local QuestieProfessions = QuestieLoader:ImportModule("QuestieProfessions")
+---@type Expansions
+local Expansions = QuestieLoader:ImportModule("Expansions")
 
 local AceGUI = LibStub("AceGUI-3.0")
 
@@ -136,7 +138,7 @@ local function GetLevelDifficultyRanges(questLevel, questMinLevel)
 
     -- Gray Level based on level range.
     if (questLevel ~= -1) then
-        if Questie.IsClassic then
+        if Expansions.Current == Expansions.Era then
             -- values observed on wowhead
             if (questLevel <= 4) then
                 gray = questLevel + 5

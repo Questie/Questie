@@ -18,7 +18,6 @@ describe("Townsfolk", function()
     local professionKeys
 
     local originalExpansion
-    local originalIsClassic
     local originalIsSoD
     local originalUnitLevel
     local originalUnitClassBase
@@ -69,12 +68,10 @@ describe("Townsfolk", function()
 
         Expansions = QuestieLoader:ImportModule("Expansions")
         originalExpansion = Expansions.Current
-        originalIsClassic = Questie.IsClassic
         originalIsSoD = Questie.IsSoD
         originalUnitLevel = _G.UnitLevel
         originalUnitClassBase = _G.UnitClassBase
         Expansions.Current = Expansions.Era
-        Questie.IsClassic = true
         Questie.IsSoD = false
         Questie.db.global = {}
         Questie.db.char = {}
@@ -134,7 +131,6 @@ describe("Townsfolk", function()
 
     after_each(function()
         Expansions.Current = originalExpansion
-        Questie.IsClassic = originalIsClassic
         Questie.IsSoD = originalIsSoD
         _G.UnitLevel = originalUnitLevel
         _G.UnitClassBase = originalUnitClassBase

@@ -54,10 +54,9 @@ Questie.db = {profile = {minimap = {hide = false}}}
 -- prevent multiple warnings for the same ID, not sure the best place to put this
 Questie._sessionWarnings = {}
 
--- Forever shares Retail's project ID, but uses Classic content. Detect it by interface version instead.
-local interfaceVersion = select(4, GetBuildInfo())
+--- Addon is running on the Forever client
 ---@type boolean
-Questie.IsForever = interfaceVersion >= 16000 and interfaceVersion < 17000
+Questie.IsForever = WOW_PROJECT_ID == WOW_PROJECT_CAMELOT
 
 --- Addon is running on Classic MoP client
 ---@type boolean
@@ -75,9 +74,9 @@ Questie.IsWotlk = WOW_PROJECT_ID == WOW_PROJECT_WRATH_CLASSIC
 ---@type boolean
 Questie.IsTBC = WOW_PROJECT_ID == WOW_PROJECT_BURNING_CRUSADE_CLASSIC
 
---- Uses Classic content: Era, its seasons, or Forever. API availability must be checked separately.
+--- Addon is running on Classic "Vanilla" client, including its seasonal realms
 ---@type boolean
-Questie.IsClassic = Questie.IsForever or WOW_PROJECT_ID == WOW_PROJECT_CLASSIC
+Questie.IsClassic = WOW_PROJECT_ID == WOW_PROJECT_CLASSIC
 
 --- Addon is running on Classic "Vanilla" client and on Era realm (non-seasonal)
 ---@type boolean

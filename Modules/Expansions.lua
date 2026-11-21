@@ -9,6 +9,7 @@ local expansionOrderLookup = {
     [11] = 3,
     [14] = 4,
     [19] = 5,
+    [18] = 1, -- WOW_PROJECT_CAMELOT (Forever) uses Era content
 }
 Expansions.Era = expansionOrderLookup[WOW_PROJECT_CLASSIC or 2]
 Expansions.Tbc = expansionOrderLookup[WOW_PROJECT_BURNING_CRUSADE_CLASSIC or 5]
@@ -18,13 +19,3 @@ Expansions.MoP = expansionOrderLookup[WOW_PROJECT_MISTS_CLASSIC or 19]
 
 -- Only a missing project ID defaults to Era. Unknown IDs, including actual Retail, remain unmapped.
 Expansions.Current = expansionOrderLookup[WOW_PROJECT_ID or 2]
-if Questie and Questie.IsForever then
-    -- VersionCheck runs first in every TOC. Forever's API family does not determine its content expansion.
-    Expansions.Current = Expansions.Era
-end
-
--- Era content is also used by Forever, but Era-specific presentation is not.
--- Keep Current numeric for data selection and expose the client-aware predicate separately.
-function Expansions:IsEra()
-    return self.Current == self.Era and not (Questie and Questie.IsForever)
-end

@@ -1,5 +1,6 @@
 dofile("Modules/Libs/QuestieLoader.lua")
 _G.GetBuildInfo = function() return "5.5.3", "0", "", 50503 end
+_G.WOW_PROJECT_CAMELOT = 18
 dofile("Modules/QuestieCompat.lua")
 dofile("Modules/Expansions.lua")
 

@@ -4,7 +4,7 @@ local LoadQuestieDBMock = dofile("test/QuestieDBMock.lua")
 
 describe("DropDB support data", function()
     local mock, DropDB, Expansions
-    local flags = {"IsClassic", "IsTBC", "IsWotlk", "IsCata", "IsMoP"}
+    local flags = {"IsEra", "IsTBC", "IsWotlk", "IsCata", "IsMoP"}
 
     ---@param expansion number
     ---@return nil

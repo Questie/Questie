@@ -185,7 +185,13 @@ if Expansions.Current >= Expansions.Wotlk then
 end
 ```
 
-Constants: `Era=1, Tbc=2, Wotlk=3, Cata=4, MoP=5`. Boolean flags on `Questie`: `IsSoD`, `IsEra`, `IsTBC`, `IsWotlk`, `IsCata`, `IsMoP`, `IsHardcore`.
+Constants: `Era=1, Tbc=2, Wotlk=3, Cata=4, MoP=5`. Forever uses Era content, so `Expansions.Current == Expansions.Era` is true there.
+
+Boolean flags on `Questie` identify the client, not the content. None of them include Forever:
+- Client flags: `IsClassic` (Era client incl. its seasons), `IsTBC`, `IsWotlk`, `IsCata`, `IsMoP`, `IsForever`
+- Realm flags narrowing down a client: `IsEra` (non-seasonal), `IsSoD`, `IsSoM`, `IsAnniversaryEra`, `IsAnniversaryHardcore`, `IsAnniversaryTBC`, `IsTitanReforged`, `IsHardcore`
+
+Use `Expansions` for content checks (quests, NPCs, data). Use the flags only when the specific client or realm matters (e.g. client-specific translations).
 
 ### Settings
 

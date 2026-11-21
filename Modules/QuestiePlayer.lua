@@ -10,6 +10,8 @@ local _QuestiePlayer = QuestiePlayer.private
 local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
+---@type Expansions
+local Expansions = QuestieLoader:ImportModule("Expansions")
 
 _QuestiePlayer.playerLevel = -1
 local playerRaceFlag = 255 -- dummy default value to always return race not matching, corrected in init
@@ -61,7 +63,7 @@ end
 ---@return boolean isMaxLevel
 function QuestiePlayer.IsMaxLevel()
     local level = QuestiePlayer.GetPlayerLevel()
-    return (Questie.IsMoP and level == 90) or (Questie.IsCata and level == 85) or (Questie.IsWotlk and level == 80) or (Questie.IsTBC and level == 70) or (Questie.IsClassic and level == 60)
+    return (Questie.IsMoP and level == 90) or (Questie.IsCata and level == 85) or (Questie.IsWotlk and level == 80) or (Questie.IsTBC and level == 70) or (Expansions.Current == Expansions.Era and level == 60)
 end
 
 ---@return string
