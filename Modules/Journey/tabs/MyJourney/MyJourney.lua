@@ -41,6 +41,7 @@ function _QuestieJourney.myJourney:ManageTree(container)
         if QuestieOptionsControls and QuestieOptionsControls.ApplyModernScrollbar then
             QuestieOptionsControls.ApplyModernScrollbar(journeyTreeFrame.scrollbar)
         end
+        journeyTreeFrame:SetTreeWidthKey("my-journey")
 
         journeyTreeFrame:SetCallback("OnGroupSelected", function(group)
             Questie.Debug(Questie.DEBUG_DEVELOP, "[Journey] OnGroupSelected - Path:", group.localstatus.selected)

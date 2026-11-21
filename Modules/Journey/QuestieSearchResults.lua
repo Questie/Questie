@@ -834,6 +834,9 @@ function QuestieSearchResults:DrawResultTab(container, resultType)
     activeResultTree = resultTree
     resultTree:SetFullWidth(true);
     resultTree:SetFullHeight(true);
+    if resultTree.SetTreeWidthKey then
+        resultTree:SetTreeWidthKey("advanced-search")
+    end
     if searchResultTabs and searchResultTabs.SetTabBarWidth then
         searchResultTabs:SetTabBarWidth(resultTree.treeframe:GetWidth())
     end

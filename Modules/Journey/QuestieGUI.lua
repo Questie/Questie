@@ -10,7 +10,7 @@ local TREE_MIN_WIDTH = 220
 local TREE_DEFAULT_WIDTH = 415
 local TREE_MAX_WIDTH = 600
 local TREE_DRAGGER_WIDTH = 6
-local journeyTreeWidth
+local journeyTreeWidths = {}
 
 local function CreateBackdropFrame(frameType, parent, template)
     local ok, frame = pcall(CreateFrame, frameType, nil, parent, template or "BackdropTemplate")
@@ -971,11 +971,12 @@ local function CreateTreeGroup(parent)
     local widget = CreateContainer("TreeGroup", parent, 0, {0.06, 0.05, 0.04, 0.96})
     widget.localstatus = {}
     widget.status = widget.localstatus
+    widget.treeWidthKey = "default"
     widget.frame.obj = widget
     widget.treeframe = CreateBackdropFrame("Frame", widget.frame)
     widget.treeframe:SetPoint("TOPLEFT", widget.frame, "TOPLEFT")
     widget.treeframe:SetPoint("BOTTOMLEFT", widget.frame, "BOTTOMLEFT")
-    widget.treeframe:SetWidth(journeyTreeWidth or TREE_DEFAULT_WIDTH)
+    widget.treeframe:SetWidth(TREE_DEFAULT_WIDTH)
     widget.treeframe:EnableMouse(true)
     widget.localstatus.groups = {}
     widget.treeScroll = CreateFrame("ScrollFrame", nil, widget.treeframe)
@@ -1027,7 +1028,7 @@ local function CreateTreeGroup(parent)
     local function SetTreeWidth(width)
         width = math.max(TREE_MIN_WIDTH, math.min(GetMaxTreeWidth(), width))
         widget.treeframe:SetWidth(width)
-        journeyTreeWidth = width
+        journeyTreeWidths[widget.treeWidthKey] = width
     end
 
     -- Use a manual dragger instead of Frame:StartSizing. The tree pane is
@@ -1116,6 +1117,10 @@ local function CreateTreeGroup(parent)
             SetTreeWidth(TREE_DEFAULT_WIDTH)
         end
     end)
+    function widget:SetTreeWidthKey(key)
+        self.treeWidthKey = key or "default"
+        SetTreeWidth(journeyTreeWidths[self.treeWidthKey] or TREE_DEFAULT_WIDTH)
+    end
     local function FindNode(nodes, parts, index)
         for _, node in ipairs(nodes or {}) do
             if tostring(node.value) == tostring(parts[index]) then

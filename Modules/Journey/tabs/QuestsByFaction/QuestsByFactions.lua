@@ -448,6 +448,7 @@ function _QuestieJourney.questsByFaction:ManageTree(container, factionTree)
     if QuestieOptionsControls and QuestieOptionsControls.ApplyModernScrollbar then
         QuestieOptionsControls.ApplyModernScrollbar(factionTreeFrame.scrollbar)
     end
+    factionTreeFrame:SetTreeWidthKey("quests-by-faction")
     factionTreeFrame:SetTree(factionTree)
     factionTreeFrame:CollapseAllGroups()
 

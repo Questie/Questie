@@ -234,6 +234,7 @@ function _QuestieJourney.questsByZone:ManageTree(container, zoneTree)
     if QuestieOptionsControls and QuestieOptionsControls.ApplyModernScrollbar then
         QuestieOptionsControls.ApplyModernScrollbar(zoneTreeFrame.scrollbar)
     end
+    zoneTreeFrame:SetTreeWidthKey("quests-by-zone")
     zoneTreeFrame:SetTree(zoneTree)
     zoneTreeFrame:CollapseAllGroups()
 
