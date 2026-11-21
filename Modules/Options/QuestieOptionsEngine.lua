@@ -102,7 +102,6 @@ local sideTabs = {}
 QuestieOptionsEngine.searchText = ""
 
 local _BuildCanvas
-local _ApplyPopupSearch
 
 -------------------------
 -- Canvases
@@ -149,9 +148,6 @@ local function _DiscardFailedBuild(canvas, keepContent)
     if not keepContent then
         canvas.controls = {}
         canvas.UpdateScrollLayout = nil
-        canvas.searchNodes = nil
-        canvas.searchScrollChild = nil
-        canvas.searchNoResults = nil
     end
     canvas.isBuildStarted = false
 end
@@ -303,6 +299,11 @@ end
 ---@param buildGeneration number
 _BuildCanvas = function(canvas, buildGeneration)
     local isPopup = canvas.mode == RenderMode.POPUP
+    local searchText = isPopup and QuestieOptionsEngine.searchText or nil
+    local tabTitleMatches = isPopup and QuestieOptionsLayout.MatchesSearch({
+        title = canvas.tab.data.title,
+        description = canvas.tab.data.subtitle,
+    }, searchText)
 
     local controls = {}
     if not canvas.content then
@@ -357,17 +358,16 @@ _BuildCanvas = function(canvas, buildGeneration)
     QuestieOptionsUtils.DisableSnapping(divider)
 
     local contentWidth = CANVAS_WIDTH - QuestieOptionsControls.ROOT_INDENT * 2
-    local contentHeight, _, searchNodes = QuestieOptionsLayout.Build(
-        scrollChild, canvas.tab.data.items, contentWidth, 1, AddControl
+    local contentHeight, visibleCount = QuestieOptionsLayout.Build(
+        scrollChild, canvas.tab.data.items, contentWidth, 1, AddControl, searchText, tabTitleMatches
     )
     scrollChild:SetHeight(contentHeight + 20)
 
     local noResults
-    if isPopup then
+    if isPopup and searchText ~= "" and visibleCount == 0 then
         noResults = scrollChild:CreateFontString(nil, "OVERLAY", "GameFontHighlight")
         noResults:SetPoint("TOPLEFT", scrollChild, "TOPLEFT", 10, 0)
         noResults:SetText(l10n("No matching options"))
-        noResults:Hide()
     end
 
     -- Laying out a finished tab is a lot of work at once, so it gets a frame of its own
@@ -392,9 +392,7 @@ _BuildCanvas = function(canvas, buildGeneration)
     canvas.pendingContent = nil
     canvas.pendingControls = nil
     canvas.controls = controls
-    canvas.searchNodes = isPopup and searchNodes or nil
-    canvas.searchScrollChild = isPopup and scrollChild or nil
-    canvas.searchNoResults = noResults
+    canvas.noResults = noResults
 
     scrollBox:Show()
 
@@ -404,9 +402,6 @@ _BuildCanvas = function(canvas, buildGeneration)
         scrollBox:FullUpdate(true)
     end
     canvas.UpdateScrollLayout()
-    if isPopup and QuestieOptionsEngine.searchText ~= "" then
-        _ApplyPopupSearch(canvas)
-    end
     content:Show()
     if searchAnchor and canvas:IsShown() then
         local window = canvas:GetParent():GetParent()
@@ -528,28 +523,14 @@ local function _UpdatePopupTabVisibility()
     end
 end
 
-_ApplyPopupSearch = function(canvas)
-    if not canvas.searchNodes then
-        return
-    end
-
-    local searchText = QuestieOptionsEngine.searchText
-    local tabTitleMatches = searchText ~= "" and QuestieOptionsLayout.MatchesSearch({
-        title = canvas.tab.data.title,
-        description = canvas.tab.data.subtitle,
-    }, searchText)
-    local contentHeight, visibleCount = QuestieOptionsLayout.ApplySearch(
-        canvas.searchNodes, CANVAS_WIDTH - QuestieOptionsControls.ROOT_INDENT * 2, 1, searchText, tabTitleMatches
-    )
-    canvas.searchScrollChild:SetHeight(contentHeight + 20)
-    canvas.searchNoResults:SetShown(searchText ~= "" and visibleCount == 0)
-    canvas.UpdateScrollLayout()
-end
-
-local function _ApplyPopupSearchToBuiltCanvases()
+local function _RebuildPopupCanvases()
     for _, canvas in pairs(popupCanvases) do
-        if canvas.searchNodes then
-            _ApplyPopupSearch(canvas)
+        local wasShown = canvas:IsShown()
+        _DiscardFailedBuild(canvas, wasShown)
+        if wasShown then
+            -- Start the replacement directly. The old content remains visible until the new
+            -- content is committed, so restarting a search build must not hide the canvas.
+            _OnCanvasShown(canvas)
         end
     end
 end
@@ -580,7 +561,7 @@ function QuestieOptionsEngine:SetSearchText(searchText)
     end
 
     _UpdatePopupTabVisibility()
-    _ApplyPopupSearchToBuiltCanvases()
+    _RebuildPopupCanvases()
 end
 
 local isRefreshQueued = false
