@@ -108,6 +108,19 @@ local function _MatchesItem(item, terms)
     return false, false
 end
 
+---@param rawItem table
+---@param searchTerms string[]
+---@param forceInclude boolean?
+---@return boolean includeItem
+---@return boolean includeChildren
+local function _ShouldInclude(rawItem, searchTerms, forceInclude)
+    if #searchTerms == 0 or forceInclude then
+        return true, forceInclude
+    end
+
+    return _MatchesItem(rawItem, searchTerms)
+end
+
 ---@param item table
 ---@param query string?
 ---@return boolean
@@ -205,19 +218,11 @@ function QuestieOptionsLayout.Build(parentFrame, rawItems, maxWidth, level, onCo
     local rowControls = {}
     local visibleCount = 0
     local searchTerms = _GetSearchTerms(searchQuery)
-
-    local function ShouldInclude(rawItem)
-        if #searchTerms == 0 or forceInclude then
-            return true, forceInclude
-        end
-
-        local matches, directMatch = _MatchesItem(rawItem, searchTerms)
-        return matches, directMatch
-    end
+    local nodes = {}
 
     for _, rawItem in ipairs(_GetSortedItems(rawItems)) do
         local item = _NormalizeItem(rawItem)
-        local includeItem, includeChildren = ShouldInclude(rawItem)
+        local includeItem, includeChildren = _ShouldInclude(rawItem, searchTerms, forceInclude)
 
         if item.visible ~= false and includeItem then
             visibleCount = visibleCount + 1
@@ -256,11 +261,20 @@ function QuestieOptionsLayout.Build(parentFrame, rawItems, maxWidth, level, onCo
             table.insert(rowControls, control)
             onControlCreated(control)
 
+            local node = {
+                item = item,
+                rawItem = rawItem,
+                control = control,
+                children = {},
+            }
+            table.insert(nodes, node)
+
             if item.type == "container" and item.items then
-                local contentHeight, childCount = QuestieOptionsLayout.Build(
+                local contentHeight, childCount, children = QuestieOptionsLayout.Build(
                     control.contentArea, item.items, maxWidth, level + 1, onControlCreated, searchQuery,
                     forceInclude or includeChildren
                 )
+                node.children = children
                 visibleCount = visibleCount + childCount
                 control:SetHeight(contentHeight + VERTICAL_GAP)
             end
@@ -283,7 +297,104 @@ function QuestieOptionsLayout.Build(parentFrame, rawItems, maxWidth, level, onCo
 
     _AlignRowVertically(rowControls, rowHeight, cursorY)
 
+    return math.abs(cursorY - rowHeight), visibleCount, nodes
+end
+
+---Reflows an already-built searchable canvas without creating any new frames.
+---@param nodes table[]
+---@param maxWidth number
+---@param level number
+---@param searchQuery string?
+---@param forceInclude boolean?
+---@return number height
+---@return number visibleCount
+local function _ApplySearch(nodes, maxWidth, level, searchQuery, forceInclude)
+    local cursorX = 0
+    local cursorY = level > 1 and -10 or 0
+    local rowHeight = 0
+    local rowControls = {}
+    local visibleCount = 0
+    local searchTerms = _GetSearchTerms(searchQuery)
+
+    for _, node in ipairs(nodes) do
+        local item = node.item
+        local control = node.control
+        local includeItem, includeChildren = _ShouldInclude(node.rawItem, searchTerms, forceInclude)
+
+        local childHeight, childCount = 0, 0
+        if item.type == "container" and #node.children > 0 then
+            childHeight, childCount = _ApplySearch(
+                node.children, maxWidth, level + 1, searchQuery, forceInclude or includeChildren
+            )
+            control:SetHeight(childHeight + VERTICAL_GAP)
+        end
+
+        control:SetShown(includeItem)
+        if includeItem then
+            visibleCount = visibleCount + 1
+            local isFullWidth = item.width == 1.0
+            local controlWidth = maxWidth * item.width
+            if item.width < 1.0 then
+                controlWidth = controlWidth - HORIZONTAL_GAP / 2
+            end
+
+            local needsNewRow = cursorX + controlWidth > maxWidth
+                or item.type == "divider"
+                or item.type == "container"
+                or item.newline == true
+                or (isFullWidth and cursorX > 0)
+
+            if needsNewRow and #rowControls > 0 then
+                _AlignRowVertically(rowControls, rowHeight, cursorY)
+                wipe(rowControls)
+                cursorY = cursorY - rowHeight - VERTICAL_GAP
+                cursorX = 0
+                rowHeight = 0
+            end
+
+            if item.type == "container" and item.title then
+                cursorY = cursorY - 24
+            end
+
+            local x = level == 1 and cursorX + QuestieOptionsControls.ROOT_INDENT or cursorX
+            control:ClearAllPoints()
+            control:SetPoint("TOPLEFT", control:GetParent(), "TOPLEFT", x, cursorY)
+            table.insert(rowControls, control)
+
+            if item.type == "container" then
+                visibleCount = visibleCount + childCount
+            end
+
+            local rowControl = control
+            if rowControl:GetHeight() > rowHeight then
+                rowHeight = rowControl:GetHeight()
+            end
+
+            if isFullWidth then
+                cursorY = cursorY - rowHeight - VERTICAL_GAP
+                cursorX = 0
+                rowHeight = 0
+                wipe(rowControls)
+            else
+                cursorX = cursorX + controlWidth + HORIZONTAL_GAP
+            end
+        end
+    end
+
+    _AlignRowVertically(rowControls, rowHeight, cursorY)
+
     return math.abs(cursorY - rowHeight), visibleCount
+end
+
+---@param nodes table[]
+---@param maxWidth number
+---@param level number
+---@param searchQuery string?
+---@param forceInclude boolean?
+---@return number height
+---@return number visibleCount
+function QuestieOptionsLayout.ApplySearch(nodes, maxWidth, level, searchQuery, forceInclude)
+    return _ApplySearch(nodes, maxWidth, level, searchQuery, forceInclude)
 end
 
 return QuestieOptionsLayout
