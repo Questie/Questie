@@ -1164,6 +1164,24 @@ describe("Tooltip", function()
             }, tooltip)
         end)
 
+        it("colors the starter icon by the quest also when the quest starts from an item or an object", function()
+            Questie.db.profile.showQuestsInNpcTooltip = true
+            QuestieLib.GetEffectiveQuestLevel = function() return 2 end
+            QuestieLib.GetDifficultyColorPercent = function() return 0.753, 0.753, 0.753 end
+            QuestieLoader:ImportModule("QuestieEvent").IsEventQuest = function() return false end
+            QuestieDB.IsPvPQuest = function() return false end
+            QuestieDB.IsRepeatable = function() return false end
+
+            for _, starterType in ipairs({"itemFromMonster", "itemFromObject", "Object"}) do
+                local key = "k_" .. starterType
+                QuestieTooltips:RegisterQuestStartTooltip(94414, "Quest starter", 123, key, starterType)
+
+                assert.are.same({
+                    "|TInterface\\Addons\\Questie\\Icons\\tooltip_available.png:14:14:0:0:32:32:0:32:0:32:192:192:192|tQuest Name",
+                }, QuestieTooltips.GetTooltip(key), starterType)
+            end
+        end)
+
         it("should return quest name when tooltip has name set and showQuestsInNpcTooltip is active", function()
             Questie.db.profile.showQuestsInNpcTooltip = true
             QuestieTooltips.lookupByKey = {["key"] = {["1 test 2"] = {questId = 1, name = "test", starterId = 2}}}

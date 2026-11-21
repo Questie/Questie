@@ -80,7 +80,7 @@ end
 ---@param name string|nil The name of the object or NPC the tooltip should show on
 ---@param starterId number The ID of the object or NPC the tooltip should show on
 ---@param key string @Either m_<npcId> or o_<objectId>
----@param type string Indicates the type of quest starter; this changes icon in tooltip
+---@param type "NPC"|StarterType|"Finisher" What starts or ends the quest here. Finishers show the complete icon, starts the "!".
 ---@return string name The given name or, if it is missing, a placeholder
 function QuestieTooltips:RegisterQuestStartTooltip(questId, name, starterId, key, type)
     -- The name is only used as a flag and registry key, a missing one must not hide the quest in the tooltip
@@ -391,14 +391,12 @@ function QuestieTooltips.GetTooltip(key, playerZone)
                             local r, g, b = QuestieLib:GetDifficultyColorPercent(level, questId)
                             colorText = ":" .. tostring(math.floor(r * 255)) .. ":" .. tostring(math.floor(g * 255)) .. ":" .. tostring(math.floor(b * 255))
                         end
-                        if tooltip.type == "NPC" then
-                            questString = "|TInterface\\Addons\\Questie\\Icons\\tooltip_available.png:14:14:0:0:32:32:0:32:0:32" .. colorText .. "|t" .. questString
-                        elseif tooltip.type == "Finisher" then
+                        if tooltip.type == "Finisher" then
                             questString = "|TInterface\\Addons\\Questie\\Icons\\tooltip_complete.png:14:14:0:0:32:32:0:32:0:32" .. colorText .. "|t" .. questString
-                        elseif tooltip.type == "itemFromMonster" or tooltip.type == "itemFromObject" then
-                            questString = "|TInterface\\Addons\\Questie\\Icons\\available_mobdrop.png:14|t" .. questString
-                        elseif tooltip.type == "Object" then
-                            questString = "|TInterface\\Addons\\Questie\\Icons\\available_object.png:14|t" .. questString
+                        else
+                            -- The quest starts here, from this NPC or object or an item it drops. What starts it shows
+                            -- on the map; the tooltip keeps the "!" in the quest's color.
+                            questString = "|TInterface\\Addons\\Questie\\Icons\\tooltip_available.png:14:14:0:0:32:32:0:32:0:32" .. colorText .. "|t" .. questString
                         end
                     end
                     questLines[questId] = questLines[questId] or {}
