@@ -41,8 +41,6 @@ function _QuestieJourney.myJourney:ManageTree(container)
         if QuestieOptionsControls and QuestieOptionsControls.ApplyModernScrollbar then
             QuestieOptionsControls.ApplyModernScrollbar(journeyTreeFrame.scrollbar)
         end
-        journeyTreeFrame:SetTreeWidthKey("my-journey")
-
         journeyTreeFrame:SetCallback("OnGroupSelected", function(group)
             Questie.Debug(Questie.DEBUG_DEVELOP, "[Journey] OnGroupSelected - Path:", group.localstatus.selected)
 
@@ -187,6 +185,8 @@ function _QuestieJourney.myJourney:ManageTree(container)
         end);
 
     end
+
+    journeyTreeFrame:SetTreeWidthKey("my-journey")
 
     -- Reparent the cached tree instead of recreating it. That keeps each
     -- year/month expansion state when the user changes Journey tabs.
