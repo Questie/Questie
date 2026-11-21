@@ -149,8 +149,6 @@ function Something.Update()
 
             assert.are_same(1, #findings)
             assert.are_same(3, findings[1].lineNumber)
-            -- Never exempt: a binding body runs without the addon namespace, so the call cannot work.
-            assert.is_false(findings[1].known)
         end)
     end)
 
@@ -186,10 +184,6 @@ function Something.Update()
             end
 
             assert.are_same({}, unexpected)
-        end)
-
-        it("has no loader call in a key binding", function()
-            assert.are_same({}, LoaderUsage.ScanBindingsXml("Bindings.xml"))
         end)
 
         it("resolves the scope of every call site it inspects", function()

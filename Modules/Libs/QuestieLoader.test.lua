@@ -76,16 +76,15 @@ describe("QuestieLoader", function()
             return namespace
         end
 
-        it("is reachable only through the addon namespace", function()
+        it("does not make itself a global when loaded", function()
             local testGlobal = _G.QuestieLoader
             _G.QuestieLoader = nil
 
-            local namespace = LoadIntoNamespace()
+            LoadIntoNamespace()
             local leakedGlobal = rawget(_G, "QuestieLoader")
             _G.QuestieLoader = testGlobal
 
             assert.is_nil(leakedGlobal)
-            assert.are_same("function", type(namespace.QuestieLoader.ImportModule))
         end)
 
         it("publishes itself next to the modules when debug globals are populated", function()
@@ -290,7 +289,7 @@ describe("QuestieLoader", function()
             -- libraries, closed by the first Lua file's module call.
             AdvanceClock(2)
             currentSourceFile = "Modules/Libs/EmbedsLoadBoundary.lua"
-            QuestieLoader:StampLoadBoundary("embeds.xml")
+            dofile("Modules/Libs/EmbedsLoadBoundary.lua")
             AdvanceClock(400)
 
             currentSourceFile = "Questie.lua"

@@ -19,8 +19,39 @@ local testNamespace = setmetatable({}, {
     end,
 })
 
+-- In the client, addon files see no global QuestieLoader. Here addon files run in an environment that hides it too,
+-- so a file that reads it without binding it from the namespace fails as it would in the client. Every other read
+-- and every write goes straight to _G. Everything else, such as test helpers and QuestieDB's emulator, loads as with
+-- plain dofile: global environment, no arguments.
+local addonFileEnvironment = setmetatable({}, {
+    __index = function(_, key)
+        if key ~= "QuestieLoader" then
+            return _G[key]
+        end
+    end,
+    __newindex = _G,
+})
+
+local ADDON_FILE_PREFIXES = {"Modules/", "Database/", "Localization/", "Public/", "Libs/", "Questie.lua"}
+
+---@param path string
+---@return boolean
+local function IsAddonFile(path)
+    for _, prefix in ipairs(ADDON_FILE_PREFIXES) do
+        if string.sub(path, 1, #prefix) == prefix then
+            return true
+        end
+    end
+    return false
+end
+
 _G.dofile = function(path)
-    return assert(loadfile(path))("Questie", testNamespace)
+    local chunk = assert(loadfile(path))
+    if not IsAddonFile(path) then
+        return chunk()
+    end
+    setfenv(chunk, addonFileEnvironment)
+    return chunk("Questie", testNamespace)
 end
 
 dofile("Modules/Libs/QuestieLoader.lua")
