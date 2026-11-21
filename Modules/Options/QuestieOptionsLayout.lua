@@ -9,6 +9,8 @@ local QuestieOptionsLayout = QuestieLoader:CreateModule("QuestieOptionsLayout")
 local QuestieOptionsControls = QuestieLoader:ImportModule("QuestieOptionsControls")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
+---@type utf8
+local utf8 = QuestieLoader:ImportModule("utf8")
 
 local HORIZONTAL_GAP = 10
 local VERTICAL_GAP = 10
@@ -55,7 +57,7 @@ end
 ---@param query string?
 ---@return string[] terms
 local function _GetSearchTerms(query)
-    local normalized = string.lower(strtrim(query or ""))
+    local normalized = utf8.lower(strtrim(query or ""))
     local terms = {}
     for term in normalized:gmatch("%S+") do
         table.insert(terms, term)
@@ -71,7 +73,7 @@ local function _MatchesItemText(item, terms)
         return false
     end
 
-    local searchableText = string.lower(table.concat({
+    local searchableText = utf8.lower(table.concat({
         _SearchText(item.title),
         _SearchText(item.description),
         _SearchText(item.tooltip),
@@ -321,8 +323,9 @@ local function _ApplySearch(nodes, maxWidth, level, searchQuery, forceInclude)
         local control = node.control
         local includeItem, includeChildren = _ShouldInclude(node.rawItem, searchTerms, forceInclude)
 
-        local childHeight, childCount = 0, 0
+        local childCount = 0
         if item.type == "container" and #node.children > 0 then
+            local childHeight
             childHeight, childCount = _ApplySearch(
                 node.children, maxWidth, level + 1, searchQuery, forceInclude or includeChildren
             )

@@ -34,6 +34,7 @@ describe("QuestieOptionsLayout", function()
         dofile("Localization/l10n.lua")
         dofile("Modules/Options/QuestieOptionsUtils.lua")
         dofile("Modules/Options/QuestieOptionsControls.lua")
+        dofile("Modules/Libs/utf8.lua")
         dofile("Modules/Options/QuestieOptionsLayout.lua")
         QuestieOptionsLayout = QuestieLoader:ImportModule("QuestieOptionsLayout")
     end)
@@ -157,6 +158,16 @@ describe("QuestieOptionsLayout", function()
         assert.is_nil(created["Tracker visibility"])
         assert.is_not_nil(created["Map icons"])
         assert.is_nil(created.Sound)
+    end)
+
+    it("should match translated UTF-8 text case-insensitively", function()
+        Build({
+            russian = {type = "spacer", title = "Общее", order = 1, width = "full"},
+            accented = {type = "spacer", title = "SÄUME", order = 2, width = "full"},
+        }, 1, "общее")
+
+        assert.is_not_nil(created["Общее"])
+        assert.is_nil(created["SÄUME"])
     end)
 
     it("should ignore invisible options while searching", function()
