@@ -10,6 +10,7 @@ local TREE_MIN_WIDTH = 220
 local TREE_DEFAULT_WIDTH = 415
 local TREE_MAX_WIDTH = 600
 local TREE_DRAGGER_WIDTH = 6
+local journeyTreeWidth
 
 local function CreateBackdropFrame(frameType, parent, template)
     local ok, frame = pcall(CreateFrame, frameType, nil, parent, template or "BackdropTemplate")
@@ -974,7 +975,7 @@ local function CreateTreeGroup(parent)
     widget.treeframe = CreateBackdropFrame("Frame", widget.frame)
     widget.treeframe:SetPoint("TOPLEFT", widget.frame, "TOPLEFT")
     widget.treeframe:SetPoint("BOTTOMLEFT", widget.frame, "BOTTOMLEFT")
-    widget.treeframe:SetWidth(TREE_MIN_WIDTH)
+    widget.treeframe:SetWidth(journeyTreeWidth or TREE_DEFAULT_WIDTH)
     widget.treeframe:EnableMouse(true)
     widget.localstatus.groups = {}
     widget.treeScroll = CreateFrame("ScrollFrame", nil, widget.treeframe)
@@ -1026,6 +1027,7 @@ local function CreateTreeGroup(parent)
     local function SetTreeWidth(width)
         width = math.max(TREE_MIN_WIDTH, math.min(GetMaxTreeWidth(), width))
         widget.treeframe:SetWidth(width)
+        journeyTreeWidth = width
     end
 
     -- Use a manual dragger instead of Frame:StartSizing. The tree pane is

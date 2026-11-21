@@ -451,7 +451,6 @@ function _QuestieJourney.questsByFaction:ManageTree(container, factionTree)
     factionTreeFrame:SetTree(factionTree)
     factionTreeFrame:CollapseAllGroups()
 
-    factionTreeFrame.treeframe:SetWidth(415)
     local lastRenderedTreeValue
     local function RenderFactionQuestDetails(group, treeValue, force)
         if group ~= factionTreeFrame or (group.IsReleasing and group:IsReleasing()) then

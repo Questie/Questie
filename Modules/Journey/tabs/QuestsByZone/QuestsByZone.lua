@@ -237,8 +237,6 @@ function _QuestieJourney.questsByZone:ManageTree(container, zoneTree)
     zoneTreeFrame:SetTree(zoneTree)
     zoneTreeFrame:CollapseAllGroups()
 
-    zoneTreeFrame.treeframe:SetWidth(415)
-
     _QuestieJourney.questsByZone:RestoreSavedQuestSelection(zoneTreeFrame, zoneTree)
 
     local lastRenderedTreeValue
