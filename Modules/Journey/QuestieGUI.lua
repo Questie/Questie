@@ -1080,6 +1080,7 @@ local function CreateTreeGroup(parent)
         if not hovering then
             SetDraggerVisible(false)
         end
+        SetTreeWidth(widget.treeframe:GetWidth())
     end
     dragger:SetScript("OnEnter", function()
         hovering = true
