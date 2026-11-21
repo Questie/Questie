@@ -1050,7 +1050,6 @@ local function CreateTreeGroup(parent)
             edgeSize = 6,
             insets = {left = 1, right = 1, top = 1, bottom = 1},
         })
-        dragger:SetBackdropColor(0, 0, 0, 0)
         dragger:SetBackdropBorderColor(0.42, 0.27, 0.05, 0)
     end
     local draggerShadow = dragger:CreateTexture(nil, "ARTWORK")
