@@ -364,6 +364,18 @@ local eventsLocales = {
         ["zhCN"] = "露营",
         ["zhTW"] = "紮營",
     },
+    ["Crafting"] = {
+        ["enUS"] = true,
+        ["deDE"] = "Handwerk",
+        ["esES"] = "Fabricación",
+        ["esMX"] = "Fabricación",
+        ["frFR"] = "Artisanat",
+        ["koKR"] = "제작 기술",
+        ["ptBR"] = "Criação",
+        ["ruRU"] = "Изготовление",
+        ["zhCN"] = "制造区",
+        ["zhTW"] = "製作",
+    },
 }
 
 for k, v in pairs(eventsLocales) do
