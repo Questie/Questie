@@ -200,12 +200,16 @@ function QuestieQuest:ShowQuestIcons()
     end
 end
 
--- Manual notes follow map visibility without quest-specific filters.
+-- Manual notes follow map visibility and exploration without quest-specific filters.
 ---@param icon IconFrame
 ---@return boolean
 local function _ShouldShowManualIcon(icon)
     local profile = Questie.db.profile
     if (not profile.enabled) then
+        return false
+    end
+
+    if profile.hideUnexploredMapIcons and icon.manualType ~= "any" and (not QuestieMap.utils.IsExplored(icon.UiMapID, icon.x, icon.y)) then
         return false
     end
 

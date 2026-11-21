@@ -698,6 +698,73 @@ describe("QuestieQuest", function()
             end)
         end
 
+        describe("with hideUnexploredMapIcons", function()
+            local originalUtils
+
+            before_each(function()
+                originalUtils = QuestieMap.utils
+                Questie.db.profile.hideUnexploredMapIcons = true
+                mapIcon.x, mapIcon.y, mapIcon.UiMapID = 50, 60, 1429
+                minimapIcon.x, minimapIcon.y, minimapIcon.UiMapID = 50, 60, 1429
+            end)
+
+            after_each(function()
+                QuestieMap.utils = originalUtils
+            end)
+
+            it("should hide townsfolk icons in unexplored areas", function()
+                QuestieMap.utils = {IsExplored = function() return false end}
+
+                QuestieQuest:ToggleNotes(false)
+
+                assert.is_true(mapIcon.hidden)
+                assert.is_true(minimapIcon.hidden)
+            end)
+
+            it("should keep icons shown from search visible in unexplored areas", function()
+                QuestieMap.utils = {IsExplored = function() return false end}
+                mapIcon.manualType = "any"
+                minimapIcon.manualType = "any"
+
+                QuestieQuest:ToggleNotes(false)
+
+                assert.is_false(mapIcon.hidden)
+                assert.is_false(minimapIcon.hidden)
+            end)
+
+            it("should keep townsfolk icons in explored areas visible", function()
+                QuestieMap.utils = {IsExplored = function() return true end}
+
+                QuestieQuest:ToggleNotes(false)
+
+                assert.is_false(mapIcon.hidden)
+                assert.is_false(minimapIcon.hidden)
+            end)
+
+            it("should keep townsfolk icons visible when the option is off", function()
+                QuestieMap.utils = {IsExplored = function() return false end}
+                Questie.db.profile.hideUnexploredMapIcons = false
+
+                QuestieQuest:ToggleNotes(true)
+
+                assert.is_false(mapIcon.hidden)
+                assert.is_false(minimapIcon.hidden)
+            end)
+
+            it("should show townsfolk icons again once their area is explored", function()
+                local explored = false
+                QuestieMap.utils = {IsExplored = function() return explored end}
+                QuestieQuest:ToggleNotes(false)
+                assert.is_true(mapIcon.hidden)
+
+                explored = true
+                QuestieQuest:ToggleNotes(true)
+
+                assert.is_false(mapIcon.hidden)
+                assert.is_false(minimapIcon.hidden)
+            end)
+        end)
+
         it("should not repeat hide or show calls for unchanged visibility", function()
             Questie.db.profile.enableMiniMapIcons = false
             QuestieQuest:ToggleNotes(false)
