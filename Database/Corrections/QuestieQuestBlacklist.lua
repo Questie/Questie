@@ -4447,7 +4447,7 @@ function QuestieQuestBlacklist:Load()
         [7735] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [7736] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [7738] = Expansions.Current >= Expansions.Cata, -- Removed with cata (replaced with 25454)
-        [7790] = true, -- Not in the game
+        [7790] = not Questie.IsForever,
         [7791] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [7792] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [7793] = Expansions.Current >= Expansions.Cata, -- Removed with cata
@@ -4574,7 +4574,7 @@ function QuestieQuestBlacklist:Load()
         [8147] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [8148] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [8151] = Expansions.Current >= Expansions.Cata, -- Removed with cata
-        [8152] = true, -- Not in the game
+        [8152] = not Questie.IsForever,
         [8153] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [8181] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [8182] = Expansions.Current >= Expansions.Cata, -- Removed with cata
