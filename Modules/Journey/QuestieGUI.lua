@@ -6,6 +6,9 @@ local DEFAULT_WIDTH = 180
 local DEFAULT_HEIGHT = 24
 local FLOW_GAP = 3
 local SCROLL_CONTENT_INSET = 16
+local TREE_MIN_WIDTH = 220
+local TREE_MAX_WIDTH = 600
+local TREE_DRAGGER_WIDTH = 10
 
 local function CreateBackdropFrame(frameType, parent, template)
     local ok, frame = pcall(CreateFrame, frameType, nil, parent, template or "BackdropTemplate")
@@ -970,7 +973,15 @@ local function CreateTreeGroup(parent)
     widget.treeframe = CreateBackdropFrame("Frame", widget.frame)
     widget.treeframe:SetPoint("TOPLEFT", widget.frame, "TOPLEFT")
     widget.treeframe:SetPoint("BOTTOMLEFT", widget.frame, "BOTTOMLEFT")
-    widget.treeframe:SetWidth(220)
+    widget.treeframe:SetWidth(TREE_MIN_WIDTH)
+    widget.treeframe:SetMovable(true)
+    widget.treeframe:SetResizable(true)
+    if widget.treeframe.SetResizeBounds then
+        widget.treeframe:SetResizeBounds(TREE_MIN_WIDTH, 1, TREE_MAX_WIDTH, 1600)
+    else
+        widget.treeframe:SetMinResize(TREE_MIN_WIDTH, 1)
+        widget.treeframe:SetMaxResize(TREE_MAX_WIDTH, 1600)
+    end
     widget.treeframe:EnableMouse(true)
     widget.localstatus.groups = {}
     widget.treeScroll = CreateFrame("ScrollFrame", nil, widget.treeframe)
@@ -1013,6 +1024,40 @@ local function CreateTreeGroup(parent)
     widget.content:ClearAllPoints()
     widget.content:SetPoint("TOPLEFT", widget.treeframe, "TOPRIGHT", -2, 0)
     widget.content:SetPoint("BOTTOMRIGHT", widget.frame, "BOTTOMRIGHT")
+
+    -- Keep the handle as a sibling of both panes and above their frame levels.
+    -- A child of the tree pane can lose mouse input to the detail pane when the
+    -- panes overlap by the two-pixel layout gutter.
+    local dragger = CreateFrame("Button", nil, widget.frame)
+    dragger:SetSize(TREE_DRAGGER_WIDTH, 1)
+    dragger:SetPoint("TOP", widget.treeframe, "TOPRIGHT")
+    dragger:SetPoint("BOTTOM", widget.treeframe, "BOTTOMRIGHT")
+    dragger:SetFrameLevel(widget.frame:GetFrameLevel() + 5)
+    dragger:EnableMouse(true)
+    local draggerTexture = dragger:CreateTexture(nil, "BACKGROUND")
+    draggerTexture:SetAllPoints(dragger)
+    draggerTexture:SetColorTexture(1, 1, 1, 0)
+    dragger:SetScript("OnEnter", function()
+        draggerTexture:SetColorTexture(1, 1, 1, 0.8)
+        if SetCursor then SetCursor("Interface\\Cursor\\UI-Cursor-SizeRight") end
+    end)
+    dragger:SetScript("OnLeave", function()
+        draggerTexture:SetColorTexture(1, 1, 1, 0)
+        if SetCursor then SetCursor(nil) end
+    end)
+    dragger:SetScript("OnMouseDown", function(_, button)
+        if button == "LeftButton" then
+            widget.treeframe:StartSizing("RIGHT")
+        end
+    end)
+    dragger:SetScript("OnMouseUp", function()
+        widget.treeframe:StopMovingOrSizing()
+        widget.localstatus.treewidth = widget.treeframe:GetWidth()
+        Fire(widget, "OnTreeResize", widget.localstatus.treewidth)
+        LayoutChildren(widget)
+        if SetCursor then SetCursor(nil) end
+    end)
+    widget.dragger = dragger
 
     local function FindNode(nodes, parts, index)
         for _, node in ipairs(nodes or {}) do
@@ -1242,6 +1287,7 @@ local function CreateTreeGroup(parent)
         widget.content:SetPoint("TOPLEFT", widget.treeframe, "TOPRIGHT", -2, 0)
         widget.content:SetPoint("BOTTOMRIGHT", widget.frame, "BOTTOMRIGHT")
         layingOutTree = false
+        LayoutChildren(widget)
     end
     widget.frame:HookScript("OnSizeChanged", LayoutTree)
     widget.treeframe:HookScript("OnSizeChanged", LayoutTree)
