@@ -11,6 +11,8 @@ local QuestieReputation = QuestieLoader:ImportModule("QuestieReputation")
 local QuestieProfessions = QuestieLoader:ImportModule("QuestieProfessions")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
+---@type QuestieConditions
+local QuestieConditions = QuestieLoader:ImportModule("QuestieConditions")
 
 -- Renders the trees LibQuestieDB.Conditions.Explain returns. QuestieDB owns the expression and
 -- its evaluation; the wording and localization are Questie's.
@@ -114,7 +116,7 @@ end
 ---@param questId QuestId
 ---@return string?
 function QuestieConditionText.RenderQuest(questId)
-    local tree = LibQuestieDB.Conditions.ExplainQuest(questId)
+    local tree = QuestieConditions.ExplainQuest(questId)
     return tree and QuestieConditionText.RenderTree(tree)
 end
 

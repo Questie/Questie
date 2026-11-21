@@ -44,7 +44,7 @@ describe("QuestieInit", function()
         originalGetMetadata = C_AddOns.GetAddOnMetadata
         originalGetBuildInfo = _G.GetBuildInfo
         C_AddOns.GetAddOnMetadata = function(addon, field)
-            if addon == "Questie" and field == "X-QuestieDB-Contract" then return "4" end
+            if addon == "Questie" and field == "X-QuestieDB-Contract" then return "5" end
             if addon == "QuestieDB" and field == "Version" then return "1.1.1" end
         end
         C_AddOns.IsAddOnLoaded = function(addon)
@@ -136,13 +136,13 @@ describe("QuestieInit", function()
 
         it("uses the TOC requirement instead of a hardcoded contract", function()
             C_AddOns.GetAddOnMetadata = function(addon, field)
-                if addon == "Questie" and field == "X-QuestieDB-Contract" then return "5" end
+                if addon == "Questie" and field == "X-QuestieDB-Contract" then return "6" end
                 if addon == "QuestieDB" and field == "Version" then return "1.1.1" end
             end
 
             assert.has_error(function() _RunStage(1) end,
-                "Questie requires QuestieDB contract 5; installed QuestieDB version: 1.1.1. " ..
-                "QuestieDB contract mismatch: this consumer needs version 5, the installed QuestieDB provides 4 " ..
+                "Questie requires QuestieDB contract 6; installed QuestieDB version: 1.1.1. " ..
+                "QuestieDB contract mismatch: this consumer needs version 6, the installed QuestieDB provides 5 " ..
                 "(supporting consumers back to 1). Update whichever is older.")
             assert.are_same({}, mock.setLocaleCalls)
         end)
@@ -161,7 +161,7 @@ describe("QuestieInit", function()
             mock.lib.RequireContract = nil
 
             assert.has_error(function() _RunStage(1) end,
-                "Questie requires QuestieDB contract 4; installed QuestieDB version: 1.1.1. " ..
+                "Questie requires QuestieDB contract 5; installed QuestieDB version: 1.1.1. " ..
                 "The provider contract API is unavailable. Install or update QuestieDB and reload.")
             assert.are_same({"l10n.InitializeUILocale"}, callOrder)
         end)
@@ -170,7 +170,7 @@ describe("QuestieInit", function()
             mock.lib.Enum.raceMaskById = nil
 
             assert.has_error(function() _RunStage(1) end,
-                "Questie requires QuestieDB contract 4; installed QuestieDB version: 1.1.1. " ..
+                "Questie requires QuestieDB contract 5; installed QuestieDB version: 1.1.1. " ..
                 "The provider race-ID mapping is unavailable. Update QuestieDB and reload.")
             assert.are_same({"l10n.InitializeUILocale"}, callOrder)
             assert.are_same({}, mock.setLocaleCalls)
@@ -180,7 +180,7 @@ describe("QuestieInit", function()
             mock.lib.Enum.factionRaceMasks = nil
 
             assert.has_error(function() _RunStage(1) end,
-                "Questie requires QuestieDB contract 4; installed QuestieDB version: 1.1.1. " ..
+                "Questie requires QuestieDB contract 5; installed QuestieDB version: 1.1.1. " ..
                 "The provider faction race masks are unavailable. Update QuestieDB and reload.")
             assert.are_same({"l10n.InitializeUILocale"}, callOrder)
             assert.are_same({}, mock.setLocaleCalls)
@@ -190,7 +190,7 @@ describe("QuestieInit", function()
             mock.lib.Enum.factionRaceMasks.Horde = nil
 
             assert.has_error(function() _RunStage(1) end,
-                "Questie requires QuestieDB contract 4; installed QuestieDB version: 1.1.1. " ..
+                "Questie requires QuestieDB contract 5; installed QuestieDB version: 1.1.1. " ..
                 "The provider faction race masks are unavailable. Update QuestieDB and reload.")
             assert.are_same({"l10n.InitializeUILocale"}, callOrder)
             assert.are_same({}, mock.setLocaleCalls)
@@ -213,8 +213,8 @@ describe("QuestieInit", function()
 
             assert.has_error(function()
                 _RunStage(1)
-            end, "Questie requires QuestieDB contract 4; installed QuestieDB version: 1.1.1. " ..
-                "QuestieDB contract mismatch: this consumer needs version 4, the installed QuestieDB provides 2 " ..
+            end, "Questie requires QuestieDB contract 5; installed QuestieDB version: 1.1.1. " ..
+                "QuestieDB contract mismatch: this consumer needs version 5, the installed QuestieDB provides 2 " ..
                 "(supporting consumers back to 1). Update whichever is older.")
             assert.are_same({"l10n.InitializeUILocale"}, callOrder)
         end)

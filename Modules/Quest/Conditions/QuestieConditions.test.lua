@@ -47,6 +47,15 @@ describe("QuestieConditions", function()
 
             assert.is_true(QuestieConditions.IsFulfilled(6))
         end)
+
+        it("uses QuestieDB's own client reads before Initialize", function()
+            local evaluatedWith = "not evaluated"
+            mock.lib.Conditions.EvaluateQuest = function(_, functions) evaluatedWith = functions return true end
+
+            QuestieConditions.IsFulfilled(1)
+
+            assert.is_nil(evaluatedWith)
+        end)
     end)
 
     describe("re-checking unknown conditions", function()
@@ -162,6 +171,19 @@ describe("QuestieConditions", function()
             QuestieConditions.Initialize()
         end)
 
+        it("evaluates and explains with Questie's functions", function()
+            local evaluatedWith, explainedWith
+            mock.lib.Conditions.EvaluateQuest = function(_, functions) evaluatedWith = functions return true end
+            mock.lib.Conditions.ExplainQuest = function(_, functions) explainedWith = functions return nil end
+
+            QuestieConditions.IsFulfilled(1)
+            QuestieConditions.ExplainQuest(1)
+
+            assert.is_table(QuestieConditions.functions)
+            assert.are_equal(QuestieConditions.functions, evaluatedWith)
+            assert.are_equal(QuestieConditions.functions, explainedWith)
+        end)
+
         describe("QuestAvailable", function()
             local levels, doableCalls
 
@@ -176,23 +198,29 @@ describe("QuestieConditions", function()
             end)
 
             it("asks IsDoable while ignoring the player's manually hidden quests", function()
-                assert.is_true(mock.conditionFunctions.Questie.QuestAvailable(1))
+                assert.is_true(QuestieConditions.functions.QuestAvailable(1))
                 assert.are_same({{1, false, true}}, doableCalls)
             end)
 
             it("passes the quest's own unknown or false condition through without a kept answer", function()
                 local results = {[1] = nil, [2] = false}
-                mock.lib.Conditions.EvaluateQuest = function(questId) return results[questId] end
+                local evaluatedWith = {}
+                mock.lib.Conditions.EvaluateQuest = function(questId, functions)
+                    evaluatedWith[questId] = functions
+                    return results[questId]
+                end
 
-                assert.is_nil(mock.conditionFunctions.Questie.QuestAvailable(1))
-                assert.is_false(mock.conditionFunctions.Questie.QuestAvailable(2))
+                assert.is_nil(QuestieConditions.functions.QuestAvailable(1))
+                assert.is_false(QuestieConditions.functions.QuestAvailable(2))
                 assert.are_same({}, doableCalls)
+                -- The asked quest's own condition is evaluated with Questie's functions too.
+                assert.are_equal(QuestieConditions.functions, evaluatedWith[2])
             end)
 
             it("rejects a quest already in the log", function()
                 QuestiePlayer.currentQuestlog[1] = {}
 
-                assert.is_false(mock.conditionFunctions.Questie.QuestAvailable(1))
+                assert.is_false(QuestieConditions.functions.QuestAvailable(1))
             end)
 
             it("applies the quest's own level limits", function()
@@ -200,9 +228,9 @@ describe("QuestieConditions", function()
                 levels[2] = {requiredLevel = 20, requiredMaxLevel = 29}
                 levels[3] = {requiredLevel = 30, requiredMaxLevel = 30}
 
-                assert.is_false(mock.conditionFunctions.Questie.QuestAvailable(1))
-                assert.is_false(mock.conditionFunctions.Questie.QuestAvailable(2))
-                assert.is_true(mock.conditionFunctions.Questie.QuestAvailable(3))
+                assert.is_false(QuestieConditions.functions.QuestAvailable(1))
+                assert.is_false(QuestieConditions.functions.QuestAvailable(2))
+                assert.is_true(QuestieConditions.functions.QuestAvailable(3))
             end)
         end)
 
@@ -211,11 +239,11 @@ describe("QuestieConditions", function()
             QuestieDB.IsComplete = function(questId) return completion[questId] end
             QuestiePlayer.currentQuestlog = {[1] = {}, [2] = {}, [3] = {}}
 
-            assert.is_true(mock.conditionFunctions.Questie.QuestComplete(1))
-            assert.is_false(mock.conditionFunctions.Questie.QuestComplete(2))
-            assert.is_false(mock.conditionFunctions.Questie.QuestComplete(3), "a failed quest is not complete")
+            assert.is_true(QuestieConditions.functions.QuestComplete(1))
+            assert.is_false(QuestieConditions.functions.QuestComplete(2))
+            assert.is_false(QuestieConditions.functions.QuestComplete(3), "a failed quest is not complete")
             completion[4] = 1
-            assert.is_false(mock.conditionFunctions.Questie.QuestComplete(4), "a quest outside the log is not complete")
+            assert.is_false(QuestieConditions.functions.QuestComplete(4), "a quest outside the log is not complete")
         end)
 
         it("maps HasSkill to Questie's profession IDs with a default level of 1", function()
@@ -225,9 +253,9 @@ describe("QuestieConditions", function()
                 return true, requiredSkill[2] <= 150
             end
 
-            assert.is_true(mock.conditionFunctions.Questie.HasSkill(129))
+            assert.is_true(QuestieConditions.functions.HasSkill(129))
             assert.are_same({129, 1}, requested)
-            assert.is_false(mock.conditionFunctions.Questie.HasSkill(129, 225))
+            assert.is_false(QuestieConditions.functions.HasSkill(129, 225))
         end)
     end)
 end)

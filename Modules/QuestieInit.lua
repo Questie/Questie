@@ -308,8 +308,8 @@ QuestieInit.Stages[3] = function() -- run as a coroutine
     QuestieQuest:GetAllQuestIds()
     coYield()
 
-    -- Other addons evaluate against Questie's condition functions, so publish them only once
-    -- the quest log and completed quests are loaded.
+    -- Questie's condition functions read its quest log and completed quests, so build them once
+    -- those are loaded; until then conditions use QuestieDB's client reads.
     QuestieConditions.Initialize()
 
     QuestieCombatQueue.Initialize()

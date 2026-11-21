@@ -45,7 +45,6 @@ local BASE_OWNER = "QuestieDB"
 ---@field nameIndexBuilds table<QuestieDBMockDatatype, number> Name index builds per datatype.
 ---@field supportModules table<string, table> Shared support modules; tests seed literal provider-shaped values.
 ---@field contractVersion number Highest Contract Version the fake provides.
----@field conditionFunctions table<string, table<string, function>> Condition functions published per owner.
 ---@field minSupportedContract number Lowest Contract Version the fake still accepts.
 ---@field SetBaseRow fun(datatype: QuestieDBMockDatatype, id: number, row: QuestieDBMockRow): nil
 
@@ -65,7 +64,7 @@ local function LoadQuestieDBMock()
         publishCounts = {Quest = 0, Npc = 0, Item = 0, Object = 0},
         setLocaleCalls = {},
         nameIndexBuilds = {Quest = 0, Npc = 0, Item = 0, Object = 0},
-        contractVersion = 4,
+        contractVersion = 5,
         minSupportedContract = 1,
     }
     local lib = {}
@@ -490,7 +489,6 @@ local function LoadQuestieDBMock()
             :format(tostring(required), tostring(mock.contractVersion), tostring(mock.minSupportedContract))
     end
 
-    mock.conditionFunctions = {}
     -- The provider's condition vocabulary; conformance checks that the provider accepts each name.
     local conditionNames = {}
     for _, name in ipairs({
@@ -498,25 +496,24 @@ local function LoadQuestieDBMock()
         "HasItemOrBank", "HasItemEquipped", "HasSkill", "KnowsSpell", "HasRep", "RepBelow", "IsTeam", "IsRace",
         "IsClass", "IsRaceClass", "IsLevel", "IsLevelExact", "IsLevelBelow", "HasAchievement",
     }) do conditionNames[name] = true end
+    -- Mirrors the provider's check of a caller's functions, so a wrong name or value fails here,
+    -- not in game. The provider checks before the empty-expression shortcut, so this does too.
+    local function CheckConditionFunctions(functions)
+        if functions == nil then return end
+        assert(type(functions) == "table", "condition functions must be a table")
+        for name, fn in pairs(functions) do
+            assert(type(name) == "string" and type(fn) == "function", "condition functions must map names to functions")
+            assert(conditionNames[name], "'" .. tostring(name) .. "' is not a condition function")
+        end
+    end
     -- Evaluation is not modeled: every condition holds, even for a quest seeded with field 37.
     -- Tests of condition results stub Evaluate/EvaluateQuest themselves.
     lib.Conditions = {
         Get = function(questId) return lib.Quest.Get(questId, keys.Quest.conditions) end,
-        Evaluate = function() return true end,
-        EvaluateQuest = function() return true end,
-        Explain = function() return nil end,
-        ExplainQuest = function() return nil end,
-        -- Mirrors the provider's validation, so a wrong owner, name, or value fails here, not at login.
-        SetFunctions = function(owner, functions)
-            assert(owner == "Questie", "only Questie may publish condition functions")
-            local copy = {}
-            for name, fn in pairs(functions or {}) do
-                assert(type(name) == "string" and type(fn) == "function", "condition functions must be functions")
-                assert(conditionNames[name], "'" .. tostring(name) .. "' is not a condition function")
-                copy[name] = fn
-            end
-            mock.conditionFunctions[owner] = copy
-        end,
+        Evaluate = function(_, functions) CheckConditionFunctions(functions) return true end,
+        EvaluateQuest = function(_, functions) CheckConditionFunctions(functions) return true end,
+        Explain = function(_, functions) CheckConditionFunctions(functions) return nil end,
+        ExplainQuest = function(_, functions) CheckConditionFunctions(functions) return nil end,
     }
 
     lib.l10n = {currentLocale = "enUS"}

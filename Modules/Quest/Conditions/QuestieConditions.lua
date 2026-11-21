@@ -11,8 +11,8 @@ local QuestieProfessions = QuestieLoader:ImportModule("QuestieProfessions")
 local AvailableQuests = QuestieLoader:ImportModule("AvailableQuests")
 
 -- Quest Conditions are availability expressions owned by QuestieDB (provider ADR 0017).
--- QuestieDB evaluates them with client APIs alone. Questie publishes the functions where its
--- own state gives a better answer, so every consumer sees the availability Questie shows.
+-- QuestieDB evaluates them with client APIs alone. Questie passes its own functions where its
+-- state gives a better answer; they apply to Questie's evaluations only.
 
 -- A condition is unknown while the client hides a value it reads, such as auras behind secret
 -- values. That can happen in combat, in instances, or for other reasons, so unknown quests are
@@ -28,10 +28,16 @@ local FAST_RECHECKS, FAST_DELAY, SLOW_DELAY = 30, 1, 5 -- Seconds; slow down dur
 local recheckScheduled = false
 local recheckCount = 0
 
----Publish Questie's condition functions. Call once Questie's quest-log and completed-quest
----state is loaded: other addons evaluate against these functions too.
+---The condition functions Questie passes to every QuestieDB evaluation, or nil before
+---Initialize. Questie's quest caches are empty until then, so QuestieDB's client reads answer.
+---@type QuestieDBConditionFunctions?
+QuestieConditions.functions = nil
+
+---Build Questie's condition functions. Call once Questie's quest-log and completed-quest
+---state is loaded.
 function QuestieConditions.Initialize()
-    LibQuestieDB.Conditions.SetFunctions("Questie", {
+    local functions
+    functions = {
         QuestRewarded = function(questId)
             return Questie.db.char.complete[questId] == true
         end,
@@ -55,7 +61,7 @@ function QuestieConditions.Initialize()
             end
             -- Pass an unknown or false condition through rather than IsFulfilled's kept answer,
             -- so the asking quest is the one that waits for it to become readable.
-            local condition = LibQuestieDB.Conditions.EvaluateQuest(questId)
+            local condition = LibQuestieDB.Conditions.EvaluateQuest(questId, functions)
             if condition ~= true then return condition end
             return QuestieDB.IsDoable(questId, false, true)
         end,
@@ -64,7 +70,15 @@ function QuestieConditions.Initialize()
             local hasProfession, hasSkillLevel = QuestieProfessions:HasProfessionAndSkillLevel({skillId, minLevel or 1})
             return hasProfession and hasSkillLevel
         end,
-    })
+    }
+    QuestieConditions.functions = functions
+end
+
+---Explain a quest's condition with Questie's functions, for display.
+---@param questId QuestId
+---@return QuestieDBConditionNode?
+function QuestieConditions.ExplainQuest(questId)
+    return LibQuestieDB.Conditions.ExplainQuest(questId, QuestieConditions.functions)
 end
 
 local ScheduleRecheck
@@ -75,7 +89,7 @@ local ScheduleRecheck
 ---@param questId QuestId
 ---@return boolean
 function QuestieConditions.IsFulfilled(questId)
-    local result = LibQuestieDB.Conditions.EvaluateQuest(questId)
+    local result = LibQuestieDB.Conditions.EvaluateQuest(questId, QuestieConditions.functions)
     if result == nil then
         local shown = lastKnown[questId] ~= false
         pending[questId] = shown
@@ -100,7 +114,7 @@ function QuestieConditions.RecheckNow()
     pending = {}
     local changed = false
     for questId, shown in pairs(toCheck) do
-        local result = LibQuestieDB.Conditions.EvaluateQuest(questId)
+        local result = LibQuestieDB.Conditions.EvaluateQuest(questId, QuestieConditions.functions)
         if result == nil then
             if pending[questId] == nil then pending[questId] = shown end
         else

@@ -20,6 +20,9 @@
 ---A condition function returns true or false, or nil when it cannot read its state right now.
 ---@alias QuestieDBConditionFunction fun(...): boolean?
 
+---A caller's replacements for base condition functions, by vocabulary name, for one evaluation.
+---@alias QuestieDBConditionFunctions table<string, QuestieDBConditionFunction>
+
 ---One node of an explained condition. A leaf has `call` and `args`; an operator has `op` and
 ---`children`. `result` is true, false, or nil when unknown.
 ---@class QuestieDBConditionNode
@@ -31,11 +34,10 @@
 
 ---@class QuestieDBConditions
 ---@field Get fun(questId: QuestId): string? Return a quest's condition expression.
----@field Evaluate fun(expression: string?): boolean? Evaluate an expression; nil or empty is true, nil means unknown.
----@field EvaluateQuest fun(questId: QuestId): boolean? Evaluate a quest's expression; true without one, nil means unknown.
----@field Explain fun(expression: string?): QuestieDBConditionNode? Explain an expression for display, evaluating every leaf; the root result equals Evaluate's. Nil without one, outside the builder's grammar, or when a function raised.
----@field ExplainQuest fun(questId: QuestId): QuestieDBConditionNode? Explain a quest's expression.
----@field SetFunctions fun(owner: string, functions: table<string, QuestieDBConditionFunction>?) Publish a trusted owner's functions for every consumer; nil withdraws them.
+---@field Evaluate fun(expression: string?, functions: QuestieDBConditionFunctions?): boolean? Evaluate an expression with optional replacement functions; nil or empty is true, nil means unknown.
+---@field EvaluateQuest fun(questId: QuestId, functions: QuestieDBConditionFunctions?): boolean? Evaluate a quest's expression; true without one, nil means unknown.
+---@field Explain fun(expression: string?, functions: QuestieDBConditionFunctions?): QuestieDBConditionNode? Explain an expression for display, evaluating every leaf; the root result equals Evaluate's with the same functions. Nil without one, outside the builder's grammar, or when a function raised.
+---@field ExplainQuest fun(questId: QuestId, functions: QuestieDBConditionFunctions?): QuestieDBConditionNode? Explain a quest's expression.
 
 ---@class LibQuestieDB
 ---@field Quest QuestDB Quest entity reads.

@@ -319,18 +319,19 @@ describe("QuestieDBMock conformance with LibQuestieDB", function()
             end
         end)
 
-        it("supports the shared-enum contract and older consumer contracts", function()
+        it("supports the Quest Conditions contract and older consumer contracts", function()
             local seen = Conform(function(lib)
-                local ok, message = lib.RequireContract(4)
+                local ok, message = lib.RequireContract(5)
                 return {
                     ok = ok, message = message,
                     contract1 = lib.RequireContract(1), contract2 = lib.RequireContract(2),
-                    contract3 = lib.RequireContract(3),
-                    future = lib.RequireContract(5), nonNumeric = lib.RequireContract("4"),
+                    contract3 = lib.RequireContract(3), contract4 = lib.RequireContract(4),
+                    future = lib.RequireContract(6), nonNumeric = lib.RequireContract("5"),
                 }
             end)
             assert.are_same({
-                ok = true, contract1 = true, contract2 = true, contract3 = true, future = false, nonNumeric = false,
+                ok = true, contract1 = true, contract2 = true, contract3 = true, contract4 = true,
+                future = false, nonNumeric = false,
             }, seen)
         end)
     end)
@@ -692,42 +693,45 @@ describe("QuestieDBMock conformance with LibQuestieDB", function()
     end)
 
     describe("Quest Conditions", function()
-        it("evaluates Questie's published functions in the provider's shared environment", function()
+        it("evaluates the provider's composite functions with Questie's functions", function()
             local consumerLib = _G.LibQuestieDB
             _G.LibQuestieDB = provider
             Questie.db.char.complete = {[2] = true}
             QuestieLoader:ImportModule("QuestiePlayer").currentQuestlog = {[3] = {}}
-            dofile("Modules/Quest/Conditions/QuestieConditions.lua").Initialize()
+            local QuestieConditions = dofile("Modules/Quest/Conditions/QuestieConditions.lua")
+            QuestieConditions.Initialize()
+            local functions = QuestieConditions.functions
             local seen = {
-                rewarded = provider.Conditions.Evaluate("QuestNone(2)"),
-                inLog = provider.Conditions.Evaluate("QuestNone(3)"),
-                untouched = provider.Conditions.Evaluate("QuestNone(4)"),
+                rewarded = provider.Conditions.Evaluate("QuestNone(2)", functions),
+                inLog = provider.Conditions.Evaluate("QuestNone(3)", functions),
+                untouched = provider.Conditions.Evaluate("QuestNone(4)", functions),
             }
-            provider.Conditions.SetFunctions("Questie", nil)
             _G.LibQuestieDB = consumerLib
             -- The provider's composite QuestNone must call Questie's QuestRewarded and QuestInLog.
             assert.are_same({rewarded = false, inLog = false, untouched = true}, seen)
         end)
 
-        it("validates published condition functions like the provider", function()
+        it("checks a caller's condition functions like the provider", function()
+            -- ConditionBuilder is provider-internal; reading its vocabulary here only keeps the
+            -- double's copy of the names in step.
             local vocabulary = provider.ConditionBuilder.vocabulary
             local seen = Conform(function(lib)
-                local function accepts(owner, functions) return (pcall(lib.Conditions.SetFunctions, owner, functions)) end
+                -- A nil expression evaluates nothing; the provider still checks the table first.
+                local function accepts(functions) return (pcall(lib.Conditions.Evaluate, nil, functions)) end
                 local result = {
-                    wrongOwner = accepts("SomeAddon", {}),
-                    notAFunction = accepts("Questie", {QuestRewarded = true}),
-                    unknownName = accepts("Questie", {QuestRewared = function() return true end}),
-                    withdraw = accepts("Questie", nil),
+                    notATable = accepts("Questie"),
+                    notAFunction = accepts({QuestRewarded = true}),
+                    unknownName = accepts({QuestRewared = function() return true end}),
+                    none = accepts(nil),
                     vocabulary = {},
                 }
                 for name in pairs(vocabulary) do
-                    result.vocabulary[name] = accepts("Questie", {[name] = function() return true end})
+                    result.vocabulary[name] = accepts({[name] = function() return true end})
                 end
-                lib.Conditions.SetFunctions("Questie", nil)
                 return result
             end)
-            assert.are_same({wrongOwner = false, notAFunction = false, unknownName = false, withdraw = true}, {
-                wrongOwner = seen.wrongOwner, notAFunction = seen.notAFunction, unknownName = seen.unknownName, withdraw = seen.withdraw,
+            assert.are_same({notATable = false, notAFunction = false, unknownName = false, none = true}, {
+                notATable = seen.notATable, notAFunction = seen.notAFunction, unknownName = seen.unknownName, none = seen.none,
             })
             assert.is_true(seen.vocabulary.HasAura)
         end)

@@ -1430,7 +1430,7 @@ function QuestieDB.IsDoableVerbose(questId, debugPrint, returnText, returnBrief)
             return l10n("Unavailable")..l10n(": ")..l10n("Conditions not met"), true, DoableStates.CONDITIONS_NOT_MET
         elseif returnText and not returnBrief then
             -- Name the failing parts; a kept answer while the condition is unreadable has none.
-            local tree = LibQuestieDB.Conditions.ExplainQuest(questId)
+            local tree = QuestieConditions.ExplainQuest(questId)
             local parts = tree and QuestieConditionText.BlockingParts(tree) or {}
             local reason = #parts > 0 and table.concat(parts, "; ") or LibQuestieDB.Conditions.Get(questId)
             return "Quest " .. questId .. " does not meet its conditions: " .. reason, true, DoableStates.CONDITIONS_NOT_MET

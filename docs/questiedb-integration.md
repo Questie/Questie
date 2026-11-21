@@ -24,7 +24,7 @@ are recorded in [ADR 0001](adr/0001-questietdb-is-the-only-entity-database.md),
 
 ## Initialization and compatibility
 
-Each flavor TOC declares `RequiredDeps: QuestieDB` and `X-QuestieDB-Contract: 4`. Build preflight
+Each flavor TOC declares `RequiredDeps: QuestieDB` and `X-QuestieDB-Contract: 5`. Build preflight
 checks that contract declarations are valid and consistent. At runtime,
 [`VersionCheckDB.Check`](../Modules/VersionCheckDB.lua) reads the active TOC's requirement.
 
@@ -59,7 +59,8 @@ Actual race IDs are not bit positions: Skyborne IDs 95/96 use bits 32/33. `Versi
 requires both tables before login work proceeds; unknown player IDs stop player initialization
 rather than guessing an encoding. Contract 3 guarantees both the mapping and the active faction masks.
 Contract 4 adds the shared `Enum.factionIDs` and the active-flavor `Enum.classKeys`, which
-`QuestieDB.factionIDs` and `QuestieDB.classKeys` alias directly. Update both projects
+`QuestieDB.factionIDs` and `QuestieDB.classKeys` alias directly. Contract 5 adds Quest Conditions
+with per-call condition functions (see below). Update both projects
 together; contract-2 providers fail the version check, while the updated provider still supports
 older contract-1 and contract-2 consumers. Provider conversion supplies extended Forever faction masks,
 so Questie's membership check no longer widens legacy `77`/`178` subsets.
@@ -115,10 +116,11 @@ recorded in provider ADR 0017.
 
 [`QuestieConditions`](../Modules/Quest/Conditions/QuestieConditions.lua) is Questie's side:
 
-- Stage 3 publishes Questie's condition functions after the quest log is first hydrated, through
-  `LibQuestieDB.Conditions.SetFunctions("Questie", ...)`. Questie is the provider's only trusted
-  owner, so every consumer evaluates with these functions. They answer quest state from Questie's
-  caches and `HasSkill` through `QuestieProfessions`. `QuestAvailable` means the player could
+- Stage 3 builds Questie's condition functions after the quest log is first hydrated, as
+  `QuestieConditions.functions`. Questie passes that table to every `EvaluateQuest` and
+  `ExplainQuest` call; it changes only Questie's own results, and before stage 3 the provider's
+  client reads answer. The functions answer quest state from Questie's caches and `HasSkill`
+  through `QuestieProfessions`. `QuestAvailable` means the player could
   accept the quest now: not in the log, within its own level limits, its own condition true, and
   `QuestieDB.IsDoable` without the player's manual hide list or Questie's display level range.
   Questie's blacklist applies in full, `HIDE_ON_MAP` included, because it does not record which of
@@ -127,7 +129,7 @@ recorded in provider ADR 0017.
 - `QuestieDB.IsDoable` and `IsDoableVerbose` reject a quest whose condition is false
   (`DoableStates.CONDITIONS_NOT_MET`). The verbose text names the failing parts.
 - [`QuestieConditionText`](../Modules/Quest/Conditions/QuestieConditionText.lua) renders the provider's
-  `Explain` tree. The Journey quest details show every part of a condition, colored green when
+  `Explain` tree, explained with Questie's functions through `QuestieConditions.ExplainQuest`. The Journey quest details show every part of a condition, colored green when
   it holds, red when it does not, and yellow when it cannot be read right now.
 - An unknown result (nil) means a condition function could not read a hidden value, such as
   auras behind secret values. That can happen in combat, in instances, or for other reasons.
