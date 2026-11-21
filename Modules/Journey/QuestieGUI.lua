@@ -6,6 +6,9 @@ local DEFAULT_WIDTH = 180
 local DEFAULT_HEIGHT = 24
 local FLOW_GAP = 3
 local SCROLL_CONTENT_INSET = 16
+local TREE_MIN_WIDTH = 220
+local TREE_MAX_WIDTH = 600
+local TREE_DRAGGER_WIDTH = 8
 
 local function CreateBackdropFrame(frameType, parent, template)
     local ok, frame = pcall(CreateFrame, frameType, nil, parent, template or "BackdropTemplate")
@@ -970,7 +973,7 @@ local function CreateTreeGroup(parent)
     widget.treeframe = CreateBackdropFrame("Frame", widget.frame)
     widget.treeframe:SetPoint("TOPLEFT", widget.frame, "TOPLEFT")
     widget.treeframe:SetPoint("BOTTOMLEFT", widget.frame, "BOTTOMLEFT")
-    widget.treeframe:SetWidth(220)
+    widget.treeframe:SetWidth(TREE_MIN_WIDTH)
     widget.treeframe:EnableMouse(true)
     widget.localstatus.groups = {}
     widget.treeScroll = CreateFrame("ScrollFrame", nil, widget.treeframe)
@@ -1013,6 +1016,74 @@ local function CreateTreeGroup(parent)
     widget.content:ClearAllPoints()
     widget.content:SetPoint("TOPLEFT", widget.treeframe, "TOPRIGHT", -2, 0)
     widget.content:SetPoint("BOTTOMRIGHT", widget.frame, "BOTTOMRIGHT")
+
+    local function GetMaxTreeWidth()
+        local available = (widget.frame:GetWidth() or 0) - TREE_MIN_WIDTH
+        return math.min(TREE_MAX_WIDTH, math.max(TREE_MIN_WIDTH, available))
+    end
+
+    local function SetTreeWidth(width)
+        width = math.max(TREE_MIN_WIDTH, math.min(GetMaxTreeWidth(), width))
+        widget.treeframe:SetWidth(width)
+        widget.localstatus.treewidth = width
+    end
+
+    -- Use a manual dragger instead of Frame:StartSizing. The tree pane is
+    -- anchored to the Journey canvas, and native sizing can temporarily clear
+    -- those anchors while the mouse is down. Tracking the cursor only changes
+    -- the pane width and leaves the two-pane anchors intact.
+    local dragger = CreateFrame("Button", nil, widget.frame)
+    dragger:SetSize(TREE_DRAGGER_WIDTH, 1)
+    dragger:SetPoint("TOP", widget.treeframe, "TOPRIGHT")
+    dragger:SetPoint("BOTTOM", widget.treeframe, "BOTTOMRIGHT")
+    dragger:SetFrameLevel(widget.frame:GetFrameLevel() + 5)
+    dragger:EnableMouse(true)
+    local draggerTexture = dragger:CreateTexture(nil, "BACKGROUND")
+    draggerTexture:SetAllPoints(dragger)
+    draggerTexture:SetColorTexture(1, 1, 1, 0)
+    local resizing = false
+    local resizeStartX = 0
+    local resizeStartWidth = 0
+    local function GetCursorX()
+        local scale = widget.frame.GetEffectiveScale and widget.frame:GetEffectiveScale() or 1
+        return GetCursorPosition() / scale
+    end
+    local function StopResizing()
+        resizing = false
+        draggerTexture:SetColorTexture(1, 1, 1, 0)
+        widget.localstatus.treewidth = widget.treeframe:GetWidth()
+    end
+    dragger:SetScript("OnEnter", function()
+        if not resizing then
+            draggerTexture:SetColorTexture(1, 1, 1, 0.3)
+        end
+    end)
+    dragger:SetScript("OnLeave", function()
+        if not resizing then
+            draggerTexture:SetColorTexture(1, 1, 1, 0)
+        end
+    end)
+    dragger:SetScript("OnMouseDown", function(_, button)
+        if button ~= "LeftButton" then
+            return
+        end
+        resizeStartX = GetCursorX()
+        resizeStartWidth = widget.treeframe:GetWidth()
+        resizing = true
+        draggerTexture:SetColorTexture(1, 1, 1, 0.45)
+    end)
+    dragger:SetScript("OnUpdate", function()
+        if not resizing then
+            return
+        end
+        if IsMouseButtonDown and not IsMouseButtonDown("LeftButton") then
+            StopResizing()
+            return
+        end
+        SetTreeWidth(resizeStartWidth + GetCursorX() - resizeStartX)
+    end)
+    dragger:SetScript("OnMouseUp", StopResizing)
+    widget.dragger = dragger
 
     local function FindNode(nodes, parts, index)
         for _, node in ipairs(nodes or {}) do
@@ -1242,6 +1313,7 @@ local function CreateTreeGroup(parent)
         widget.content:SetPoint("TOPLEFT", widget.treeframe, "TOPRIGHT", -2, 0)
         widget.content:SetPoint("BOTTOMRIGHT", widget.frame, "BOTTOMRIGHT")
         layingOutTree = false
+        LayoutChildren(widget)
     end
     widget.frame:HookScript("OnSizeChanged", LayoutTree)
     widget.treeframe:HookScript("OnSizeChanged", LayoutTree)
