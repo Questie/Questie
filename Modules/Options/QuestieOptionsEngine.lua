@@ -180,21 +180,12 @@ local function _CreateCanvasHeader(canvas, content, leftInset)
     headerWrapper:SetAllPoints(canvas)
     headerWrapper:SetPoint("TOPLEFT", canvas, "TOPLEFT", 0, -4)
 
-    local title = content:CreateFontString(nil, "OVERLAY", "GameFontNormalHuge")
-    title:SetPoint("TOPLEFT", canvas, "TOPLEFT", 8 + leftInset, -4)
-    title:SetText("Questie")
-
-    local bullet = content:CreateFontString(nil, "OVERLAY", "Game13Font")
-    bullet:SetPoint("LEFT", title, "RIGHT", 4, -1)
-    bullet:SetTextColor(0.9, 0.9, 0.9, 1.0)
-    bullet:SetText("•")
-
     local subtitle = content:CreateFontString(nil, "OVERLAY", "Game13Font")
-    subtitle:SetPoint("LEFT", bullet, "RIGHT", 8, 0)
+    subtitle:SetPoint("TOPLEFT", canvas, "TOPLEFT", 8 + leftInset, -4)
     subtitle:SetTextColor(0.9, 0.9, 0.9, 1.0)
     subtitle:SetText(l10n(tabData.subtitle or tabData.title))
 
-    headerWrapper:SetPoint("BOTTOM", title, "BOTTOM", 0, 0)
+    headerWrapper:SetPoint("BOTTOM", subtitle, "BOTTOM", 0, 0)
 
     return headerWrapper
 end
