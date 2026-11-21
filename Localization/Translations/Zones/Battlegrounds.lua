@@ -6,7 +6,7 @@ local l10n = QuestieLoader:ImportModule("l10n")
 local battlegroundsLocales = {
     ["Warsong Gulch"] = {
         ["enUS"] = true,
-        ["deDE"] = (Questie.IsClassic and "Warsongschlucht") or "Kriegshymnenschlucht",
+        ["deDE"] = (Expansions.Current == Expansions.Era and "Warsongschlucht") or "Kriegshymnenschlucht",
         ["esES"] = "Garganta Grito de Guerra",
         ["esMX"] = "Garganta Grito de Guerra",
         ["frFR"] = (Questie.IsClassic and "Goulet des Warsong") or "Goulet des Chanteguerres",

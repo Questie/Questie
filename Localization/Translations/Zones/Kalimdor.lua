@@ -6,7 +6,7 @@ local l10n = QuestieLoader:ImportModule("l10n")
 local kalimdorLocales = {
     ["Moonglade"] = {
         ["enUS"] = true,
-        ["deDE"] = (Questie.IsClassic and true) or "Mondlichtung",
+        ["deDE"] = (Expansions.Current == Expansions.Era and true) or "Mondlichtung",
         ["esES"] = "Claro de la Luna",
         ["esMX"] = "Claro de la Luna",
         ["frFR"] = "Reflet-de-Lune",
@@ -42,7 +42,7 @@ local kalimdorLocales = {
     },
     ["Winterspring"] = {
         ["enUS"] = true,
-        ["deDE"] = (Questie.IsClassic and true) or "Winterquell",
+        ["deDE"] = (Expansions.Current == Expansions.Era and true) or "Winterquell",
         ["esES"] = "Cuna del Invierno",
         ["esMX"] = "Cuna del Invierno",
         ["frFR"] = "Berceau-de-l'Hiver",
@@ -54,7 +54,7 @@ local kalimdorLocales = {
     },
     ["Ashenvale"] = {
         ["enUS"] = true,
-        ["deDE"] = (Questie.IsClassic and true) or "Eschental",
+        ["deDE"] = (Expansions.Current == Expansions.Era and true) or "Eschental",
         ["esES"] = "Vallefresno",
         ["esMX"] = "Vallefresno",
         ["frFR"] = (Questie.IsClassic and true) or "Orneval",
@@ -78,7 +78,7 @@ local kalimdorLocales = {
     },
     ["Un'Goro Crater"] = {
         ["enUS"] = true,
-        ["deDE"] = (Questie.IsClassic and "Un'Goro-Krater") or "Krater von Un'Goro",
+        ["deDE"] = (Expansions.Current == Expansions.Era and "Un'Goro-Krater") or "Krater von Un'Goro",
         ["esES"] = "Cráter de Un'Goro",
         ["esMX"] = "Cráter de Un'Goro",
         ["frFR"] = "Cratère d'Un'Goro",
@@ -102,7 +102,7 @@ local kalimdorLocales = {
     },
     ["Dustwallow Marsh"] = {
         ["enUS"] = true,
-        ["deDE"] = (Questie.IsClassic and "Marschen von Dustwallow") or "Düstermarschen",
+        ["deDE"] = (Expansions.Current == Expansions.Era and "Marschen von Dustwallow") or "Düstermarschen",
         ["esES"] = "Marjal Revolcafango",
         ["esMX"] = "Marjal Revolcafango",
         ["frFR"] = "Marécage d'Âprefange",
@@ -222,7 +222,7 @@ local kalimdorLocales = {
     },
     ["Thunder Bluff"] = {
         ["enUS"] = true,
-        ["deDE"] = (Questie.IsClassic and true) or "Donnerfels",
+        ["deDE"] = (Expansions.Current == Expansions.Era and true) or "Donnerfels",
         ["esES"] = "Cima del Trueno",
         ["esMX"] = "Cima del Trueno",
         ["frFR"] = (Questie.IsClassic and true) or "Les Pitons-du-Tonnerre",

@@ -66,7 +66,7 @@ local easternKingdomsLocales = {
     },
     ["Blackrock Mountain"] = {
         ["enUS"] = true,
-        ["deDE"] = (Questie.IsClassic and "Der Blackrock") or "Der Schwarzfels",
+        ["deDE"] = (Expansions.Current == Expansions.Era and "Der Blackrock") or "Der Schwarzfels",
         ["esES"] = "Montaña Roca Negra",
         ["esMX"] = "Montaña Roca Negra",
         ["frFR"] = (Questie.IsClassic and "Mont Blackrock") or "Mont Rochenoire",
@@ -210,7 +210,7 @@ local easternKingdomsLocales = {
     },
     ["Stormwind City"] = {
         ["enUS"] = true,
-        ["deDE"] = (Questie.IsClassic and "Stormwind") or "Sturmwind",
+        ["deDE"] = (Expansions.Current == Expansions.Era and "Stormwind") or "Sturmwind",
         ["esES"] = "Ciudad de Ventormenta",
         ["esMX"] = "Ciudad de Ventormenta",
         ["frFR"] = (Questie.IsClassic and "Cité de Stormwind") or "Hurlevent",
@@ -234,7 +234,7 @@ local easternKingdomsLocales = {
     },
     ["Ironforge"] = {
         ["enUS"] = true,
-        ["deDE"] = (Questie.IsClassic and true) or "Eisenschmiede",
+        ["deDE"] = (Expansions.Current == Expansions.Era and true) or "Eisenschmiede",
         ["esES"] = "Forjaz",
         ["esMX"] = "Forjaz",
         ["frFR"] = (Questie.IsClassic and true) or "Forgefer",
@@ -246,7 +246,7 @@ local easternKingdomsLocales = {
     },
     ["Undercity"] = {
         ["enUS"] = true,
-        ["deDE"] = (Questie.IsClassic and true) or "Unterstadt",
+        ["deDE"] = (Expansions.Current == Expansions.Era and true) or "Unterstadt",
         ["esES"] = "Entrañas",
         ["esMX"] = "Entrañas",
         ["frFR"] = (Questie.IsClassic and true) or "Fossoyeuse",
@@ -270,7 +270,7 @@ local easternKingdomsLocales = {
     },
     ["Hillsbrad Foothills"] = {
         ["enUS"] = true,
-        ["deDE"] = (Questie.IsClassic and "Vorgebirge von Hillsbrad") or "Vorgebirge des Hügellands",
+        ["deDE"] = (Expansions.Current == Expansions.Era and "Vorgebirge von Hillsbrad") or "Vorgebirge des Hügellands",
         ["esES"] = "Laderas de Trabalomas",
         ["esMX"] = "Laderas de Trabalomas",
         ["frFR"] = (Questie.IsClassic and "Contreforts d'Hillsbrad") or "Contreforts de Hautebrande",
