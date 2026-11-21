@@ -8,7 +8,6 @@ describe("QuestieProfessions", function()
     local QuestieQuest
     ---@type QuestieProfessions
     local QuestieProfessions
-
     local mockedProfessionSkill
     local savedGlobals
     local globalNames = {
@@ -53,7 +52,6 @@ describe("QuestieProfessions", function()
         }
         QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
         QuestieQuest.ResetAutoblacklistCategory = spy.new(function()  end)
-
         dofile("Modules/QuestieCompat.lua")
         dofile("Modules/QuestieProfessions.lua")
         QuestieProfessions = QuestieLoader:ImportModule("QuestieProfessions")

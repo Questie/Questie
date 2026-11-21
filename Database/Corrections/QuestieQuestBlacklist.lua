@@ -2821,10 +2821,10 @@ function QuestieQuestBlacklist:Load()
         [1371] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [1372] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [1373] = Expansions.Current >= Expansions.Cata, -- Removed with cata
-        [1374] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1374] = Expansions.Current >= Expansions.Cata or Questie.IsForever, -- Removed with cata, replaced by 93128 on Forever
         [1375] = Expansions.Current >= Expansions.Cata, -- Removed with cata
-        [1380] = Expansions.Current >= Expansions.Cata, -- Removed with cata
-        [1381] = Expansions.Current >= Expansions.Cata, -- Removed with cata
+        [1380] = Expansions.Current >= Expansions.Cata or Questie.IsForever, -- Removed with cata, replaced by 96222 on Forever
+        [1381] = Expansions.Current >= Expansions.Cata or Questie.IsForever, -- Removed with cata, replaced by 96222 on Forever
         [1382] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [1383] = Expansions.Current >= Expansions.Cata, -- Removed with cata
         [1384] = Expansions.Current >= Expansions.Cata, -- Removed with cata
@@ -7062,6 +7062,9 @@ function QuestieQuestBlacklist:Load()
         [78147] = HIDE_ON_MAP, -- Crimes Against Anatomy
         [78148] = HIDE_ON_MAP, -- Runes of the Sorcerer-Kings
         [78149] = HIDE_ON_MAP, -- Fury of the Land
+        [78150] = HIDE_ON_MAP, -- Friend of the Library -- TODO fix questhubs for these 3 quests
+        [78916] = not Questie.IsSoD, -- The Heart of the Void
+        [78917] = not Questie.IsSoD, -- The Heart of the Void
         [79090] = not Questie.IsSoD, -- Repelling Invaders
         [79091] = HIDE_ON_MAP, -- Archmage Antonidas: The Unabridged Autobiography
         [79092] = HIDE_ON_MAP, -- Archmage Theocritus' Research Journal
@@ -7072,6 +7075,7 @@ function QuestieQuestBlacklist:Load()
         [79097] = HIDE_ON_MAP, -- Baxtan: On Destructive Magics
         [79098] = not Questie.IsSoD, -- Clear the Forest!
         [79535] = HIDE_ON_MAP, -- Basilisks: Should Petrification be Feared?
+        [79536] = HIDE_ON_MAP, -- Greater Friend of the Library -- TODO fix questhubs for these 3 quests
         [79947] = HIDE_ON_MAP, -- Geomancy: The Stone-Cold Truth
         [79948] = HIDE_ON_MAP, -- Defensive Magics 101
         [79949] = HIDE_ON_MAP, -- A Web of Lies: Debunking Myths and Legends
@@ -7080,6 +7084,8 @@ function QuestieQuestBlacklist:Load()
         [79952] = HIDE_ON_MAP, -- RwlRwlRwlRwl!
         [79953] = HIDE_ON_MAP, -- A Ludite's Guide to Caring for Your Demonic Pet        
         [80001] = not Questie.IsSoD, -- Rekinde
+        [80324] = not Questie.IsSoD, -- The Mad King
+        [80325] = not Questie.IsSoD, -- The Mad King
         [81730] = not Questie.IsSoD, -- Duskwood Mission I: Defeat Worgen
         [81731] = not Questie.IsSoD, -- Duskwood Mission II: Defeat Ogres
         [81732] = not Questie.IsSoD, -- Duskwood Mission III: Defeat Dragonkin
@@ -7106,6 +7112,8 @@ function QuestieQuestBlacklist:Load()
         [81954] = HIDE_ON_MAP, -- Venomous Journeys
         [81955] = HIDE_ON_MAP, -- A Mind of Metal
         [81956] = HIDE_ON_MAP, -- Conjurer's Codex
+        [82068] = not Questie.IsSoD, -- Fight the Nightmare Incursions
+        [82208] = HIDE_ON_MAP, -- Greater Friend of the Library -- TODO fix questhubs for these 3 quests
         [84395] = HIDE_ON_MAP, -- Undead Potatoes
         [84396] = HIDE_ON_MAP, -- Magma or Lava?
         [84397] = HIDE_ON_MAP, -- Northern Kalimdor - A Comprehensive Guide
@@ -7114,8 +7122,8 @@ function QuestieQuestBlacklist:Load()
         [84400] = HIDE_ON_MAP, -- The Knight and the Lady
         [84401] = HIDE_ON_MAP, -- Scourge: Undead Menace or Misunderstood?
         [84402] = HIDE_ON_MAP, -- Necromancy 101
+        [84555] = not Questie.IsSoD, -- Nostro's Compendium
 
-        -- Not in the game on Forever. See Questie/Questie#8247
         [87318] = true, -- Hearts of the Lost
         [88757] = true, -- Accessories of the Lost
         [88758] = true, -- Sentiments of the Lost
@@ -7128,8 +7136,11 @@ function QuestieQuestBlacklist:Load()
         [91905] = HIDE_ON_MAP, -- A Sealed Crate
         [91906] = HIDE_ON_MAP, -- A Sealed Crate
         [91907] = HIDE_ON_MAP, -- A Sealed Crate
+        [93862] = HIDE_ON_MAP, -- Crate Return
 
         [93928] = true, -- Of Mice and Milk
+        [94969] = not Questie.IsSoD, -- Krol'dok No More!
+        [95056] = not Questie.IsSoD, -- Krol'dok No More!
 
         [96339] = HIDE_ON_MAP, -- Legacy Reward: Replica Ironforge Air Rifle -- todo fix
         [96383] = HIDE_ON_MAP, -- Legacy Reward: Spectral Bear Cub -- todo fix

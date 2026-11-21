@@ -425,6 +425,12 @@ describe("QuestieOptionsControls", function()
                 assert.are.equal(3, #control.widget.menuEntries)
             end)
 
+            it("should scroll instead of running off the screen, like the font dropdown", function()
+                control.widget:OpenMenu()
+
+                assert.are.equal(250, control.widget.menuEntries.scrollHeight)
+            end)
+
             it("should keep every entry when the menu is regenerated while open", function()
                 control.widget:OpenMenu()
 

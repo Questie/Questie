@@ -62,7 +62,7 @@ describe("Migration", function()
         assert.are_same(expectedScope, Questie.db.global)
         assert.is_nil(Questie.db.profile.disableDatabaseWarnings)
         assert.is_nil(Questie.db.char.townsfolkVersion)
-        assert.are_same(50, Questie.db.profile.migrationVersion)
+        assert.are_same(54, Questie.db.profile.migrationVersion)
     end)
 
     it("preserves tracker preferences when upgrading from version 37", function()
@@ -75,7 +75,7 @@ describe("Migration", function()
         assert.is_false(Questie.db.profile.hideTrackerInInstances)
         assert.is_nil(Questie.db.profile.minimizeTrackerInDungeons)
         assert.is_nil(Questie.db.profile.hideTrackerInDungeons)
-        assert.are_same(50, Questie.db.profile.migrationVersion)
+        assert.are_same(54, Questie.db.profile.migrationVersion)
     end)
 
     it("clears compiler state without rerunning tracker migration from version 38", function()
@@ -93,7 +93,7 @@ describe("Migration", function()
         assert.is_nil(Questie.db.char.townsfolkVersion)
         assert.is_false(Questie.db.profile.minimizeTrackerInInstances)
         assert.is_true(Questie.db.profile.hideTrackerInInstances)
-        assert.are_same(50, Questie.db.profile.migrationVersion)
+        assert.are_same(54, Questie.db.profile.migrationVersion)
     end)
 
     it("clears Titan compiler payloads when the SoD scope is absent", function()
@@ -108,7 +108,7 @@ describe("Migration", function()
 
         assert.are_same({retained = "keep"}, Questie.db.global.titanReforged)
         assert.is_nil(Questie.db.global.sod)
-        assert.are_same(50, Questie.db.profile.migrationVersion)
+        assert.are_same(54, Questie.db.profile.migrationVersion)
     end)
 
     it("removes the Townsfolk lookups when upgrading from version 39", function()
@@ -123,7 +123,7 @@ describe("Migration", function()
         Migration:Migrate()
 
         assert.are_same({retained = "keep"}, Questie.db.global)
-        assert.are_same(50, Questie.db.profile.migrationVersion)
+        assert.are_same(54, Questie.db.profile.migrationVersion)
     end)
 
     it("retires the wording preference without rerunning completed migrations", function()
@@ -137,7 +137,7 @@ describe("Migration", function()
         assert.is_nil(Questie.db.profile.trimObjectiveText)
         assert.is_true(Questie.db.profile.minimizeTrackerInInstances)
         assert.are_same({retained = "keep"}, Questie.db.global)
-        assert.are_same(50, Questie.db.profile.migrationVersion)
+        assert.are_same(54, Questie.db.profile.migrationVersion)
     end)
 
     it("handles Saved Variables without former seasonal compiler scopes", function()
@@ -146,7 +146,7 @@ describe("Migration", function()
         Migration:Migrate()
 
         assert.is_true(Questie.db.global.retained)
-        assert.are_same(50, Questie.db.profile.migrationVersion)
+        assert.are_same(54, Questie.db.profile.migrationVersion)
     end)
 
     it("should enable the quest focus buttons when upgrading from version 43", function()
@@ -155,7 +155,7 @@ describe("Migration", function()
         Migration:Migrate()
 
         assert.is_true(Questie.db.profile.trackerShowQuestFocusButtons)
-        assert.are_same(50, Questie.db.profile.migrationVersion)
+        assert.are_same(54, Questie.db.profile.migrationVersion)
     end)
 
     it("should not fade the quest focus buttons when upgrading from version 44", function()
@@ -164,7 +164,7 @@ describe("Migration", function()
         Migration:Migrate()
 
         assert.is_false(Questie.db.profile.trackerFadeQuestFocusButtons)
-        assert.are_same(50, Questie.db.profile.migrationVersion)
+        assert.are_same(54, Questie.db.profile.migrationVersion)
     end)
 
     it("should show the tracker play buttons when upgrading from version 45", function()
@@ -173,7 +173,7 @@ describe("Migration", function()
         Migration:Migrate()
 
         assert.is_true(Questie.db.profile.trackerShowPlayButtons)
-        assert.are_same(50, Questie.db.profile.migrationVersion)
+        assert.are_same(54, Questie.db.profile.migrationVersion)
     end)
 
     it("should not follow Blizzard super tracking when upgrading from version 46", function()
@@ -183,7 +183,7 @@ describe("Migration", function()
         Migration:Migrate()
 
         assert.is_false(Questie.db.profile.trackerFollowSuperTracking)
-        assert.are_same(50, Questie.db.profile.migrationVersion)
+        assert.are_same(54, Questie.db.profile.migrationVersion)
     end)
 
     it("should enable the compartment button when upgrading from version 47", function()
@@ -194,7 +194,7 @@ describe("Migration", function()
 
         assert.is_true(Questie.db.profile.minimap.showInCompartment)
         assert.is_false(Questie.db.profile.minimap.hide)
-        assert.are_same(50, Questie.db.profile.migrationVersion)
+        assert.are_same(54, Questie.db.profile.migrationVersion)
     end)
 
     it("should create the minimap table when it is missing", function()
@@ -204,7 +204,7 @@ describe("Migration", function()
         Migration:Migrate()
 
         assert.is_true(Questie.db.profile.minimap.showInCompartment)
-        assert.are_same(50, Questie.db.profile.migrationVersion)
+        assert.are_same(54, Questie.db.profile.migrationVersion)
     end)
 
     it("should remove the Blizzard quest timer setting when upgrading from version 48", function()
@@ -214,7 +214,7 @@ describe("Migration", function()
         Migration:Migrate()
 
         assert.is_nil(Questie.db.profile.showBlizzardQuestTimer)
-        assert.are_same(50, Questie.db.profile.migrationVersion)
+        assert.are_same(54, Questie.db.profile.migrationVersion)
     end)
 
     it("defaults track by zone when upgrading from version 49", function()
@@ -234,7 +234,7 @@ describe("Migration", function()
 
         assert.are_same("disabled", Questie.db.profile.trackerbindUntrack)
         assert.are_same("shiftleft", Questie.db.profile.trackerbindShareQuest)
-        assert.are_same(50, Questie.db.profile.migrationVersion)
+        assert.are_same(54, Questie.db.profile.migrationVersion)
     end)
 
     it("should keep a custom untrack shortcut when upgrading from version 49", function()
@@ -245,7 +245,7 @@ describe("Migration", function()
 
         assert.are_same("altleft", Questie.db.profile.trackerbindUntrack)
         assert.are_same("shiftleft", Questie.db.profile.trackerbindShareQuest)
-        assert.are_same(50, Questie.db.profile.migrationVersion)
+        assert.are_same(54, Questie.db.profile.migrationVersion)
     end)
 
     it("should keep a Shift + Left Click quest log shortcut and not share quests with it when upgrading from version 49", function()
@@ -258,6 +258,88 @@ describe("Migration", function()
         assert.are_same("shiftleft", Questie.db.profile.trackerbindOpenQuestLog)
         assert.are_same("altleft", Questie.db.profile.trackerbindUntrack)
         assert.are_same("disabled", Questie.db.profile.trackerbindShareQuest)
-        assert.are_same(50, Questie.db.profile.migrationVersion)
+        assert.are_same(54, Questie.db.profile.migrationVersion)
+    end)
+
+    it("should disable the party announcement when upgrading from version 50", function()
+        Questie.db.profile.migrationVersion = 50
+        Questie.db.profile.questAnnounceChannel = "party"
+
+        Migration:Migrate()
+
+        assert.are_same("disabled", Questie.db.profile.questAnnounceChannel)
+        assert.are_same(54, Questie.db.profile.migrationVersion)
+    end)
+
+    it("should not show next in chain on active quests when upgrading from version 51", function()
+        Questie.db.profile.migrationVersion = 51
+
+        Migration:Migrate()
+
+        assert.is_false(Questie.db.profile.enableTooltipsNextInChainOnActiveQuests)
+        assert.are_same(54, Questie.db.profile.migrationVersion)
+    end)
+
+    it("should keep a quest log shortcut on the share click, which achievement and recipe lines still run, when upgrading from version 52", function()
+        Questie.db.profile.migrationVersion = 52
+        Questie.db.profile.trackerbindShareQuest = "left"
+        Questie.db.profile.trackerbindOpenQuestLog = "left"
+        Questie.db.profile.trackerbindUntrack = "disabled"
+
+        Migration:Migrate()
+
+        assert.are_same("left", Questie.db.profile.trackerbindShareQuest)
+        assert.are_same("left", Questie.db.profile.trackerbindOpenQuestLog)
+        assert.are_same(54, Questie.db.profile.migrationVersion)
+    end)
+
+    it("should keep an untrack shortcut on the share click, which achievement and recipe lines still run, when upgrading from version 52", function()
+        Questie.db.profile.migrationVersion = 52
+        Questie.db.profile.trackerbindShareQuest = "shiftleft"
+        Questie.db.profile.trackerbindUntrack = "shiftleft"
+
+        Migration:Migrate()
+
+        assert.are_same("shiftleft", Questie.db.profile.trackerbindShareQuest)
+        assert.are_same("shiftleft", Questie.db.profile.trackerbindUntrack)
+    end)
+
+    it("should leave a click shared with the TomTom shortcut as it is when upgrading from version 52", function()
+        Questie.db.profile.migrationVersion = 52
+        Questie.db.profile.trackerbindUntrack = "ctrlleft"
+        Questie.db.profile.trackerbindSetTomTom = "ctrlleft"
+
+        Migration:Migrate()
+
+        assert.are_same("ctrlleft", Questie.db.profile.trackerbindUntrack)
+        assert.are_same("ctrlleft", Questie.db.profile.trackerbindSetTomTom)
+    end)
+
+    it("should disable a default shortcut that a saved shortcut checked before it shadowed when upgrading from version 52", function()
+        -- Like AceDB, the profile stores only changed settings and reads the others from the defaults
+        Questie.db.profile.migrationVersion = 52
+        Questie.db.profile.trackerbindUntrack = "left"
+        setmetatable(Questie.db.profile, {__index = {
+            trackerbindOpenQuestLog = "left",
+            trackerbindShareQuest = "shiftleft",
+            trackerbindSetTomTom = "ctrlleft",
+        }})
+
+        Migration:Migrate()
+
+        assert.are_same("left", Questie.db.profile.trackerbindUntrack)
+        assert.are_same("disabled", rawget(Questie.db.profile, "trackerbindOpenQuestLog"))
+        assert.is_nil(rawget(Questie.db.profile, "trackerbindShareQuest"))
+        assert.is_nil(rawget(Questie.db.profile, "trackerbindSetTomTom"))
+    end)
+
+    it("should remove the pfQuest icons setting when upgrading from version 53", function()
+        Questie.db.profile.migrationVersion = 53
+        Questie.db.profile.usePfQuestIcons = true
+
+        Migration:Migrate()
+
+        assert.is_nil(Questie.db.profile.usePfQuestIcons)
+        assert.are_same(54, Questie.db.profile.migrationVersion)
     end)
 end)

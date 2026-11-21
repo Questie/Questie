@@ -20,9 +20,6 @@ if Questie.IsForever then
     KButtons.HasNoOverlay = false
 end
 
----@type AceConfigDialog-3.0
-local AceConfigDialog = LibStub("AceConfigDialog-3.0")
-
 local mapButton
 
 function WorldMapButton.Initialize()

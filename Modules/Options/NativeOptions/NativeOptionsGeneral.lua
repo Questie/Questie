@@ -1,5 +1,3 @@
----@type QuestieOptions
-local QuestieOptions = QuestieLoader:ImportModule("QuestieOptions");
 ---@type QuestieOptionsEngine
 local QuestieOptionsEngine = QuestieLoader:ImportModule("QuestieOptionsEngine");
 ---@type QuestieOptionsDefaults
@@ -516,6 +514,18 @@ function QuestieOptionsEngine.tabs.general:Initialize()
                         get = function() return Questie.db.profile.enableTooltipsNextInChain; end,
                         set = function(info, value)
                             Questie.db.profile.enableTooltipsNextInChain = value
+                        end
+                    },
+                    showNextInChainOnActiveQuests = {
+                        type = "checkbox",
+                        order = 8.505,
+                        title = "Also for active quests",
+                        tooltip = "If checked, the next quests in the chain will also show in the expanded map tooltips of active quests.",
+                        width = "half",
+                        enabled = function() return Questie.db.profile.enableTooltipsNextInChain; end,
+                        get = function() return Questie.db.profile.enableTooltipsNextInChainOnActiveQuests; end,
+                        set = function(info, value)
+                            Questie.db.profile.enableTooltipsNextInChainOnActiveQuests = value
                         end
                     },
                     showBreadcrumbQuests = {

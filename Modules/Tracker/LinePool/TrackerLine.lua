@@ -8,6 +8,8 @@ local TrackerLine = QuestieLoader:CreateModule("TrackerLine")
 local QuestieTracker = QuestieLoader:ImportModule("QuestieTracker") -- TODO: Remove this explicit dependency
 ---@type TrackerUtils
 local TrackerUtils = QuestieLoader:ImportModule("TrackerUtils")
+---@type TrackerShortcuts
+local TrackerShortcuts = QuestieLoader:ImportModule("TrackerShortcuts")
 ---@type TrackerBaseFrame
 local TrackerBaseFrame = QuestieLoader:ImportModule("TrackerBaseFrame")
 ---@type TrackerQuestTimers
@@ -42,9 +44,10 @@ local Expansions = QuestieLoader:ImportModule("Expansions")
 local AchievementTracking = QuestieLoader:ImportModule("AchievementTracking")
 ---@type TrackerRecipes
 local TrackerRecipes = QuestieLoader:ImportModule("TrackerRecipes")
+---@type QuestieMenuBuilder
+local QuestieMenuBuilder = QuestieLoader:ImportModule("QuestieMenuBuilder")
 
 local LSM30 = LibStub("LibSharedMedia-3.0")
-local LibDropDown = LibStub:GetLibrary("LibUIDropDownMenuQuestie-4.0")
 
 local _SetMode, _OnClickQuest, _OnClickAchieve, _OnClickRecipe
 
@@ -227,33 +230,30 @@ _OnClickQuest = function(self, button)
         return
     end
 
-    if TrackerMenu.menuFrame:IsShown() then
-        LibDropDown:CloseDropDownMenus()
+    if QuestieMenuBuilder.IsOpen() then
+        QuestieMenuBuilder.Close()
     end
 
-    if TrackerUtils:IsBindTrue(Questie.db.profile.trackerbindSetTomTom, button) then
+    if TrackerShortcuts.IsLinkClick(button) then
+        ChatEdit_InsertLink(TrackerData.GetQuestLink(self.Quest))
+    -- Without TomTom its shortcut is hidden in the options and does nothing, so it must not take the click from another shortcut.
+    elseif TrackerUtils.IsTomTomAvailable() and TrackerShortcuts.Matches("trackerbindSetTomTom", button) then
         TrackerUtils.SetQuestTomTomTarget(self.Quest.Id, self.Quest.enrichment)
-    elseif TrackerUtils:IsBindTrue(Questie.db.profile.trackerbindShareQuest, button) then
-        if ChatEdit_GetActiveWindow() then
-            ChatEdit_InsertLink(TrackerData.GetQuestLink(self.Quest))
-        elseif TrackerUtils.CanShareQuest(self.Quest.Id) then
+    elseif TrackerShortcuts.Matches("trackerbindShareQuest", button) then
+        if TrackerUtils.CanShareQuest(self.Quest.Id) then
             TrackerUtils.ShareQuest(self.Quest.Id)
         end
-    elseif TrackerUtils:IsBindTrue(Questie.db.profile.trackerbindUntrack, button) then
-        if (IsModifiedClick("CHATLINK") and ChatEdit_GetActiveWindow()) then
-            ChatEdit_InsertLink(TrackerData.GetQuestLink(self.Quest))
-        else
-            QuestieTracker:UntrackQuestId(self.Quest.Id)
-            local questLogFrame = QuestLogExFrame or ClassicQuestLog or QuestLogFrame
-            if questLogFrame and questLogFrame:IsShown() then
-                QuestieCompat.QuestLog_Update()
-            end
+    elseif TrackerShortcuts.Matches("trackerbindUntrack", button) then
+        QuestieTracker:UntrackQuestId(self.Quest.Id)
+        local questLogFrame = QuestLogExFrame or ClassicQuestLog or QuestLogFrame
+        if questLogFrame and questLogFrame:IsShown() then
+            QuestieCompat.QuestLog_Update()
         end
-    elseif TrackerUtils:IsBindTrue(Questie.db.profile.trackerbindOpenQuestLog, button) then
+    elseif TrackerShortcuts.Matches("trackerbindOpenQuestLog", button) then
         TrackerUtils:ShowQuestLog(self.Quest)
     elseif button == "RightButton" then
         local menu = TrackerMenu:GetMenuForQuest(self.Quest)
-        LibDropDown:EasyMenu(menu, TrackerMenu.menuFrame, "cursor", 0, 0, "MENU")
+        QuestieMenuBuilder.Show(menu)
     end
 end
 
@@ -264,32 +264,30 @@ _OnClickAchieve = function(self, button)
         return
     end
 
-    if TrackerMenu.menuFrame:IsShown() then
-        LibDropDown:CloseDropDownMenus()
+    if QuestieMenuBuilder.IsOpen() then
+        QuestieMenuBuilder.Close()
     end
 
-    if TrackerUtils:IsBindTrue(Questie.db.profile.trackerbindUntrack, button) then
-        if (IsModifiedClick("CHATLINK") and ChatEdit_GetActiveWindow()) then
-            ChatEdit_InsertLink(GetAchievementLink(self.Quest.Id))
-        else
-            if AchievementTracking.IsTracked(self.Quest.Id) then
-                AchievementTracking.Untrack(self.Quest.Id)
+    if TrackerShortcuts.IsLinkClick(button) then
+        ChatEdit_InsertLink(GetAchievementLink(self.Quest.Id))
+    elseif TrackerShortcuts.Matches("trackerbindUntrack", button) then
+        if AchievementTracking.IsTracked(self.Quest.Id) then
+            AchievementTracking.Untrack(self.Quest.Id)
 
-                if (not AchievementFrame) then
-                    AchievementFrame_LoadUI()
-                end
-
-                QuestieCompat.AchievementFrameAchievements_ForceUpdate()
-
-                QuestieCombatQueue:Queue(function()
-                    QuestieTracker:Update()
-                end)
-            else
-                -- Assume this is an Objective of an Achievement
-                UIErrorsFrame:AddMessage(format(l10n("You can't untrack an objective of an achievement.")), 1.0, 0.1, 0.1, 1.0)
+            if (not AchievementFrame) then
+                AchievementFrame_LoadUI()
             end
+
+            QuestieCompat.AchievementFrameAchievements_ForceUpdate()
+
+            QuestieCombatQueue:Queue(function()
+                QuestieTracker:Update()
+            end)
+        else
+            -- Assume this is an Objective of an Achievement
+            UIErrorsFrame:AddMessage(format(l10n("You can't untrack an objective of an achievement.")), 1.0, 0.1, 0.1, 1.0)
         end
-    elseif TrackerUtils:IsBindTrue(Questie.db.profile.trackerbindOpenQuestLog, button) then
+    elseif TrackerShortcuts.Matches("trackerbindOpenQuestLog", button) then
         if (not AchievementFrame) then
             AchievementFrame_LoadUI()
         end
@@ -304,7 +302,7 @@ _OnClickAchieve = function(self, button)
         end
     elseif button == "RightButton" then
         local menu = TrackerMenu:GetMenuForAchievement(self.Quest)
-        LibDropDown:EasyMenu(menu, TrackerMenu.menuFrame, "cursor", 0, 0, "MENU")
+        QuestieMenuBuilder.Show(menu)
     end
 end
 
@@ -315,17 +313,15 @@ _OnClickRecipe = function(self, button)
         return
     end
 
-    if TrackerMenu.menuFrame:IsShown() then
-        LibDropDown:CloseDropDownMenus()
+    if QuestieMenuBuilder.IsOpen() then
+        QuestieMenuBuilder.Close()
     end
 
-    if TrackerUtils:IsBindTrue(Questie.db.profile.trackerbindUntrack, button) then
-        if (IsModifiedClick("CHATLINK") and ChatEdit_GetActiveWindow()) then
-            ChatEdit_InsertLink(TrackerRecipes.GetLink(self.Recipe.Id))
-        else
-            TrackerRecipes.Untrack(self.Recipe.Id)
-        end
-    elseif TrackerUtils:IsBindTrue(Questie.db.profile.trackerbindOpenQuestLog, button) then
+    if TrackerShortcuts.IsLinkClick(button) then
+        ChatEdit_InsertLink(TrackerRecipes.GetLink(self.Recipe.Id))
+    elseif TrackerShortcuts.Matches("trackerbindUntrack", button) then
+        TrackerRecipes.Untrack(self.Recipe.Id)
+    elseif TrackerShortcuts.Matches("trackerbindOpenQuestLog", button) then
         TrackerRecipes.OpenRecipe(self.Recipe.Id)
     end
 end

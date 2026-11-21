@@ -7,7 +7,7 @@ describe("TrackerMenu", function()
     local QuestieQuest
     ---@type TrackerUtils
     local TrackerUtils
-    local originalLibStub, originalDialogs
+    local originalDialogs
     ---@type QuestiePopup
     local Popup
     local dialogErrors
@@ -19,7 +19,7 @@ describe("TrackerMenu", function()
     local TrackerData, displayQuests
 
     before_each(function()
-        originalLibStub, originalDialogs = _G.LibStub, _G.StaticPopupDialogs
+        originalDialogs = _G.StaticPopupDialogs
         globalOriginals = {
             C_Timer = _G.C_Timer,
             IsControlKeyDown = _G.IsControlKeyDown,
@@ -50,6 +50,8 @@ describe("TrackerMenu", function()
         TrackerUtils.UnFocus = function() end
         TrackerUtils.ShowObjectiveOnMap = function() end
         TrackerUtils.CanShareQuest = function() return false end
+        -- The menus offer TomTom targets only while TomTom is available; most cases expect those entries.
+        TrackerUtils.IsTomTomAvailable = function() return true end
 
         QuestieLoader:ImportModule("QuestieLink")
         QuestieLoader:ImportModule("QuestieCombatQueue")
@@ -65,15 +67,6 @@ describe("TrackerMenu", function()
         QuestieQuest.ToggleQuestNotes = function() end
 
         _G.StaticPopupDialogs = {}
-        _G.LibStub = {
-            GetLibrary = function(_, _)
-                return {
-                    Create_UIDropDownMenu = function() end,
-                    CloseDropDownMenus = function() end,
-                }
-            end
-        }
-
         Questie.db = {
             char = {
                 TrackerHiddenObjectives = {},
@@ -96,7 +89,7 @@ describe("TrackerMenu", function()
     end)
 
     after_each(function()
-        _G.LibStub, _G.StaticPopupDialogs = originalLibStub, originalDialogs
+        _G.StaticPopupDialogs = originalDialogs
         for name, value in pairs(globalOriginals) do
             _G[name] = value
         end
@@ -182,6 +175,38 @@ describe("TrackerMenu", function()
 
             assert.spy(TrackerUtils.ShowObjectiveOnMap).was.called_with(TrackerUtils, originalObjective)
             assert.is_nil(originalObjective.HideIcons)
+        end)
+
+        it("offers Set TomTom Target for the quest and its objectives only while TomTom is available", function()
+            local tomTomEntry = "Set |cFF54e33bTomTom|r Target"
+            local originalObjective = {Index = 1, spawnList = {{Spawns = {}}}}
+            local special = {Description = "Use the totem", spawnList = {{Spawns = {}}}}
+            local originalQuest = {Id = 100, Objectives = {originalObjective}, IsComplete = function() return 0 end}
+            local quest = {
+                Id = 100, name = "Wolves", SpecialObjectives = {special}, enrichment = originalQuest,
+                Objectives = {{Index = 1, Description = "3/5 Wolves slain.", enrichment = originalObjective}},
+                IsComplete = function() return 0 end,
+            }
+            displayQuests[100] = quest
+            local function _CountTomTomEntries(entries)
+                local count = 0
+                for _, entry in ipairs(entries) do
+                    if entry.text == tomTomEntry then count = count + 1 end
+                end
+                return count
+            end
+
+            local menu = TrackerMenu:GetMenuForQuest(quest)
+            assert.are.equal(1, _CountTomTomEntries(menu))
+            assert.are.equal(1, _CountTomTomEntries(menu[2].menuList[1].menuList))
+            assert.are.equal(1, _CountTomTomEntries(menu[2].menuList[2].menuList))
+
+            TrackerUtils.IsTomTomAvailable = function() return false end
+
+            menu = TrackerMenu:GetMenuForQuest(quest)
+            assert.are.equal(0, _CountTomTomEntries(menu))
+            assert.are.equal(0, _CountTomTomEntries(menu[2].menuList[1].menuList))
+            assert.are.equal(0, _CountTomTomEntries(menu[2].menuList[2].menuList))
         end)
 
         it("shows every located objective from the root menu of an incomplete quest", function()

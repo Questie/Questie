@@ -519,6 +519,29 @@ describe("TrackerUtils", function()
         end)
     end)
 
+    describe("IsTomTomAvailable", function()
+        local originalTomTom
+
+        before_each(function()
+            originalTomTom = _G.TomTom
+        end)
+
+        after_each(function()
+            _G.TomTom = originalTomTom
+        end)
+
+        it("requires TomTom's waypoint API, not only its global", function()
+            _G.TomTom = nil
+            assert.is_false(TrackerUtils.IsTomTomAvailable())
+
+            _G.TomTom = {}
+            assert.is_false(TrackerUtils.IsTomTomAvailable())
+
+            _G.TomTom = {AddWaypoint = function() end}
+            assert.is_true(TrackerUtils.IsTomTomAvailable())
+        end)
+    end)
+
     describe("IsVoiceOverLoaded", function()
         it("requires both the addon and its Vanilla data", function()
             local loaded = {AI_VoiceOver = true}
@@ -1594,6 +1617,184 @@ describe("TrackerUtils", function()
             local sortedIds = TrackerUtils:GetSortedQuestIds()
 
             assert.are_same({8, 6, 1, 9, 10, 13, 12, 11, 4, 2, 5, 7, 3}, sortedIds)
+        end)
+
+        describe("zone proximity", function()
+            local DistanceUtils, ZoneDB
+            local originalDistanceQuery, originalMapLookup, originalIsInInstance
+            local originalQuestLog, originalSecondsToTime, questTimers
+
+            local function _NewQuest(id, zoneName, distance, complete)
+                return {
+                    Id = id,
+                    level = 10,
+                    zoneName = zoneName,
+                    Objectives = {},
+                    distance = distance,
+                    IsComplete = function() return complete or 0 end,
+                }
+            end
+
+            before_each(function()
+                DistanceUtils = QuestieLoader:ImportModule("DistanceUtils")
+                ZoneDB = QuestieLoader:ImportModule("ZoneDB")
+                originalDistanceQuery = DistanceUtils.GetNearestSpawnForQuest
+                originalMapLookup = ZoneDB.GetUiMapIdByAreaId
+                originalIsInInstance = _G.IsInInstance
+                originalQuestLog, originalSecondsToTime = _G.C_QuestLog, _G.SecondsToTime
+                questTimers = {}
+                _G.C_QuestLog = {GetQuestTimers = function() return questTimers end}
+                _G.SecondsToTime = function(seconds) return tostring(seconds) end
+                dofile("Modules/Tracker/TrackerQuestTimers.lua")
+
+                Questie.db.profile.trackerSortObjectives = "byZonePlayerProximity"
+                QuestieTracker.IsTrackedByQuestie = function() return true end
+                _G.IsInInstance = function() return true end
+                _G.C_Map.GetBestMapForUnit = function() return 1 end
+                _G.C_Map.GetMapInfo = function() return {name = "Kalimdor", mapType = 2} end
+                ZoneDB.GetUiMapIdByAreaId = function(_, zoneId) return zoneId end
+                DistanceUtils.GetNearestSpawnForQuest = function(quest)
+                    if quest.distance then
+                        return {50, 50}, 1, "Quest location", quest.distance
+                    end
+                    return nil, nil, nil, 999999999
+                end
+
+                trackerQuests = {
+                    [1] = _NewQuest(1, "Zulu", 30),
+                    [2] = _NewQuest(2, "Alpha", 100),
+                    [3] = _NewQuest(3, "Zulu", 10),
+                    [4] = _NewQuest(4, "Alpha", 200),
+                }
+            end)
+
+            after_each(function()
+                DistanceUtils.GetNearestSpawnForQuest = originalDistanceQuery
+                ZoneDB.GetUiMapIdByAreaId = originalMapLookup
+                _G.IsInInstance = originalIsInInstance
+                _G.C_QuestLog, _G.SecondsToTime = originalQuestLog, originalSecondsToTime
+            end)
+
+            it("orders groups by their nearest quest and keeps each group's quests together", function()
+                local sortedIds = TrackerUtils:GetSortedQuestIds()
+
+                assert.are.same({3, 1, 2, 4}, sortedIds)
+            end)
+
+            it("reverses both group proximity and quest proximity within each group", function()
+                Questie.db.profile.trackerSortObjectives = "byZonePlayerProximityReversed"
+
+                local sortedIds = TrackerUtils:GetSortedQuestIds()
+
+                assert.are.same({4, 2, 1, 3}, sortedIds)
+            end)
+
+            it("places groups without coordinates after groups with known locations", function()
+                trackerQuests[5] = _NewQuest(5, "Aardvark")
+
+                local sortedIds = TrackerUtils:GetSortedQuestIds()
+
+                assert.are.same({3, 1, 2, 4, 5}, sortedIds)
+            end)
+
+            it("keeps groups without coordinates last when proximity is reversed", function()
+                Questie.db.profile.trackerSortObjectives = "byZonePlayerProximityReversed"
+                trackerQuests[5] = _NewQuest(5, "Aardvark")
+
+                local sortedIds = TrackerUtils:GetSortedQuestIds()
+
+                assert.are.same({4, 2, 1, 3, 5}, sortedIds)
+            end)
+
+            it("breaks equal group distances by the group name", function()
+                trackerQuests[2].distance = 10
+
+                local sortedIds = TrackerUtils:GetSortedQuestIds()
+
+                assert.are.same({2, 4, 3, 1}, sortedIds)
+            end)
+
+            it("orders groups by name when every group lacks coordinates", function()
+                trackerQuests = {
+                    [1] = _NewQuest(1, "Zulu"),
+                    [2] = _NewQuest(2, "Alpha"),
+                }
+
+                local sortedIds = TrackerUtils:GetSortedQuestIds()
+
+                assert.are.same({2, 1}, sortedIds)
+            end)
+
+            it("excludes untracked quests from a group's nearest distance", function()
+                trackerQuests[5] = _NewQuest(5, "Alpha", 1)
+                QuestieTracker.IsTrackedByQuestie = function(questId) return questId ~= 5 end
+
+                local sortedIds = TrackerUtils:GetSortedQuestIds()
+
+                assert.are.same({3, 1, 5, 2, 4}, sortedIds)
+            end)
+
+            it("excludes hidden completed quests from a group's nearest distance", function()
+                Questie.db.profile.trackerShowCompleteQuests = false
+                trackerQuests[5] = _NewQuest(5, "Alpha", 1, 1)
+
+                local sortedIds = TrackerUtils:GetSortedQuestIds()
+
+                assert.are.same({3, 1, 5, 2, 4}, sortedIds)
+            end)
+
+            it("excludes hidden quests marked complete by native quest data", function()
+                Questie.db.profile.trackerShowCompleteQuests = false
+                trackerQuests[5] = _NewQuest(5, "Alpha", 1)
+                trackerQuests[5].isComplete = true
+
+                local sortedIds = TrackerUtils:GetSortedQuestIds()
+
+                assert.are.same({3, 1, 5, 2, 4}, sortedIds)
+            end)
+
+            it("includes visible completed quests when ranking their group", function()
+                trackerQuests[5] = _NewQuest(5, "Alpha", 1, 1)
+
+                local sortedIds = TrackerUtils:GetSortedQuestIds()
+
+                assert.are.same({5, 2, 4, 3, 1}, sortedIds)
+            end)
+
+            it("includes an active completed timed quest on its first layout", function()
+                Questie.db.profile.trackerShowCompleteQuests = false
+                trackerQuests[5] = _NewQuest(5, "Alpha", 1, 1)
+                questTimers = {{questID = 5, questTimer = 60}}
+
+                assert.is_nil(trackerQuests[5].trackTimedQuest)
+
+                local sortedIds = TrackerUtils:GetSortedQuestIds()
+
+                assert.is_true(trackerQuests[5].trackTimedQuest)
+                assert.are.same({5, 2, 4, 3, 1}, sortedIds)
+            end)
+
+            it("clears an expired timer before ranking a hidden completed quest", function()
+                Questie.db.profile.trackerShowCompleteQuests = false
+                trackerQuests[5] = _NewQuest(5, "Alpha", 1, 1)
+                trackerQuests[5].trackTimedQuest = true
+
+                local sortedIds = TrackerUtils:GetSortedQuestIds()
+
+                assert.is_false(trackerQuests[5].trackTimedQuest)
+                assert.are.same({3, 1, 5, 2, 4}, sortedIds)
+            end)
+
+            it("uses fresh quest distances on each tracker sort", function()
+                local sortedIds = TrackerUtils:GetSortedQuestIds()
+
+                assert.are.same({3, 1, 2, 4}, sortedIds)
+
+                trackerQuests[2].distance = 0
+                sortedIds = TrackerUtils:GetSortedQuestIds()
+
+                assert.are.same({2, 4, 3, 1}, sortedIds)
+            end)
         end)
 
         it("should return quest IDs correctly sorted for 'byComplete' sorting", function()

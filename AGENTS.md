@@ -381,7 +381,7 @@ of each one names its client version, which should match the `## Interface` of t
 | `Questie_Wrath.toc`                          | `classic_titan`       |
 | `Questie_Cata.toc`                           | `4.4.2` (tag)         |
 | `Questie_Mists.toc`                          | `classic`             |
-| `Questie_Forever.toc`, `Questie_Camelot.toc` | `forever`             |
+| `Questie_Forever.toc`                         | `forever`             |
 
 ```bash
 gh api "repos/Gethe/wow-ui-source/contents/Interface/AddOns/Blizzard_Menu/DropdownButton.lua?ref=classic_era" --jq .content | base64 -d

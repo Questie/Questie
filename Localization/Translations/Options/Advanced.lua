@@ -14,18 +14,6 @@ local advancedOptionsLocales = {
         ["zhCN"] = "高级",
         ["zhTW"] = "進階",
     },
-    ["Advanced Settings"] = {
-        ["enUS"] = true,
-        ["deDE"] = "Erweiterte Einstellungen",
-        ["esES"] = "Configuración avanzada",
-        ["esMX"] = "Configuración avanzada",
-        ["frFR"] = "Configuration avancée",
-        ["koKR"] = "고급 설정",
-        ["ptBR"] = "Configurações avançadas",
-        ["ruRU"] = "Расширенные настройки",
-        ["zhCN"] = "高级设置",
-        ["zhTW"] = "進階設定",
-    },
     ["Enable Icon Limit"] = {
         ["enUS"] = true,
         ["deDE"] = "Icons limitieren",

@@ -433,6 +433,9 @@ end
 ---@param factionId FactionId
 ---@return string name @Name of the faction
 function QuestieReputation.GetFactionName(factionId)
+    -- C_GossipInfo.GetFriendshipReputation throws on non-number IDs
+    if type(factionId) ~= "number" then return nil end
+
     local friendReputation = C_GossipInfo.GetFriendshipReputation(factionId)
     if friendReputation and friendReputation.name and friendReputation.name ~= "" then
         return friendReputation.name

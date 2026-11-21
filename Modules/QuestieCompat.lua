@@ -816,6 +816,8 @@ end
 ---@param factionID number
 ---@return any ... Positional faction information, or nil when absent.
 function QuestieCompat.GetFactionInfoByID(factionID)
+    -- C_Reputation.GetFactionDataByID throws on non-number IDs, whereas the legacy API returned nothing
+    if type(factionID) ~= "number" then return nil end
     if C_Reputation and C_Reputation.GetFactionDataByID then
         -- Keep the same return positions as the index-based query above, including the bonus flag at 15.
         local d = C_Reputation.GetFactionDataByID(factionID)

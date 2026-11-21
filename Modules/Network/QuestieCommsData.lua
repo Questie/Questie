@@ -75,8 +75,7 @@ function QuestieComms.data:GetTooltip(tooltipKey)
                         local npc = QuestieDB:GetNPC(objective.id)
                         row.text = npc and npc.name
                     elseif (not row.text) and (objective.type == "object" or objective.type == "o") and objective.id then
-                        local object = QuestieDB:GetObject(objective.id)
-                        row.text = object and object.name
+                        row.text = QuestieDB.QueryObjectSingle(objective.id, "name")
                     elseif (not row.text) and (objective.type == "item" or objective.type == "i") and objective.id then
                         local dbItem = QuestieDB:GetItem(objective.id);
                         if(dbItem and dbItem.name and (not dbItem.Hidden)) then

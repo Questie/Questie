@@ -323,6 +323,26 @@ local migrationFunctions = {
         local isTaken = profile.trackerbindOpenQuestLog == "shiftleft" or profile.trackerbindSetTomTom == "shiftleft"
         profile.trackerbindShareQuest = isTaken and "disabled" or "shiftleft"
     end,
+    [51] = function()
+        Questie.db.profile.questAnnounceChannel = "disabled"
+    end,
+    [52] = function()
+        Questie.db.profile.enableTooltipsNextInChainOnActiveQuests = false
+    end,
+    [53] = function()
+        -- Tracker shortcuts can no longer share a click. Every kind of tracker line checks Untrack before Show in Quest Log,
+        -- so Show in Quest Log on Untrack's click never ran: disable it. Other shared clicks stay, because which action ran
+        -- depended on the line or on TomTom: quest lines check TomTom and Share first, achievement and recipe lines neither.
+        local profile = Questie.db.profile
+        local untrackShortcut = profile.trackerbindUntrack
+        if untrackShortcut and untrackShortcut ~= "disabled" and profile.trackerbindOpenQuestLog == untrackShortcut then
+            profile.trackerbindOpenQuestLog = "disabled"
+        end
+    end,
+    [54] = function()
+        -- The pfQuest/ClassicCodex icon toggle is gone; the icon theme choice replaced it.
+        Questie.db.profile.usePfQuestIcons = nil
+    end,
 }
 
 function Migration:Migrate()

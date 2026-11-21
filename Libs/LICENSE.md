@@ -8,5 +8,3 @@ The licensing situation of the following directories is unclear:
     * Ace3 Style BSD as per https://www.curseforge.com/wow/addons/libdbicon-1-0, but license file is missing
 * LibSharedMedia-3.0
     * LGPLv2.1 as per Lua comment, but license file is missing
-* LibUIDropDownMenu
-    * GPLv2 as per https://www.curseforge.com/wow/addons/libuidropdownmenu, but license file is missing

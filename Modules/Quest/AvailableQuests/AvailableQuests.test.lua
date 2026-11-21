@@ -373,8 +373,23 @@ describe("AvailableQuests", function()
         local originalGetFramesForQuest
         local originalGetQuestIcon
         local originalUsedIcons
+        ---@type QuestieFrame
+        local QuestieFrame
+
+        ---A drawn icon with the real frame methods, and a texture that keeps its image and alpha.
+        ---Tests then see what the icon shows, whichever frame method changed it.
+        local function IconFrame(data, isMinimapIcon, alpha)
+            local texture = {SetTexture = spy.new(function(self, file) self.file = file end)}
+            function texture:SetVertexColor(r, g, b, a) self.r, self.g, self.b, self.a = r, g, b, a end
+            texture:SetVertexColor(1, 1, 1, alpha or 1)
+            return {data = data, miniMapIcon = isMinimapIcon, texture = texture,
+                overlayTexture = {Hide = function() end, SetTexture = function() end},
+                SetSize = function() end, SetAlpha = function() end, UpdateTexture = QuestieFrame.private.UpdateTexture}
+        end
 
         before_each(function()
+            dofile("Modules/FramePool/QuestieFrame.lua")
+            QuestieFrame = QuestieLoader:ImportModule("QuestieFrame")
             submittedJobs = {}
             originalGetFramesForQuest = QuestieMap.GetFramesForQuest
             originalGetQuestIcon = QuestieLib.GetQuestIcon
@@ -416,10 +431,8 @@ describe("AvailableQuests", function()
         end)
 
         it("should draw missing starters without changing existing party objective icons", function()
-            local objectiveFrame = {
-                data = {QuestData = {Id = QUEST_ID}, Type = "item", Icon = 2, ObjectiveData = {IsPartyObjective = true}},
-                UpdateTexture = spy.new(function() end),
-            }
+            local objectiveFrame = IconFrame(
+                {QuestData = {Id = QUEST_ID}, Type = "item", Icon = 2, ObjectiveData = {IsPartyObjective = true}})
             QuestieMap.GetFramesForQuest = spy.new(function() return {objectiveFrame} end)
             local quest = {Id = QUEST_ID, tagInfoWasCached = true}
             QuestieDB.GetQuest = function() return quest end
@@ -429,7 +442,7 @@ describe("AvailableQuests", function()
             submittedJobs[1].threadFunction()
 
             assert.spy(QuestieMap.GetFramesForQuest).was.called_with(QuestieMap, QUEST_ID)
-            assert.spy(objectiveFrame.UpdateTexture).was.not_called()
+            assert.spy(objectiveFrame.texture.SetTexture).was.not_called()
             assert.spy(QuestieLib.GetQuestIcon).was.not_called()
             assert.are_equal(2, #submittedJobs)
             submittedJobs[2].threadFunction()
@@ -437,31 +450,23 @@ describe("AvailableQuests", function()
         end)
 
         it("should not redraw existing starters when their textures are unchanged", function()
-            local starterFrame = {
-                data = {QuestData = {Id = QUEST_ID}, Type = "available", Icon = 6},
-                UpdateTexture = spy.new(function() end),
-            }
+            local starterFrame = IconFrame({QuestData = {Id = QUEST_ID}, Type = "available", Icon = 6})
             QuestieMap.GetFramesForQuest = function() return {starterFrame} end
 
             AvailableQuests.CalculateAndDrawAll()
             submittedJobs[1].threadFunction()
 
-            assert.spy(starterFrame.UpdateTexture).was.not_called()
+            assert.spy(starterFrame.texture.SetTexture).was.not_called()
             assert.are_equal(1, #submittedJobs)
         end)
 
         it("should refresh both starter textures without changing other icons for the same quest", function()
             local starterData = {QuestData = {Id = QUEST_ID}, Type = "available", Icon = 7}
-            local mapStarterFrame = {data = starterData, UpdateTexture = spy.new(function() end)}
-            local minimapStarterFrame = {data = starterData, UpdateTexture = spy.new(function() end)}
-            local objectiveFrame = {
-                data = {QuestData = {Id = QUEST_ID}, Type = "monster", Icon = 1, ObjectiveData = {IsPartyObjective = true}},
-                UpdateTexture = spy.new(function() end),
-            }
-            local finisherFrame = {
-                data = {QuestData = {Id = QUEST_ID}, Type = "complete", Icon = 5},
-                UpdateTexture = spy.new(function() end),
-            }
+            local mapStarterFrame = IconFrame(starterData)
+            local minimapStarterFrame = IconFrame(starterData, true)
+            local objectiveFrame = IconFrame(
+                {QuestData = {Id = QUEST_ID}, Type = "monster", Icon = 1, ObjectiveData = {IsPartyObjective = true}})
+            local finisherFrame = IconFrame({QuestData = {Id = QUEST_ID}, Type = "complete", Icon = 5})
             QuestieMap.GetFramesForQuest = function()
                 return {mapStarterFrame, minimapStarterFrame, objectiveFrame, finisherFrame}
             end
@@ -469,11 +474,44 @@ describe("AvailableQuests", function()
             AvailableQuests.CalculateAndDrawAll()
             submittedJobs[1].threadFunction()
 
-            assert.spy(mapStarterFrame.UpdateTexture).was.called_with(mapStarterFrame, "available-texture")
-            assert.spy(minimapStarterFrame.UpdateTexture).was.called_with(minimapStarterFrame, "available-texture")
-            assert.spy(objectiveFrame.UpdateTexture).was.not_called()
-            assert.spy(finisherFrame.UpdateTexture).was.not_called()
+            assert.are_equal("available-texture", mapStarterFrame.texture.file)
+            assert.are_equal("available-texture", minimapStarterFrame.texture.file)
+            assert.spy(objectiveFrame.texture.SetTexture).was.not_called()
+            assert.spy(finisherFrame.texture.SetTexture).was.not_called()
             assert.are_equal(1, #submittedJobs)
+        end)
+
+        it("should keep the fade of refreshed starter icons", function()
+            local starterData = {QuestData = {Id = QUEST_ID}, Type = "available", Icon = 7}
+            local fadedMapStarterFrame = IconFrame(starterData, false, 0.3) -- e.g. faded by the tracker focus
+            local minimapStarterFrame = IconFrame(starterData, true, 0.6) -- as the minimap fade logic left it
+            QuestieMap.GetFramesForQuest = function() return {fadedMapStarterFrame, minimapStarterFrame} end
+
+            AvailableQuests.CalculateAndDrawAll()
+            submittedJobs[1].threadFunction()
+
+            assert.are_equal("available-texture", fadedMapStarterFrame.texture.file)
+            assert.are_equal("available-texture", minimapStarterFrame.texture.file)
+            assert.are_equal(0.6, minimapStarterFrame.texture.a)
+            assert.are_equal(0.3, fadedMapStarterFrame.texture.a)
+        end)
+
+        it("should refresh the starter textures of a changed quest icon only once", function()
+            -- A map icon and its minimap twin share their data, as QuestieMap:DrawWorldIcon draws them
+            local starterData = {QuestData = {Id = QUEST_ID}, Type = "available", Icon = 7}
+            local mapStarterFrame = IconFrame(starterData)
+            local minimapStarterFrame = IconFrame(starterData, true)
+            QuestieMap.GetFramesForQuest = function() return {mapStarterFrame, minimapStarterFrame} end
+
+            AvailableQuests.CalculateAndDrawAll()
+            submittedJobs[1].threadFunction()
+            submittedJobs[1].callbackFunction()
+            -- Any later calculation, such as after accepting another quest
+            AvailableQuests.CalculateAndDrawAll()
+            submittedJobs[2].threadFunction()
+
+            assert.spy(mapStarterFrame.texture.SetTexture).was.called(1)
+            assert.spy(minimapStarterFrame.texture.SetTexture).was.called(1)
         end)
     end)
 
@@ -582,36 +620,31 @@ describe("AvailableQuests", function()
                 assert.spy(QuestieMap.DrawWaypoints).was.called_with(QuestieMap, icon, "m_" .. NPC_ID, WAYPOINTS, ZONE, true)
             end)
 
-            describe("of a vendor listed as dropping the starting item", function()
-                local VENDOR = 128
-                local originalNpcFlags
-
-                before_each(function()
-                    originalNpcFlags = QuestieDB.npcFlags
-                    QuestieDB.npcFlags = {VENDOR = VENDOR}
+            describe("of an NPC listed as dropping the starting item", function()
+                ---@param friendlyToFaction string?
+                local function DrawDroppedBy(friendlyToFaction)
                     QuestieDB.GetItem = function() return {npcDrops = {NPC_ID}} end
-                end)
-
-                after_each(function()
-                    QuestieDB.npcFlags = originalNpcFlags
-                end)
-
-                it("should not draw it as hostile when the vendor is friendly", function()
                     QuestieDB.GetNPC = function()
-                        return {id = NPC_ID, name = "Test NPC", waypoints = {[ZONE] = WAYPOINTS}, friendly = true, npcFlags = VENDOR + 2}
+                        return {id = NPC_ID, name = "Test NPC", waypoints = {[ZONE] = WAYPOINTS}, friendlyToFaction = friendlyToFaction}
                     end
-
                     AvailableQuests.DrawAvailableQuest({Id = QUEST_ID, Starts = {Item = {789}}})
+                end
+
+                -- The test player is Horde
+                it("should not draw it as hostile when it is friendly to the player's faction", function()
+                    DrawDroppedBy("H")
 
                     assert.spy(QuestieMap.DrawWaypoints).was.called_with(QuestieMap, icon, "m_" .. NPC_ID, WAYPOINTS, ZONE, false)
                 end)
 
-                it("should draw it as hostile when the vendor is of the other faction", function()
-                    QuestieDB.GetNPC = function()
-                        return {id = NPC_ID, name = "Test NPC", waypoints = {[ZONE] = WAYPOINTS}, friendly = false, npcFlags = VENDOR}
-                    end
+                it("should not draw it as hostile when it is friendly to both factions", function()
+                    DrawDroppedBy("AH")
 
-                    AvailableQuests.DrawAvailableQuest({Id = QUEST_ID, Starts = {Item = {789}}})
+                    assert.spy(QuestieMap.DrawWaypoints).was.called_with(QuestieMap, icon, "m_" .. NPC_ID, WAYPOINTS, ZONE, false)
+                end)
+
+                it("should draw it as hostile when it is friendly only to the other faction", function()
+                    DrawDroppedBy("A")
 
                     assert.spy(QuestieMap.DrawWaypoints).was.called_with(QuestieMap, icon, "m_" .. NPC_ID, WAYPOINTS, ZONE, true)
                 end)
@@ -621,6 +654,93 @@ describe("AvailableQuests", function()
                 AvailableQuests.DrawAvailableQuest({Id = QUEST_ID, Starts = {NPC = {NPC_ID}}})
 
                 assert.spy(QuestieMap.DrawWaypoints).was.called_with(QuestieMap, icon, "m_" .. NPC_ID, WAYPOINTS, ZONE, match.is_falsy())
+            end)
+        end)
+
+        describe("dropper rank", function()
+            local RARE, ELITE = 4, 1
+            local DUNGEON = 1581
+            local drawn
+            local originalDrawWorldIcon
+            local originalDrawWaypoints
+            local originalGetQuestIcon
+            local originalGetDungeonLocation
+
+            before_each(function()
+                drawn = {}
+                originalDrawWorldIcon = QuestieMap.DrawWorldIcon
+                originalDrawWaypoints = QuestieMap.DrawWaypoints
+                originalGetQuestIcon = QuestieLib.GetQuestIcon
+                originalGetDungeonLocation = ZoneDB.GetDungeonLocation
+                QuestieMap.DrawWorldIcon = function(_, data) drawn[#drawn + 1] = data; return {} end
+                QuestieLib.GetQuestIcon = function() return 6 end
+                QuestieTooltips.RegisterQuestStartTooltip = function() end
+                QuestieDB.GetItem = function() return {npcDrops = {NPC_ID}} end
+            end)
+
+            after_each(function()
+                QuestieMap.DrawWorldIcon = originalDrawWorldIcon
+                QuestieMap.DrawWaypoints = originalDrawWaypoints
+                QuestieLib.GetQuestIcon = originalGetQuestIcon
+                ZoneDB.GetDungeonLocation = originalGetDungeonLocation
+            end)
+
+            ---@return fun(): NPC GetNPC The QuestieDB.GetNPC stub returning the NPC.
+            local function GetNpcWithRank(rank, extra)
+                local npc = {id = NPC_ID, name = "Test NPC", rank = rank, spawns = {[12] = {{50, 50}}}}
+                for key, value in pairs(extra or {}) do npc[key] = value end
+                return function() return npc end
+            end
+
+            it("should be noted for a monster dropping the starting item", function()
+                QuestieDB.GetNPC = GetNpcWithRank(RARE)
+
+                AvailableQuests.DrawAvailableQuest({Id = QUEST_ID, Starts = {Item = {789}}})
+
+                assert.are.equal(1, #drawn)
+                assert.are.equal(RARE, drawn[1].DropperRank)
+                assert.is_nil(drawn[1].StarterInDungeon)
+            end)
+
+            it("should be noted on the icon drawn on the route of a monster without spawns there", function()
+                QuestieDB.GetNPC = GetNpcWithRank(RARE, {spawns = {}, waypoints = {[12] = {{{10, 10}, {20, 20}}}}})
+                QuestieMap.DrawWaypoints = function() end
+
+                AvailableQuests.DrawAvailableQuest({Id = QUEST_ID, Starts = {Item = {789}}})
+
+                assert.are.equal(1, #drawn)
+                assert.are.equal(RARE, drawn[1].DropperRank)
+            end)
+
+            it("should not be noted for an NPC handing out the quest", function()
+                QuestieDB.GetNPC = GetNpcWithRank(ELITE)
+
+                AvailableQuests.DrawAvailableQuest({Id = QUEST_ID, Starts = {NPC = {NPC_ID}}})
+
+                assert.are.equal(1, #drawn)
+                assert.is_nil(drawn[1].DropperRank)
+            end)
+
+            it("should not be noted for an NPC friendly to the player listed as dropping the starting item", function()
+                QuestieDB.GetNPC = GetNpcWithRank(ELITE, {friendlyToFaction = "AH"})
+
+                AvailableQuests.DrawAvailableQuest({Id = QUEST_ID, Starts = {Item = {789}}})
+
+                assert.are.equal(1, #drawn)
+                assert.is_nil(drawn[1].DropperRank)
+            end)
+
+            it("should be noted on the entrance icons of a monster inside a dungeon, which says where it is", function()
+                ZoneDB.GetDungeons = function() return {[DUNGEON] = {}} end
+                ZoneDB.GetDungeonLocation = function() return {{40, 30.5, 72.8}} end
+                AvailableQuests.Initialize()
+                QuestieDB.GetNPC = GetNpcWithRank(ELITE, {spawns = {[DUNGEON] = {{-1, -1}}}})
+
+                AvailableQuests.DrawAvailableQuest({Id = QUEST_ID, Starts = {Item = {789}}})
+
+                assert.are.equal(1, #drawn)
+                assert.are.equal(ELITE, drawn[1].DropperRank)
+                assert.is_true(drawn[1].StarterInDungeon)
             end)
         end)
     end)

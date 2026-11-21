@@ -5,21 +5,9 @@ describe("QuestieTraceMenu", function()
     local originalTrace
 
     local function makeButton()
-        local function makeTexture()
-            return {
-                SetVertexColor = function() end,
-                SetTexture = function() end,
-                SetTexCoord = function() end,
-                SetShown = function() end,
-            }
-        end
-        return {
-            Check = makeTexture(),
-            UnCheck = makeTexture(),
-            SetShown = function() end,
-            LockHighlight = function() end,
-            UnlockHighlight = function() end,
-        }
+        local button = {fontString = {}}
+        function button.fontString:SetTextColor(...) self.color = {...} end
+        return button
     end
 
     local function makeApi(state)
@@ -50,15 +38,16 @@ describe("QuestieTraceMenu", function()
     end)
 
     it("should open the export window through the QuestieMenu callback and show green while capture is running", function()
-        local originalLibStub = _G.LibStub
         local originalTinsert = _G.tinsert
         local originalDb = Questie.db
+        local originalMenuResponse = _G.MenuResponse
         local menuTable
         local shown = 0
         local api = makeApi({running = true})
         api.ShowExportWindow = function() shown = shown + 1 end
         local questieLib = QuestieLoader:ImportModule("QuestieLib")
         local questieProfessions = QuestieLoader:ImportModule("QuestieProfessions")
+        local professionStations = QuestieLoader:ImportModule("ProfessionStations")
         local townsfolk = QuestieLoader:ImportModule("Townsfolk")
         local professionKeys = {}
         for _, key in ipairs({
@@ -71,7 +60,9 @@ describe("QuestieTraceMenu", function()
 
         questieLib.AddonPath = ""
         questieProfessions.professionKeys = professionKeys
+        questieProfessions.Update = function() end
         questieProfessions.HasProfessionAndSkillLevel = function() return false end
+        professionStations.stations = {}
         townsfolk.townsfolk = {}
         townsfolk.professionTrainers = {}
         Questie.db = {
@@ -79,20 +70,15 @@ describe("QuestieTraceMenu", function()
             profile = {townsfolkConfig = {}, debugEnabled = false},
         }
         _G.QuestieTraceAPI = {v1 = api}
+        _G.MenuResponse = {CloseAll = 4}
 
-        local dropdown = {
-            Create_UIDropDownMenu = function() return {} end,
-            EasyMenu = function(_, entries) menuTable = entries end,
-            CloseDropDownMenus = spy.new(function() end),
-        }
+        local builder = QuestieLoader:CreateModule("QuestieMenuBuilder")
+        builder.Show = function(entries) menuTable = entries end
         local questiePopup = QuestieLoader:ImportModule("QuestiePopup")
         questiePopup.Dialogs = questiePopup.Dialogs or {}
         _G.tinsert = table.insert
-        _G.LibStub = {GetLibrary = function() return dropdown end}
         dofile("Modules/QuestieMenu/QuestieMenu.lua")
         local QuestieMenu = QuestieLoader:ImportModule("QuestieMenu")
-        QuestieMenu.menu = nil
-        QuestieMenu.Hide = spy.new(function() end)
         QuestieMenu:Show()
 
         local entry
@@ -103,15 +89,17 @@ describe("QuestieTraceMenu", function()
             end
         end
         assert.is_not_nil(entry)
-        assert.is_true(entry.checked(makeButton()))
+        assert.is_true(entry.checked())
         assert.is_true(entry.registerForRightClick)
         assert.is_true(entry.keepShownOnClick)
-        entry.func(nil, nil, nil, nil, "LeftButton")
-        assert.spy(QuestieMenu.Hide).was.called(1)
+        local button = makeButton()
+        entry.initializer(button)
+        assert.are_same({0.25, 1.0, 0.25}, button.fontString.color)
+        assert.are_equal(MenuResponse.CloseAll, entry.func("LeftButton"))
         assert.are_equal(1, shown)
 
-        _G.LibStub = originalLibStub
         _G.tinsert = originalTinsert
+        _G.MenuResponse = originalMenuResponse
         Questie.db = originalDb
     end)
 
@@ -119,22 +107,31 @@ describe("QuestieTraceMenu", function()
         _G.QuestieTraceAPI = {v1 = makeApi({running = false})}
 
         local entry = QuestieTraceMenu.Build(function() end)
-        assert.is_false(entry.checked(makeButton()))
+        local button = makeButton()
+        entry.initializer(button)
+
+        assert.is_false(entry.checked())
+        assert.are_same({1.0, 0.25, 0.25}, button.fontString.color)
     end)
 
-    it("should refresh the indicator after a refused right-click start", function()
-        local originalTimer = _G.C_Timer
-        local deferred
-        _G.C_Timer = {After = function(_, callback) deferred = callback end}
+    it("should pass the clicked mouse button and the response to the callback", function()
         _G.QuestieTraceAPI = {v1 = makeApi({running = false})}
-        local entry = QuestieTraceMenu.Build(function() end)
-        local button = makeButton()
-        button.checked = true
-        entry.func(button, nil, nil, true, "RightButton")
-        assert.is_true(button.checked)
-        deferred()
-        assert.is_false(button.checked)
-        _G.C_Timer = originalTimer
+        local clicked
+        local entry = QuestieTraceMenu.Build(function(_, button) clicked = button; return "response" end)
+
+        assert.are_equal("response", entry.func("RightButton"))
+        assert.are_equal("RightButton", clicked)
+    end)
+
+    it("should follow the real capture state after a refused right-click start", function()
+        local api = makeApi({running = false, consent = "granted"})
+        api.StartCapture = function() return false end
+        _G.QuestieTraceAPI = {v1 = api}
+        local entry = QuestieTraceMenu.Build(function(traceApi) QuestieTraceMenu.Toggle(traceApi) end)
+
+        entry.func("RightButton")
+
+        assert.is_false(entry.checked())
     end)
 
     it("should stop a running capture", function()

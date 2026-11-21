@@ -758,15 +758,15 @@ describe("QuestieProfilerReport", function()
         end)
 
         it("keeps distinct functions apart that share a module and a leaf name", function()
-            -- The earlier rule folded these into one QuestieOptions.Initialize row, hiding which tab was slow.
-            AddFunctionEntry("QuestieOptions.tabs.advanced.Initialize", 30, 1)
-            AddFunctionEntry("QuestieOptions.tabs.icons.Initialize", 20, 1)
+            -- The earlier rule folded these into one QuestieOptionsEngine.Initialize row, hiding which tab was slow.
+            AddFunctionEntry("QuestieOptionsEngine.tabs.advanced.Initialize", 30, 1)
+            AddFunctionEntry("QuestieOptionsEngine.tabs.icons.Initialize", 20, 1)
 
             local report = BuildReport({grouped = true})
             local keys = RowKeys(report)
             table.sort(keys)
 
-            assert.are_same({"QuestieOptions.tabs.advanced.Initialize", "QuestieOptions.tabs.icons.Initialize"}, keys)
+            assert.are_same({"QuestieOptionsEngine.tabs.advanced.Initialize", "QuestieOptionsEngine.tabs.icons.Initialize"}, keys)
         end)
 
         it("keeps a numeric segment, which can be the identity itself", function()

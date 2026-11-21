@@ -30,7 +30,7 @@ Townsfolk.professionTrainers = {}
 Townsfolk.classSpecificTownsfolk = {}
 ---@type table<string, table<string, NpcId[]>> Faction name to category to NPC IDs
 Townsfolk.factionSpecificTownsfolk = {}
----@type table<string, ItemId[]> Pet food category to Item IDs
+---@type table<string, ItemId[]> Pet food category to Item IDs; the lists stay empty for non-hunters
 Townsfolk.petFoodVendorTypes = {}
 
 ---@type table<ProfessionEnum, NpcId[]> Filled by the files in ProfessionTrainers/
@@ -254,18 +254,22 @@ function Townsfolk.Initialize()
     local petFoodVendorTypes = {["Meat"] = {},["Fish"]={},["Cheese"]={},["Bread"]={},["Fungus"]={},["Fruit"]={},["Raw Meat"]={},["Raw Fish"]={}}
     local petFoodIndexes = {"Meat","Fish","Cheese","Bread","Fungus","Fruit","Raw Meat","Raw Fish"}
 
-    local count = 0
-    for id in pairs(QuestieDB.ItemPointers) do
-        -- Number fields read 0 for Items without a food type; only food types 1-8 name a pet food category.
-        local petFoodCategory = petFoodIndexes[QuestieDB.QueryItemSingle(id, "foodType")]
-        if petFoodCategory then
-            tinsert(petFoodVendorTypes[petFoodCategory], id)
+    -- Only hunters get a "Pet Food" vendor list (UpdatePlayerVendors), so other classes skip
+    -- this scan over every Item and keep the categories empty.
+    if playerClass == "HUNTER" then
+        local count = 0
+        for id in pairs(QuestieDB.ItemPointers) do
+            -- Number fields read 0 for Items without a food type; only food types 1-8 name a pet food category.
+            local petFoodCategory = petFoodIndexes[QuestieDB.QueryItemSingle(id, "foodType")]
+            if petFoodCategory then
+                tinsert(petFoodVendorTypes[petFoodCategory], id)
+            end
+            if count > 300 then -- Yield every 300 iterations, 300 is just a madeup number, is pretty fast.
+                count = 0
+                coroutine.yield()
+            end
+            count = count + 1
         end
-        if count > 300 then -- Yield every 300 iterations, 300 is just a madeup number, is pretty fast.
-            count = 0
-            coroutine.yield()
-        end
-        count = count + 1
     end
 
     coroutine.yield()

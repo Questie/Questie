@@ -16,6 +16,7 @@ describe("QuestieQuestBlacklist", function()
         Questie.IsTBC = false
         Questie.IsMoP = false
         Questie.IsTitanReforged = false
+        Questie.IsForever = false
     end)
 
     it("does not use the general blacklist to isolate Titan-only quests", function()
@@ -102,5 +103,37 @@ describe("QuestieQuestBlacklist", function()
         assert.is_true(questToBlacklist[87318]) -- Hearts of the Lost
         assert.is_true(questToBlacklist[88757]) -- Accessories of the Lost
         assert.is_true(questToBlacklist[88758]) -- Sentiments of the Lost
+    end)
+
+    it("should hide both factions' The Heart of the Void outside of Season of Discovery", function()
+        Questie.IsSoD = false
+        local nonSodBlacklist = QuestieQuestBlacklist:Load()
+        assert.is_true(nonSodBlacklist[78916]) -- Alliance
+        assert.is_true(nonSodBlacklist[78917]) -- Horde
+
+        Questie.IsSoD = true
+        local sodBlacklist = QuestieQuestBlacklist:Load()
+        assert.is_falsy(sodBlacklist[78916])
+        assert.is_falsy(sodBlacklist[78917])
+    end)
+
+    it("should hide the classic Khan Jehn quest on Forever only", function()
+        Questie.IsForever = true
+        assert.is_true(QuestieQuestBlacklist:Load()[1374])
+
+        Questie.IsForever = false
+        assert.is_falsy(QuestieQuestBlacklist:Load()[1374])
+    end)
+
+    it("should hide the classic Khan Hratha quests on Forever only", function()
+        Questie.IsForever = true
+        local foreverBlacklist = QuestieQuestBlacklist:Load()
+        assert.is_true(foreverBlacklist[1380])
+        assert.is_true(foreverBlacklist[1381])
+
+        Questie.IsForever = false
+        local eraBlacklist = QuestieQuestBlacklist:Load()
+        assert.is_falsy(eraBlacklist[1380])
+        assert.is_falsy(eraBlacklist[1381])
     end)
 end)

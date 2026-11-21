@@ -45,6 +45,7 @@ end
 ---@field Id NpcId The ID of the NPC
 ---@field Waypoints table<AreaId, CoordPair[]>
 ---@field Hostile true|boolean
+---@field IsRare true? A rare or rare elite, which might not be there: map drawing shows its patrol only when no other target marks where to go.
 
 ---@class SpawnListItem : SpawnListBase, SpawnListTooltip, SpawnListNPC, SpawnListObject
 ---@field Id ObjectId|NpcId The ID of the Object or Npc
@@ -103,15 +104,16 @@ monster = function(npcId, objective)
     local rank = QuestieDB.QueryNPCSingle(npcId, "rank")
 
     local enableSpawns = not QuestieCorrections.questNPCBlacklist[npcId]
-    local enableWaypoints = enableSpawns and 2 ~= rank -- a rare mob spawn. todo: option for this
 
     ---@type SpawnListNPC
     local monster = {
         Id = npcId,
         Name = name,
         Spawns = enableSpawns and spawns or {},
-        Waypoints = enableWaypoints and QuestieDB.QueryNPCSingle(npcId, "waypoints") or {},
+        Waypoints = enableSpawns and QuestieDB.QueryNPCSingle(npcId, "waypoints") or {},
         Hostile = true,
+        IsRare = (rank == 2 or rank == 4) or nil, -- cmangos ranks: 2 rare elite, 4 rare
+
         Icon = objective.Icon or Questie.ICON_TYPE_SLAY,
         GetIconScale = _GetIconScaleForMonster,
         IconScale = _GetIconScaleForMonster(),
@@ -220,7 +222,12 @@ item = function(itemId, objective)
                     end
                 else
                     for id, sourceData in pairs(sourceList) do
-                        if (not ret[id]) then
+                        -- Creature and object IDs are separate ID spaces; a clashing source gets its TooltipKey as key
+                        local key = id
+                        if ret[key] and ret[key].TooltipKey ~= sourceData.TooltipKey then
+                            key = sourceData.TooltipKey
+                        end
+                        if (not ret[key]) then
                             local icon, GetIconScale
                             if source.Type == "object" then
                                 icon = objective.Icon or Questie.ICON_TYPE_OBJECT
@@ -230,11 +237,12 @@ item = function(itemId, objective)
                                 GetIconScale = _GetIconScaleForLoot
                             end
 
-                            ret[id] = {
+                            ret[key] = {
                                 Id = id,
                                 Name = sourceData.Name,
                                 -- Monsters dropping the item are fought; objects holding it are not.
                                 Hostile = sourceData.Hostile,
+                                IsRare = sourceData.IsRare,
                                 ItemId = item.Id,
                                 TooltipKey = sourceData.TooltipKey,
                                 Spawns = {},
@@ -246,10 +254,10 @@ item = function(itemId, objective)
                         end
                         -- Vendors selling the item aren't fought, also when corrections list them as dropping it.
                         if source.Vendor then
-                            ret[id].Hostile = nil
+                            ret[key].Hostile = nil
                         end
                         if sourceData.Spawns then
-                            local itemSpawns = ret[id].Spawns
+                            local itemSpawns = ret[key].Spawns
                             for zone, spawns in pairs(sourceData.Spawns) do
                                 if (not itemSpawns[zone]) then
                                     itemSpawns[zone] = {}
@@ -262,7 +270,7 @@ item = function(itemId, objective)
                             end
                         end
                         if sourceData.Waypoints then
-                            local itemWaypoints = ret[id].Waypoints
+                            local itemWaypoints = ret[key].Waypoints
                             for zone, spawns in pairs(sourceData.Waypoints) do
                                 if (not itemWaypoints[zone]) then
                                     itemWaypoints[zone] = {}

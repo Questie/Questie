@@ -34,7 +34,6 @@ local DailyQuestCommsBlacklist = QuestieLoader:ImportModule("DailyQuestCommsBlac
 local GetQuestGreenRange = QuestieCompat.GetQuestGreenRange
 local yield = coroutine.yield
 local tinsert = table.insert
-local band = bit.band
 
 local QUESTS_PER_YIELD = 24
 
@@ -530,14 +529,29 @@ end
 ---@return boolean hasAvailableFrames @True even when the existing starter textures need no update.
 local function _UpdateDrawnAvailableIcons(questId)
     local hasAvailableFrames = false
+    ---@type table<IconData, number>?
+    local newIconByData -- Several frames share one data table, such as a map icon and its minimap twin
     for _, frame in pairs(QuestieMap:GetFramesForQuest(questId)) do
         if frame and frame.data and frame.data.Type == "available" and frame.data.QuestData then
             hasAvailableFrames = true
             local newIcon = QuestieLib.GetQuestIcon(frame.data.QuestData)
 
             if newIcon ~= frame.data.Icon then
-                frame:UpdateTexture(Questie.usedIcons[newIcon])
+                -- Only the image follows the icon. UpdateTexture sets an icon up as if new, which would reset its
+                -- size and the alpha its fade code gave it. The minimap fade logic applies a fade only when it
+                -- changes, so a minimap icon would stay invisible.
+                frame.texture:SetTexture(Questie.usedIcons[newIcon])
+                newIconByData = newIconByData or {}
+                newIconByData[frame.data] = newIcon
             end
+        end
+    end
+
+    if newIconByData then
+        -- Stored only now, so every frame sharing the data got the new texture first.
+        -- Later calculations then find the icon unchanged and leave these frames alone.
+        for data, newIcon in pairs(newIconByData) do
+            data.Icon = newIcon
         end
     end
     return hasAvailableFrames
@@ -727,12 +741,14 @@ _DrawAvailableQuest = function(questId)
     end, 0, nil, nil, nil, "_DrawAvailableQuest")
 end
 
--- Corrections list some vendors as dropping the quest-starting item they sell, so that the quest
--- shows. Those friendly to the player aren't fought.
+-- Corrections list some friendly NPCs as dropping a quest-starting item they hand out or sell, so that the quest
+-- shows. They aren't fought for it. This reads friendlyToFaction itself: QuestieDB.IsFriendlyToPlayer also counts
+-- NPCs hostile to both factions as friendly.
 ---@param npc NPC
 ---@return boolean
-local function _IsFriendlyVendor(npc)
-    return npc.friendly == true and npc.npcFlags ~= nil and band(npc.npcFlags, QuestieDB.npcFlags.VENDOR) ~= 0
+local function _IsFriendlyToPlayer(npc)
+    local friendlyToFaction = npc.friendlyToFaction
+    return friendlyToFaction == "AH" or friendlyToFaction == (playerFaction == "Alliance" and "A" or "H")
 end
 
 ---@param starter Object|NPC Either an object or an NPC from QuestieDB.
@@ -771,6 +787,10 @@ _AddStarter = function(starter, quest, tooltipKey, limit)
 
     local starterName = QuestieTooltips:RegisterQuestStartTooltip(quest.Id, starter.name, starter.id, tooltipKey, (starterType or "NPC"))
 
+    -- An NPC dropping the starting item is killed for it, unless it is friendly to the player.
+    local killedForItem = starterType == "itemFromMonster" and not _IsFriendlyToPlayer(starter)
+    local dropperRank = killedForItem and starter.rank or nil
+
     local starterIcons = {}
     local starterLocs = {}
     local added = 0
@@ -792,6 +812,8 @@ _AddStarter = function(starter, quest, tooltipKey, limit)
                         Name = starterName,
                         IsObjectiveNote = false,
                         StarterType = starterType,
+                        StarterInDungeon = dungeons[zone] and true or nil,
+                        DropperRank = dropperRank,
                     }
 
                     if (coords[1] == -1 or coords[2] == -1) then
@@ -823,9 +845,6 @@ _AddStarter = function(starter, quest, tooltipKey, limit)
 
     -- Only for NPCs since objects do not move
     if starter.waypoints then
-        -- An NPC dropping the starting item is killed for it, so its route is hostile like an objective's.
-        -- A friendly vendor listed as dropping it is not.
-        local hostile = starterType == "itemFromMonster" and not _IsFriendlyVendor(starter)
         for zone, waypoints in pairs(starter.waypoints or {}) do
             if not dungeons[zone] and waypoints[1] and waypoints[1][1] and waypoints[1][1][1] then
                 if not starterIcons[zone] then
@@ -840,14 +859,16 @@ _AddStarter = function(starter, quest, tooltipKey, limit)
                         Name = starterName,
                         IsObjectiveNote = false,
                         StarterType = starterType,
+                        DropperRank = dropperRank,
                     }
                     starterIcons[zone] = QuestieMap:DrawWorldIcon(data, zone, waypoints[1][1][1], waypoints[1][1][2])
                     starterLocs[zone] = {waypoints[1][1][1], waypoints[1][1][2]}
                     added = added + 1
                 end
                 -- By now tooltipKey names the NPC or object, also when the quest starts from an item
-                -- it drops, so every quest of one NPC shares his route.
-                QuestieMap:DrawWaypoints(starterIcons[zone], tooltipKey, waypoints, zone, hostile)
+                -- it drops, so every quest of one NPC shares his route. The route of an NPC killed for
+                -- the starting item is hostile like an objective's.
+                QuestieMap:DrawWaypoints(starterIcons[zone], tooltipKey, waypoints, zone, killedForItem)
             end
         end
     end
