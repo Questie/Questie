@@ -114,22 +114,32 @@ local function _RefreshCanvas(canvas)
     end
 end
 
----Throws away what a failed build created, so the tab is built from scratch the next time it is shown.
----Not right away, because an error that isn't a passing one would then repeat every frame.
+---Throws away what a failed or superseded build created, so the tab is built from scratch the next time it is shown.
+---The finished content is kept while a replacement is being built, so a search update cannot blank the active tab.
 ---@param canvas Frame
-local function _DiscardFailedBuild(canvas)
+---@param keepContent boolean? Keep the currently displayed content while discarding a replacement.
+local function _DiscardFailedBuild(canvas, keepContent)
     if canvas.buildTimer then
         canvas.buildTimer:Cancel()
         canvas.buildTimer = nil
     end
     canvas.buildGeneration = (canvas.buildGeneration or 0) + 1
-    if canvas.content then
+
+    if canvas.pendingContent then
+        canvas.pendingContent:Hide()
+        canvas.pendingContent:SetParent(nil)
+        canvas.pendingContent = nil
+    end
+
+    if not keepContent and canvas.content then
         canvas.content:Hide()
         canvas.content:SetParent(nil)
         canvas.content = nil
     end
-    canvas.controls = {}
-    canvas.UpdateScrollLayout = nil
+    if not keepContent then
+        canvas.controls = {}
+        canvas.UpdateScrollLayout = nil
+    end
     canvas.isBuildStarted = false
 end
 
@@ -149,7 +159,7 @@ local function _OnCanvasShown(canvas)
             function() _BuildCanvas(canvas, buildGeneration) end, 0, "Error while building a Questie settings tab:", nil,
             function()
                 if IsCurrentBuild() then
-                    _DiscardFailedBuild(canvas)
+                    _DiscardFailedBuild(canvas, canvas.content ~= nil)
                 end
             end, "QuestieOptionsEngine.BuildCanvas"
         )
@@ -286,17 +296,25 @@ _BuildCanvas = function(canvas, buildGeneration)
         description = canvas.tab.data.subtitle,
     }, searchText)
 
+    local controls = {}
+    if not canvas.content then
+        -- During the first build there is no committed content to refresh yet, so expose the
+        -- controls as they are created. Replacement builds keep the old controls until commit.
+        canvas.controls = controls
+    end
     local function AddControl(control)
-        table.insert(canvas.controls, control)
+        table.insert(controls, control)
         _YieldIfFrameBudgetSpent()
     end
 
     _YieldIfFrameBudgetSpent()
 
-    -- Everything the build creates goes on here, so a failed build can be thrown away
+    -- Everything the build creates goes on here, so a failed or superseded build can be thrown away.
+    -- Keep the previously committed content visible until this replacement is complete.
     local content = CreateFrame("Frame", nil, canvas)
     content:SetAllPoints(canvas)
-    canvas.content = content
+    content:Hide()
+    canvas.pendingContent = content
 
     local headerWrapper = _CreateCanvasHeader(canvas, content, isPopup and 44 or 0)
 
@@ -334,11 +352,11 @@ _BuildCanvas = function(canvas, buildGeneration)
     )
     scrollChild:SetHeight(contentHeight + 20)
 
+    local noResults
     if isPopup and searchText ~= "" and visibleCount == 0 then
-        local noResults = scrollChild:CreateFontString(nil, "OVERLAY", "GameFontHighlight")
+        noResults = scrollChild:CreateFontString(nil, "OVERLAY", "GameFontHighlight")
         noResults:SetPoint("TOPLEFT", scrollChild, "TOPLEFT", 10, 0)
         noResults:SetText(l10n("No matching options"))
-        canvas.noResults = noResults
     end
 
     -- Laying out a finished tab is a lot of work at once, so it gets a frame of its own
@@ -346,11 +364,20 @@ _BuildCanvas = function(canvas, buildGeneration)
 
     if canvas.buildGeneration ~= buildGeneration then
         content:Hide()
-        if canvas.content == content then
-            canvas.content = nil
+        if canvas.pendingContent == content then
+            canvas.pendingContent = nil
         end
         return
     end
+
+    if canvas.content then
+        canvas.content:Hide()
+        canvas.content:SetParent(nil)
+    end
+    canvas.content = content
+    canvas.pendingContent = nil
+    canvas.controls = controls
+    canvas.noResults = noResults
 
     scrollBox:Show()
 
@@ -360,6 +387,7 @@ _BuildCanvas = function(canvas, buildGeneration)
         scrollBox:FullUpdate(true)
     end
     canvas.UpdateScrollLayout()
+    content:Show()
 end
 
 -------------------------
@@ -470,7 +498,7 @@ end
 local function _RebuildPopupCanvases()
     for _, canvas in pairs(popupCanvases) do
         local wasShown = canvas:IsShown()
-        _DiscardFailedBuild(canvas)
+        _DiscardFailedBuild(canvas, wasShown)
         if wasShown then
             canvas:Hide()
             canvas:Show()

@@ -772,6 +772,20 @@ describe("QuestieOptionsEngine", function()
                 assert.is_nil(titles.parent)
                 assert.is_nil(titles.mapOption)
             end)
+
+            it("should keep the active tab visible while a search replacement builds", function()
+                local window = OpenWindow()
+                local original = CheckboxesIn(window)[1]
+
+                window.searchBox:SetText("parent")
+                window.searchBox.scripts.OnTextChanged(window.searchBox, true)
+                ui.RunFrame()
+
+                assert.is_true(original:IsVisible())
+
+                ui.RunUntilIdle()
+                assert.is_true(CheckboxesIn(window)[1]:IsVisible())
+            end)
         end)
     end)
 
