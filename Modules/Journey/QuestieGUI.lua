@@ -9,7 +9,7 @@ local SCROLL_CONTENT_INSET = 16
 local TREE_MIN_WIDTH = 220
 local TREE_DEFAULT_WIDTH = 415
 local TREE_MAX_WIDTH = 600
-local TREE_DRAGGER_WIDTH = 8
+local TREE_DRAGGER_WIDTH = 10
 
 local function CreateBackdropFrame(frameType, parent, template)
     local ok, frame = pcall(CreateFrame, frameType, nil, parent, template or "BackdropTemplate")
@@ -1015,7 +1015,7 @@ local function CreateTreeGroup(parent)
     end
     SetBackdrop(widget.treeframe, {0.08, 0.055, 0.03, 0.96}, {0.35, 0.25, 0.1, 1})
     widget.content:ClearAllPoints()
-    widget.content:SetPoint("TOPLEFT", widget.treeframe, "TOPRIGHT", -2, 0)
+    widget.content:SetPoint("TOPLEFT", widget.treeframe, "TOPRIGHT", TREE_DRAGGER_WIDTH, 0)
     widget.content:SetPoint("BOTTOMRIGHT", widget.frame, "BOTTOMRIGHT")
 
     local function GetMaxTreeWidth()
@@ -1035,22 +1035,22 @@ local function CreateTreeGroup(parent)
     -- the pane width and leaves the two-pane anchors intact.
     local dragger = CreateFrame("Button", nil, widget.frame)
     dragger:SetSize(TREE_DRAGGER_WIDTH, 1)
-    dragger:SetPoint("TOP", widget.treeframe, "TOPRIGHT")
-    dragger:SetPoint("BOTTOM", widget.treeframe, "BOTTOMRIGHT")
+    dragger:SetPoint("TOPLEFT", widget.treeframe, "TOPRIGHT")
+    dragger:SetPoint("BOTTOMLEFT", widget.treeframe, "BOTTOMRIGHT")
     dragger:SetFrameLevel(widget.frame:GetFrameLevel() + 5)
     dragger:EnableMouse(true)
     local draggerSurface = dragger:CreateTexture(nil, "BACKGROUND")
     draggerSurface:SetAllPoints(dragger)
-    draggerSurface:SetColorTexture(0.035, 0.02, 0.01, 0)
+    draggerSurface:SetColorTexture(0.035, 0.02, 0.01, 0.95)
     local draggerBorder = dragger:CreateTexture(nil, "ARTWORK")
     draggerBorder:SetPoint("TOPLEFT", dragger, "TOPLEFT", 1, 0)
     draggerBorder:SetPoint("BOTTOMRIGHT", dragger, "BOTTOMRIGHT", -1, 0)
-    draggerBorder:SetColorTexture(0.42, 0.27, 0.05, 0)
+    draggerBorder:SetColorTexture(0.42, 0.27, 0.05, 1)
     local draggerHighlight = dragger:CreateTexture(nil, "OVERLAY")
     draggerHighlight:SetPoint("TOP", dragger, "TOP", 0, -4)
     draggerHighlight:SetPoint("BOTTOM", dragger, "BOTTOM", 0, 4)
     draggerHighlight:SetWidth(2)
-    draggerHighlight:SetColorTexture(0.42, 0.27, 0.05, 0)
+    draggerHighlight:SetColorTexture(0.42, 0.27, 0.05, 0.68)
     local resizing = false
     local resizeStartX = 0
     local resizeStartWidth = 0
@@ -1060,23 +1060,8 @@ local function CreateTreeGroup(parent)
     end
     local function StopResizing()
         resizing = false
-        draggerSurface:SetColorTexture(0.035, 0.02, 0.01, 0)
-        draggerBorder:SetColorTexture(0.42, 0.27, 0.05, 0)
-        draggerHighlight:SetColorTexture(0.42, 0.27, 0.05, 0)
         widget.localstatus.treewidth = widget.treeframe:GetWidth()
     end
-    dragger:SetScript("OnEnter", function()
-        if not resizing then
-            draggerSurface:SetColorTexture(0.035, 0.02, 0.01, 0.8)
-            draggerBorder:SetColorTexture(0.42, 0.27, 0.05, 0.95)
-            draggerHighlight:SetColorTexture(0.42, 0.27, 0.05, 0.68)
-        end
-    end)
-    dragger:SetScript("OnLeave", function()
-        if not resizing then
-            StopResizing()
-        end
-    end)
     dragger:SetScript("OnMouseDown", function(_, button)
         if button ~= "LeftButton" then
             return
@@ -1084,9 +1069,6 @@ local function CreateTreeGroup(parent)
         resizeStartX = GetCursorX()
         resizeStartWidth = widget.treeframe:GetWidth()
         resizing = true
-        draggerSurface:SetColorTexture(0.035, 0.02, 0.01, 0.9)
-        draggerBorder:SetColorTexture(0.42, 0.27, 0.05, 1)
-        draggerHighlight:SetColorTexture(0.42, 0.27, 0.05, 0.85)
     end)
     dragger:SetScript("OnUpdate", function()
         if not resizing then
@@ -1332,7 +1314,7 @@ local function CreateTreeGroup(parent)
         end
         layingOutTree = true
         widget.content:ClearAllPoints()
-        widget.content:SetPoint("TOPLEFT", widget.treeframe, "TOPRIGHT", -2, 0)
+        widget.content:SetPoint("TOPLEFT", widget.treeframe, "TOPRIGHT", TREE_DRAGGER_WIDTH, 0)
         widget.content:SetPoint("BOTTOMRIGHT", widget.frame, "BOTTOMRIGHT")
         layingOutTree = false
         LayoutChildren(widget)
