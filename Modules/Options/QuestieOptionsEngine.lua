@@ -283,7 +283,7 @@ end
 _BuildCanvas = function(canvas, buildGeneration)
     local isPopup = canvas.mode == RenderMode.POPUP
     local searchText = isPopup and QuestieOptionsEngine.searchText or nil
-    local tabTitleMatches = isPopup and QuestieOptionsLayout.MatchesSearch({
+    local tabTitleMatches = isPopup and canvas.tab.key ~= "search" and QuestieOptionsLayout.MatchesSearch({
         title = canvas.tab.data.title,
         description = canvas.tab.data.subtitle,
     }, searchText)

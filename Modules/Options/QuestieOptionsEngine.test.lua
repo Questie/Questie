@@ -755,6 +755,17 @@ describe("QuestieOptionsEngine", function()
                 assert.is_true(titles.parent)
                 assert.is_nil(titles.mapOption)
                 assert.are.equal("", QuestieOptionsEngine.searchText)
+
+                window.searchBox:SetText("sea")
+                window.searchBox.scripts.OnTextChanged(window.searchBox, true)
+                ui.RunUntilIdle()
+
+                titles = {}
+                for _, control in ipairs(ControlsIn(window)) do
+                    titles[control.itemData.title] = true
+                end
+                assert.is_nil(titles.parent)
+                assert.is_nil(titles.mapOption)
             end)
         end)
     end)
