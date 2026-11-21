@@ -327,6 +327,7 @@ _BuildCanvas = function(canvas, buildGeneration)
     canvas.pendingContent = content
 
     local headerWrapper = _CreateCanvasHeader(canvas, content, isPopup and 44 or 0)
+    local searchAnchor
 
     if isPopup then
         local journeyButton = QuestieOptionsControls.Create(content, {
@@ -340,7 +341,7 @@ _BuildCanvas = function(canvas, buildGeneration)
             btnLabel = l10n("My Journey"),
         }, 240, 1)
         journeyButton:SetPoint("TOPRIGHT", canvas, "TOPRIGHT", -36, 7)
-        QuestieOptionsWindow.AnchorSearchTo(canvas:GetParent():GetParent(), journeyButton.widget)
+        searchAnchor = journeyButton.widget
         AddControl(journeyButton)
     end
 
@@ -402,6 +403,12 @@ _BuildCanvas = function(canvas, buildGeneration)
     end
     canvas.UpdateScrollLayout()
     content:Show()
+    if searchAnchor and canvas:IsShown() then
+        -- Keep the search box on the currently displayed Journey button until the replacement
+        -- is complete. Anchoring during construction makes fast search input follow hidden,
+        -- superseded buttons and causes the search box itself to flicker.
+        QuestieOptionsWindow.AnchorSearchTo(canvas:GetParent():GetParent(), searchAnchor)
+    end
 end
 
 -------------------------

@@ -776,6 +776,7 @@ describe("QuestieOptionsEngine", function()
             it("should keep the active tab visible while a search replacement builds", function()
                 local window = OpenWindow()
                 local original = CheckboxesIn(window)[1]
+                local anchorPoints = #window.searchBox.points
                 local canvas = ui.FindAll(window.canvasContainer, function(frame)
                     return frame.tab ~= nil and frame.tab.key == "general"
                 end)[1]
@@ -788,9 +789,11 @@ describe("QuestieOptionsEngine", function()
 
                 assert.is_true(original:IsVisible())
                 assert.are.equal(0, hides)
+                assert.are.equal(anchorPoints, #window.searchBox.points)
 
                 ui.RunUntilIdle()
                 assert.is_true(CheckboxesIn(window)[1]:IsVisible())
+                assert.are.equal(anchorPoints + 1, #window.searchBox.points)
             end)
 
             it("should refresh replacement controls before displaying them", function()
