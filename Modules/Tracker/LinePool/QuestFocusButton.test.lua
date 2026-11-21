@@ -18,7 +18,7 @@ describe("QuestFocusButton", function()
     local enrichedQuest
     local quest
     local QuestieCompat
-    local superTrackingSupported
+    local canSetSuperTracking
     local superTrackedQuestId
 
     before_each(function()
@@ -44,10 +44,10 @@ describe("QuestFocusButton", function()
         QuestieTracker.Update = spy.new(function() end)
         QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
         QuestieCombatQueue.Queue = function(_, callback) callback() end
-        superTrackingSupported = false
+        canSetSuperTracking = false
         superTrackedQuestId = nil
         QuestieCompat = QuestieLoader:ImportModule("QuestieCompat")
-        QuestieCompat.IsSuperTrackingSupported = function() return superTrackingSupported end
+        QuestieCompat.CanSetSuperTracking = function() return canSetSuperTracking end
         QuestieCompat.GetSuperTrackedQuestID = function() return superTrackedQuestId end
         QuestieCompat.GetQuestUiMapID = function() return 1436 end
         QuestieCompat.OpenWorldMap = spy.new(function() end)
@@ -149,9 +149,9 @@ describe("QuestFocusButton", function()
             assert.is_true(button:IsVisible())
         end)
 
-        it("should show for a quest Questie can not focus when the client supports super tracking", function()
+        it("should show for a quest Questie can not focus when Questie can set super tracking", function()
             canFocusQuest = false
-            superTrackingSupported = true
+            canSetSuperTracking = true
             local button = QuestFocusButton.New(1, CreateFrame("Button"))
 
             button:SetQuest(quest, false)
@@ -162,7 +162,7 @@ describe("QuestFocusButton", function()
 
         it("should show the focused icon for the super tracked quest", function()
             canFocusQuest = false
-            superTrackingSupported = true
+            canSetSuperTracking = true
             superTrackedQuestId = 123
             local button = QuestFocusButton.New(1, CreateFrame("Button"))
 
@@ -174,7 +174,7 @@ describe("QuestFocusButton", function()
         it("should not show the focused icon for the super tracked quest when following is disabled", function()
             Questie.db.profile.trackerFollowSuperTracking = false
             canFocusQuest = false
-            superTrackingSupported = true
+            canSetSuperTracking = true
             superTrackedQuestId = 123
             local button = QuestFocusButton.New(1, CreateFrame("Button"))
 
@@ -220,7 +220,7 @@ describe("QuestFocusButton", function()
         end)
         it("should super track a quest Questie can not focus", function()
             canFocusQuest = false
-            superTrackingSupported = true
+            canSetSuperTracking = true
             TrackerUtils.FocusQuest = spy.new(function() return false end)
             local button = QuestFocusButton.New(1, CreateFrame("Button"))
             button:SetQuest(quest, false)
@@ -234,7 +234,7 @@ describe("QuestFocusButton", function()
 
         it("should open the world map on Blizzard's map of a quest Questie can not focus", function()
             canFocusQuest = false
-            superTrackingSupported = true
+            canSetSuperTracking = true
             TrackerUtils.FocusQuest = spy.new(function() return false end)
             _G.WorldMapFrame = {IsShown = function() return true end}
             local button = QuestFocusButton.New(1, CreateFrame("Button"))
@@ -249,7 +249,7 @@ describe("QuestFocusButton", function()
 
         it("should not open the world map for a quest Questie can not focus when the map is closed", function()
             canFocusQuest = false
-            superTrackingSupported = true
+            canSetSuperTracking = true
             TrackerUtils.FocusQuest = spy.new(function() return false end)
             _G.WorldMapFrame = {IsShown = function() return false end}
             local button = QuestFocusButton.New(1, CreateFrame("Button"))
@@ -262,7 +262,7 @@ describe("QuestFocusButton", function()
 
         it("should keep the world map when Blizzard knows no map for a quest Questie can not focus", function()
             canFocusQuest = false
-            superTrackingSupported = true
+            canSetSuperTracking = true
             TrackerUtils.FocusQuest = spy.new(function() return false end)
             QuestieCompat.GetQuestUiMapID = function() return nil end
             _G.WorldMapFrame = {IsShown = function() return true end}
@@ -277,7 +277,7 @@ describe("QuestFocusButton", function()
 
         it("should clear super tracking of a super tracked quest Questie has not focused", function()
             canFocusQuest = false
-            superTrackingSupported = true
+            canSetSuperTracking = true
             superTrackedQuestId = 123
             local button = QuestFocusButton.New(1, CreateFrame("Button"))
             button:SetQuest(quest, false)
@@ -292,7 +292,7 @@ describe("QuestFocusButton", function()
 
         it("should not clear super tracking of a super tracked quest when following is disabled", function()
             Questie.db.profile.trackerFollowSuperTracking = false
-            superTrackingSupported = true
+            canSetSuperTracking = true
             superTrackedQuestId = 123
             local button = QuestFocusButton.New(1, CreateFrame("Button"))
             button:SetQuest(quest, false)
@@ -306,7 +306,7 @@ describe("QuestFocusButton", function()
         it("should keep a quest selected by the button focused and clear it on the next click when following is disabled", function()
             Questie.db.profile.trackerFollowSuperTracking = false
             canFocusQuest = false
-            superTrackingSupported = true
+            canSetSuperTracking = true
             TrackerUtils.FocusQuest = spy.new(function() return false end)
             QuestieCompat.SetSuperTrackedQuestID = spy.new(function(questId) superTrackedQuestId = questId end)
             local button = QuestFocusButton.New(1, CreateFrame("Button"))
@@ -325,7 +325,7 @@ describe("QuestFocusButton", function()
         it("should not treat an external super tracking change as a button selection when following is disabled", function()
             Questie.db.profile.trackerFollowSuperTracking = false
             canFocusQuest = false
-            superTrackingSupported = true
+            canSetSuperTracking = true
             TrackerUtils.FocusQuest = spy.new(function() return false end)
             QuestieCompat.SetSuperTrackedQuestID = spy.new(function(questId) superTrackedQuestId = questId end)
             local button = QuestFocusButton.New(1, CreateFrame("Button"))

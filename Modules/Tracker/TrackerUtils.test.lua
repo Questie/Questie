@@ -481,7 +481,7 @@ describe("TrackerUtils", function()
             assert.spy(printMock).was.called(1)
         end)
 
-        it("still opens the quest log on Forever without the gamepad UI", function()
+        it("opens nothing and prints a hint on Forever without the gamepad UI", function()
             Questie.IsForever = true
             _G.InputUtil = {IsGamepadUIEnabled = function() return false end}
             _G.QuestLogFrame = nil
@@ -490,8 +490,9 @@ describe("TrackerUtils", function()
 
             TrackerUtils:ShowQuestLog({Id = 783})
 
-            assert.spy(_G.QuestMapFrame_OpenToQuestDetails).was.called_with(783)
-            assert.spy(printMock).was.not_called()
+            assert.spy(_G.QuestMapFrame_OpenToQuestDetails).was.not_called()
+            assert.spy(ShowUIPanel).was.not_called()
+            assert.spy(printMock).was.called(1)
         end)
 
         it("ignores the gamepad UI on other flavors", function()
