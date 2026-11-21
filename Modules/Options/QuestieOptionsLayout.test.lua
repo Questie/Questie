@@ -159,6 +159,14 @@ describe("QuestieOptionsLayout", function()
         assert.is_nil(created.Sound)
     end)
 
+    it("should ignore invisible options while searching", function()
+        Build({
+            hidden = {type = "spacer", title = "Map icons", order = 1, visible = false, width = "full"},
+        }, 1, "map")
+
+        assert.is_nil(created["Map icons"])
+    end)
+
     it("should keep a matching container and its matching child", function()
         Build({
             tracker = {

@@ -67,6 +67,10 @@ end
 ---@param terms string[]
 ---@return boolean
 local function _MatchesItemText(item, terms)
+    if item.visible == false then
+        return false
+    end
+
     local searchableText = string.lower(table.concat({
         _SearchText(item.title),
         _SearchText(item.description),
@@ -87,6 +91,10 @@ end
 ---@return boolean matches
 ---@return boolean directMatch
 local function _MatchesItem(item, terms)
+    if item.visible == false then
+        return false, false
+    end
+
     if _MatchesItemText(item, terms) then
         return true, true
     end
