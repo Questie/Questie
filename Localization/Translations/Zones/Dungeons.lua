@@ -30,7 +30,7 @@ local dungeonLocales = {
     },
     ["Blackrock Spire"] = {
         ["enUS"] = true,
-        ["deDE"] = (Questie.IsClassic and "Blackrockspitze") or "Schwarzfelsspitze",
+        ["deDE"] = (Expansions.Current == Expansions.Era and "Blackrockspitze") or "Schwarzfelsspitze",
         ["esES"] = "Cumbre de Roca Negra",
         ["esMX"] = "Cumbre de Roca Negra",
         ["frFR"] = (Questie.IsClassic and "Pic Blackrock") or "Pic Rochenoire",
@@ -42,7 +42,7 @@ local dungeonLocales = {
     },
     ["Upper Blackrock Spire"] = {
         ["enUS"] = true,
-        ["deDE"] = (Questie.IsClassic and "Obere Blackrockspitze") or "Obere Schwarzfelsspitze",
+        ["deDE"] = (Expansions.Current == Expansions.Era and "Obere Blackrockspitze") or "Obere Schwarzfelsspitze",
         ["esES"] = "Cumbre de Roca Negra Superior",
         ["esMX"] = "Cumbre de Roca Negra Superior",
         ["frFR"] = (Questie.IsClassic and "Sommet du pic Blackrock") or "Sommet du pic Rochenoire",
@@ -54,7 +54,7 @@ local dungeonLocales = {
     },
     ["Lower Blackrock Spire"] = {
         ["enUS"] = true,
-        ["deDE"] = (Questie.IsClassic and "Untere Blackrockspitze") or "Untere Schwarzfelsspitze",
+        ["deDE"] = (Expansions.Current == Expansions.Era and "Untere Blackrockspitze") or "Untere Schwarzfelsspitze",
         ["esES"] = "Cumbre de Roca Negra Inferior",
         ["esMX"] = "Cumbre de Roca Negra Inferior",
         ["frFR"] = (Questie.IsClassic and "Bas du pic Blackrock") or "Bas du pic Rochenoire",
@@ -234,7 +234,7 @@ local dungeonLocales = {
     },
     ["Razorfen Downs"] = {
         ["enUS"] = true,
-        ["deDE"] = (Questie.IsClassic and "Die Hügel von Razorfen") or "Hügel der Klingenhauer",
+        ["deDE"] = (Expansions.Current == Expansions.Era and "Die Hügel von Razorfen") or "Hügel der Klingenhauer",
         ["esES"] = "Zahúrda Rajacieno",
         ["esMX"] = "Zahúrda Rajacieno",
         ["frFR"] = "Souilles de Tranchebauge",
@@ -258,7 +258,7 @@ local dungeonLocales = {
     },
     ["Ragefire Chasm"] = {
         ["enUS"] = true,
-        ["deDE"] = (Questie.IsClassic and "Ragefireabgrund") or "Der Flammenschlund",
+        ["deDE"] = (Expansions.Current == Expansions.Era and "Ragefireabgrund") or "Der Flammenschlund",
         ["esES"] = "Sima Ígnea",
         ["esMX"] = "Sima Ígnea",
         ["frFR"] = "Gouffre de Ragefeu",
@@ -282,7 +282,7 @@ local dungeonLocales = {
     },
     ["Blackfathom Deeps"] = {
         ["enUS"] = true,
-        ["deDE"] = (Questie.IsClassic and "Blackfathom-Tiefe") or "Tiefschwarze Grotte",
+        ["deDE"] = (Expansions.Current == Expansions.Era and "Blackfathom-Tiefe") or "Tiefschwarze Grotte",
         ["esES"] = "Cavernas de Brazanegra",
         ["esMX"] = "Cavernas de Brazanegra",
         ["frFR"] = "Profondeurs de Brassenoire",
@@ -342,7 +342,7 @@ local dungeonLocales = {
     },
     ["Shadowfang Keep"] = {
         ["enUS"] = true,
-        ["deDE"] = (Questie.IsClassic and "Burg Shadowfang") or "Burg Schattenfang",
+        ["deDE"] = (Expansions.Current == Expansions.Era and "Burg Shadowfang") or "Burg Schattenfang",
         ["esES"] = "Castillo de Colmillo Oscuro",
         ["esMX"] = "Castillo de Colmillo Oscuro",
         ["frFR"] = "Donjon d'Ombrecroc",
@@ -366,7 +366,7 @@ local dungeonLocales = {
     },
     ["Razorfen Kraul"] = {
         ["enUS"] = true,
-        ["deDE"] = (Questie.IsClassic and "Der Kral von Razorfen") or "Kral der Klingenhauer",
+        ["deDE"] = (Expansions.Current == Expansions.Era and "Der Kral von Razorfen") or "Kral der Klingenhauer",
         ["esES"] = "Horado Rajacieno",
         ["esMX"] = "Horado Rajacieno",
         ["frFR"] = "Kraal de Tranchebauge",
@@ -450,7 +450,7 @@ local dungeonLocales = {
     },
     ["Blackrock Depths"] = {
         ["enUS"] = true,
-        ["deDE"] = (Questie.IsClassic and "Blackrocktiefen") or "Schwarzfelstiefen",
+        ["deDE"] = (Expansions.Current == Expansions.Era and "Blackrocktiefen") or "Schwarzfelstiefen",
         ["esES"] = "Profundidades de Roca Negra",
         ["esMX"] = "Profundidades de Roca Negra",
         ["frFR"] = (Questie.IsClassic and "Profondeurs de Blackrock") or "Profondeurs de Rochenoire",
