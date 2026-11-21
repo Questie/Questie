@@ -112,6 +112,16 @@ function QuestieOptionsWindow.Create(onSearchChanged)
     return window
 end
 
+---Anchors the search controls to the standalone window's Journey button.
+---@param window Frame
+---@param anchor Frame
+function QuestieOptionsWindow.AnchorSearchTo(window, anchor)
+    window.searchBox:ClearAllPoints()
+    window.searchBox:SetPoint("RIGHT", anchor, "LEFT", -10, 0)
+    window.searchLabel:ClearAllPoints()
+    window.searchLabel:SetPoint("RIGHT", window.searchBox, "LEFT", -8, 0)
+end
+
 ---Creates a tab button on the outside right edge of the window.
 ---@param window Frame
 ---@param tabKey string

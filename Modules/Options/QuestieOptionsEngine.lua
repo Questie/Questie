@@ -306,6 +306,7 @@ _BuildCanvas = function(canvas)
             btnLabel = l10n("My Journey"),
         }, 240, 1)
         journeyButton:SetPoint("TOPRIGHT", canvas, "TOPRIGHT", -36, 7)
+        QuestieOptionsWindow.AnchorSearchTo(canvas:GetParent():GetParent(), journeyButton)
         AddControl(journeyButton)
     end
 
