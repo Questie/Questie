@@ -1,7 +1,8 @@
 -- Private to Questie. The client calls each file in our TOCs, and each <Script file> in our XML, with this addon's
 -- namespace table as the second argument, so every file binds the loader at its top with:
 --     local QuestieLoader = select(2, ...).QuestieLoader
--- Other addons cannot reach it. It becomes a global only while debug is enabled (PopulateGlobals).
+-- Other addons cannot reach it. With debug enabled, PopulateGlobals publishes it as a global after login, and it
+-- stays one until /reload.
 local _, QuestieNamespace = ...
 
 ---@class QuestieLoader

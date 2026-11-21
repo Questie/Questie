@@ -270,8 +270,10 @@ end)
 - Mocking: override `_G.*` globals; use `spy.new()` for call verification
 - Use `dofile` to load the module under test, not `require` any file. `setupTests.lua` makes `dofile` pass the
   addon name and namespace the way the client does, so the file's `select(2, ...).QuestieLoader` binding works
-- In tests `QuestieLoader` is a global that `setupTests.lua` provides and keeps in sync with the namespace. A test
-  that calls `loadfile(path)(addonName, namespace)` itself must put `QuestieLoader = QuestieLoader` in that namespace
+- In tests `QuestieLoader` is a global that `setupTests.lua` provides and keeps in sync with the namespace. Addon
+  files loaded with `dofile` can't see that global, as in the client, so a file missing its binding fails its tests.
+  A test that calls `loadfile(path)(addonName, namespace)` itself must put `QuestieLoader = QuestieLoader` in that
+  namespace
 - Use `QuestieLoader` to stub modules, then mock functions called by the module under test. Exceptions are:
     - `l10n`, which should be loaded directly using `dofile("Localization/l10n.lua")`
     - `ContentPhases`, which should be loaded directly using `dofile("Database/Corrections/ContentPhases/ContentPhases.lua")`
