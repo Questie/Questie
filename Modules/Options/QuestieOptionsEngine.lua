@@ -96,7 +96,6 @@ local canvases = {}
 local popupCanvases = {}
 ---@type table<string, Frame> Buttons of Questie's own window by tab key
 local sideTabs = {}
-local selectedPopupTab
 
 ---Text currently entered in Questie's own options window.
 ---@type string
@@ -306,7 +305,7 @@ _BuildCanvas = function(canvas)
             btnLabel = l10n("My Journey"),
         }, 240, 1)
         journeyButton:SetPoint("TOPRIGHT", canvas, "TOPRIGHT", -36, 7)
-        QuestieOptionsWindow.AnchorSearchTo(canvas:GetParent():GetParent(), journeyButton)
+        QuestieOptionsWindow.AnchorSearchTo(canvas:GetParent():GetParent(), journeyButton.widget)
         AddControl(journeyButton)
     end
 
@@ -354,7 +353,6 @@ end
 
 ---@param selectedKey string
 local function _SelectPopupTab(selectedKey)
-    selectedPopupTab = selectedKey
     for _, tab in ipairs(visibleTabs) do
         local isSelected = tab.key == selectedKey
         popupCanvases[tab.key]:SetShown(isSelected)
@@ -447,6 +445,13 @@ local function _PopupTabMatchesSearch(tab)
     }, QuestieOptionsEngine.searchText)
 end
 
+local function _UpdatePopupTabVisibility()
+    for _, tab in ipairs(visibleTabs) do
+        local matches = QuestieOptionsEngine.searchText == "" or _PopupTabMatchesSearch(tab)
+        sideTabs[tab.key]:SetShown(matches)
+    end
+end
+
 local function _RebuildPopupCanvases()
     for _, canvas in pairs(popupCanvases) do
         local wasShown = canvas:IsShown()
@@ -458,7 +463,7 @@ local function _RebuildPopupCanvases()
     end
 end
 
----Changes the popup's option search and rebuilds the selected tab with matching items.
+---Changes the popup's option search and rebuilds every matching tab with matching items.
 ---@param searchText string
 function QuestieOptionsEngine:SetSearchText(searchText)
     searchText = strtrim(searchText or "")
@@ -472,25 +477,16 @@ function QuestieOptionsEngine:SetSearchText(searchText)
         return
     end
 
-    if searchText ~= "" and selectedPopupTab then
-        local selectedTab
+    if searchText ~= "" then
         for _, tab in ipairs(visibleTabs) do
-            if tab.key == selectedPopupTab then
-                selectedTab = tab
+            if _PopupTabMatchesSearch(tab) then
+                _SelectPopupTab(tab.key)
                 break
-            end
-        end
-
-        if selectedTab and not _PopupTabMatchesSearch(selectedTab) then
-            for _, tab in ipairs(visibleTabs) do
-                if _PopupTabMatchesSearch(tab) then
-                    _SelectPopupTab(tab.key)
-                    break
-                end
             end
         end
     end
 
+    _UpdatePopupTabVisibility()
     _RebuildPopupCanvases()
 end
 
