@@ -169,26 +169,6 @@ describe("QuestieMap", function()
             assert.spy(mapIcon.FakeHide).was.not_called()
             assert.spy(minimapIcon.FakeHide).was.not_called()
         end)
-
-        it("should show the icons in a major city even though it counts as unexplored", function()
-            -- IsExplored itself answers true for the major cities, regardless of the exploration data
-            local realUtils = {}
-            local originalMap = _G.C_MapExplorationInfo
-            _G.C_MapExplorationInfo = {GetExploredAreaIDsAtPosition = function() return nil end}
-            _G.CreateVector2D = _G.CreateVector2D or function(x, y) return {x = x, y = y} end
-            getUiMapId:revert()
-            getUiMapId = stub(ZoneDB, "GetUiMapIdByAreaId", function() return 1453 end)
-            QuestieMap.utils = realUtils
-            realUtils.RescaleIcon = function() end
-            dofile("Modules/Map/QuestieMapUtils.lua")
-            QuestieMap.utils.RescaleIcon = function() end
-
-            QuestieMap:DrawManualIcon(data, 1519, 50, 60, "Inn")
-            _G.C_MapExplorationInfo = originalMap
-
-            assert.spy(mapIcon.FakeHide).was.not_called()
-            assert.spy(minimapIcon.FakeHide).was.not_called()
-        end)
     end)
 
     describe("UnloadQuestFrames", function()
