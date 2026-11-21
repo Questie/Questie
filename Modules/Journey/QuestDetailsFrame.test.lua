@@ -13,7 +13,7 @@ describe("QuestDetailsFrame prerequisite links", function()
             userdata = {},
             text = {SetFontObject = function() end},
             SetFullWidth = function() end,
-            SetText = function() end,
+            SetText = function(self, text) self.labelText = text end,
             SetValue = function() end,
             SetLabel = function() end,
             SetDisabled = function() end,
@@ -39,6 +39,7 @@ describe("QuestDetailsFrame prerequisite links", function()
         _G.LibStub = function() return {Create = CreateWidget} end
         _G.UnitLevel = function() return 5 end
         links, navigation = {}, {}
+        QuestieLoader:ImportModule("QuestChain").GetQuestIds = function() return {} end
 
         dofile("Localization/l10n.lua")
         local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
@@ -51,6 +52,8 @@ describe("QuestDetailsFrame prerequisite links", function()
 
         local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
         QuestieLib.GetEffectiveQuestLevel = function() return 8 end
+        QuestieLib.GetLevelString = function() return "[8] " end
+        QuestieLib.PrintDifficultyColor = spy.new(function(_, _, text) return "colored:" .. text end)
         QuestieLib.GetRaceString = function() return "" end
         QuestieLib.GetClassString = function() return "" end
         QuestieLib.GetColoredQuestName = function(_, id) return "Prerequisite " .. id end
@@ -110,4 +113,27 @@ describe("QuestDetailsFrame prerequisite links", function()
         links[2].callbacks.OnClick()
         assert.spy(QuestieSearchResults.SetSearch).was.called_with(QuestieSearchResults, "quest", 94568)
     end)
+    it("shows the ordered chain with difficulty colors and navigates from every step", function()
+        QuestieLoader:ImportModule("QuestChain").GetQuestIds = function() return {100, 200, 300} end
+        QuestDetailsFrame:Draw({AddChild = function() end}, {Id = 200, name = "Middle", Finisher = {}})
+
+        assert.equals(3, #links)
+        assert.equals("colored:1. [8] Prerequisite", links[1].labelText)
+        assert.equals("colored:> 2. [8] Prerequisite", links[2].labelText)
+        assert.equals("colored:3. [8] Prerequisite", links[3].labelText)
+        local lib = QuestieLoader:ImportModule("QuestieLib")
+        for index, id in ipairs({100, 200, 300}) do
+            links[index].callbacks.OnClick()
+            assert.spy(QuestieSearchResults.SetSearch).was.called_with(QuestieSearchResults, "quest", id)
+            assert.spy(lib.PrintDifficultyColor).was.called_with(lib, 8,
+                (id == 200 and "> " or "") .. index .. ". [8] Prerequisite", false, false, false, id)
+        end
+    end)
+
+    it("does not show a chain for a standalone quest", function()
+        QuestieLoader:ImportModule("QuestChain").GetQuestIds = function() return {200} end
+        QuestDetailsFrame:Draw({AddChild = function() end}, {Id = 200, name = "Standalone", Finisher = {}})
+        assert.equals(0, #links)
+    end)
+
 end)

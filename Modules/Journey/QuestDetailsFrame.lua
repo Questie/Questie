@@ -14,6 +14,8 @@ local QuestieSearchResults = QuestieLoader:ImportModule("QuestieSearchResults")
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 ---@type QuestieReputation
 local QuestieReputation = QuestieLoader:ImportModule("QuestieReputation")
+---@type QuestChain
+local QuestChain = QuestieLoader:ImportModule("QuestChain")
 ---@type QuestieCorrections
 local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
 ---@type TrackerUtils
@@ -250,7 +252,8 @@ end
 ---@param lookup table Table of IDs (npc|object|quest|item)
 ---@param header string The text header to show above the links
 ---@param query function The function used to get link name from
-local function AddLinkedParagraph(frame, linkType, lookup, header, query)
+---@param currentQuestId QuestId? Marks the selected quest in an ordered chain
+local function AddLinkedParagraph(frame, linkType, lookup, header, query, currentQuestId)
     if lookup and #lookup > 0 then
         local group = AceGUI:Create("InlineGroup")
         group:SetFullWidth(true)
@@ -258,14 +261,19 @@ local function AddLinkedParagraph(frame, linkType, lookup, header, query)
         group:SetTitle(header)
         frame:AddChild(group)
 
-        for _, id in pairs(lookup) do
+        for index, id in ipairs(lookup) do
             id = math.abs(id)
             local link = AceGUI:Create("InteractiveLabel")
             -- Labels are 200 pixels wide unless stretched, which wraps long quest names and rewards needlessly.
             link:SetFullWidth(true)
             local name = query(id, "name")
             local text
-            if linkType == 'quest' then
+            if currentQuestId then
+                local level = QuestieLib.GetEffectiveQuestLevel(id)
+                text = index .. ". " .. QuestieLib:GetLevelString(id, level) .. name
+                if id == currentQuestId then text = "> " .. text end
+                text = QuestieLib:PrintDifficultyColor(level, text, false, false, false, id)
+            elseif linkType == 'quest' then
                 text = QuestieLib:GetColoredQuestName(id, true, true)
             elseif linkType == 'npc' then
                 local lvl = query(id, 'maxLevel')
@@ -494,25 +502,10 @@ function QuestDetailsFrame:Draw(container, quest)
         AddLinkedParagraph(container, "quest", quest.preQuestGroup, l10n("Requires all of these quests to be finished"), QuestieDB.QueryQuestSingle)
     end
 
-    local nextQuestInChain = QuestieDB.QueryQuestSingle(quest.Id, "nextQuestInChain")
-    if nextQuestInChain == 0 then nextQuestInChain = QuestieDB.QueryQuestSingle(quest.Id, "breadcrumbForQuestId") or 0 end
-    if nextQuestInChain and nextQuestInChain > 0 and (not QuestieCorrections.hiddenQuests[nextQuestInChain]) then
-        local nextQuestIDs = {}
-        local visitedQuestIds = {}
-        while nextQuestInChain > 0 and (not visitedQuestIds[nextQuestInChain]) and (not QuestieCorrections.hiddenQuests[nextQuestInChain]) do
-            visitedQuestIds[nextQuestInChain] = true
-            nextQuestIDs[#nextQuestIDs + 1] = nextQuestInChain
-            local nextNextQuestId = QuestieDB.QueryQuestSingle(nextQuestInChain, "nextQuestInChain")
-            if nextNextQuestId == 0 then nextNextQuestId = QuestieDB.QueryQuestSingle(nextQuestInChain, "breadcrumbForQuestId") or 0 end
-            if nextNextQuestId > 0 then
-                nextQuestInChain = nextNextQuestId
-            else
-                break
-            end
-        end
-
+    local chain = QuestChain.GetQuestIds(quest.Id)
+    if #chain > 1 then
         QuestieJourneyUtils:Spacer(container)
-        AddLinkedParagraph(container, "quest", nextQuestIDs, l10n("Next in chain"), QuestieDB.QueryQuestSingle)
+        AddLinkedParagraph(container, "quest", chain, l10n("Quest Chain"), QuestieDB.QueryQuestSingle, quest.Id)
     end
 
     QuestieJourneyUtils:Spacer(container)

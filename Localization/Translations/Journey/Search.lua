@@ -2,6 +2,18 @@
 local l10n = QuestieLoader:ImportModule("l10n")
 
 local searchLocales = {
+    ["Quest Chain"] = {
+        ["enUS"] = true,
+        ["deDE"] = "Questreihe",
+        ["esES"] = "Cadena de misiones",
+        ["esMX"] = "Cadena de misiones",
+        ["frFR"] = "Suite de quêtes",
+        ["koKR"] = "연계 퀘스트",
+        ["ptBR"] = "Sequência de missões",
+        ["ruRU"] = "Цепочка заданий",
+        ["zhCN"] = "任务链",
+        ["zhTW"] = "任務鏈",
+    },
     ["Advanced Search"] = {
         ["enUS"] = true,
         ["deDE"] = "Erweiterte Suche",
