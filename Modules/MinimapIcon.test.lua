@@ -346,9 +346,9 @@ describe("MinimapIcon", function()
         assert.spy(QuestieMenu.Hide).was.not_called()
     end)
 
-    it("should open the context menu from the addon compartment", function()
+    it("should open the context menu from the addon compartment on right click", function()
         QuestieMenu.IsOpen = function() return false end
-        local button = "LeftButton"
+        local button = "RightButton"
         local compartmentMenu = {}
         _G.Menu = {GetManager = function() return {GetOpenMenu = function() return compartmentMenu end} end}
         local shownAnchor = "unexpected anchor"
@@ -368,6 +368,18 @@ describe("MinimapIcon", function()
         assert.spy(QuestieMenu.Show).was.called()
         assert.is_nil(shownAnchor)
         assert.spy(QuestieMenu.Hide).was.not_called()
+        _G.Menu = nil
+    end)
+
+    it("should open the settings from the addon compartment on left click", function()
+        local compartmentMenu = {}
+        _G.Menu = {GetManager = function() return {GetOpenMenu = function() return compartmentMenu end} end}
+        QuestieMenu.Show = spy.new(function() end)
+
+        MinimapIcon.private.OnClick(compartmentMenu, "LeftButton")
+
+        assert.spy(QuestieOptionsEngine.ToggleConfigWindow).was.called()
+        assert.spy(QuestieMenu.Show).was.not_called()
         _G.Menu = nil
     end)
 
