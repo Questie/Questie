@@ -1,0 +1,5 @@
+<Bindings>
+    <Binding name="FIXTURE_TOGGLE" category="Fixture">
+        QuestieLoader:ImportModule("QuestieJourney"):ToggleJourneyWindow()
+    </Binding>
+</Bindings>

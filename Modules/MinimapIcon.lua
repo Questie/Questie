@@ -1,3 +1,6 @@
+---@type QuestieLoader
+local QuestieLoader = select(2, ...).QuestieLoader
+
 ---@class MinimapIcon : QuestieModule
 local MinimapIcon = QuestieLoader:CreateModule("MinimapIcon")
 local _MinimapIcon = MinimapIcon.private

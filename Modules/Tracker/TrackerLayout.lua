@@ -1,3 +1,6 @@
+---@type QuestieLoader
+local QuestieLoader = select(2, ...).QuestieLoader
+
 -- Shared layout state and helpers for drawing the tracker sections.
 -- Imports no other tracker module. QuestieTracker hands in its frames and resize functions on Initialize.
 ---@class TrackerLayout

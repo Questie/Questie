@@ -1,3 +1,6 @@
+---@type QuestieLoader
+local QuestieLoader = select(2, ...).QuestieLoader
+
 ---@type QuestieCompat
 local QuestieCompat = QuestieLoader:ImportModule("QuestieCompat")
 
@@ -837,6 +840,12 @@ end
 
 function QuestieTracker.SetupKeybinding()
     _G.BINDING_NAME_QUESTIE_TOGGLE_TRACKER = l10n("Toggle Questie Tracker")
+end
+
+-- Bindings.xml runs in the global environment, where the addon namespace is out of reach, so the binding calls this
+-- through the public Questie table.
+function Questie.ToggleTracker()
+    QuestieTracker.ToggleTracker()
 end
 
 -- TrackerData revision shown by the last completed layout. Nil makes the next quest-log check lay out.

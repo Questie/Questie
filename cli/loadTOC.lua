@@ -39,8 +39,9 @@ local function ReadFile(path)
     return contents
 end
 
-local function RunChunk(chunk, path)
-    local succeeded, runError = pcall(chunk, addonName, addonTable)
+---Runs a loaded chunk with the arguments the client gives it.
+local function RunChunk(chunk, path, ...)
+    local succeeded, runError = pcall(chunk, ...)
     if not succeeded then
         error("Error loading " .. path .. ": " .. tostring(runError), 0)
     end
@@ -53,7 +54,7 @@ local function LoadPath(path)
         if not chunk then
             error("Error loading " .. path .. ": " .. tostring(compileError), 0)
         end
-        RunChunk(chunk, path)
+        RunChunk(chunk, path, addonName, addonTable)
         return
     end
 
@@ -92,6 +93,8 @@ local function LoadPath(path)
                     if not chunk then
                         error("Error loading " .. path .. ": " .. tostring(compileError), 0)
                     end
+                    -- No documentation says the client passes the addon name and namespace to an inline Script,
+                    -- and the wowless client emulator does not, so neither does this replay.
                     RunChunk(chunk, path .. ":<Script>")
                 end
                 cursor = closeEnd + 1

@@ -1,3 +1,6 @@
+---@type QuestieLoader
+local QuestieLoader = select(2, ...).QuestieLoader
+
 ---@class QuestieTooltips
 local QuestieTooltips = QuestieLoader:CreateModule("QuestieTooltips");
 local _QuestieTooltips = QuestieTooltips.private

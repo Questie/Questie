@@ -1,3 +1,6 @@
+---@type QuestieLoader
+local QuestieLoader = select(2, ...).QuestieLoader
+
 ---@class DailyQuests
 ---@field hubs table<HubId, Hub>
 local DailyQuests = QuestieLoader:CreateModule("DailyQuests");

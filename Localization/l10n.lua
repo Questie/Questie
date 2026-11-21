@@ -1,3 +1,6 @@
+---@type QuestieLoader
+local QuestieLoader = select(2, ...).QuestieLoader
+
 ---@class l10n
 ---@field continentLookup table
 ---@field zoneLookup table

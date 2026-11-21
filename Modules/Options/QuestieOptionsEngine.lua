@@ -1,3 +1,6 @@
+---@type QuestieLoader
+local QuestieLoader = select(2, ...).QuestieLoader
+
 ---Questie's settings: the tabs, both places they are shown, and building them when they are first opened.
 ---@class QuestieOptionsEngine
 local QuestieOptionsEngine = QuestieLoader:CreateModule("QuestieOptionsEngine");

@@ -1,3 +1,6 @@
+---@type QuestieLoader
+local QuestieLoader = select(2, ...).QuestieLoader
+
 ---@class TitanReforgedQuestTags
 local TitanReforgedQuestTags = QuestieLoader:CreateModule("TitanReforgedQuestTags")
 ---@type l10n

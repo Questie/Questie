@@ -2,6 +2,9 @@
 -- at Questie commit ba0f5acd63cbeb8e5affc5d1990b0d1ee276cd57.
 -- Questie keeps this data because Darkmoon location selection is Questie runtime policy.
 
+---@type QuestieLoader
+local QuestieLoader = select(2, ...).QuestieLoader
+
 ---@class QuestieClassicPolicyCorrections
 local QuestieClassicPolicyCorrections = QuestieLoader:CreateModule("QuestieClassicPolicyCorrections")
 

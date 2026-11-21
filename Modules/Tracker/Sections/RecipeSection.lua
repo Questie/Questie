@@ -1,3 +1,6 @@
+---@type QuestieLoader
+local QuestieLoader = select(2, ...).QuestieLoader
+
 ---@class RecipeSection
 local RecipeSection = QuestieLoader:CreateModule("RecipeSection")
 

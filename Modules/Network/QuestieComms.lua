@@ -1,3 +1,6 @@
+---@type QuestieLoader
+local QuestieLoader = select(2, ...).QuestieLoader
+
 ---@class QuestieComms : QuestieModule
 local QuestieComms = QuestieLoader:CreateModule("QuestieComms");
 local _QuestieComms = QuestieComms.private

@@ -1,3 +1,6 @@
+---@type QuestieLoader
+local QuestieLoader = select(2, ...).QuestieLoader
+
 ---Arranges settings controls on a canvas.
 ---
 ---Rows are filled left to right until the next control does not fit. A finished row is then aligned, because the

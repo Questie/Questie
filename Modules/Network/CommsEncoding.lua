@@ -1,3 +1,6 @@
+---@type QuestieLoader
+local QuestieLoader = select(2, ...).QuestieLoader
+
 --[[
 CommsEncoding owns Questie's modern typed-prefix wire encoding:
 

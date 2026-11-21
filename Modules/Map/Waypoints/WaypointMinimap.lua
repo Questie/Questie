@@ -1,4 +1,7 @@
 -- luacheck: read globals GetMinimapShape GetPlayerFacing GetCursorPosition issecretvalue
+---@type QuestieLoader
+local QuestieLoader = select(2, ...).QuestieLoader
+
 ---Draws the paths around the player onto a layer over the minimap, lined up with Questie's minimap
 ---icons, and finds the path under the cursor.
 ---@class WaypointMinimap

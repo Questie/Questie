@@ -1,3 +1,6 @@
+---@type QuestieLoader
+local QuestieLoader = select(2, ...).QuestieLoader
+
 ---@class WorldMapButton
 ---@field Initialize function
 local WorldMapButton = QuestieLoader:CreateModule("WorldMapButton")

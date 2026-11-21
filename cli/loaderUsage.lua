@@ -26,10 +26,6 @@ local LoaderUsage = {}
 -- a restatement of the rule. One entry exempts every runtime call in that file, so keep the list short.
 LoaderUsage.knownRuntimeCallFiles = {
     -- ["Modules/SomeModule.lua"] = "resolved per call because the module is swapped at runtime by X",
-
-    -- The in-game loader's debugstack guard ignores runtime calls, so this cannot corrupt load attribution;
-    -- it is listed so the validator sees every loader call the client will ever execute.
-    ["Bindings.xml"] = "a binding body only runs at keypress; XML has no file scope to hoist the import to",
 }
 
 -- What to append to close each block the parser can report as unterminated.
@@ -199,7 +195,8 @@ function LoaderUsage.ScanFile(path)
 end
 
 ---Key binding bodies are Lua the client runs at keypress, never at file scope, so any loader call in one is
----a runtime call by construction - no scope judgment needed. The client loads Bindings.xml on its own
+---a runtime call by construction - no scope judgment needed. It would also fail: a binding body runs without the
+---addon namespace, so bindings call public entry points on the Questie table. The client loads Bindings.xml on its own
 ---without a TOC entry, which kept this file invisible to the TOC-driven scan.
 ---@param path string
 ---@return LoaderUsageFinding[]

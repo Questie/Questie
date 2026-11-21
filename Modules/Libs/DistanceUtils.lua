@@ -1,3 +1,6 @@
+---@type QuestieLoader
+local QuestieLoader = select(2, ...).QuestieLoader
+
 ---@class DistanceUtils
 local DistanceUtils = QuestieLoader:CreateModule("DistanceUtils")
 

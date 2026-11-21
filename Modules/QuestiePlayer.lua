@@ -1,3 +1,6 @@
+---@type QuestieLoader
+local QuestieLoader = select(2, ...).QuestieLoader
+
 ---@class QuestiePlayer
 ---@field numberOfGroupMembers number @The number of players currently in the group
 ---@field faction number @"Horde" or "Alliance"

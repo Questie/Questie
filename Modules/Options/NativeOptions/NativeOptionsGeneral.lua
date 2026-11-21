@@ -1,3 +1,6 @@
+---@type QuestieLoader
+local QuestieLoader = select(2, ...).QuestieLoader
+
 ---@type QuestieOptionsEngine
 local QuestieOptionsEngine = QuestieLoader:ImportModule("QuestieOptionsEngine");
 ---@type QuestieOptionsDefaults
@@ -27,7 +30,7 @@ local QuestiePartyObjectives = QuestieLoader:ImportModule("QuestiePartyObjective
 ---@type QuestieComms
 local QuestieComms = QuestieLoader:ImportModule("QuestieComms")
 
-QuestieOptionsEngine.tabs.general = { ... }
+QuestieOptionsEngine.tabs.general = {}
 local optionsDefaults = QuestieOptionsDefaults:Load()
 
 local LSM30 = LibStub("LibSharedMedia-3.0")

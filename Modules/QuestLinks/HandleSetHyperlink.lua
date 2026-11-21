@@ -1,3 +1,6 @@
+---@type QuestieLoader
+local QuestieLoader = select(2, ...).QuestieLoader
+
 ---@class HandleSetHyperlink
 local HandleSetHyperlink = QuestieLoader:CreateModule("HandleSetHyperlink")
 ---@type QuestieLink

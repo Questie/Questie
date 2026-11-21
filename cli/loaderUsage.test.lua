@@ -144,13 +144,13 @@ function Something.Update()
     end)
 
     describe("ScanBindingsXml", function()
-        it("sees the runtime loader call the TOC-driven scan cannot", function()
-            local findings = LoaderUsage.ScanBindingsXml("Bindings.xml")
+        it("reports a loader call in a binding body, which the TOC-driven scan cannot see", function()
+            local findings = LoaderUsage.ScanBindingsXml("cli/testData/loaderUsage/Bindings.xml")
 
-            assert.are_same(2, #findings)
+            assert.are_same(1, #findings)
             assert.are_same(3, findings[1].lineNumber)
-            -- Exempted with a reason rather than invisible: a binding body has no file scope to hoist to.
-            assert.is_true(findings[1].known)
+            -- Never exempt: a binding body runs without the addon namespace, so the call cannot work.
+            assert.is_false(findings[1].known)
         end)
     end)
 
@@ -185,6 +185,10 @@ function Something.Update()
             end
 
             assert.are_same({}, unexpected)
+        end)
+
+        it("has no loader call in a key binding", function()
+            assert.are_same({}, LoaderUsage.ScanBindingsXml("Bindings.xml"))
         end)
 
         it("resolves the scope of every call site it inspects", function()

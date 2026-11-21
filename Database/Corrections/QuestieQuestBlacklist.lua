@@ -1,3 +1,6 @@
+---@type QuestieLoader
+local QuestieLoader = select(2, ...).QuestieLoader
+
 ---@class QuestieQuestBlacklist
 local QuestieQuestBlacklist = QuestieLoader:CreateModule("QuestieQuestBlacklist")
 ---@type ContentPhases

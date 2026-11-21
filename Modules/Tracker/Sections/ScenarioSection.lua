@@ -1,3 +1,6 @@
+---@type QuestieLoader
+local QuestieLoader = select(2, ...).QuestieLoader
+
 -- Draws scenario objectives. Challenge Mode dungeons are scenarios with an additional timer line.
 ---@class ScenarioSection
 local ScenarioSection = QuestieLoader:CreateModule("ScenarioSection")

@@ -1,3 +1,6 @@
+---@type QuestieLoader
+local QuestieLoader = select(2, ...).QuestieLoader
+
 ---@class QuestieNPCBlacklist
 local QuestieNPCBlacklist = QuestieLoader:CreateModule("QuestieNPCBlacklist")
 ---@type Expansions

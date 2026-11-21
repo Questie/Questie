@@ -1,3 +1,6 @@
+---@type QuestieLoader
+local QuestieLoader = select(2, ...).QuestieLoader
+
 ---@class QuestieMap
 local QuestieMap = QuestieLoader:CreateModule("QuestieMap");
 ---@type QuestieMapUtils

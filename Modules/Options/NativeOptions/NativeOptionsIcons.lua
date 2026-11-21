@@ -1,3 +1,6 @@
+---@type QuestieLoader
+local QuestieLoader = select(2, ...).QuestieLoader
+
 ---@type QuestieOptionsEngine
 local QuestieOptionsEngine = QuestieLoader:ImportModule("QuestieOptionsEngine")
 ---@type QuestieOptionsDefaults
@@ -25,7 +28,7 @@ local Expansions = QuestieLoader:ImportModule("Expansions")
 ---@type ThreadLib
 local ThreadLib = QuestieLoader:ImportModule("ThreadLib")
 
-QuestieOptionsEngine.tabs.icons = { ... }
+QuestieOptionsEngine.tabs.icons = {}
 
 local optionsDefaults = QuestieOptionsDefaults:Load()
 

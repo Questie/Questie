@@ -1,3 +1,6 @@
+---@type QuestieLoader
+local QuestieLoader = select(2, ...).QuestieLoader
+
 ---Draws settings controls on a canvas and keeps them showing the current settings.
 ---
 ---Each control type below pairs a Create function with the Refresh that updates it, and is registered

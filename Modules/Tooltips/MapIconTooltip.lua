@@ -1,3 +1,6 @@
+---@type QuestieLoader
+local QuestieLoader = select(2, ...).QuestieLoader
+
 ---@class MapIconTooltip
 local MapIconTooltip = QuestieLoader:CreateModule("MapIconTooltip");
 local _MapIconTooltip = {}

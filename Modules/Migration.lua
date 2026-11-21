@@ -1,3 +1,6 @@
+---@type QuestieLoader
+local QuestieLoader = select(2, ...).QuestieLoader
+
 ---@class Migration
 local Migration = QuestieLoader:CreateModule("Migration")
 ---@type Expansions

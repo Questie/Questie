@@ -1,4 +1,7 @@
 -- luacheck: read globals issecretvalue
+---@type QuestieLoader
+local QuestieLoader = select(2, ...).QuestieLoader
+
 ---Draws the paths of the shown world map onto its canvas, and finds the path under the cursor.
 ---@class WaypointMap
 local WaypointMap = QuestieLoader:CreateModule("WaypointMap")

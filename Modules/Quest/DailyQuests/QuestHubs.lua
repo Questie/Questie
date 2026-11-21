@@ -1,3 +1,6 @@
+---@type QuestieLoader
+local QuestieLoader = select(2, ...).QuestieLoader
+
 ---@type DailyQuests
 local DailyQuests = QuestieLoader:ImportModule("DailyQuests")
 

@@ -1,3 +1,6 @@
+---@type QuestieLoader
+local QuestieLoader = select(2, ...).QuestieLoader
+
 ---@class QuestiePartyObjectives : QuestieModule
 local QuestiePartyObjectives = QuestieLoader:CreateModule("QuestiePartyObjectives")
 ---@class QuestiePartyObjectivesPrivate

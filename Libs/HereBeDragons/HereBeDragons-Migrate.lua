@@ -1,3 +1,6 @@
+---@type QuestieLoader
+local QuestieLoader = select(2, ...).QuestieLoader
+
 -- Questie modification: a Questie module instead of a LibStub library, like HereBeDragons-2.0.lua.
 ---@class HBDMigrate
 local HBDMigrate = QuestieLoader:CreateModule("HBDMigrate")

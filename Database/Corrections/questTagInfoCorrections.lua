@@ -1,3 +1,6 @@
+---@type QuestieLoader
+local QuestieLoader = select(2, ...).QuestieLoader
+
 ---@type QuestieDBPrivate
 local _QuestieDB = QuestieLoader:ImportModule("QuestieDB").private
 

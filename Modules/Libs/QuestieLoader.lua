@@ -1,6 +1,12 @@
--- The only public class except for Questie
+-- Private to Questie. The client calls each file in our TOCs, and each <Script file> in our XML, with this addon's
+-- namespace table as the second argument, so every file binds the loader at its top with:
+--     local QuestieLoader = select(2, ...).QuestieLoader
+-- Other addons cannot reach it. It becomes a global only while debug is enabled (PopulateGlobals).
+local _, QuestieNamespace = ...
+
 ---@class QuestieLoader
-QuestieLoader = {}
+local QuestieLoader = {}
+QuestieNamespace.QuestieLoader = QuestieLoader
 
 ---@class QuestieModule
 ---@field public private table -- TODO: We need to re-think the "private" module part
@@ -85,12 +91,9 @@ local function StampLoad(stackLevel, sourceOverride)
     loadMemory[lastSource] = (loadMemory[lastSource] or 0) + (nowKilobytes - lastMemoryKilobytes)
 
     -- WoW renders the path bracketed: "[Interface/AddOns/Questie/Modules/Foo.lua]:3: in main chunk".
-    -- An inline XML Script chunk carries the XML's own path instead:
-    -- "[Interface/AddOns/Questie/.../lookupItems.xml:<Scripts>]:1: in main chunk".
     local source = sourceOverride
     if not source then
         source = string.match(stack, "%[([^%]]+%.lua)%]:%d+")
-            or string.match(stack, "%[([^%]]+%.xml):<Scripts>%]:%d+")
         if source then
             source = string.gsub(source, "^.*[Qq]uestie/", "")
         end
@@ -180,15 +183,15 @@ end
 ---Closes the preceding load interval and opens one for a file or XML group that has no module call.
 ---
 ---Call without an argument when this main chunk should name the following interval. The identity is read
----from `debugstack`, so a Lua file names itself and an inline XML Script names its containing XML file:
+---from `debugstack`, so the Lua file names itself:
 ---  QuestieLoader:StampLoadBoundary()
 ---
----Pass an addon-relative identity when a wrapper announces the file loaded immediately after it. The
----override is used verbatim instead of the wrapper's `debugstack` source:
----  QuestieLoader:StampLoadBoundary("Libs/LibDeflate/LibDeflate.lua")
+---Pass an addon-relative identity to name the interval after something else. The override is used verbatim
+---instead of the caller's `debugstack` source. An XML group does this from a small file it loads first, since an
+---inline XML Script gets no addon namespace to reach the loader through:
+---  QuestieLoader:StampLoadBoundary("embeds.xml")
 ---
----Only main-chunk calls take effect. Locale lookup XML uses the first form because most of its child files
----return before reaching a module call; a wrapper can use the second form to keep those child intervals distinct.
+---Only main-chunk calls take effect.
 ---@param sourceOverride string? @Identity for the interval opened after this boundary; inferred when omitted
 ---@return nil
 function QuestieLoader:StampLoadBoundary(sourceOverride)

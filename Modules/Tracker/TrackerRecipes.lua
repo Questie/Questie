@@ -1,3 +1,6 @@
+---@type QuestieLoader
+local QuestieLoader = select(2, ...).QuestieLoader
+
 -- Reads profession recipes tracked through Blizzard's recipe tracking (C_TradeSkillUI) for display in the tracker.
 ---@class TrackerRecipes
 local TrackerRecipes = QuestieLoader:CreateModule("TrackerRecipes")

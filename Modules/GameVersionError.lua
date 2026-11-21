@@ -1,18 +1,18 @@
----@type l10n
-local l10n = QuestieLoader:ImportModule("l10n")
+-- Questie.toc, the fallback for unsupported clients, loads only this file. Neither QuestieLoader nor l10n exists
+-- there, so the message is plain English.
 
 -- No timeres or other fancy stuff as 1.12 client is very limited.
 
 -- StaticPopup has very limited width, so text is split to many lines.
 local msg = {
-    l10n("You're trying to use Questie addon"),
-    l10n("on an unsupported WoW game client!"),
+    "You're trying to use Questie addon",
+    "on an unsupported WoW game client!",
 
-    l10n("WoW \"retail\" and private servers"),
-    l10n("are not supported."),
+    "WoW \"retail\" and private servers",
+    "are not supported.",
 
-    l10n("Questie only supports"),
-    l10n("WoW Classic (Era/Cataclysm)!"),
+    "Questie only supports",
+    "WoW Classic (Era/Cataclysm)!",
 }
 
 StaticPopupDialogs["QUESTIE_VERSION_ERROR"] = {

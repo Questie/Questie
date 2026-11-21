@@ -1,3 +1,6 @@
+---@type QuestieLoader
+local QuestieLoader = select(2, ...).QuestieLoader
+
 ---@class QuestFocusButton
 local QuestFocusButton = QuestieLoader:CreateModule("QuestFocusButton")
 

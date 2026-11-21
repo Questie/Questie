@@ -1,3 +1,6 @@
+---@type QuestieLoader
+local QuestieLoader = select(2, ...).QuestieLoader
+
 ---@type QuestieCompat
 local QuestieCompat = QuestieLoader:ImportModule("QuestieCompat")
 
@@ -220,6 +223,12 @@ function QuestieJourney:SetupKeybinding()
         SetBinding("SEMICOLON", "QUESTIE_TOGGLE_JOURNEY")
         Questie.Debug(Questie.DEBUG_INFO, "Set default keybind ';' for Questie Journey")
     end
+end
+
+-- Bindings.xml runs in the global environment, where the addon namespace is out of reach, so the binding calls this
+-- through the public Questie table.
+function Questie.ToggleJourneyWindow()
+    QuestieJourney:ToggleJourneyWindow()
 end
 
 function QuestieJourney:PlayerLevelUp(level)

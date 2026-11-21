@@ -3,6 +3,7 @@
     <Script file="ignored.lua"/>
     -->
     <Script>
+        assert(select("#", ...) == 0, "an inline Script gets no addon name or namespace")
         table.insert(LOAD_TOC_TEST_ORDER, "inline XML script")
     </Script>
     <Script file="xml-script.lua"/>

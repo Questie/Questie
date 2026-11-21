@@ -1,3 +1,6 @@
+---@type QuestieLoader
+local QuestieLoader = select(2, ...).QuestieLoader
+
 ---@class MeetingStones
 local MeetingStones = QuestieLoader:CreateModule("MeetingStones")
 local _MeetingStones = {}

@@ -1,3 +1,6 @@
+---@type QuestieLoader
+local QuestieLoader = select(2, ...).QuestieLoader
+
 ---@class DropDB
 local DropDB = QuestieLoader:CreateModule("DropDB")
 
@@ -143,7 +146,7 @@ function DropDB.GetItemDroprate(itemId, npcId)
     -- It is worth noting that in Questie, we only display item drop data on NPCs that QuestieDB itself believes actually drops the item.
     -- So if we've manually excluded an NPC from dropping the item in QuestieDB corrections (like for a rare mob), then even if that drop
     -- data exists in our drop data DB, it won't ever actually be shown on NPC tooltips, because Questie itself doesn't think it should.
-    -- This function will still return data for those NPCs in case external addons request it, Questie simply won't ever ask this function to.
+    -- This function still returns data for those NPCs; Questie simply never asks it for them.
 
     if DropDB.tableCorrections and DropDB.tableCorrections[itemId] and DropDB.tableCorrections[itemId][npcId] then
         if DropDB.tableCorrections[itemId][npcId] >= 0 then -- If the correction is not a reference, use its value

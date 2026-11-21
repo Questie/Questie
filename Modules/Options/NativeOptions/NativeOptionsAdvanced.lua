@@ -1,3 +1,6 @@
+---@type QuestieLoader
+local QuestieLoader = select(2, ...).QuestieLoader
+
 ---@type QuestiePopup
 local Popup = QuestieLoader:ImportModule("QuestiePopup")
 
@@ -27,7 +30,7 @@ local QuestieProfiler = QuestieLoader:ImportModule("Profiler")
 ---@type QuestieWaypoints
 local QuestieWaypoints = QuestieLoader:ImportModule("QuestieWaypoints")
 
-QuestieOptionsEngine.tabs.advanced = { ... }
+QuestieOptionsEngine.tabs.advanced = {}
 local optionsDefaults = QuestieOptionsDefaults:Load()
 
 ---@type fun(): table<string, string>

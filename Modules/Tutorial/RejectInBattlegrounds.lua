@@ -1,3 +1,6 @@
+---@type QuestieLoader
+local QuestieLoader = select(2, ...).QuestieLoader
+
 ---@type Tutorial
 local Tutorial = QuestieLoader:ImportModule("Tutorial")
 ---@type l10n

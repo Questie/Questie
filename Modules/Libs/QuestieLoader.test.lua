@@ -247,12 +247,12 @@ describe("QuestieLoader", function()
             assert.are_same(12, QuestieLoader.loadTimings["Modules/Libs/QuestieLoader.lua"])
         end)
 
-        it("names the embedded-library interval from the boundary stamp in embeds.xml", function()
-            -- The real startup sequence: the loader's own remainder, then the embeds boundary, then the
+        it("names the embedded-library interval after embeds.xml from the boundary file it loads first", function()
+            -- The real startup sequence: the loader's own remainder, then the embeds boundary file, then the
             -- libraries, closed by the first Lua file's module call.
             AdvanceClock(2)
-            currentSourceFile = "embeds.xml:<Scripts>"
-            QuestieLoader:StampLoadBoundary()
+            currentSourceFile = "Modules/Libs/EmbedsLoadBoundary.lua"
+            QuestieLoader:StampLoadBoundary("embeds.xml")
             AdvanceClock(400)
 
             currentSourceFile = "Questie.lua"
@@ -260,36 +260,8 @@ describe("QuestieLoader", function()
 
             assert.are_same(2, QuestieLoader.loadTimings["Modules/Libs/QuestieLoader.lua"])
             assert.are_same(400, QuestieLoader.loadTimings["embeds.xml"])
-        end)
-
-        it("opens an interval named after an XML group at a boundary stamp", function()
-            currentSourceFile = "Localization/lookups/lookupZones.lua"
-            QuestieLoader:ImportModule("l10n")
-            AdvanceClock(3)
-
-            -- An inline Script chunk reports the XML's own path, ":<Scripts>" suffixed, in main chunk.
-            currentSourceFile = "Localization/Translations/Translations.xml:<Scripts>"
-            QuestieLoader:StampLoadBoundary()
-            AdvanceClock(200)
-
-            currentSourceFile = "Modules/Libs/DistanceUtils.lua"
-            QuestieLoader:CreateModule("DistanceUtils")
-
-            -- Without the boundary, the group's whole parse cost lands on lookupZones.lua.
-            assert.are_same(3, QuestieLoader.loadTimings["Localization/lookups/lookupZones.lua"])
-            assert.are_same(200, QuestieLoader.loadTimings["Localization/Translations/Translations.xml"])
-        end)
-
-        it("uses an explicit source name for a boundary interval", function()
-            currentSourceFile = "Libs/ThirdPartyLibraries.xml:<Scripts>"
-            QuestieLoader:StampLoadBoundary("Libs/Vendor/Library.lua")
-            AdvanceClock(30)
-
-            currentSourceFile = "Modules/Beta.lua"
-            QuestieLoader:CreateModule("Beta")
-
-            assert.are_same(30, QuestieLoader.loadTimings["Libs/Vendor/Library.lua"])
-            assert.is_nil(QuestieLoader.loadTimings["Libs/ThirdPartyLibraries.xml"])
+            -- The interval is named after the XML group, never after the small file that announced it.
+            assert.is_nil(QuestieLoader.loadTimings["Modules/Libs/EmbedsLoadBoundary.lua"])
         end)
 
         it("ignores a boundary stamp that does not come from a main chunk", function()

@@ -1,3 +1,6 @@
+---@type QuestieLoader
+local QuestieLoader = select(2, ...).QuestieLoader
+
 ---@class SourceModeStatus
 local SourceModeStatus = QuestieLoader:CreateModule("SourceModeStatus")
 ---@type QuestieStatus
