@@ -309,6 +309,11 @@ local migrationFunctions = {
         Questie.db.profile.showBlizzardQuestTimer = nil
     end,
     [50] = function()
+        -- Track-by-zone is a new opt-in tracker setting. Ensure existing profiles
+        -- receive the disabled default before the options are first displayed.
+        if Questie.db.profile.trackQuestsByZone == nil then
+            Questie.db.profile.trackQuestsByZone = false
+        end
         -- Shift + Left Click shares quests now, instead of untracking them
         local profile = Questie.db.profile
         if profile.trackerbindUntrack == "shiftleft" then

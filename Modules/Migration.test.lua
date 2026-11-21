@@ -217,6 +217,15 @@ describe("Migration", function()
         assert.are_same(55, Questie.db.profile.migrationVersion)
     end)
 
+    it("defaults track by zone when upgrading from version 49", function()
+        Questie.db.profile.migrationVersion = 49
+        Questie.db.profile.trackQuestsByZone = nil
+
+        Migration:Migrate()
+
+        assert.is_false(Questie.db.profile.trackQuestsByZone)
+    end)
+
     it("should move Shift + Left Click from untracking to sharing quests when upgrading from version 49", function()
         Questie.db.profile.migrationVersion = 49
         Questie.db.profile.trackerbindUntrack = "shiftleft"

@@ -151,6 +151,23 @@ function QuestieOptionsEngine.tabs.tracker:Initialize()
                             QuestieTracker:Update()
                         end,
                     },
+                    trackQuestsByZone = {
+                        type = "checkbox",
+                        order = 1.5,
+                        title = "Hide Other Zones",
+                        tooltip = "If checked, the Questie Tracker will hide quests from zones you are not currently in by automatically untracking them. Class, profession, and other non-zone quests remain tracked. Quests you manually choose to track remain tracked.",
+                        width = "half",
+                        enabled = function() return Questie.db.profile.trackerEnabled end,
+                        get = function() return Questie.db.profile.trackQuestsByZone end,
+                        set = function(_, value)
+                            local wasEnabled = Questie.db.profile.trackQuestsByZone
+                            Questie.db.profile.trackQuestsByZone = value
+                            if value and not wasEnabled then
+                                QuestieTracker:ResetZoneTrackingOverrides()
+                            end
+                            QuestieTracker:Update()
+                        end,
+                    },
                     showQuestLevels = {
                         type = "checkbox",
                         order = 2,

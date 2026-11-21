@@ -51,6 +51,30 @@ local trackerOptionsLocales = {
         ["zhCN"] = "这与暴雪界面选项中的\"启用自动任务追踪\"相同。启用时，Questie追踪器将自动追踪日志中的所有任务。关闭此选项可以取消所有追踪的任务，需要手动选择。\n\n注意：停用本选项也会停用\"显示已完成的任务\"",
         ["zhTW"] = "和遊戲內建的選項 \"啟用自動追蹤任務\" 相同。啟用時，Questie任務清單將會自動追蹤任務日誌中的所有任務。停用此選項將會取消追蹤所有任務，必須手動選擇要追蹤的任務。\n\n注意：停用此選項時也會停用 \"顯示已完成的任務\"",
     },
+    ["Hide Other Zones"] = {
+        ["enUS"] = true,
+        ["deDE"] = "Andere Zonen ausblenden", -- 🤖
+        ["esES"] = "Ocultar otras zonas", -- 🤖
+        ["esMX"] = "Ocultar otras zonas", -- 🤖
+        ["frFR"] = "Cacher les autres zones", -- 🤖
+        ["koKR"] = "다른 지역 숨기기", -- 🤖
+        ["ptBR"] = "Ocultar outras zonas", -- 🤖
+        ["ruRU"] = "Скрывать другие зоны", -- 🤖
+        ["zhCN"] = "隐藏其他区域", -- 🤖
+        ["zhTW"] = "隱藏其他區域", -- 🤖
+    },
+    ["If checked, the Questie Tracker will hide quests from zones you are not currently in by automatically untracking them. Class, profession, and other non-zone quests remain tracked. Quests you manually choose to track remain tracked."] = {
+        ["enUS"] = true,
+        ["deDE"] = "Wenn diese Option aktiviert ist, blendet der Questie-Tracker Quests aus Zonen, in denen du dich nicht befindest, aus, indem er sie automatisch nicht mehr verfolgt. Klassen-, Berufs- und andere Quests ohne Zone bleiben verfolgt. Quests, die du manuell zur Verfolgung auswählst, bleiben verfolgt.", -- 🤖
+        ["esES"] = "Si está seleccionado, el rastreador de Questie ocultará las misiones de las zonas en las que no te encuentres al dejar de rastrearlas automáticamente. Las misiones de clase, profesión y otras misiones que no pertenezcan a una zona seguirán rastreadas. Las misiones que elijas rastrear manualmente seguirán rastreadas.", -- 🤖
+        ["esMX"] = "Si está seleccionado, el rastreador de Questie ocultará las misiones de las zonas en las que no te encuentres al dejar de rastrearlas automáticamente. Las misiones de clase, profesión y otras misiones que no pertenezcan a una zona seguirán rastreadas. Las misiones que elijas rastrear manualmente seguirán rastreadas.", -- 🤖
+        ["frFR"] = "Si cette option est cochée, le suivi de Questie cachera les quêtes des zones où vous ne vous trouvez pas en cessant automatiquement de les suivre. Les quêtes de classe, de métier et les autres quêtes sans zone resteront suivies. Les quêtes que vous choisissez de suivre manuellement le resteront.", -- 🤖
+        ["koKR"] = "이 옵션을 선택하면 현재 있지 않은 지역의 퀘스트가 Questie 추적기에서 자동으로 추적 해제되어 숨겨집니다. 직업, 전문 기술 및 기타 지역이 지정되지 않은 퀘스트는 계속 추적됩니다. 직접 추적하도록 선택한 퀘스트는 계속 추적됩니다.", -- 🤖
+        ["ptBR"] = "Se marcado, o rastreador do Questie ocultará as missões de zonas onde você não está, deixando de rastreá-las automaticamente. Missões de classe, profissão e outras missões sem zona continuarão sendo rastreadas. As missões que você escolher rastrear manualmente continuarão sendo rastreadas.", -- 🤖
+        ["ruRU"] = "Если включено, трекер Questie скроет задания из зон, в которых вы сейчас не находитесь, автоматически перестав отслеживать их. Задания класса, профессии и другие задания без зоны продолжат отслеживаться. Задания, которые вы выбрали для отслеживания вручную, останутся отслеживаемыми.", -- 🤖
+        ["zhCN"] = "启用后，Questie 追踪器会通过自动取消追踪来隐藏你当前不在区域中的任务。职业、专业和其他没有区域的任务仍会被追踪。你手动选择追踪的任务也会继续被追踪。", -- 🤖
+        ["zhTW"] = "啟用後，Questie 任務清單會透過自動取消追蹤，隱藏你目前不在的區域中的任務。職業、專業和其他沒有區域的任務仍會被追蹤。你手動選擇追蹤的任務也會繼續被追蹤。", -- 🤖
+    },
     ---------------------------------------------------------
     ["Show Completed Quests"] = {
         ["enUS"] = true,

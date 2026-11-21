@@ -3,7 +3,7 @@ local stub = require("luassert.stub")
 
 describe("native tracker options", function()
     local originals
-    local QuestieOptionsEngine, tracker, compat, visibility, trackerUtils
+    local QuestieOptionsEngine, tracker, compat, visibility, trackerUtils, resetZoneTrackingOverrides
     local isVoiceOverLoadedStub, isSpokenLoadedStub
 
     -- Visibility is decided once when the tab is defined, so each case defines the tab after setting up the addons.
@@ -30,6 +30,8 @@ describe("native tracker options", function()
         QuestieOptionsEngine.tabs = {}
         tracker = QuestieLoader:ImportModule("QuestieTracker")
         tracker.Update = spy.new(function() end)
+        resetZoneTrackingOverrides = spy.new(function() end)
+        tracker.ResetZoneTrackingOverrides = resetZoneTrackingOverrides
         tracker.UpdateFormatting = spy.new(function() end)
         compat = QuestieLoader:ImportModule("QuestieCompat")
         compat.QuestLog_Update = spy.new(function() end)
@@ -114,6 +116,19 @@ describe("native tracker options", function()
 
         assert.is_false(showPlayButtons.get())
         assert.is_false(Questie.db.profile.trackerShowPlayButtons)
+        assert.spy(tracker.Update).was.called_with(tracker)
+    end)
+
+    it("should change the track by zone setting", function()
+        Questie.db.profile.trackQuestsByZone = false
+        local trackByZone = LoadTab().group_quests.items.trackQuestsByZone
+
+        assert.is_false(trackByZone.get())
+        trackByZone.set(nil, true)
+
+        assert.is_true(trackByZone.get())
+        assert.is_true(Questie.db.profile.trackQuestsByZone)
+        assert.spy(resetZoneTrackingOverrides).was.called_with(tracker)
         assert.spy(tracker.Update).was.called_with(tracker)
     end)
 

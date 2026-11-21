@@ -218,10 +218,15 @@ function EventHandler:RegisterLateEvents()
         QuestLogCache.OnLoadingScreenEnabled()
     end)
 
-    Questie:RegisterEvent("ZONE_CHANGED_NEW_AREA", function()
-        Questie.Debug(Questie.DEBUG_DEVELOP, "[EVENT] ZONE_CHANGED_NEW_AREA")
+    local function onZoneChanged(event)
+        Questie.Debug(Questie.DEBUG_DEVELOP, "[EVENT] ", event)
         QuestieTracker.HandleZoneChanged()
-    end)
+        QuestieCombatQueue:Queue(function()
+            QuestieTracker:Update()
+        end)
+    end
+    Questie:RegisterEvent("ZONE_CHANGED", onZoneChanged)
+    Questie:RegisterEvent("ZONE_CHANGED_NEW_AREA", onZoneChanged)
 
     -- Pet Battle Events (MoP onwards)
     if Expansions.Current >= Expansions.MoP then

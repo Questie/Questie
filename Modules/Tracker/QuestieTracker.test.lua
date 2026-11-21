@@ -21,16 +21,22 @@ describe("QuestieTracker", function()
     ---@type QuestieCombatQueue
     local QuestieCombatQueue
     local TrackerData
+    local QuestiePlayer
+    local ZoneDB
 
     before_each(function()
         Questie.db.char = {
             collapsedQuests = {},
             AutoUntrackedQuests = {},
+            ZoneAutoUntrackedQuests = {},
+            ZoneTrackedQuests = {},
             TrackedQuests = {},
             isTrackerExpanded = true,
         }
         Questie.db.profile = {
             trackerEnabled = true,
+            autoTrackQuests = true,
+            trackQuestsByZone = true,
             minimizeTrackerInInstances = false,
             hideTrackerInInstances = false,
         }
@@ -38,6 +44,8 @@ describe("QuestieTracker", function()
         TrackerData = QuestieLoader:ImportModule("TrackerData")
         TrackerData.RemoveQuest = spy.new(function() end)
         TrackerData.ContainsQuest = function() return false end
+        QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
+        ZoneDB = QuestieLoader:ImportModule("ZoneDB")
         TrackerUtils = QuestieLoader:ImportModule("TrackerUtils")
         TrackerUtils.UnFocus = spy.new(function() end)
         QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
@@ -187,6 +195,177 @@ describe("QuestieTracker", function()
         end)
     end)
 
+    describe("zone auto tracking", function()
+        local originalGetQuests, originalGetCurrentZoneId, originalGetParentZoneId, originalGetAreaIdByName, originalScheduleSnapshot
+        local originalForever, originalQuestLog
+        local currentZoneId
+        local quests
+        local scheduleSnapshot
+
+        before_each(function()
+            currentZoneId = 141 -- Teldrassil
+            quests = {
+                [1] = {Id = 1, zoneOrSort = 141}, -- current zone
+                [2] = {Id = 2, zoneOrSort = 12}, -- another zone
+                [3] = {Id = 3, zoneOrSort = -81}, -- warrior category
+                [4] = {Id = 4, zoneOrSort = -24}, -- profession category
+            }
+            originalGetQuests = TrackerData.GetQuests
+            originalGetCurrentZoneId = QuestiePlayer.GetCurrentZoneId
+            originalGetParentZoneId = ZoneDB.GetParentZoneId
+            originalGetAreaIdByName = ZoneDB.GetAreaIdByName
+            originalScheduleSnapshot = QuestieLoader:ImportModule("CommsVisibility").ScheduleSnapshot
+            originalForever = Questie.IsForever
+            originalQuestLog = _G.C_QuestLog
+            TrackerData.GetQuests = function() return quests end
+            QuestiePlayer.GetCurrentZoneId = function() return currentZoneId end
+            ZoneDB.GetParentZoneId = function() return nil end
+            scheduleSnapshot = spy.new(function() end)
+            QuestieLoader:ImportModule("CommsVisibility").ScheduleSnapshot = scheduleSnapshot
+            QuestieTracker.Update = spy.new(function() end)
+        end)
+
+        after_each(function()
+            TrackerData.GetQuests = originalGetQuests
+            QuestiePlayer.GetCurrentZoneId = originalGetCurrentZoneId
+            ZoneDB.GetParentZoneId = originalGetParentZoneId
+            ZoneDB.GetAreaIdByName = originalGetAreaIdByName
+            QuestieLoader:ImportModule("CommsVisibility").ScheduleSnapshot = originalScheduleSnapshot
+            Questie.IsForever = originalForever
+            _G.C_QuestLog = originalQuestLog
+        end)
+
+        it("auto-untracks quests from other zones but keeps class and profession categories", function()
+            QuestieTracker:UpdateZoneTracking()
+
+            assert.is_nil(Questie.db.char.AutoUntrackedQuests[1])
+            assert.is_true(Questie.db.char.AutoUntrackedQuests[2])
+            assert.is_nil(Questie.db.char.AutoUntrackedQuests[3])
+            assert.is_nil(Questie.db.char.AutoUntrackedQuests[4])
+            assert.is_true(Questie.db.char.ZoneAutoUntrackedQuests[2])
+        end)
+
+        it("uses the native quest-log zone when database metadata points to another zone", function()
+            currentZoneId = 1657 -- Darnassus
+            quests = {
+                [952] = {Id = 952, zoneOrSort = 1657, zoneName = "Darkshore"},
+            }
+            ZoneDB.GetAreaIdByName = function(_, zoneName)
+                return zoneName == "Darkshore" and 148 or nil
+            end
+
+            QuestieTracker:UpdateZoneTracking()
+
+            assert.is_true(Questie.db.char.AutoUntrackedQuests[952])
+            assert.is_true(Questie.db.char.ZoneAutoUntrackedQuests[952])
+        end)
+
+        it("keeps a quest tracked when an objective is in the current zone despite its native header", function()
+            currentZoneId = 12 -- Elwynn Forest
+            quests = {
+                [953] = {
+                    Id = 953,
+                    zoneOrSort = 1519, -- Stormwind City
+                    zoneName = "Stormwind City",
+                    Objectives = {
+                        {
+                            enrichment = {
+                                spawnList = {
+                                    {Spawns = {[12] = {{50, 50}}}}, -- Elwynn Forest
+                                },
+                            },
+                        },
+                    },
+                },
+            }
+            ZoneDB.GetAreaIdByName = function(_, zoneName)
+                return zoneName == "Stormwind City" and 1519 or nil
+            end
+
+            QuestieTracker:UpdateZoneTracking()
+
+            assert.is_nil(Questie.db.char.AutoUntrackedQuests[953])
+            assert.is_nil(Questie.db.char.ZoneAutoUntrackedQuests[953])
+        end)
+
+        it("restores zone filtering state when the option is disabled", function()
+            Questie.db.char.AutoUntrackedQuests[2] = true
+            Questie.db.char.ZoneAutoUntrackedQuests[2] = true
+            Questie.db.profile.trackQuestsByZone = false
+
+            QuestieTracker:UpdateZoneTracking()
+
+            assert.is_nil(Questie.db.char.AutoUntrackedQuests[2])
+            assert.is_nil(Questie.db.char.ZoneAutoUntrackedQuests[2])
+            assert.spy(scheduleSnapshot).was.called_with(QuestieLoader:ImportModule("CommsVisibility"), "ZONE_TRACKING")
+        end)
+
+        it("restores native quest watches when zone filtering is disabled", function()
+            local addQuestWatch = spy.new(function() end)
+            Questie.IsForever = true
+            _G.C_QuestLog = {AddQuestWatch = addQuestWatch}
+            Questie.db.char.AutoUntrackedQuests[2] = true
+            Questie.db.char.ZoneAutoUntrackedQuests[2] = true
+            Questie.db.profile.trackQuestsByZone = false
+
+            QuestieTracker:UpdateZoneTracking()
+
+            assert.spy(addQuestWatch).was.called_with(2)
+        end)
+
+        it("does not untrack manually selected quests when automatic tracking is disabled", function()
+            Questie.db.profile.autoTrackQuests = false
+            Questie.db.char.TrackedQuests[2] = true
+
+            QuestieTracker:UpdateZoneTracking()
+
+            assert.is_true(Questie.db.char.TrackedQuests[2])
+            assert.is_nil(Questie.db.char.ZoneAutoUntrackedQuests[2])
+        end)
+
+        it("resets zone overrides before re-enabling the filter", function()
+            Questie.db.char.AutoUntrackedQuests[2] = true
+            Questie.db.char.ZoneAutoUntrackedQuests[2] = true
+            Questie.db.char.ZoneTrackedQuests[2] = true
+
+            QuestieTracker:ResetZoneTrackingOverrides()
+
+            assert.is_nil(Questie.db.char.AutoUntrackedQuests[2])
+            assert.is_nil(Questie.db.char.ZoneAutoUntrackedQuests[2])
+            assert.is_nil(Questie.db.char.ZoneTrackedQuests[2])
+        end)
+
+        it("keeps an out-of-zone quest tracked after the player explicitly retracks it", function()
+            Questie.db.char.ZoneTrackedQuests[2] = true
+
+            QuestieTracker:UpdateZoneTracking()
+
+            assert.is_nil(Questie.db.char.AutoUntrackedQuests[2])
+            assert.is_nil(Questie.db.char.ZoneAutoUntrackedQuests[2])
+            assert.is_true(Questie.db.char.ZoneTrackedQuests[2])
+        end)
+
+        it("retracks a zone quest when the player enters that zone", function()
+            Questie.db.char.AutoUntrackedQuests[2] = true
+            Questie.db.char.ZoneAutoUntrackedQuests[2] = true
+            currentZoneId = 12
+
+            QuestieTracker:UpdateZoneTracking()
+
+            assert.is_nil(Questie.db.char.AutoUntrackedQuests[2])
+            assert.is_nil(Questie.db.char.ZoneAutoUntrackedQuests[2])
+        end)
+
+        it("does not override a quest the player manually auto-untracked", function()
+            Questie.db.char.AutoUntrackedQuests[2] = true
+
+            QuestieTracker:UpdateZoneTracking()
+
+            assert.is_true(Questie.db.char.AutoUntrackedQuests[2])
+            assert.is_nil(Questie.db.char.ZoneAutoUntrackedQuests[2])
+        end)
+    end)
+
     describe("GetNumTrackedQuests", function()
         local countMock
 
@@ -302,7 +481,7 @@ describe("QuestieTracker", function()
     end)
 
     describe("native-only quest tracking", function()
-        local originalForever, originalQuestLog
+        local originalForever, originalQuestLog, originalHooksecurefunc
         local titleMock, removeWatchMock, quest, QuestEventHandler
 
         before_each(function()
@@ -332,6 +511,9 @@ describe("QuestieTracker", function()
         after_each(function()
             Questie.IsForever = originalForever
             _G.C_QuestLog = originalQuestLog
+            if originalHooksecurefunc then
+                _G.hooksecurefunc = originalHooksecurefunc
+            end
             titleMock:revert()
             removeWatchMock:revert()
         end)
@@ -350,6 +532,7 @@ describe("QuestieTracker", function()
 
         it("retracks and expands an unknown native quest", function()
             Questie.db.char.AutoUntrackedQuests[91741] = true
+            Questie.db.char.ZoneAutoUntrackedQuests[91741] = true
             Questie.db.char.collapsedQuests[91741] = true
             Questie.db.char.collapsedZones["Northshire Abbey"] = true
 
@@ -357,10 +540,46 @@ describe("QuestieTracker", function()
 
             assert.spy(QuestEventHandler.IsQuestAccepted).was.called_with(91741)
             assert.is_nil(Questie.db.char.AutoUntrackedQuests[91741])
+            assert.is_nil(Questie.db.char.ZoneAutoUntrackedQuests[91741])
+            assert.is_true(Questie.db.char.ZoneTrackedQuests[91741])
             assert.is_nil(Questie.db.char.collapsedQuests[91741])
             assert.is_nil(Questie.db.char.collapsedZones["Northshire Abbey"])
             assert.spy(removeWatchMock).was.not_called()
             assert.spy(QuestieTracker.Update).was.called()
+        end)
+
+        it("preserves collapsed state when the installed native-watch hook restores a quest", function()
+            local addQuestWatchHook
+            local QuestieCompat = QuestieLoader:ImportModule("QuestieCompat")
+            local indexMock = stub(QuestieCompat, "GetQuestLogIndexByID", function() return 2 end)
+            originalHooksecurefunc = _G.hooksecurefunc
+            _G.hooksecurefunc = function(target, method, callback)
+                if target == _G.C_QuestLog and method == "AddQuestWatch" then
+                    addQuestWatchHook = callback
+                end
+            end
+
+            Questie.IsForever = true
+            _G.C_QuestLog = {
+                AddQuestWatch = function(questId)
+                    addQuestWatchHook(questId)
+                end,
+                GetQuestWatchType = function() return 1 end,
+            }
+            QuestieTracker.alreadyHooked = nil
+            QuestieTracker.alreadyHookedSecure = nil
+            Questie.db.char.AutoUntrackedQuests[91741] = true
+            Questie.db.char.ZoneAutoUntrackedQuests[91741] = true
+            Questie.db.char.collapsedQuests[91741] = true
+            Questie.db.char.collapsedZones["Northshire Abbey"] = true
+            Questie.db.profile.trackQuestsByZone = false
+
+            QuestieTracker:HookBaseTracker()
+            QuestieTracker:UpdateZoneTracking()
+
+            assert.is_true(Questie.db.char.collapsedQuests[91741])
+            assert.is_true(Questie.db.char.collapsedZones["Northshire Abbey"])
+            indexMock:revert()
         end)
 
         it("expands the tracker group the quest is listed under on retrack", function()
