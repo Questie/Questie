@@ -6,9 +6,6 @@ local DEFAULT_WIDTH = 180
 local DEFAULT_HEIGHT = 24
 local FLOW_GAP = 3
 local SCROLL_CONTENT_INSET = 16
-local TREE_MIN_WIDTH = 220
-local TREE_MAX_WIDTH = 600
-local TREE_DRAGGER_WIDTH = 8
 
 local function CreateBackdropFrame(frameType, parent, template)
     local ok, frame = pcall(CreateFrame, frameType, nil, parent, template or "BackdropTemplate")
@@ -973,14 +970,7 @@ local function CreateTreeGroup(parent)
     widget.treeframe = CreateBackdropFrame("Frame", widget.frame)
     widget.treeframe:SetPoint("TOPLEFT", widget.frame, "TOPLEFT")
     widget.treeframe:SetPoint("BOTTOMLEFT", widget.frame, "BOTTOMLEFT")
-    widget.treeframe:SetWidth(TREE_MIN_WIDTH)
-    widget.treeframe:SetResizable(true)
-    if widget.treeframe.SetResizeBounds then
-        widget.treeframe:SetResizeBounds(TREE_MIN_WIDTH, 1, TREE_MAX_WIDTH, 1600)
-    else
-        widget.treeframe:SetMinResize(TREE_MIN_WIDTH, 1)
-        widget.treeframe:SetMaxResize(TREE_MAX_WIDTH, 1600)
-    end
+    widget.treeframe:SetWidth(220)
     widget.treeframe:EnableMouse(true)
     widget.localstatus.groups = {}
     widget.treeScroll = CreateFrame("ScrollFrame", nil, widget.treeframe)
@@ -1023,39 +1013,6 @@ local function CreateTreeGroup(parent)
     widget.content:ClearAllPoints()
     widget.content:SetPoint("TOPLEFT", widget.treeframe, "TOPRIGHT", -2, 0)
     widget.content:SetPoint("BOTTOMRIGHT", widget.frame, "BOTTOMRIGHT")
-
-    local dragger = CreateBackdropFrame("Frame", widget.treeframe)
-    dragger:SetWidth(TREE_DRAGGER_WIDTH)
-    dragger:SetPoint("TOP", widget.treeframe, "TOPRIGHT")
-    dragger:SetPoint("BOTTOM", widget.treeframe, "BOTTOMRIGHT")
-    dragger:SetBackdrop({
-        bgFile = "Interface\\Tooltips\\UI-Tooltip-Background",
-        tile = true,
-        tileSize = 16,
-    })
-    dragger:SetBackdropColor(1, 1, 1, 0)
-    dragger:EnableMouse(true)
-    dragger:SetScript("OnEnter", function(frame)
-        frame:SetBackdropColor(1, 1, 1, 0.8)
-    end)
-    dragger:SetScript("OnLeave", function(frame)
-        frame:SetBackdropColor(1, 1, 1, 0)
-    end)
-    dragger:SetScript("OnMouseDown", function(_, button)
-        if button == "LeftButton" then
-            widget.treeframe:StartSizing("RIGHT")
-        end
-    end)
-    dragger:SetScript("OnMouseUp", function(_, button)
-        if button ~= "LeftButton" then
-            return
-        end
-        widget.treeframe:StopMovingOrSizing()
-        widget.localstatus.treewidth = widget.treeframe:GetWidth()
-        Fire(widget, "OnTreeResize", widget.localstatus.treewidth)
-        LayoutChildren(widget)
-    end)
-    widget.dragger = dragger
 
     local function FindNode(nodes, parts, index)
         for _, node in ipairs(nodes or {}) do
@@ -1285,7 +1242,6 @@ local function CreateTreeGroup(parent)
         widget.content:SetPoint("TOPLEFT", widget.treeframe, "TOPRIGHT", -2, 0)
         widget.content:SetPoint("BOTTOMRIGHT", widget.frame, "BOTTOMRIGHT")
         layingOutTree = false
-        LayoutChildren(widget)
     end
     widget.frame:HookScript("OnSizeChanged", LayoutTree)
     widget.treeframe:HookScript("OnSizeChanged", LayoutTree)
