@@ -1494,7 +1494,7 @@ local function CreateTabGroup(parent)
             if button then
                 button:ClearAllPoints()
                 button:SetPoint("TOPLEFT", self.tabBar, "TOPLEFT", x, 0)
-                if equalWidth then button:SetWidth(math.max(90, equalWidth)) end
+                if equalWidth then button:SetWidth(math.max(1, equalWidth)) end
                 x = x + button:GetWidth() + gap
             end
         end
