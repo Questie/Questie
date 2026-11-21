@@ -751,7 +751,8 @@ describe("QuestieOptionsEngine", function()
                 for _, control in ipairs(ControlsIn(window)) do
                     titles[control.itemData.title] = true
                 end
-                assert.is_true(titles.mapOption)
+                assert.is_true(titles.parent)
+                assert.is_nil(titles.mapOption)
                 assert.are.equal("", QuestieOptionsEngine.searchText)
             end)
         end)
