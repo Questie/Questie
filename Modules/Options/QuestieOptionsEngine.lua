@@ -212,9 +212,8 @@ local function _CreateScrollFrames(parent, name, header, mode)
     local scrollBar = CreateFrame("EventFrame", name .. "ScrollBar", parent, "MinimalScrollBar")
     scrollBar:SetPoint("RIGHT", parent, "RIGHT", -BAR_PADDING, 0)
     scrollBar:SetPoint("BOTTOM", parent, "BOTTOM", 0, 5)
-    local topGap = mode == RenderMode.POPUP and -42 or -10
-    scrollBar:SetPoint("TOP", parent, "TOP", 0, mode == RenderMode.POPUP and -68 or -36)
-    scrollBox:SetPoint("TOPLEFT", header, "BOTTOMLEFT", 0, topGap)
+    scrollBar:SetPoint("TOP", parent, "TOP", 0, -36)
+    scrollBox:SetPoint("TOPLEFT", header, "BOTTOMLEFT", 0, -10)
     scrollBox:SetPoint("BOTTOM", parent, 0, mode == RenderMode.POPUP and -7 or -1)
     scrollBox:SetPoint("RIGHT", scrollBar, "LEFT", -BAR_PADDING, 0)
 
