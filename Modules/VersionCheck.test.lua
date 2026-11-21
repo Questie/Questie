@@ -41,10 +41,10 @@ describe("Client content detection", function()
         end
     end)
 
-    ---Replays TOC ordering; loadfile supplies the addon-name argument that dofile cannot pass.
+    ---Replays TOC ordering.
     ---@return Expansions
     local function LoadClient()
-        assert(loadfile("Modules/VersionCheck.lua"))("Questie", {})
+        dofile("Modules/VersionCheck.lua")
         dofile("Modules/Expansions.lua")
         return QuestieLoader:ImportModule("Expansions")
     end

@@ -81,7 +81,7 @@ describe("HereBeDragons-Pins world-map icon removal", function()
     -- Another addon that copied this file kept Questie's template name, so both shared one pool and
     -- Questie's tooltip walked the other addon's pins.
     it("should name its world map pin pool after the addon that loads it", function()
-        loadfile("Libs/HereBeDragons/HereBeDragons-Pins-2.0.lua")("OtherAddon")
+        assert(loadfile("Libs/HereBeDragons/HereBeDragons-Pins-2.0.lua"))("OtherAddon", {QuestieLoader = QuestieLoader})
 
         assert.are.equal("HereBeDragonsPins-OtherAddon-WorldMapPin", pins.worldmapPinTemplate)
         assert.are.equal(pins.worldmapPinsPool, WorldMapFrame.pinPools["HereBeDragonsPins-OtherAddon-WorldMapPin"])

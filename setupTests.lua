@@ -1,3 +1,28 @@
+-- The client calls every addon file as chunk(addonName, namespace), and the files read QuestieLoader from that
+-- namespace. Plain dofile passes nothing, so tests load addon files through this one, which passes the same two
+-- arguments. Busted restores _G after each test file, so the override never outlives the file that loaded this setup.
+--
+-- Tests reach the loader as the global QuestieLoader. The namespace keeps its QuestieLoader in that same global, so a
+-- test that reloads the loader file, or this setup, cannot leave the namespace and the tests holding different loaders.
+local testNamespace = setmetatable({}, {
+    __index = function(_, key)
+        if key == "QuestieLoader" then
+            return _G.QuestieLoader
+        end
+    end,
+    __newindex = function(namespace, key, value)
+        if key == "QuestieLoader" then
+            _G.QuestieLoader = value
+        else
+            rawset(namespace, key, value)
+        end
+    end,
+})
+
+_G.dofile = function(path)
+    return assert(loadfile(path))("Questie", testNamespace)
+end
+
 dofile("Modules/Libs/QuestieLoader.lua")
 _G.GetBuildInfo = function() return "5.5.3", "0", "", 50503 end
 _G.WOW_PROJECT_CAMELOT = 18
