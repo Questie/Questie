@@ -758,8 +758,8 @@ describe("QuestieOptionsEngine", function()
                 for _, control in ipairs(ControlsIn(window)) do
                     titles[control.itemData.title] = true
                 end
-                assert.is_true(titles.parent)
-                assert.is_nil(titles.mapOption)
+                assert.is_nil(titles.parent)
+                assert.is_true(titles.mapOption)
                 assert.are.equal("", QuestieOptionsEngine.searchText)
 
                 window.searchBox:SetText("sea")
@@ -772,6 +772,49 @@ describe("QuestieOptionsEngine", function()
                 end
                 assert.is_nil(titles.parent)
                 assert.is_nil(titles.mapOption)
+            end)
+
+            for _, searchText in ipairs({"a", ""}) do
+                it("should keep the selected matching tab when changing the search to '" .. searchText .. "'", function()
+                    local window = OpenWindow()
+                    QuestieOptionsEngine:SetSearchText("p")
+                    ui.RunUntilIdle()
+                    ClickSideTab("map")
+
+                    QuestieOptionsEngine:SetSearchText(searchText)
+                    ui.RunUntilIdle()
+
+                    local mapCanvas = window.canvasContainer.children[2]
+                    assert.are.equal("map", mapCanvas.tab.key)
+                    assert.is_true(mapCanvas:IsShown())
+                    assert.is_false(window.canvasContainer.children[1]:IsShown())
+                    assert.is_true(CheckboxesIn(mapCanvas)[1]:IsVisible())
+                end)
+            end
+
+            it("should select the first matching tab when the selected tab no longer matches", function()
+                local window = OpenWindow()
+                ClickSideTab("map")
+
+                QuestieOptionsEngine:SetSearchText("parent")
+                ui.RunUntilIdle()
+
+                assert.is_true(window.canvasContainer.children[1]:IsShown())
+                assert.is_false(window.canvasContainer.children[2]:IsShown())
+                assert.is_true(CheckboxesIn(window)[1]:IsVisible())
+            end)
+
+            it("should keep the selected canvas for the no-results message when no tabs match", function()
+                local window = OpenWindow()
+                ClickSideTab("map")
+
+                QuestieOptionsEngine:SetSearchText("no such option")
+                ui.RunUntilIdle()
+
+                local mapCanvas = window.canvasContainer.children[2]
+                assert.is_true(mapCanvas:IsShown())
+                assert.is_true(mapCanvas.noResults:IsVisible())
+                assert.is_false(window.canvasContainer.children[1]:IsShown())
             end)
 
             it("should keep the active tab visible while a search replacement builds", function()

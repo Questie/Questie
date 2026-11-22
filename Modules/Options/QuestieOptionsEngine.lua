@@ -549,15 +549,18 @@ function QuestieOptionsEngine:SetSearchText(searchText)
         return
     end
 
-    if searchText ~= "" then
-        for _, tab in ipairs(visibleTabs) do
-            if _PopupTabMatchesSearch(tab) then
-                _SelectPopupTab(tab.key)
+    local selectedKey
+    for _, tab in ipairs(visibleTabs) do
+        if _PopupTabMatchesSearch(tab) then
+            selectedKey = selectedKey or tab.key
+            if popupCanvases[tab.key]:IsShown() then
+                selectedKey = tab.key
                 break
             end
         end
-    else
-        _SelectPopupTab(visibleTabs[1].key)
+    end
+    if selectedKey then
+        _SelectPopupTab(selectedKey)
     end
 
     _UpdatePopupTabVisibility()
