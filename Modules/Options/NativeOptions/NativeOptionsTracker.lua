@@ -120,6 +120,18 @@ function QuestieOptionsEngine.tabs.tracker:Initialize()
                     QuestieTracker:Update()
                 end,
             },
+            followSuperTracking = {
+                type = "checkbox",
+                order = 2.1,
+                width = "half",
+                title = "Follow Blizzard Super Tracking",
+                tooltip = "If checked, the Quest Focus follows the quest that is super tracked by Blizzard, e.g. when accepting a quest or clicking it on the map.",
+                visible = QuestieCompat.IsSuperTrackingSupported(),
+                get = function() return Questie.db.profile.trackerFollowSuperTracking end,
+                set = function(_, value)
+                    Questie.db.profile.trackerFollowSuperTracking = value
+                end
+            },
             group_quests = {
                 type = "container",
                 order = 3,
@@ -163,19 +175,6 @@ function QuestieOptionsEngine.tabs.tracker:Initialize()
                             Questie.db.profile.trackerShowQuestLevel = value
                             QuestieTracker:Update()
                         end,
-                    },
-                    followSuperTracking = {
-                        type = "checkbox",
-                        order = 3.1,
-                        width = "half",
-                        title = "Follow Blizzard Super Tracking",
-                        tooltip = "If checked, the Quest Focus follows the quest that is super tracked by Blizzard, e.g. when accepting a quest or clicking it on the map.",
-                        visible = QuestieCompat.IsSuperTrackingSupported(),
-                        enabled = function() return Questie.db.profile.trackerEnabled end,
-                        get = function() return Questie.db.profile.trackerFollowSuperTracking end,
-                        set = function(_, value)
-                            Questie.db.profile.trackerFollowSuperTracking = value
-                        end
                     },
                     listAchievementsFirst = {
                         type = "checkbox",
