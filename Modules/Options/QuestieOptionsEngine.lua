@@ -436,6 +436,12 @@ local function _CreatePopup()
     local window = QuestieOptionsWindow.Create(function(searchText)
         QuestieOptionsEngine:SetSearchText(searchText)
     end)
+    -- Reset the search and selected tab for every close path, including Escape and the close button.
+    window:HookScript("OnHide", function()
+        QuestieOptionsEngine:SetSearchText("")
+        window.searchBox:SetText("")
+        _SelectPopupTab(visibleTabs[1].key)
+    end)
 
     local previousSideTab
     for _, tab in ipairs(visibleTabs) do

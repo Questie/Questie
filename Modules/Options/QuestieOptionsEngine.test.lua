@@ -715,6 +715,53 @@ describe("QuestieOptionsEngine", function()
                 assert.are.equal(window, OpenWindow())
             end)
 
+            for _, close in ipairs({
+                {name = "HideFrame", run = function() QuestieOptionsEngine:HideFrame() end},
+                {name = "ToggleConfigWindow", run = function() QuestieOptionsEngine:ToggleConfigWindow() end},
+                {name = "the window itself", run = function(window) window:Hide() end},
+            }) do
+                it("should clear the search when closed through " .. close.name, function()
+                    local window = OpenWindow()
+                    window.searchBox:SetText("parent")
+                    window.searchBox.scripts.OnTextChanged(window.searchBox, true)
+                    ui.RunUntilIdle()
+                    assert.are.equal(1, #CheckboxesIn(window))
+
+                    close.run(window)
+                    OpenWindow()
+
+                    assert.are.equal("", window.searchBox:GetText())
+                    assert.are.equal("", QuestieOptionsEngine.searchText)
+                    assert.are.equal(2, #CheckboxesIn(window))
+                    for _, child in ipairs(window.children) do
+                        if child.button then
+                            assert.is_true(child:IsVisible())
+                        end
+                    end
+                end)
+            end
+
+            for _, searchText in ipairs({"map options", ""}) do
+                it("should reopen General after leaving Map with search '" .. searchText .. "'", function()
+                    local window = OpenWindow()
+                    window.searchBox:SetText(searchText)
+                    window.searchBox.scripts.OnTextChanged(window.searchBox, true)
+                    ui.RunUntilIdle()
+                    ClickSideTab("map")
+
+                    QuestieOptionsEngine:HideFrame()
+                    OpenWindow()
+
+                    assert.are.equal("", window.searchBox:GetText())
+                    assert.are.equal("", QuestieOptionsEngine.searchText)
+                    local generalCanvas = window.canvasContainer.children[1]
+                    assert.is_true(generalCanvas:IsShown())
+                    assert.is_false(window.canvasContainer.children[2]:IsShown())
+                    assert.are.equal(2, #CheckboxesIn(generalCanvas))
+                    assert.is_true(CheckboxesIn(generalCanvas)[1]:IsVisible())
+                end)
+            end
+
             it("should switch to My Journey from its button", function()
                 local QuestieJourney = QuestieLoader:ImportModule("QuestieJourney")
                 local journeyToggles = 0
