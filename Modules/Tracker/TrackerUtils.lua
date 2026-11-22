@@ -12,6 +12,8 @@ local TrackerUtils = QuestieLoader:ImportModule("TrackerUtils")
 local QuestieTracker = QuestieLoader:ImportModule("QuestieTracker")
 ---@type Sorter
 local Sorter = QuestieLoader:ImportModule("Sorter")
+---@type QuestAcceptOrder
+local QuestAcceptOrder = QuestieLoader:ImportModule("QuestAcceptOrder")
 ---@type TrackerLinePool
 local TrackerLinePool = QuestieLoader:ImportModule("TrackerLinePool")
 ---@type TrackerLayout
@@ -728,6 +730,10 @@ local function _GetZoneName(zoneOrSort, questId, nativeHeader)
             zoneName = l10n("Quests (By Level)")
         elseif sortObj == "byLevelReversed" then
             zoneName = l10n("Quests (By Level Reversed)")
+        elseif sortObj == "byLatest" then
+            zoneName = l10n("Quests (By Latest)")
+        elseif sortObj == "byLatestReversed" then
+            zoneName = l10n("Quests (By Latest Reversed)")
         elseif sortObj == "byProximity" then
             zoneName = l10n("Quests (By Proximity)")
         elseif sortObj == "byProximityReversed" then
@@ -752,6 +758,7 @@ function TrackerUtils:GetSortedQuestIds()
     ---@type table<QuestId, QuestSortDetails>
     local questDetails = {}
     local sortObj = Questie.db.profile.trackerSortObjectives
+    local acceptOrder = (sortObj == "byLatest" or sortObj == "byLatestReversed") and QuestAcceptOrder.Get()
 
     -- Update quest objectives
     for questId, quest in pairs(TrackerData.GetQuests()) do
@@ -776,6 +783,7 @@ function TrackerUtils:GetSortedQuestIds()
                 quest = quest,
                 zoneName = TrackerUtils.GetQuestGroupName(quest),
                 questCompletePercent = percent,
+                acceptOrder = acceptOrder and acceptOrder[questId] or 0,
             }
         end
     end
@@ -791,6 +799,10 @@ function TrackerUtils:GetSortedQuestIds()
         Sorter.byLevel(sortedQuestIds, questDetails)
     elseif sortObj == "byLevelReversed" then
         Sorter.byLevelReverse(sortedQuestIds, questDetails)
+    elseif sortObj == "byLatest" then
+        Sorter.byLatest(sortedQuestIds, questDetails)
+    elseif sortObj == "byLatestReversed" then
+        Sorter.byLatestReverse(sortedQuestIds, questDetails)
     elseif sortObj == "byZonePlayerProximity" or sortObj == "byZonePlayerProximityReversed" then
         local toSort = {}
         local zoneDistances = {}

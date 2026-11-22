@@ -5,3 +5,4 @@ local Sorter = QuestieLoader:CreateModule("Sorter")
 ---@field questCompletePercent number
 ---@field quest Quest
 ---@field zoneName string
+---@field acceptOrder number
