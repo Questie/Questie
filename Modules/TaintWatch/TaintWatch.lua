@@ -315,6 +315,7 @@ function _TaintWatch.BuildReport(title)
 end
 
 ---Hands a report to the error handler, so BugSack keeps it without interrupting anything. Once per key and session.
+---BugGrabber only prints messages that mention it to the chat instead of storing them, so its name is altered.
 ---@param key string
 ---@param title string
 function _TaintWatch.Report(key, title)
@@ -322,7 +323,7 @@ function _TaintWatch.Report(key, title)
         return
     end
     _TaintWatch.reported[key] = true
-    geterrorhandler()(_TaintWatch.BuildReport(title))
+    geterrorhandler()((_TaintWatch.BuildReport(title):gsub("BugGrabber", "Bug Grabber")))
 end
 
 function TaintWatch.Initialize()

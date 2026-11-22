@@ -140,6 +140,19 @@ describe("TaintWatch", function()
             assert.are.same(1, #_TaintWatch.captures)
         end)
 
+        it("should not mention BugGrabber in the report, as BugGrabber would only print it to the chat", function()
+            _G.C_AddOns.GetAddOnInfo = function(index) return index == 1 and "Questie" or "!BugGrabber" end
+            TaintWatch.Initialize()
+            taintedValues[WorldMapFrame.ScrollContainer] = {currentScale = "Questie"}
+
+            tickerCallback()
+
+            assert.spy(errorHandler).was.called(1)
+            local report = errorHandler.calls[1].vals[1]
+            assert.is_nil(report:find("BugGrabber", 1, true))
+            assert.truthy(report:find("!Bug Grabber", 1, true))
+        end)
+
         it("should not report secure values", function()
             TaintWatch.Initialize()
 
