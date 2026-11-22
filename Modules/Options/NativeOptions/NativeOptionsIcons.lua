@@ -139,7 +139,7 @@ function QuestieOptionsEngine.tabs.icons:Initialize()
                                 else
                                     QuestieQuest:HideQuestIcons()
                                     for questId, acceptance in ActiveQuests.Iterate() do
-                                        if acceptance.quest and acceptance.quest:IsComplete() == 1 and (not QuestieQuest:ShouldShowQuestNotes(questId)) then
+                                        if acceptance.quest and QuestieQuest.IsReadyToTurnIn(acceptance.quest) and (not QuestieQuest:ShouldShowQuestNotes(questId)) then
                                             QuestieTooltips:RemoveQuest(questId)
                                         end
                                     end

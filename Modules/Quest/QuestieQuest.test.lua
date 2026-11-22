@@ -46,6 +46,24 @@ describe("QuestieQuest", function()
         QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
     end)
 
+    describe("IsReadyToTurnIn", function()
+        it("accepts a quest the game flags complete", function()
+            assert.is_true(QuestieQuest.IsReadyToTurnIn({IsComplete = function() return 1 end}))
+        end)
+
+        it("accepts a quest whose objectives are all done while the game flag is still 0", function()
+            assert.is_true(QuestieQuest.IsReadyToTurnIn({IsComplete = function() return 0 end, isComplete = true}))
+        end)
+
+        it("rejects an incomplete quest", function()
+            assert.is_false(QuestieQuest.IsReadyToTurnIn({IsComplete = function() return 0 end}))
+        end)
+
+        it("rejects a failed quest with a stale completion flag", function()
+            assert.is_false(QuestieQuest.IsReadyToTurnIn({IsComplete = function() return -1 end, isComplete = true}))
+        end)
+    end)
+
     describe("KeepsUntrackedTurnIn", function()
         it("keeps a completed quest when the option is on", function()
             Questie.db.profile.showUntrackedTurnInIcons = true
@@ -70,6 +88,31 @@ describe("QuestieQuest", function()
             QuestieDB.GetQuest = function()
                 return {IsComplete = function() return 1 end}
             end
+
+            assert.is_false(QuestieQuest.KeepsUntrackedTurnIn(123))
+        end)
+
+        it("keeps a quest whose objectives are all done while the game flag is still 0", function()
+            Questie.db.profile.showUntrackedTurnInIcons = true
+            QuestieDB.GetQuest = function()
+                return {IsComplete = function() return 0 end, isComplete = true}
+            end
+
+            assert.is_true(QuestieQuest.KeepsUntrackedTurnIn(123))
+        end)
+
+        it("does not keep a failed quest with a stale completion flag", function()
+            Questie.db.profile.showUntrackedTurnInIcons = true
+            QuestieDB.GetQuest = function()
+                return {IsComplete = function() return -1 end, isComplete = true}
+            end
+
+            assert.is_false(QuestieQuest.KeepsUntrackedTurnIn(123))
+        end)
+
+        it("does not keep a quest missing from the database", function()
+            Questie.db.profile.showUntrackedTurnInIcons = true
+            QuestieDB.GetQuest = function() return nil end
 
             assert.is_false(QuestieQuest.KeepsUntrackedTurnIn(123))
         end)
@@ -102,6 +145,7 @@ describe("QuestieQuest", function()
             originalSendMessage = Questie.SendMessage
             Questie.SendMessage = spy.new(function() end)
             QuestieQuest.UpdateObjectiveNotes = spy.new(function() end)
+            QuestieQuest.RegisterObjectiveTooltips = spy.new(function() end)
             QuestieQuest.ShouldShowQuestNotes = function() return true end
         end)
 
@@ -131,6 +175,29 @@ describe("QuestieQuest", function()
             assert.is_true(quest.isComplete)
             assert.is_true(quest.WasComplete)
             assert.spy(finisher.AddFinisher).was.called_with(quest)
+        end)
+
+        it("restores the tooltips of a kept untracked quest completed through its objectives", function()
+            compat.IsQuestSequenced = function() return false end
+            QuestieQuest.PopulateQuestLogInfo = function() end
+            Questie.db.profile.showUntrackedTurnInIcons = true
+
+            QuestieQuest:UpdateQuest(93927)
+
+            assert.is_true(quest.isComplete)
+            assert.spy(QuestieQuest.RegisterObjectiveTooltips).was.called_with(quest)
+            assert.spy(finisher.AddFinisher).was.called_with(quest)
+        end)
+
+        it("does not restore tooltips for a quest completed through its objectives when the option is off", function()
+            compat.IsQuestSequenced = function() return false end
+            QuestieQuest.PopulateQuestLogInfo = function() end
+            Questie.db.profile.showUntrackedTurnInIcons = false
+
+            QuestieQuest:UpdateQuest(93927)
+
+            assert.is_true(quest.isComplete)
+            assert.spy(QuestieQuest.RegisterObjectiveTooltips).was.not_called()
         end)
 
         it("does not infer completion from mapped objectives while an unmapped native row is unfinished", function()
@@ -948,6 +1015,60 @@ describe("QuestieQuest", function()
             assert.are.equal(quest, ActiveQuests.Get(5).quest)
             assert.spy(QuestieQuest.CheckQuestSourceItem).was.called_with(QuestieQuest, 5, true)
             assert.are.same({true, nil, true}, hiddenWhenDrawn)
+        end)
+
+        describe("with hideUntrackedQuestsMapIcons", function()
+            local QuestieTooltips, originalProfile, originalRemoveQuest
+
+            before_each(function()
+                QuestieTooltips = QuestieLoader:ImportModule("QuestieTooltips")
+                originalProfile = Questie.db.profile
+                originalRemoveQuest = QuestieTooltips.RemoveQuest
+                Questie.db.profile = {hideUntrackedQuestsMapIcons = true, showUntrackedTurnInIcons = true}
+                Questie.db.char.TrackerHiddenQuests = {}
+                Questie.db.char.TrackerHiddenObjectives = {}
+                QuestieTooltips.RemoveQuest = spy.new(function() end)
+                QuestieQuest.ShouldShowQuestNotes = function() return false end
+            end)
+
+            after_each(function()
+                Questie.db.profile = originalProfile
+                QuestieTooltips.RemoveQuest = originalRemoveQuest
+            end)
+
+            local function untrackedQuest(complete)
+                local quest = {Id = 5, IsComplete = function() return complete end, Objectives = {}, SpecialObjectives = {}}
+                QuestieDB.GetQuest = function() return quest end
+                return quest
+            end
+
+            it("draws the finisher and keeps the tooltip of an untracked completed quest", function()
+                local quest = untrackedQuest(1)
+
+                QuestieQuest:AddToQuestLog(quest)
+
+                assert.spy(QuestieQuest.PopulateObjectiveNotes).was.called_with(QuestieQuest, quest)
+                assert.spy(QuestieTooltips.RemoveQuest).was.not_called()
+            end)
+
+            it("removes the tooltip of an untracked completed quest when the option is off", function()
+                Questie.db.profile.showUntrackedTurnInIcons = false
+                local quest = untrackedQuest(1)
+
+                QuestieQuest:AddToQuestLog(quest)
+
+                assert.spy(QuestieQuest.PopulateObjectiveNotes).was.not_called()
+                assert.spy(QuestieTooltips.RemoveQuest).was.called_with(QuestieTooltips, 5)
+            end)
+
+            it("does not draw the objectives of an untracked incomplete quest", function()
+                local quest = untrackedQuest(0)
+
+                QuestieQuest:AddToQuestLog(quest)
+
+                assert.spy(QuestieQuest.PopulateObjectiveNotes).was.not_called()
+                assert.spy(QuestieTooltips.RemoveQuest).was.called_with(QuestieTooltips, 5)
+            end)
         end)
     end)
 
