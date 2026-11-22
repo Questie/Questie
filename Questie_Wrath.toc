@@ -40,6 +40,7 @@ Modules\Libs\QuestieLoader.lua
 # Does nothing unless QuestieProfilerEnabled is set.
 Modules\Profiler\QuestieProfilerPreHook.lua
 
+Modules\TaintWatch\TaintWatch.lua
 Modules\QuestieCompat.lua
 
 embeds.xml

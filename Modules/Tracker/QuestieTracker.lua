@@ -3,6 +3,8 @@ local QuestieCompat = QuestieLoader:ImportModule("QuestieCompat")
 
 ---@class QuestieTracker
 local QuestieTracker = QuestieLoader:CreateModule("QuestieTracker")
+---@type TaintWatch
+local TaintWatch = QuestieLoader:ImportModule("TaintWatch")
 -------------------------
 --Import QuestieTracker modules.
 -------------------------
@@ -1366,6 +1368,7 @@ function QuestieTracker:UntrackQuestId(questId)
 
     if Questie.IsForever and C_QuestLog.GetQuestWatchType(questId) ~= nil then
         -- Keep the modern quest log's track checkbox consistent when untracking from Questie's menu.
+        TaintWatch.Note("RemoveQuestWatch", questId)
         C_QuestLog.RemoveQuestWatch(questId)
     end
 

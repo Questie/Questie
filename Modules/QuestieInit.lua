@@ -41,6 +41,8 @@ local QuestieJourney = QuestieLoader:ImportModule("QuestieJourney")
 local HBDHooks = QuestieLoader:ImportModule("HBDHooks")
 ---@type GamepadMapHover
 local GamepadMapHover = QuestieLoader:ImportModule("GamepadMapHover")
+---@type TaintWatch
+local TaintWatch = QuestieLoader:ImportModule("TaintWatch")
 ---@type ChatFilter
 local ChatFilter = QuestieLoader:ImportModule("ChatFilter")
 ---@type QuestieShutUp
@@ -434,6 +436,7 @@ function QuestieInit.OnAddonLoaded()
         HBDHooks:Init()
         if Questie.IsForever then
             GamepadMapHover.Initialize()
+            TaintWatch.Initialize()
         end
         QuestieShutUp:ToggleFilters(Questie.db.profile.questieShutUp)
         QuestieCoords:Initialize()

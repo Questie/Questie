@@ -41,6 +41,7 @@ Modules\Libs\QuestieLoader.lua
 Modules\Profiler\QuestieProfilerPreHook.lua
 
 # Compatibility includes Forever's library bridges, so it must precede embedded libraries.
+Modules\TaintWatch\TaintWatch.lua
 Modules\QuestieCompat.lua
 
 embeds.xml

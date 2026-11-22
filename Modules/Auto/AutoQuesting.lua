@@ -3,6 +3,8 @@ local QuestieCompat = QuestieLoader:ImportModule("QuestieCompat")
 
 ---@class AutoQuesting
 local AutoQuesting = QuestieLoader:CreateModule("AutoQuesting")
+---@type TaintWatch
+local TaintWatch = QuestieLoader:ImportModule("TaintWatch")
 ---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 ---@type l10n
@@ -28,6 +30,7 @@ function AutoQuesting.OnQuestDetail()
         local giverGuid = UnitGUID("questnpc")
         local unitType = giverGuid and strsplit("-", giverGuid)
         if unitType == "Player" then
+            TaintWatch.Note("DeclineQuest")
             DeclineQuest()
             Questie:Print(l10n("Automatically rejected quest shared by player."))
             return
@@ -48,6 +51,7 @@ function AutoQuesting.OnQuestDetail()
     end
 
     if doAcceptQuest then
+        TaintWatch.Note("AcceptQuest")
         AcceptQuest()
     end
 end
@@ -62,6 +66,7 @@ function AutoQuesting.OnQuestGreeting()
         for index = 1, GetNumActiveQuests() do
             local quest, isComplete = GetActiveTitle(index)
             if isComplete then
+                TaintWatch.Note("SelectActiveQuest")
                 SelectActiveQuest(index)
                 return
             end
@@ -88,6 +93,7 @@ function AutoQuesting.OnQuestGreeting()
             end
 
             if indexToAccept > 0 then
+                TaintWatch.Note("SelectAvailableQuest")
                 SelectAvailableQuest(indexToAccept)
             end
         end
@@ -113,6 +119,7 @@ function AutoQuesting.OnGossipShow()
             end
 
             if firstCompleteQuestIndex > 0 then
+                TaintWatch.Note("SelectActiveQuest")
                 QuestieCompat.SelectActiveQuest(firstCompleteQuestIndex)
                 return
             end
@@ -156,6 +163,7 @@ function AutoQuesting.OnGossipShow()
             end
 
             if indexToAccept > 0 then
+                TaintWatch.Note("SelectAvailableQuest")
                 QuestieCompat.SelectAvailableQuest(indexToAccept)
             end
         end
@@ -176,6 +184,7 @@ function AutoQuesting.OnQuestProgress()
         return
     end
 
+    TaintWatch.Note("CompleteQuest")
     CompleteQuest()
 end
 
@@ -184,6 +193,7 @@ function AutoQuesting.OnQuestAcceptConfirm()
         return
     end
 
+    TaintWatch.Note("ConfirmAcceptQuest")
     ConfirmAcceptQuest()
 end
 
@@ -193,6 +203,7 @@ function AutoQuesting.OnQuestComplete()
         return
     end
 
+    TaintWatch.Note("GetQuestReward")
     GetQuestReward(1)
 end
 

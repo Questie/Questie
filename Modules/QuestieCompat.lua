@@ -1,6 +1,8 @@
 ---@diagnostic disable: undefined-global, return-type-mismatch, undefined-field
 ---@class QuestieCompat
 local QuestieCompat = QuestieLoader:CreateModule("QuestieCompat")
+---@type TaintWatch
+local TaintWatch = QuestieLoader:ImportModule("TaintWatch")
 
 -- Source baselines: Era 1.15.9 (69722), Anniversary 2.5.6 (69795), Mists 5.5.4 (69585),
 -- Titan 3.80.2 (69874), Forever 1.60.1 (69913). See FOREVER_WORK_LEFT_TO_DO.md for pinned sources and caveats.
@@ -312,6 +314,7 @@ function QuestieCompat.OpenWorldMap(uiMapId)
     if InCombatLockdown() then
         return false
     end
+    TaintWatch.Note("OpenWorldMap", uiMapId)
     C_Map.OpenWorldMap(uiMapId)
     return true
 end
@@ -380,10 +383,12 @@ local function ApplyObjectiveTrackerVisibility()
     visibilityFrame:UnregisterEvent("PLAYER_REGEN_ENABLED")
     if ObjectiveTrackerFrame then
         if hideObjectiveTracker then
+            TaintWatch.Note("ObjectiveTrackerFrame:Hide")
             ObjectiveTrackerFrame:Hide()
         else
             ObjectiveTrackerFrame:SetAlpha(1)
             -- Forever: calling Update() here would run Blizzard's layout (and its secret aura reads) and taint it.
+            TaintWatch.Note("ObjectiveTrackerFrame:Show")
             ObjectiveTrackerFrame:Show()
         end
     end
@@ -882,6 +887,7 @@ end
 ---@param questId QuestId
 function QuestieCompat.SetSuperTrackedQuestID(questId)
     if QuestieCompat.IsSuperTrackingSupported() then
+        TaintWatch.Note("SetSuperTrackedQuestID", questId)
         C_SuperTrack.SetSuperTrackedQuestID(questId)
     end
 end
@@ -889,6 +895,7 @@ end
 ---Does nothing on clients without super tracking.
 function QuestieCompat.ClearSuperTrackedQuest()
     if QuestieCompat.IsSuperTrackingSupported() then
+        TaintWatch.Note("SetSuperTrackedQuestID", 0)
         C_SuperTrack.SetSuperTrackedQuestID(0)
     end
 end
