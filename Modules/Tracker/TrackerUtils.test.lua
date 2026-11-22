@@ -1618,8 +1618,10 @@ describe("TrackerUtils", function()
 
             dofile("Modules/Tracker/Sorter/Sorter.lua")
             dofile("Modules/Tracker/Sorter/byComplete.lua")
+            dofile("Modules/Tracker/Sorter/byAcceptOrder.lua")
             dofile("Modules/Tracker/Sorter/byLevel.lua")
             dofile("Modules/Tracker/Sorter/byZone.lua")
+            dofile("Modules/Tracker/QuestAcceptOrder.lua")
 
             _G.C_Map = {
                 GetAreaInfo = function(zoneId)
@@ -1974,6 +1976,99 @@ describe("TrackerUtils", function()
             local sortedIds = TrackerUtils:GetSortedQuestIds()
 
             assert.are_same({4, 1, 5, 3, 2, 6}, sortedIds)
+        end)
+
+        it("should return quest IDs correctly sorted for 'byLatest' sorting", function()
+            Questie.db.profile.trackerSortObjectives = "byLatest"
+            trackerQuests = {
+                [1] = {Id = 1, level = 10, IsComplete = function() return 1 end},
+                [2] = {Id = 2, level = 5, IsComplete = function() return 1 end},
+                [3] = {Id = 3, level = 10, IsComplete = function() return 1 end},
+                [4] = {Id = 4, level = 15, IsComplete = function() return 1 end},
+                [5] = {Id = 5, level = 10, IsComplete = function() return 1 end},
+                [6] = {Id = 6, level = 10, IsComplete = function() return 1 end},
+                [7] = {Id = 7, level = 10, IsComplete = function() return 1 end},
+                [8] = {Id = 8, level = 10, IsComplete = function() return 1 end},
+                [9] = {Id = 9, level = 5, IsComplete = function() return 1 end},
+            }
+            -- Quests 5 to 9 were accepted before the journey recorded them
+            Questie.db.char.journey = {
+                {Event = "Quest", SubType = "Accept", Quest = 3, Timestamp = 1},
+                {Event = "Quest", SubType = "Accept", Quest = 1, Timestamp = 2},
+                {Event = "Level", NewLevel = 11, Timestamp = 3},
+                {Event = "Quest", SubType = "Accept", Quest = 4, Timestamp = 4},
+                {Event = "Quest", SubType = "Abandon", Quest = 3, Timestamp = 5},
+                {Event = "Quest", SubType = "Accept", Quest = 2, Timestamp = 5},
+                {Event = "Quest", SubType = "Accept", Quest = 3, Timestamp = 6},
+            }
+
+            QuestieLib.GetQuestTypeSuffix = function(_, questId)
+                local suffixes = {
+                    [6] = "D",
+                    [7] = "+", -- Elite has higher prio than dungeon
+                }
+                return suffixes[questId] or ""
+            end
+
+            local sortedIds = TrackerUtils:GetSortedQuestIds()
+
+            assert.are_same({3, 2, 4, 1, 9, 5, 8, 7, 6}, sortedIds)
+        end)
+
+        it("should return quest IDs correctly sorted for 'byLatestReversed' sorting", function()
+            Questie.db.profile.trackerSortObjectives = "byLatestReversed"
+            trackerQuests = {
+                [1] = {Id = 1, level = 10, IsComplete = function() return 1 end},
+                [2] = {Id = 2, level = 5, IsComplete = function() return 1 end},
+                [3] = {Id = 3, level = 10, IsComplete = function() return 1 end},
+                [4] = {Id = 4, level = 15, IsComplete = function() return 1 end},
+                [5] = {Id = 5, level = 10, IsComplete = function() return 1 end},
+                [6] = {Id = 6, level = 10, IsComplete = function() return 1 end},
+                [7] = {Id = 7, level = 10, IsComplete = function() return 1 end},
+                [8] = {Id = 8, level = 10, IsComplete = function() return 1 end},
+                [9] = {Id = 9, level = 5, IsComplete = function() return 1 end},
+            }
+            -- Quests 5 to 9 were accepted before the journey recorded them
+            Questie.db.char.journey = {
+                {Event = "Quest", SubType = "Accept", Quest = 3, Timestamp = 1},
+                {Event = "Quest", SubType = "Accept", Quest = 1, Timestamp = 2},
+                {Event = "Level", NewLevel = 11, Timestamp = 3},
+                {Event = "Quest", SubType = "Accept", Quest = 4, Timestamp = 4},
+                {Event = "Quest", SubType = "Abandon", Quest = 3, Timestamp = 5},
+                {Event = "Quest", SubType = "Accept", Quest = 2, Timestamp = 5},
+                {Event = "Quest", SubType = "Accept", Quest = 3, Timestamp = 6},
+            }
+
+            QuestieLib.GetQuestTypeSuffix = function(_, questId)
+                local suffixes = {
+                    [6] = "D",
+                    [7] = "+", -- Elite has higher prio than dungeon
+                }
+                return suffixes[questId] or ""
+            end
+
+            local sortedIds = TrackerUtils:GetSortedQuestIds()
+
+            assert.are_same({9, 5, 8, 7, 6, 1, 4, 2, 3}, sortedIds)
+        end)
+
+        it("should move a newly accepted quest to the top for 'byLatest' sorting", function()
+            Questie.db.profile.trackerSortObjectives = "byLatest"
+            trackerQuests = {
+                [1] = {Id = 1, level = 10, IsComplete = function() return 1 end},
+                [2] = {Id = 2, level = 10, IsComplete = function() return 1 end},
+                [3] = {Id = 3, level = 10, IsComplete = function() return 1 end},
+            }
+            Questie.db.char.journey = {
+                {Event = "Quest", SubType = "Accept", Quest = 1, Timestamp = 1},
+                {Event = "Quest", SubType = "Accept", Quest = 2, Timestamp = 2},
+            }
+            assert.are_same({2, 1, 3}, TrackerUtils:GetSortedQuestIds())
+
+            table.insert(Questie.db.char.journey, {Event = "Quest", SubType = "Accept", Quest = 3, Timestamp = 3})
+            local sortedIds = TrackerUtils:GetSortedQuestIds()
+
+            assert.are_same({3, 2, 1}, sortedIds)
         end)
     end)
 end)

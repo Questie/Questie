@@ -343,6 +343,9 @@ function _QuestEventHandler:HandleQuestAccepted(questId, isRetry)
     QuestieQuest:SetObjectivesDirty(questId)
 
     QuestieJourney:AcceptQuest(questId)
+    if isRetry then
+        _QueueTrackerUpdate()
+    end
     QuestieAnnounce:AcceptedQuest(questId)
 
     QuestieAPI.PropagateQuestUpdate(questId, {}, QuestieAPI.Enums.QuestUpdateTriggerReason.QUEST_ACCEPTED)

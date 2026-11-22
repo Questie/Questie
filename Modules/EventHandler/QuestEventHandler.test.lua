@@ -275,6 +275,26 @@ describe("QuestEventHandler", function()
         assert.spy(QuestieTracker.Update).was.called()
     end)
 
+    it("should update the tracker when the delayed retry accepts the quest", function()
+        local callbacks = {}
+        _G.C_Timer = {After = function(_, callback) table.insert(callbacks, callback) end, NewTimer = newTimerMock}
+        QuestLogCache.CheckForChanges = spy.new(function() return true, nil end)
+        QuestieQuest.SetObjectivesDirty = spy.new(function() end)
+        QuestLifecycle.AcceptQuest = spy.new(function() end)
+        QuestieJourney.AcceptQuest = spy.new(function() end)
+        QuestieAnnounce.AcceptedQuest = spy.new(function() end)
+
+        QuestEventHandler.QuestAccepted(2, QUEST_ID)
+        assert.spy(QuestieTracker.Update).was.called(1)
+
+        QuestLogCache.CheckForChanges = spy.new(function() return false, {} end)
+        callbacks[1]()
+
+        assert.spy(QuestieJourney.AcceptQuest).was.called_with(QuestieJourney, QUEST_ID)
+        assert.spy(QuestieTracker.Update).was.called(2)
+        assert.spy(QuestieTracker.Update).was.called_with(QuestieTracker, false)
+    end)
+
     it("should hide Immersion frame when quest was auto accepted and modifier is not held", function()
         Questie.db.profile.autoAccept.enabled = true
         AutoQuesting.IsModifierHeld = function() return false end
