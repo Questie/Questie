@@ -7055,6 +7055,16 @@ function QuestieQuestBlacklist:Load()
         [78132] = not Questie.IsSoD, -- Dragonslayer's Helm
         [78133] = not Questie.IsSoD, -- Dragonslayer's Shield
         [78134] = not Questie.IsSoD, -- Dragonslayer's Lance
+        -- Season of Discovery's replacements of profession quests (ContentPhases/SeasonOfDiscovery.lua),
+        -- present in the Forever data with no profession requirement while the originals stay active
+        [79637] = not Questie.IsSoD, -- A Ticking Present - SoD replacement for 8769
+        [80241] = not Questie.IsSoD, -- The Origins of Smithing - SoD replacement for 2758
+        [81570] = not Questie.IsSoD, -- Jarl Needs a Blade - SoD replacement for 1203
+        [82656] = not Questie.IsSoD, -- Wild Leather Vest - SoD replacement for 2856
+        [82657] = not Questie.IsSoD, -- Wild Leather Vest - SoD replacement for 2849
+        [82662] = not Questie.IsSoD, -- The Way of the Weaponsmith - SoD replacement for 5284
+        [85712] = not Questie.IsSoD, -- The Art of the Armorsmith - SoD replacement for 5301
+        [85713] = not Questie.IsSoD, -- The Art of the Armorsmith - SoD replacement for 5283
         [78142] = HIDE_ON_MAP, -- Bewitchments and Glamours
         [78143] = HIDE_ON_MAP, -- Secrets of the Dreamers
         [78145] = HIDE_ON_MAP, -- Arcanic Systems Manual
