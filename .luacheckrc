@@ -2945,7 +2945,6 @@ globals = {
     "QuestLogEx",
     "QuestLogExFrame",
     "ClassicQuestLog",
-    "DugisGuideViewer",
     "MBB_Ignore",
     "GetQuestLogRewardXP",
     "HBD_PINS_WORLDMAP_SHOW_CONTINENT",
