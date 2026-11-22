@@ -220,6 +220,35 @@ describe("TaintWatch", function()
     end)
 
     describe("hooks", function()
+        it("should not build a stack for a capture that would be discarded", function()
+            local hooks = {}
+            _G.hooksecurefunc = function(tbl, method, hook) hooks[method] = {tbl = tbl, hook = hook} end
+            _G.debugstack = spy.new(function() return "stack line" end)
+            WorldMapFrame.ScrollContainer.MarkCanvasDirty = function() end
+            TaintWatch.Initialize()
+            taintedValues[WorldMapFrame.ScrollContainer] = {currentScale = "Questie"}
+
+            hooks.MarkCanvasDirty.hook(WorldMapFrame.ScrollContainer)
+            hooks.MarkCanvasDirty.hook(WorldMapFrame.ScrollContainer)
+
+            assert.spy(_G.debugstack).was.called(1)
+        end)
+
+        it("should not build a stack when the slots for other addons are full", function()
+            local hooks = {}
+            _G.hooksecurefunc = function(tbl, method, hook) hooks[method] = {tbl = tbl, hook = hook} end
+            _G.debugstack = spy.new(function() return "stack line" end)
+            WorldMapFrame.ScrollContainer.MarkCanvasDirty = function() end
+            TaintWatch.Initialize()
+            for i = 1, 5 do
+                _TaintWatch.Capture("other" .. i, "OtherAddon", nil)
+            end
+            taintedValues[WorldMapFrame.ScrollContainer] = {currentScale = "OtherAddon"}
+
+            hooks.MarkCanvasDirty.hook(WorldMapFrame.ScrollContainer)
+
+            assert.spy(_G.debugstack).was.not_called()
+        end)
         it("should report the stack when Blizzard code writes a tainted value", function()
             local hooks = {}
             _G.hooksecurefunc = function(tbl, method, hook) hooks[method] = {tbl = tbl, hook = hook} end

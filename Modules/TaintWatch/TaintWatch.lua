@@ -68,20 +68,31 @@ function _TaintWatch.GetTaint(tbl, key)
     return taintedBy or "unknown"
 end
 
----Stores the first time a watched value becomes tainted. Other addons' taint is kept apart, so it can not use up
----the slots for Questie's taint, and only Questie's first capture of the session is reported.
+---Finds where a capture would be stored. Other addons' taint is kept apart, so it can not use up the slots
+---for Questie's taint.
+---@param label string
+---@param taintedBy string
+---@return table[]? captures The list the capture belongs to, nil when it would be discarded
+function _TaintWatch.GetCaptureList(label, taintedBy)
+    local previous = _TaintWatch.lastStatus[label]
+    if previous == taintedBy or previous == QUESTIE then
+        return nil
+    end
+
+    local captures = taintedBy == QUESTIE and _TaintWatch.captures or _TaintWatch.otherCaptures
+    if #captures >= MAX_CAPTURES then
+        return nil
+    end
+    return captures
+end
+
+---Stores the first time a watched value becomes tainted. Only Questie's first capture of the session is reported.
 ---@param label string
 ---@param taintedBy string
 ---@param stack string?
 function _TaintWatch.Capture(label, taintedBy, stack)
-    local previous = _TaintWatch.lastStatus[label]
-    if previous == taintedBy or previous == QUESTIE then
-        return
-    end
-
-    local isQuestie = taintedBy == QUESTIE
-    local captures = isQuestie and _TaintWatch.captures or _TaintWatch.otherCaptures
-    if #captures >= MAX_CAPTURES then
+    local captures = _TaintWatch.GetCaptureList(label, taintedBy)
+    if (not captures) then
         return
     end
     _TaintWatch.lastStatus[label] = taintedBy
@@ -95,12 +106,13 @@ function _TaintWatch.Capture(label, taintedBy, stack)
         notes = _TaintWatch.FormatNotes(GetTime()),
     })
 
-    if isQuestie then
+    if taintedBy == QUESTIE then
         _TaintWatch.Report("taint", label .. " was tainted by " .. taintedBy)
     end
 end
 
 ---Checks a value right after Blizzard code wrote it, so the stack still shows the caller.
+---The stack is only built for a capture that will be stored.
 ---@param label string
 ---@param tbl any
 ---@param key string
@@ -109,7 +121,7 @@ function _TaintWatch.CheckWrite(label, tbl, key)
         return
     end
     local taintedBy = _TaintWatch.GetTaint(tbl, key)
-    if taintedBy then
+    if taintedBy and _TaintWatch.GetCaptureList(label, taintedBy) then
         _TaintWatch.Capture(label, taintedBy, debugstack(2, STACK_LEVELS, 0))
     end
 end
