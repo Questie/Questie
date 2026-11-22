@@ -401,7 +401,7 @@ describe("TrackerUtils", function()
         local globalNames = {
             "QuestLogFrame", "QuestLogExFrame", "ClassicQuestLog", "QuestLogEx", "QuestLogListScrollFrame",
             "QuestLogListScrollFrameScrollBar", "QuestMapFrame_OpenToQuestDetails", "ShowUIPanel", "InCombatLockdown",
-            "InputUtil",
+            "InputUtil", "QuestUtil", "QuestLogPopupDetailFrame",
         }
 
         before_each(function()
@@ -492,6 +492,32 @@ describe("TrackerUtils", function()
 
             assert.spy(_G.QuestMapFrame_OpenToQuestDetails).was.called_with(783)
             assert.spy(printMock).was.not_called()
+        end)
+
+        it("should open Blizzard's quest details popup on Forever instead of changing the world map", function()
+            Questie.IsForever = true
+            _G.InputUtil = {IsGamepadUIEnabled = function() return false end}
+            _G.QuestLogPopupDetailFrame = {}
+            _G.QuestUtil = {OpenQuestDetails = spy.new(function() end)}
+
+            TrackerUtils:ShowQuestLog({Id = 783})
+
+            assert.spy(_G.QuestUtil.OpenQuestDetails).was.called_with(783)
+            assert.spy(_G.QuestMapFrame_OpenToQuestDetails).was.not_called()
+            assert.spy(printMock).was.not_called()
+        end)
+
+        it("should not open Blizzard's quest details popup in combat", function()
+            Questie.IsForever = true
+            _G.InputUtil = {IsGamepadUIEnabled = function() return false end}
+            _G.InCombatLockdown = function() return true end
+            _G.QuestLogPopupDetailFrame = {}
+            _G.QuestUtil = {OpenQuestDetails = spy.new(function() end)}
+
+            TrackerUtils:ShowQuestLog({Id = 783})
+
+            assert.spy(_G.QuestUtil.OpenQuestDetails).was.not_called()
+            assert.spy(printMock).was.called(1)
         end)
 
         it("ignores the gamepad UI on other flavors", function()
