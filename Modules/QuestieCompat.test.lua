@@ -1071,6 +1071,7 @@ describe("QuestieCompat Forever paths", function()
         _G.WOW_PROJECT_ID = 18
         _G.GetCVarBool = function() return false end
         dofile("Modules/Libs/QuestieLoader.lua")
+        dofile("Modules/TaintWatch/TaintWatch.lua")
         _G.C_Reputation = {}
         _G.Enum = {QuestWatchType = {Manual = 1}}
         visibilityFrame = {

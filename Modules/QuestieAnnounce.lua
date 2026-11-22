@@ -4,6 +4,8 @@ local QuestieCompat = QuestieLoader:ImportModule("QuestieCompat")
 local Questie = _G.Questie
 ---@class QuestieAnnounce
 local QuestieAnnounce = QuestieLoader:CreateModule("QuestieAnnounce")
+---@type TaintWatch
+local TaintWatch = QuestieLoader:ImportModule("TaintWatch")
 local _QuestieAnnounce = {}
 ---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
@@ -239,6 +241,7 @@ function _QuestieAnnounce:AnnounceToChannel(message, localMessage)
     end
 
     if _ShouldAnnounceToGroup() then
+        TaintWatch.Note("SendChatMessage")
         SendChatMessage(_GetAnnounceMarker() .. message, _QuestieAnnounce.GetChatMessageChannel())
     end
 end

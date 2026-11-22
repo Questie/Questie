@@ -6,6 +6,8 @@ local pins = QuestieLoader:CreateModule("HBDPins")
 
 ---@type HBD
 local HBD = QuestieLoader:ImportModule("HBD")
+---@type TaintWatch
+local TaintWatch = QuestieLoader:ImportModule("TaintWatch") -- Questie modification
 
 local MinimapRadiusAPI = C_Minimap and C_Minimap.GetViewRadius
 
@@ -376,6 +378,7 @@ WorldMapFrame.pinPools[WORLDMAP_PIN_TEMPLATE] = worldmapPinsPool
 
 -- provider base API
 function worldmapProvider:RemoveAllData()
+    TaintWatch.Note("HBD RemoveAllPinsByTemplate") -- Questie modification
     self:GetMap():RemoveAllPinsByTemplate(WORLDMAP_PIN_TEMPLATE)
 end
 
@@ -383,6 +386,7 @@ end
 function worldmapProvider:RemovePinByIcon(icon)
     local pin = worldmapIconPins[icon]
     if pin and pin.icon == icon then
+        TaintWatch.Note("HBD RemovePin") -- Questie modification
         self:GetMap():RemovePin(pin)
     end
 end
@@ -390,6 +394,7 @@ end
 function worldmapProvider:RemovePinsByRef(ref)
     for pin in self:GetMap():EnumeratePinsByTemplate(WORLDMAP_PIN_TEMPLATE) do
         if pin.icon and worldmapPinRegistry[ref][pin.icon] then
+            TaintWatch.Note("HBD RemovePin") -- Questie modification
             self:GetMap():RemovePin(pin)
         end
     end
@@ -489,6 +494,7 @@ function worldmapProvider:HandlePin(icon, data)
         x, y = HBD:GetZoneCoordinatesFromWorldInstance(data.x, data.y, data.instanceID, uiMapID)
     end
     if x and y then
+        TaintWatch.Note("HBD AcquirePin") -- Questie modification
         self:GetMap():AcquirePin(WORLDMAP_PIN_TEMPLATE, icon, x, y, data.frameLevelType)
     end
 end

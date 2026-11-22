@@ -1,3 +1,5 @@
+---@type TaintWatch
+local TaintWatch = QuestieLoader:ImportModule("TaintWatch")
 ---@type QuestieCompat
 local QuestieCompat = QuestieLoader:ImportModule("QuestieCompat")
 
@@ -88,6 +90,7 @@ function TrackerUtils:ShowQuestLog(quest)
             Questie:Print(l10n("Can't open Quest Log while in combat. Open it manually."))
             return
         end
+        TaintWatch.Note("C_QuestLog.SetSelectedQuest", quest.Id)
         C_QuestLog.SetSelectedQuest(quest.Id)
         local uiMapId = QuestieCompat.GetQuestUiMapID(quest.Id)
         if uiMapId then
@@ -101,6 +104,7 @@ function TrackerUtils:ShowQuestLog(quest)
     if QuestMapFrame_OpenToQuestDetails and not questFrame then
         -- The modern quest log owns selection and scrolling, and takes a quest ID rather than a log index.
         if not InCombatLockdown() then
+            TaintWatch.Note("QuestMapFrame_OpenToQuestDetails", quest.Id)
             QuestMapFrame_OpenToQuestDetails(quest.Id)
         else
             Questie:Print(l10n("Can't open Quest Log while in combat. Open it manually."))

@@ -1,3 +1,5 @@
+---@type TaintWatch
+local TaintWatch = QuestieLoader:ImportModule("TaintWatch")
 ---@type QuestieOptionsEngine
 local QuestieOptionsEngine = QuestieLoader:ImportModule("QuestieOptionsEngine")
 ---@type QuestieOptionsDefaults
@@ -1160,6 +1162,7 @@ function QuestieOptionsUtils.ExecuteTheme(info, value)
     local currentQuestPOI = GetCVar("questPOI")
     if value == "questie" then
         if currentQuestPOI and currentQuestPOI ~= "0" then
+            TaintWatch.Note("SetCVar questPOI", "0")
             SetCVar("questPOI", "0")
         end
         if WorldMapQuestShowObjectives then
@@ -1179,6 +1182,7 @@ function QuestieOptionsUtils.ExecuteTheme(info, value)
         Questie.db.profile.objectiveFilterDistance = optionsDefaults.profile.objectiveFilterDistance
     elseif value == "pfquest" then
         if currentQuestPOI and currentQuestPOI ~= "0" then
+            TaintWatch.Note("SetCVar questPOI", "0")
             SetCVar("questPOI", "0")
         end
         if WorldMapQuestShowObjectives then
@@ -1198,6 +1202,7 @@ function QuestieOptionsUtils.ExecuteTheme(info, value)
         Questie.db.profile.objectiveFilterDistance = 2
     elseif value == "blizzard" then
         if currentQuestPOI and currentQuestPOI ~= "1" then
+            TaintWatch.Note("SetCVar questPOI", "1")
             SetCVar("questPOI", "1")
         end
         if WorldMapQuestShowObjectives then
