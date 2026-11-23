@@ -94,12 +94,11 @@ local function _ApplyTooltip(widget, item, attachPoint, x, y, childWidget)
 end
 
 ---@param control QuestieOptionsControl
----@param parent Frame
 ---@param width number
 ---@param height number
----@return Frame wrapper Holds a row's widget and labels, anchored to the control
-local function _CreateRowWrapper(control, parent, width, height)
-    local wrapper = CreateFrame("Frame", nil, parent)
+---@return Frame wrapper Holds a row's widget and labels, so they are hidden together with the control
+local function _CreateRowWrapper(control, width, height)
+    local wrapper = CreateFrame("Frame", nil, control)
     wrapper:SetPoint("LEFT", control, "LEFT", 0, 0)
     wrapper:SetSize(width, height)
     return wrapper
@@ -205,8 +204,8 @@ end
 -- Checkbox
 -------------------------
 
-local function _CreateCheckbox(control, parent, item, width)
-    local wrapper = _CreateRowWrapper(control, parent, width, 30)
+local function _CreateCheckbox(control, _, item, width)
+    local wrapper = _CreateRowWrapper(control, width, 30)
 
     local checkbox = CreateFrame("CheckButton", nil, wrapper, "SettingsCheckboxTemplate")
     checkbox:SetPoint("LEFT", wrapper, "LEFT", 0, 0)
@@ -305,8 +304,8 @@ local function _NewRadioTexture(radio, foreverAtlas, classicCoords, desaturated)
 end
 
 -- There is no good radio button template to base this on, so it is built from a checkbox with its own art
-local function _CreateRadioButton(control, parent, item, width)
-    local wrapper = _CreateRowWrapper(control, parent, width, 20)
+local function _CreateRadioButton(control, _, item, width)
+    local wrapper = _CreateRowWrapper(control, width, 20)
 
     local radio = CreateFrame("CheckButton", nil, wrapper, "SettingsCheckboxTemplate")
     if Questie.IsForever then
@@ -705,8 +704,8 @@ local function _AddDividerLine(wrapper, titleFrame, side, texCoordLeft, texCoord
     QuestieOptionsUtils.DisableSnapping(line)
 end
 
-local function _CreateDivider(control, parent, item, width)
-    local wrapper = _CreateRowWrapper(control, parent, width, control:GetHeight())
+local function _CreateDivider(control, _, item, width)
+    local wrapper = _CreateRowWrapper(control, width, control:GetHeight())
 
     if item.title == "" then
         local line = wrapper:CreateTexture(nil, "ARTWORK")
@@ -776,8 +775,8 @@ end
 -- Text
 -------------------------
 
-local function _CreateText(control, parent, item, width)
-    local wrapper = _CreateRowWrapper(control, parent, width, 30)
+local function _CreateText(control, _, item, width)
+    local wrapper = _CreateRowWrapper(control, width, 30)
 
     local titleText = item.title
     if item.get then
@@ -858,8 +857,8 @@ local function _CreateButtonSlices(button, atlases)
     }
 end
 
-local function _CreateButton(control, parent, item, width)
-    local wrapper = _CreateRowWrapper(control, parent, width, control:GetHeight())
+local function _CreateButton(control, _, item, width)
+    local wrapper = _CreateRowWrapper(control, width, control:GetHeight())
 
     local button = CreateFrame("Button", nil, wrapper)
 
@@ -1002,8 +1001,8 @@ local function _NewArrowTexture(button, atlas, degrees, flipVertically, flipHori
 end
 
 -- The play symbol is the red button's down arrow, rotated sideways
-local function _CreateSoundButton(control, parent, item, width)
-    local wrapper = _CreateRowWrapper(control, parent, width, control:GetHeight())
+local function _CreateSoundButton(control, _, item, width)
+    local wrapper = _CreateRowWrapper(control, width, control:GetHeight())
 
     local button = CreateFrame("Button", nil, wrapper)
     button:SetSize(32, 32)
@@ -1039,8 +1038,8 @@ local function _ConvertPickerAlpha(alpha)
     return alpha or 1
 end
 
-local function _CreateColorPicker(control, parent, item, width)
-    local wrapper = _CreateRowWrapper(control, parent, width, 30)
+local function _CreateColorPicker(control, _, item, width)
+    local wrapper = _CreateRowWrapper(control, width, 30)
 
     local swatchButton = CreateFrame("Button", nil, wrapper)
     swatchButton:SetSize(28, 28)

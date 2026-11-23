@@ -1,5 +1,8 @@
 ---Arranges settings controls on a canvas.
 ---
+---Build creates the controls once, and Place gives them their positions. A search only places them again, without the
+---controls that don't match, because WoW never frees frames: rebuilding would leave the old controls behind each time.
+---
 ---Rows are filled left to right until the next control does not fit. A finished row is then aligned, because the
 ---tallest control is only known once wrapped text, including longer translations, has been measured.
 ---@class QuestieOptionsLayout
@@ -65,6 +68,27 @@ local function _GetSearchTerms(query)
     return terms
 end
 
+---Every typed letter looks at every option of every tab, and translating and lowercasing all of them takes long.
+---Their texts stay the same until the UI is reloaded, which changing the locale does as well.
+---@type table<table, string> By item
+local searchableTexts = setmetatable({}, {__mode = "k"})
+
+---@param item table
+---@return string
+local function _GetSearchableText(item)
+    local searchableText = searchableTexts[item]
+    if not searchableText then
+        searchableText = utf8.lower(table.concat({
+            _SearchText(item.title),
+            _SearchText(item.description),
+            _SearchText(item.tooltip),
+            _SearchText(item.btnLabel),
+        }, " "))
+        searchableTexts[item] = searchableText
+    end
+    return searchableText
+end
+
 ---@param item table
 ---@param terms string[]
 ---@return boolean
@@ -73,13 +97,7 @@ local function _MatchesItemText(item, terms)
         return false
     end
 
-    local searchableText = utf8.lower(table.concat({
-        _SearchText(item.title),
-        _SearchText(item.description),
-        _SearchText(item.tooltip),
-        _SearchText(item.btnLabel),
-    }, " "))
-
+    local searchableText = _GetSearchableText(item)
     for _, term in ipairs(terms) do
         if not string.find(searchableText, term, 1, true) then
             return false
@@ -189,20 +207,72 @@ local function _AlignRowVertically(rowControls, rowHeight, rowY)
     end
 end
 
----Creates and places the visible controls of a canvas or container.
+---@param item table Normalized item definition
+---@param maxWidth number
+---@return number
+local function _GetControlWidth(item, maxWidth)
+    -- A control sharing its row leaves room for half of the gap to its neighbor
+    if item.width < 1.0 then
+        return maxWidth * item.width - HORIZONTAL_GAP / 2
+    end
+    return maxWidth * item.width
+end
+
+---@class QuestieOptionsEntry
+---@field rawItem table Item definition as the tab file wrote it, which is what a search looks at
+---@field control QuestieOptionsControl
+---@field contents QuestieOptionsArea? What is inside of a container
+
+---The controls of a canvas or container
+---@class QuestieOptionsArea
+---@field parentFrame Frame
+---@field maxWidth number
+---@field level number Nesting depth, starting at 1 for the canvas itself
+---@field entries QuestieOptionsEntry[] In display order
+
+---Creates the controls of a canvas or container. They have no position yet, which is up to Place.
 ---Must run in a coroutine when onControlCreated yields, which it may do for any control.
 ---@param parentFrame Frame
 ---@param rawItems table<string, table> Item definitions by key
 ---@param maxWidth number
 ---@param level number Nesting depth, starting at 1 for the canvas itself
 ---@param onControlCreated fun(control: QuestieOptionsControl)
----@param searchQuery string? When provided, only matching options are placed
----@param forceInclude boolean? Include all items when a parent title matches the search
+---@return QuestieOptionsArea
+function QuestieOptionsLayout.Build(parentFrame, rawItems, maxWidth, level, onControlCreated)
+    ---@type QuestieOptionsArea
+    local area = {parentFrame = parentFrame, maxWidth = maxWidth, level = level, entries = {}}
+
+    for _, rawItem in ipairs(_GetSortedItems(rawItems)) do
+        local item = _NormalizeItem(rawItem)
+
+        if item.visible ~= false then
+            local control = QuestieOptionsControls.Create(parentFrame, item, _GetControlWidth(item, maxWidth), level)
+            ---@type QuestieOptionsEntry
+            local entry = {rawItem = rawItem, control = control}
+            table.insert(area.entries, entry)
+            onControlCreated(control)
+
+            if item.type == "container" and item.items then
+                entry.contents = QuestieOptionsLayout.Build(
+                    control.contentArea, item.items, maxWidth, level + 1, onControlCreated
+                )
+            end
+        end
+    end
+
+    return area
+end
+
+---Places the controls matching a search, and hides the others. Creates nothing, so it can run for every search.
+---@param area QuestieOptionsArea
+---@param searchQuery string? Without one, every control is placed
+---@param forceInclude boolean? Place every control, because the title of what they are in matches the search
 ---@return number height Height used by the placed controls
 ---@return number visibleCount Number of controls placed
-function QuestieOptionsLayout.Build(parentFrame, rawItems, maxWidth, level, onControlCreated, searchQuery, forceInclude)
+function QuestieOptionsLayout.Place(area, searchQuery, forceInclude)
+    local maxWidth = area.maxWidth
     local cursorX = 0
-    local cursorY = level > 1 and -10 or 0 -- Containers leave room for their art at the top
+    local cursorY = area.level > 1 and -10 or 0 -- Containers leave room for their art at the top
     local rowHeight = 0
     local rowControls = {}
     local visibleCount = 0
@@ -217,19 +287,17 @@ function QuestieOptionsLayout.Build(parentFrame, rawItems, maxWidth, level, onCo
         return matches, directMatch
     end
 
-    for _, rawItem in ipairs(_GetSortedItems(rawItems)) do
-        local item = _NormalizeItem(rawItem)
-        local includeItem, includeChildren = ShouldInclude(rawItem)
+    for _, entry in ipairs(area.entries) do
+        local control = entry.control
+        local item = control.itemData
+        local includeControl, includeContents = ShouldInclude(entry.rawItem)
 
-        if item.visible ~= false and includeItem then
+        control:SetShown(includeControl)
+
+        if includeControl then
             visibleCount = visibleCount + 1
             local isFullWidth = item.width == 1.0
-
-            -- A control sharing its row leaves room for half of the gap to its neighbor
-            local controlWidth = maxWidth * item.width
-            if item.width < 1.0 then
-                controlWidth = controlWidth - HORIZONTAL_GAP / 2
-            end
+            local controlWidth = _GetControlWidth(item, maxWidth)
 
             local needsNewRow = cursorX + controlWidth > maxWidth
                 or item.type == "divider"
@@ -251,19 +319,16 @@ function QuestieOptionsLayout.Build(parentFrame, rawItems, maxWidth, level, onCo
             end
 
             -- Only the canvas itself is indented, containers are already inside of it
-            local x = level == 1 and cursorX + QuestieOptionsControls.ROOT_INDENT or cursorX
+            local x = area.level == 1 and cursorX + QuestieOptionsControls.ROOT_INDENT or cursorX
 
-            local control = QuestieOptionsControls.Create(parentFrame, item, controlWidth, level)
-            control:SetPoint("TOPLEFT", parentFrame, "TOPLEFT", x, cursorY)
+            control:SetPoint("TOPLEFT", area.parentFrame, "TOPLEFT", x, cursorY)
             table.insert(rowControls, control)
-            onControlCreated(control)
 
-            if item.type == "container" and item.items then
-                local contentHeight, childCount = QuestieOptionsLayout.Build(
-                    control.contentArea, item.items, maxWidth, level + 1, onControlCreated, searchQuery,
-                    forceInclude or includeChildren
+            if entry.contents then
+                local contentHeight, contentCount = QuestieOptionsLayout.Place(
+                    entry.contents, searchQuery, forceInclude or includeContents
                 )
-                visibleCount = visibleCount + childCount
+                visibleCount = visibleCount + contentCount
                 control:SetHeight(contentHeight + VERTICAL_GAP)
             end
 

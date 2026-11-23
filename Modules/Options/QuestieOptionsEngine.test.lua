@@ -113,6 +113,23 @@ describe("QuestieOptionsEngine", function()
         return ui.FindAll(frame, function(candidate) return candidate.itemData ~= nil end)
     end
 
+    ---@return table<string, boolean> titles Of the options the player can see
+    local function VisibleOptionsIn(frame)
+        local titles = {}
+        for _, control in ipairs(ControlsIn(frame)) do
+            if control:IsVisible() and control.itemData.title ~= "My Journey" then
+                titles[control.itemData.title] = true
+            end
+        end
+        return titles
+    end
+
+    local function TypeSearch(text)
+        local searchBox = QuestieOptionsEngine.popup.searchBox
+        searchBox:SetText(text)
+        searchBox.scripts.OnTextChanged(searchBox, true)
+    end
+
     local function ClickSideTab(key)
         for _, child in ipairs(QuestieOptionsEngine.popup.children) do
             if child.name == "$parent_Tab_" .. key then
@@ -525,6 +542,28 @@ describe("QuestieOptionsEngine", function()
             end
         end)
 
+        it("should put the search box in its place before the tab is complete", function()
+            StartSlowBuild()
+            local window = QuestieOptionsEngine.popup
+
+            local anchoredTo
+            for _, point in ipairs(window.searchBox.points) do
+                if point[1] == "RIGHT" then anchoredTo = point[2] end
+            end
+            assert.is_not_nil(anchoredTo)
+            assert.are.equal(window.searchAnchor, anchoredTo)
+        end)
+
+        it("should apply a search typed during a build when it finishes", function()
+            StartSlowBuild()
+
+            TypeSearch("option7")
+            ui.RunUntilIdle()
+
+            assert.are_same({option7 = true}, VisibleOptionsIn(QuestieOptionsEngine.popup))
+            assert.are.equal(LARGE_TAB_SIZE, #CheckboxesIn(QuestieOptionsEngine.popup))
+        end)
+
         it("should survive the window being reopened during a build", function()
             StartSlowBuild()
 
@@ -722,17 +761,15 @@ describe("QuestieOptionsEngine", function()
             }) do
                 it("should clear the search when closed through " .. close.name, function()
                     local window = OpenWindow()
-                    window.searchBox:SetText("parent")
-                    window.searchBox.scripts.OnTextChanged(window.searchBox, true)
-                    ui.RunUntilIdle()
-                    assert.are.equal(1, #CheckboxesIn(window))
+                    TypeSearch("parent")
+                    assert.are_same({parent = true}, VisibleOptionsIn(window))
 
                     close.run(window)
                     OpenWindow()
 
                     assert.are.equal("", window.searchBox:GetText())
                     assert.are.equal("", QuestieOptionsEngine.searchText)
-                    assert.are.equal(2, #CheckboxesIn(window))
+                    assert.are_same({parent = true, dependent = true}, VisibleOptionsIn(window))
                     for _, child in ipairs(window.children) do
                         if child.button then
                             assert.is_true(child:IsVisible())
@@ -757,8 +794,7 @@ describe("QuestieOptionsEngine", function()
                     local generalCanvas = window.canvasContainer.children[1]
                     assert.is_true(generalCanvas:IsShown())
                     assert.is_false(window.canvasContainer.children[2]:IsShown())
-                    assert.are.equal(2, #CheckboxesIn(generalCanvas))
-                    assert.is_true(CheckboxesIn(generalCanvas)[1]:IsVisible())
+                    assert.are_same({parent = true, dependent = true}, VisibleOptionsIn(generalCanvas))
                 end)
             end
 
@@ -777,48 +813,27 @@ describe("QuestieOptionsEngine", function()
                 assert.are.equal(1, journeyToggles)
             end)
 
-            it("should search across tabs and rebuild the popup with matching options", function()
+            it("should search across tabs and only show matching options", function()
                 local window = OpenWindow()
 
                 -- Search must reuse the real tab canvases instead of creating a phantom results canvas.
                 assert.are.equal(2, #window.canvasContainer.children)
 
-                window.searchBox:SetText("map options")
-                window.searchBox.scripts.OnTextChanged(window.searchBox, true)
+                TypeSearch("map options")
                 ui.RunUntilIdle()
 
                 assert.are.equal(2, #window.canvasContainer.children)
-
-                local titles = {}
-                for _, control in ipairs(ControlsIn(window)) do
-                    titles[control.itemData.title] = true
-                end
-                assert.is_true(titles.mapOption)
-                assert.is_nil(titles.parent)
+                assert.are_same({mapOption = true}, VisibleOptionsIn(window))
                 assert.are.equal("map options", QuestieOptionsEngine.searchText)
 
-                window.searchBox:SetText("")
-                window.searchBox.scripts.OnTextChanged(window.searchBox, true)
-                ui.RunUntilIdle()
+                TypeSearch("")
 
-                titles = {}
-                for _, control in ipairs(ControlsIn(window)) do
-                    titles[control.itemData.title] = true
-                end
-                assert.is_nil(titles.parent)
-                assert.is_true(titles.mapOption)
+                assert.are_same({mapOption = true}, VisibleOptionsIn(window))
                 assert.are.equal("", QuestieOptionsEngine.searchText)
 
-                window.searchBox:SetText("sea")
-                window.searchBox.scripts.OnTextChanged(window.searchBox, true)
-                ui.RunUntilIdle()
+                TypeSearch("sea")
 
-                titles = {}
-                for _, control in ipairs(ControlsIn(window)) do
-                    titles[control.itemData.title] = true
-                end
-                assert.is_nil(titles.parent)
-                assert.is_nil(titles.mapOption)
+                assert.are_same({}, VisibleOptionsIn(window))
             end)
 
             for _, searchText in ipairs({"a", ""}) do
@@ -835,7 +850,7 @@ describe("QuestieOptionsEngine", function()
                     assert.are.equal("map", mapCanvas.tab.key)
                     assert.is_true(mapCanvas:IsShown())
                     assert.is_false(window.canvasContainer.children[1]:IsShown())
-                    assert.is_true(CheckboxesIn(mapCanvas)[1]:IsVisible())
+                    assert.are_same({mapOption = true}, VisibleOptionsIn(window))
                 end)
             end
 
@@ -848,7 +863,7 @@ describe("QuestieOptionsEngine", function()
 
                 assert.is_true(window.canvasContainer.children[1]:IsShown())
                 assert.is_false(window.canvasContainer.children[2]:IsShown())
-                assert.is_true(CheckboxesIn(window)[1]:IsVisible())
+                assert.are_same({parent = true}, VisibleOptionsIn(window))
             end)
 
             it("should keep the selected canvas for the no-results message when no tabs match", function()
@@ -862,13 +877,31 @@ describe("QuestieOptionsEngine", function()
                 assert.is_true(mapCanvas:IsShown())
                 assert.is_true(mapCanvas.noResults:IsVisible())
                 assert.is_false(window.canvasContainer.children[1]:IsShown())
+
+                QuestieOptionsEngine:SetSearchText("map")
+
+                assert.is_false(mapCanvas.noResults:IsVisible())
+                assert.are_same({mapOption = true}, VisibleOptionsIn(window))
+
+                QuestieOptionsEngine:SetSearchText("")
+
+                assert.is_false(mapCanvas.noResults:IsVisible())
+                assert.are_same({mapOption = true}, VisibleOptionsIn(window))
             end)
 
-            it("should keep the active tab visible while a search replacement builds", function()
+            it("should show the result at once, without hiding the tab or moving the search box", function()
                 local window = OpenWindow()
                 local original = CheckboxesIn(window)[1]
-                local anchorPoints = #window.searchBox.points
+                local function SearchBoxAnchor()
+                    for _, point in ipairs(window.searchBox.points) do
+                        if point[1] == "RIGHT" then
+                            return point
+                        end
+                    end
+                end
+                local anchor = SearchBoxAnchor()
                 local stableAnchor = window.searchAnchor
+                assert.are.equal(stableAnchor, anchor[2])
                 assert.is_not_nil(stableAnchor)
                 local canvas = ui.FindAll(window.canvasContainer, function(frame)
                     return frame.tab ~= nil and frame.tab.key == "general"
@@ -876,42 +909,77 @@ describe("QuestieOptionsEngine", function()
                 local hides = 0
                 canvas:HookScript("OnHide", function() hides = hides + 1 end)
 
-                window.searchBox:SetText("parent")
-                window.searchBox.scripts.OnTextChanged(window.searchBox, true)
-                ui.RunFrame()
+                TypeSearch("parent")
 
+                assert.are_same({parent = true}, VisibleOptionsIn(window))
                 assert.is_true(original:IsVisible())
+                assert.are.equal(0, #ui.tickers)
                 assert.are.equal(0, hides)
-                assert.are.equal(anchorPoints, #window.searchBox.points)
-
-                ui.RunUntilIdle()
-                assert.is_true(CheckboxesIn(window)[1]:IsVisible())
-                assert.are.equal(anchorPoints, #window.searchBox.points)
+                assert.are.equal(anchor, SearchBoxAnchor())
                 assert.are.equal(stableAnchor, window.searchAnchor)
             end)
 
-            it("should refresh replacement controls before displaying them", function()
+            it("should not filter Blizzard's settings panel", function()
+                OpenWindow()
+                TypeSearch("parent")
+
+                local canvas = OpenBlizzardCategory(1)
+
+                assert.are_same({parent = true, dependent = true}, VisibleOptionsIn(canvas))
+            end)
+
+            it("should show the settings of options that changed while a search hid them", function()
                 local window = OpenWindow()
-                settingReadSeconds = 0.003
-                settings.parent = false
-
-                window.searchBox:SetText("parent")
-                window.searchBox.scripts.OnTextChanged(window.searchBox, true)
-                ui.RunFrame()
-
-                local pending = ui.FindAll(window, function(frame)
-                    return frame.itemData ~= nil and frame.itemData.title == "parent"
-                end)
-                assert.is_true(#pending > 1)
+                TypeSearch("dependent")
                 settings.parent = true
                 QuestieOptionsEngine:RefreshStates()
 
-                ui.RunUntilIdle()
+                TypeSearch("")
 
-                local displayed = ui.FindAll(window, function(frame)
+                local parentOption = ui.FindAll(window, function(frame)
                     return frame.itemData ~= nil and frame.itemData.title == "parent"
                 end)[1]
-                assert.is_true(displayed.widget:GetChecked())
+                assert.is_true(parentOption:IsVisible())
+                assert.is_true(parentOption.widget:GetChecked())
+            end)
+
+            it("should start at the top when the search changes, but not when the tab is only shown again", function()
+                local window = OpenWindow()
+                local scrollBox = ui.FindByTemplate(window, "WowScrollBox")[1]
+                assert.is_nil(scrollBox.scrollsToBegin)
+
+                TypeSearch("parent")
+
+                assert.are.equal(1, scrollBox.scrollsToBegin)
+
+                ClickSideTab("map")
+                ClickSideTab("general")
+
+                assert.are.equal(1, scrollBox.scrollsToBegin)
+            end)
+
+            it("should leave hidden tabs alone until they are shown", function()
+                local window = OpenWindow()
+                ClickSideTab("map")
+                local generalCanvas = window.canvasContainer.children[1]
+                local scrollChild = ui.FindByTemplate(generalCanvas, "ResizeLayoutFrame")[1]
+                local layouts = scrollChild.layouts
+
+                TypeSearch("p")
+                assert.are.equal(layouts, scrollChild.layouts)
+
+                ClickSideTab("general")
+                assert.are.equal(layouts + 1, scrollChild.layouts)
+                -- "dependent" contains a p as well
+                assert.are_same({parent = true, dependent = true}, VisibleOptionsIn(window))
+
+                TypeSearch("parent")
+                layouts = scrollChild.layouts
+                QuestieOptionsEngine:HideFrame()
+                assert.are.equal(layouts, scrollChild.layouts)
+
+                OpenWindow()
+                assert.are_same({parent = true, dependent = true}, VisibleOptionsIn(window))
             end)
         end)
     end)
@@ -1054,6 +1122,35 @@ describe("QuestieOptionsEngine", function()
             Questie.IsForever = false
 
             ExpectEveryTabToBuild()
+        end)
+
+        -- WoW never frees a frame, so anything a search creates again and again stays until the UI is reloaded
+        it("should not create anything when searching, once every tab was shown", function()
+            LoadRealTabs()
+            Initialize()
+            local window = OpenWindow()
+            local function VisitVisibleTabs()
+                for _, child in ipairs(window.children) do
+                    if child.button and child:IsVisible() then
+                        child.button.scripts.OnClick(child.button)
+                        ui.RunUntilIdle()
+                    end
+                end
+            end
+            VisitVisibleTabs()
+            local createdSoFar = #ui.frames
+
+            for _, searchText in ipairs({"i", "ic", "icon", "no such option", "map", ""}) do
+                QuestieOptionsEngine:SetSearchText(searchText)
+                ui.RunUntilIdle()
+                VisitVisibleTabs()
+            end
+            QuestieOptionsEngine:SetSearchText("map")
+            ui.RunUntilIdle()
+            QuestieOptionsEngine:HideFrame()
+            OpenWindow()
+
+            assert.are.equal(createdSoFar, #ui.frames)
         end)
 
         it("should use the General tab as the main category", function()

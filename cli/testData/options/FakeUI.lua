@@ -175,7 +175,17 @@ function FakeUI.Install()
     function methods:GetWidth() return self.width end
     function methods:GetHeight() return self.height end
     function methods:GetSize() return self.width, self.height end
-    function methods:SetPoint(...) table.insert(self.points, {...}) end
+    -- A frame only has one of each point, so setting it again moves it
+    function methods:SetPoint(...)
+        local point = {...}
+        for index, existing in ipairs(self.points) do
+            if existing[1] == point[1] then
+                self.points[index] = point
+                return
+            end
+        end
+        table.insert(self.points, point)
+    end
     function methods:GetPoint(index)
         local point = self.points[index] or {}
         return point[1], point[2], point[3], point[4], point[5]
@@ -288,6 +298,7 @@ function FakeUI.Install()
     -- Scroll frames
     function methods:Layout() self.layouts = (self.layouts or 0) + 1 end
     function methods:FullUpdate() self.fullUpdates = (self.fullUpdates or 0) + 1 end
+    function methods:ScrollToBegin() self.scrollsToBegin = (self.scrollsToBegin or 0) + 1 end
 
     _G.CreateFrame = function(frameType, name, parent, template)
         return NewFrame(frameType, name, parent, template)
