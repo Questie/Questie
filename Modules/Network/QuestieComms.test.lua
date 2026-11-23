@@ -120,7 +120,7 @@ describe("QuestieComms", function()
         it("should parse but not store a V2 group packet from a departed player", function()
             isPlayerInGroup = false
 
-            local offset = QuestieComms:InsertQuestDataPacketV2_noclass_RenameMe(
+            local offset = QuestieComms:InsertQuestDataPacketV2(
                 groupQuestPacketV2(42, 123),
                 playerName,
                 1,
@@ -132,13 +132,13 @@ describe("QuestieComms", function()
         end)
 
         it("should accumulate group quest-list blocks", function()
-            QuestieComms.private.packets[10].read({
+            QuestieComms.private.packets[12].read({
                 playerName = playerName,
-                rawQuestList = {groupQuestPacket(42, 123)},
+                {1, unpack(groupQuestPacketV2(42, 123))},
             })
-            QuestieComms.private.packets[10].read({
+            QuestieComms.private.packets[12].read({
                 playerName = playerName,
-                rawQuestList = {groupQuestPacket(43, 456)},
+                {1, unpack(groupQuestPacketV2(43, 456))},
             })
 
             assert.are_equal(123, QuestieComms.remoteQuestLogs[42][playerName][1].id)
