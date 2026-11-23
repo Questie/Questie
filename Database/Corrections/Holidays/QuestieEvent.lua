@@ -296,6 +296,12 @@ function QuestieEvent:Load()
         QuestieCorrections.questNPCBlacklist[npcId] = hideHallowsEnd
     end
 
+    local childrensWeekNpcs = {14480,14481} -- Children's Week vendors
+    local childrensWeek = not activeEvents["Children's Week"]
+    for _, npcId in ipairs(childrensWeekNpcs) do
+        QuestieCorrections.questNPCBlacklist[npcId] = childrensWeek
+    end
+
     local dmfNpcs = {14844} -- Sylannia <Darkmoon Faire Drink Vendor>
     local hideDmf = (not dmfIsActive) and dmfLocation == DMF_LOCATIONS.NONE
     for _, npcId in ipairs(dmfNpcs) do
