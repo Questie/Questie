@@ -427,7 +427,7 @@ end
 _GetDarkmoonFaireLocationSoD = function(currentDate)
     local initialStartDate = time({year = 2023, month = 12, day = 4, hour = 0, min = 1}) -- The first time DMF started in SoD
     local initialEndDate = time({year = 2023, month = 12, day = 10, hour = 23, min = 59}) -- The first time DMF ended in SoD
-    local currentDateTimestamp = time({year = currentDate.year, month = currentDate.month, day = currentDate.monthDay, hour = currentDate.hour, min = currentDate.eventDuration})
+    local currentDateTimestamp = time({year = currentDate.year, month = currentDate.month, day = currentDate.monthDay, hour = currentDate.hour, min = currentDate.minute})
 
     local eventDuration = initialEndDate - initialStartDate
     local timeSinceStart = currentDateTimestamp - initialStartDate
