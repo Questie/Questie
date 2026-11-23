@@ -79,6 +79,23 @@ function TrackerUtils:ShowQuestLog(quest)
         return
     end
 
+    -- Forever: QuestMapFrame_OpenToQuestDetails changes the world map from addon code, which leaves the map's state
+    -- tainted for the session. Later map navigation in combat then gets Blizzard's pins blocked
+    -- (SetPassThroughButtons, SetPropagateMouseClicks). Selecting the quest and opening its map through the client
+    -- keeps Blizzard's own code in charge of the map.
+    if Questie.IsForever then
+        if InCombatLockdown() then
+            Questie:Print(l10n("Can't open Quest Log while in combat. Open it manually."))
+            return
+        end
+        C_QuestLog.SetSelectedQuest(quest.Id)
+        local uiMapId = QuestieCompat.GetQuestUiMapID(quest.Id)
+        if uiMapId then
+            QuestieCompat.OpenWorldMap(uiMapId)
+        end
+        return
+    end
+
     -- Classic can expose both interfaces; preserve its standalone log and addon replacements.
     local questFrame = QuestLogExFrame or ClassicQuestLog or QuestLogFrame
     if QuestMapFrame_OpenToQuestDetails and not questFrame then
