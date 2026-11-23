@@ -288,6 +288,12 @@ function QuestieEvent:Load()
         QuestieCorrections.questNPCBlacklist[npcId] = hideWinterVeil
     end
 
+    local hallowsEndNpcs = {15353, 15354} -- Hallow's End Treats vendors
+    local hideHallowsEnd = not activeEvents["Hallow's End"]
+    for _, npcId in ipairs(hallowsEndNpcs) do
+        QuestieCorrections.questNPCBlacklist[npcId] = hideHallowsEnd
+    end
+
     local dmfNpcs = {14844} -- Sylannia <Darkmoon Faire Drink Vendor>
     local dmfActive = dmfIsActive
     if not dmfActive and dmfAvailable then
