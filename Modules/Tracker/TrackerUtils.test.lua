@@ -401,7 +401,7 @@ describe("TrackerUtils", function()
         local globalNames = {
             "QuestLogFrame", "QuestLogExFrame", "ClassicQuestLog", "QuestLogEx", "QuestLogListScrollFrame",
             "QuestLogListScrollFrameScrollBar", "QuestMapFrame_OpenToQuestDetails", "ShowUIPanel", "InCombatLockdown",
-            "InputUtil",
+            "InputUtil", "C_QuestLog",
         }
 
         before_each(function()
@@ -481,17 +481,57 @@ describe("TrackerUtils", function()
             assert.spy(printMock).was.called(1)
         end)
 
-        it("still opens the quest log on Forever without the gamepad UI", function()
+        it("should select the quest and open its map on Forever without the gamepad UI", function()
             Questie.IsForever = true
             _G.InputUtil = {IsGamepadUIEnabled = function() return false end}
-            _G.QuestLogFrame = nil
-            _G.QuestLogListScrollFrame = nil
+            _G.C_QuestLog = {SetSelectedQuest = spy.new(function() end)}
+            local compat = QuestieLoader:ImportModule("QuestieCompat")
+            local mapStub = stub(compat, "GetQuestUiMapID", function() return 1429 end)
+            local openStub = stub(compat, "OpenWorldMap")
             dofile("Modules/Tracker/TrackerUtils.lua")
 
             TrackerUtils:ShowQuestLog({Id = 783})
 
-            assert.spy(_G.QuestMapFrame_OpenToQuestDetails).was.called_with(783)
+            assert.spy(_G.C_QuestLog.SetSelectedQuest).was.called_with(783)
+            assert.stub(openStub).was.called_with(1429)
+            assert.spy(_G.QuestMapFrame_OpenToQuestDetails).was.not_called()
             assert.spy(printMock).was.not_called()
+            mapStub:revert()
+            openStub:revert()
+        end)
+
+        it("should only select the quest on Forever when Blizzard knows no map for it", function()
+            Questie.IsForever = true
+            _G.InputUtil = {IsGamepadUIEnabled = function() return false end}
+            _G.C_QuestLog = {SetSelectedQuest = spy.new(function() end)}
+            local compat = QuestieLoader:ImportModule("QuestieCompat")
+            local mapStub = stub(compat, "GetQuestUiMapID", function() return nil end)
+            local openStub = stub(compat, "OpenWorldMap")
+            dofile("Modules/Tracker/TrackerUtils.lua")
+
+            TrackerUtils:ShowQuestLog({Id = 783})
+
+            assert.spy(_G.C_QuestLog.SetSelectedQuest).was.called_with(783)
+            assert.stub(openStub).was.not_called()
+            mapStub:revert()
+            openStub:revert()
+        end)
+
+        it("should not select a quest or open the map on Forever in combat", function()
+            Questie.IsForever = true
+            _G.InputUtil = {IsGamepadUIEnabled = function() return false end}
+            _G.InCombatLockdown = function() return true end
+            _G.C_QuestLog = {SetSelectedQuest = spy.new(function() end)}
+            local compat = QuestieLoader:ImportModule("QuestieCompat")
+            local openStub = stub(compat, "OpenWorldMap")
+            dofile("Modules/Tracker/TrackerUtils.lua")
+
+            TrackerUtils:ShowQuestLog({Id = 783})
+
+            assert.spy(_G.C_QuestLog.SetSelectedQuest).was.not_called()
+            assert.stub(openStub).was.not_called()
+            assert.spy(printMock).was.called(1)
+            openStub:revert()
         end)
 
         it("ignores the gamepad UI on other flavors", function()
