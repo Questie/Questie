@@ -238,7 +238,7 @@ local generalOptionsLocales = {
         ["frFR"] = "Afficher toutes les quêtes de bas niveau",
         ["koKR"] = "모든 저레벨 퀘스트 표시",
         ["ptBR"] = "Mostrar todas as missões de baixo nível",
-        ["ruRU"] = "Все задания",
+        ["ruRU"] = "Показать все низкоуровневые задания",
         ["zhCN"] = "显示所有低等级任务",
         ["zhTW"] = "顯示所有低等級任務",
     },
