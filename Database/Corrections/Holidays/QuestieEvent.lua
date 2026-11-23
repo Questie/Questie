@@ -431,7 +431,7 @@ _GetDarkmoonFaireLocationSoD = function(currentDate)
     local eventDuration = initialEndDate - initialStartDate
     local timeSinceStart = currentDateTimestamp - initialStartDate
 
-    local positionInCurrentCycle = timeSinceStart % (eventDuration * 2) -- * 2 because the event repeats every two weeks
+    local positionInCurrentCycle = timeSinceStart % ((eventDuration + 120) * 2) -- * 2 because the event repeats every two weeks
 
     local isEventActive = positionInCurrentCycle < eventDuration
 
