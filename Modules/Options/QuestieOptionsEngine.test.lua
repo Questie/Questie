@@ -117,7 +117,7 @@ describe("QuestieOptionsEngine", function()
     local function VisibleOptionsIn(frame)
         local titles = {}
         for _, control in ipairs(ControlsIn(frame)) do
-            if control:IsVisible() and control.itemData.title ~= "My Journey" then
+            if control:IsVisible() then
                 titles[control.itemData.title] = true
             end
         end
@@ -542,18 +542,6 @@ describe("QuestieOptionsEngine", function()
             end
         end)
 
-        it("should put the search box in its place before the tab is complete", function()
-            StartSlowBuild()
-            local window = QuestieOptionsEngine.popup
-
-            local anchoredTo
-            for _, point in ipairs(window.searchBox.points) do
-                if point[1] == "RIGHT" then anchoredTo = point[2] end
-            end
-            assert.is_not_nil(anchoredTo)
-            assert.are.equal(window.searchAnchor, anchoredTo)
-        end)
-
         it("should apply a search typed during a build when it finishes", function()
             StartSlowBuild()
 
@@ -798,19 +786,30 @@ describe("QuestieOptionsEngine", function()
                 end)
             end
 
-            it("should switch to My Journey from its button", function()
+            it("should switch to My Journey from its tab", function()
                 local QuestieJourney = QuestieLoader:ImportModule("QuestieJourney")
                 local journeyToggles = 0
                 QuestieJourney.ToggleJourneyWindow = function() journeyToggles = journeyToggles + 1 end
-                local window = OpenWindow()
+                OpenWindow()
 
-                local journeyButton = ui.FindAll(window, function(frame)
-                    return frame.itemData ~= nil and frame.itemData.title == "My Journey"
-                end)[1]
-                journeyButton.widget:Click()
+                ClickSideTab("journey")
 
                 assert.is_false(QuestieOptionsEngine:IsShown())
                 assert.are.equal(1, journeyToggles)
+            end)
+
+            it("should keep the way to My Journey while a search hides the other tabs", function()
+                local window = OpenWindow()
+
+                TypeSearch("no such option")
+
+                local visibleTabs = {}
+                for _, child in ipairs(window.children) do
+                    if child.button and child:IsVisible() then
+                        table.insert(visibleTabs, child.name)
+                    end
+                end
+                assert.are_same({"$parent_Tab_journey"}, visibleTabs)
             end)
 
             it("should search across tabs and only show matching options", function()
@@ -889,20 +888,9 @@ describe("QuestieOptionsEngine", function()
                 assert.are_same({mapOption = true}, VisibleOptionsIn(window))
             end)
 
-            it("should show the result at once, without hiding the tab or moving the search box", function()
+            it("should show the result at once, without hiding the tab", function()
                 local window = OpenWindow()
                 local original = CheckboxesIn(window)[1]
-                local function SearchBoxAnchor()
-                    for _, point in ipairs(window.searchBox.points) do
-                        if point[1] == "RIGHT" then
-                            return point
-                        end
-                    end
-                end
-                local anchor = SearchBoxAnchor()
-                local stableAnchor = window.searchAnchor
-                assert.are.equal(stableAnchor, anchor[2])
-                assert.is_not_nil(stableAnchor)
                 local canvas = ui.FindAll(window.canvasContainer, function(frame)
                     return frame.tab ~= nil and frame.tab.key == "general"
                 end)[1]
@@ -915,8 +903,6 @@ describe("QuestieOptionsEngine", function()
                 assert.is_true(original:IsVisible())
                 assert.are.equal(0, #ui.tickers)
                 assert.are.equal(0, hides)
-                assert.are.equal(anchor, SearchBoxAnchor())
-                assert.are.equal(stableAnchor, window.searchAnchor)
             end)
 
             it("should not filter Blizzard's settings panel", function()
@@ -1095,8 +1081,7 @@ describe("QuestieOptionsEngine", function()
                 totalBuilt = totalBuilt + count
             end
             assert.are.equal(totalItems, totalBuilt)
-            -- The window has the same controls, and a My Journey button on each tab
-            assert.are.equal(totalItems + #TAB_FILES, #ControlsIn(window))
+            assert.are.equal(totalItems, #ControlsIn(window))
 
             -- Every menu generates all of its entries when it opens, which a closed dropdown doesn't do
             local menusWithoutEntries = {}
@@ -1131,10 +1116,10 @@ describe("QuestieOptionsEngine", function()
             Initialize()
             local window = OpenWindow()
             local function VisitVisibleTabs()
-                for _, child in ipairs(window.children) do
-                    if child.button and child:IsVisible() then
-                        child.button.scripts.OnClick(child.button)
-                        ui.RunUntilIdle()
+                for _, tabFile in ipairs(TAB_FILES) do
+                    local sideTab = ui.FindAll(window, function(frame) return frame.name == "$parent_Tab_" .. tabFile:lower() end)[1]
+                    if sideTab:IsVisible() then
+                        ClickSideTab(tabFile:lower())
                     end
                 end
             end

@@ -36,6 +36,7 @@ local TEXTURE_GETTERS = {
 local TEMPLATE_CHILDREN = {
     OptionsSliderTemplate = {"Text", "Low", "High", "NineSlice"},
     PortraitFrameTemplate = {"CloseButton", "PortraitContainer", "Bg"},
+    SearchBoxTemplate = {"Instructions"},
 }
 
 ---Replaces the UI globals. Call Restore on the returned object when done.
@@ -84,6 +85,11 @@ function FakeUI.Install()
 
         for _, childName in ipairs(TEMPLATE_CHILDREN[template] or {}) do
             frame[childName] = NewFrame("Frame", nil, frame)
+        end
+        if template == "SearchBoxTemplate" then
+            frame.scripts.OnTextChanged = function(searchBox)
+                searchBox.Instructions:SetShown((searchBox:GetText() or "") == "")
+            end
         end
         return frame
     end

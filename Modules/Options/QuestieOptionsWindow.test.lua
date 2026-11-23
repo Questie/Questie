@@ -43,6 +43,20 @@ describe("QuestieOptionsWindow", function()
             assert.are.equal("tracker", searchText)
         end)
 
+        -- The placeholder would stay behind the typed text if the window replaced the template's own handling
+        it("should show the search box's placeholder only while it is empty", function()
+            local window = QuestieOptionsWindow.Create(function() end)
+            assert.are.equal("Search", window.searchBox.Instructions.text)
+
+            window.searchBox:SetText("tracker")
+            window.searchBox.scripts.OnTextChanged(window.searchBox, true)
+            assert.is_false(window.searchBox.Instructions:IsShown())
+
+            window.searchBox:SetText("")
+            window.searchBox.scripts.OnTextChanged(window.searchBox, true)
+            assert.is_true(window.searchBox.Instructions:IsShown())
+        end)
+
         it("should start hidden and close with the Escape key", function()
             local window = QuestieOptionsWindow.Create()
 
@@ -91,6 +105,58 @@ describe("QuestieOptionsWindow", function()
             end)
         end)
     end)
+
+    for _, client in ipairs({{name = "Forever", isForever = true}, {name = "Classic", isForever = false}}) do
+        describe("CreateLinkTab with the " .. client.name .. " art", function()
+            local window, linkTab, clicks
+
+            before_each(function()
+                Questie.IsForever = client.isForever
+                clicks = 0
+                window = QuestieOptionsWindow.Create()
+                linkTab = QuestieOptionsWindow.CreateLinkTab(
+                    window, "journey", {title = "My Journey", icon = 136797}, function() clicks = clicks + 1 end
+                )
+            end)
+
+            it("should be on the left edge of the window, where the side tabs are not", function()
+                local sideTab = QuestieOptionsWindow.CreateSideTab(window, "a", {title = "A"}, nil, function() end)
+
+                local linkPoint, sidePoint = linkTab.points[1], sideTab.points[1]
+                assert.are_same({"TOPRIGHT", "TOPLEFT"}, {linkPoint[1], linkPoint[3]})
+                assert.are_same({"TOPLEFT", "TOPRIGHT"}, {sidePoint[1], sidePoint[3]})
+                assert.are.equal(window, linkPoint[2])
+            end)
+
+            it("should only act when it is clicked", function()
+                assert.are.equal(0, clicks)
+
+                linkTab.button.scripts.OnClick(linkTab.button)
+
+                assert.are.equal(1, clicks)
+            end)
+
+            it("should say where it leads while hovered", function()
+                linkTab.button.scripts.OnEnter(linkTab.button)
+
+                assert.are.equal("My Journey", GameTooltip.text)
+                assert.is_nil(GameTooltip.lines)
+            end)
+
+            it("should nudge its icon while pressed", function()
+                local point = linkTab.Icon.points[#linkTab.Icon.points]
+                local startX, startY = point[4], point[5]
+
+                linkTab.button.scripts.OnMouseDown(linkTab.button, "LeftButton")
+                point = linkTab.Icon.points[#linkTab.Icon.points]
+                assert.are_same({startX + 1, startY - 1}, {point[4], point[5]})
+
+                linkTab.button.scripts.OnMouseUp(linkTab.button, "LeftButton")
+                point = linkTab.Icon.points[#linkTab.Icon.points]
+                assert.are_same({startX, startY}, {point[4], point[5]})
+            end)
+        end)
+    end
 
     describe("CreateSideTab", function()
         local window
