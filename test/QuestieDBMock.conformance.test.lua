@@ -319,18 +319,19 @@ describe("QuestieDBMock conformance with LibQuestieDB", function()
             end
         end)
 
-        it("supports the shared-enum contract and older consumer contracts", function()
+        it("supports the Quest Conditions contract and older consumer contracts", function()
             local seen = Conform(function(lib)
-                local ok, message = lib.RequireContract(4)
+                local ok, message = lib.RequireContract(5)
                 return {
                     ok = ok, message = message,
                     contract1 = lib.RequireContract(1), contract2 = lib.RequireContract(2),
-                    contract3 = lib.RequireContract(3),
-                    future = lib.RequireContract(5), nonNumeric = lib.RequireContract("4"),
+                    contract3 = lib.RequireContract(3), contract4 = lib.RequireContract(4),
+                    future = lib.RequireContract(6), nonNumeric = lib.RequireContract("5"),
                 }
             end)
             assert.are_same({
-                ok = true, contract1 = true, contract2 = true, contract3 = true, future = false, nonNumeric = false,
+                ok = true, contract1 = true, contract2 = true, contract3 = true, contract4 = true,
+                future = false, nonNumeric = false,
             }, seen)
         end)
     end)
@@ -691,6 +692,51 @@ describe("QuestieDBMock conformance with LibQuestieDB", function()
         end)
     end)
 
+    describe("Quest Conditions", function()
+        it("evaluates the provider's composite functions with Questie's functions", function()
+            local consumerLib = _G.LibQuestieDB
+            _G.LibQuestieDB = provider
+            Questie.db.char.complete = {[2] = true}
+            QuestieLoader:ImportModule("QuestiePlayer").currentQuestlog = {[3] = {}}
+            local QuestieConditions = dofile("Modules/Quest/Conditions/QuestieConditions.lua")
+            QuestieConditions.Initialize()
+            local functions = QuestieConditions.functions
+            local seen = {
+                rewarded = provider.Conditions.Evaluate("QuestNone(2)", functions),
+                inLog = provider.Conditions.Evaluate("QuestNone(3)", functions),
+                untouched = provider.Conditions.Evaluate("QuestNone(4)", functions),
+            }
+            _G.LibQuestieDB = consumerLib
+            -- The provider's composite QuestNone must call Questie's QuestRewarded and QuestInLog.
+            assert.are_same({rewarded = false, inLog = false, untouched = true}, seen)
+        end)
+
+        it("checks a caller's condition functions like the provider", function()
+            -- ConditionBuilder is provider-internal; reading its vocabulary here only keeps the
+            -- double's copy of the names in step.
+            local vocabulary = provider.ConditionBuilder.vocabulary
+            local seen = Conform(function(lib)
+                -- A nil expression evaluates nothing; the provider still checks the table first.
+                local function accepts(functions) return (pcall(lib.Conditions.Evaluate, nil, functions)) end
+                local result = {
+                    notATable = accepts("Questie"),
+                    notAFunction = accepts({QuestRewarded = true}),
+                    unknownName = accepts({QuestRewared = function() return true end}),
+                    none = accepts(nil),
+                    vocabulary = {},
+                }
+                for name in pairs(vocabulary) do
+                    result.vocabulary[name] = accepts({[name] = function() return true end})
+                end
+                return result
+            end)
+            assert.are_same({notATable = false, notAFunction = false, unknownName = false, none = true}, {
+                notATable = seen.notATable, notAFunction = seen.notAFunction, unknownName = seen.unknownName, none = seen.none,
+            })
+            assert.is_true(seen.vocabulary.HasAura)
+        end)
+    end)
+
     describe("Corrections.Set", function()
         it("publishes a data slot immediately and composes it over base data", function()
             local seen = Conform(function(lib, owner)
@@ -707,6 +753,19 @@ describe("QuestieDBMock conformance with LibQuestieDB", function()
             end)
             assert.is_true(seen.changed)
             assert.are_same(215, seen.raw)
+        end)
+
+        it("reads a published condition through Conditions.Get and drops it on withdrawal", function()
+            local seen = Conform(function(lib, owner)
+                local questKeys = lib.Meta.QuestMeta.questKeys
+                local id = FIXTURE.Quest.sharptalonsClaw
+                local before = lib.Conditions.Get(id)
+                lib.Corrections.Set(owner, "Quest", "Conditions", {[id] = {[questKeys.conditions] = "QuestRewarded(1)"}})
+                local published = lib.Conditions.Get(id)
+                lib.Corrections.Set(owner, "Quest", "Conditions", nil)
+                return {before = before, published = published, withdrawn = lib.Conditions.Get(id)}
+            end)
+            assert.are_same({published = "QuestRewarded(1)"}, seen)
         end)
 
         it("replaces a slot in place and removes it with nil", function()

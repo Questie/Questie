@@ -50,6 +50,7 @@
 ---@field availableStartingWith integer Quest that starts availability while active or completed.
 ---@field requiredRanks integer Alternative profession rank requirements.
 ---@field disabledByQuest integer Quest that temporarily disables this quest while active.
+---@field conditions integer Availability expression over the condition vocabulary.
 
 ---@class QuestieDBNpcKeys
 ---@field name integer Localized NPC name.

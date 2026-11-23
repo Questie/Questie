@@ -50,6 +50,7 @@ local questKeys = {
     ["availableStartingWith"] = 34, -- int: the ID of the quest that needs to be in quest log OR turned in for the current one to be available.
     ["requiredRanks"] = 35, -- table: {{skill(int), value(int)}}. Table of professions and ranks to be checked with OR logic
     ["disabledByQuest"] = 36, -- int: quest that, if in player's quest log, makes current quest unavailable for the duration
+    ["conditions"] = 37, -- string: availability expression, evaluated by LibQuestieDB.Conditions
 }
 
 local npcKeys = {
@@ -109,7 +110,7 @@ local questTypes = {
     [15] = "table", [16] = "table", [17] = "number", [18] = "table", [19] = "table", [20] = "table", [21] = "table",
     [22] = "number", [23] = "number", [24] = "number", [25] = "number", [26] = "table", [27] = "number", [28] = "table",
     [29] = "table", [30] = "number", [31] = "number", [32] = "number", [33] = "number", [34] = "number", [35] = "table",
-    [36] = "number",
+    [36] = "number", [37] = "string",
 }
 local npcTypes = {
     [1] = "string", [2] = "number", [3] = "number", [4] = "number", [5] = "number", [6] = "number", [7] = "table",

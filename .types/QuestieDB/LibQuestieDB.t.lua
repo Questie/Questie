@@ -17,6 +17,28 @@
 ---@field npcFlags table<string, integer> Active provider flavor's NPC flag bitmasks; flags a flavor lacks are absent. Read-only by contract.
 ---@field phases table<string, integer> Shared phase names to Blizzard or Questie-defined fake IDs; read-only by contract for consumers.
 
+---A condition function returns true or false, or nil when it cannot read its state right now.
+---@alias QuestieDBConditionFunction fun(...): boolean?
+
+---A caller's replacements for base condition functions, by vocabulary name, for one evaluation.
+---@alias QuestieDBConditionFunctions table<string, QuestieDBConditionFunction>
+
+---One node of an explained condition. A leaf has `call` and `args`; an operator has `op` and
+---`children`. `result` is true, false, or nil when unknown.
+---@class QuestieDBConditionNode
+---@field call string? Condition function name, on a leaf.
+---@field args (number|string)[]? Leaf arguments.
+---@field op "and"|"or"|"not"|nil Operator, on an inner node.
+---@field children QuestieDBConditionNode[]? Operands.
+---@field result boolean? Three-valued result of this node.
+
+---@class QuestieDBConditions
+---@field Get fun(questId: QuestId): string? Return a quest's condition expression.
+---@field Evaluate fun(expression: string?, functions: QuestieDBConditionFunctions?): boolean? Evaluate an expression with optional replacement functions; nil or empty is true, nil means unknown.
+---@field EvaluateQuest fun(questId: QuestId, functions: QuestieDBConditionFunctions?): boolean? Evaluate a quest's expression; true without one, nil means unknown.
+---@field Explain fun(expression: string?, functions: QuestieDBConditionFunctions?): QuestieDBConditionNode? Explain an expression for display, evaluating every leaf; the root result equals Evaluate's with the same functions. Nil without one, outside the builder's grammar, or when a function raised.
+---@field ExplainQuest fun(questId: QuestId, functions: QuestieDBConditionFunctions?): QuestieDBConditionNode? Explain a quest's expression.
+
 ---@class LibQuestieDB
 ---@field Quest QuestDB Quest entity reads.
 ---@field Npc NpcDB NPC entity reads.
@@ -44,4 +66,5 @@
 ---@field EraToForever fun(areaId: AreaId, x: number, y: number): number, number Explicit Era-to-Forever zone percentages (0-100), unrounded; other AreaIDs pass through. Preserves (-1,-1), rejects partial sentinels. Never apply to already-Forever points.
 ---@field EraToForeverByUiMapId fun(uiMapId: integer, x: number, y: number): number, number Same projection using the point's Era UiMapID; other UiMapIDs pass through. No automatic flavor selection.
 ---@field ModeIndicator table Source-mode indicator API.
+---@field Conditions QuestieDBConditions Quest Condition expressions and their evaluator.
 LibQuestieDB = {}

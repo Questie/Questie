@@ -116,6 +116,8 @@ local QuestieEvent = QuestieLoader:ImportModule("QuestieEvent")
 local QuestieStatus = QuestieLoader:ImportModule("QuestieStatus")
 ---@type SourceModeStatus
 local SourceModeStatus = QuestieLoader:ImportModule("SourceModeStatus")
+---@type QuestieConditions
+local QuestieConditions = QuestieLoader:ImportModule("QuestieConditions")
 
 local coYield = coroutine.yield
 local startupFailed = false
@@ -305,6 +307,10 @@ QuestieInit.Stages[3] = function() -- run as a coroutine
     Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieInit:Stage3] Hydrating quest log for the first time.")
     QuestieQuest:GetAllQuestIds()
     coYield()
+
+    -- Questie's condition functions read its quest log and completed quests, so build them once
+    -- those are loaded; until then conditions use QuestieDB's client reads.
+    QuestieConditions.Initialize()
 
     QuestieCombatQueue.Initialize()
 

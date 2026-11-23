@@ -37,6 +37,7 @@
 ---@field availableStartingWith fun(id: QuestId): QuestId? Quest that starts availability while active or completed.
 ---@field requiredRanks fun(id: QuestId): QuestieDBSkillRankPair[]? Alternative profession rank requirements.
 ---@field disabledByQuest fun(id: QuestId): QuestId? Quest that temporarily disables this quest while active.
+---@field conditions fun(id: QuestId): string? Availability expression; evaluate it with `LibQuestieDB.Conditions`.
 ---@field GetByIndex fun(id: QuestId, fieldIndex: integer): any Read a field by positional index.
 ---@field Get fun(id: QuestId, key: QuestieDBQuestField|integer): any Read a field by canonical name or index.
 ---@field GetAll fun(id: QuestId, keys: (QuestieDBQuestField|integer)[]): QuestieDBPackedValues? Read fields into a packed table, or nil for an unknown ID.

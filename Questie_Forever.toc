@@ -23,7 +23,7 @@
 ## Category-zhCN: 任务
 ## Category-zhTW: 任務
 ## Version: 12.12.0
-## X-QuestieDB-Contract: 4
+## X-QuestieDB-Contract: 5
 ## OptionalDeps: QuestieDB, QuestieTrace, Ace3, CallbackHandler-1.0, HereBeDragons, Krowi_WorldMapButtons, LibDataBroker-1.1, LibDBIcon-1.0, LibSharedMedia-3.0, LibStub
 ## LoadSavedVariablesFirst: 1
 ## SavedVariables: QuestieConfig, QuestieProfilerEnabled
@@ -217,6 +217,8 @@ Modules\Quest\QuestieQuest.lua
 Modules\Quest\Lifecycle\QuestLifecycle.lua
 Modules\Quest\QuestieQuestPrivates.lua
 Modules\Quest\BreadcrumbQuests.lua
+Modules\Quest\Conditions\QuestieConditions.lua
+Modules\Quest\Conditions\QuestieConditionText.lua
 
 Modules\QuestieNameplate.lua
 Modules\QuestieCoordinates.lua
