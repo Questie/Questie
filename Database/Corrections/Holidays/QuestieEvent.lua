@@ -431,7 +431,7 @@ _GetDarkmoonFaireLocationSoD = function(currentDate)
     local eventDuration = initialEndDate - initialStartDate
     local timeSinceStart = currentDateTimestamp - initialStartDate
 
-    local positionInCurrentCycle = timeSinceStart % ((eventDuration + 120) * 2) -- * 2 because the event repeats every two weeks
+    local positionInCurrentCycle = timeSinceStart % (604800 * 2) -- * 2 because the event repeats every two weeks
 
     local isEventActive = positionInCurrentCycle < eventDuration
 
@@ -439,7 +439,7 @@ _GetDarkmoonFaireLocationSoD = function(currentDate)
         return DMF_LOCATIONS.NONE
     end
 
-    local weeksSinceStart = math.floor(timeSinceStart / eventDuration)
+    local weeksSinceStart = math.floor(timeSinceStart / 604800)
 
     if weeksSinceStart % 4 == 0 then
         return DMF_LOCATIONS.MULGORE
