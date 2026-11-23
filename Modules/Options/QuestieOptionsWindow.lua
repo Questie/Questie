@@ -10,10 +10,13 @@ local l10n = QuestieLoader:ImportModule("l10n")
 
 local WINDOW_NAME = "QuestieStandaloneSettings"
 local WINDOW_WIDTH = 675
--- Where the text of the canvas header is, which the search box is on one line with
+-- The search box is on one line with the page title of the canvas header, and as far from the right edge of the canvas
+-- as that is from the left edge
 local HEADER_CENTER_Y = -17
--- Below the portrait, which reaches over the left edge of the window
-local LINK_TAB_Y = -70
+local HEADER_INSET = 52
+local FIRST_SIDE_TAB_Y = -35
+-- Classic's tab art has empty space below it, which the next tab reaches into
+local CLASSIC_SIDE_TAB_OVERLAP = 10
 
 ---Creates the hidden window. Tab canvases go in its canvasContainer.
 ---@param onSearchChanged fun(text: string)?
@@ -86,7 +89,7 @@ function QuestieOptionsWindow.Create(onSearchChanged)
     -- Belongs to the window, so it stays in place whichever tab is shown. Above the canvases, which cover the header.
     local searchBox = CreateFrame("EditBox", nil, window, "SearchBoxTemplate")
     searchBox:SetSize(180, 20)
-    searchBox:SetPoint("RIGHT", window.canvasContainer, "TOPRIGHT", -36, HEADER_CENTER_Y)
+    searchBox:SetPoint("RIGHT", window.canvasContainer, "TOPRIGHT", -HEADER_INSET, HEADER_CENTER_Y)
     searchBox:SetFrameLevel(window:GetFrameLevel() + 10)
     searchBox.Instructions:SetText(l10n("Search"))
     -- Hooked, because the template shows and hides its placeholder and clear button from this
@@ -180,9 +183,9 @@ function QuestieOptionsWindow.CreateSideTab(window, tabKey, tabData, previousSid
     local isForever = Questie.IsForever
 
     if not previousSideTab then
-        sideTab:SetPoint("TOPLEFT", window, "TOPRIGHT", isForever and -1 or -2, -35)
+        sideTab:SetPoint("TOPLEFT", window, "TOPRIGHT", isForever and -1 or -2, FIRST_SIDE_TAB_Y)
     else
-        sideTab:SetPoint("TOPLEFT", previousSideTab, "BOTTOMLEFT", 0, isForever and 0 or 10)
+        sideTab:SetPoint("TOPLEFT", previousSideTab, "BOTTOMLEFT", 0, isForever and 0 or CLASSIC_SIDE_TAB_OVERLAP)
     end
 
     local background = sideTab:CreateTexture(nil, "BACKGROUND")
@@ -270,7 +273,7 @@ end
 ---Creates a tab on the outside left edge of the window, which leads somewhere else instead of showing a page.
 ---@param window Frame
 ---@param tabKey string
----@param tabData table
+---@param tabData table Its iconCrop is the part of the icon that is cut off on each side, to zoom in on the rest
 ---@param onClick fun()
 ---@return Frame linkTab
 function QuestieOptionsWindow.CreateLinkTab(window, tabKey, tabData, onClick)
@@ -278,8 +281,6 @@ function QuestieOptionsWindow.CreateLinkTab(window, tabKey, tabData, onClick)
 
     -- Window art differs between clients, so the tab needs different alignment and art
     local isForever = Questie.IsForever
-
-    linkTab:SetPoint("TOPRIGHT", window, "TOPLEFT", isForever and 1 or 2, LINK_TAB_Y)
 
     -- The art is made for the right edge, so it is mirrored
     local background = linkTab:CreateTexture(nil, "BACKGROUND")
@@ -294,14 +295,22 @@ function QuestieOptionsWindow.CreateLinkTab(window, tabKey, tabData, onClick)
     background:SetTexCoord(1, 0, 0, 1)
     linkTab.Background = background
 
-    -- Unlike the icons of the side tabs this one isn't cut to the shape of the tab. The masks for that are made for
-    -- the right edge, and crop away the border that square icons have. Icons without a border would lose their edges.
+    -- Level with the second side tab, because the portrait reaches over the left edge next to the first
+    local secondSideTabY = FIRST_SIDE_TAB_Y - linkTab:GetHeight() + (isForever and 0 or CLASSIC_SIDE_TAB_OVERLAP)
+    linkTab:SetPoint("TOPRIGHT", window, "TOPLEFT", isForever and 1 or 2, secondSideTabY)
+
     local icon = linkTab:CreateTexture(nil, "ARTWORK")
+    -- Anchored on its own, so it stays in place when the icon is pressed. Forever's mask for side tabs is made for the
+    -- right edge and masks can't be mirrored, so both clients use the symmetric one here.
+    local mask = linkTab:CreateMaskTexture(nil, "ARTWORK")
+    mask:SetTexture("interface\\hud\\uicooldownmanagermask")
     local button = CreateFrame("Button", "$tabButton_" .. tabKey, linkTab)
     local highlight = button:CreateTexture(nil, "HIGHLIGHT")
     if isForever then
-        icon:SetPoint("CENTER", linkTab, "CENTER", 4, 0)
-        icon:SetSize(40, 40)
+        icon:SetPoint("CENTER", linkTab, "CENTER", 3, 0)
+        icon:SetSize(48, 48)
+        mask:SetPoint("CENTER", linkTab, "CENTER", 3, 0)
+        mask:SetSize(48, 48)
         button:SetPoint("CENTER", linkTab, "CENTER", 2, -1)
         button:SetSize(50, 50)
         highlight:SetAtlas("common-sidetab-hover", true)
@@ -310,6 +319,8 @@ function QuestieOptionsWindow.CreateLinkTab(window, tabKey, tabData, onClick)
     else
         icon:SetPoint("TOPRIGHT", linkTab, "TOPRIGHT", -1, -9)
         icon:SetSize(36, 36)
+        mask:SetPoint("TOPRIGHT", linkTab, "TOPRIGHT", -1, -9)
+        mask:SetSize(36, 36)
         button:SetPoint("TOPRIGHT", linkTab, "TOPRIGHT", -1, -9)
         button:SetSize(36, 36)
         highlight:SetTexture("Interface\\Buttons\\ButtonHilight-Square")
@@ -317,13 +328,17 @@ function QuestieOptionsWindow.CreateLinkTab(window, tabKey, tabData, onClick)
         highlight:SetSize(36, 36)
     end
     icon:SetTexture(tabData.icon)
+    icon:SetTexCoord(tabData.iconCrop, 1 - tabData.iconCrop, tabData.iconCrop, 1 - tabData.iconCrop)
+    icon:AddMaskTexture(mask)
     highlight:SetBlendMode("ADD")
     linkTab.Icon = icon
+    linkTab.Mask = mask
     linkTab.Highlight = highlight
     linkTab.button = button
 
     QuestieOptionsUtils.DisableSnapping(background)
     QuestieOptionsUtils.DisableSnapping(icon)
+    QuestieOptionsUtils.DisableSnapping(mask)
     QuestieOptionsUtils.DisableSnapping(highlight)
 
     _AddTabInput(button, icon, tabKey, tabData, "ANCHOR_LEFT", onClick)
