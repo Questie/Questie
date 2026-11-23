@@ -60,7 +60,6 @@ describe("QuestieComms", function()
         QuestieComms.remoteQuestLogs = {}
         QuestieComms.remotePlayerClasses = {}
         QuestieComms.remotePlayerEnabled = {}
-        QuestieComms.remotePlayerTimes = {}
         QuestieComms.data.RegisterTooltip = spy.new(function() end)
         QuestieComms.data.RemoveQuestFromPlayer = spy.new(function() end)
         QuestieComms.data.RemovePlayer = spy.new(function() end)
@@ -164,7 +163,6 @@ describe("QuestieComms", function()
             QuestieComms:RemoveRemotePlayer(playerName)
 
             assert.are_equal(123, QuestieComms.remoteQuestLogs[42][playerName][1].id)
-            assert.is_nil(QuestieComms.remotePlayerTimes[playerName])
             assert.spy(QuestieComms.data.RemoveQuestFromPlayer).was.not_called()
             assert.is_false(QuestieComms:PruneRemotePlayers())
         end)
@@ -178,28 +176,6 @@ describe("QuestieComms", function()
             assert.is_nil(QuestieComms.remoteQuestLogs[42])
             assert.spy(QuestieComms.data.RemoveQuestFromPlayer).was.called_with(QuestieComms.data, 42, playerName)
             assert.is_false(QuestieComms:PruneRemotePlayers())
-        end)
-
-        it("should keep a current member's data when their timestamp expires", function()
-            QuestieComms:InsertQuestDataPacket(groupQuestPacket(42, 123), playerName)
-            QuestieComms.remotePlayerTimes[playerName] = currentTime - (60 * 4) - 1
-
-            QuestieComms:SortRemotePlayers()
-
-            assert.are_equal(123, QuestieComms.remoteQuestLogs[42][playerName][1].id)
-            assert.spy(QuestieComms.data.RemoveQuestFromPlayer).was.not_called()
-            assert.is_nil(QuestieComms.remotePlayerTimes[playerName])
-        end)
-
-        it("should remove an expired non-member's data on the lazy cleanup", function()
-            QuestieComms:InsertQuestDataPacket(groupQuestPacket(42, 123), playerName)
-            isPlayerInGroup = false
-            QuestieComms.remotePlayerTimes[playerName] = currentTime - (60 * 4) - 1
-
-            QuestieComms:SortRemotePlayers()
-
-            assert.is_nil(QuestieComms.remoteQuestLogs[42])
-            assert.spy(QuestieComms.data.RemoveQuestFromPlayer).was.called_with(QuestieComms.data, 42, playerName)
         end)
 
         it("should reset remote quest data and the group registry", function()
@@ -243,19 +219,6 @@ describe("QuestieComms", function()
             end
 
             assert.are_equal(4, deserializeCalls)
-        end)
-
-        it("should accept YELL from a player outside the group", function()
-            local deserializeEncoding
-            QuestieSerializer.Deserialize = function(_, _, encoding)
-                deserializeEncoding = encoding
-                return {}
-            end
-            isPlayerInGroup = false
-
-            QuestieComms.private:OnCommReceived_unsafe("payload", "YELL", playerName)
-
-            assert.are_equal("b89", deserializeEncoding)
         end)
 
         it("should leave non-group transports unchanged", function()
