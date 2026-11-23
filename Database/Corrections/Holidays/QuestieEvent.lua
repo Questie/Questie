@@ -145,6 +145,10 @@ local DMF_START_DAY_BY_FIRST_WEEKDAY_WOTLK = {
 -- Determine the DMF start day for the month based on what weekday the 1st is.
 local function dmfStartDayByFirstWeekday(firstWeekday)
     if Expansions.Current < Expansions.Wotlk then
+        -- Turns out SoD is also Monday-Sunday. Using Wotlk table
+        if Questie.IsSoD then
+            return DMF_START_DAY_BY_FIRST_WEEKDAY_WOTLK[firstWeekday]
+        end
         return DMF_START_DAY_BY_FIRST_WEEKDAY_ERA_TBC[firstWeekday]
     else
         return DMF_START_DAY_BY_FIRST_WEEKDAY_WOTLK[firstWeekday]
@@ -416,7 +420,7 @@ _IsDarkmoonFaireWeek = function(currentDate)
     -- For Era and TBC the event is from Monday 04:00 to next Monday 04:00
     -- For Wotlk the event is from Sunday 0:01 to Saturday 23:59
     -- For SoD the event is from Monday 0:01 to Sunday 23:59
-    local eventDuration = (Questie.IsSoD and 7) or (Expansions.Current < Expansions.Wotlk and 7) or 6
+    local eventDuration = (Questie.IsSoD and 6) or (Expansions.Current < Expansions.Wotlk and 7) or 6
     local dmfStartTime = (Questie.IsSoD and 1) or (Expansions.Current < Expansions.Wotlk and 400) or 1
     local dmfEndTime = (Questie.IsSoD and 2359) or (Expansions.Current < Expansions.Wotlk and 400) or 2359
     local startDay = dmfStartDayByFirstWeekday(firstWeekday)
