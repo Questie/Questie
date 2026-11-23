@@ -416,15 +416,15 @@ _IsDarkmoonFaireWeek = function(currentDate)
     -- For Era and TBC the event is from Monday 04:00 to next Monday 04:00
     -- For Wotlk the event is from Sunday 0:01 to Saturday 23:59
     -- For SoD the event is from Monday 0:01 to Sunday 23:59
-    local eventDuration = (Questie.IsSod and 7) or (Expansions.Current < Expansions.Wotlk and 7) or 6
-    local dmfStartTime = (Questie.IsSod and 1) or (Expansions.Current < Expansions.Wotlk and 400) or 1
-    local dmfEndTime = (Questie.IsSod and 2359) or (Expansions.Current < Expansions.Wotlk and 400) or 2359
+    local eventDuration = (Questie.IsSoD and 7) or (Expansions.Current < Expansions.Wotlk and 7) or 6
+    local dmfStartTime = (Questie.IsSoD and 1) or (Expansions.Current < Expansions.Wotlk and 400) or 1
+    local dmfEndTime = (Questie.IsSoD and 2359) or (Expansions.Current < Expansions.Wotlk and 400) or 2359
     local startDay = dmfStartDayByFirstWeekday(firstWeekday)
     local endDay = startDay + eventDuration
     local dayOfMonth = currentDate.monthDay
     local currentTimeFormatted = currentDate.hour * 100 + currentDate.minute
     
-    if Questie.IsSod then
+    if Questie.IsSoD then
         local startSecondDmfDaySod = startDay + 7
         local endSecondDmfDaySod = endDay + 7
         -- If we're on the first day check if it started already
