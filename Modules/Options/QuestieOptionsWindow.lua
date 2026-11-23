@@ -12,8 +12,9 @@ local WINDOW_NAME = "QuestieStandaloneSettings"
 local WINDOW_WIDTH = 675
 
 ---Creates the hidden window. Tab canvases go in its canvasContainer.
+---@param onSearchChanged fun(text: string)?
 ---@return Frame window
-function QuestieOptionsWindow.Create()
+function QuestieOptionsWindow.Create(onSearchChanged)
     local window = CreateFrame("Frame", WINDOW_NAME, UIParent, "PortraitFrameTemplate")
     window:SetSize(WINDOW_WIDTH, math.floor(GetScreenHeight() * 0.7))
     window:SetPoint("CENTER")
@@ -23,6 +24,33 @@ function QuestieOptionsWindow.Create()
     window:Hide()
     window:SetTitle("Questie")
     window:EnableMouse(true)
+
+    local searchLabel = window:CreateFontString(nil, "OVERLAY", "GameFontNormalSmall")
+    -- Keep the search control in the page header, below the decorative title bar.
+    searchLabel:SetPoint("TOPLEFT", window, "TOPLEFT", 300, -91)
+    searchLabel:SetText(l10n("Search"))
+    searchLabel:SetTextColor(1, 0.82, 0)
+    searchLabel:SetDrawLayer("OVERLAY", 7)
+
+    local searchBox = CreateFrame("EditBox", nil, window, "InputBoxTemplate")
+    searchBox:SetSize(155, 22)
+    searchBox:SetPoint("TOPLEFT", window, "TOPLEFT", 355, -87)
+    searchBox:SetAutoFocus(false)
+    searchBox:SetFontObject("GameFontHighlightSmall")
+    searchBox:SetFrameLevel(window:GetFrameLevel() + 10)
+    searchBox:SetScript("OnTextChanged", function(self)
+        if onSearchChanged then
+            onSearchChanged(self:GetText() or "")
+        end
+    end)
+    searchBox:SetScript("OnEscapePressed", function(self)
+        self:ClearFocus()
+    end)
+    searchBox:SetScript("OnEnterPressed", function(self)
+        self:ClearFocus()
+    end)
+    window.searchLabel = searchLabel
+    window.searchBox = searchBox
 
     local closeButton = window.CloseButton
     local textures = {
@@ -82,6 +110,16 @@ function QuestieOptionsWindow.Create()
     tinsert(UISpecialFrames, WINDOW_NAME)
 
     return window
+end
+
+---Anchors the search controls to the standalone window's Journey button.
+---@param window Frame
+---@param anchor Frame
+function QuestieOptionsWindow.AnchorSearchTo(window, anchor)
+    window.searchBox:ClearAllPoints()
+    window.searchBox:SetPoint("RIGHT", anchor, "LEFT", -10, 0)
+    window.searchLabel:ClearAllPoints()
+    window.searchLabel:SetPoint("RIGHT", window.searchBox, "LEFT", -8, 0)
 end
 
 ---Creates a tab button on the outside right edge of the window.

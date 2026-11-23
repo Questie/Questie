@@ -97,30 +97,58 @@ local popupCanvases = {}
 ---@type table<string, Frame> Buttons of Questie's own window by tab key
 local sideTabs = {}
 
+---Text currently entered in Questie's own options window.
+---@type string
+QuestieOptionsEngine.searchText = ""
+
 local _BuildCanvas
 
 -------------------------
 -- Canvases
 -------------------------
 
----@param canvas Frame
-local function _RefreshCanvas(canvas)
-    for _, control in ipairs(canvas.controls) do
+---@param controls QuestieOptionsControl[]
+local function _RefreshControls(controls)
+    for _, control in ipairs(controls) do
         QuestieOptionsControls.Refresh(control)
     end
 end
 
----Throws away what a failed build created, so the tab is built from scratch the next time it is shown.
----Not right away, because an error that isn't a passing one would then repeat every frame.
 ---@param canvas Frame
-local function _DiscardFailedBuild(canvas)
-    if canvas.content then
+local function _RefreshCanvas(canvas)
+    _RefreshControls(canvas.controls)
+    if canvas.pendingControls and canvas.pendingControls ~= canvas.controls then
+        _RefreshControls(canvas.pendingControls)
+    end
+end
+
+---Throws away what a failed or superseded build created, so the tab is built from scratch the next time it is shown.
+---The finished content is kept while a replacement is being built, so a search update cannot blank the active tab.
+---@param canvas Frame
+---@param keepContent boolean? Keep the currently displayed content while discarding a replacement.
+local function _DiscardFailedBuild(canvas, keepContent)
+    if canvas.buildTimer then
+        canvas.buildTimer:Cancel()
+        canvas.buildTimer = nil
+    end
+    canvas.buildGeneration = (canvas.buildGeneration or 0) + 1
+
+    if canvas.pendingContent then
+        canvas.pendingContent:Hide()
+        canvas.pendingContent:SetParent(nil)
+        canvas.pendingContent = nil
+    end
+    canvas.pendingControls = nil
+
+    if not keepContent and canvas.content then
         canvas.content:Hide()
         canvas.content:SetParent(nil)
         canvas.content = nil
     end
-    canvas.controls = {}
-    canvas.UpdateScrollLayout = nil
+    if not keepContent then
+        canvas.controls = {}
+        canvas.UpdateScrollLayout = nil
+    end
     canvas.isBuildStarted = false
 end
 
@@ -130,10 +158,21 @@ end
 local function _OnCanvasShown(canvas)
     if not canvas.isBuildStarted then
         canvas.isBuildStarted = true
-        ThreadLib.Thread(
-            function() _BuildCanvas(canvas) end, 0, "Error while building a Questie settings tab:", nil,
-            function() _DiscardFailedBuild(canvas) end, "QuestieOptionsEngine.BuildCanvas"
+        canvas.buildGeneration = (canvas.buildGeneration or 0) + 1
+        local buildGeneration = canvas.buildGeneration
+        local buildTimer
+        local function IsCurrentBuild()
+            return canvas.buildGeneration == buildGeneration and canvas.buildTimer == buildTimer
+        end
+        buildTimer = ThreadLib.Thread(
+            function() _BuildCanvas(canvas, buildGeneration) end, 0, "Error while building a Questie settings tab:", nil,
+            function()
+                if IsCurrentBuild() then
+                    _DiscardFailedBuild(canvas, canvas.content ~= nil)
+                end
+            end, "QuestieOptionsEngine.BuildCanvas"
         )
+        canvas.buildTimer = buildTimer
         return
     end
 
@@ -176,21 +215,12 @@ local function _CreateCanvasHeader(canvas, content, leftInset)
     headerWrapper:SetAllPoints(canvas)
     headerWrapper:SetPoint("TOPLEFT", canvas, "TOPLEFT", 0, -4)
 
-    local title = content:CreateFontString(nil, "OVERLAY", "GameFontNormalHuge")
-    title:SetPoint("TOPLEFT", canvas, "TOPLEFT", 8 + leftInset, -4)
-    title:SetText("Questie")
-
-    local bullet = content:CreateFontString(nil, "OVERLAY", "Game13Font")
-    bullet:SetPoint("LEFT", title, "RIGHT", 4, -1)
-    bullet:SetTextColor(0.9, 0.9, 0.9, 1.0)
-    bullet:SetText("•")
-
     local subtitle = content:CreateFontString(nil, "OVERLAY", "Game13Font")
-    subtitle:SetPoint("LEFT", bullet, "RIGHT", 8, 0)
+    subtitle:SetPoint("TOPLEFT", canvas, "TOPLEFT", 8 + leftInset, -10)
     subtitle:SetTextColor(0.9, 0.9, 0.9, 1.0)
     subtitle:SetText(l10n(tabData.subtitle or tabData.title))
 
-    headerWrapper:SetPoint("BOTTOM", title, "BOTTOM", 0, 0)
+    headerWrapper:SetPoint("BOTTOM", subtitle, "BOTTOM", 0, 0)
 
     return headerWrapper
 end
@@ -266,22 +296,38 @@ end
 ---Each control shows the current setting from the moment it exists, so settings changing mid-build are no problem.
 ---@async
 ---@param canvas Frame
-_BuildCanvas = function(canvas)
+---@param buildGeneration number
+_BuildCanvas = function(canvas, buildGeneration)
     local isPopup = canvas.mode == RenderMode.POPUP
+    local searchText = isPopup and QuestieOptionsEngine.searchText or nil
+    local tabTitleMatches = isPopup and QuestieOptionsLayout.MatchesSearch({
+        title = canvas.tab.data.title,
+        description = canvas.tab.data.subtitle,
+    }, searchText)
 
+    local controls = {}
+    if not canvas.content then
+        -- During the first build there is no committed content to refresh yet, so expose the
+        -- controls as they are created. Replacement builds keep the old controls until commit.
+        canvas.controls = controls
+    end
+    canvas.pendingControls = controls
     local function AddControl(control)
-        table.insert(canvas.controls, control)
+        table.insert(controls, control)
         _YieldIfFrameBudgetSpent()
     end
 
     _YieldIfFrameBudgetSpent()
 
-    -- Everything the build creates goes on here, so a failed build can be thrown away
+    -- Everything the build creates goes on here, so a failed or superseded build can be thrown away.
+    -- Keep the previously committed content visible until this replacement is complete.
     local content = CreateFrame("Frame", nil, canvas)
     content:SetAllPoints(canvas)
-    canvas.content = content
+    content:Hide()
+    canvas.pendingContent = content
 
     local headerWrapper = _CreateCanvasHeader(canvas, content, isPopup and 44 or 0)
+    local searchAnchor
 
     if isPopup then
         local journeyButton = QuestieOptionsControls.Create(content, {
@@ -295,6 +341,7 @@ _BuildCanvas = function(canvas)
             btnLabel = l10n("My Journey"),
         }, 240, 1)
         journeyButton:SetPoint("TOPRIGHT", canvas, "TOPRIGHT", -36, 7)
+        searchAnchor = journeyButton.widget
         AddControl(journeyButton)
     end
 
@@ -311,11 +358,41 @@ _BuildCanvas = function(canvas)
     QuestieOptionsUtils.DisableSnapping(divider)
 
     local contentWidth = CANVAS_WIDTH - QuestieOptionsControls.ROOT_INDENT * 2
-    local contentHeight = QuestieOptionsLayout.Build(scrollChild, canvas.tab.data.items, contentWidth, 1, AddControl)
+    local contentHeight, visibleCount = QuestieOptionsLayout.Build(
+        scrollChild, canvas.tab.data.items, contentWidth, 1, AddControl, searchText, tabTitleMatches
+    )
     scrollChild:SetHeight(contentHeight + 20)
+
+    local noResults
+    if isPopup and searchText ~= "" and visibleCount == 0 then
+        noResults = scrollChild:CreateFontString(nil, "OVERLAY", "GameFontHighlight")
+        noResults:SetPoint("TOPLEFT", scrollChild, "TOPLEFT", 10, 0)
+        noResults:SetText(l10n("No matching options"))
+    end
 
     -- Laying out a finished tab is a lot of work at once, so it gets a frame of its own
     _YieldForFrameOfItsOwn()
+
+    if canvas.buildGeneration ~= buildGeneration then
+        content:Hide()
+        if canvas.pendingContent == content then
+            canvas.pendingContent = nil
+        end
+        if canvas.pendingControls == controls then
+            canvas.pendingControls = nil
+        end
+        return
+    end
+
+    if canvas.content then
+        canvas.content:Hide()
+        canvas.content:SetParent(nil)
+    end
+    canvas.content = content
+    canvas.pendingContent = nil
+    canvas.pendingControls = nil
+    canvas.controls = controls
+    canvas.noResults = noResults
 
     scrollBox:Show()
 
@@ -325,6 +402,20 @@ _BuildCanvas = function(canvas)
         scrollBox:FullUpdate(true)
     end
     canvas.UpdateScrollLayout()
+    content:Show()
+    if searchAnchor and canvas:IsShown() then
+        local window = canvas:GetParent():GetParent()
+        if not window.searchAnchor then
+            -- The Journey button belongs to the canvas and is replaced on every search. Copy
+            -- its geometry to a window-owned anchor so the search box never follows a transient
+            -- or hidden button during a rebuild.
+            local stableAnchor = CreateFrame("Frame", nil, window)
+            stableAnchor:SetSize(searchAnchor:GetSize())
+            stableAnchor:SetPoint("TOPRIGHT", canvas, "TOPRIGHT", -36, 7)
+            window.searchAnchor = stableAnchor
+            QuestieOptionsWindow.AnchorSearchTo(window, window.searchAnchor)
+        end
+    end
 end
 
 -------------------------
@@ -342,7 +433,15 @@ end
 
 ---@return Frame window
 local function _CreatePopup()
-    local window = QuestieOptionsWindow.Create()
+    local window = QuestieOptionsWindow.Create(function(searchText)
+        QuestieOptionsEngine:SetSearchText(searchText)
+    end)
+    -- Reset the search and selected tab for every close path, including Escape and the close button.
+    window:HookScript("OnHide", function()
+        QuestieOptionsEngine:SetSearchText("")
+        window.searchBox:SetText("")
+        _SelectPopupTab(visibleTabs[1].key)
+    end)
 
     local previousSideTab
     for _, tab in ipairs(visibleTabs) do
@@ -388,9 +487,9 @@ function QuestieOptionsEngine:Initialize()
         local canvas = _CreateCanvas(UIParent, tab, RenderMode.BLIZZARD)
         local category
         if mainCategory then
-            category = Settings.RegisterCanvasLayoutSubcategory(mainCategory, canvas, tab.data.title)
+            category = Settings.RegisterCanvasLayoutSubcategory(mainCategory, canvas, l10n(tab.data.title))
         else
-            category = Settings.RegisterCanvasLayoutCategory(canvas, "Questie")
+            category = Settings.RegisterCanvasLayoutCategory(canvas, l10n("Questie"))
             mainCategory = category
         end
         Settings.RegisterAddOnCategory(category)
@@ -409,6 +508,69 @@ function QuestieOptionsEngine:RefreshStates()
             _RefreshCanvas(canvas)
         end
     end
+end
+
+local function _PopupTabMatchesSearch(tab)
+    if QuestieOptionsEngine.searchText == "" then
+        return true
+    end
+
+    return QuestieOptionsLayout.MatchesSearch({
+        title = tab.data.title,
+        description = tab.data.subtitle,
+        items = tab.data.items,
+    }, QuestieOptionsEngine.searchText)
+end
+
+local function _UpdatePopupTabVisibility()
+    for _, tab in ipairs(visibleTabs) do
+        local matches = QuestieOptionsEngine.searchText == "" or _PopupTabMatchesSearch(tab)
+        sideTabs[tab.key]:SetShown(matches)
+    end
+end
+
+local function _RebuildPopupCanvases()
+    for _, canvas in pairs(popupCanvases) do
+        local wasShown = canvas:IsShown()
+        _DiscardFailedBuild(canvas, wasShown)
+        if wasShown then
+            -- Start the replacement directly. The old content remains visible until the new
+            -- content is committed, so restarting a search build must not hide the canvas.
+            _OnCanvasShown(canvas)
+        end
+    end
+end
+
+---Changes the popup's option search and rebuilds every matching tab with matching items.
+---@param searchText string
+function QuestieOptionsEngine:SetSearchText(searchText)
+    searchText = strtrim(searchText or "")
+    if self.searchText == searchText then
+        return
+    end
+
+    self.searchText = searchText
+
+    if not self.popup then
+        return
+    end
+
+    local selectedKey
+    for _, tab in ipairs(visibleTabs) do
+        if _PopupTabMatchesSearch(tab) then
+            selectedKey = selectedKey or tab.key
+            if popupCanvases[tab.key]:IsShown() then
+                selectedKey = tab.key
+                break
+            end
+        end
+    end
+    if selectedKey then
+        _SelectPopupTab(selectedKey)
+    end
+
+    _UpdatePopupTabVisibility()
+    _RebuildPopupCanvases()
 end
 
 local isRefreshQueued = false

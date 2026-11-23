@@ -9,6 +9,8 @@ local QuestieOptionsLayout = QuestieLoader:CreateModule("QuestieOptionsLayout")
 local QuestieOptionsControls = QuestieLoader:ImportModule("QuestieOptionsControls")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
+---@type utf8
+local utf8 = QuestieLoader:ImportModule("utf8")
 
 local HORIZONTAL_GAP = 10
 local VERTICAL_GAP = 10
@@ -43,6 +45,77 @@ local function _GetSortedItems(itemsTable)
         return (a.order or 999) < (b.order or 999)
     end)
     return sorted
+end
+
+---@param value string|table|nil
+---@return string
+local function _SearchText(value)
+    value = _Translate(value)
+    return value and tostring(value) or ""
+end
+
+---@param query string?
+---@return string[] terms
+local function _GetSearchTerms(query)
+    local normalized = utf8.lower(strtrim(query or ""))
+    local terms = {}
+    for term in normalized:gmatch("%S+") do
+        table.insert(terms, term)
+    end
+    return terms
+end
+
+---@param item table
+---@param terms string[]
+---@return boolean
+local function _MatchesItemText(item, terms)
+    if item.visible == false then
+        return false
+    end
+
+    local searchableText = utf8.lower(table.concat({
+        _SearchText(item.title),
+        _SearchText(item.description),
+        _SearchText(item.tooltip),
+        _SearchText(item.btnLabel),
+    }, " "))
+
+    for _, term in ipairs(terms) do
+        if not string.find(searchableText, term, 1, true) then
+            return false
+        end
+    end
+    return true
+end
+
+---@param item table
+---@param terms string[]
+---@return boolean matches
+---@return boolean directMatch
+local function _MatchesItem(item, terms)
+    if item.visible == false then
+        return false, false
+    end
+
+    if _MatchesItemText(item, terms) then
+        return true, true
+    end
+
+    for _, child in pairs(item.items or {}) do
+        if _MatchesItem(child, terms) then
+            return true, false
+        end
+    end
+
+    return false, false
+end
+
+---@param item table
+---@param query string?
+---@return boolean
+function QuestieOptionsLayout.MatchesSearch(item, query)
+    local terms = _GetSearchTerms(query)
+    return #terms == 0 or _MatchesItem(item, terms)
 end
 
 ---Applies defaults and translations, so controls never have to handle missing fields.
@@ -123,17 +196,33 @@ end
 ---@param maxWidth number
 ---@param level number Nesting depth, starting at 1 for the canvas itself
 ---@param onControlCreated fun(control: QuestieOptionsControl)
+---@param searchQuery string? When provided, only matching options are placed
+---@param forceInclude boolean? Include all items when a parent title matches the search
 ---@return number height Height used by the placed controls
-function QuestieOptionsLayout.Build(parentFrame, rawItems, maxWidth, level, onControlCreated)
+---@return number visibleCount Number of controls placed
+function QuestieOptionsLayout.Build(parentFrame, rawItems, maxWidth, level, onControlCreated, searchQuery, forceInclude)
     local cursorX = 0
     local cursorY = level > 1 and -10 or 0 -- Containers leave room for their art at the top
     local rowHeight = 0
     local rowControls = {}
+    local visibleCount = 0
+    local searchTerms = _GetSearchTerms(searchQuery)
+
+    local function ShouldInclude(rawItem)
+        if #searchTerms == 0 or forceInclude then
+            return true, forceInclude
+        end
+
+        local matches, directMatch = _MatchesItem(rawItem, searchTerms)
+        return matches, directMatch
+    end
 
     for _, rawItem in ipairs(_GetSortedItems(rawItems)) do
         local item = _NormalizeItem(rawItem)
+        local includeItem, includeChildren = ShouldInclude(rawItem)
 
-        if item.visible ~= false then
+        if item.visible ~= false and includeItem then
+            visibleCount = visibleCount + 1
             local isFullWidth = item.width == 1.0
 
             -- A control sharing its row leaves room for half of the gap to its neighbor
@@ -170,7 +259,11 @@ function QuestieOptionsLayout.Build(parentFrame, rawItems, maxWidth, level, onCo
             onControlCreated(control)
 
             if item.type == "container" and item.items then
-                local contentHeight = QuestieOptionsLayout.Build(control.contentArea, item.items, maxWidth, level + 1, onControlCreated)
+                local contentHeight, childCount = QuestieOptionsLayout.Build(
+                    control.contentArea, item.items, maxWidth, level + 1, onControlCreated, searchQuery,
+                    forceInclude or includeChildren
+                )
+                visibleCount = visibleCount + childCount
                 control:SetHeight(contentHeight + VERTICAL_GAP)
             end
 
@@ -192,7 +285,7 @@ function QuestieOptionsLayout.Build(parentFrame, rawItems, maxWidth, level, onCo
 
     _AlignRowVertically(rowControls, rowHeight, cursorY)
 
-    return math.abs(cursorY - rowHeight)
+    return math.abs(cursorY - rowHeight), visibleCount
 end
 
 return QuestieOptionsLayout

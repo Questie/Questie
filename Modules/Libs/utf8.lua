@@ -12,6 +12,96 @@ local utf8 = QuestieLoader:CreateModule("utf8")
 -- UTF-8 char boundary pattern for Lua 5.1 (no \x escapes)
 local _CHARPAT = "[%z\1-\127\194-\244][\128-\191]*"
 
+local function _DecodeCodepoint(s, position)
+  local first = string.byte(s, position)
+  if not first then
+    return nil, position
+  elseif first < 0x80 then
+    return first, position + 1
+  elseif first < 0xE0 then
+    return (first - 0xC0) * 0x40 + string.byte(s, position + 1) - 0x80, position + 2
+  elseif first < 0xF0 then
+    return (first - 0xE0) * 0x1000
+      + (string.byte(s, position + 1) - 0x80) * 0x40
+      + string.byte(s, position + 2) - 0x80, position + 3
+  end
+  return (first - 0xF0) * 0x40000
+    + (string.byte(s, position + 1) - 0x80) * 0x1000
+    + (string.byte(s, position + 2) - 0x80) * 0x40
+    + string.byte(s, position + 3) - 0x80, position + 4
+end
+
+local function _EncodeCodepoint(codepoint)
+  if codepoint < 0x80 then
+    return string.char(codepoint)
+  elseif codepoint < 0x800 then
+    return string.char(
+      0xC0 + math.floor(codepoint / 0x40),
+      0x80 + codepoint % 0x40
+    )
+  elseif codepoint < 0x10000 then
+    return string.char(
+      0xE0 + math.floor(codepoint / 0x1000),
+      0x80 + math.floor(codepoint / 0x40) % 0x40,
+      0x80 + codepoint % 0x40
+    )
+  end
+  return string.char(
+    0xF0 + math.floor(codepoint / 0x40000),
+    0x80 + math.floor(codepoint / 0x1000) % 0x40,
+    0x80 + math.floor(codepoint / 0x40) % 0x40,
+    0x80 + codepoint % 0x40
+  )
+end
+
+local function _LowerCodepoint(codepoint)
+  if codepoint >= 0x41 and codepoint <= 0x5A then
+    return codepoint + 0x20
+  end
+
+  -- Latin-1 Supplement, Latin Extended-A, Greek, and Cyrillic cover the
+  -- case-bearing alphabets used by Questie's translations.
+  if (codepoint >= 0xC0 and codepoint <= 0xD6) or (codepoint >= 0xD8 and codepoint <= 0xDE) then
+    return codepoint + 0x20
+  elseif codepoint == 0x1E9E then
+    return 0xDF
+  elseif codepoint >= 0x100 and codepoint <= 0x12F and codepoint % 2 == 0 then
+    return codepoint + 1
+  elseif codepoint >= 0x139 and codepoint <= 0x148 and codepoint % 2 == 1 then
+    return codepoint + 1
+  elseif codepoint >= 0x14A and codepoint <= 0x177 and codepoint % 2 == 0 then
+    return codepoint + 1
+  elseif codepoint >= 0x179 and codepoint <= 0x17E and codepoint % 2 == 1 then
+    return codepoint + 1
+  elseif (codepoint >= 0x391 and codepoint <= 0x3A1) or (codepoint >= 0x3A3 and codepoint <= 0x3AB) then
+    return codepoint + 0x20
+  elseif codepoint >= 0x400 and codepoint <= 0x40F then
+    return codepoint + 0x50
+  elseif codepoint >= 0x410 and codepoint <= 0x42F then
+    return codepoint + 0x20
+  elseif codepoint >= 0x460 and codepoint <= 0x480 and codepoint % 2 == 0 then
+    return codepoint + 1
+  elseif codepoint >= 0xFF21 and codepoint <= 0xFF3A then
+    return codepoint + 0x20
+  end
+
+  return codepoint
+end
+
+---Lowercases ASCII and common case-bearing UTF-8 alphabets without splitting characters.
+---@param s string UTF-8 text
+---@return string
+function utf8.lower(s)
+  local lowered = {}
+  local position = 1
+  while position <= #s do
+    local codepoint, nextPosition = _DecodeCodepoint(s, position)
+    table.insert(lowered, _EncodeCodepoint(_LowerCodepoint(codepoint)))
+    position = nextPosition
+  end
+  return table.concat(lowered)
+end
+
 ---UTF-8 safe substring function that respects character boundaries.
 ---Unlike Lua's built-in string.sub which works on bytes, this function works on
 ---UTF-8 characters to prevent splitting multi-byte characters (like Chinese text).
