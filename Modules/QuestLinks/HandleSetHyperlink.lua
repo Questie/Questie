@@ -1,5 +1,7 @@
 ---@class HandleSetHyperlink
 local HandleSetHyperlink = QuestieLoader:CreateModule("HandleSetHyperlink")
+---@type TaintWatch
+local TaintWatch = QuestieLoader:ImportModule("TaintWatch")
 ---@type QuestieLink
 local QuestieLink = QuestieLoader:ImportModule("QuestieLink")
 ---@type QuestieDB
@@ -82,6 +84,7 @@ function HandleSetHyperlink.TryShowQuestTooltip(link)
     end
 
     Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieTooltips:ItemRefTooltip] SetHyperlink:", link)
+    TaintWatch.Note("ShowUIPanel ItemRefTooltip")
     ShowUIPanel(ItemRefTooltip)
     ItemRefTooltip:SetOwner(UIParent, "ANCHOR_PRESERVE");
     ItemRefTooltip:ClearLines()

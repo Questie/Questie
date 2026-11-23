@@ -270,6 +270,16 @@ describe("TaintWatch", function()
             assert.spy(errorHandler).was.called(1)
         end)
 
+        it("should note Blizzard events as breadcrumbs", function()
+            eventScript(nil, "PLAYER_REGEN_DISABLED")
+            eventScript(nil, "QUEST_ACCEPTED", 6134)
+
+            assert.are.same(2, #_TaintWatch.notes)
+            assert.are.same("[event] PLAYER_REGEN_DISABLED", _TaintWatch.notes[1].label)
+            assert.are.same("[event] QUEST_ACCEPTED", _TaintWatch.notes[2].label)
+            assert.are.same(6134, _TaintWatch.notes[2].detail)
+        end)
+
         it("should ignore Lua warnings of other addons", function()
             eventScript(nil, "LUA_WARNING", "script ran too long in OtherAddon")
 
@@ -283,7 +293,34 @@ describe("TaintWatch", function()
         end)
     end)
 
+    describe("managed frame containers", function()
+        it("should report a managed frame container that Questie tainted", function()
+            _G.RightManagedFrameContainer = {showingFrames = {}}
+            TaintWatch.Initialize()
+            taintedValues[_G.RightManagedFrameContainer] = {showingFrames = "Questie"}
+
+            tickerCallback()
+
+            assert.spy(errorHandler).was.called(1)
+            local report = errorHandler.calls[1].vals[1]
+            assert.truthy(report:find("RightManagedFrameContainer.showingFrames was tainted by Questie", 1, true))
+            _G.RightManagedFrameContainer = nil
+        end)
+    end)
+
     describe("hooks", function()
+        it("should note when the world map is shown and hidden", function()
+            local scripts = {}
+            WorldMapFrame.HookScript = function(_, name, script) scripts[name] = script end
+            TaintWatch.Initialize()
+
+            scripts.OnShow()
+            scripts.OnHide()
+
+            assert.are.same("[event] WorldMap shown", _TaintWatch.notes[1].label)
+            assert.are.same("[event] WorldMap hidden", _TaintWatch.notes[2].label)
+        end)
+
         it("should not build a stack for a capture that would be discarded", function()
             local hooks = {}
             _G.hooksecurefunc = function(tbl, method, hook) hooks[method] = {tbl = tbl, hook = hook} end

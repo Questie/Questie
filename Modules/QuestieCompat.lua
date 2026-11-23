@@ -308,6 +308,7 @@ function QuestieCompat.OpenWorldMap(uiMapId)
         if (not WorldMapFrame:IsShown()) then
             WorldMapFrame:Show()
         end
+        TaintWatch.Note("WorldMapFrame:SetMapID", uiMapId)
         WorldMapFrame:SetMapID(uiMapId)
         return true
     end

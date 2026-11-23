@@ -5,6 +5,8 @@ local QuestieCompat = QuestieLoader:ImportModule("QuestieCompat")
 local QuestEventHandler = QuestieLoader:CreateModule("QuestEventHandler")
 ---@class QuestEventHandlerPrivate
 local _QuestEventHandler = QuestEventHandler.private
+---@type TaintWatch
+local TaintWatch = QuestieLoader:ImportModule("TaintWatch")
 
 ---@type QuestEventHandlerPrivate
 QuestEventHandler.private = QuestEventHandler.private or {}
@@ -202,6 +204,7 @@ function QuestEventHandler:Initialize()
                 end
 
                 if foundQuestItem and quest and questName then
+                    TaintWatch.Note("StaticPopup text rewrite")
                     if StaticPopup_ForEachShownDialog then
                         -- MoP+
                         StaticPopup_ForEachShownDialog(function(dialog)

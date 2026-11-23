@@ -18,6 +18,19 @@ local POLL_INTERVAL = 1
 local STACK_LEVELS = 25
 local QUESTIE = "Questie"
 
+-- Blizzard events that show what the player was doing around Questie's actions
+local BREADCRUMB_EVENTS = {
+    PLAYER_REGEN_DISABLED = true,
+    PLAYER_REGEN_ENABLED = true,
+    PLAYER_ENTERING_WORLD = true,
+    WORLD_MAP_OPEN = true,
+    SUPER_TRACKING_CHANGED = true,
+    QUEST_ACCEPTED = true,
+    QUEST_DETAIL = true,
+    GOSSIP_SHOW = true,
+    EDIT_MODE_LAYOUTS_UPDATED = true,
+}
+
 _TaintWatch.notes = {}
 _TaintWatch.captures = {}
 _TaintWatch.otherCaptures = {}
@@ -190,6 +203,11 @@ function _TaintWatch.GetPolledValues()
         Add(name .. ".isDirty", function() return _G[name] end, "isDirty")
     end
 
+    -- Blizzard keeps the layout of the tracker, the durability frame and similar frames in these containers
+    for _, name in ipairs({"RightManagedFrameContainer", "BottomManagedFrameContainer", "PlayerBottomManagedFrameContainer"}) do
+        Add(name .. ".showingFrames", function() return _G[name] end, "showingFrames")
+    end
+
     return values
 end
 
@@ -231,6 +249,11 @@ function _TaintWatch.InstallHooks()
         end)
     end
 
+    if WorldMapFrame and WorldMapFrame.HookScript then
+        WorldMapFrame:HookScript("OnShow", function() TaintWatch.Note("[event] WorldMap shown") end)
+        WorldMapFrame:HookScript("OnHide", function() TaintWatch.Note("[event] WorldMap hidden") end)
+    end
+
     if ObjectiveTrackerFrame and ObjectiveTrackerFrame.MarkDirty then
         hooksecurefunc(ObjectiveTrackerFrame, "MarkDirty", function(self)
             _TaintWatch.CheckWrite("ObjectiveTrackerFrame.dirty", self, "dirty")
@@ -244,7 +267,10 @@ function _TaintWatch.OnEvent(_, event, ...)
     if (not _TaintWatch.IsEnabled()) then
         return
     end
-    if event == "ADDON_ACTION_BLOCKED" or event == "ADDON_ACTION_FORBIDDEN" then
+    if BREADCRUMB_EVENTS[event] then
+        local detail = ...
+        TaintWatch.Note("[event] " .. event, type(detail) == "number" and detail or nil)
+    elseif event == "ADDON_ACTION_BLOCKED" or event == "ADDON_ACTION_FORBIDDEN" then
         local addonName, func = ...
         if addonName == "Questie" then
             _TaintWatch.Report(event .. ":" .. tostring(func), event .. " " .. tostring(func))
@@ -314,7 +340,7 @@ function _TaintWatch.BuildReport(title)
     for _, capture in ipairs(_TaintWatch.captures) do
         table.insert(lines, ("  -%.1fs %s tainted by %s%s"):format(
             now - capture.time, capture.label, capture.taintedBy, capture.combat and " (combat)" or ""))
-        table.insert(lines, "  Questie actions before it:")
+        table.insert(lines, "  Actions and events before it:")
         table.insert(lines, (capture.notes:gsub("\n", "\n  ")))
         if capture.stack then
             table.insert(lines, "  Stack:")
@@ -325,7 +351,7 @@ function _TaintWatch.BuildReport(title)
         table.insert(lines, ("Also tainted: -%.1fs %s by %s%s"):format(
             now - capture.time, capture.label, capture.taintedBy, capture.combat and " (combat)" or ""))
     end
-    table.insert(lines, "Last Questie actions:")
+    table.insert(lines, "Last actions and events:")
     table.insert(lines, _TaintWatch.FormatNotes(now))
     return table.concat(lines, "\n")
 end
@@ -356,6 +382,9 @@ function TaintWatch.Initialize()
     eventFrame:RegisterEvent("ADDON_ACTION_BLOCKED")
     eventFrame:RegisterEvent("ADDON_ACTION_FORBIDDEN")
     eventFrame:RegisterEvent("LUA_WARNING")
+    for event in pairs(BREADCRUMB_EVENTS) do
+        eventFrame:RegisterEvent(event)
+    end
     eventFrame:SetScript("OnEvent", _TaintWatch.OnEvent)
 
     C_Timer.NewTicker(POLL_INTERVAL, _TaintWatch.Poll)
