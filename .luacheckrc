@@ -2755,6 +2755,7 @@ globals = {
     "QuestMapFrame_OpenToQuestDetails",
     "QuestNPCModel",
     "QuestTimerFrame",
+    "QuestUtil",
     "QuestWatchFrame",
     "RaidBossEmoteFrame",
     "RaidParentFrame",
