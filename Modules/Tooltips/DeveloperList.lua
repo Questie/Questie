@@ -17,8 +17,8 @@ Questie.devChars = {
     ["6412"] = {"03134700"},
     --          Yttrium     Yttrium
     ["6796"] = {"028C599A", "008576FD"},
-    --          Anon
-    ["6921"] = {"001E5110"},
+    --          Anon        Anon
+    ["6921"] = {"001E5110", "02CAC851"},
     --          Muehe       Muehe       Muehe
     ["6939"] = {"007067A3", "00D2035B", "00A44B02"},
     --          Cheeq       Cheeq
