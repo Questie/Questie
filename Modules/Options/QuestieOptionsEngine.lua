@@ -77,6 +77,9 @@ local RenderMode = {
 
 local CANVAS_WIDTH = 625
 
+-- The book of the quest log, Interface\QuestFrame\UI-QuestLog-BookIcon, which every client has under this ID
+local JOURNEY_ICON = 136797
+
 -- How long canvas builds can run per frame, together. Keeps a slow client far from the script time limit, which
 -- is much stricter in Hardcore, however long a single control takes to create and however many tabs are building.
 local BUILD_BUDGET_SECONDS = 0.004
@@ -257,23 +260,6 @@ local function _YieldForFrameOfItsOwn()
     budgetStartedAt = GetTimePreciseSec() - BUILD_BUDGET_SECONDS
 end
 
----Puts the search box next to the Journey button, which every tab has in the same place.
----The button belongs to one tab, and is thrown away if its build fails. So its geometry is copied to an anchor of the
----window, and the search box stays where it is whichever tab is shown.
----@param canvas Frame
----@param journeyButton Frame
-local function _AnchorSearchBox(canvas, journeyButton)
-    local window = canvas:GetParent():GetParent()
-    if window.searchAnchor then
-        return
-    end
-
-    window.searchAnchor = CreateFrame("Frame", nil, window)
-    window.searchAnchor:SetSize(journeyButton:GetSize())
-    window.searchAnchor:SetPoint("TOPRIGHT", canvas, "TOPRIGHT", -36, 7)
-    QuestieOptionsWindow.AnchorSearchTo(window, window.searchAnchor)
-end
-
 ---Creates everything on a canvas, pausing whenever the frame's budget is used up.
 ---Each control shows the current setting from the moment it exists, so settings changing mid-build are no problem.
 ---Neither is a search, because the controls are only placed at the end.
@@ -295,22 +281,6 @@ _BuildCanvas = function(canvas)
     canvas.content = content
 
     local headerWrapper = _CreateCanvasHeader(canvas, content, isPopup and 44 or 0)
-
-    if isPopup then
-        local journeyButton = QuestieOptionsControls.Create(content, {
-            title = "My Journey",
-            type = "button",
-            align = "RIGHT",
-            func = function()
-                QuestieOptionsEngine:ToggleConfigWindow()
-                QuestieJourney:ToggleJourneyWindow()
-            end,
-            btnLabel = l10n("My Journey"),
-        }, 240, 1)
-        journeyButton:SetPoint("TOPRIGHT", canvas, "TOPRIGHT", -36, 7)
-        _AnchorSearchBox(canvas, journeyButton.widget)
-        AddControl(journeyButton)
-    end
 
     local scrollBox, scrollChild = _CreateScrollFrames(content, canvas:GetName() .. "_Scroll", headerWrapper, canvas.mode)
 
@@ -411,6 +381,11 @@ local function _CreatePopup()
         sideTabs[tab.key] = QuestieOptionsWindow.CreateSideTab(window, tab.key, tab.data, previousSideTab, _SelectPopupTab)
         previousSideTab = sideTabs[tab.key]
     end
+
+    QuestieOptionsWindow.CreateLinkTab(window, "journey", {title = "My Journey", icon = JOURNEY_ICON}, function()
+        QuestieOptionsEngine:ToggleConfigWindow()
+        QuestieJourney:ToggleJourneyWindow()
+    end)
 
     _SelectPopupTab(visibleTabs[1].key)
 
