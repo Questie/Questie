@@ -92,7 +92,7 @@ function GroupEventHandler.GroupJoined()
 end
 
 function GroupEventHandler.GroupLeft()
-    -- Keep Nearby/YELL data while removing the group-specific snapshots.
+    -- Remove the group-specific snapshots.
     QuestieComms:RemoveAllRemoteGroupPlayers()
     CommsVisibility:ResetAll()
     QuestiePartyObjectives:Clear()
