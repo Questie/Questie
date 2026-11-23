@@ -7,6 +7,7 @@ describe("TaintWatch", function()
     local _TaintWatch
     local now, taintedValues, errorHandler, eventScript, tickerCallback
     local originals = {}
+    local originalDb
     local globalNames = {"issecurevariable", "geterrorhandler", "debugstack", "GetTime", "GetCVar", "C_Timer", "CreateFrame",
                          "hooksecurefunc", "WorldMapFrame", "ObjectiveTrackerFrame", "QuestFrameDetailPanel",
                          "QuestDetailScrollChildFrame", "C_AddOns", "InCombatLockdown"}
@@ -15,6 +16,8 @@ describe("TaintWatch", function()
         for _, name in ipairs(globalNames) do
             originals[name] = _G[name]
         end
+        originalDb = Questie.db
+        Questie.db = {profile = {debugEnabled = true}}
         now = 100
         taintedValues = {}
         eventScript = nil
@@ -61,9 +64,14 @@ describe("TaintWatch", function()
             _G[name] = originals[name]
         end
         Questie.IsForever = nil
+        Questie.db = originalDb
     end)
 
     describe("Note", function()
+        before_each(function()
+            _TaintWatch.active = true
+        end)
+
         it("should count repeated notes within a second on one entry", function()
             TaintWatch.Note("HBD RemovePin")
             TaintWatch.Note("HBD AcquirePin")
@@ -102,6 +110,49 @@ describe("TaintWatch", function()
 
             assert.are.same(40, #_TaintWatch.notes)
             assert.are.same(6, _TaintWatch.notes[1].detail)
+        end)
+    end)
+
+    describe("debug mode", function()
+        it("should not start while debug is disabled", function()
+            Questie.db.profile.debugEnabled = false
+
+            TaintWatch.Initialize()
+
+            assert.is_false(_TaintWatch.active)
+            assert.is_nil(tickerCallback)
+        end)
+
+        it("should start when debug is enabled later", function()
+            Questie.db.profile.debugEnabled = false
+            TaintWatch.Initialize()
+            Questie.db.profile.debugEnabled = true
+
+            TaintWatch.Initialize()
+
+            assert.is_true(_TaintWatch.active)
+            assert.is_not_nil(tickerCallback)
+        end)
+
+        it("should not note, poll or report after debug is disabled", function()
+            TaintWatch.Initialize()
+            Questie.db.profile.debugEnabled = false
+            taintedValues[WorldMapFrame.ScrollContainer] = {currentScale = "Questie"}
+
+            TaintWatch.Note("OpenWorldMap", 1429)
+            tickerCallback()
+            eventScript(nil, "ADDON_ACTION_BLOCKED", "Questie", "Frame:SetPassThroughButtons()")
+
+            assert.are.same(0, #_TaintWatch.notes)
+            assert.are.same(0, #_TaintWatch.captures)
+            assert.spy(errorHandler).was.not_called()
+        end)
+
+        it("should not note before the database exists", function()
+            Questie.db = nil
+
+            assert.has_no.errors(function() TaintWatch.Note("OpenWorldMap", 1429) end)
+            assert.are.same(0, #_TaintWatch.notes)
         end)
     end)
 

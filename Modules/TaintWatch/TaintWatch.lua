@@ -25,11 +25,21 @@ _TaintWatch.reported = {}
 _TaintWatch.lastStatus = {}
 _TaintWatch.active = false
 
+---TaintWatch only works while Questie's debug mode is enabled. The hooks stay installed after debug is disabled
+---until the next reload, but they do nothing.
+---@return boolean
+function _TaintWatch.IsEnabled()
+    return _TaintWatch.active and Questie.db ~= nil and Questie.db.profile.debugEnabled == true
+end
+
 ---Records a Questie call that can taint Blizzard state. Calls repeating one of the last few notes within a second
 ---are counted on that note, so bulk pin updates do not push older actions out.
 ---@param label string
 ---@param detail any?
 function TaintWatch.Note(label, detail)
+    if (not _TaintWatch.IsEnabled()) then
+        return
+    end
     local notes = _TaintWatch.notes
     local now = GetTime()
     local combat = InCombatLockdown()
@@ -117,7 +127,7 @@ end
 ---@param tbl any
 ---@param key string
 function _TaintWatch.CheckWrite(label, tbl, key)
-    if _TaintWatch.lastStatus[label] == QUESTIE then
+    if (not _TaintWatch.IsEnabled()) or _TaintWatch.lastStatus[label] == QUESTIE then
         return
     end
     local taintedBy = _TaintWatch.GetTaint(tbl, key)
@@ -184,6 +194,9 @@ function _TaintWatch.GetPolledValues()
 end
 
 function _TaintWatch.Poll()
+    if (not _TaintWatch.IsEnabled()) then
+        return
+    end
     for _, value in ipairs(_TaintWatch.polledValues) do
         if _TaintWatch.lastStatus[value.label] ~= QUESTIE then
             local taintedBy = _TaintWatch.GetTaint(value.getTable(), value.key)
@@ -228,6 +241,9 @@ end
 ---@param event string
 ---@param ... any
 function _TaintWatch.OnEvent(_, event, ...)
+    if (not _TaintWatch.IsEnabled()) then
+        return
+    end
     if event == "ADDON_ACTION_BLOCKED" or event == "ADDON_ACTION_FORBIDDEN" then
         local addonName, func = ...
         if addonName == "Questie" then
@@ -319,15 +335,16 @@ end
 ---@param key string
 ---@param title string
 function _TaintWatch.Report(key, title)
-    if _TaintWatch.reported[key] then
+    if (not _TaintWatch.IsEnabled()) or _TaintWatch.reported[key] then
         return
     end
     _TaintWatch.reported[key] = true
     geterrorhandler()((_TaintWatch.BuildReport(title):gsub("BugGrabber", "Bug Grabber")))
 end
 
+---Starts the watchers. Safe to call again, e.g. when debug mode is enabled later in the session.
 function TaintWatch.Initialize()
-    if _TaintWatch.active or (not Questie.IsForever) then
+    if _TaintWatch.active or (not Questie.IsForever) or (not Questie.db.profile.debugEnabled) then
         return
     end
     _TaintWatch.active = true

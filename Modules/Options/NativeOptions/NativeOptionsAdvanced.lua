@@ -6,6 +6,8 @@ local Popup = QuestieLoader:ImportModule("QuestiePopup")
 -------------------------
 ---@type QuestieQuest
 local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
+---@type TaintWatch
+local TaintWatch = QuestieLoader:ImportModule("TaintWatch")
 ---@type QuestieOptionsEngine
 local QuestieOptionsEngine = QuestieLoader:ImportModule("QuestieOptionsEngine")
 ---@type QuestieOptionsDefaults
@@ -436,6 +438,7 @@ function QuestieOptionsEngine.tabs.advanced:Initialize()
                     Questie.db.profile.debugEnabled = value
                     if Questie.db.profile.debugEnabled then
                         QuestieLoader:PopulateGlobals()
+                        TaintWatch.Initialize()
                     end
                 end,
             },
