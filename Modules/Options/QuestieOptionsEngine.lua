@@ -107,80 +107,45 @@ local _BuildCanvas
 -- Canvases
 -------------------------
 
----@param controls QuestieOptionsControl[]
-local function _RefreshControls(controls)
-    for _, control in ipairs(controls) do
+---@param canvas Frame
+local function _RefreshCanvas(canvas)
+    for _, control in ipairs(canvas.controls) do
         QuestieOptionsControls.Refresh(control)
     end
 end
 
+---Throws away what a failed build created, so the tab is built from scratch the next time it is shown.
+---Not right away, because an error that isn't a passing one would then repeat every frame.
 ---@param canvas Frame
-local function _RefreshCanvas(canvas)
-    _RefreshControls(canvas.controls)
-    if canvas.pendingControls and canvas.pendingControls ~= canvas.controls then
-        _RefreshControls(canvas.pendingControls)
-    end
-end
-
----Throws away what a failed or superseded build created, so the tab is built from scratch the next time it is shown.
----The finished content is kept while a replacement is being built, so a search update cannot blank the active tab.
----@param canvas Frame
----@param keepContent boolean? Keep the currently displayed content while discarding a replacement.
-local function _DiscardFailedBuild(canvas, keepContent)
-    if canvas.buildTimer then
-        canvas.buildTimer:Cancel()
-        canvas.buildTimer = nil
-    end
-    canvas.buildGeneration = (canvas.buildGeneration or 0) + 1
-
-    if canvas.pendingContent then
-        canvas.pendingContent:Hide()
-        canvas.pendingContent:SetParent(nil)
-        canvas.pendingContent = nil
-    end
-    canvas.pendingControls = nil
-
-    if not keepContent and canvas.content then
+local function _DiscardFailedBuild(canvas)
+    if canvas.content then
         canvas.content:Hide()
         canvas.content:SetParent(nil)
         canvas.content = nil
     end
-    if not keepContent then
-        canvas.controls = {}
-        canvas.UpdateScrollLayout = nil
-    end
+    canvas.controls = {}
+    canvas.UpdateLayout = nil
     canvas.isBuildStarted = false
 end
 
----A canvas is built the first time it is shown. After that, each time it is shown it catches up on
----settings that changed while it was hidden, because RefreshStates skips hidden canvases.
+---A canvas is built the first time it is shown. After that, each time it is shown it catches up on settings and
+---searches that changed while it was hidden, because RefreshStates and SetSearchText skip hidden canvases.
 ---@param canvas Frame
 local function _OnCanvasShown(canvas)
     if not canvas.isBuildStarted then
         canvas.isBuildStarted = true
-        canvas.buildGeneration = (canvas.buildGeneration or 0) + 1
-        local buildGeneration = canvas.buildGeneration
-        local buildTimer
-        local function IsCurrentBuild()
-            return canvas.buildGeneration == buildGeneration and canvas.buildTimer == buildTimer
-        end
-        buildTimer = ThreadLib.Thread(
-            function() _BuildCanvas(canvas, buildGeneration) end, 0, "Error while building a Questie settings tab:", nil,
-            function()
-                if IsCurrentBuild() then
-                    _DiscardFailedBuild(canvas, canvas.content ~= nil)
-                end
-            end, "QuestieOptionsEngine.BuildCanvas"
+        ThreadLib.Thread(
+            function() _BuildCanvas(canvas) end, 0, "Error while building a Questie settings tab:", nil,
+            function() _DiscardFailedBuild(canvas) end, "QuestieOptionsEngine.BuildCanvas"
         )
-        canvas.buildTimer = buildTimer
         return
     end
 
     _RefreshCanvas(canvas)
 
     -- While the build is still running this is not set yet, and the build lays itself out when it finishes
-    if canvas.UpdateScrollLayout then
-        canvas.UpdateScrollLayout()
+    if canvas.UpdateLayout then
+        canvas.UpdateLayout()
     end
 end
 
@@ -292,42 +257,44 @@ local function _YieldForFrameOfItsOwn()
     budgetStartedAt = GetTimePreciseSec() - BUILD_BUDGET_SECONDS
 end
 
+---Puts the search box next to the Journey button, which every tab has in the same place.
+---The button belongs to one tab, and is thrown away if its build fails. So its geometry is copied to an anchor of the
+---window, and the search box stays where it is whichever tab is shown.
+---@param canvas Frame
+---@param journeyButton Frame
+local function _AnchorSearchBox(canvas, journeyButton)
+    local window = canvas:GetParent():GetParent()
+    if window.searchAnchor then
+        return
+    end
+
+    window.searchAnchor = CreateFrame("Frame", nil, window)
+    window.searchAnchor:SetSize(journeyButton:GetSize())
+    window.searchAnchor:SetPoint("TOPRIGHT", canvas, "TOPRIGHT", -36, 7)
+    QuestieOptionsWindow.AnchorSearchTo(window, window.searchAnchor)
+end
+
 ---Creates everything on a canvas, pausing whenever the frame's budget is used up.
 ---Each control shows the current setting from the moment it exists, so settings changing mid-build are no problem.
+---Neither is a search, because the controls are only placed at the end.
 ---@async
 ---@param canvas Frame
----@param buildGeneration number
-_BuildCanvas = function(canvas, buildGeneration)
+_BuildCanvas = function(canvas)
     local isPopup = canvas.mode == RenderMode.POPUP
-    local searchText = isPopup and QuestieOptionsEngine.searchText or nil
-    local tabTitleMatches = isPopup and QuestieOptionsLayout.MatchesSearch({
-        title = canvas.tab.data.title,
-        description = canvas.tab.data.subtitle,
-    }, searchText)
 
-    local controls = {}
-    if not canvas.content then
-        -- During the first build there is no committed content to refresh yet, so expose the
-        -- controls as they are created. Replacement builds keep the old controls until commit.
-        canvas.controls = controls
-    end
-    canvas.pendingControls = controls
     local function AddControl(control)
-        table.insert(controls, control)
+        table.insert(canvas.controls, control)
         _YieldIfFrameBudgetSpent()
     end
 
     _YieldIfFrameBudgetSpent()
 
-    -- Everything the build creates goes on here, so a failed or superseded build can be thrown away.
-    -- Keep the previously committed content visible until this replacement is complete.
+    -- Everything the build creates goes on here, so a failed build can be thrown away
     local content = CreateFrame("Frame", nil, canvas)
     content:SetAllPoints(canvas)
-    content:Hide()
-    canvas.pendingContent = content
+    canvas.content = content
 
     local headerWrapper = _CreateCanvasHeader(canvas, content, isPopup and 44 or 0)
-    local searchAnchor
 
     if isPopup then
         local journeyButton = QuestieOptionsControls.Create(content, {
@@ -341,7 +308,7 @@ _BuildCanvas = function(canvas, buildGeneration)
             btnLabel = l10n("My Journey"),
         }, 240, 1)
         journeyButton:SetPoint("TOPRIGHT", canvas, "TOPRIGHT", -36, 7)
-        searchAnchor = journeyButton.widget
+        _AnchorSearchBox(canvas, journeyButton.widget)
         AddControl(journeyButton)
     end
 
@@ -358,64 +325,59 @@ _BuildCanvas = function(canvas, buildGeneration)
     QuestieOptionsUtils.DisableSnapping(divider)
 
     local contentWidth = CANVAS_WIDTH - QuestieOptionsControls.ROOT_INDENT * 2
-    local contentHeight, visibleCount = QuestieOptionsLayout.Build(
-        scrollChild, canvas.tab.data.items, contentWidth, 1, AddControl, searchText, tabTitleMatches
-    )
-    scrollChild:SetHeight(contentHeight + 20)
+    local area = QuestieOptionsLayout.Build(scrollChild, canvas.tab.data.items, contentWidth, 1, AddControl)
 
     local noResults
-    if isPopup and searchText ~= "" and visibleCount == 0 then
+    if isPopup then
         noResults = scrollChild:CreateFontString(nil, "OVERLAY", "GameFontHighlight")
         noResults:SetPoint("TOPLEFT", scrollChild, "TOPLEFT", 10, 0)
         noResults:SetText(l10n("No matching options"))
+        noResults:Hide()
+        canvas.noResults = noResults
     end
 
     -- Laying out a finished tab is a lot of work at once, so it gets a frame of its own
     _YieldForFrameOfItsOwn()
 
-    if canvas.buildGeneration ~= buildGeneration then
-        content:Hide()
-        if canvas.pendingContent == content then
-            canvas.pendingContent = nil
+    local placedSearchText
+
+    ---Places the controls matching the current search, unless they already are.
+    ---@return boolean isSearchChanged
+    local function PlaceControls()
+        -- Only Questie's own window can be searched
+        local searchText = isPopup and QuestieOptionsEngine.searchText or ""
+        if searchText == placedSearchText then
+            return false
         end
-        if canvas.pendingControls == controls then
-            canvas.pendingControls = nil
+        placedSearchText = searchText
+
+        local tabTitleMatches = QuestieOptionsLayout.MatchesSearch({
+            title = canvas.tab.data.title,
+            description = canvas.tab.data.subtitle,
+        }, searchText)
+        local contentHeight, visibleCount = QuestieOptionsLayout.Place(area, searchText, tabTitleMatches)
+        scrollChild:SetHeight(contentHeight + 20)
+        if noResults then
+            noResults:SetShown(searchText ~= "" and visibleCount == 0)
         end
-        return
+        return true
     end
 
-    if canvas.content then
-        canvas.content:Hide()
-        canvas.content:SetParent(nil)
-    end
-    canvas.content = content
-    canvas.pendingContent = nil
-    canvas.pendingControls = nil
-    canvas.controls = controls
-    canvas.noResults = noResults
-
+    -- Showing the scroll child makes Blizzard lay it out, which needs every control to have its position
+    PlaceControls()
     scrollBox:Show()
 
-    -- Updates the scroll child's resizable layout height, and then the scroll box to match
-    canvas.UpdateScrollLayout = function()
+    -- Updates the scroll child's resizable layout height, and then the scroll box to match. Hidden controls don't count
+    -- towards that height. Checked in Blizzard's source for every supported client (see AGENTS.md).
+    canvas.UpdateLayout = function()
+        local isSearchChanged = PlaceControls()
         scrollChild:Layout()
         scrollBox:FullUpdate(true)
-    end
-    canvas.UpdateScrollLayout()
-    content:Show()
-    if searchAnchor and canvas:IsShown() then
-        local window = canvas:GetParent():GetParent()
-        if not window.searchAnchor then
-            -- The Journey button belongs to the canvas and is replaced on every search. Copy
-            -- its geometry to a window-owned anchor so the search box never follows a transient
-            -- or hidden button during a rebuild.
-            local stableAnchor = CreateFrame("Frame", nil, window)
-            stableAnchor:SetSize(searchAnchor:GetSize())
-            stableAnchor:SetPoint("TOPRIGHT", canvas, "TOPRIGHT", -36, 7)
-            window.searchAnchor = stableAnchor
-            QuestieOptionsWindow.AnchorSearchTo(window, window.searchAnchor)
+        if isSearchChanged then
+            scrollBox:ScrollToBegin()
         end
     end
+    canvas.UpdateLayout()
 end
 
 -------------------------
@@ -529,19 +491,7 @@ local function _UpdatePopupTabVisibility()
     end
 end
 
-local function _RebuildPopupCanvases()
-    for _, canvas in pairs(popupCanvases) do
-        local wasShown = canvas:IsShown()
-        _DiscardFailedBuild(canvas, wasShown)
-        if wasShown then
-            -- Start the replacement directly. The old content remains visible until the new
-            -- content is committed, so restarting a search build must not hide the canvas.
-            _OnCanvasShown(canvas)
-        end
-    end
-end
-
----Changes the popup's option search and rebuilds every matching tab with matching items.
+---Changes the popup's option search, and shows only the matching tabs and options.
 ---@param searchText string
 function QuestieOptionsEngine:SetSearchText(searchText)
     searchText = strtrim(searchText or "")
@@ -570,7 +520,13 @@ function QuestieOptionsEngine:SetSearchText(searchText)
     end
 
     _UpdatePopupTabVisibility()
-    _RebuildPopupCanvases()
+
+    -- Hidden tabs catch up when they are next shown, also while the whole window is hidden
+    for _, canvas in pairs(popupCanvases) do
+        if canvas:IsVisible() and canvas.UpdateLayout then
+            canvas.UpdateLayout()
+        end
+    end
 end
 
 local isRefreshQueued = false

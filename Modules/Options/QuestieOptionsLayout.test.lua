@@ -12,11 +12,16 @@ describe("QuestieOptionsLayout", function()
     local ROOT_INDENT = 20
     local HALF_WIDTH = 287.5 -- Half of MAX_WIDTH, leaving room for half of the gap between neighbors
 
-    local function Build(items, level, searchQuery, forceInclude)
+    ---@return QuestieOptionsArea
+    local function Create(items, level)
         created = {}
         return QuestieOptionsLayout.Build(parent, items, MAX_WIDTH, level or 1, function(control)
             created[control.itemData.title] = control
-        end, searchQuery, forceInclude)
+        end)
+    end
+
+    local function Build(items, level, searchQuery, forceInclude)
+        return QuestieOptionsLayout.Place(Create(items, level), searchQuery, forceInclude)
     end
 
     ---@return number x
@@ -155,9 +160,10 @@ describe("QuestieOptionsLayout", function()
             sound = {type = "spacer", title = "Sound", description = "Play effects", order = 3, width = "full"},
         }, 1, "quest markers")
 
-        assert.is_nil(created["Tracker visibility"])
-        assert.is_not_nil(created["Map icons"])
-        assert.is_nil(created.Sound)
+        assert.is_false(created["Tracker visibility"]:IsShown())
+        assert.is_true(created["Map icons"]:IsShown())
+        assert.is_false(created.Sound:IsShown())
+        assert.are.equal(0, select(2, PositionOf(created["Map icons"]))) -- Hidden options leave no gap
     end)
 
     it("should match translated UTF-8 text case-insensitively", function()
@@ -166,8 +172,26 @@ describe("QuestieOptionsLayout", function()
             accented = {type = "spacer", title = "SÄUME", order = 2, width = "full"},
         }, 1, "общее")
 
-        assert.is_not_nil(created["Общее"])
-        assert.is_nil(created["SÄUME"])
+        assert.is_true(created["Общее"]:IsShown())
+        assert.is_false(created["SÄUME"]:IsShown())
+    end)
+
+    it("should tell options with the same title apart by their tooltips", function()
+        Build({
+            first = {type = "spacer", title = "Color", tooltip = "Color of the tracker", order = 1, width = "full"},
+            group = {
+                type = "container", title = "group", order = 2,
+                items = {second = {type = "text", title = "Color", tooltip = "Color of the map", order = 1, width = "full"}},
+            },
+        }, 1, "tracker")
+
+        assert.is_false(created.group:IsShown())
+        -- Both share a title, so "created" only holds the one that was created last
+        assert.are.equal("text", created.Color.itemData.type)
+        assert.is_false(created.Color:IsVisible())
+        local shown = ui.FindAll(parent, function(frame) return frame.itemData ~= nil and frame:IsVisible() end)
+        assert.are.equal(1, #shown)
+        assert.are.equal("Color of the tracker", shown[1].itemData.tooltip)
     end)
 
     it("should ignore invisible options while searching", function()
@@ -189,9 +213,9 @@ describe("QuestieOptionsLayout", function()
             },
         }, 1, "quest levels")
 
-        assert.is_not_nil(created.Tracker)
-        assert.is_not_nil(created["Quest levels"])
-        assert.is_nil(created["Map icons"])
+        assert.is_true(created.Tracker:IsShown())
+        assert.is_true(created["Quest levels"]:IsShown())
+        assert.is_false(created["Map icons"]:IsShown())
     end)
 
     it("should include all children when a container title matches", function()
@@ -205,9 +229,108 @@ describe("QuestieOptionsLayout", function()
             },
         }, 1, "tracker")
 
-        assert.is_not_nil(created.Tracker)
-        assert.is_not_nil(created["Quest levels"])
-        assert.is_not_nil(created["Map icons"])
+        assert.is_true(created.Tracker:IsShown())
+        assert.is_true(created["Quest levels"]:IsShown())
+        assert.is_true(created["Map icons"]:IsShown())
+    end)
+
+    describe("placing again", function()
+        it("should move the same controls up for a search and back when it is cleared", function()
+            local area = Create({
+                first = {type = "spacer", title = "first", order = 1, width = "full"},
+                second = {type = "spacer", title = "second", order = 2, width = "full"},
+                third = {type = "spacer", title = "third", order = 3, width = "full"},
+            })
+            QuestieOptionsLayout.Place(area)
+            local createdSoFar = #ui.frames
+
+            local searchHeight, searchCount = QuestieOptionsLayout.Place(area, "third")
+
+            assert.are.equal(0, select(2, PositionOf(created.third)))
+            assert.are.equal(1, searchCount)
+            assert.are.equal(26, searchHeight) -- A full row of 16 and its gap of 10
+
+            local height, count = QuestieOptionsLayout.Place(area)
+
+            assert.are.equal(-52, select(2, PositionOf(created.third)))
+            assert.is_true(created.first:IsShown())
+            assert.are.equal(3, count)
+            assert.are.equal(78, height)
+            assert.are.equal(createdSoFar, #ui.frames)
+        end)
+
+        -- Aligning a row reads a control's position back, which must not be the one from an earlier search
+        it("should align rows by their current neighbors", function()
+            local area = Create({
+                left = {type = "spacer", title = "left", order = 1, width = "half"},
+                short = {type = "checkbox", title = "short option", order = 2, width = "half"},
+                tall = {type = "slider", title = "tall option", order = 3, width = "half", min = 0, max = 1},
+            })
+            QuestieOptionsLayout.Place(area)
+            assert.are.equal(ROOT_INDENT + HALF_WIDTH + 10, (PositionOf(created["short option"])))
+
+            QuestieOptionsLayout.Place(area, "option")
+
+            -- Next to the slider now, so it is first in its row and centered to the slider's 48
+            local shortX, shortY = PositionOf(created["short option"])
+            assert.are.equal(ROOT_INDENT, shortX)
+            assert.are.equal(-9, shortY)
+
+            QuestieOptionsLayout.Place(area, "short")
+
+            assert.are.equal(0, select(2, PositionOf(created["short option"])))
+        end)
+
+        it("should shrink a container to its matching children and grow it back", function()
+            local area = Create({
+                group = {
+                    type = "container", title = "group", order = 1,
+                    items = {
+                        matching = {type = "spacer", title = "matching", order = 1, width = "full"},
+                        other = {type = "spacer", title = "other", order = 2, width = "full"},
+                    },
+                },
+                below = {type = "spacer", title = "matching below", order = 2, width = "full"},
+            })
+            QuestieOptionsLayout.Place(area)
+            assert.are.equal(72, created.group:GetHeight())
+            assert.are.equal(-106, select(2, PositionOf(created["matching below"])))
+
+            QuestieOptionsLayout.Place(area, "matching")
+
+            assert.are.equal(46, created.group:GetHeight())
+            assert.are.equal(-80, select(2, PositionOf(created["matching below"])))
+
+            QuestieOptionsLayout.Place(area)
+
+            assert.are.equal(72, created.group:GetHeight())
+            assert.are.equal(-106, select(2, PositionOf(created["matching below"])))
+        end)
+
+        -- A part that isn't inside of its control would stay behind on top of the options that do match
+        it("should hide everything a control consists of, for every type", function()
+            local items = {}
+            for order, controlType in ipairs({
+                "checkbox", "radioButton", "slider", "dropdown", "fontDropdown", "divider", "container", "text", "button",
+                "soundButton", "colorPicker", "textbox", "spacer",
+            }) do
+                items[controlType] = {
+                    type = controlType, title = controlType, description = "Description", order = order, width = "full", btnLabel = "Press",
+                    min = 0, max = 1, options = {a = "A"}, fonts = {Font = "font.ttf"}, items = {}, hasOpacity = true,
+                    get = function() return 1, 1, 1, 1 end,
+                }
+            end
+            local area = Create(items)
+            QuestieOptionsLayout.Place(area)
+            for controlType in pairs(items) do
+                assert.is_true(created[controlType]:IsVisible(), controlType)
+            end
+
+            local _, visibleCount = QuestieOptionsLayout.Place(area, "no such option")
+
+            assert.are.equal(0, visibleCount)
+            assert.are_same({}, ui.FindAll(parent, function(frame) return frame ~= parent and frame:IsVisible() end))
+        end)
     end)
 
     it("should report the height used by everything it placed", function()
