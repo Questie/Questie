@@ -18,10 +18,4 @@ function Tutorial.Initialize()
             Tutorial.ShowRunes()
         end)
     end
-
-    if (not Questie.db.profile.tutorialRejectInBattlegroundsDone) and not Questie.IsForever then
-        QuestieCombatQueue:Queue(function()
-            Tutorial.AutoRejectInBattlegroundsFrame()
-        end)
-    end
 end

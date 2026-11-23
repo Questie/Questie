@@ -96,7 +96,6 @@ local migrationFunctions = {
     end,
     [12] = function()
         Questie.db.profile.autoAccept.rejectSharedInBattleground = false
-        Questie.db.profile.tutorialRejectInBattlegroundsDone = false
     end,
     [13] = function()
         Questie.db.profile.questAnnounceIncompleteBreadcrumb = true
