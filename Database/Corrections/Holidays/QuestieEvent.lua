@@ -144,7 +144,7 @@ local DMF_START_DAY_BY_FIRST_WEEKDAY_WOTLK = {
 }
 -- Determine the DMF start day for the month based on what weekday the 1st is.
 local function dmfStartDayByFirstWeekday(firstWeekday)
-    if Expansions.Current < Expansions.Wotlk then
+    if Expansions.Current < Expansions.Wotlk and not Questie.IsSoD then
         return DMF_START_DAY_BY_FIRST_WEEKDAY_ERA_TBC[firstWeekday]
     else
         return DMF_START_DAY_BY_FIRST_WEEKDAY_WOTLK[firstWeekday]
@@ -273,9 +273,39 @@ function QuestieEvent:Load()
 
     SetCVar("calendarShowDarkmoon", shouldShowDmfEvents and "1" or "0")
 
-    if (Expansions.Current == Expansions.Era and (((not Questie.IsAnniversaryEra) and (not Questie.IsAnniversaryHardcore)) or (ContentPhases.activePhases.Anniversary >= 3)))
-            or Questie.IsTBC or Questie.IsWotlk then
-        _LoadDarkmoonFaire()
+
+    local dmfAvailable = (Expansions.Current == Expansions.Era and (((not Questie.IsAnniversaryEra) and (not Questie.IsAnniversaryHardcore)) or (ContentPhases.activePhases.Anniversary >= 3)))
+            or Questie.IsTBC or Questie.IsWotlk
+
+    local dmfLocation = DMF_LOCATIONS.NONE
+    if dmfAvailable then
+        dmfLocation = _GetDarkmoonFaireLocation()
+        _LoadDarkmoonFaire(dmfLocation)
+    end
+
+    -- Hide event-only NPCs outside their event window
+    local winterVeilNpcs = {13418, 13420, 13429, 13430, 13431, 13432, 13433, 13434, 13435, 13436, 14961, 14962, 14963, 14964, 15124, 15125, 15732} -- Smokywood Pastures vendors
+    local hideWinterVeil = not activeEvents["Winter Veil"]
+    for _, npcId in ipairs(winterVeilNpcs) do
+        QuestieCorrections.questNPCBlacklist[npcId] = hideWinterVeil
+    end
+
+    local hallowsEndNpcs = {15353, 15354} -- Hallow's End Treats vendors
+    local hideHallowsEnd = not activeEvents["Hallow's End"]
+    for _, npcId in ipairs(hallowsEndNpcs) do
+        QuestieCorrections.questNPCBlacklist[npcId] = hideHallowsEnd
+    end
+
+    local childrensWeekNpcs = {14480,14481} -- Children's Week vendors
+    local childrensWeek = not activeEvents["Children's Week"]
+    for _, npcId in ipairs(childrensWeekNpcs) do
+        QuestieCorrections.questNPCBlacklist[npcId] = childrensWeek
+    end
+
+    local dmfNpcs = {14844} -- Sylannia <Darkmoon Faire Drink Vendor>
+    local hideDmf = (not dmfIsActive) and dmfLocation == DMF_LOCATIONS.NONE
+    for _, npcId in ipairs(dmfNpcs) do
+        QuestieCorrections.questNPCBlacklist[npcId] = hideDmf
     end
 
     -- Clear the quests to save memory
@@ -374,6 +404,7 @@ _IsDarkmoonFaireWeek = function(currentDate)
 
     -- For Era and TBC the event is from Monday 04:00 to next Monday 04:00
     -- For Wotlk the event is from Sunday 0:01 to Saturday 23:59
+    -- For SoD the event is from Monday 0:01 to Sunday 23:59
     local eventDuration = Expansions.Current < Expansions.Wotlk and 7 or 6
     local dmfStartTime = Expansions.Current < Expansions.Wotlk and 400 or 1
     local dmfEndTime = Expansions.Current < Expansions.Wotlk and 400 or 2359
@@ -402,12 +433,12 @@ end
 _GetDarkmoonFaireLocationSoD = function(currentDate)
     local initialStartDate = time({year = 2023, month = 12, day = 4, hour = 0, min = 1}) -- The first time DMF started in SoD
     local initialEndDate = time({year = 2023, month = 12, day = 10, hour = 23, min = 59}) -- The first time DMF ended in SoD
-    local currentDateTimestamp = time({year = currentDate.year, month = currentDate.month, day = currentDate.monthDay, hour = 0, min = 1})
+    local currentDateTimestamp = time({year = currentDate.year, month = currentDate.month, day = currentDate.monthDay, hour = currentDate.hour, min = currentDate.minute})
 
     local eventDuration = initialEndDate - initialStartDate
     local timeSinceStart = currentDateTimestamp - initialStartDate
 
-    local positionInCurrentCycle = timeSinceStart % (eventDuration * 2) -- * 2 because the event repeats every two weeks
+    local positionInCurrentCycle = timeSinceStart % ((eventDuration + 120) * 2) -- * 2 because the event repeats every two weeks
 
     local isEventActive = positionInCurrentCycle < eventDuration
 
@@ -415,7 +446,7 @@ _GetDarkmoonFaireLocationSoD = function(currentDate)
         return DMF_LOCATIONS.NONE
     end
 
-    local weeksSinceStart = math.floor(timeSinceStart / eventDuration)
+    local weeksSinceStart = math.floor(timeSinceStart / (eventDuration + 120))
 
     if weeksSinceStart % 4 == 0 then
         return DMF_LOCATIONS.MULGORE
@@ -427,8 +458,7 @@ end
 --- https://classic.wowhead.com/guides/classic-darkmoon-faire#darkmoon-faire-location-and-schedule
 --- Darkmoon Faire starts its setup the first Friday of the month and will begin the following Monday.
 --- The faire ends the sunday after it has begun.
-_LoadDarkmoonFaire = function()
-    local eventLocation = _GetDarkmoonFaireLocation()
+_LoadDarkmoonFaire = function(eventLocation)
     if eventLocation == DMF_LOCATIONS.NONE then
         -- nil withdraws the slot; an inactive faire must not keep stale NPC coordinates.
         QuestieCorrections.SetCorrection("Npc", "DarkmoonFaire", nil)
