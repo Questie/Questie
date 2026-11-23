@@ -144,11 +144,7 @@ local DMF_START_DAY_BY_FIRST_WEEKDAY_WOTLK = {
 }
 -- Determine the DMF start day for the month based on what weekday the 1st is.
 local function dmfStartDayByFirstWeekday(firstWeekday)
-    if Expansions.Current < Expansions.Wotlk then
-        -- Turns out SoD is also Monday-Sunday. Using Wotlk table
-        if Questie.IsSoD then
-            return DMF_START_DAY_BY_FIRST_WEEKDAY_WOTLK[firstWeekday]
-        end
+    if Expansions.Current < Expansions.Wotlk and not Questie.IsSoD then
         return DMF_START_DAY_BY_FIRST_WEEKDAY_ERA_TBC[firstWeekday]
     else
         return DMF_START_DAY_BY_FIRST_WEEKDAY_WOTLK[firstWeekday]
@@ -392,23 +388,6 @@ _GetDarkmoonFaireLocationWotlK = function(currentDate)
     return DMF_LOCATIONS.MULGORE
 end
 
--- DMF in SoD is every second week, starting on the 4th of December 2023
----@param currentDate CalendarTime
----@return DMFLocation
-_GetDarkmoonFaireLocationSoD = function(currentDate)
-    if (not _IsDarkmoonFaireWeek(currentDate)) then
-        return DMF_LOCATIONS.NONE
-    end
-
-    local dayOfMonth = currentDate.monthDay
-    -- latest endDay for first DMF of the month is 13
-    -- earliest startSecondDmfDaySod for 2nd DMF of the month is 15
-    if dayOfMonth < 15 then
-        return DMF_LOCATIONS.MULGORE
-    end
-    return DMF_LOCATIONS.ELWYNN_FOREST
-end
-
 ---@param currentDate CalendarTime
 ---@return boolean
 _IsDarkmoonFaireWeek = function(currentDate)
@@ -420,48 +399,53 @@ _IsDarkmoonFaireWeek = function(currentDate)
     -- For Era and TBC the event is from Monday 04:00 to next Monday 04:00
     -- For Wotlk the event is from Sunday 0:01 to Saturday 23:59
     -- For SoD the event is from Monday 0:01 to Sunday 23:59
-    local eventDuration = (Questie.IsSoD and 6) or (Expansions.Current < Expansions.Wotlk and 7) or 6
-    local dmfStartTime = (Questie.IsSoD and 1) or (Expansions.Current < Expansions.Wotlk and 400) or 1
-    local dmfEndTime = (Questie.IsSoD and 2359) or (Expansions.Current < Expansions.Wotlk and 400) or 2359
+    local eventDuration = Expansions.Current < Expansions.Wotlk and 7 or 6
+    local dmfStartTime = Expansions.Current < Expansions.Wotlk and 400 or 1
+    local dmfEndTime = Expansions.Current < Expansions.Wotlk and 400 or 2359
     local startDay = dmfStartDayByFirstWeekday(firstWeekday)
     local endDay = startDay + eventDuration
     local dayOfMonth = currentDate.monthDay
     local currentTimeFormatted = currentDate.hour * 100 + currentDate.minute
-    
-    if Questie.IsSoD then
-        local startSecondDmfDaySod = startDay + 7
-        local endSecondDmfDaySod = endDay + 7
-        -- If we're on the first day check if it started already
-        if (dayOfMonth == startDay or dayOfMonth == startSecondDmfDaySod) and currentTimeFormatted < dmfStartTime then
-            return false
-        end
 
-        -- Check if the event is already finished on the final day
-        if (dayOfMonth == endDay or dayOfMonth == endSecondDmfDaySod) and currentTimeFormatted >= dmfEndTime then
-            return false
-        end
-        
-        -- Check if we're inbetween first day and final day of the first DMF of the month
-        if dayOfMonth >= startDay and dayOfMonth <= endDay then
-            return true
-        -- Check if we're inbetween first day and final day of the second DMF of the month
-        elseif dayOfMonth >= startSecondDmfDaySod and dayOfMonth <= endSecondDmfDaySod then
-            return true
-        else
-            return false
-        end
+    -- If we're on the first day check if it started already
+    if dayOfMonth == startDay and currentTimeFormatted < dmfStartTime then
+        return false
+    end
+
+    -- Check if the event is already finished on the final day
+    if dayOfMonth == endDay and currentTimeFormatted >= dmfEndTime then
+        return false
+    end
+
+    -- Check if we're inbetween first day and final day
+    return dayOfMonth >= startDay and dayOfMonth <= endDay
+end
+
+-- DMF in SoD is every second week, starting on the 4th of December 2023
+---@param currentDate CalendarTime
+---@return DMFLocation
+_GetDarkmoonFaireLocationSoD = function(currentDate)
+    local initialStartDate = time({year = 2023, month = 12, day = 4, hour = 0, min = 1}) -- The first time DMF started in SoD
+    local initialEndDate = time({year = 2023, month = 12, day = 10, hour = 23, min = 59}) -- The first time DMF ended in SoD
+    local currentDateTimestamp = time({year = currentDate.year, month = currentDate.month, day = currentDate.monthDay, hour = 0, min = 1})
+
+    local eventDuration = initialEndDate - initialStartDate
+    local timeSinceStart = currentDateTimestamp - initialStartDate
+
+    local positionInCurrentCycle = timeSinceStart % (604800 * 2) -- * 2 because the event repeats every two weeks
+
+    local isEventActive = positionInCurrentCycle < eventDuration
+
+    if (not isEventActive) then
+        return DMF_LOCATIONS.NONE
+    end
+
+    local weeksSinceStart = math.floor(timeSinceStart / 604800)
+
+    if weeksSinceStart % 4 == 0 then
+        return DMF_LOCATIONS.MULGORE
     else
-        -- If we're on the first day check if it started already
-        if dayOfMonth == startDay and currentTimeFormatted < dmfStartTime then
-            return false
-        end
-
-        -- Check if the event is already finished on the final day
-        if dayOfMonth == endDay and currentTimeFormatted >= dmfEndTime then
-            return false
-        end
-        -- Check if we're inbetween first day and final day
-        return dayOfMonth >= startDay and dayOfMonth <= endDay
+        return DMF_LOCATIONS.ELWYNN_FOREST
     end
 end
 
