@@ -3,6 +3,8 @@ local QuestieCompat = QuestieLoader:ImportModule("QuestieCompat")
 
 ---@class TrackerMenu
 local TrackerMenu = QuestieLoader:CreateModule("TrackerMenu")
+---@type TaintWatch
+local TaintWatch = QuestieLoader:ImportModule("TaintWatch")
 -------------------------
 --Import QuestieTracker modules.
 -------------------------
@@ -317,6 +319,7 @@ TrackerMenu.addAbandonedQuest = function(menu, quest)
             QuestieCompat.SetAbandonQuest()
 
             local items = QuestieCompat.GetAbandonQuestItems()
+            TaintWatch.Note("StaticPopup_Show ABANDON_QUEST", quest.Id)
             if items then
                 StaticPopup_Hide("ABANDON_QUEST")
                 StaticPopup_Show("ABANDON_QUEST_WITH_ITEMS", QuestieCompat.GetAbandonQuestName(), items)

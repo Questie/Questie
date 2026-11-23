@@ -1,5 +1,7 @@
 ---@class QuestieMenuBuilder
 local QuestieMenuBuilder = QuestieLoader:CreateModule("QuestieMenuBuilder")
+---@type TaintWatch
+local TaintWatch = QuestieLoader:ImportModule("TaintWatch")
 
 ---@class MenuBuilderEntry
 ---@field text string?
@@ -90,6 +92,7 @@ end
 ---@param point FramePoint? Point of the menu to attach, defaults to "TOPLEFT"
 ---@param relativePoint FramePoint? Point of the anchor frame to attach to, defaults to "TOPRIGHT" (opens to the right)
 function QuestieMenuBuilder.Show(entries, anchorFrame, point, relativePoint)
+    TaintWatch.Note("MenuUtil menu")
     local function generator(_, rootDescription)
         _AddEntries(rootDescription, entries)
     end

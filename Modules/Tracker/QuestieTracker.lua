@@ -420,6 +420,7 @@ function QuestieTracker:UpdateDurabilityFrame()
                 -- middle of the frame, first return is x value, second return is the y value
                 local trackerFrameX = trackerBaseFrame:GetCenter()
 
+                TaintWatch.Note("DurabilityFrame layout")
                 DurabilityFrame:ClearAllPoints()
                 DurabilityFrame:SetClampedToScreen(true)
                 DurabilityFrame:SetFrameStrata("MEDIUM")
