@@ -79,6 +79,8 @@ local CANVAS_WIDTH = 625
 
 -- The book of the quest log, Interface\QuestFrame\UI-QuestLog-BookIcon, which every client has under this ID
 local JOURNEY_ICON = 136797
+-- The book only fills part of its round picture. Cutting this much off each side shows it 1.6 times as large.
+local JOURNEY_ICON_CROP = 0.1875
 
 -- How long canvas builds can run per frame, together. Keeps a slow client far from the script time limit, which
 -- is much stricter in Hardcore, however long a single control takes to create and however many tabs are building.
@@ -382,7 +384,9 @@ local function _CreatePopup()
         previousSideTab = sideTabs[tab.key]
     end
 
-    QuestieOptionsWindow.CreateLinkTab(window, "journey", {title = "My Journey", icon = JOURNEY_ICON}, function()
+    QuestieOptionsWindow.CreateLinkTab(window, "journey", {
+        title = "My Journey", icon = JOURNEY_ICON, iconCrop = JOURNEY_ICON_CROP,
+    }, function()
         QuestieOptionsEngine:ToggleConfigWindow()
         QuestieJourney:ToggleJourneyWindow()
     end)

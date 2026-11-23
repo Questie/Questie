@@ -115,7 +115,7 @@ describe("QuestieOptionsWindow", function()
                 clicks = 0
                 window = QuestieOptionsWindow.Create()
                 linkTab = QuestieOptionsWindow.CreateLinkTab(
-                    window, "journey", {title = "My Journey", icon = 136797}, function() clicks = clicks + 1 end
+                    window, "journey", {title = "My Journey", icon = 136797, iconCrop = 0.1875}, function() clicks = clicks + 1 end
                 )
             end)
 
@@ -126,6 +126,14 @@ describe("QuestieOptionsWindow", function()
                 assert.are_same({"TOPRIGHT", "TOPLEFT"}, {linkPoint[1], linkPoint[3]})
                 assert.are_same({"TOPLEFT", "TOPRIGHT"}, {sidePoint[1], sidePoint[3]})
                 assert.are.equal(window, linkPoint[2])
+            end)
+
+            it("should be level with the second side tab", function()
+                local first = QuestieOptionsWindow.CreateSideTab(window, "a", {title = "A"}, nil, function() end)
+                local second = QuestieOptionsWindow.CreateSideTab(window, "b", {title = "B"}, first, function() end)
+                local secondY = first.points[1][5] - first:GetHeight() + second.points[1][5]
+
+                assert.are.equal(secondY, linkTab.points[1][5])
             end)
 
             it("should only act when it is clicked", function()
