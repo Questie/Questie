@@ -277,8 +277,10 @@ function QuestieEvent:Load()
     local dmfAvailable = (Expansions.Current == Expansions.Era and (((not Questie.IsAnniversaryEra) and (not Questie.IsAnniversaryHardcore)) or (ContentPhases.activePhases.Anniversary >= 3)))
             or Questie.IsTBC or Questie.IsWotlk
 
+    local dmfLocation = DMF_LOCATIONS.NONE
     if dmfAvailable then
-        _LoadDarkmoonFaire()
+        dmfLocation = _GetDarkmoonFaireLocation()
+        _LoadDarkmoonFaire(dmfLocation)
     end
 
     -- Hide event-only NPCs outside their event window
@@ -295,11 +297,7 @@ function QuestieEvent:Load()
     end
 
     local dmfNpcs = {14844} -- Sylannia <Darkmoon Faire Drink Vendor>
-    local dmfActive = dmfIsActive
-    if not dmfActive and dmfAvailable then
-        dmfActive = _GetDarkmoonFaireLocation() ~= DMF_LOCATIONS.NONE
-    end
-    local hideDmf = not dmfActive
+    local hideDmf = (not dmfIsActive) and dmfLocation == DMF_LOCATIONS.NONE
     for _, npcId in ipairs(dmfNpcs) do
         QuestieCorrections.questNPCBlacklist[npcId] = hideDmf
     end
@@ -453,8 +451,7 @@ end
 --- https://classic.wowhead.com/guides/classic-darkmoon-faire#darkmoon-faire-location-and-schedule
 --- Darkmoon Faire starts its setup the first Friday of the month and will begin the following Monday.
 --- The faire ends the sunday after it has begun.
-_LoadDarkmoonFaire = function()
-    local eventLocation = _GetDarkmoonFaireLocation()
+_LoadDarkmoonFaire = function(eventLocation)
     if eventLocation == DMF_LOCATIONS.NONE then
         -- nil withdraws the slot; an inactive faire must not keep stale NPC coordinates.
         QuestieCorrections.SetCorrection("Npc", "DarkmoonFaire", nil)
