@@ -396,9 +396,9 @@ _GetDarkmoonFaireLocationSoD = function(currentDate)
         return DMF_LOCATIONS.NONE
     end
 
-    local dayOfMonth = currentDate.day
-    -- latest endDay for first DMF is 13
-    -- earliest startDay for 2nd DMF is 15
+    local dayOfMonth = currentDate.monthDay
+    -- latest endDay for first DMF of the month is 13
+    -- earliest startSecondDmfDaySod for 2nd DMF of the month is 15
     if dayOfMonth < 15 then
         return DMF_LOCATIONS.MULGORE
     end
@@ -437,9 +437,10 @@ _IsDarkmoonFaireWeek = function(currentDate)
             return false
         end
         
-        -- Check if we're inbetween first day and final day
+        -- Check if we're inbetween first day and final day of the first DMF of the month
         if dayOfMonth >= startDay and dayOfMonth <= endDay then
             return true
+        -- Check if we're inbetween first day and final day of the second DMF of the month
         elseif dayOfMonth >= startSecondDmfDaySod and dayOfMonth <= endSecondDmfDaySod then
             return true
         else
