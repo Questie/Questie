@@ -42,6 +42,17 @@ if Questie.IsTBC or Questie.IsWotlk then
     WeaponMasterSkills.data[16773] = {"Crossbows", "Daggers", "One-Handed Maces", "One-Handed Swords", "Two-Handed Maces", "Two-Handed Swords"}
 end
 
+local function GetWeaponSkillIcon(spellId)
+    local cSpell = _G["C_Spell"]
+    local getSpellTexture = cSpell and cSpell["GetSpellTexture"]
+    if getSpellTexture then
+        return getSpellTexture(spellId)
+    elseif GetSpellTexture then
+        return GetSpellTexture(spellId)
+    end
+    return "Interface\\Icons\\INV_Misc_QuestionMark"
+end
+
 function WeaponMasterSkills.AppendSkillsToTitle(title, npcId)
     local skills = WeaponMasterSkills.data[npcId]
     if (not skills) then
@@ -49,8 +60,7 @@ function WeaponMasterSkills.AppendSkillsToTitle(title, npcId)
     end
 
     for _, skill in ipairs(skills) do
-        local _, _, icon = GetSpellInfo(WEAPON_SKILL_SPELL_IDS[skill])
-        icon = icon or "Interface\\Icons\\INV_Misc_QuestionMark"
+        local icon = GetWeaponSkillIcon(WEAPON_SKILL_SPELL_IDS[skill])
         title = title .. "\n - " .. "|T" .. icon .. ":16|t " .. l10n(skill)
     end
     return title
