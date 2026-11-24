@@ -944,6 +944,21 @@ describe("QuestieOptionsEngine", function()
                 assert.are.equal(1, scrollBox.scrollsToBegin)
             end)
 
+            it("should update the scroll range to what is found, once that is laid out", function()
+                local window = OpenWindow()
+                local scrollChild = ui.FindByTemplate(window, "ResizeLayoutFrame")[1]
+                local layouts = scrollChild.layouts
+                local layoutsAtUpdate, heightAtUpdate
+                ui.FindByTemplate(window, "WowScrollBox")[1].FullUpdate = function()
+                    layoutsAtUpdate, heightAtUpdate = scrollChild.layouts, scrollChild:GetHeight()
+                end
+
+                TypeSearch("parent")
+
+                -- One control of 30, the gap of 10, and 20 at the bottom
+                assert.are_same({layouts + 1, 60}, {layoutsAtUpdate, heightAtUpdate})
+            end)
+
             it("should leave hidden tabs alone until they are shown", function()
                 local window = OpenWindow()
                 ClickSideTab("map")

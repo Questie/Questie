@@ -915,7 +915,7 @@ local function _CreateButton(control, _, item, width)
         self.isHovered = false
         UpdateVisualState(self)
     end)
-    -- OnLeave and OnMouseUp can't be relied on when the settings close under the mouse, like from My Journey
+    -- OnLeave and OnMouseUp can't be relied on when the settings close under the mouse, like with Escape
     button:HookScript("OnHide", function(self)
         self.isHovered = false
         self.isPressed = false
