@@ -46,12 +46,13 @@ end
 local function GetWeaponSkillIcon(spellId)
     local cSpell = _G["C_Spell"]
     local getSpellTexture = cSpell and cSpell["GetSpellTexture"]
+    local icon
     if getSpellTexture then
-        return getSpellTexture(spellId)
+        icon = getSpellTexture(spellId)
     elseif GetSpellTexture then
-        return GetSpellTexture(spellId)
+        icon = GetSpellTexture(spellId)
     end
-    return "Interface\\Icons\\INV_Misc_QuestionMark"
+    return icon or "Interface\\Icons\\INV_Misc_QuestionMark"
 end
 
 function WeaponMasterSkills.AppendSkillsToTitle(title, npcId)
