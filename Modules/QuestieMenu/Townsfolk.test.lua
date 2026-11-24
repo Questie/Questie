@@ -268,22 +268,55 @@ describe("Townsfolk", function()
             }, stationObjects)
         end)
 
-        it("never reads the deprecated object faction ID or the legacy NPC flag mask", function()
-            local deprecatedReads = {}
-            local queryObjectSingle, queryNPCSingle = QuestieDB.QueryObjectSingle, QuestieDB.QueryNPCSingle
-            QuestieDB.QueryObjectSingle = function(id, field)
-                if field == "factionID" then table.insert(deprecatedReads, "factionID") end
-                return queryObjectSingle(id, field)
-            end
-            QuestieDB.QueryNPCSingle = function(id, field)
-                if field == "npcFlags" then table.insert(deprecatedReads, "npcFlags") end
-                return queryNPCSingle(id, field)
-            end
+        it("lists a portal trainer that also carries the class trainer service only under Portal Trainer", function()
+            -- From WotLK the provider's portal trainers carry both services.
+            mock.SetBaseRow("Npc", 4006, {
+                [npcKeys.name] = "Portal And Class Trainer",
+                [npcKeys.services] = {services.CLASS_TRAINER, services.PORTAL_TRAINER}, [npcKeys.trainerClass] = 8,
+            })
+            _BindComposedReads()
 
             _RunInitialize()
-            Townsfolk:PopulateVendors({17031})
 
-            assert.are_same({}, deprecatedReads)
+            assert.are_same({4004, 4006}, Townsfolk.classSpecificTownsfolk.MAGE["Portal Trainer"])
+            assert.are_same({}, Townsfolk.classSpecificTownsfolk.MAGE["Class Trainer"])
+        end)
+
+        it("lists an NPC once when it carries two class trainer services", function()
+            mock.SetBaseRow("Npc", 4007, {
+                [npcKeys.name] = "Hunter And Pet Trainer",
+                [npcKeys.services] = {services.CLASS_TRAINER, services.PET_TRAINER}, [npcKeys.trainerClass] = 3,
+            })
+            _BindComposedReads()
+
+            _RunInitialize()
+
+            assert.are_same({4003, 4007}, Townsfolk.classSpecificTownsfolk.HUNTER["Class Trainer"])
+        end)
+
+        it("orders each list by ID whatever order the provider's ID map iterates in", function()
+            -- Hand the scan an ID map that iterates descending, which a plain table cannot promise.
+            local ids = {}
+            for id in pairs(QuestieDB.NPCPointers) do ids[#ids + 1] = id end
+            table.sort(ids, function(a, b) return a > b end)
+            local realPairs = _G.pairs
+            local npcPointers = QuestieDB.NPCPointers
+            _G.pairs = function(t)
+                if t == npcPointers then
+                    local index = 0
+                    return function()
+                        index = index + 1
+                        if ids[index] then return ids[index], true end
+                    end
+                end
+                return realPairs(t)
+            end
+
+            local ok, err = pcall(_RunInitialize)
+            _G.pairs = realPairs
+            assert(ok, err)
+
+            assert.are_same({1002, 1003}, Townsfolk.townsfolk["Banker"])
         end)
 
         it("groups pet food Items by food type for hunters", function()

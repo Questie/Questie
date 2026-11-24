@@ -155,6 +155,10 @@ function Townsfolk.Initialize()
         if services then
             local npcName = QuestieDB.QueryNPCSingle(id, "name")
             if npcName and sub(npcName, 1, 5) ~= "[DND]" then
+                -- An NPC can carry several class trainer services, and from WotLK portal trainers
+                -- carry the class trainer flag too. Each NPC is listed once, and a portal trainer
+                -- only under "Portal Trainer".
+                local trainsClass, isPortalTrainer = false, false
                 for i = 1, #services do
                     local service = services[i]
                     local category = sharedNpcCategories[service]
@@ -169,12 +173,16 @@ function Townsfolk.Initialize()
                     elseif service == serviceKeys.SPIRIT_HEALER then
                         tinsert(spiritHealers, id)
                     elseif service == serviceKeys.PORTAL_TRAINER then
+                        isPortalTrainer = true
                         tinsert(portalTrainers, id)
                     elseif classTrainerServices[service] then
-                        local classFile = classFileById[QuestieDB.QueryNPCSingle(id, "trainerClass")]
-                        if classFile then
-                            tinsert(classSpecificTownsfolk[classFile]["Class Trainer"], id)
-                        end
+                        trainsClass = true
+                    end
+                end
+                if trainsClass and (not isPortalTrainer) then
+                    local classFile = classFileById[QuestieDB.QueryNPCSingle(id, "trainerClass")]
+                    if classFile then
+                        tinsert(classSpecificTownsfolk[classFile]["Class Trainer"], id)
                     end
                 end
 
