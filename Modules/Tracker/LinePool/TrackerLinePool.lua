@@ -11,8 +11,6 @@ local TrackerUtils = QuestieLoader:ImportModule("TrackerUtils")
 local TrackerItemButton = QuestieLoader:ImportModule("TrackerItemButton")
 ---@type TrackerLine
 local TrackerLine = QuestieLoader:ImportModule("TrackerLine")
----@type TrackerQuestLogButton
-local TrackerQuestLogButton = QuestieLoader:ImportModule("TrackerQuestLogButton")
 ---@type TrackerLayout
 local TrackerLayout = QuestieLoader:ImportModule("TrackerLayout")
 ---@type QuestieLib
@@ -63,8 +61,6 @@ function TrackerLinePool.Initialize(questFrame)
         end
     end
 
-    TrackerQuestLogButton.Initialize()
-
     -- create buttonPool for quest items
     for i = 1, C_QuestLog.GetMaxNumQuestsCanAccept() do
         local btn = TrackerItemButton.New("Questie_ItemButton" .. i, TrackerLinePool.OnHighlightEnter, TrackerLinePool.OnHighlightLeave)
@@ -86,7 +82,6 @@ function TrackerLinePool.ResetLinesForChange()
     end
 
     TrackerQuestTooltip.Hide()
-    TrackerQuestLogButton.Detach()
     linesByQuest = {} -- Reset to keep correct questId <-> line mapping
 
     for _, line in pairs(linePool) do
@@ -386,7 +381,6 @@ function TrackerLinePool.RefreshHighlight()
             if not _IsButtonHovered(line) then
                 TrackerQuestTooltip.Show(line)
             end
-            TrackerQuestLogButton.Attach(line)
             return
         end
     end
