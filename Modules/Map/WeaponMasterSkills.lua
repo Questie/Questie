@@ -4,21 +4,21 @@ local WeaponMasterSkills = QuestieLoader:CreateModule("WeaponMasterSkills")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
-local WEAPON_ICON_TEXTURES = {
-    ["Bows"] = "Interface\\Icons\\INV_Weapon_Bow_07",
-    ["Crossbows"] = "Interface\\Icons\\INV_Weapon_Crossbow_01",
-    ["Daggers"] = "Interface\\Icons\\INV_Weapon_ShortBlade_05",
-    ["Fist Weapons"] = "Interface\\Icons\\INV_Weapon_Hand_01",
-    ["Guns"] = "Interface\\Icons\\INV_Weapon_Rifle_01",
-    ["One-Handed Axes"] = "Interface\\Icons\\INV_Weapon_Axe_01",
-    ["One-Handed Maces"] = "Interface\\Icons\\INV_Mace_01",
-    ["One-Handed Swords"] = "Interface\\Icons\\INV_Sword_04",
-    ["Polearms"] = "Interface\\Icons\\INV_Spear_07",
-    ["Staves"] = "Interface\\Icons\\INV_Staff_08",
-    ["Thrown"] = "Interface\\Icons\\INV_Weapon_Thrown_01",
-    ["Two-Handed Axes"] = "Interface\\Icons\\INV_Axe_09",
-    ["Two-Handed Maces"] = "Interface\\Icons\\INV_Hammer_04",
-    ["Two-Handed Swords"] = "Interface\\Icons\\INV_Sword_07",
+local WEAPON_SKILL_SPELL_IDS = {
+    ["Bows"] = 264,
+    ["Crossbows"] = 5011,
+    ["Daggers"] = 1180,
+    ["Fist Weapons"] = 15590,
+    ["Guns"] = 266,
+    ["One-Handed Axes"] = 196,
+    ["One-Handed Maces"] = 198,
+    ["One-Handed Swords"] = 201,
+    ["Polearms"] = 200,
+    ["Staves"] = 227,
+    ["Thrown"] = 2567,
+    ["Two-Handed Axes"] = 197,
+    ["Two-Handed Maces"] = 199,
+    ["Two-Handed Swords"] = 202,
 }
 
 WeaponMasterSkills.data = {
@@ -49,7 +49,8 @@ function WeaponMasterSkills.AppendSkillsToTitle(title, npcId)
     end
 
     for _, skill in ipairs(skills) do
-        local icon = WEAPON_ICON_TEXTURES[skill]
+        local _, _, icon = GetSpellInfo(WEAPON_SKILL_SPELL_IDS[skill])
+        icon = icon or "Interface\\Icons\\INV_Misc_QuestionMark"
         title = title .. "\n - " .. "|T" .. icon .. ":16|t " .. l10n(skill)
     end
     return title
