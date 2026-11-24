@@ -92,13 +92,10 @@ function TrackerUtils:ShowQuestLog(quest)
         end
         TaintWatch.Note("C_QuestLog.SetSelectedQuest", quest.Id)
         C_QuestLog.SetSelectedQuest(quest.Id)
-        local uiMapId = QuestieCompat.GetQuestUiMapID(quest.Id)
+        -- Quests without a map (e.g. some writs) still open the map, on the player's zone
+        local uiMapId = QuestieCompat.GetQuestUiMapID(quest.Id) or C_Map.GetBestMapForUnit("player")
         if uiMapId then
             QuestieCompat.OpenWorldMap(uiMapId)
-        else
-            -- Checked in the Forever UI source: QuestUtil.OpenQuestDetails opens QuestLogPopupDetailFrame without touching WorldMapFrame
-            TaintWatch.Note("QuestUtil.OpenQuestDetails", quest.Id)
-            QuestUtil.OpenQuestDetails(quest.Id)
         end
         return
     end
