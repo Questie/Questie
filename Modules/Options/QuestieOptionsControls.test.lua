@@ -854,7 +854,7 @@ describe("QuestieOptionsControls", function()
             assert.are.equal(48, control.widget:GetHeight())
         end)
 
-        -- Like My Journey, which closes the settings from its own click
+        -- Like with Escape while the button is held down
         it("should not look hovered or pressed anymore after the settings close under the mouse", function()
             local control = Create({type = "button", btnLabel = "Press"})
             local button = control.widget

@@ -297,7 +297,8 @@ function QuestieOptionsWindow.CreateLinkTab(window, tabKey, tabData, onClick)
 
     -- Level with the second side tab, because the portrait reaches over the left edge next to the first
     local secondSideTabY = FIRST_SIDE_TAB_Y - linkTab:GetHeight() + (isForever and 0 or CLASSIC_SIDE_TAB_OVERLAP)
-    linkTab:SetPoint("TOPRIGHT", window, "TOPLEFT", isForever and 1 or 2, secondSideTabY)
+    -- On Classic, the metal of the window's left edge lies on both sides of this point and must not be covered
+    linkTab:SetPoint("TOPRIGHT", window, "TOPLEFT", isForever and 1 or 0, secondSideTabY)
 
     local icon = linkTab:CreateTexture(nil, "ARTWORK")
     -- Anchored on its own, so it stays in place when the icon is pressed. Forever's mask for side tabs is made for the

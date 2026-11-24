@@ -194,12 +194,28 @@ describe("QuestieOptionsLayout", function()
         assert.are.equal("Color of the tracker", shown[1].itemData.tooltip)
     end)
 
-    it("should ignore invisible options while searching", function()
-        Build({
-            hidden = {type = "spacer", title = "Map icons", order = 1, visible = false, width = "full"},
-        }, 1, "map")
+    it("should not find options that aren't shown on this client", function()
+        local items = {hidden = {type = "spacer", title = "Map icons", order = 1, visible = false, width = "full"}}
+        assert.is_false(QuestieOptionsLayout.MatchesSearch({title = "Other", items = items}, "map"))
 
-        assert.is_nil(created["Map icons"])
+        items.hidden.visible = true
+        assert.is_true(QuestieOptionsLayout.MatchesSearch({title = "Other", items = items}, "map"))
+
+        local container = {type = "container", title = "Group", order = 1, visible = false, items = items}
+        assert.is_false(QuestieOptionsLayout.MatchesSearch({title = "Other", items = {group = container}}, "map"))
+    end)
+
+    it("should find buttons by what is on them", function()
+        local button = {type = "button", title = "", btnLabel = "Reset settings", order = 1}
+
+        assert.is_true(QuestieOptionsLayout.MatchesSearch(button, "reset"))
+    end)
+
+    it("should search for the text as it is typed, whatever is in it", function()
+        local item = {type = "spacer", title = "Icons (all)", order = 1}
+
+        assert.is_true(QuestieOptionsLayout.MatchesSearch(item, "(all"))
+        assert.is_false(QuestieOptionsLayout.MatchesSearch(item, "i.ons"))
     end)
 
     it("should keep a matching container and its matching child", function()

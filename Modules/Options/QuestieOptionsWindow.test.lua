@@ -128,6 +128,11 @@ describe("QuestieOptionsWindow", function()
                 assert.are.equal(window, linkPoint[2])
             end)
 
+            it("should leave the metal of the window's edge visible", function()
+                -- It is 2 px wide on Classic, with its center on the window's left edge
+                assert.is_true(linkTab.points[1][4] <= (client.isForever and 1 or 0))
+            end)
+
             it("should be level with the second side tab", function()
                 local first = QuestieOptionsWindow.CreateSideTab(window, "a", {title = "A"}, nil, function() end)
                 local second = QuestieOptionsWindow.CreateSideTab(window, "b", {title = "B"}, first, function() end)
