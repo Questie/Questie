@@ -164,6 +164,7 @@ QuestieDB.factionIDs = LibQuestieDB.Enum.factionIDs
 QuestieDB.serviceKeys = LibQuestieDB.Enum.serviceKeys
 QuestieDB.classIDs = LibQuestieDB.Enum.classIDs
 QuestieDB.weaponSkillKeys = LibQuestieDB.Enum.weaponSkillKeys
+QuestieDB.eventKeys = LibQuestieDB.Enum.eventKeys
 
 QuestieDB.itemClasses = {
     QUEST = 12,

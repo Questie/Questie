@@ -1237,3 +1237,67 @@ describe("Townsfolk on the real provider", function()
         assert.is_false(Contains(stationObjects["Forge"], 1744))
     end)
 end)
+
+-- Event membership is provider data and the gates are Questie's. Only the real provider and the
+-- real gate table show whether they still agree on the field, the event IDs and the quest IDs.
+describe("QuestieEvent on the real provider", function()
+    local savedProvider, savedExpansion, savedIsSoD, savedCalendar
+    ---@type Expansions
+    local Expansions
+
+    before_each(function()
+        savedProvider = _G.LibQuestieDB
+        savedCalendar = _G.C_Calendar
+        savedIsSoD = Questie.IsSoD
+        Expansions = QuestieLoader:ImportModule("Expansions")
+        savedExpansion = Expansions.Current
+    end)
+
+    after_each(function()
+        _G.LibQuestieDB = savedProvider
+        _G.C_Calendar = savedCalendar
+        Questie.IsSoD = savedIsSoD
+        Expansions.Current = savedExpansion
+    end)
+
+    it("collects Classic event quests and NPCs from the provider's eventIds", function()
+        local provider = LoadProvider()
+        _G.LibQuestieDB = provider
+        dofile("Database/QuestieDB.lua")
+        local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
+        QuestieDB.QuestPointers = provider.Quest.GetAllIds(true)
+        QuestieDB.NPCPointers = provider.Npc.GetAllIds(true)
+        Expansions.Current = Expansions.Era
+        Questie.IsSoD = false
+        Questie.RegisterEvent = function() end
+        _G.C_Calendar = {OpenCalendar = function() end, SetMonth = function() end}
+
+        dofile("Database/Corrections/ContentPhases/ContentPhases.lua")
+        dofile("Database/Corrections/QuestieQuestBlacklist.lua")
+        local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
+        QuestieCorrections.hiddenQuests = {}
+        dofile("Database/Corrections/Holidays/QuestieEvent.lua")
+        local QuestieEvent = QuestieLoader:ImportModule("QuestieEvent")
+
+        local initialize = coroutine.create(QuestieEvent.Initialize)
+        repeat
+            local ok, err = coroutine.resume(initialize)
+            assert(ok, err)
+        until coroutine.status(initialize) == "dead"
+
+        local events = provider.Enum.eventKeys
+        assert.are_same({events.HALLOWS_END}, QuestieEvent.eventQuests[1658]) -- Crashing the Wickerman Festival
+        assert.is_true(QuestieCorrections.hiddenQuests[1658])
+        -- The Alliance faire announcement is absent while the faire is in Mulgore.
+        assert.are_same({events.DARKMOON_FAIRE_ELWYNN, events.DARKMOON_FAIRE_TEROKKAR}, QuestieEvent.eventQuests[7905])
+        -- A Darkmoon deck quest is an event quest that stays visible all year.
+        assert.is_not_nil(QuestieEvent.eventQuests[7907])
+        assert.is_nil(QuestieCorrections.hiddenQuests[7907])
+        -- War effort quests carry an event without a calendar and are not this module's concern.
+        assert.is_nil(QuestieEvent.eventQuests[8792])
+        assert.is_nil(QuestieCorrections.hiddenQuests[8792])
+        assert.is_nil(QuestieEvent.eventQuests[2]) -- Sharptalon's Claw
+        assert.are_same({events.WINTER_VEIL}, QuestieEvent.eventNpcs[13418]) -- a Smokywood Pastures vendor
+        assert.is_nil(QuestieEvent.eventNpcs[30]) -- Forest Spider
+    end)
+end)
