@@ -10,7 +10,8 @@ describe("TaintWatch", function()
     local originalDb
     local globalNames = {"issecurevariable", "geterrorhandler", "debugstack", "GetTime", "GetCVar", "C_Timer", "CreateFrame",
                          "hooksecurefunc", "WorldMapFrame", "ObjectiveTrackerFrame", "QuestFrameDetailPanel",
-                         "QuestDetailScrollChildFrame", "C_AddOns", "InCombatLockdown"}
+                         "QuestDetailScrollChildFrame", "C_AddOns", "InCombatLockdown", "ShowUIPanel", "HideUIPanel",
+                         "CloseSpecialWindows"}
 
     before_each(function()
         for _, name in ipairs(globalNames) do
@@ -319,6 +320,23 @@ describe("TaintWatch", function()
 
             assert.are.same("[event] WorldMap shown", _TaintWatch.notes[1].label)
             assert.are.same("[event] WorldMap hidden", _TaintWatch.notes[2].label)
+        end)
+
+        it("should note when Blizzard's panel manager shows or hides a panel, or Escape closes the open windows", function()
+            local hooks = {}
+            _G.hooksecurefunc = function(functionName, hook) hooks[functionName] = hook end
+            _G.ShowUIPanel, _G.HideUIPanel, _G.CloseSpecialWindows = function() end, function() end, function() end
+            TaintWatch.Initialize()
+            local questFrame = {GetName = function() return "QuestFrame" end}
+
+            hooks.ShowUIPanel(questFrame)
+            hooks.HideUIPanel(questFrame)
+            hooks.CloseSpecialWindows()
+
+            assert.are.same({"[event] ShowUIPanel", "QuestFrame"}, {_TaintWatch.notes[1].label, _TaintWatch.notes[1].detail})
+            assert.are.same({"[event] HideUIPanel", "QuestFrame"}, {_TaintWatch.notes[2].label, _TaintWatch.notes[2].detail})
+            assert.are.same("[event] CloseSpecialWindows", _TaintWatch.notes[3].label)
+            assert.is_nil(_TaintWatch.notes[3].detail)
         end)
 
         it("should not build a stack for a capture that would be discarded", function()

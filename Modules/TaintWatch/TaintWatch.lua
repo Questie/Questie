@@ -254,6 +254,15 @@ function _TaintWatch.InstallHooks()
         WorldMapFrame:HookScript("OnHide", function() TaintWatch.Note("[event] WorldMap hidden") end)
     end
 
+    -- Blizzard's panel manager keeps the open panels. Code that changes them tainted taints every later panel.
+    for _, functionName in ipairs({"ShowUIPanel", "HideUIPanel", "CloseSpecialWindows"}) do
+        if _G[functionName] then
+            hooksecurefunc(functionName, function(frame)
+                TaintWatch.Note("[event] " .. functionName, type(frame) == "table" and frame.GetName and frame:GetName() or nil)
+            end)
+        end
+    end
+
     if ObjectiveTrackerFrame and ObjectiveTrackerFrame.MarkDirty then
         hooksecurefunc(ObjectiveTrackerFrame, "MarkDirty", function(self)
             _TaintWatch.CheckWrite("ObjectiveTrackerFrame.dirty", self, "dirty")
