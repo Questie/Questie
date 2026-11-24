@@ -11,6 +11,10 @@ local TrackerLinePool = QuestieLoader:ImportModule("TrackerLinePool")
 local TrackerUtils = QuestieLoader:ImportModule("TrackerUtils")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
+---@type Forever
+local Forever = QuestieLoader:ImportModule("Forever")
+---@type QuestieLib
+local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 
 local REFRESH_INTERVAL = 0.5
 
@@ -97,6 +101,37 @@ local function _CanShow(canShare)
         and (_HasPartyProgress() or canShare)
 end
 
+local INDENT = "   "
+
+---@param quest TrackerQuest
+---@param members QuestPartyMember[]
+local function _RenderParty(quest, members)
+    tooltip:SetText(TrackerData.GetColoredQuestName(quest, Questie.db.profile.enableTooltipsQuestLevel, true))
+
+    local pending, longest = {}, 0
+    for _, member in ipairs(members) do
+        local name = member.classColor .. member.name .. "|r"
+        local complete = member.complete or (member.isPlayer and (quest:IsComplete() == 1 or quest.isComplete))
+        if complete then
+            tooltip:AddLine(INDENT .. Questie:Colorize(l10n("Quest Complete!"), "28FF28") .. " (" .. name .. ")", 238 / 255, 238 / 255, 238 / 255, false)
+        else
+            pending[#pending + 1] = {name = name, objectives = member.objectives}
+            longest = math.max(longest, #member.objectives)
+        end
+    end
+
+    for index = 1, longest do
+        for _, member in ipairs(pending) do
+            local objective = member.objectives[index]
+            if objective then
+                local counters = {fulfilled = objective.fulfilled, required = objective.required}
+                local color = QuestieLib:GetRGBForObjective(counters)
+                tooltip:AddLine(INDENT .. color .. objective.text .. "|r (" .. member.name .. ")", 238 / 255, 238 / 255, 238 / 255, false)
+            end
+        end
+    end
+end
+
 local function _Refresh()
     local line = hoveredLine
     local questId = line and _GetQuestId(line)
@@ -114,7 +149,11 @@ local function _Refresh()
     local titleLine = _GetTitleLine(line)
     tooltip:SetOwner(titleLine, "ANCHOR_NONE")
     tooltip:SetPoint("BOTTOMLEFT", titleLine, "TOPLEFT")
-    if _HasPartyProgress() then
+    local quest = TrackerData.GetQuest(questId)
+    local members = quest and _HasPartyProgress() and Forever.GetQuestPartyMembers(C_TooltipInfo.GetQuestPartyProgress(questId, true, false))
+    if members then
+        _RenderParty(quest, members)
+    elseif _HasPartyProgress() then
         -- Keep native rendering in its secure accessor path, including the title and solo player's progress.
         -- Missing native data hides the tooltip; keep refreshing while hovered so it can recover.
         if not tooltip:SetQuestPartyProgress(questId, false, false) then
@@ -128,8 +167,9 @@ local function _Refresh()
     if canShare then
         local hint = l10n("(") .. _GetShortcutText(Questie.db.profile.trackerbindShareQuest) .. l10n(": ") .. l10n("Share Quest") .. l10n(")")
         tooltip:AddLine(Questie:Colorize(hint, "gray"))
-        tooltip:Show()
     end
+    -- Resizes the tooltip to the objective rows Questie widened after Blizzard laid them out
+    tooltip:Show()
 end
 
 ---@param line TrackerLineFrame

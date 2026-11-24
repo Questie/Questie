@@ -873,7 +873,6 @@ describe("Tooltip", function()
                 })
 
                 assert.is_nil(preCalls[17](tooltip, title))
-                assert.is_nil(preCalls[18](tooltip, {leftText = "Player"}))
                 assert.is_nil(preCalls[8](tooltip, objectiveLine))
                 linePostCalls[17](tooltip, title)
                 linePostCalls[8](tooltip, objectiveLine)
@@ -887,6 +886,65 @@ describe("Tooltip", function()
                 assert.spy(tooltip.AddLine).was.not_called()
                 assert.are.same({id = 783, leftText = "Native title", lineIndex = 1}, title)
                 assert.are.equal("Ready for turn-in", objectiveLine.leftText)
+            end)
+
+            it("should replace party member rows with a class colored name behind their objectives", function()
+                _G.GetPlayerInfoByGUID = function() return "Mage", "MAGE" end
+                Questie.GetClassColor = function() return "|cFF69CCF0" end
+                QuestieTooltips.RegisterNativeQuestTooltip(tooltip)
+
+                assert.is_true(preCalls[18](tooltip, {leftText = "Kiyoko", guid = "Player-1"}))
+                linePostCalls[8](tooltip, {leftText = "0/12 Head", lineIndex = 1})
+
+                assert.spy(fontStrings[1].SetText).was.called_with(fontStrings[1], "Questie objective (|cFF69CCF0Kiyoko|r)")
+            end)
+
+            it("should add open party objectives as one unwrapped row", function()
+                _G.GetPlayerInfoByGUID = function() return "Mage", "MAGE" end
+                Questie.GetClassColor = function() return "|cFF69CCF0" end
+                tooltip.AddLine = spy.new(function() end)
+                QuestieTooltips.RegisterNativeQuestTooltip(tooltip)
+                local objective = {leftText = "0/12 Head", lineIndex = 1, numFulfilled = 0, numRequired = 12}
+                local getRGBForObjective = QuestieLib.GetRGBForObjective
+                QuestieLib.GetRGBForObjective = spy.new(function() return "|cFFFF0000" end)
+
+                preCalls[18](tooltip, {leftText = "Kiyoko", guid = "Player-1"})
+
+                assert.is_true(preCalls[8](tooltip, objective))
+                linePostCalls[8](tooltip, objective)
+                assert.spy(tooltip.AddLine).was.called_with(tooltip, "   |cFFFF0000" .. "0/12 Head|r (|cFF69CCF0Kiyoko|r)", 238 / 255, 238 / 255, 238 / 255, false)
+                assert.spy(fontStrings[1].SetText).was.not_called()
+                QuestieLib.GetRGBForObjective = getRGBForObjective
+            end)
+
+            it("should leave completed and two column party objectives to Blizzard", function()
+                _G.GetPlayerInfoByGUID = function() return "Mage", "MAGE" end
+                Questie.GetClassColor = function() return "|cFF69CCF0" end
+                QuestieTooltips.RegisterNativeQuestTooltip(tooltip)
+                preCalls[18](tooltip, {leftText = "Kiyoko", guid = "Player-1"})
+
+                assert.is_nil(preCalls[8](tooltip, {leftText = "Ready for turn-in", completed = true}))
+                assert.is_nil(preCalls[8](tooltip, {leftText = "Head", rightText = "1/2"}))
+            end)
+
+            it("should forget the party member name when the tooltip is rebuilt", function()
+                _G.GetPlayerInfoByGUID = function() return "Mage", "MAGE" end
+                Questie.GetClassColor = function() return "|cFF69CCF0" end
+                QuestieTooltips.RegisterNativeQuestTooltip(tooltip)
+                preCalls[18](tooltip, {leftText = "Kiyoko", guid = "Player-1"})
+
+                frameScripts.OnTooltipCleared()
+                linePostCalls[8](tooltip, {leftText = "0/12 Head", lineIndex = 1})
+
+                assert.spy(fontStrings[1].SetText).was.called_with(fontStrings[1], "Questie objective")
+            end)
+
+            it("should keep party member rows native when their name is not readable", function()
+                _G.issecretvalue = function(value) return value == "secret" end
+                QuestieTooltips.RegisterNativeQuestTooltip(tooltip)
+
+                assert.is_nil(preCalls[18](tooltip, {leftText = "secret"}))
+                assert.is_nil(preCalls[18](tooltip, {leftText = "Kiyoko", rightText = "Right"}))
             end)
 
             it("reuses the existing title formatter and its quest-level preference", function()

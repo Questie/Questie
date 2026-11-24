@@ -2925,6 +2925,8 @@ globals = {
     "C_CurveUtil",
     "C_Intl",
     "C_StringUtil",
+    "QUEST_PROGRESS_TOOLTIP_QUEST_ON_QUEST",
+    "TooltipUtil",
     "InputUtil",
     "SmartNavigation",
     "SoftCursor",
