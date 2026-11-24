@@ -68,8 +68,8 @@ local FLASH_STEP_SECONDS = 0.065
 ---@type table<number, table> Icons of the running flash, to restore their size when a new flash starts.
 local flashingIcons = {}
 local zoneCache = {}
-local questProximityTimer
-local questZoneProximityTimer
+-- Runs while the tracker sort depends on the player's position.
+local movementTicker
 
 local _QuestLogScrollBar = (QuestLogListScrollFrame and QuestLogListScrollFrame.ScrollBar) or QuestLogListScrollFrameScrollBar
 
@@ -701,7 +701,8 @@ end
 local function _GetZoneName(zoneOrSort, questId, nativeHeader)
     local zoneName
     local sortObj = Questie.db.profile.trackerSortObjectives
-    if sortObj == "byZone" or sortObj == "byZonePlayerProximity" or sortObj == "byZonePlayerProximityReversed" then
+    local _, zoneSort = Sorter.GetSorts(sortObj)
+    if zoneSort then
         if nativeHeader then
             return nativeHeader
         elseif not zoneOrSort then
@@ -743,20 +744,81 @@ function TrackerUtils.GetQuestGroupName(quest)
     return _GetZoneName(quest.zoneOrSort, quest.Id, quest.zoneName)
 end
 
----@return table sortedQuestIds Table with sorted Quest ID's by Sort Type
----@return table questDetails Display records, completion fractions and grouping labels.
+---Sets `distance` and `isOnPlayerContinent` for the sorts that use the player's position.
+---@param questDetails table<QuestId, QuestSortDetails>
+local function _AddProximityDetails(questDetails)
+    local playerContinent = _GetContinent(C_Map.GetBestMapForUnit("player"))
+
+    for _, details in pairs(questDetails) do
+        local _, zoneId, _, distance = DistanceUtils.GetNearestSpawnForQuest(details.quest)
+        -- Without a spawn there is no zone, and the distance is only DistanceUtils' "nothing found" value.
+        details.distance = zoneId and distance or nil
+        details.isOnPlayerContinent = _GetContinent(ZoneDB:GetUiMapIdByAreaId(zoneId)) == playerContinent
+    end
+end
+
+---Sets `isShown` for the zone sorts that only count the quests the tracker draws.
+---@param questDetails table<QuestId, QuestSortDetails>
+local function _AddShownState(questDetails)
+    for questId, details in pairs(questDetails) do
+        local quest = details.quest
+        -- A running timer keeps a complete quest shown, so trackTimedQuest has to be current first.
+        TrackerQuestTimers:UpdateAndGetRemainingTime(quest)
+        local complete = quest:IsComplete()
+        details.isShown = QuestieTracker.IsTrackedByQuestie(questId)
+            and ((complete ~= 1 and not quest.isComplete) or Questie.db.profile.trackerShowCompleteQuests or quest.trackTimedQuest)
+            and true or false
+    end
+end
+
+---Redraws the tracker every five seconds while the player is moving, so sorts that use the player's position stay current.
+local function _StartMovementTicker()
+    Questie.Debug(Questie.DEBUG_DEVELOP, "[TrackerUtils:GetSortedQuestIds] - Proximity Timer Started!")
+
+    local lastPosition
+    movementTicker = C_Timer.NewTicker(5.0, function()
+        -- Instances have no distances to follow. The first sort after leaving starts a new ticker.
+        if IsInInstance() then
+            Questie.Debug(Questie.DEBUG_DEVELOP, "[TrackerUtils:GetSortedQuestIds] - Proximity Timer Stopped!")
+            movementTicker:Cancel()
+            movementTicker = nil
+            return
+        end
+
+        local position = _GetWorldPlayerPosition()
+        if not position then
+            return
+        end
+
+        local movedDistance = lastPosition and QuestieLib.Euclid(position.x, position.y, lastPosition.x, lastPosition.y)
+        if movedDistance and movedDistance <= 0.01 then
+            return
+        end
+
+        Questie.Debug(Questie.DEBUG_SPAM, "[TrackerUtils:GetSortedQuestIds] - Proximity Timer Updated!")
+        lastPosition = position
+
+        QuestieCombatQueue:Queue(function()
+            -- Don't update tracker if we're in a pet battle
+            if Expansions.Current >= Expansions.MoP and Questie.db.profile.hideTrackerInPetBattles and C_PetBattles and C_PetBattles.IsInBattle() then
+                Questie.Debug(Questie.DEBUG_DEVELOP, "[TrackerUtils] Skipped proximity timer tracker update - in pet battle")
+                return
+            end
+            TrackerUtils.FilterProximityTimer = true
+            QuestieTracker:Update()
+        end)
+    end)
+end
+
+---@return QuestId[] sortedQuestIds Every tracker quest, group by group, in the order of the trackerSortObjectives setting.
+---@return table<QuestId, QuestSortDetails> questDetails Display records, completion fractions and grouping labels.
 function TrackerUtils:GetSortedQuestIds()
-    ---@type QuestId[]
-    local sortedQuestIds = {}
     ---@type table<QuestId, QuestSortDetails>
     local questDetails = {}
-    local sortObj = Questie.db.profile.trackerSortObjectives
 
     -- Update quest objectives
     for questId, quest in pairs(TrackerData.GetQuests()) do
         if quest then
-            tinsert(sortedQuestIds, questId)
-
             local percent = 0
             if quest:IsComplete() == 1 or quest.isComplete then
                 percent = 1
@@ -779,311 +841,35 @@ function TrackerUtils:GetSortedQuestIds()
         end
     end
 
-    -- Quests and objectives sort
-    if sortObj == "byZone" then
-        Sorter.byZone(sortedQuestIds, questDetails)
-    elseif sortObj == "byComplete" then
-        Sorter.byComplete(sortedQuestIds, questDetails)
-    elseif sortObj == "byCompleteReversed" then
-        Sorter.byCompleteReverse(sortedQuestIds, questDetails)
-    elseif sortObj == "byLevel" then
-        Sorter.byLevel(sortedQuestIds, questDetails)
-    elseif sortObj == "byLevelReversed" then
-        Sorter.byLevelReverse(sortedQuestIds, questDetails)
-    elseif sortObj == "byZonePlayerProximity" or sortObj == "byZonePlayerProximityReversed" then
-        local toSort = {}
-        local zoneDistances = {}
-        local continent = _GetContinent(C_Map.GetBestMapForUnit("player"))
-
-        for _, questId in pairs(sortedQuestIds) do
-            local sortData = {}
-            sortData.questId = questId
-            sortData.q = questDetails[questId].quest
-
-            local _, zone, _, distance = DistanceUtils.GetNearestSpawnForQuest(sortData.q)
-            sortData.zone = zone
-            sortData.distance = distance
-            sortData.continent = _GetContinent(ZoneDB:GetUiMapIdByAreaId(zone))
-            toSort[questId] = sortData
-
-            -- Rank each group by its nearest visible, tracked quest location.
-            -- DistanceUtils uses unfinished objectives, or the finisher for completed quests.
-            TrackerQuestTimers:UpdateAndGetRemainingTime(sortData.q)
-            local complete = sortData.q:IsComplete()
-            local showQuest = QuestieTracker.IsTrackedByQuestie(questId)
-                and ((complete ~= 1 and not sortData.q.isComplete)
-                    or Questie.db.profile.trackerShowCompleteQuests or sortData.q.trackTimedQuest)
-            local zoneName = questDetails[questId].zoneName
-            if showQuest and zone and distance then
-                zoneDistances[zoneName] = math.min(zoneDistances[zoneName] or math.huge, distance)
-            end
-        end
-
-        local function _CompareZones(zoneA, zoneB)
-            local distanceA = zoneDistances[zoneA]
-            local distanceB = zoneDistances[zoneB]
-            if distanceA == distanceB then
-                return zoneA < zoneB
-            end
-            -- Groups without a known location follow groups with coordinates in either direction.
-            if not distanceA then
-                return false
-            elseif not distanceB then
-                return true
-            end
-            if sortObj == "byZonePlayerProximityReversed" then
-                return distanceA > distanceB
-            end
-            return distanceA < distanceB
-        end
-
-        local sorter = function(a, b)
-            local qAZone = questDetails[a].zoneName
-            local qBZone = questDetails[b].zoneName
-
-            -- Within the same tracker group, sort quests by proximity.
-            if qAZone == qBZone then
-                a = toSort[a]
-                b = toSort[b]
-                if ((continent == a.continent) and (continent == b.continent)) or ((continent ~= a.continent) and (continent ~= b.continent)) then
-                    if a.distance == b.distance then
-                        -- Same distance then sort by Level
-                        return a.q and b.q and a.q.level < b.q.level
-                    end
-
-                    if not a.distance and b.distance then
-                        return false
-                    elseif a.distance and not b.distance then
-                        return true
-                    end
-
-                    return a.distance < b.distance
-                elseif (continent == a.continent) and (continent ~= b.continent) then
-                    return true
-                elseif (continent ~= a.continent) and (continent == b.continent) then
-                    return false
-                end
-            else
-                return _CompareZones(qAZone, qBZone)
-            end
-        end
-
-        local sorterReversed = function(a, b)
-            local qAZone = questDetails[a].zoneName
-            local qBZone = questDetails[b].zoneName
-
-            -- Within the same tracker group, sort quests by proximity.
-            if qAZone == qBZone then
-                a = toSort[a]
-                b = toSort[b]
-                if ((continent == a.continent) and (continent == b.continent)) or ((continent ~= a.continent) and (continent ~= b.continent)) then
-                    if a.distance == b.distance then
-                        -- Same distance then sort by Level
-                        return a.q and b.q and a.q.level > b.q.level
-                    end
-
-                    if not a.distance and b.distance then
-                        return true
-                    elseif a.distance and not b.distance then
-                        return false
-                    end
-
-                    return a.distance > b.distance
-                elseif (continent == a.continent) and (continent ~= b.continent) then
-                    return false
-                elseif (continent ~= a.continent) and (continent == b.continent) then
-                    return true
-                end
-            else
-                return _CompareZones(qAZone, qBZone)
-            end
-        end
-
-        if sortObj == "byZonePlayerProximity" then
-            table.sort(sortedQuestIds, sorter)
-        else
-            table.sort(sortedQuestIds, sorterReversed)
-        end
-
-        if not questZoneProximityTimer and not IsInInstance() then
-            -- Check location often and update if you've moved
-            Questie.Debug(Questie.DEBUG_DEVELOP, "[TrackerUtils:GetSortedQuestIds] - Zone Proximity Timer Started!")
-
-            local playerPosition
-            questZoneProximityTimer = C_Timer.NewTicker(5.0, function()
-                if IsInInstance() and questZoneProximityTimer then
-                    Questie.Debug(Questie.DEBUG_DEVELOP, "[TrackerUtils:GetSortedQuestIds] - Zone Proximity Timer Stopped!")
-                    questZoneProximityTimer:Cancel()
-                    questZoneProximityTimer = nil
-                else
-                    local position = _GetWorldPlayerPosition()
-                    if position then
-                        local distance = playerPosition and QuestieLib.Euclid(position.x, position.y, playerPosition.x, playerPosition.y)
-                        if not distance or distance > 0.01 then -- Position has changed
-                            Questie.Debug(Questie.DEBUG_SPAM, "[TrackerUtils:GetSortedQuestIds] - Zone Proximity Timer Updated!")
-                            playerPosition = position
-                            local orderCopy = {}
-
-                            for index, val in pairs(sortedQuestIds) do
-                                orderCopy[index] = val
-                            end
-
-                            if sortObj == "byZonePlayerProximity" then
-                                table.sort(sortedQuestIds, sorter)
-                            else
-                                table.sort(sortedQuestIds, sorterReversed)
-                            end
-
-                            for index, val in pairs(sortedQuestIds) do
-                                if orderCopy[index] ~= val then -- The order has changed
-                                    break
-                                end
-                            end
-
-                            QuestieCombatQueue:Queue(function()
-                                -- Don't update tracker if we're in a pet battle
-                                if Expansions.Current >= Expansions.MoP and Questie.db.profile.hideTrackerInPetBattles and C_PetBattles and C_PetBattles.IsInBattle() then
-                                    Questie.Debug(Questie.DEBUG_DEVELOP, "[TrackerUtils] Skipped zone proximity timer tracker update - in pet battle")
-                                    return
-                                end
-                                TrackerUtils.FilterProximityTimer = true
-                                QuestieTracker:Update()
-                            end)
-                        end
-                    end
-                end
-            end)
-        end
-    elseif sortObj == "byProximity" or sortObj == "byProximityReversed" then
-        local toSort = {}
-        local continent = _GetContinent(C_Map.GetBestMapForUnit("player"))
-
-        for _, questId in pairs(sortedQuestIds) do
-            local sortData = {}
-            sortData.questId = questId
-            sortData.q = questDetails[questId].quest
-
-            local _, zone, _, distance = DistanceUtils.GetNearestSpawnForQuest(sortData.q)
-            sortData.zone = zone
-            sortData.distance = distance
-            sortData.continent = _GetContinent(ZoneDB:GetUiMapIdByAreaId(zone))
-            toSort[questId] = sortData
-        end
-
-        local sorter = function(a, b)
-            a = toSort[a]
-            b = toSort[b]
-            if ((continent == a.continent) and (continent == b.continent)) or ((continent ~= a.continent) and (continent ~= b.continent)) then
-                if a.distance == b.distance then
-                    return a.q and b.q and a.q.level < b.q.level
-                end
-
-                if not a.distance and b.distance then
-                    return false
-                elseif a.distance and not b.distance then
-                    return true
-                end
-
-                return a.distance < b.distance
-            elseif (continent == a.continent) and (continent ~= b.continent) then
-                return true
-            elseif (continent ~= a.continent) and (continent == b.continent) then
-                return false
-            end
-        end
-
-        local sorterReversed = function(a, b)
-            a = toSort[a]
-            b = toSort[b]
-            if ((continent == a.continent) and (continent == b.continent)) or ((continent ~= a.continent) and (continent ~= b.continent)) then
-                if a.distance == b.distance then
-                    return a.q and b.q and a.q.level > b.q.level
-                end
-
-                if not a.distance and b.distance then
-                    return true
-                elseif a.distance and not b.distance then
-                    return false
-                end
-
-                return a.distance > b.distance
-            elseif (continent == a.continent) and (continent ~= b.continent) then
-                return false
-            elseif (continent ~= a.continent) and (continent == b.continent) then
-                return true
-            end
-        end
-
-        if sortObj == "byProximity" then
-            table.sort(sortedQuestIds, sorter)
-        else
-            table.sort(sortedQuestIds, sorterReversed)
-        end
-
-        if not questProximityTimer and not IsInInstance() then
-            -- Check location often and update if you've moved
-            Questie.Debug(Questie.DEBUG_DEVELOP, "[TrackerUtils:GetSortedQuestIds] - Proximity Timer Started!")
-
-            local playerPosition
-            questProximityTimer = C_Timer.NewTicker(5.0, function()
-                if IsInInstance() and questProximityTimer then
-                    Questie.Debug(Questie.DEBUG_DEVELOP, "[TrackerUtils:GetSortedQuestIds] - Proximity Timer Stopped!")
-                    questProximityTimer:Cancel()
-                    questProximityTimer = nil
-                else
-                    local position = _GetWorldPlayerPosition()
-                    if position then
-                        local distance = playerPosition and QuestieLib.Euclid(position.x, position.y, playerPosition.x, playerPosition.y)
-                        if not distance or distance > 0.01 then -- Position has changed
-                            Questie.Debug(Questie.DEBUG_SPAM, "[TrackerUtils:GetSortedQuestIds] - Proximity Timer Updated!")
-                            playerPosition = position
-                            local orderCopy = {}
-
-                            for index, val in pairs(sortedQuestIds) do
-                                orderCopy[index] = val
-                            end
-
-                            if sortObj == "byProximity" then
-                                table.sort(sortedQuestIds, sorter)
-                            else
-                                table.sort(sortedQuestIds, sorterReversed)
-                            end
-
-                            for index, val in pairs(sortedQuestIds) do
-                                if orderCopy[index] ~= val then -- The order has changed
-                                    break
-                                end
-                            end
-
-                            QuestieCombatQueue:Queue(function()
-                                -- Don't update tracker if we're in a pet battle
-                                if Expansions.Current >= Expansions.MoP and Questie.db.profile.hideTrackerInPetBattles and C_PetBattles and C_PetBattles.IsInBattle() then
-                                    Questie.Debug(Questie.DEBUG_DEVELOP, "[TrackerUtils] Skipped proximity timer tracker update - in pet battle")
-                                    return
-                                end
-                                TrackerUtils.FilterProximityTimer = true
-                                QuestieTracker:Update()
-                            end)
-                        end
-                    end
-                end
-            end)
-        end
+    -- Add what the chosen sorts need beyond the quest itself
+    local questSort, zoneSort = Sorter.GetSorts(Questie.db.profile.trackerSortObjectives)
+    local usesPlayerPosition = (questSort ~= nil and questSort.usesPlayerPosition) or (zoneSort ~= nil and zoneSort.usesPlayerPosition)
+    if usesPlayerPosition then
+        _AddProximityDetails(questDetails)
+    end
+    if zoneSort and zoneSort.usesShownState then
+        _AddShownState(questDetails)
     end
 
-
-    if (sortObj ~= strmatch(sortObj, "byProximity.*")) and questProximityTimer and questProximityTimer ~= nil then
+    -- Follow the player only while a sort depends on their position
+    if usesPlayerPosition then
+        if (not movementTicker) and (not IsInInstance()) then
+            _StartMovementTicker()
+        end
+    elseif movementTicker then
         Questie.Debug(Questie.DEBUG_DEVELOP, "[TrackerUtils:GetSortedQuestIds] - Proximity Timer Stopped!")
-        questProximityTimer:Cancel()
+        movementTicker:Cancel()
+        movementTicker = nil
         TrackerUtils.FilterProximityTimer = nil
-        questProximityTimer = nil
     end
 
-    if (sortObj ~= strmatch(sortObj, "byZonePlayerProximity.*")) and questZoneProximityTimer and questZoneProximityTimer ~= nil then
-        Questie.Debug(Questie.DEBUG_DEVELOP, "[TrackerUtils:GetSortedQuestIds] - Zone Proximity Timer Stopped!")
-        questZoneProximityTimer:Cancel()
-        TrackerUtils.FilterProximityTimer = nil
-        questZoneProximityTimer = nil
+    -- QuestSection draws a header whenever the group name changes, so it takes the groups as one list.
+    ---@type QuestId[]
+    local sortedQuestIds = {}
+    for _, group in ipairs(Sorter.Sort(questDetails, questSort, zoneSort)) do
+        for _, questId in ipairs(group.questIds) do
+            sortedQuestIds[#sortedQuestIds + 1] = questId
+        end
     end
 
     return sortedQuestIds, questDetails

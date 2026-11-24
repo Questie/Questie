@@ -266,9 +266,8 @@ Modules\Tracker\Sections\AchievementSection.lua
 Modules\Tracker\Sections\QuestSection.lua
 Modules\Tracker\QuestieTracker.lua
 Modules\Tracker\Sorter\Sorter.lua
-Modules\Tracker\Sorter\byComplete.lua
-Modules\Tracker\Sorter\byLevel.lua
-Modules\Tracker\Sorter\byZone.lua
+Modules\Tracker\Sorter\QuestSort.lua
+Modules\Tracker\Sorter\ZoneSort.lua
 Modules\Tracker\TrackerUtils.lua
 Modules\Tracker\TrackerShortcuts.lua
 Modules\Tracker\TrackerSuperTrack.lua
