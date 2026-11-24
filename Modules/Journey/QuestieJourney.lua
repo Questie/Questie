@@ -20,6 +20,8 @@ local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
 local Expansions = QuestieLoader:ImportModule("Expansions")
 ---@type QuestieOptionsEngine
 local QuestieOptionsEngine = QuestieLoader:ImportModule("QuestieOptionsEngine")
+---@type CompletedQuests
+local CompletedQuests = QuestieLoader:ImportModule("CompletedQuests")
 
 -- Useful doc about the AceGUI TreeGroup: https://github.com/hurricup/WoW-Ace3/blob/master/AceGUI-3.0/widgets/AceGUIContainer-TreeGroup.lua
 
@@ -193,6 +195,8 @@ function QuestieJourney:ToggleJourneyWindow()
     if (not isWindowShown) then
         PlaySound(882)
 
+        -- Some quests are completed without any quest event
+        CompletedQuests.Update()
         local treeGroup = _QuestieJourney:HandleTabChange(_QuestieJourney.containerCache, _QuestieJourney.lastOpenWindow)
         if treeGroup then
             _QuestieJourney.treeCache = treeGroup

@@ -52,6 +52,8 @@ local QuestiePartyObjectives = QuestieLoader:ImportModule("QuestiePartyObjective
 local AvailableQuests = QuestieLoader:ImportModule("AvailableQuests")
 ---@type BreadcrumbQuests
 local BreadcrumbQuests = QuestieLoader:ImportModule("BreadcrumbQuests")
+---@type CompletedQuests
+local CompletedQuests = QuestieLoader:ImportModule("CompletedQuests")
 
 local GetItemInfo = QuestieCompat.GetItemInfo
 
@@ -412,6 +414,7 @@ function QuestEventHandler.QuestTurnedIn(questId, xpReward, moneyReward)
 
     QuestieJourney:CompleteQuest(questId)
     QuestieAnnounce:CompletedQuest(questId)
+    CompletedQuests.ScheduleUpdate()
 
     -- The local player no longer has this quest; a party member helping out may still need it.
     QuestiePartyObjectives:ScheduleUpdate(questId)
@@ -433,6 +436,8 @@ function QuestEventHandler.QuestRemoved(questId)
     if questLog[questId].state == QUEST_LOG_STATES.QUEST_TURNED_IN then
         Questie.Debug(Questie.DEBUG_INFO, "Quest:", questId, "was turned in before. Nothing do to.")
         questLog[questId] = nil
+        -- The game usually adds the quest to its completed ones only now. In the other order, QuestTurnedIn does this.
+        CompletedQuests.ScheduleUpdate()
         return
     end
 
@@ -443,6 +448,9 @@ function QuestEventHandler.QuestRemoved(questId)
         -- Kept when QUEST_TURNED_IN comes after: the quest has left the game's log, so a scan finding it there again
         -- has found a new acceptance.
         leftLog = true,
+        -- For the abandon check. Questie can learn from the game's list that the quest is completed before it, from
+        -- CompletedQuests if the quest is unknown to QuestieDB, or from SmoothReset.
+        wasCompletedBefore = Questie.db.char.complete[questId],
         timer = C_Timer.NewTicker(1, function()
             _QuestEventHandler:MarkQuestAsAbandoned(questId)
         end, 1)
@@ -454,9 +462,9 @@ function _QuestEventHandler:MarkQuestAsAbandoned(questId)
     Questie.Debug(Questie.DEBUG_DEVELOP, "QuestEventHandler:MarkQuestAsAbandoned")
     if questLog[questId] and questLog[questId].state == QUEST_LOG_STATES.QUEST_REMOVED then
         -- Forever can report QUEST_TURNED_IN seconds or a minute after QUEST_REMOVED, or not at all. The server flags a
-        -- turned-in quest completed by QUEST_REMOVED; an abandoned one stays unflagged. A quest Questie already counts
-        -- as complete cannot be told apart by the flag, so it keeps the abandon path.
-        if QuestieCompat.IsQuestFlaggedCompleted(questId) and not Questie.db.char.complete[questId] then
+        -- turned-in quest completed by QUEST_REMOVED; an abandoned one stays unflagged. A quest that was already completed
+        -- when it was removed cannot be told apart by the flag, so it keeps the abandon path.
+        if QuestieCompat.IsQuestFlaggedCompleted(questId) and not questLog[questId].wasCompletedBefore then
             Questie.Debug(Questie.DEBUG_INFO, "Quest:", questId, "is flagged completed: turned in")
             QuestEventHandler.QuestTurnedIn(questId)
             questLog[questId].lateTurnInExpected = true

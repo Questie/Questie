@@ -112,7 +112,7 @@ function QuestLifecycle:AcceptQuest(questId)
         for _, childQuestId in pairs(childQuests) do
             -- Daily quest status is reset after parent accept
             if QuestieDB.IsDailyQuest(childQuestId) then
-                Questie.db.char.complete[childQuestId] = nil
+                Questie.db.char.complete[childQuestId] = false -- And not nil, so CompletedQuests doesn't add it again
             end
         end
     end
@@ -222,10 +222,10 @@ function QuestLifecycle:CompleteQuest(questId)
     if Expansions.Current >= Expansions.Wotlk then
         if allianceChampionMarkerQuests[questId] then
             Questie.db.char.complete[13700] = true -- Alliance Champion Marker
-            Questie.db.char.complete[13686] = nil -- Alliance Tournament Eligibility Marker
+            Questie.db.char.complete[13686] = false -- Alliance Tournament Eligibility Marker
         elseif hordeChampionMarkerQuests[questId] then
             Questie.db.char.complete[13701] = true -- Horde Champion Marker
-            Questie.db.char.complete[13687] = nil -- Horde Tournament Eligibility Marker
+            Questie.db.char.complete[13687] = false -- Horde Tournament Eligibility Marker
         end
     end
     if Expansions.Current >= Expansions.MoP then
@@ -281,9 +281,9 @@ function QuestLifecycle:AbandonQuest(questId)
     _ResetProgress(quest)
 
     if allianceTournamentMarkerQuests[questId] then
-        Questie.db.char.complete[13686] = nil -- Alliance Tournament Eligibility Marker
+        Questie.db.char.complete[13686] = false -- Alliance Tournament Eligibility Marker
     elseif hordeTournamentMarkerQuests[questId] then
-        Questie.db.char.complete[13687] = nil -- Horde Tournament Eligibility Marker
+        Questie.db.char.complete[13687] = false -- Horde Tournament Eligibility Marker
     end
 
     local childQuests = QuestieDB.QueryQuestSingle(questId, "childQuests")

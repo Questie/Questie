@@ -144,6 +144,7 @@ describe("Issue 6734 - The quest does not exist in QuestLogCache", function()
 
         local BreadcrumbQuests = QuestieLoader:ImportModule("BreadcrumbQuests")
         BreadcrumbQuests.CheckQuestBreadcrumbs = function() end
+        QuestieLoader:ImportModule("CompletedQuests").ScheduleUpdate = function() end
 
         dofile("Modules/Network/QuestiePartyObjectives.lua")
         dofile("Public/Enums.lua")

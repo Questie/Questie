@@ -49,6 +49,8 @@ describe("QuestEventHandler", function()
     local BreadcrumbQuests
     ---@type Expansions
     local Expansions
+    ---@type CompletedQuests
+    local CompletedQuests
     local originalTimer, originalTime, originalExpansion, newTimerMock, retryTimers
 
     before_each(function()
@@ -64,6 +66,7 @@ describe("QuestEventHandler", function()
         end)
         _G.C_Timer = {NewTimer = newTimerMock}
         Questie.db.profile.autoAccept = {enabled = false}
+        Questie.db.char.complete = {}
         QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
         QuestieCombatQueue.Queue = function(_, callback) callback() end
         BreadcrumbQuests = QuestieLoader:ImportModule("BreadcrumbQuests")
@@ -91,6 +94,8 @@ describe("QuestEventHandler", function()
         AvailableQuests.ResetLastNpcGuid = spy.new(function() end)
         QuestieLib = QuestieLoader:ImportModule("QuestieLib")
         QuestieLib.RepairMissingItemNames = spy.new(function() end)
+        CompletedQuests = QuestieLoader:ImportModule("CompletedQuests")
+        CompletedQuests.ScheduleUpdate = spy.new(function() end)
 
         dofile("Modules/EventHandler/QuestEventHandler.lua")
         QuestEventHandler = QuestieLoader:ImportModule("QuestEventHandler")
@@ -449,6 +454,61 @@ describe("QuestEventHandler", function()
             assert.spy(QuestLifecycle.CompleteQuest).was.called(2)
             assert.spy(QuestieJourney.CompleteQuest).was.called(2)
             assert.spy(QuestieAnnounce.CompletedQuest).was.called(2)
+        end)
+
+        it("completes a removed quest the server flags completed, even if Questie learned that from the server meanwhile", function()
+            QuestEventHandler.QuestRemoved(QUEST_ID)
+            Questie.db.char.complete[QUEST_ID] = true
+            abandonCheck()
+
+            assert.spy(QuestLifecycle.CompleteQuest).was.called(1)
+            assert.spy(QuestLifecycle.AbandonQuest).was.not_called()
+            assert.spy(QuestieAnnounce.AbandonedQuest).was.not_called()
+        end)
+
+        it("completes a removed quest the server flags completed that could be done again before", function()
+            Questie.db.char.complete[QUEST_ID] = false
+            QuestEventHandler.QuestRemoved(QUEST_ID)
+            abandonCheck()
+
+            assert.spy(QuestLifecycle.CompleteQuest).was.called(1)
+            assert.spy(QuestieAnnounce.AbandonedQuest).was.not_called()
+        end)
+
+        describe("looking for quests the game completed along with it", function()
+            it("waits for the later event when the quest is removed after it was turned in", function()
+                QuestEventHandler.QuestTurnedIn(QUEST_ID, 1000, 2000)
+                assert.spy(CompletedQuests.ScheduleUpdate).was.called(1)
+
+                QuestEventHandler.QuestRemoved(QUEST_ID)
+                assert.spy(CompletedQuests.ScheduleUpdate).was.called(2)
+            end)
+
+            it("waits for the later event when the quest is turned in after it was removed", function()
+                QuestEventHandler.QuestRemoved(QUEST_ID)
+                assert.spy(CompletedQuests.ScheduleUpdate).was.not_called()
+
+                QuestEventHandler.QuestTurnedIn(QUEST_ID, 1000, 2000)
+                assert.spy(CompletedQuests.ScheduleUpdate).was.called(1)
+            end)
+
+            it("happens after the abandon check when there is no turn in event", function()
+                QuestEventHandler.QuestRemoved(QUEST_ID)
+                abandonCheck()
+
+                assert.spy(CompletedQuests.ScheduleUpdate).was.called(1)
+            end)
+
+            it("doesn't happen when the quest was abandoned", function()
+                flaggedCompletedStub:revert()
+                flaggedCompletedStub = stub(QuestieLoader:ImportModule("QuestieCompat"), "IsQuestFlaggedCompleted", function() return false end)
+
+                QuestEventHandler.QuestRemoved(QUEST_ID)
+                abandonCheck()
+
+                assert.spy(QuestLifecycle.AbandonQuest).was.called(1)
+                assert.spy(CompletedQuests.ScheduleUpdate).was.not_called()
+            end)
         end)
 
         it("abandons a flagged quest that Questie already counts as complete", function()
