@@ -117,6 +117,24 @@ describe("QuestieQuestBlacklist", function()
         assert.is_falsy(sodBlacklist[78917])
     end)
 
+    it("should withhold a Winter Veil quest in Season of Discovery but not in Era", function()
+        -- 6983 "You're a Mean One...": Era offers it during Winter Veil, SoD replaces it.
+        Questie.IsSoD = false
+        assert.is_falsy(QuestieQuestBlacklist.LoadEventQuestGates()[6983])
+        assert.is_falsy(QuestieQuestBlacklist:Load()[6983])
+
+        Questie.IsSoD = true
+        assert.is_true(QuestieQuestBlacklist.LoadEventQuestGates()[6983])
+        assert.is_true(QuestieQuestBlacklist:Load()[6983])
+        Questie.IsSoD = false
+    end)
+
+    it("should leave a quest this flavor offers during its event to QuestieEvent", function()
+        -- 1658 "Crashing the Wickerman Festival" has no gate, so nothing hides it for good.
+        assert.is_nil(QuestieQuestBlacklist.LoadEventQuestGates()[1658])
+        assert.is_nil(QuestieQuestBlacklist:Load()[1658])
+    end)
+
     it("should hide the classic Khan Jehn quest on Forever only", function()
         Questie.IsForever = true
         assert.is_true(QuestieQuestBlacklist:Load()[1374])

@@ -73,6 +73,15 @@ here: which menu category a service belongs to, hunter-only stable masters befor
 profession stations a character needs. The provider deprecated object `factionID` and reports
 addons that read it, so object projections leave that field out.
 
+Event membership is provider data too. Quests and NPCs list world events in the signed `eventIds`
+field: a positive event ID means "only during this event", a negative one "not during it".
+[`QuestieEvent`](../Database/Corrections/Holidays/QuestieEvent.lua) reads those lists once during
+Login Initialization, hides every event quest, and reveals the ones whose event is active when the
+calendar reports in. Questie keeps what depends on the calendar or on policy: event dates and the
+Darkmoon Faire schedule, the few quests available for only part of an event, and
+`QuestieQuestBlacklist.LoadEventQuestGates`, which withholds an event quest in a flavor, season or
+Content Phase that does not offer it.
+
 Questie forwards the effective UI locale through `LibQuestieDB.l10n.SetLocale`. External entity
 lookups are adapted into localization slots under owner `QuestieLocalesOverride`, rather than
 ordinary entity corrections. Their format, replacement, withdrawal, and custom-locale behavior

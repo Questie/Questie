@@ -56,25 +56,58 @@ local QuestieEvent = QuestieLoader:CreateModule("QuestieEvent")
 ---@class QuestieEventPrivate
 local _QuestieEvent = QuestieEvent.private
 
----[1] = Event Name
----[2] = QuestId
----[3] = Start Date (format: "DD/MM")
----[4] = End Date (format: "DD/MM")
----[5] = Start Hour and Minute (format: "HH:MM")
----[6] = End Hour and Minute (format: "HH:MM")
----[7] = Hide Quest even during event (optional, default: false)
----@alias EventQuestEntry {[1]: string, [2]: QuestId, [3]: string?, [4]: string?, [5]: string?, [6]: string?, [7]: boolean?}
+-- QuestieDB states which quests and NPCs belong to which world event, in the signed `eventIds`
+-- field: a positive event ID means "only during this event" (any one of several is enough), a
+-- negative one "not during this event". This module decides which events are active, because
+-- that follows the calendar and changes during a session, and applies the result.
 
--- This variable will be cleared at the end of the load, do not use, use QuestieEvent.activeQuests.
----@type EventQuestEntry[]
+---Event quests of this flavor, read from QuestieDB during Login Initialization. Quests a gate in
+---`QuestieQuestBlacklist.LoadEventQuestGates` withholds are left out: they are not event quests here.
+---@type table<QuestId, integer[]> Quest ID to its signed event IDs
 QuestieEvent.eventQuests = {}
+
+---Ordinary quests that only list "not during" events: they are hidden while such an event runs
+---and are not event quests otherwise.
+---@type table<QuestId, integer[]> Quest ID to its signed event IDs
+QuestieEvent.excludedQuests = {}
+
+---@type table<NpcId, integer[]> NPC ID to its signed event IDs
+QuestieEvent.eventNpcs = {}
 
 ---@type table<QuestId, boolean>
 QuestieEvent.activeQuests = {}
 QuestieEvent.calendarDataCached = false
 
----@type table<QuestId, string>
-local eventNamesForQuests = {}
+-- Quests available for only part of their event: {start "DD/MM", end "DD/MM"}.
+---@type table<QuestId, {[1]: string, [2]: string}>
+local questWindows = {
+    [8744] = {"25/12", "2/1"}, -- A Carefully Wrapped Present
+    [8767] = {"25/12", "2/1"}, -- A Gently Shaken Gift
+    [8768] = {"25/12", "2/1"}, -- A Gaily Wrapped Present
+    [8769] = {"25/12", "2/1"}, -- A Ticking Present
+    [8788] = {"25/12", "2/1"}, -- A Gently Shaken Gift
+    [8803] = {"25/12", "2/1"}, -- A Festive Gift
+    [8827] = {"25/12", "2/1"}, -- Winter's Presents
+    [8828] = {"25/12", "2/1"}, -- Winter's Presents
+    [8860] = {"31/12", "1/1"}, -- New Year Celebrations!
+    [8861] = {"31/12", "1/1"}, -- New Year Celebrations!
+    [11528] = {"25/12", "2/1"}, -- A Winter Veil Gift
+    [13203] = {"25/12", "2/1"}, -- A Winter Veil Gift
+    [13966] = {"25/12", "2/1"}, -- A Winter Veil Gift
+    [29385] = {"25/12", "2/1"}, -- A Winter Veil Gift -- only offered in cata
+    [33252] = {"25/12", "2/1"}, -- A Winter Veil Gift
+    [79637] = {"25/12", "2/1"}, -- A Ticking Present
+}
+
+-- Started by an item that drops all year, so they are never hidden outside the Darkmoon Faire.
+---@type table<QuestId, boolean>
+local neverHiddenQuests = {
+    [7907] = true, [7927] = true, [7928] = true, [7929] = true, -- Classic decks
+    [10938] = true, [10939] = true, [10940] = true, [10941] = true, -- TBC decks
+    [13324] = true, [13325] = true, [13326] = true, [13327] = true, -- WotLK decks
+    [27664] = true, [27665] = true, [27666] = true, [27667] = true, -- Cata decks
+    [30449] = true, [30450] = true, [30451] = true, [30452] = true, -- MoP decks
+}
 
 local alwaysTurnInAbleQuests = {
     [7937] = true, -- Your Fortune Awaits You...
@@ -95,8 +128,48 @@ local ContentPhases = QuestieLoader:ImportModule("ContentPhases")
 local Expansions = QuestieLoader:ImportModule("Expansions")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
+---@type QuestieDB
+local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
+---@type QuestieQuestBlacklist
+local QuestieQuestBlacklist = QuestieLoader:ImportModule("QuestieQuestBlacklist")
+
+local eventKeys = QuestieDB.eventKeys
+
+-- The events this module tracks, by the name its date tables, chat messages and Journey
+-- grouping use. QuestieDB also knows events without a calendar, such as the Ahn'Qiraj war
+-- effort; quests carrying only those are not event quests here.
+---@type table<integer, string>
+local eventNameById = {
+    [eventKeys.WINTER_VEIL] = "Winter Veil",
+    [eventKeys.NOBLEGARDEN] = "Noblegarden",
+    [eventKeys.CHILDRENS_WEEK] = "Children's Week",
+    [eventKeys.HARVEST_FESTIVAL] = "Harvest Festival",
+    [eventKeys.HALLOWS_END] = "Hallow's End",
+    [eventKeys.LUNAR_FESTIVAL] = "Lunar Festival",
+    [eventKeys.LOVE_IS_IN_THE_AIR] = "Love is in the Air",
+    [eventKeys.MIDSUMMER] = "Midsummer",
+    [eventKeys.BREWFEST] = "Brewfest",
+    [eventKeys.PIRATES_DAY] = "Pirates' Day",
+    [eventKeys.PILGRIMS_BOUNTY] = "Pilgrim's Bounty",
+    [eventKeys.DAY_OF_THE_DEAD] = "Day of the Dead",
+    [eventKeys.DARKMOON_FAIRE_ELWYNN] = "Darkmoon Faire",
+    [eventKeys.DARKMOON_FAIRE_MULGORE] = "Darkmoon Faire",
+    [eventKeys.DARKMOON_FAIRE_TEROKKAR] = "Darkmoon Faire",
+    [eventKeys.DARKMOON_FAIRE_ISLAND] = "Darkmoon Faire",
+}
+
+-- The reverse for the date-driven events. The Darkmoon Faire is left out: its event ID depends
+-- on where the faire is, not on a date window.
+---@type table<string, integer>
+local eventIdByName = {}
+for eventId, eventName in pairs(eventNameById) do
+    if eventName ~= "Darkmoon Faire" then
+        eventIdByName[eventName] = eventId
+    end
+end
 
 local _WithinDates, _LoadDarkmoonFaire, _GetDarkmoonFaireLocation, _GetDarkmoonFaireLocationEra, _GetDarkmoonFaireLocationSoD, _GetDarkmoonFaireLocationTBC, _GetDarkmoonFaireLocationWotlK, _IsDarkmoonFaireWeek, _GetLunarFestivalDates
+local _TracksAnyEvent, _RequiresEvent, _IsAvailable, _CollectEventEntities
 
 ---@enum DMFLocation
 local DMF_LOCATIONS = {
@@ -110,6 +183,14 @@ local DMF_LOCATION_NAMES = {
     [1] = "Mulgore",
     [2] = "Elwynn Forest",
     [3] = "Terokkar Forest",
+}
+
+-- Before Cataclysm the faire's event ID says where it is, so a quest can list the locations it appears for.
+---@type table<DMFLocation, integer>
+local DMF_EVENT_ID_BY_LOCATION = {
+    [DMF_LOCATIONS.MULGORE] = eventKeys.DARKMOON_FAIRE_MULGORE,
+    [DMF_LOCATIONS.ELWYNN_FOREST] = eventKeys.DARKMOON_FAIRE_ELWYNN,
+    [DMF_LOCATIONS.TEROKKAR_FOREST] = eventKeys.DARKMOON_FAIRE_TEROKKAR,
 }
 
 -- The ingame calender adds a texture to the DMF event.
@@ -151,7 +232,99 @@ local function dmfStartDayByFirstWeekday(firstWeekday)
     end
 end
 
+---@param eventIds integer[]
+---@return boolean @True if the list names an event this module tracks, with either sign
+_TracksAnyEvent = function(eventIds)
+    for i = 1, #eventIds do
+        local eventId = eventIds[i]
+        if eventNameById[eventId] or eventNameById[-eventId] then
+            return true
+        end
+    end
+    return false
+end
+
+---@param eventIds integer[]
+---@return boolean @True if the list names an "only during" event this module tracks
+_RequiresEvent = function(eventIds)
+    for i = 1, #eventIds do
+        if eventNameById[eventIds[i]] then
+            return true
+        end
+    end
+    return false
+end
+
+---Applies QuestieDB's membership rule to the events that are active right now.
+---@param eventIds integer[] Signed event IDs of one quest or NPC
+---@param activeEventIds table<integer, boolean>
+---@return boolean @True if no listed "not during" event is active and, when "only during" events are listed, one of them is
+_IsAvailable = function(eventIds, activeEventIds)
+    local needsEvent, hasEvent = false, false
+    for i = 1, #eventIds do
+        local eventId = eventIds[i]
+        if eventId < 0 then
+            if activeEventIds[-eventId] then
+                return false
+            end
+        elseif eventNameById[eventId] then
+            needsEvent = true
+            if activeEventIds[eventId] then
+                hasEvent = true
+            end
+        end
+    end
+    return hasEvent or (not needsEvent)
+end
+
+---Reads event membership from QuestieDB and hides every event quest until `Load` finds its
+---event active. Runs inside the Login Initialization coroutine and yields between chunks.
+_CollectEventEntities = function()
+    local eventQuests, excludedQuests, eventNpcs = {}, {}, {}
+    local gates = QuestieQuestBlacklist.LoadEventQuestGates()
+    local hiddenQuests = QuestieCorrections.hiddenQuests
+
+    local count = 0
+    for questId in pairs(QuestieDB.QuestPointers) do
+        local eventIds = QuestieDB.QueryQuestSingle(questId, "eventIds")
+        if eventIds and (not gates[questId]) and _TracksAnyEvent(eventIds) then
+            if _RequiresEvent(eventIds) then
+                eventQuests[questId] = eventIds
+                if not neverHiddenQuests[questId] then
+                    hiddenQuests[questId] = true
+                end
+            else
+                excludedQuests[questId] = eventIds
+            end
+        end
+        if count > 700 then
+            count = 0
+            coroutine.yield()
+        end
+        count = count + 1
+    end
+
+    count = 0
+    for npcId in pairs(QuestieDB.NPCPointers) do
+        local eventIds = QuestieDB.QueryNPCSingle(npcId, "eventIds")
+        if eventIds and _TracksAnyEvent(eventIds) then
+            eventNpcs[npcId] = eventIds
+        end
+        if count > 700 then
+            count = 0
+            coroutine.yield()
+        end
+        count = count + 1
+    end
+
+    QuestieEvent.eventQuests = eventQuests
+    QuestieEvent.excludedQuests = excludedQuests
+    QuestieEvent.eventNpcs = eventNpcs
+end
+
 function QuestieEvent.Initialize()
+    _CollectEventEntities()
+
     Questie:RegisterEvent("CALENDAR_UPDATE_EVENT_LIST", function()
         QuestieEvent:Load()
         Questie:UnregisterEvent("CALENDAR_UPDATE_EVENT_LIST")
@@ -228,43 +401,6 @@ function QuestieEvent:Load()
         end
     end
 
-    for _, questData in pairs(QuestieEvent.eventQuests) do
-        local eventName = questData[1]
-        local questId = questData[2]
-        local hideQuest = questData[7]
-        local startDay, startMonth = nil, nil
-        local endDay, endMonth = nil, nil
-        local startHour, startMinute = nil, nil
-        local endHour, endMinute = nil, nil
-
-        if questData[3] and questData[4] then
-            startDay, startMonth = strsplit("/", questData[3])
-            endDay, endMonth = strsplit("/", questData[4])
-            startDay = tonumber(startDay)
-            startMonth = tonumber(startMonth)
-            endDay = tonumber(endDay)
-            endMonth = tonumber(endMonth)
-        end
-
-        if questData[5] and questData[6] then
-            startHour, startMinute = strsplit(":", questData[5])
-            endHour, endMinute = strsplit(":", questData[6])
-            startHour = tonumber(startHour)
-            startMinute = tonumber(startMinute)
-            endHour = tonumber(endHour)
-            endMinute = tonumber(endMinute)
-        end
-
-        if (not hideQuest) then
-            eventNamesForQuests[questId] = eventName
-
-            if (activeEvents[eventName] == true and _WithinDates(startDay, startMonth, startHour, startMinute, endDay, endMonth, endHour, endMinute)) or (dmfIsActive and eventName == "Darkmoon Faire") then
-                QuestieCorrections.hiddenQuests[questId] = nil
-                QuestieEvent.activeQuests[questId] = true
-            end
-        end
-    end
-
     if dmfIsActive then
         if Questie.db.profile.showEventQuests then
             print(Questie:Colorize("[Questie]"), "|cFF6ce314" .. l10n("The \"%s\" world event is active!", l10n("Darkmoon Faire")))
@@ -283,33 +419,48 @@ function QuestieEvent:Load()
         _LoadDarkmoonFaire(dmfLocation)
     end
 
-    -- Hide event-only NPCs outside their event window
-    local winterVeilNpcs = {13418, 13420, 13429, 13430, 13431, 13432, 13433, 13434, 13435, 13436, 14961, 14962, 14963, 14964, 15124, 15125, 15732} -- Smokywood Pastures vendors
-    local hideWinterVeil = not activeEvents["Winter Veil"]
-    for _, npcId in ipairs(winterVeilNpcs) do
-        QuestieCorrections.questNPCBlacklist[npcId] = hideWinterVeil
+    -- The events active right now, as the IDs QuestieDB's `eventIds` lists use.
+    ---@type table<integer, boolean>
+    local activeEventIds = {}
+    for eventName in pairs(activeEvents) do
+        activeEventIds[eventIdByName[eventName]] = true
+    end
+    if dmfIsActive then
+        activeEventIds[eventKeys.DARKMOON_FAIRE_ISLAND] = true
+    end
+    if dmfLocation ~= DMF_LOCATIONS.NONE then
+        activeEventIds[DMF_EVENT_ID_BY_LOCATION[dmfLocation]] = true
     end
 
-    local hallowsEndNpcs = {15353, 15354} -- Hallow's End Treats vendors
-    local hideHallowsEnd = not activeEvents["Hallow's End"]
-    for _, npcId in ipairs(hallowsEndNpcs) do
-        QuestieCorrections.questNPCBlacklist[npcId] = hideHallowsEnd
+    -- Reveal the quests whose event is active. Every other event quest stays hidden, as
+    -- `_CollectEventEntities` left it.
+    for questId, eventIds in pairs(QuestieEvent.eventQuests) do
+        local startDay, startMonth, endDay, endMonth
+        local window = questWindows[questId]
+        if window then
+            startDay, startMonth = strsplit("/", window[1])
+            endDay, endMonth = strsplit("/", window[2])
+            startDay, startMonth = tonumber(startDay), tonumber(startMonth)
+            endDay, endMonth = tonumber(endDay), tonumber(endMonth)
+        end
+
+        if _IsAvailable(eventIds, activeEventIds) and _WithinDates(startDay, startMonth, nil, nil, endDay, endMonth, nil, nil) then
+            QuestieCorrections.hiddenQuests[questId] = nil
+            QuestieEvent.activeQuests[questId] = true
+        end
     end
 
-    local childrensWeekNpcs = {14480,14481} -- Children's Week vendors
-    local childrensWeek = not activeEvents["Children's Week"]
-    for _, npcId in ipairs(childrensWeekNpcs) do
-        QuestieCorrections.questNPCBlacklist[npcId] = childrensWeek
+    -- Hide the ordinary quests an active event makes unavailable.
+    for questId, eventIds in pairs(QuestieEvent.excludedQuests) do
+        if not _IsAvailable(eventIds, activeEventIds) then
+            QuestieCorrections.hiddenQuests[questId] = true
+        end
     end
 
-    local dmfNpcs = {14844} -- Sylannia <Darkmoon Faire Drink Vendor>
-    local hideDmf = (not dmfIsActive) and dmfLocation == DMF_LOCATIONS.NONE
-    for _, npcId in ipairs(dmfNpcs) do
-        QuestieCorrections.questNPCBlacklist[npcId] = hideDmf
+    -- Hide event-only NPCs outside their event.
+    for npcId, eventIds in pairs(QuestieEvent.eventNpcs) do
+        QuestieCorrections.questNPCBlacklist[npcId] = not _IsAvailable(eventIds, activeEventIds)
     end
-
-    -- Clear the quests to save memory
-    QuestieEvent.eventQuests = nil
 end
 
 ---@param year string
@@ -468,47 +619,12 @@ _LoadDarkmoonFaire = function(eventLocation)
     local isInMulgore = eventLocation == DMF_LOCATIONS.MULGORE
     local isInTerokkar = eventLocation == DMF_LOCATIONS.TEROKKAR_FOREST
 
-    -- The NPC Policy Correction slot is written exactly once per load, outside the Event Quest loop
-    -- below: the number of visible Event Quests must not control entity Correction application.
+    -- The NPC Policy Correction slot is written exactly once per load. Which quests the location
+    -- reveals follows from their `eventIds` in `Load`.
     if Questie.IsTBC or Questie.IsWotlk then
         QuestieCorrections.SetCorrection("Npc", "DarkmoonFaire", QuestieTBCPolicyCorrections:LoadDarkmoonFixes(isInMulgore, isInTerokkar))
     else
         QuestieCorrections.SetCorrection("Npc", "DarkmoonFaire", QuestieClassicPolicyCorrections:LoadDarkmoonFixes(isInMulgore))
-    end
-
-    for _, questData in pairs(QuestieEvent.eventQuests) do
-        local hideQuest = questData[7]
-        if questData[1] == "Darkmoon Faire" and (not hideQuest) then
-            local questId = questData[2]
-            QuestieCorrections.hiddenQuests[questId] = nil
-            QuestieEvent.activeQuests[questId] = true
-        end
-    end
-
-    local hordeAnnouncingQuestId = 7926 -- Horde announcement quest
-    local allianceAnnouncingQuestId = 7905 -- Alliance announcement quest
-
-    if isInTerokkar then
-        -- Show both announcing quests
-        QuestieCorrections.hiddenQuests[hordeAnnouncingQuestId] = nil
-        QuestieEvent.activeQuests[hordeAnnouncingQuestId] = true
-
-        QuestieCorrections.hiddenQuests[allianceAnnouncingQuestId] = nil
-        QuestieEvent.activeQuests[allianceAnnouncingQuestId] = true
-    elseif isInMulgore then
-        -- Show only Horde announcing quest
-        QuestieCorrections.hiddenQuests[hordeAnnouncingQuestId] = nil
-        QuestieEvent.activeQuests[hordeAnnouncingQuestId] = true
-
-        QuestieCorrections.hiddenQuests[allianceAnnouncingQuestId] = true
-        QuestieEvent.activeQuests[allianceAnnouncingQuestId] = nil
-    else
-        -- Show only Alliance announcing quest
-        QuestieCorrections.hiddenQuests[allianceAnnouncingQuestId] = nil
-        QuestieEvent.activeQuests[allianceAnnouncingQuestId] = true
-
-        QuestieCorrections.hiddenQuests[hordeAnnouncingQuestId] = true
-        QuestieEvent.activeQuests[hordeAnnouncingQuestId] = nil
     end
 
     if Questie.db.profile.showEventQuests then
@@ -556,13 +672,22 @@ end
 ---@param questId QuestId
 ---@return string
 function QuestieEvent.GetEventNameFor(questId)
-    return eventNamesForQuests[questId] or ""
+    local eventIds = QuestieEvent.eventQuests[questId]
+    if eventIds then
+        for i = 1, #eventIds do
+            local eventName = eventNameById[eventIds[i]]
+            if eventName then
+                return eventName
+            end
+        end
+    end
+    return ""
 end
 
 ---@param questId QuestId
 ---@return boolean @True if the quest is part of an event, false otherwise
 function QuestieEvent.IsEventQuest(questId)
-    return eventNamesForQuests[questId] ~= nil
+    return QuestieEvent.eventQuests[questId] ~= nil
 end
 
 ---@param questId QuestId

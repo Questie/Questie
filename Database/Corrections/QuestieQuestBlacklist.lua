@@ -59,195 +59,7 @@ function QuestieQuestBlacklist:Load()
         -- Fetched from https://classic.wowhead.com/world-event-quests
         [7904] = true,
         [8571] = true,
-        [7930] = true,
-        [7931] = true,
-        [7935] = true,
-        [7932] = true,
-        [7933] = true,
-        [7934] = true,
-        [7936] = true,
-        [7981] = true,
-        [7940] = true,
-        [8744] = true,
-        [8803] = true,
-        [8768] = true,
-        [8788] = true,
-        [8767] = true,
-        [9319] = true,
-        [9386] = true,
-        [7045] = true,
-        [6984] = true,
-        [9365] = true,
-        [9339] = true,
-        [8769] = true,
-        [171] = true,
-        [5502] = true,
-        [7885] = true,
-        [8647] = true,
-        [7892] = true,
-        [8715] = true,
-        [8719] = true,
-        [8718] = true,
-        [8673] = true,
-        [8726] = true,
-        [8866] = true,
-        [925] = true,
-        [7881] = true,
-        [7882] = true,
-        [8353] = true,
-        [8354] = true,
-        [172] = true,
-        [1468] = true,
-        [8882] = true,
-        [8880] = true,
-        [7889] = true,
-        [7894] = true,
-        [1658] = true,
-        [7884] = true,
-        [8357] = true,
-        [8360] = true,
-        [8648] = true,
-        [8677] = true,
         [7906] = true,
-        [8683] = true,
-        [910] = true,
-        [8684] = true,
-        [8868] = true,
-        [8862] = true,
-        [7903] = true,
-        [8727] = true,
-        [8863] = true,
-        [8864] = true,
-        [8865] = true,
-        [8878] = true,
-        [8877] = true,
-        [8356] = true,
-        [8359] = true,
-        [9388] = true,
-        [9389] = true,
-        [911] = true,
-        [8222] = true,
-        [8653] = true,
-        [8652] = true,
-        [6961] = true,
-        [7021] = true,
-        [7024] = true,
-        [7022] = true,
-        [7023] = true,
-        [7896] = true,
-        [7891] = true,
-        [8679] = true,
-        [8311] = true,
-        [8312] = true,
-        [8646] = true,
-        [7890] = true,
-        [8686] = true,
-        [8643] = true,
-        [8149] = true,
-        [8150] = true,
-        [8355] = true,
-        [8358] = true,
-        [8651] = true,
-        [558] = true,
-        [8881] = true,
-        [8879] = true,
-        [1800] = true,
-        [8867] = true,
-        [8722] = true,
-        [7897] = true,
-        [8762] = true,
-        [8746] = true,
-        [8685] = true,
-        [8714] = true,
-        [8717] = true,
-        [7941] = true,
-        [7943] = true,
-        [7939] = true,
-        [8223] = true,
-        [7942] = true,
-        [8619] = true,
-        [8724] = true,
-        [8861] = true,
-        [8860] = true,
-        [8723] = true,
-        [8645] = true,
-        [8654] = true,
-        [8678] = true,
-        [8671] = true,
-        [7893] = true,
-        [8725] = true,
-        [8322] = true,
-        [8409] = true,
-        [8636] = true,
-        [8670] = true,
-        [8642] = true,
-        [8675] = true,
-        [8720] = true,
-        [8682] = true,
-        [7899] = true,
-        [8876] = true,
-        [8650] = true,
-        [7901] = true,
-        [7946] = true,
-        [8635] = true,
-        [1687] = true,
-        [8716] = true,
-        [8713] = true,
-        [8721] = true,
-        [9332] = true,
-        [9331] = true,
-        [9324] = true,
-        [9330] = true,
-        [9326] = true,
-        [9325] = true,
-        [1657] = true,
-        [7042] = true,
-        [6963] = true,
-        [8644] = true,
-        [8672] = true,
-        [8649] = true,
-        [1479] = true,
-        [7063] = true,
-        [7061] = true,
-        [9368] = true,
-        [9367] = true,
-        [8763] = true,
-        [8799] = true,
-        [8873] = true,
-        [8874] = true,
-        [8875] = true,
-        [8870] = true,
-        [8871] = true,
-        [8872] = true,
-        [8373] = true,
-        [7062] = true,
-        [6964] = true,
-        [1558] = true,
-        [7883] = true,
-        [7898] = true,
-        [8681] = true,
-        [7900] = true,
-        [6962] = true,
-        [7025] = true,
-        [8883] = true,
-        [7902] = true,
-        [7895] = true,
-        [9322] = true,
-        [9323] = true,
-        [8676] = true,
-        [8688] = true,
-        [8680] = true,
-        [8828] = true,
-        [8827] = true,
-        [8674] = true,
-        [915] = true,
-        [4822] = true,
-        [7043] = true,
-        [6983] = true,
-        [7937] = true,
-        [7938] = true,
-        [7944] = true,
-        [7945] = true,
         [8226] = true,
         [8857] = true,
         [8858] = true,
@@ -276,342 +88,29 @@ function QuestieQuestBlacklist:Load()
         [97066] = HIDE_ON_MAP,
         [97067] = HIDE_ON_MAP,
         --love is in the air
-        [8903] = true,
-        [8904] = true,
-        [8897] = true,
-        [8898] = true,
-        [8899] = true,
-        [9029] = true,
-        [8981] = true,
-        [8993] = true,
-        [8900] = true,
-        [8901] = true,
-        [8902] = true,
-        [9024] = true,
-        [9025] = true,
-        [9026] = true,
-        [9027] = true,
-        [9028] = true,
         [8971] = true,
         [8972] = true,
         [8973] = true,
         [8974] = true,
         [8975] = true,
         [8976] = true,
-        [8979] = true,
-        [8980] = true,
-        [8982] = true,
-        [8983] = true,
-        [8984] = true,
         -- TBC event quests
-        [9249] = true,
         [9354] = true,
-        [10942] = true,
-        [10943] = true,
-        [10945] = true,
-        [10950] = true,
-        [10951] = true,
-        [10952] = true,
-        [10953] = true,
-        [10954] = true,
-        [10956] = true,
-        [10960] = true,
-        [10962] = true,
-        [10963] = true,
-        [10966] = true,
-        [10967] = true,
-        [10968] = true,
         [11116] = true,
         [11117] = true,
         [11431] = true,
         [11118] = true,
         [11120] = true,
         [11127] = true,
-        [11131] = true,
-        [11135] = true,
-        [11219] = true,
-        [11220] = true,
-        [11242] = true,
-        [11318] = true,
         [11320] = true,
         [11321] = true,
-        [11356] = true,
-        [11357] = true,
-        [11360] = true,
-        [11361] = true,
-        [11392] = true,
         [11400] = true,
-        [11401] = true,
-        [11403] = true,
-        [11404] = true,
-        [11405] = true,
-        [11409] = true,
         [11437] = true,
         [11438] = true,
-        [11439] = true,
-        [11440] = true,
-        [11441] = true,
-        [11442] = true,
-        [11446] = true,
-        [11447] = true,
-        [11449] = true,
-        [11450] = true,
         [11454] = true,
-        [11528] = true,
-        [11558] = true,
-        [11580] = true,
-        [11581] = true,
-        [11583] = true,
-        [11584] = true,
-        [11657] = true,
-        [11691] = true,
-        [11696] = true,
-        [11731] = true,
-        [11732] = true,
-        [11734] = true,
-        [11735] = true,
-        [11736] = true,
-        [11737] = true,
-        [11738] = true,
-        [11739] = true,
-        [11740] = true,
-        [11741] = true,
-        [11742] = true,
-        [11743] = true,
-        [11744] = true,
-        [11745] = true,
-        [11746] = true,
-        [11747] = true,
-        [11748] = true,
-        [11749] = true,
-        [11750] = true,
-        [11751] = true,
-        [11752] = true,
-        [11753] = true,
-        [11754] = true,
-        [11755] = true,
-        [11756] = true,
-        [11757] = true,
-        [11758] = true,
-        [11759] = true,
-        [11760] = true,
-        [11761] = true,
-        [11762] = true,
-        [11763] = true,
-        [11764] = true,
-        [11765] = true,
-        [11766] = true,
-        [11767] = true,
-        [11768] = true,
-        [11769] = true,
-        [11770] = true,
-        [11771] = true,
-        [11772] = true,
-        [11773] = true,
-        [11774] = true,
-        [11775] = true,
-        [11776] = true,
-        [11777] = true,
-        [11778] = true,
-        [11779] = true,
-        [11780] = true,
-        [11781] = true,
-        [11782] = true,
-        [11783] = true,
-        [11784] = true,
-        [11785] = true,
-        [11786] = true,
-        [11787] = true,
-        [11799] = true,
-        [11800] = true,
-        [11801] = true,
-        [11802] = true,
-        [11803] = true,
-        [11804] = true,
-        [11805] = true,
-        [11806] = true,
-        [11807] = true,
-        [11808] = true,
-        [11809] = true,
-        [11810] = true,
-        [11811] = true,
-        [11812] = true,
-        [11813] = true,
-        [11814] = true,
-        [11815] = true,
-        [11816] = true,
-        [11817] = true,
-        [11818] = true,
-        [11819] = true,
-        [11820] = true,
-        [11821] = true,
-        [11822] = true,
-        [11823] = true,
-        [11824] = true,
-        [11825] = true,
-        [11826] = true,
-        [11827] = true,
-        [11828] = true,
-        [11829] = true,
-        [11830] = true,
-        [11831] = true,
-        [11832] = true,
-        [11833] = true,
-        [11834] = true,
-        [11835] = true,
-        [11836] = true,
-        [11837] = true,
-        [11838] = true,
-        [11839] = true,
-        [11840] = true,
-        [11841] = true,
-        [11842] = true,
-        [11843] = true,
-        [11844] = true,
-        [11845] = true,
-        [11846] = true,
-        [11847] = true,
-        [11848] = true,
-        [11849] = true,
-        [11850] = true,
-        [11851] = true,
-        [11852] = true,
-        [11853] = true,
-        [11854] = true,
-        [11855] = true,
-        [11856] = true,
-        [11857] = true,
-        [11858] = true,
-        [11859] = true,
-        [11860] = true,
-        [11861] = true,
-        [11862] = true,
-        [11863] = true,
-        [11882] = true,
-        [11886] = true,
-        [11891] = true,
-        [11915] = true,
-        [11917] = true,
-        [11921] = true,
-        [11922] = true,
-        [11923] = true,
-        [11924] = true,
-        [11925] = true,
-        [11926] = true,
-        [11933] = true,
-        [11935] = true,
         [11937] = true,
-        [11947] = true,
-        [11948] = true,
-        [11952] = true,
-        [11953] = true,
-        [11954] = true,
-        [11955] = true,
-        [11972] = true,
-        [11975] = true,
         [11976] = true,
-        [11964] = true,
-        [11966] = true,
-        [11970] = true,
-        [11971] = true,
-        [12012] = true,
-        [12020] = true,
-        [12192] = true,
-        [11293] = true,
-        [11294] = true,
-        [11407] = true,
-        [11408] = true,
-        [11412] = true,
-        [11122] = true,
-        [12318] = true,
-        [12022] = true,
-        [12062] = true,
-        [12133] = true,
-        [12135] = true,
-        [12139] = true,
-        [12191] = true,
-        [12278] = true,
-        [12155] = true,
-        [12286] = true,
-        [12306] = true,
-        [12331] = true,
-        [12332] = true,
-        [12333] = true,
-        [12334] = true,
-        [12335] = true,
-        [12336] = true,
-        [12337] = true,
-        [12338] = true,
-        [12339] = true,
-        [12340] = true,
-        [12341] = true,
-        [12342] = true,
-        [12343] = true,
-        [12344] = true,
-        [12345] = true,
-        [12346] = true,
-        [12347] = true,
-        [12348] = true,
-        [12349] = true,
-        [12350] = true,
-        [12351] = true,
-        [12352] = true,
-        [12353] = true,
-        [12354] = true,
-        [12355] = true,
-        [12356] = true,
-        [12357] = true,
-        [12358] = true,
-        [12359] = true,
-        [12360] = true,
-        [12361] = true,
-        [12362] = true,
-        [12363] = true,
-        [12364] = true,
-        [12365] = true,
-        [12366] = true,
-        [12367] = true,
-        [12368] = true,
-        [12369] = true,
-        [12370] = true,
-        [12371] = true,
-        [12373] = true,
-        [12374] = true,
-        [12375] = true,
-        [12376] = true,
-        [12377] = true,
-        [12378] = true,
-        [12379] = true,
-        [12380] = true,
-        [12381] = true,
-        [12382] = true,
-        [12383] = true,
-        [12384] = true,
-        [12385] = true,
-        [12386] = true,
-        [12387] = true,
-        [12388] = true,
-        [12389] = true,
-        [12390] = true,
-        [12391] = true,
-        [12392] = true,
-        [12393] = true,
-        [12394] = true,
-        [12395] = true,
-        [12396] = true,
-        [12397] = true,
-        [12398] = true,
-        [12399] = true,
-        [12400] = true,
-        [12401] = true,
-        [12402] = true,
-        [12403] = true,
-        [12404] = true,
         [12405] = true, -- not in the game
-        [12406] = true,
-        [12407] = true,
-        [12408] = true,
-        [12409] = true,
         [12410] = true, -- not in the game
         [12420] = true,
         [12421] = true,
@@ -619,137 +118,22 @@ function QuestieQuestBlacklist:Load()
         ----------------
         --- Wotlk event quests
         --- Noblegarden
-        [13479] = true,
-        [13480] = true,
-        [13483] = true,
-        [13484] = true,
-        [13502] = true,
-        [13503] = true,
 
         --- Love is in the Air
-        [14488] = true,
-        [24597] = true,
-        [24609] = true,
-        [24610] = true,
-        [24611] = true,
-        [24612] = true,
-        [24613] = true,
-        [24614] = true,
-        [24615] = true,
-        [24629] = true,
-        [24635] = true,
-        [24636] = true,
-        [24536] = true,
-        [24655] = true,
-        [24804] = true,
-        [24805] = true,
 
         --- Children's Week
-        [13926] = true,
-        [13927] = true,
 
         --- Hallow's End
-        [12940] = true,
-        [12941] = true,
-        [12944] = true,
-        [12945] = true,
-        [12946] = true,
-        [12947] = true,
-        [12950] = true,
-        [13433] = true,
-        [13434] = true,
-        [13435] = true,
-        [13436] = true,
-        [13437] = true,
-        [13438] = true,
-        [13439] = true,
-        [13448] = true,
-        [13452] = true,
-        [13456] = true,
-        [13459] = true,
-        [13460] = true,
-        [13461] = true,
-        [13462] = true,
-        [13463] = true,
-        [13464] = true,
-        [13465] = true,
-        [13466] = true,
-        [13467] = true,
-        [13468] = true,
-        [13469] = true,
-        [13470] = true,
-        [13471] = true,
-        [13472] = true,
-        [13473] = true,
-        [13474] = true,
-        [13501] = true,
-        [13548] = true,
 
         --- Pilgrim's Bounty
         [14022] = true,
         [14036] = true,
-        [14023] = true,
-        [14024] = true,
-        [14028] = true,
-        [14030] = true,
-        [14033] = true,
-        [14035] = true,
-        [14037] = true,
-        [14040] = true,
-        [14041] = true,
-        [14043] = true,
-        [14044] = true,
-        [14047] = true,
-        [14048] = true,
-        [14051] = true,
-        [14053] = true,
-        [14054] = true,
-        [14055] = true,
-        [14058] = true,
-        [14059] = true,
-        [14060] = true,
-        [14061] = true,
-        [14062] = true,
-        [14064] = true,
-        [14065] = true,
 
         --- Brewfest
         [11486] = true,
         [11487] = true,
-        [12193] = true,
-        [12194] = true,
-        [12491] = true,
-        [12492] = true,
-        [13931] = true,
-        [13932] = true,
 
         -- Lunar Festival
-        [13012] = true,
-        [13013] = true,
-        [13014] = true,
-        [13015] = true,
-        [13016] = true,
-        [13017] = true,
-        [13018] = true,
-        [13019] = true,
-        [13020] = true,
-        [13021] = true,
-        [13022] = true,
-        [13023] = true,
-        [13024] = true,
-        [13025] = true,
-        [13026] = true,
-        [13027] = true,
-        [13028] = true,
-        [13029] = true,
-        [13030] = true,
-        [13031] = true,
-        [13032] = true,
-        [13033] = true,
-        [13065] = true,
-        [13066] = true,
-        [13067] = true,
-
 
         -- End of Wotlk event quests
         -------------------
@@ -880,8 +264,6 @@ function QuestieQuestBlacklist:Load()
         [4467] = Expansions.Current >= Expansions.Cata or HIDE_ON_MAP, -- Removed in Cata
 
         -- Darkmoon Faire
-        [7905] = true,
-        [7926] = true,
 
         -- Ahn'Qiraj War
         -- Commendation Signets
@@ -6019,8 +5401,6 @@ function QuestieQuestBlacklist:Load()
         [29404] = Expansions.Current >= Expansions.MoP, -- Not in the game
         [29405] = Expansions.Current >= Expansions.MoP, -- Not in the game
         [29407] = Expansions.Current >= Expansions.MoP, -- Not in the game
-        [29413] = true, -- Not in the game
-        [29429] = true, -- Not in the game
         [29432] = Expansions.Current >= Expansions.Cata, -- Not in the game
         [29441] = true, -- Not in the game
         [29447] = Expansions.Current >= Expansions.Cata, -- Not in the game
@@ -6627,236 +6007,29 @@ function QuestieQuestBlacklist:Load()
         --[27665] = true, -- Darkmoon Hurricane Deck
         --[27666] = true, -- Darkmoon Tsunami Deck
         --[27667] = true, -- Darkmoon Earthquake Deck
-        [29433] = true, -- Test Your Strength
-        [29434] = true, -- Tonk Commander
-        [29436] = true, -- The Humanoid Cannonball
-        [29438] = true, -- He Shoots, He Scores!
-        [29443] = true, -- A Curious Crystal
-        [29444] = true, -- An Exotic Egg
-        [29445] = true, -- An Intriguing Grimoire
-        [29446] = true, -- A Wondrous Weapon
-        [29451] = true, -- The Master Strategist
-        [29455] = true, -- Target: Turtle
-        [29456] = true, -- A Captured Banner
-        [29457] = true, -- The Enemy's Insignia
-        [29458] = true, -- The Captured Journal
-        [29463] = true, -- It's Hammer Time
-        [29464] = true, -- Tools of Divination
-        [29506] = true, -- A Fizzy Fusion
-        [29507] = true, -- Fun for the Little Ones
-        [29508] = true, -- Baby Needs Two Pair of Shoes
-        [29509] = true, -- Putting the Crunch in the Frog
-        [29510] = true, -- Putting Trash to Good Use
-        [29511] = true, -- Talkin' Tonks
-        [29512] = true, -- Putting the Carnies Back Together Again
-        [29513] = true, -- Spoilin' for Salty Sea Dogs
-        [29514] = true, -- Herbs for Healing
-        [29515] = true, -- Writing the Future
-        [29516] = true, -- Keeping the Faire Sparkling
-        [29517] = true, -- Eyes on the Prizes
-        [29518] = true, -- Rearm, Reuse, Recycle
-        [29519] = true, -- Tan My Hide
-        [29520] = true, -- Banners, Banners Everywhere!
         --[29601] = true, -- The Darkmoon Field Guide
-        [29760] = true, -- Pit Fighter
-        [29761] = true, -- Master Pit Fighter
 
         -- Love is in the Air
-        [14483] = true, -- Something is in the Air (and it Ain't Love)
-        [24745] = true, -- Something is in the Air (and it Ain't Love)
-        [28935] = true, -- Crushing the Crown
 
         -- Day of the Dead
-        [13952] = true, -- The Grateful Dead
-        [14166] = true, -- The Grateful Dead
-        [14167] = true, -- The Grateful Dead
-        [14168] = true, -- The Grateful Dead
-        [14169] = true, -- The Grateful Dead
-        [14170] = true, -- The Grateful Dead
-        [14171] = true, -- The Grateful Dead
-        [14172] = true, -- The Grateful Dead
-        [14173] = true, -- The Grateful Dead
-        [14174] = true, -- The Grateful Dead
-        [14175] = true, -- The Grateful Dead
-        [14176] = true, -- The Grateful Dead
-        [14177] = true, -- The Grateful Dead
-        [27841] = true, -- The Grateful Dead
-        [27846] = true, -- The Grateful Dead
 
         -- Children's Week
         [28879] = true, -- Back To The Orphanage
         [28880] = true, -- Back To The Orphanage
-        [29093] = true, -- Cruisin' the Chasm
-        [29106] = true, -- The Biggest Diamond Ever!
-        [29107] = true, -- Malfurion Has Returned!
-        [29117] = true, -- Let's Go Fly a Kite
-        [29119] = true, -- You Scream, I Scream...
-        [29146] = true, -- Ridin' the Rocketway
-        [29167] = true, -- The Banshee Queen
-        [29176] = true, -- The Fallen Chieftain
-        [29190] = true, -- Let's Go Fly a Kite
-        [29191] = true, -- You Scream, I Scream...
 
         -- Midsummer
-        [28910] = true, -- Desecrate this Fire!
-        [28911] = true, -- Desecrate this Fire!
-        [28912] = true, -- Desecrate this Fire!
-        [28913] = true, -- Desecrate this Fire!
-        [28914] = true, -- Desecrate this Fire!
-        [28915] = true, -- Desecrate this Fire!
-        [28916] = true, -- Desecrate this Fire!
-        [28917] = true, -- Desecrate this Fire!
-        [28918] = true, -- Desecrate this Fire!
-        [28919] = true, -- Desecrate this Fire!
-        [28920] = true, -- Desecrate this Fire!
-        [28921] = true, -- Desecrate this Fire!
-        [28922] = true, -- Honor the Flame
-        [28923] = true, -- Honor the Flame
-        [28924] = true, -- Honor the Flame
-        [28925] = true, -- Honor the Flame
-        [28926] = true, -- Honor the Flame
-        [28927] = true, -- Honor the Flame
-        [28928] = true, -- Honor the Flame
-        [28929] = true, -- Honor the Flame
-        [28930] = true, -- Honor the Flame
-        [28931] = true, -- Honor the Flame
-        [28932] = true, -- Honor the Flame
-        [28933] = true, -- Honor the Flame
-        [28943] = true, -- Desecrate this Fire!
-        [28944] = true, -- Desecrate this Fire!
-        [28945] = true, -- Honor the Flame
-        [28946] = true, -- Honor the Flame
-        [28947] = true, -- Desecrate this Fire!
-        [28948] = true, -- Desecrate this Fire!
-        [28949] = true, -- Honor the Flame
-        [28950] = true, -- Honor the Flame
-        [29030] = true, -- Honor the Flame
-        [29031] = true, -- Honor the Flame
-        [29036] = true, -- Honor the Flame
-        [29092] = true, -- Inform the Elder
 
         -- Hallow's End
-        [28934] = true, -- Candy Bucket
-        [28951] = true, -- Candy Bucket
-        [28952] = true, -- Candy Bucket
-        [28953] = true, -- Candy Bucket
-        [28954] = true, -- Candy Bucket
-        [28955] = true, -- Candy Bucket
-        [28956] = true, -- Candy Bucket
-        [28957] = true, -- Candy Bucket
-        [28958] = true, -- Candy Bucket
-        [28959] = true, -- Candy Bucket
-        [28960] = true, -- Candy Bucket
-        [28961] = true, -- Candy Bucket
-        [28962] = true, -- Candy Bucket
-        [28963] = true, -- Candy Bucket
-        [28964] = true, -- Candy Bucket
-        [28965] = true, -- Candy Bucket
-        [28966] = true, -- Candy Bucket
-        [28967] = true, -- Candy Bucket
-        [28968] = true, -- Candy Bucket
-        [28969] = true, -- Candy Bucket
-        [28970] = true, -- Candy Bucket
-        [28971] = true, -- Candy Bucket
-        [28972] = true, -- Candy Bucket
-        [28973] = true, -- Candy Bucket
-        [28974] = true, -- Candy Bucket
-        [28975] = true, -- Candy Bucket
-        [28976] = true, -- Candy Bucket
-        [28977] = true, -- Candy Bucket
-        [28978] = true, -- Candy Bucket
-        [28979] = true, -- Candy Bucket
-        [28980] = true, -- Candy Bucket
-        [28981] = true, -- Candy Bucket
-        [28982] = true, -- Candy Bucket
-        [28983] = true, -- Candy Bucket
-        [28984] = true, -- Candy Bucket
-        [28985] = true, -- Candy Bucket
-        [28986] = true, -- Candy Bucket
-        [28987] = true, -- Candy Bucket
-        [28988] = true, -- Candy Bucket
-        [28989] = true, -- Candy Bucket
-        [28990] = true, -- Candy Bucket
-        [28991] = true, -- Candy Bucket
-        [28992] = true, -- Candy Bucket
-        [28993] = true, -- Candy Bucket
-        [28994] = true, -- Candy Bucket
-        [28995] = true, -- Candy Bucket
-        [28996] = true, -- Candy Bucket
-        [28997] = true, -- Candy Bucket
-        [28998] = true, -- Candy Bucket
-        [28999] = true, -- Candy Bucket
-        [29000] = true, -- Candy Bucket
-        [29001] = true, -- Candy Bucket
-        [29002] = true, -- Candy Bucket
-        [29003] = true, -- Candy Bucket
-        [29004] = true, -- Candy Bucket
-        [29005] = true, -- Candy Bucket
-        [29006] = true, -- Candy Bucket
-        [29007] = true, -- Candy Bucket
-        [29008] = true, -- Candy Bucket
-        [29009] = true, -- Candy Bucket
-        [29010] = true, -- Candy Bucket
-        [29011] = true, -- Candy Bucket
-        [29012] = true, -- Candy Bucket
-        [29013] = true, -- Candy Bucket
-        [29014] = true, -- Candy Bucket
-        [29016] = true, -- Candy Bucket
-        [29017] = true, -- Candy Bucket
-        [29018] = true, -- Candy Bucket
-        [29019] = true, -- Candy Bucket
-        [29020] = true, -- Candy Bucket
-        [29054] = true, -- Stink Bombs Away!
-        [29074] = true, -- A Season for Celebration
-        [29075] = true, -- A Time to Gain
-        [29144] = true, -- Clean Up in Stormwind
-        [29371] = true, -- A Time to Lose
-        [29374] = true, -- Stink Bombs Away!
-        [29375] = true, -- Clean Up in Undercity
-        [29376] = true, -- A Time to Build Up
-        [29377] = true, -- A Time to Break Down
-        [29392] = true, -- Missing Heirlooms
-        [29398] = true, -- Fencing the Goods
-        [29399] = true, -- Shopping Around
-        [29400] = true, -- A Season for Celebration
-        [29402] = true, -- Taking Precautions
-        [29403] = true, -- The Collector's Agent
-        [29411] = true, -- What Now?
-        [29415] = true, -- Missing Heirlooms
-        [29416] = true, -- Fencing the Goods
-        [29425] = true, -- Shopping Around
-        [29426] = true, -- Taking Precautions
-        [29427] = true, -- The Collector's Agent
-        [29428] = true, -- What Now?
-        [29430] = true, -- A Friend in Need
-        [29431] = true, -- A Friend in Need
 
         -- Winter's Veil
-        [13203] = true, -- A Winter Veil Gift
-        [13966] = true, -- A Winter Veil Gift
         [29382] = true, -- Thanks, But No Thanks
         [29383] = true, -- Thanks, But No Thanks
-        [29385] = true, -- A Winter Veil Gift
         [28878] = true, -- A Winter Veil Gift
-        [33252] = true, -- A Winter Veil Gift
 
         -- Brewfest
         [11413] = true, -- Did Someone Say "Souvenir?"
-        [29393] = true, -- Brew For Brewfest
-        [29394] = true, -- Brew For Brewfest
-        [29396] = true, -- A New Supplier of Souvenirs
-        [29397] = true, -- A New Supplier of Souvenirs
 
         -- Lunar Festival
-        [29734] = true, -- Deepforge the Elder
-        [29735] = true, -- Stonebrand the Elder
-        [29736] = true, -- Darkfeather the Elder
-        [29737] = true, -- Firebeard the Elder
-        [29738] = true, -- Moonlance the Elder
-        [29739] = true, -- Windsong the Elder
-        [29740] = true, -- Evershade the Elder
-        [29741] = true, -- Sekhemi the Elder
-        [29742] = true, -- Menkhaf the Elder
 
         [82948] = true, -- Boosted quest
         [82949] = true, -- Boosted quest
@@ -6918,7 +6091,6 @@ function QuestieQuestBlacklist:Load()
         [31990] = true, -- Audrey Burnhep
         [31554] = true, -- On The Mend (duplicate of 31553)
         [31979] = true, -- The Returning Champion (invalid version of 31975, 31976)
-        [32175] = true, -- Darkmoon Pet Battle!
         [32442] = true, -- Deprecated - Reuse Me! (invalid version of 32428)
         [32457] = true, -- The Thunder King -- only available before Phase 3
         [32467] = true, -- Sacrificial Prevention [PH]
@@ -6932,49 +6104,10 @@ function QuestieQuestBlacklist:Load()
         -- [32726] = true, -- So You Want to Be a Blacksmith...
         [33121] = true, -- DEPRECATED The Celestial Tournament
         [33122] = true, -- DEPRECATED Great Job, You Won
-        [33354] = true, -- Den Mother's Demise
 
         -- Hallow's End
-        [32020] = true,
-        [32021] = true,
-        [32022] = true,
-        [32023] = true,
-        [32024] = true,
-        [32026] = true,
-        [32027] = true,
-        [32028] = true,
-        [32029] = true,
-        [32031] = true,
-        [32032] = true,
-        [32033] = true,
-        [32034] = true,
-        [32036] = true,
-        [32037] = true,
-        [32039] = true,
-        [32040] = true,
-        [32041] = true,
-        [32042] = true,
-        [32043] = true,
-        [32044] = true,
-        [32046] = true,
-        [32047] = true,
-        [32048] = true,
-        [32049] = true,
-        [32050] = true,
-        [32051] = true,
-        [32052] = true,
 
         -- Midsummer
-        [32496] = true, -- Desecrate this Fire!
-        [32497] = true, -- Honor the Flame
-        [32498] = true, -- Honor the Flame
-        [32499] = true, -- Honor the Flame
-        [32500] = true, -- Honor the Flame
-        [32501] = true, -- Honor the Flame
-        [32502] = true, -- Honor the Flame
-        [32503] = true, -- Desecrate this Fire!
-        [32509] = true, -- Honor the Flame
-        [32510] = true, -- Honor the Flame
 
         ----- SoD -------------- SoD quests --------------- SoD -----
         [78287] = true, -- Let Me Make You An Offer (not longer in the game)
@@ -6984,49 +6117,6 @@ function QuestieQuestBlacklist:Load()
         [78611] = true, -- A Waylaid Shipment (no longer available in P2)
         [79100] = true, -- A Waylaid Shipment (no longer available in P2)
         [78924] = true, -- In Search of Thaelrid (no longer available)
-        [79482] = true, -- Stolen Winter Veil Treats
-        [79483] = true, -- Stolen Winter Veil Treats
-        [79484] = true, -- You're a Mean One...
-        [79485] = true, -- You're a Mean One...
-        [79486] = true, -- A Smokywood Pastures' Thank You!
-        [79487] = true, -- A Smokywood Pastures' Thank You!
-        [79492] = true, -- Metzen the Reindeer
-        [79495] = true, -- Metzen the Reindeer
-
-        [80164] = true, -- Large Cluster Rockets
-        [80165] = true, -- Cluster Rockets
-        [80166] = true, -- Small Rockets
-        [80167] = true, -- Large Rockets
-        [80168] = true, -- Firework Launcher
-        [80169] = true, -- Cluster Launcher
-        [80170] = true, -- Festive Recipes
-
-        [79588] = true, -- Small Furry Paws
-        [79589] = true, -- Torn Bear Pelts
-        [79590] = true, -- Heavy Grinding Stone
-        [79591] = true, -- Whirring Bronze Gizmo
-        [79592] = true, -- Carnival Jerkins
-        [79593] = true, -- Coarse Weightstone
-        [79594] = true, -- Copper Modulator
-        [79595] = true, -- Carnival Boots
-        [80417] = true, -- Soft Bushy Tails
-        [80421] = true, -- Green Iron Bracers
-        [80422] = true, -- Green Fireworks
-        [80423] = true, -- The World's Largest Gnome!
-        [82323] = true, -- Vibrant Plumes
-        [82271] = true, -- More Glowing Scorpid Blood
-        [82272] = true, -- Glowing Scorpid Blood
-        [82273] = true, -- More Evil Bat Eyes
-        [82274] = true, -- Evil Bat Eyes
-        [82275] = true, -- Big Black Mace
-        [82276] = true, -- Rituals of Strength
-        [82277] = true, -- More Dense Grinding Stones
-        [82278] = true, -- More Thorium Widgets
-        [82279] = true, -- Thorium Widget
-        [82280] = true, -- Mechanical Repair Kits
-        [82281] = true, -- More Armor Kits
-        [82282] = true, -- Armor Kits
-        [82283] = true, -- Crocolisk Boy and the Bearded Murloc
 
         --- Automatic Overrides (for when Wowhead data is wrong)
         [13134] = false, -- Spill Their Blood
@@ -7202,7 +6292,156 @@ function QuestieQuestBlacklist:Load()
         questsToBlacklist = ContentPhases.BlacklistMoPQuestsByPhase(questsToBlacklist, ContentPhases.activePhases.MoP)
     end
 
+    -- Event quests this flavor, season or Content Phase does not offer stay hidden for good.
+    for questId, gated in pairs(QuestieQuestBlacklist.LoadEventQuestGates()) do
+        if gated then
+            questsToBlacklist[questId] = true
+        end
+    end
+
     return questsToBlacklist
+end
+
+
+---World event quests that the active flavor, season or Content Phase does not offer.
+---
+---QuestieDB marks a quest with `eventIds` wherever some realm type offers it during the event.
+---A quest listed here with a true value is not offered on this one: `Load` hides it for good,
+---and QuestieEvent does not treat it as an event quest, so an active event never reveals it.
+---Which quests belong to which event is not listed here; that is QuestieDB data.
+---@return table<QuestId, boolean>
+function QuestieQuestBlacklist.LoadEventQuestGates()
+    return {
+        [6963] = Expansions.Current >= Expansions.Cata or Questie.IsSoD, -- Winter Veil: Stolen Winter Veil Treats
+        [6983] = Questie.IsSoD, -- Winter Veil: You're a Mean One...
+        [6984] = Questie.IsSoD, -- Winter Veil: A Smokywood Pastures' Thank You!
+        [7042] = Expansions.Current >= Expansions.Cata or Questie.IsSoD, -- Winter Veil: Stolen Winter Veil Treats
+        [7043] = Questie.IsSoD, -- Winter Veil: You're a Mean One...
+        [7045] = Questie.IsSoD, -- Winter Veil: A Smokywood Pastures' Thank You!
+        [7881] = Questie.IsSoD or Expansions.Current >= Expansions.Cata, -- Darkmoon Faire: Carnival Boots
+        [7882] = Questie.IsSoD or Expansions.Current >= Expansions.Cata, -- Darkmoon Faire: Carnival Jerkins
+        [7883] = Questie.IsSoD or Expansions.Current >= Expansions.Cata, -- Darkmoon Faire: The World's Largest Gnome!
+        [7884] = Questie.IsSoD or Expansions.Current >= Expansions.Cata, -- Darkmoon Faire: Crocolisk Boy and the Bearded Murloc
+        [7885] = Questie.IsSoD or Expansions.Current >= Expansions.Cata, -- Darkmoon Faire: Armor Kits
+        [7889] = Questie.IsSoD or Expansions.Current >= Expansions.Cata, -- Darkmoon Faire: Coarse Weightstone
+        [7890] = Questie.IsSoD or Expansions.Current >= Expansions.Cata, -- Darkmoon Faire: Heavy Grinding Stone
+        [7891] = Questie.IsSoD or Expansions.Current >= Expansions.Cata, -- Darkmoon Faire: Green Iron Bracers
+        [7892] = Questie.IsSoD or Expansions.Current >= Expansions.Cata, -- Darkmoon Faire: Big Black Mace
+        [7893] = Questie.IsSoD or Expansions.Current >= Expansions.Cata, -- Darkmoon Faire: Rituals of Strength
+        [7894] = Questie.IsSoD or Expansions.Current >= Expansions.Cata, -- Darkmoon Faire: Copper Modulator
+        [7895] = Questie.IsSoD or Expansions.Current >= Expansions.Cata, -- Darkmoon Faire: Whirring Bronze Gizmo
+        [7896] = Questie.IsSoD or Expansions.Current >= Expansions.Cata, -- Darkmoon Faire: Green Fireworks
+        [7897] = Questie.IsSoD or Expansions.Current >= Expansions.Cata, -- Darkmoon Faire: Mechanical Repair Kits
+        [7898] = Questie.IsSoD or Expansions.Current >= Expansions.Cata, -- Darkmoon Faire: Thorium Widget
+        [7899] = Questie.IsSoD or Expansions.Current >= Expansions.Cata, -- Darkmoon Faire: Small Furry Paws
+        [7900] = Questie.IsSoD or Expansions.Current >= Expansions.Cata, -- Darkmoon Faire: Torn Bear Pelts
+        [7901] = Questie.IsSoD or Expansions.Current >= Expansions.Cata, -- Darkmoon Faire: Soft Bushy Tails
+        [7902] = Questie.IsSoD or Expansions.Current >= Expansions.Cata, -- Darkmoon Faire: Vibrant Plumes
+        [7903] = Questie.IsSoD or Expansions.Current >= Expansions.Cata, -- Darkmoon Faire: Evil Bat Eyes
+        [7930] = Expansions.Current >= Expansions.Cata, -- Darkmoon Faire: 5 Tickets - Darkmoon Flower
+        [7931] = Expansions.Current >= Expansions.Cata, -- Darkmoon Faire: 5 Tickets - Minor Darkmoon Prize
+        [7932] = Expansions.Current >= Expansions.Cata, -- Darkmoon Faire: 12 Tickets - Lesser Darkmoon Prize
+        [7933] = Expansions.Current >= Expansions.Cata, -- Darkmoon Faire: 40 Tickets - Greater Darkmoon Prize
+        [7934] = Expansions.Current >= Expansions.Cata, -- Darkmoon Faire: 50 Tickets - Darkmoon Storage Box
+        [7935] = Expansions.Current >= Expansions.Cata, -- Darkmoon Faire: 10 Tickets - Last Month's Mutton
+        [7936] = Expansions.Current >= Expansions.Cata, -- Darkmoon Faire: 50 Tickets - Last Year's Mutton
+        [7937] = Expansions.Current >= Expansions.Cata, -- Darkmoon Faire: Your Fortune Awaits You...
+        [7938] = Expansions.Current >= Expansions.Cata, -- Darkmoon Faire: Your Fortune Awaits You...
+        [7939] = Questie.IsSoD or Expansions.Current >= Expansions.Cata, -- Darkmoon Faire: More Dense Grinding Stones
+        [7940] = Expansions.Current >= Expansions.Cata, -- Darkmoon Faire: 1200 Tickets - Orb of the Darkmoon
+        [7941] = Questie.IsSoD or Expansions.Current >= Expansions.Cata, -- Darkmoon Faire: More Armor Kits
+        [7942] = Questie.IsSoD or Expansions.Current >= Expansions.Cata, -- Darkmoon Faire: More Thorium Widgets
+        [7943] = Questie.IsSoD or Expansions.Current >= Expansions.Cata, -- Darkmoon Faire: More Bat Eyes
+        [7944] = Expansions.Current >= Expansions.Cata, -- Darkmoon Faire: Your Fortune Awaits You...
+        [7945] = Expansions.Current >= Expansions.Cata, -- Darkmoon Faire: Your Fortune Awaits You...
+        [7946] = Questie.IsSoD or Expansions.Current >= Expansions.Cata, -- Darkmoon Faire: Spawn of Jubjub
+        [7981] = Expansions.Current >= Expansions.Cata, -- Darkmoon Faire: 1200 Tickets - Amulet of the Darkmoon
+        [8222] = Questie.IsSoD or Expansions.Current >= Expansions.Cata, -- Darkmoon Faire: Glowing Scorpid Blood
+        [8223] = Questie.IsSoD or Expansions.Current >= Expansions.Cata, -- Darkmoon Faire: More Glowing Scorpid Blood
+        [8746] = Questie.IsSoD, -- Winter Veil: Metzen the Reindeer
+        [8762] = Questie.IsSoD, -- Winter Veil: Metzen the Reindeer
+        [8763] = Questie.IsSoD, -- Winter Veil: The Hero of the Day
+        [8769] = Questie.IsSoD, -- Winter Veil: A Ticking Present
+        [8799] = Questie.IsSoD, -- Winter Veil: The Hero of the Day
+        [8862] = Expansions.Current >= Expansions.Cata, -- Lunar Festival: Elune's Candle
+        [8863] = Expansions.Current >= Expansions.Cata, -- Lunar Festival: Festival Dumplings
+        [8864] = Expansions.Current >= Expansions.Cata, -- Lunar Festival: Festive Lunar Dresses
+        [8865] = Expansions.Current >= Expansions.Cata, -- Lunar Festival: Festive Lunar Pant Suits
+        [8876] = Expansions.Current >= Expansions.Cata, -- Lunar Festival: Small Rockets
+        [8877] = Expansions.Current >= Expansions.Cata, -- Lunar Festival: Firework Launcher
+        [8878] = Expansions.Current >= Expansions.Cata, -- Lunar Festival: Festive Recipes
+        [8879] = Expansions.Current >= Expansions.Cata, -- Lunar Festival: Large Rockets
+        [8880] = Expansions.Current >= Expansions.Cata, -- Lunar Festival: Cluster Rockets
+        [8881] = Expansions.Current >= Expansions.Cata, -- Lunar Festival: Large Cluster Rockets
+        [8882] = Expansions.Current >= Expansions.Cata, -- Lunar Festival: Cluster Launcher
+        [8897] = Expansions.Current >= Expansions.Wotlk, -- Love is in the Air: Dearest Colara,
+        [8898] = Expansions.Current >= Expansions.Wotlk, -- Love is in the Air: Dearest Colara,
+        [8899] = Expansions.Current >= Expansions.Wotlk, -- Love is in the Air: Dearest Colara,
+        [8900] = Expansions.Current >= Expansions.Wotlk, -- Love is in the Air: Dearest Elenia,
+        [8901] = Expansions.Current >= Expansions.Wotlk, -- Love is in the Air: Dearest Elenia,
+        [8902] = Expansions.Current >= Expansions.Wotlk, -- Love is in the Air: Dearest Elenia,
+        [8903] = Expansions.Current >= Expansions.Wotlk, -- Love is in the Air: Dangerous Love
+        [8904] = Expansions.Current >= Expansions.Wotlk, -- Love is in the Air: Dangerous Love
+        [8979] = Expansions.Current >= Expansions.Wotlk, -- Love is in the Air: Fenstad's Hunch
+        [8980] = Expansions.Current >= Expansions.Wotlk, -- Love is in the Air: Zinge's Assessment
+        [8981] = Expansions.Current >= Expansions.Wotlk, -- Love is in the Air: Gift Giving
+        [8982] = Expansions.Current >= Expansions.Wotlk, -- Love is in the Air: Tracing the Source
+        [8983] = Expansions.Current >= Expansions.Wotlk, -- Love is in the Air: Tracing the Source
+        [8984] = Expansions.Current >= Expansions.Wotlk, -- Love is in the Air: The Source Revealed
+        [8993] = Expansions.Current >= Expansions.Wotlk, -- Love is in the Air: Gift Giving
+        [9024] = Expansions.Current >= Expansions.Wotlk, -- Love is in the Air: Aristan's Hunch
+        [9025] = Expansions.Current >= Expansions.Wotlk, -- Love is in the Air: Morgan's Discovery
+        [9026] = Expansions.Current >= Expansions.Wotlk, -- Love is in the Air: Tracing the Source
+        [9027] = Expansions.Current >= Expansions.Wotlk, -- Love is in the Air: Tracing the Source
+        [9028] = Expansions.Current >= Expansions.Wotlk, -- Love is in the Air: The Source Revealed
+        [9029] = Expansions.Current >= Expansions.Wotlk, -- Love is in the Air: A Bubbling Cauldron
+        [9249] = Expansions.Current >= Expansions.Cata, -- Darkmoon Faire: 40 Tickets - Schematic: Steam Tonk Controller
+        [9319] = Expansions.Current >= Expansions.Tbc, -- Midsummer: A Light in Dark Places
+        [9322] = Expansions.Current >= Expansions.Tbc, -- Midsummer: Wild Fires in Kalimdor
+        [9323] = Expansions.Current >= Expansions.Tbc, -- Midsummer: Wild Fires in the Eastern Kingdoms
+        [9367] = Expansions.Current >= Expansions.Tbc, -- Midsummer: The Festival of Fire
+        [9368] = Expansions.Current >= Expansions.Tbc, -- Midsummer: The Festival of Fire
+        [9386] = Expansions.Current >= Expansions.Tbc, -- Midsummer: A Light in Dark Places
+        [9388] = Expansions.Current >= Expansions.Tbc, -- Midsummer: Flickering Flames in Kalimdor
+        [9389] = Expansions.Current >= Expansions.Tbc, -- Midsummer: Flickering Flames in the Eastern Kingdoms
+        [10960] = Expansions.Current >= Expansions.Wotlk or (Expansions.Current == Expansions.Tbc and ContentPhases.activePhases.TBC >= 5), -- Children's Week: When I Grow Up...
+        [11135] = Expansions.Current >= Expansions.Wotlk, -- Hallow's End: The Headless Horseman
+        [11220] = Expansions.Current >= Expansions.Wotlk, -- Hallow's End: The Headless Horseman
+        [11242] = Expansions.Current >= Expansions.Wotlk, -- Hallow's End: Free at Last!
+        [11392] = Expansions.Current >= Expansions.Wotlk, -- Hallow's End: Call the Headless Horseman
+        [11401] = Expansions.Current >= Expansions.Wotlk, -- Hallow's End: Call the Headless Horseman
+        [11403] = Expansions.Current >= Expansions.Wotlk, -- Hallow's End: Free at Last!
+        [11404] = Expansions.Current >= Expansions.Wotlk, -- Hallow's End: Call the Headless Horseman
+        [11405] = Expansions.Current >= Expansions.Wotlk, -- Hallow's End: Call the Headless Horseman
+        [11441] = Expansions.Current == Expansions.Tbc, -- Brewfest: Brewfest! -- was not able to find it on TBC Anniversary
+        [11446] = Expansions.Current == Expansions.Tbc, -- Brewfest: Brewfest! -- was not able to find it on TBC Anniversary
+        [11528] = Expansions.Current >= Expansions.Cata, -- Winter Veil: A Winter Veil Gift
+        [11558] = Expansions.Current >= Expansions.Wotlk, -- Love is in the Air: Dangerous Love
+        [11691] = Expansions.Current >= Expansions.Cata, -- Midsummer: Summon Ahune
+        [11696] = Expansions.Current >= Expansions.Cata, -- Midsummer: Ahune is Here!
+        [11748] = Expansions.Current >= Expansions.Cata, -- Midsummer: Desecrate this Fire!
+        [11785] = Expansions.Current >= Expansions.Cata, -- Midsummer: Desecrate this Fire!
+        [11819] = Expansions.Current >= Expansions.Cata, -- Midsummer: Honor the Flame
+        [11861] = Expansions.Current >= Expansions.Cata, -- Midsummer: Honor the Flame
+        [11955] = Expansions.Current >= Expansions.Cata, -- Midsummer: Ahune, the Frost Lord
+        [11975] = Expansions.Current == Expansions.Tbc and ContentPhases.activePhases.TBC < 5, -- Children's Week: Now, When I Grow Up...
+        [12062] = Expansions.Current >= Expansions.Cata, -- Brewfest: Insult Coren Direbrew
+        [12193] = Expansions.Current >= Expansions.Wotlk, -- Brewfest: Say, There Wouldn't Happen to be a Souvenir This Year, Would There?
+        [12194] = Expansions.Current >= Expansions.Wotlk, -- Brewfest: Say, There Wouldn't Happen to be a Souvenir This Year, Would There?
+        [12338] = Expansions.Current >= Expansions.Cata, -- Hallow's End: Candy Bucket
+        [12346] = Expansions.Current >= Expansions.Cata, -- Hallow's End: Candy Bucket
+        [12375] = Expansions.Current >= Expansions.Cata, -- Hallow's End: Candy Bucket
+        [12379] = Expansions.Current >= Expansions.Cata, -- Hallow's End: Candy Bucket
+        [12385] = Expansions.Current >= Expansions.Cata, -- Hallow's End: Candy Bucket
+        [13203] = Expansions.Current >= Expansions.Cata, -- Winter Veil: A Winter Veil Gift
+        [13483] = Expansions.Current == Expansions.Cata, -- Noblegarden: Spring Gatherers
+        [13484] = Expansions.Current == Expansions.Cata, -- Noblegarden: Spring Collectors
+        [13931] = Expansions.Current >= Expansions.Cata, -- Brewfest: Another Year, Another Souvenir. -- Doesn't seem to be in the game
+        [13932] = Expansions.Current >= Expansions.Cata, -- Brewfest: Another Year, Another Souvenir. -- Doesn't seem to be in the game
+        [13966] = Expansions.Current >= Expansions.Cata, -- Winter Veil: A Winter Veil Gift
+        [14488] = Expansions.Current >= Expansions.Cata, -- Love is in the Air: You've Been Served
+        [29385] = Expansions.Current >= Expansions.MoP, -- Winter Veil: A Winter Veil Gift -- only offered in cata
+    }
 end
 
 QuestieQuestBlacklist.AQWarEffortQuests = {
