@@ -1,28 +1,20 @@
 dofile("setupTests.lua")
 
 describe("QuestiePopup consumers", function()
-    local Popup, externalPopup, visible, widgets, nativeButtons, options, addon
+    local Popup, externalPopup, visible, options, addon
     local savedGlobals, exportedGlobals
     local globalNames = {"QuestiePopup", "YES", "NO", "CLOSE", "GetLocale", "QUESTIE_LOCALES_OVERRIDE",
-        "ReloadUI", "UISpecialFrames", "LibStub", "CreateFrame", "QuestieConfig"}
+        "ReloadUI", "CreateFrame"}
 
     -- UI-only fixture: consumer definitions and callbacks are loaded from production files.
     local function Widget()
-        local widget = {callbacks = {}, children = {}}
-        widget.frame = widget
-        widget.treeframe = widget
-        function widget:SetCallback(event, callback) self.callbacks[event] = callback end
-        function widget:SetScript(event, callback) self.callbacks[event] = callback end
-        function widget:AddChild(child) self.children[#self.children + 1] = child end
+        local widget = {}
         function widget:SetText(text) self.text = text end
         function widget:GetText() return self.text end
-        function widget:GetChildren() return unpack(self.children) end
         function widget:Hide() self.hidden = true end
         function widget:SetFocus() self.focused = true end
         function widget:HighlightText() self.highlighted = true end
-        for _, method in ipairs({"SetTitle", "SetLayout", "SetWidth", "SetHeight", "SetSize", "SetPoint",
-            "EnableResize", "SetFullWidth", "SetFullHeight", "EnableButtonTooltips", "SetTree", "SelectByPath",
-            "SetLabel", "SetList", "SetValue", "Show", "SetFrameStrata", "Raise", "ReleaseChildren"}) do
+        for _, method in ipairs({"SetScript", "SetPoint", "SetSize", "Show", "SetFrameStrata", "Raise"}) do
             widget[method] = function() end
         end
         return widget
@@ -37,10 +29,9 @@ describe("QuestiePopup consumers", function()
         _G.GetLocale = function() return "enUS" end
         _G.QUESTIE_LOCALES_OVERRIDE = nil
         _G.ReloadUI = spy.new(function() end)
-        _G.UISpecialFrames = {}
         Questie.Colorize = function(_, text) return text end
         Questie.started = true
-        visible, widgets, nativeButtons = {}, {}, {}
+        visible = {}
 
         -- Mock the external popup API, including cancellation on reuse and data-before-OnShow.
         externalPopup = {Dialogs = {}}
@@ -63,19 +54,7 @@ describe("QuestiePopup consumers", function()
         assert(loadfile("Modules/Libs/QuestiePopup.lua"))("Questie", addon)
         Popup = QuestieLoader:ImportModule("QuestiePopup")
 
-        local aceGUI = {}
-        function aceGUI:Create(kind)
-            local widget = Widget()
-            widgets[kind] = widget
-            return widget
-        end
-        function aceGUI:Release() end
-        _G.LibStub = function() return aceGUI end
-        _G.CreateFrame = function(kind)
-            local frame = Widget()
-            if kind == "Button" then nativeButtons[#nativeButtons + 1] = frame end
-            return frame
-        end
+        _G.CreateFrame = Widget
 
         options = QuestieLoader:ImportModule("QuestieOptionsEngine")
         options.tabs = {}
@@ -217,64 +196,6 @@ describe("QuestiePopup consumers", function()
         Popup.Dialogs.QUESTIE_JOURNEY_RESET_CONFIRM_NATIVE.OnAccept()
         assert.is_nil(Questie.db.char.journey)
         assert.spy(ReloadUI).was.called(1)
-    end)
-
-    it("imports the latest selected journey when the confirmation is reopened", function()
-        local first = {{Event = "Level", Timestamp = 1, NewLevel = 2}}
-        local second = {{Event = "Level", Timestamp = 2, NewLevel = 3}}
-        _G.QuestieConfig = {char = {["Alice - Realm"] = {journey = first}, ["Bob - Realm"] = {journey = second}}}
-        Questie.db.char.journey = {}
-        dofile("Modules/Journey/QuestieJourneyShare.lua")
-        QuestieLoader:ImportModule("QuestieJourney"):ShowCharacterBrowserFrame()
-        nativeButtons[1].callbacks.OnClick()
-        widgets.Dropdown.callbacks.OnValueChanged(nil, nil, "Bob - Realm")
-        nativeButtons[1].callbacks.OnClick()
-        assert.same({}, Questie.db.char.journey)
-        Popup.Dialogs.QUESTIE_JOURNEY_IMPORT_CONFIRM.OnAccept()
-        assert.equals(second, Questie.db.char.journey)
-        assert.is_true(widgets.Frame.hidden)
-        assert.spy(ReloadUI).was.not_called()
-    end)
-
-    it("does not import a journey when cancelled or dismissed programmatically", function()
-        local original = {{Event = "Level", Timestamp = 1, NewLevel = 2}}
-        _G.QuestieConfig = {char = {["Alice - Realm"] = {journey = {{Event = "Level", Timestamp = 2, NewLevel = 3}}}}}
-        Questie.db.char.journey = original
-        dofile("Modules/Journey/QuestieJourneyShare.lua")
-        QuestieLoader:ImportModule("QuestieJourney"):ShowCharacterBrowserFrame()
-        nativeButtons[1].callbacks.OnClick()
-        Popup.Dialogs.QUESTIE_JOURNEY_IMPORT_CONFIRM.OnCancel()
-        assert.equals(original, Questie.db.char.journey)
-        nativeButtons[1].callbacks.OnClick()
-        Popup.Hide("QUESTIE_JOURNEY_IMPORT_CONFIRM")
-        assert.equals(original, Questie.db.char.journey)
-    end)
-
-    it("shows the selected note title before acceptance and deletes that note", function()
-        Questie.db.char.journey = {
-            {Event = "Note", Timestamp = 1, Title = "First", Note = "One"},
-            {Event = "Note", Timestamp = 2, Title = "Second", Note = "Two"},
-        }
-        QuestieLoader:ImportModule("QuestieLib").FormatDate = function() return "Today" end
-        QuestieLoader:ImportModule("QuestieJourneyUtils").Spacer = function() end
-        local journey = QuestieLoader:ImportModule("QuestieJourney").private
-        journey.GetHistory = function() return {} end
-        journey.GetJourneyEntries = function() return {} end
-        dofile("Modules/Journey/tabs/MyJourney/MyJourney.lua")
-        dofile("Modules/Journey/tabs/MyJourney/Note.lua")
-        journey.myJourney:ManageTree(Widget())
-        local tree = widgets.TreeGroup
-        tree.localstatus = {selected = "2026\0013\0012"}
-        tree.frame = {obj = Widget()}
-        tree.callbacks.OnGroupSelected(tree)
-        widgets.Button.callbacks.OnClick()
-        local popup = Popup.FindVisible("QUESTIE_DELETE_NOTE_CONFIRM")
-        assert.equals(2, popup.data)
-        assert.equals("Are you sure you want to delete this note?\n\nSecond", popup.Text.text)
-        assert.equals(2, #Questie.db.char.journey)
-        Popup.Dialogs.QUESTIE_DELETE_NOTE_CONFIRM.OnAccept(popup)
-        assert.equals(1, #Questie.db.char.journey)
-        assert.equals("First", Questie.db.char.journey[1].Title)
     end)
 
     it("accepts only the current hide confirmation when its dedicated frame is reopened", function()

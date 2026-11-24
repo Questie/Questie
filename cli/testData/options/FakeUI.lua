@@ -1,8 +1,8 @@
----A small simulation of the WoW UI for testing the settings.
+---A small simulation of the WoW UI for testing the settings and My Journey.
 ---
----The behavior the settings depend on is implemented for real: parents and visibility, OnShow firing when a frame
+---The behavior they depend on is implemented for real: parents and visibility, OnShow firing when a frame
 ---becomes visible through its parent, script hooks, sliders firing OnValueChanged only when the value changes,
----tickers running once per frame, and a clock.
+---lists that only have frames for the rows on screen, tickers running once per frame, and a clock.
 ---
 ---It is strict on purpose. A frame only has the methods listed here, each of which exists in Blizzard's UI, and only
 ---the template children listed in TEMPLATE_CHILDREN. So a mistyped method or a field that was never stored fails
@@ -10,23 +10,35 @@
 
 local FakeUI = {}
 
+local SECONDS_PER_FRAME = 1 / 60
+-- Text is measured as if every character had the same width
+local CHARACTER_WIDTH = 7
+local LINE_HEIGHTS = {GameFontNormalMed1 = 16}
+local DEFAULT_LINE_HEIGHT = 14
+
 local GLOBALS = {
     "CreateFrame", "UIParent", "SettingsPanel", "CreateScrollBoxLinearView", "ScrollUtil", "Settings", "GameTooltip",
-    "ColorPickerFrame", "NineSliceUtil", "UISpecialFrames", "tinsert", "GetScreenHeight", "CreateFont",
+    "ColorPickerFrame", "NineSliceUtil", "UISpecialFrames", "tinsert", "GetScreenHeight", "GetScreenWidth",
+    "CreateFont",
     "GameFontHighlightSmall", "C_Timer", "GetTime", "GetTimePreciseSec", "PlaySound", "SOUNDKIT", "IsMouseButtonDown",
-    "strtrim", "print", "LibStub", "debugstack", "wipe", "OKAY", "Menu",
+    "strtrim", "print", "LibStub", "debugstack", "wipe", "OKAY", "Menu", "strsplit", "CreateScrollBoxListLinearView",
+    "CreateDataProvider", "CreateIndexRangeDataProvider", "ScrollBoxConstants", "GetCursorPosition", "SetCursor",
 }
 
 -- Art and setup calls that have no behavior worth simulating
 local NO_OP_METHODS = {
-    "AddMaskTexture", "ClearAllPoints", "EnableMouse", "RegisterForClicks", "SetAllPoints", "SetAtlas", "SetAutoFocus",
+    "AddMaskTexture", "ClearAllPoints", "RegisterForClicks", "SetAllPoints", "SetAutoFocus",
     "SetBlendMode", "SetCheckedTexture", "SetClampedToScreen", "SetColorTexture", "SetDisabledCheckedTexture",
     "SetDisabledTexture", "SetDrawLayer", "SetFixedWidth", "SetFontHeight", "SetFontString",
-    "SetFrameStrata", "SetHighlightAtlas", "SetHighlightTexture", "SetHorizTile", "SetJustifyH", "SetJustifyV",
+    "SetHighlightAtlas", "SetHighlightTexture", "SetHorizTile", "SetJustifyH", "SetJustifyV",
     "SetMaxLetters", "SetMovable", "SetNormalTexture", "SetPortraitTextureRaw", "SetPushedTexture",
-    "SetRotation", "SetSnapToPixelGrid", "SetTexCoord", "SetTexelSnappingBias", "SetTexture", "SetTitle", "SetWordWrap",
-    "StartMoving", "StopMovingOrSizing",
+    "SetRotation", "SetSnapToPixelGrid", "SetTexelSnappingBias", "SetTitle", "SetWordWrap",
+    "StartMoving", "SetPortraitZoom",
 }
+
+-- Only these have scripts for clicks. Setting one on another frame is an error.
+local BUTTON_TYPES = {Button = true, CheckButton = true, DropdownButton = true, ItemButton = true, EventButton = true}
+local BUTTON_SCRIPTS = {OnClick = true, OnDoubleClick = true, PreClick = true, PostClick = true}
 
 local TEXTURE_GETTERS = {
     "GetCheckedTexture", "GetDisabledCheckedTexture", "GetDisabledTexture", "GetHighlightTexture", "GetNormalTexture",
@@ -37,6 +49,65 @@ local TEMPLATE_CHILDREN = {
     OptionsSliderTemplate = {"Text", "Low", "High", "NineSlice"},
     PortraitFrameTemplate = {"CloseButton", "PortraitContainer", "Bg"},
     SearchBoxTemplate = {"Instructions"},
+    MinimalTabTemplate = {"Text"},
+}
+
+-- Like Blizzard's PanelResizeButtonMixin, without limiting the size
+local TEMPLATE_METHODS = {
+    PanelResizeButtonTemplate = {
+        Init = function(self, target, minWidth, minHeight)
+            self.target, self.minWidth, self.minHeight = target, minWidth, minHeight
+        end,
+        OnMouseDown = function(self)
+            self.isActive = true
+            self.target:StartSizing("BOTTOMRIGHT", true)
+        end,
+        OnMouseUp = function(self)
+            self.isActive = false
+            self.target:StopMovingOrSizing()
+        end,
+        IsActive = function(self) return self.isActive == true end,
+    },
+    MinimalTabTemplate = {
+        SetSelected = function(self, isSelected) self.isSelected = isSelected end,
+    },
+    ScrollingEditBoxTemplate = {
+        GetScrollBox = function(self) return self end,
+        GetEditBox = function(self) return self end,
+        GetInputText = function(self) return self:GetText() or "" end,
+        ClearText = function(self) self:SetText("") end,
+    },
+    -- Like Blizzard's ScrollBoxListMixin, with rows that are all as high as one of ui.visibleRows
+    WowScrollBoxList = {
+        SetDataProvider = function(self, dataProvider, retainScrollPosition)
+            self.onRowsReleased(#self.rowFrames)
+            self.dataProvider = dataProvider
+            if not retainScrollPosition then
+                self.firstIndex = 1
+            end
+            self:UpdateRows()
+        end,
+        GetDataProvider = function(self) return self.dataProvider end,
+        ForEachFrame = function(self, callback)
+            for _, frame in ipairs(self.rowFrames) do
+                callback(frame)
+            end
+        end,
+        ReinitializeFrames = function(self)
+            for _, frame in ipairs(self.rowFrames) do
+                self.view.initialize(frame, frame.elementData)
+            end
+        end,
+        ScrollToElementDataIndex = function(self, index)
+            assert(index <= self.dataProvider.size, "scrolled to something that isn't in the list")
+            if index < self.firstIndex then
+                self.firstIndex = index
+            elseif index >= self.firstIndex + self.visibleRows() then
+                self.firstIndex = index - self.visibleRows() + 1
+            end
+            self:UpdateRows()
+        end,
+    },
 }
 
 ---Replaces the UI globals. Call Restore on the returned object when done.
@@ -48,11 +119,18 @@ function FakeUI.Install()
         addOnCategories = {},
         tickers = {},
         frameCount = 0,
+        timerCount = 0,
+        runsLatestTimersFirst = false, -- The client runs the timers of a frame in no particular order
+        time = 0, -- Seconds that passed in all frames, which timers go by
         clock = 0,
         clockStep = 0, -- Seconds the clock advances each time it is read, to simulate slow frames
+        screenWidth = 1800,
         printed = {},
-        stringWidth = 50, -- Measured size of every font string, to simulate long or wrapped text
-        stringHeight = 14,
+        -- Measured size of every font string, instead of one that depends on its text
+        stringWidth = nil,
+        stringHeight = nil,
+        visibleRows = 20, -- Of every list
+        rowsReleased = 0, -- Of all lists, when they got other data
     }
 
     local originals = {}
@@ -85,6 +163,17 @@ function FakeUI.Install()
 
         for _, childName in ipairs(TEMPLATE_CHILDREN[template] or {}) do
             frame[childName] = NewFrame("Frame", nil, frame)
+        end
+        for methodName, method in pairs(TEMPLATE_METHODS[template] or {}) do
+            frame[methodName] = method
+        end
+        if frameType == "EditBox" then
+            frame.text = ""
+        end
+        if template == "WowScrollBoxList" then
+            frame.rowFrames, frame.framePool, frame.firstIndex = {}, {}, 1
+            frame.visibleRows = function() return ui.visibleRows end
+            frame.onRowsReleased = function(count) ui.rowsReleased = ui.rowsReleased + count end
         end
         if template == "SearchBoxTemplate" then
             frame.scripts.OnTextChanged = function(searchBox)
@@ -157,27 +246,53 @@ function FakeUI.Install()
         local wasVisible = self:IsVisible()
         self.shown = false
         if wasVisible then FireShown(self, "OnHide") end
+        if ui.focus and not ui.focus:IsVisible() then ui.focus:ClearFocus() end
     end
     function methods:SetShown(shown)
         if shown then self:Show() else self:Hide() end
     end
 
     -- Scripts
-    function methods:SetScript(scriptName, handler) self.scripts[scriptName] = handler end
+    ---@param frame table
+    ---@param scriptName string
+    local function AssertHasScript(frame, scriptName)
+        assert(not BUTTON_SCRIPTS[scriptName] or BUTTON_TYPES[frame.frameType], frame.frameType .. " has no script " .. scriptName)
+    end
+    ---@param region table
+    local function AssertIsTexture(region)
+        assert(region.frameType:find("Texture"), region.frameType .. " is no texture")
+    end
+
+    function methods:SetScript(scriptName, handler)
+        AssertHasScript(self, scriptName)
+        self.scripts[scriptName] = handler
+    end
     function methods:GetScript(scriptName) return self.scripts[scriptName] end
     function methods:HookScript(scriptName, hook)
+        AssertHasScript(self, scriptName)
         local previous = self.scripts[scriptName]
         self.scripts[scriptName] = function(...)
             if previous then previous(...) end
             hook(...)
         end
     end
-    function methods:Click() FireScript(self, "OnClick") end
+    function methods:Click()
+        if self.enabled then FireScript(self, "OnClick") end
+    end
 
     -- Size and position
-    function methods:SetSize(width, height) self.width, self.height = width, height end
-    function methods:SetWidth(width) self.width = width end
-    function methods:SetHeight(height) self.height = height end
+    function methods:SetSize(width, height)
+        local hasChanged = width ~= self.width or height ~= self.height
+        self.width, self.height = width, height
+        self.maxTextWidth = width > 0 and width or nil -- 0 is as wide as the text
+        if hasChanged then FireScript(self, "OnSizeChanged", width, height) end
+    end
+    function methods:SetWidth(width) self:SetSize(width, self.height) end
+    function methods:SetHeight(height)
+        local maxTextWidth = self.maxTextWidth
+        self:SetSize(self.width, height)
+        self.maxTextWidth = maxTextWidth
+    end
     function methods:GetWidth() return self.width end
     function methods:GetHeight() return self.height end
     function methods:GetSize() return self.width, self.height end
@@ -196,32 +311,76 @@ function FakeUI.Install()
         local point = self.points[index] or {}
         return point[1], point[2], point[3], point[4], point[5]
     end
+    function methods:SetResizable(isResizable) self.resizable = isResizable end
+    function methods:StartSizing()
+        assert(self.resizable, "StartSizing on a frame that isn't resizable")
+        self.isSizing = true
+    end
+    function methods:StopMovingOrSizing() self.isSizing = false end
+
+    function methods:GetEffectiveScale() return self.effectiveScale or 1 end
+    function methods:SetFrameStrata(strata) self.frameStrata = strata end
+    function methods:GetFrameStrata() return self.frameStrata end
     function methods:SetFrameLevel(level) self.frameLevel = level end
     function methods:GetFrameLevel() return self.frameLevel end
-    function methods:GetStringWidth() return ui.stringWidth end
-    function methods:GetStringHeight() return ui.stringHeight end
+    function methods:GetStringWidth()
+        if ui.stringWidth then return ui.stringWidth end
+        local width = 0
+        for line in ((self.text or "") .. "\n"):gmatch("(.-)\n") do
+            width = math.max(width, #line * CHARACTER_WIDTH)
+        end
+        return self.maxTextWidth and math.min(width, self.maxTextWidth) or width
+    end
+    function methods:GetStringHeight()
+        if ui.stringHeight then return ui.stringHeight end
+        local lines = 0
+        for line in ((self.text or "") .. "\n"):gmatch("(.-)\n") do
+            local width = #line * CHARACTER_WIDTH
+            lines = lines + (self.maxTextWidth and math.max(1, math.ceil(width / self.maxTextWidth)) or 1)
+        end
+        return lines * (LINE_HEIGHTS[self.fontObject] or DEFAULT_LINE_HEIGHT)
+    end
     function methods:IsMouseOver() return self.mouseOver == true end
+    function methods:IsMouseMotionFocus() return ui.mouseFocus == self end
 
     -- Children
     function methods:CreateTexture() return NewFrame("Texture", nil, self) end
     function methods:CreateMaskTexture() return NewFrame("MaskTexture", nil, self) end
-    function methods:CreateFontString() return NewFrame("FontString", nil, self) end
+    function methods:CreateFontString(_, _, fontObject)
+        local fontString = NewFrame("FontString", nil, self)
+        fontString.fontObject = fontObject
+        return fontString
+    end
     function methods:GetRegions() return unpack(self.regions or {}) end
     function methods:IsObjectType(objectType) return self.frameType == objectType end
 
     -- Widgets
-    function methods:SetText(text) self.text = text end
+    function methods:SetText(text)
+        self.text = type(text) == "number" and tostring(text) or text
+        if self.frameType == "EditBox" then
+            FireScript(self, "OnTextChanged", false)
+        end
+    end
     function methods:GetText() return self.text end
     function methods:AddLine(text) self.lines = self.lines or {}; table.insert(self.lines, text) end
-    function methods:SetOwner(owner) self.owner = owner end
+    -- Like the real one, which is empty until something is added and hidden until it is shown
+    function methods:SetOwner(owner)
+        self.owner, self.text, self.lines = owner, nil, nil
+        self:Hide()
+    end
     function methods:IsOwned(frame) return self.owner == frame end
     function methods:GetFont() return "font.ttf", 12, "" end
     function methods:SetChecked(isChecked) self.isChecked = isChecked end
     function methods:GetChecked() return self.isChecked end
     function methods:SetEnabled(isEnabled) self.enabled = isEnabled end
     function methods:IsEnabled() return self.enabled end
-    function methods:HasFocus() return self.hasFocus == true end
-    function methods:ClearFocus() self.hasFocus = false; FireScript(self, "OnEditFocusLost") end
+    function methods:HasFocus() return ui.focus == self end
+    function methods:ClearFocus()
+        if ui.focus == self then
+            ui.focus = nil
+            FireScript(self, "OnEditFocusLost")
+        end
+    end
     function methods:SetAlpha(alpha) self.alpha = alpha end
     function methods:SetDesaturated(isDesaturated) self.isDesaturated = isDesaturated end
     function methods:SetVertexColor(...) self.vertexColor = {...} end
@@ -249,14 +408,16 @@ function FakeUI.Install()
     -- Dropdowns follow DropdownButtonMixin: being set up while shown and every OnShow generate the menu, the text comes
     -- from the selected entry, and opening generates the menu before it counts as open.
     local function UpdateSelectionText(dropdown)
-        dropdown.text = nil
+        dropdown.text = dropdown.defaultText
         for _, entry in ipairs(dropdown.menuEntries or {}) do
-            if entry.isSelected() then
+            if entry.isSelected and entry.isSelected() then
                 dropdown.text = entry.text
                 return
             end
         end
     end
+    -- Like Blizzard's, this only shows once the text is updated
+    function methods:SetDefaultText(text) self.defaultText = text end
     function methods:SetupMenu(generator)
         self.menuGenerator = generator
         self:HookScript("OnShow", function(dropdown) dropdown:GenerateMenu() end)
@@ -267,6 +428,7 @@ function FakeUI.Install()
         local entries = {}
         self.menuGenerator(self, {
             SetScrollMode = function(_, height) entries.scrollHeight = height end,
+            CreateDivider = function() table.insert(entries, {isDivider = true}) end,
             CreateRadio = function(_, text, isSelected, select)
                 local entry = {text = text, isSelected = isSelected, select = select}
                 function entry:AddInitializer(initializer) self.initializer = initializer end
@@ -301,13 +463,81 @@ function FakeUI.Install()
         self:CloseMenu()
     end
 
+    -- Edit boxes. Setting the text fires OnTextChanged, like typing does.
+    function methods:SetFocus()
+        if ui.focus ~= self and self:IsVisible() then
+            if ui.focus then ui.focus:ClearFocus() end
+            ui.focus = self
+            FireScript(self, "OnEditFocusGained")
+        end
+    end
+    function methods:Insert(text)
+        self:SetText((self.text or "") .. text)
+    end
+    function methods:PressEnter() FireScript(self, "OnEnterPressed") end
+
+    -- Textures and models
+    -- An atlas is a part of an image, which a texture that is set afterwards would be cropped to as well
+    function methods:SetAtlas(atlas, useAtlasSize)
+        AssertIsTexture(self)
+        self.atlas, self.texCoord = atlas, "the part that is the atlas"
+        if useAtlasSize then self:SetSize(64, 64) end
+    end
+    function methods:SetTexture(texture)
+        AssertIsTexture(self)
+        self.texture, self.atlas = texture, nil
+    end
+    function methods:SetTexCoord(...)
+        AssertIsTexture(self)
+        self.texCoord = {...}
+    end
+    function methods:GetTexture() return self.texture end
+    function methods:SetCreature(npcId) self.npcId, self.modelSets = npcId, (self.modelSets or 0) + 1 end
+    function methods:ClearModel() self.npcId = nil end
+    function methods:GetDisplayInfo() return ui.knownNpcs[self.npcId] and 1 or 0 end
+
+    -- Tooltips
+    function methods:SetItemByID(itemId) self.itemId = itemId end
+
+    -- Lists
+    function methods:IsTruncated() return ui.isTextTruncated == true end
+    function methods:GetElementData() return self.elementData end
+    function methods:EnableMouse(isEnabled) self.mouseEnabled = isEnabled end
+    function methods:UpdateRows()
+        for _, rowFrame in ipairs(self.rowFrames) do
+            rowFrame:Hide()
+            table.insert(self.framePool, rowFrame)
+        end
+        self.rowFrames = {}
+
+        local view, dataProvider = self.view, self.dataProvider
+        if view.calculateExtent then
+            for index = 1, dataProvider.size do
+                assert(type(view.calculateExtent(index, dataProvider.Find(index))) == "number", "a row has no height")
+            end
+        end
+        self.firstIndex = math.max(1, math.min(self.firstIndex, dataProvider.size - ui.visibleRows + 1))
+        for index = self.firstIndex, math.min(self.firstIndex + ui.visibleRows - 1, dataProvider.size) do
+            local rowFrame = table.remove(self.framePool) or NewFrame(view.frameType, nil, self)
+            rowFrame.elementData = dataProvider.Find(index)
+            rowFrame:Show()
+            table.insert(self.rowFrames, rowFrame)
+            view.initialize(rowFrame, rowFrame.elementData)
+        end
+    end
+
     -- Scroll frames
     function methods:Layout() self.layouts = (self.layouts or 0) + 1 end
     function methods:FullUpdate() self.fullUpdates = (self.fullUpdates or 0) + 1 end
     function methods:ScrollToBegin() self.scrollsToBegin = (self.scrollsToBegin or 0) + 1 end
 
     _G.CreateFrame = function(frameType, name, parent, template)
-        return NewFrame(frameType, name, parent, template)
+        local frame = NewFrame(frameType, name, parent, template)
+        if frameType == "EditBox" then
+            -- The client does this once by itself, without anything being typed
+            _G.C_Timer.After(0, function() FireScript(frame, "OnTextChanged", false) end)
+        end
+        return frame
     end
 
     _G.UIParent = NewFrame("Frame", "UIParent")
@@ -315,12 +545,36 @@ function FakeUI.Install()
     _G.SettingsPanel.Container = NewFrame("Frame", nil, _G.SettingsPanel)
     _G.SettingsPanel.Container.SettingsCanvas = NewFrame("Frame", nil, _G.SettingsPanel.Container)
     _G.GameTooltip = NewFrame("GameTooltip", "GameTooltip", _G.UIParent)
+    _G.GameTooltip.shown = false
     _G.ColorPickerFrame = NewFrame("ColorSelect", "ColorPickerFrame", _G.UIParent)
     _G.GameFontHighlightSmall = NewFrame("Font", "GameFontHighlightSmall")
     _G.ScrollUtil = {
         InitScrollBoxWithScrollBar = function() end,
+        InitScrollBoxListWithScrollBar = function(scrollBox, _, view) scrollBox.view = view end,
+        RegisterScrollBoxWithScrollBar = function() end,
         AddManagedScrollBarVisibilityBehavior = function() end,
     }
+    _G.ScrollBoxConstants = {RetainScrollPosition = true, DiscardScrollPosition = false, AlignNearest = 1}
+    _G.CreateScrollBoxListLinearView = function()
+        return {
+            SetElementExtent = function() end,
+            SetElementExtentCalculator = function(self, calculate) self.calculateExtent = calculate end,
+            SetElementInitializer = function(self, frameType, initialize) self.frameType, self.initialize = frameType, initialize end,
+        }
+    end
+    _G.CreateDataProvider = function(elements)
+        local collection = {}
+        for index, element in ipairs(elements) do
+            collection[index] = element
+        end
+        return {size = #collection, Find = function(index) return collection[index] end}
+    end
+    _G.CreateIndexRangeDataProvider = function(size)
+        return {size = size, Find = function(index) return index end}
+    end
+    _G.GetCursorPosition = function() return ui.cursorX or 0, 0 end
+    _G.SetCursor = function(cursor) ui.cursor = cursor end
+    ui.knownNpcs = {}
     _G.NineSliceUtil = {ApplyLayoutByName = function() end}
     _G.CreateScrollBoxLinearView = function()
         return {SetPadding = function() end, SetPanExtent = function() end}
@@ -345,8 +599,19 @@ function FakeUI.Install()
         for key in pairs(t) do t[key] = nil end
         return t
     end
-    _G.strtrim = function(text) return (text:gsub("^%s+", ""):gsub("%s+$", "")) end
+    _G.strtrim = function(text, characters)
+        local class = characters and ("[" .. characters:gsub("[%]%[%%^-]", "%%%0") .. "]") or "%s"
+        return (text:gsub("^" .. class .. "+", ""):gsub(class .. "+$", ""))
+    end
+    _G.strsplit = function(separator, text)
+        local parts = {}
+        for part in (text .. separator):gmatch("(.-)" .. separator:gsub("%W", "%%%0")) do
+            table.insert(parts, part)
+        end
+        return unpack(parts)
+    end
     _G.GetScreenHeight = function() return 1000 end
+    _G.GetScreenWidth = function() return ui.screenWidth end
     _G.PlaySound = function() end
     _G.SOUNDKIT = {IG_CHARACTER_INFO_TAB = 1}
     _G.IsMouseButtonDown = function() return false end
@@ -366,30 +631,54 @@ function FakeUI.Install()
         ui.clock = ui.clock + ui.clockStep
         return ui.clock
     end
+    ---@param delay number
+    ---@param callback fun()
+    ---@param repeats boolean
+    local function Schedule(delay, callback, repeats)
+        ui.timerCount = ui.timerCount + 1
+        local timer = {callback = callback, delay = delay, repeats = repeats, dueAt = ui.time + delay, number = ui.timerCount}
+        function timer:Cancel() self.cancelled = true end
+        table.insert(ui.tickers, timer)
+        return timer
+    end
     _G.C_Timer = {
-        After = function(_, callback)
-            table.insert(ui.tickers, {callback = callback, once = true})
+        After = function(delay, callback) Schedule(delay, callback, false) end,
+        NewTicker = function(delay, callback, iterations)
+            local timer = Schedule(delay, callback, true)
+            timer.iterations = iterations
+            return timer
         end,
-        NewTicker = function(_, callback)
-            local ticker = {callback = callback}
-            function ticker:Cancel() self.cancelled = true end
-            table.insert(ui.tickers, ticker)
-            return ticker
-        end,
+        NewTimer = function(delay, callback) return Schedule(delay, callback, false) end,
     }
 
     ---Runs one frame: every timer that is due fires once.
     function ui.RunFrame()
         ui.frameCount = ui.frameCount + 1
-        local due = ui.tickers
+        ui.time = ui.time + SECONDS_PER_FRAME
+        local timers = ui.tickers
         ui.tickers = {}
-        for _, ticker in ipairs(due) do
-            if not ticker.cancelled then
-                ticker.callback()
-                if not ticker.once and not ticker.cancelled then
-                    table.insert(ui.tickers, ticker)
+        if ui.runsLatestTimersFirst then
+            table.sort(timers, function(a, b) return a.number > b.number end)
+        end
+        for _, timer in ipairs(timers) do
+            if not timer.cancelled and timer.dueAt > ui.time then
+                table.insert(ui.tickers, timer)
+            elseif not timer.cancelled then
+                timer.callback()
+                timer.iterations = timer.iterations and timer.iterations - 1
+                if timer.repeats and not timer.cancelled and timer.iterations ~= 0 then
+                    timer.dueAt = ui.time + timer.delay
+                    table.insert(ui.tickers, timer)
                 end
             end
+        end
+    end
+
+    ---@param seconds number
+    function ui.RunFor(seconds)
+        local stopAt = ui.time + seconds
+        while ui.time < stopAt do
+            ui.RunFrame()
         end
     end
 
@@ -442,6 +731,45 @@ function FakeUI.Install()
     ---@return table[] frames
     function ui.FindByTemplate(root, template)
         return ui.FindAll(root, function(frame) return frame.template == template end)
+    end
+
+    ---@param root table
+    ---@param listIndex number Which of the lists below root, in creation order
+    ---@return table[] rowFrames The rows on screen, from top to bottom
+    function ui.Rows(root, listIndex)
+        return ui.FindByTemplate(root, "WowScrollBoxList")[listIndex].rowFrames
+    end
+
+    -- The rows of a JourneyList
+
+    ---@return string[] texts Of the rows on screen
+    function ui.RowTexts(root, listIndex)
+        local texts = {}
+        for _, row in ipairs(ui.Rows(root, listIndex)) do
+            table.insert(texts, row.Label.text)
+        end
+        return texts
+    end
+
+    ---@return string[] texts Of the rows on screen that look selected
+    function ui.SelectedRowTexts(root, listIndex)
+        local texts = {}
+        for _, row in ipairs(ui.Rows(root, listIndex)) do
+            if row.Background:IsShown() and row.Background.atlas == "Options_List_Active" then
+                table.insert(texts, row.Label.text)
+            end
+        end
+        return texts
+    end
+
+    ---@param text string
+    function ui.ClickRow(root, listIndex, text)
+        for _, row in ipairs(ui.Rows(root, listIndex)) do
+            if row.Label.text == text then
+                return row:Click()
+            end
+        end
+        error("There is no row " .. text)
     end
 
     function ui.Restore()

@@ -366,4 +366,88 @@ describe("ThreadLib profiling callbacks", function()
         tickerCallbacks[2]()
         assert.are_same(1, beforeCount)
     end)
+
+    describe("a frame budget", function()
+        local ui, budget
+
+        before_each(function()
+            ui = dofile("cli/testData/options/FakeUI.lua").Install()
+            dofile("Modules/Libs/ThreadLib.lua")
+            ThreadLib = QuestieLoader:ImportModule("ThreadLib")
+            budget = ThreadLib.CreateFrameBudget(0.01)
+        end)
+
+        after_each(function()
+            ui.Restore()
+        end)
+
+        ---@param steps number
+        ---@return fun(): number getDoneSteps
+        local function StartWork(steps)
+            local done = 0
+            ThreadLib.Thread(function()
+                for _ = 1, steps do
+                    budget.YieldIfSpent()
+                    done = done + 1
+                end
+            end, 0)
+            return function() return done end
+        end
+
+        it("should let fast work finish in a single frame", function()
+            local GetDone = StartWork(1000)
+
+            ui.RunFrame()
+
+            assert.are.equal(1000, GetDone())
+        end)
+
+        it("should spread slow work over several frames, with the whole budget in each", function()
+            ui.clockStep = 0.003 -- Every step takes at least this long
+            local GetDone = StartWork(30)
+
+            ui.RunFrame()
+            local doneInFirstFrame = GetDone()
+            ui.RunFrame()
+            local doneInSecondFrame = GetDone() - doneInFirstFrame
+
+            assert.is_true(doneInFirstFrame >= 2 and doneInFirstFrame <= 4)
+            assert.are.equal(doneInFirstFrame, doneInSecondFrame)
+            ui.RunUntilIdle()
+            assert.are.equal(30, GetDone())
+        end)
+
+        it("should be shared by everything that uses it", function()
+            ui.clockStep = 0.003
+            local GetDoneByFirst, GetDoneBySecond = StartWork(100), StartWork(100)
+
+            ui.RunFrame()
+
+            assert.is_true(GetDoneByFirst() + GetDoneBySecond() <= 4)
+        end)
+
+        it("should be able to keep everything else out of a frame", function()
+            local events = {}
+            ThreadLib.Thread(function()
+                budget.YieldForFrameOfItsOwn()
+                table.insert(events, "alone in frame " .. ui.frameCount)
+            end, 0)
+            ThreadLib.Thread(function()
+                for _ = 1, 3 do
+                    coroutine.yield()
+                    budget.YieldIfSpent()
+                    table.insert(events, "other in frame " .. ui.frameCount)
+                end
+            end, 0)
+
+            ui.RunUntilIdle()
+
+            local frameAlone = events[1]:match("alone in frame (%d+)")
+            assert.is_not_nil(frameAlone)
+            for index = 2, #events do
+                assert.are_not.equal("other in frame " .. frameAlone, events[index])
+            end
+            assert.are.equal(4, #events)
+        end)
+    end)
 end)

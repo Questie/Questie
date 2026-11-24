@@ -681,9 +681,10 @@ end
 ---then by type (normal, elite, scenario, dungeon and so on), then by ID.
 ---@param quests table<QuestId, any> The quests to order, keyed by quest ID; the values are ignored.
 ---@param idsOnly boolean? Return only the quest IDs, for callers that need just the order.
+---@param onQuestLookedUp fun()? Called after each lookup, which is most of the work, so callers in a thread can yield.
 ---@return table sorted {level, questId, suffix} entries in order, a quest without a level counting as level
 ---0; with idsOnly, a QuestId[].
-function QuestieLib:SortQuestIDsByLevel(quests, idsOnly)
+function QuestieLib:SortQuestIDsByLevel(quests, idsOnly, onQuestLookedUp)
     if idsOnly then
         -- Zero or one quest, as for most NPCs, needs no levels looked up and no sorting.
         local first = next(quests)
@@ -699,6 +700,9 @@ function QuestieLib:SortQuestIDsByLevel(quests, idsOnly)
         local questLevel, _ = QuestieLib.GetEffectiveQuestLevel(questId)
         local suffix = QuestieLib:GetQuestTypeSuffix(questId)
         tinsert(sortedQuestsByLevel, {questLevel or 0, questId, suffix})
+        if onQuestLookedUp then
+            onQuestLookedUp()
+        end
     end
     table.sort(sortedQuestsByLevel, compareQuestsByLevelAndType)
 

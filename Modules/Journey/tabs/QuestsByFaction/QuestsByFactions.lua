@@ -3,9 +3,6 @@ local QuestieJourney = QuestieLoader:CreateModule("QuestieJourney")
 local _QuestieJourney = QuestieJourney.private
 _QuestieJourney.questsByFaction = {}
 
----@type QuestDetailsFrame
-local QuestDetailsFrame = QuestieLoader:ImportModule("QuestDetailsFrame")
-
 ---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 ---@type QuestieLib
@@ -18,8 +15,6 @@ local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
 local QuestieQuestBlacklist = QuestieLoader:ImportModule("QuestieQuestBlacklist")
 ---@type QuestieEvent
 local QuestieEvent = QuestieLoader:ImportModule("QuestieEvent")
----@type QuestieLink
-local QuestieLink = QuestieLoader:ImportModule("QuestieLink")
 ---@type QuestieJourneyFactions
 local QuestieJourneyFactions = QuestieLoader:ImportModule("QuestieJourneyFactions")
 ---@type QuestiePlayer
@@ -28,12 +23,11 @@ local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
 local ActiveQuests = QuestieLoader:ImportModule("ActiveQuests")
 ---@type Expansions
 local Expansions = QuestieLoader:ImportModule("Expansions")
+---@type JourneyThread
+local JourneyThread = QuestieLoader:ImportModule("JourneyThread")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
-local AceGUI = LibStub("AceGUI-3.0")
-
-local factionTreeFrame
 local factionQuestMap
 
 local expansionDefinitions = {
@@ -304,63 +298,8 @@ function _EnsureFactionQuestData()
     end
 end
 
----Manage the faction tree itself and the contents of the per-quest window
----@param container AceSimpleGroup
----@param factionTree table
-function _QuestieJourney.questsByFaction:ManageTree(container, factionTree)
-    if factionTreeFrame then
-        container:ReleaseChildren()
-        factionTreeFrame = nil
-        _QuestieJourney.questsByFaction:ManageTree(container, factionTree)
-        return
-    end
-
-    factionTreeFrame = AceGUI:Create("TreeGroup")
-    factionTreeFrame:SetFullWidth(true)
-    factionTreeFrame:SetFullHeight(true)
-    factionTreeFrame:EnableButtonTooltips(false)
-    factionTreeFrame:SetTree(factionTree)
-
-    factionTreeFrame.treeframe:SetWidth(415)
-    factionTreeFrame:SetCallback("OnClick", function(group, ...)
-        local treePath = {...}
-
-        if not treePath[2] then
-            Questie.Debug(Questie.DEBUG_CRITICAL, "[factionTreeFrame:OnClick] No tree path given in Journey.")
-            return
-        end
-
-        local sel, questId = strsplit("\001", treePath[2])
-        if (sel == nil or sel == "a" or sel == "p" or sel == "c" or sel == "r" or sel == "u" or sel == "b" or sel == "h") and (not questId) then
-            return
-        end
-
-        local master = group.frame.obj
-        master:ReleaseChildren()
-        master:SetLayout("fill")
-        master:SetFullWidth(true)
-        master:SetFullHeight(true)
-
-        ---@class ScrollFrame
-        local scrollFrame = AceGUI:Create("ScrollFrame")
-        scrollFrame:SetLayout("flow")
-        scrollFrame:SetFullHeight(true)
-        master:AddChild(scrollFrame)
-
-        questId = tonumber(questId)
-        local quest = QuestieDB.GetQuest(questId)
-
-        if (IsModifiedClick("CHATLINK") and ChatEdit_GetActiveWindow()) then
-            ChatEdit_InsertLink(QuestieLink.GetQuestLinkStringById(quest.Id))
-        end
-
-        QuestDetailsFrame:Draw(scrollFrame, quest)
-    end)
-
-    container:AddChild(factionTreeFrame)
-end
-
----Build the quest tree for a faction grouping
+---Build the quest tree for a faction grouping. Yields, so it runs in a thread.
+---@async
 ---@param factionId number
 ---@return table<number, any> | nil
 function _QuestieJourney.questsByFaction:CollectFactionQuests(factionId)
@@ -402,7 +341,7 @@ function _QuestieJourney.questsByFaction:CollectFactionQuests(factionId)
         },
     }
 
-    local sortedQuestByLevel = QuestieLib:SortQuestIDsByLevel(quests)
+    local sortedQuestByLevel = QuestieLib:SortQuestIDsByLevel(quests, false, JourneyThread.YieldIfNeeded)
 
     local availableCounter = 0
     local prequestMissingCounter = 0
@@ -419,20 +358,10 @@ function _QuestieJourney.questsByFaction:CollectFactionQuests(factionId)
     local DoableStates = QuestieDB.DoableStates
 
     for _, levelAndQuest in pairs(sortedQuestByLevel) do
+        JourneyThread.YieldIfNeeded()
         local questId = levelAndQuest[2]
         if QuestieDB.QuestPointers[questId] then
             temp.value = questId
-
-            temp.iconSize = 14
-            temp.useIconGutter = true
-            temp.iconGutterOffset = -3
-            if ActiveQuests.Get(questId) then
-                if QuestieDB.IsComplete(questId) == 1 then
-                    temp.icon = Questie.icons["complete"]
-                else
-                    temp.icon = Questie.icons["incomplete"]
-                end
-            end
 
             local questName = QuestieLib:GetColoredQuestName(questId, Questie.db.profile.enableTooltipsQuestLevel, false)
 
@@ -720,8 +649,6 @@ function _QuestieJourney.questsByFaction:CollectFactionQuests(factionId)
     if factionTree[7] then
         factionTree[7].text = factionTree[7].text .. ' [ '..  hiddenCounter ..' ]'
     end
-
-    factionTree.numquests = totalCounter + repeatableCounter + unobtainableCounter
 
     return factionTree
 end

@@ -20,6 +20,9 @@ local QuestieOptionsUtils = QuestieLoader:ImportModule("QuestieOptionsUtils")
 ---Base left and right padding of a canvas. Containers one level deep use half of it, deeper ones none.
 QuestieOptionsControls.ROOT_INDENT = 20
 
+---A key of a dropdown's sortOrder that puts a line between the choices.
+QuestieOptionsControls.MENU_DIVIDER = "_DIVIDER"
+
 local DEFAULT_LABEL_COLOR = {1, 0.82, 0, 1}
 local DEFAULT_TEXT_COLOR = {1, 1, 1, 1}
 local DISABLED_LABEL_COLOR = {0.65, 0.65, 0.65, 1}
@@ -473,6 +476,15 @@ end
 -- Dropdowns
 -------------------------
 
+---@param item table
+---@return string? placeholder What a dropdown shows while nothing is selected
+local function _GetPlaceholder(item)
+    if type(item.placeholder) == "function" then
+        return item.placeholder()
+    end
+    return item.placeholder
+end
+
 ---Creates a dropdown with its title above it.
 ---
 ---Blizzard generates a dropdown's menu every time it is shown, only to find the text of the selected entry. With many
@@ -507,6 +519,11 @@ local function _CreateDropdownFrame(control, item, width, fillMenu, addSelectedE
         if self:IsMenuOpen() then
             GameTooltip:Hide()
         end
+    end
+
+    control.placeholder = _GetPlaceholder(item)
+    if control.placeholder then
+        dropdown:SetDefaultText(control.placeholder)
     end
 
     -- SetupMenu generates the menu right away, so the first refresh has nothing to catch up on
@@ -550,7 +567,7 @@ local function _GetMenuKeysInOrder(options, sorting)
 
     if type(sorting) == "table" and #sorting > 0 then
         for _, key in ipairs(sorting) do
-            if options[key] ~= nil then
+            if options[key] ~= nil or key == QuestieOptionsControls.MENU_DIVIDER then
                 table.insert(orderedKeys, key)
             end
         end
@@ -589,7 +606,11 @@ local function _CreateDropdown(control, _, item, width)
         end
 
         for _, key in ipairs(_GetMenuKeysInOrder(options, sorting)) do
-            _AddMenuChoice(rootDescription, item, options[key], key)
+            if key == QuestieOptionsControls.MENU_DIVIDER then
+                rootDescription:CreateDivider()
+            else
+                _AddMenuChoice(rootDescription, item, options[key], key)
+            end
         end
     end
 
@@ -662,6 +683,13 @@ local UNKNOWN_DROPDOWN_VALUE = {}
 
 local function _RefreshDropdown(control, item, isEnabled)
     _DesaturateNineSlice(control.widget, not isEnabled)
+
+    local placeholder = _GetPlaceholder(item)
+    if control.placeholder ~= placeholder then
+        control.placeholder = placeholder
+        control.widget:SetDefaultText(placeholder)
+        control.lastValue = UNKNOWN_DROPDOWN_VALUE -- A placeholder that is showing only changes with the menu
+    end
 
     -- GenerateMenu updates the text showing the selected entry, so it only runs when that could change
     local currentValue = item.get and item.get()

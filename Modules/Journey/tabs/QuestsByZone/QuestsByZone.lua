@@ -2,9 +2,6 @@
 local QuestieJourney = QuestieLoader:ImportModule("QuestieJourney")
 local _QuestieJourney = QuestieJourney.private
 
----@type QuestDetailsFrame
-local QuestDetailsFrame = QuestieLoader:ImportModule("QuestDetailsFrame")
-
 ---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 ---@type QuestieLib
@@ -19,146 +16,13 @@ local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
 local QuestieQuestBlacklist = QuestieLoader:ImportModule("QuestieQuestBlacklist")
 ---@type QuestieEvent
 local QuestieEvent = QuestieLoader:ImportModule("QuestieEvent")
----@type QuestieLink
-local QuestieLink = QuestieLoader:ImportModule("QuestieLink")
+---@type JourneyThread
+local JourneyThread = QuestieLoader:ImportModule("JourneyThread")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
-local AceGUI = LibStub("AceGUI-3.0")
-local zoneTreeFrame
-
----Restore the previously selected quest in the zone tree
----@param treeFrame table @The AceGUI TreeGroup frame
----@param zoneTree table @The zone tree table
-function _QuestieJourney.questsByZone:RestoreSavedQuestSelection(treeFrame, zoneTree)
-    if not treeFrame or not zoneTree then return end
-
-    local savedSelection = _QuestieJourney.lastZoneSelection[3]
-    if not savedSelection then return end
-
-    local sel, questId = strsplit("\001", savedSelection)
-    if not questId then return end
-
-    questId = tonumber(questId)
-    local questExists = false
-    local currentSelection
-    local foundSavedCategory = false
-
-    for _, category in ipairs(zoneTree) do
-        if category.children then
-            for _, quest in ipairs(category.children) do
-                if quest.value and quest.value == questId then
-                    questExists = true
-                    local selection = category.value .. "\001" .. questId
-                    if category.value == sel then
-                        currentSelection = selection
-                        foundSavedCategory = true
-                        break
-                    end
-                    if not currentSelection then
-                        currentSelection = selection
-                    end
-                end
-            end
-        end
-        if foundSavedCategory then break end
-    end
-
-    if questExists and currentSelection then
-        _QuestieJourney.lastZoneSelection[3] = currentSelection
-        treeFrame:SelectByValue(currentSelection)
-
-        C_Timer.After(0.1, function()
-            if not treeFrame.frame or not treeFrame.frame.obj then return end
-
-            local quest = QuestieDB.GetQuest(questId)
-            if quest then
-                local master = treeFrame.frame.obj
-                master:ReleaseChildren()
-                master:SetLayout("fill")
-                master:SetFullWidth(true)
-                master:SetFullHeight(true)
-
-                ---@class ScrollFrame
-                local scrollFrame = AceGUI:Create("ScrollFrame")
-                scrollFrame:SetLayout("flow")
-                scrollFrame:SetFullHeight(true)
-                master:AddChild(scrollFrame)
-
-                QuestDetailsFrame:Draw(scrollFrame, quest)
-            end
-        end)
-    else
-        _QuestieJourney.lastZoneSelection[3] = nil
-    end
-end
-
----Manage the zone tree itself and the contents of the per-quest window
----@param container AceSimpleGroup @The container for the zone tree
----@param zoneTree table @The zone tree table
-function _QuestieJourney.questsByZone:ManageTree(container, zoneTree)
-    if zoneTreeFrame then
-        container:ReleaseChildren()
-        zoneTreeFrame = nil
-        _QuestieJourney.questsByZone:ManageTree(container, zoneTree)
-        return
-    end
-
-    zoneTreeFrame = AceGUI:Create("TreeGroup")
-    zoneTreeFrame:SetFullWidth(true)
-    zoneTreeFrame:SetFullHeight(true)
-    zoneTreeFrame:EnableButtonTooltips(false)
-    zoneTreeFrame:SetTree(zoneTree)
-
-    zoneTreeFrame.treeframe:SetWidth(415)
-
-    _QuestieJourney.questsByZone:RestoreSavedQuestSelection(zoneTreeFrame, zoneTree)
-
-    zoneTreeFrame:SetCallback("OnClick", function(group, ...)
-        local treePath = {...}
-
-        if not treePath[2] then
-            Questie.Debug(Questie.DEBUG_CRITICAL, "[zoneTreeFrame:OnClick] No tree path given in Journey.")
-            return
-        end
-        -- if they clicked on a header, don't do anything
-        local sel, questId = strsplit("\001", treePath[2]) -- treePath[2] looks like "a?1234" for an available quest with ID 1234
-        if (sel == nil or sel == "a" or sel == "p" or sel == "c" or sel == "r" or sel == "u" or sel == "b" or sel == "h") and (not questId) then
-            return
-        end
-
-        -- save the selected quest for persistence
-        _QuestieJourney.lastZoneSelection[3] = treePath[2]
-
-        -- get master frame and create scroll frame inside
-        local master = group.frame.obj
-        master:ReleaseChildren()
-        master:SetLayout("fill")
-        master:SetFullWidth(true)
-        master:SetFullHeight(true)
-
-        ---@class ScrollFrame
-        local scrollFrame = AceGUI:Create("ScrollFrame")
-        scrollFrame:SetLayout("flow")
-        scrollFrame:SetFullHeight(true)
-        master:AddChild(scrollFrame)
-
-        ---@type number
-        questId = tonumber(questId)
-        local quest = QuestieDB.GetQuest(questId)
-
-        -- Add the quest to the open chat window if it was a shift click
-        if (IsModifiedClick("CHATLINK") and ChatEdit_GetActiveWindow()) then
-            ChatEdit_InsertLink(QuestieLink.GetQuestLinkStringById(quest.Id))
-        end
-
-        QuestDetailsFrame:Draw(scrollFrame, quest)
-    end)
-
-    container:AddChild(zoneTreeFrame)
-end
-
----Get all the available/completed/repeatable/unavailable quests
+---Get all the available/completed/repeatable/unavailable quests. Yields, so it runs in a thread.
+---@async
 ---@param zoneId number @The zone ID (Check `l10n.zoneLookup`)
 ---@return table<number,any> @The zoneTree table which represents the list of all the different quests
 function _QuestieJourney.questsByZone:CollectZoneQuests(zoneId)
@@ -171,7 +35,8 @@ function _QuestieJourney.questsByZone:CollectZoneQuests(zoneId)
     return _QuestieJourney.questsByZone:CategorizeQuests(quests)
 end
 
----Categorize quests into available/completed/repeatable/unavailable categories
+---Categorize quests into available/completed/repeatable/unavailable categories. Yields, so it runs in a thread.
+---@async
 ---@param quests table @A table of quest IDs (keys are quest IDs, values are truthy)
 ---@return table @The zoneTree table which represents the list of all the different quests
 function _QuestieJourney.questsByZone:CategorizeQuests(quests)
@@ -211,7 +76,7 @@ function _QuestieJourney.questsByZone:CategorizeQuests(quests)
             children = {},
         },
     }
-    local sortedQuestByLevel = QuestieLib:SortQuestIDsByLevel(quests)
+    local sortedQuestByLevel = QuestieLib:SortQuestIDsByLevel(quests, false, JourneyThread.YieldIfNeeded)
 
     local availableCounter = 0
     local prequestMissingCounter = 0
@@ -230,21 +95,12 @@ function _QuestieJourney.questsByZone:CategorizeQuests(quests)
     local DoableStates = QuestieDB.DoableStates
 
     for _, levelAndQuest in pairs(sortedQuestByLevel) do
+        JourneyThread.YieldIfNeeded()
         ---@type number
         local questId = levelAndQuest[2]
         -- Only show quests which are not hidden
         if hiddenQuests and (((not hiddenQuests[questId]) or hiddenQuests[questId] == HIDE_ON_MAP) or QuestieEvent.IsEventQuest(questId)) and QuestieDB.QuestPointers[questId] then
             temp.value = questId
-            temp.iconSize = 14
-            temp.useIconGutter = true
-            temp.iconGutterOffset = -3
-            if ActiveQuests.Get(questId) then
-                if QuestieDB.IsComplete(questId) == 1 then
-                    temp.icon = Questie.icons["complete"]
-                else
-                    temp.icon = Questie.icons["incomplete"]
-                end
-            end
             temp.text = QuestieLib:GetColoredQuestName(questId, Questie.db.profile.enableTooltipsQuestLevel, false)
 
             local breadcrumbForQuestId = QuestieDB.QueryQuest(questId, {"breadcrumbForQuestId"})[1] or {}
@@ -520,8 +376,6 @@ function _QuestieJourney.questsByZone:CategorizeQuests(quests)
     if zoneTree[7] then
         zoneTree[7].text = zoneTree[7].text .. " [ " .. hiddenCounter .. " ]"
     end
-
-    zoneTree.numquests = totalCounter + repeatableCounter + breadcrumbCounter + unobtainableCounter + hiddenCounter
 
     return zoneTree
 end

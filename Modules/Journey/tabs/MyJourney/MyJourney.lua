@@ -1,12 +1,12 @@
----@type QuestiePopup
-local Popup = QuestieLoader:ImportModule("QuestiePopup")
-
 ---@type QuestieJourney
 local QuestieJourney = QuestieLoader:ImportModule("QuestieJourney")
 local _QuestieJourney = QuestieJourney.private
 _QuestieJourney.myJourney = {}
-_QuestieJourney.notePopup = nil
-
+-------------------------
+--Import modules.
+-------------------------
+---@type QuestiePopup
+local Popup = QuestieLoader:ImportModule("QuestiePopup")
 ---@type QuestieJourneyUtils
 local QuestieJourneyUtils = QuestieLoader:ImportModule("QuestieJourneyUtils")
 ---@type QuestieDB
@@ -16,155 +16,62 @@ local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
-local AceGUI = LibStub("AceGUI-3.0");
-local journeyTreeFrame
+local RECENT_QUEST_TEXTS = {
+    Accept = "You Accepted the quest %s",
+    Complete = "You Completed the quest %s",
+    Abandon = "You Abandoned the quest %s",
+}
 
--- manage the journey tree
-function _QuestieJourney.myJourney:ManageTree(container)
-    if not journeyTreeFrame then
-        journeyTreeFrame = AceGUI:Create("TreeGroup");
-        journeyTreeFrame:SetFullWidth(true);
-        journeyTreeFrame:SetFullHeight(true);
-        journeyTreeFrame:EnableButtonTooltips(false)
-
-        journeyTreeFrame.treeframe:SetWidth(415);
-
-        local journeyTree = _QuestieJourney:GetHistory();
-        journeyTreeFrame:SetTree(journeyTree);
-        local latestMonth, latestYear = _QuestieJourney:GetMonthAndYearOfLatestEntry()
-        if latestMonth and latestYear then
-            journeyTreeFrame:SelectByPath(latestYear, latestMonth)
-        end
-        journeyTreeFrame:SetCallback("OnGroupSelected", function(group)
-            Questie.Debug(Questie.DEBUG_DEVELOP, "[Journey] OnGroupSelected - Path:", group.localstatus.selected)
-
-            local _, _, e = strsplit("\001", group.localstatus.selected);
-
-            if e then
-                local master = group.frame.obj;
-                master:ReleaseChildren();
-                master:SetLayout("fill");
-                master:SetFullWidth(true);
-                master:SetFullHeight(true);
-
-                local f = AceGUI:Create("ScrollFrame");
-                f:SetLayout("flow");
-                master:AddChild(f);
-
-                local header = AceGUI:Create("Heading");
-                header:SetFullWidth(true);
-                f:AddChild(header);
-
-                QuestieJourneyUtils:Spacer(f);
-
-                local created = AceGUI:Create("Label");
-                created:SetFullWidth(true);
-
-                local entry = Questie.db.char.journey[tonumber(e)];
-                local timestamp = Questie:Colorize(QuestieLib.FormatDate(entry.Timestamp), 'lightBlue');
-
-                if entry.Event == "Note" then
-                    header:SetText(l10n('Note: %s', entry.Title));
-
-                    local note = AceGUI:Create("Label");
-                    note:SetFullWidth(true);
-                    note:SetText(Questie:Colorize( entry.Note , 'yellow'));
-                    f:AddChild(note);
-                    QuestieJourneyUtils:Spacer(f);
-
-                    created:SetText(l10n('Note Created: %s', timestamp));
-                    f:AddChild(created);
-
-                    QuestieJourneyUtils:Spacer(f);
-
-                    local deleteButton = AceGUI:Create("Button");
-                    deleteButton:SetText(l10n('Delete Note'));
-                    deleteButton:SetWidth(150);
-                    deleteButton:SetCallback("OnClick", function()
-                        Popup.Show("QUESTIE_DELETE_NOTE_CONFIRM", nil, nil, tonumber(e));
-                    end);
-                    f:AddChild(deleteButton);
-
-                elseif entry.Event == "Level" then
-                    header:SetText(l10n('You Reached Level %s', entry.NewLevel));
-
-                    local congrats = AceGUI:Create("Label");
-                    congrats:SetText(l10n('Congratulations! You reached %s !', entry.NewLevel));
-                    congrats:SetFullWidth(true);
-                    f:AddChild(congrats);
-
-                    created:SetText(timestamp);
-                    f:AddChild(created);
-
-                elseif entry.Event == "Quest" then
-                    local state
-                    if entry.SubType == "Accept" then
-                        state = l10n("Accepted");
-                    elseif entry.SubType == "Complete" then
-                        state = l10n("Completed");
-                    elseif entry.SubType == "Abandon" then
-                        state = l10n("Abandoned");
-                    else
-                        state = "ERROR!!";
-                    end
-
-                    local quest = QuestieDB.GetQuest(entry.Quest)
-                    if quest then
-                        local qName = quest.name;
-                        header:SetText(l10n('Quest %s: %s', state, qName));
-
-
-                        local obj = AceGUI:Create("Label");
-                        obj:SetFullWidth(true);
-                        obj:SetText(QuestieJourneyUtils.CreateObjectiveText(quest.Description));
-                        f:AddChild(obj);
-                    end
-
-                    QuestieJourneyUtils:Spacer(f);
-
-                    created:SetText(l10n('Quest %s: %s', state, timestamp));
-                    f:AddChild(created);
-
-                    local questIdLabel = AceGUI:Create("Label");
-                    questIdLabel:SetFullWidth(true);
-                    questIdLabel:SetText(l10n("Quest ID") .. l10n(": ") .. entry.Quest);
-                    f:AddChild(questIdLabel);
-                else
-                    header:SetText("ERROR!!");
-                end
-
-            end
-        end);
-
-        container:AddChild(journeyTreeFrame);
+---The line about an entry in the recent history.
+---@param entry JourneyEntry
+---@return string
+function _QuestieJourney.myJourney.GetRecentText(entry)
+    local text
+    if entry.Event == "Level" then
+        local level = Questie:Colorize(l10n("Level %s", entry.NewLevel), "gray")
+        text = l10n("Congratulations! You reached %s !", level)
+    elseif entry.Event == "Note" then
+        text = l10n("Note Created: %s", Questie:Colorize(entry.Title, "gray"))
     else
-        container:ReleaseChildren();
-        journeyTreeFrame = nil;
-        _QuestieJourney.myJourney:ManageTree(container);
+        local name = QuestieDB.QueryQuestSingle(entry.Quest, "name") or tostring(entry.Quest)
+        text = l10n(RECENT_QUEST_TEXTS[entry.SubType], Questie:Colorize(name, "gray"))
     end
+    return Questie:Colorize(QuestieLib.FormatDate(entry.Timestamp) .. " ", "lightBlue") .. Questie:Colorize(text, "yellow")
 end
 
---- Get the month and year of the latest entry in the Journey.
---- This is used to select it in the tree view.
----@return number @The month of the latest entry
----@return number @The year of the latest entry
-function _QuestieJourney:GetMonthAndYearOfLatestEntry()
-    local journeyEntries = _QuestieJourney:GetJourneyEntries()
-    local years = {}
-    local months = {}
+---What the details show about an entry.
+---@param entry JourneyEntry
+---@return JourneyDetails.Row[]
+function _QuestieJourney.myJourney.GetEntryRows(entry)
+    local timestamp = Questie:Colorize(QuestieLib.FormatDate(entry.Timestamp), "lightBlue")
 
-    for year, _ in pairs(journeyEntries) do
-        table.insert(years, year)
+    ---@type JourneyDetails.Row[]
+    local rows = {
+        {type = "heading", text = _QuestieJourney:GetEntryText(entry)},
+        {type = "gap", height = 6},
+    }
+    if entry.Event == "Level" then
+        table.insert(rows, {type = "text", text = l10n("Congratulations! You reached %s !", entry.NewLevel)})
+        table.insert(rows, {type = "gap", height = 10})
+        table.insert(rows, {type = "text", text = timestamp})
+    elseif entry.Event == "Note" then
+        table.insert(rows, {type = "text", text = Questie:Colorize(entry.Note, "yellow")})
+        table.insert(rows, {type = "gap", height = 10})
+        table.insert(rows, {type = "text", text = l10n("Note Created: %s", timestamp)})
+        table.insert(rows, {type = "gap", height = 10})
+        table.insert(rows, {
+            type = "button",
+            text = l10n("Delete Note"),
+            onClick = function() Popup.Show("QUESTIE_DELETE_NOTE_CONFIRM", nil, nil, entry) end,
+        })
+    else
+        local quest = QuestieDB.GetQuest(entry.Quest)
+        if quest then
+            table.insert(rows, {type = "text", text = QuestieJourneyUtils.CreateObjectiveText(quest.Description)})
+            table.insert(rows, {type = "gap", height = 10})
+        end
+        table.insert(rows, {type = "text", text = l10n("Quest %s: %s", _QuestieJourney.GetQuestState(entry), timestamp)})
+        table.insert(rows, {type = "text", text = l10n("Quest ID") .. l10n(": ") .. entry.Quest})
     end
-    if not next(years) then
-        return nil, nil
-    end
-    local maxYear = math.max(unpack(years))
-
-    for month, _ in pairs(journeyEntries[maxYear]) do
-        table.insert(months, month)
-    end
-    local maxMonth = math.max(unpack(months))
-
-    return maxMonth, maxYear
+    return rows
 end

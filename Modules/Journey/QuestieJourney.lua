@@ -1,10 +1,6 @@
----@type QuestieCompat
-local QuestieCompat = QuestieLoader:ImportModule("QuestieCompat")
-
 ---@class QuestieJourney
 local QuestieJourney = QuestieLoader:ImportModule("QuestieJourney")
 local _QuestieJourney = QuestieJourney.private
-QuestieJourneyFrame = nil
 -------------------------
 --Import modules.
 -------------------------
@@ -14,33 +10,19 @@ local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
 local JourneyData = QuestieLoader:ImportModule("JourneyData")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
----@type QuestieCombatQueue
-local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
 ---@type Expansions
 local Expansions = QuestieLoader:ImportModule("Expansions")
----@type QuestieOptionsEngine
-local QuestieOptionsEngine = QuestieLoader:ImportModule("QuestieOptionsEngine")
+---@type JourneyWindow
+local JourneyWindow = QuestieLoader:ImportModule("JourneyWindow")
 ---@type CompletedQuests
 local CompletedQuests = QuestieLoader:ImportModule("CompletedQuests")
-
--- Useful doc about the AceGUI TreeGroup: https://github.com/hurricup/WoW-Ace3/blob/master/AceGUI-3.0/widgets/AceGUIContainer-TreeGroup.lua
 
 local tinsert = table.insert
 
 QuestieJourney.continents = {}
 QuestieJourney.zones = {}
-QuestieJourney.tabGroup = nil
 
-local AceGUI = LibStub("AceGUI-3.0")
-
-local isWindowShown = false
-_QuestieJourney.lastOpenWindow = "journey"
-_QuestieJourney.lastZoneSelection = {}
-_QuestieJourney.lastFactionSelection = {}
 _QuestieJourney.questsByZone = {}
-
-local notesPopupWin
-local notesPopupWinIsOpen = false
 
 -- These need to match with l10n.continentLookup
 local questCategoryKeys = {
@@ -112,101 +94,36 @@ function QuestieJourney:Initialize()
         end
     end
 
-    coroutine.yield()
-    self:BuildMainFrame()
-
     -- Set up default keybinding for Journey window
     self:SetupKeybinding()
 end
 
-function QuestieJourney:BuildMainFrame()
-    if (not QuestieJourneyFrame) then
-        local journeyFrame = AceGUI:Create("Frame")
-        journeyFrame:SetCallback("OnClose", function()
-            isWindowShown = false
-            if notesPopupWinIsOpen then
-                notesPopupWin:Hide()
-                notesPopupWin = nil
-                notesPopupWinIsOpen = false
-            end
-        end)
-        journeyFrame:SetTitle(l10n("%s's Journey", GetUnitName("player", true)))
-        journeyFrame:SetLayout("Fill")
-        journeyFrame:EnableResize(true)
-        journeyFrame:SetWidth(1000)
-        journeyFrame:SetHeight(650)
-        QuestieCompat.SetResizeBounds(journeyFrame.frame, 550, 400, 0, 0)
-
-        local tabGroup = AceGUI:Create("TabGroup")
-        tabGroup:SetLayout("Flow")
-        tabGroup:SetTabs({
-            {
-                text = l10n("My Journey"),
-                value = "journey"
-            },
-            {
-                text = l10n("Quests by Zone"),
-                value = "zone"
-            },
-            {
-                text = l10n("Quests by Faction"),
-                value = "faction"
-            },
-            {
-                text = l10n("Advanced Search"),
-                value = "search"
-            }
-        })
-        tabGroup:SetCallback("OnGroupSelected", function(widget, _, group) _QuestieJourney:HandleTabChange(widget, group) end)
-        tabGroup:SelectTab("journey")
-
-        QuestieJourney.tabGroup = tabGroup
-        journeyFrame:AddChild(QuestieJourney.tabGroup)
-
-        local settingsButton = AceGUI:Create("Button")
-        settingsButton:SetWidth(160)
-        settingsButton:SetPoint("TOPRIGHT", journeyFrame.frame, "TOPRIGHT", -50, -13)
-        settingsButton:SetText(l10n("Questie Options"))
-        settingsButton:SetCallback("OnClick", function()
-            QuestieCombatQueue:Queue(function()
-                QuestieJourney:ToggleJourneyWindow()
-                QuestieOptionsEngine:ToggleConfigWindow()
-            end)
-        end)
-        journeyFrame:AddChild(settingsButton)
-
-        journeyFrame:Hide()
-        QuestieJourneyFrame = journeyFrame
-        table.insert(UISpecialFrames, "QuestieJourneyFrame")
-    end
-end
-
+---@return boolean
 function QuestieJourney:IsShown()
-    return isWindowShown
+    return JourneyWindow.IsShown()
 end
 
--- There are ways to toggle this function before the frame has been created
-function QuestieJourney:ToggleJourneyWindow()
+---Opens the window on a tab.
+---@param tabKey string? One of "journey", "zone", "faction" and "search". The tab that was shown last when nil.
+function QuestieJourney.OpenTab(tabKey)
+    -- Reachable while Questie is loading, before the data for the tabs is ready
     if (not Questie.started) then
         print(Questie:Colorize(l10n("Please wait a moment for Questie to finish loading")))
         return
     end
 
-    if (not isWindowShown) then
-        PlaySound(882)
-
+    if not JourneyWindow.IsShown() then
         -- Some quests are completed without any quest event
         CompletedQuests.Update()
-        local treeGroup = _QuestieJourney:HandleTabChange(_QuestieJourney.containerCache, _QuestieJourney.lastOpenWindow)
-        if treeGroup then
-            _QuestieJourney.treeCache = treeGroup
-        end
+    end
+    JourneyWindow.Show(tabKey)
+end
 
-        QuestieJourneyFrame:Show()
-        isWindowShown = true
+function QuestieJourney:ToggleJourneyWindow()
+    if JourneyWindow.IsShown() then
+        JourneyWindow.Hide()
     else
-        QuestieJourneyFrame:Hide()
-        isWindowShown = false
+        QuestieJourney.OpenTab()
     end
 end
 

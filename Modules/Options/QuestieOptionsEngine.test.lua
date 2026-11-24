@@ -786,16 +786,23 @@ describe("QuestieOptionsEngine", function()
                 end)
             end
 
+            it("should be as high as most of the screen, and close with the Escape key", function()
+                local window = OpenWindow()
+
+                assert.are_same({675, 700}, {window:GetSize()})
+                assert.are_same({"QuestieStandaloneSettings"}, UISpecialFrames)
+            end)
+
             it("should switch to My Journey from its tab", function()
                 local QuestieJourney = QuestieLoader:ImportModule("QuestieJourney")
-                local journeyToggles = 0
-                QuestieJourney.ToggleJourneyWindow = function() journeyToggles = journeyToggles + 1 end
+                local journeyOpened = 0
+                QuestieJourney.OpenTab = function() journeyOpened = journeyOpened + 1 end
                 OpenWindow()
 
                 ClickSideTab("journey")
 
                 assert.is_false(QuestieOptionsEngine:IsShown())
-                assert.are.equal(1, journeyToggles)
+                assert.are.equal(1, journeyOpened)
             end)
 
             it("should keep the way to My Journey while a search hides the other tabs", function()

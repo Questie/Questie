@@ -15,6 +15,16 @@ describe("QuestieOptionsWindow", function()
         end
     end
 
+    ---@param settings table? Replaces some of the settings
+    ---@return Frame window
+    local function CreateWindow(settings)
+        local windowSettings = {name = "TestWindow", title = "Test", strata = "HIGH", width = 600, height = 500}
+        for key, value in pairs(settings or {}) do
+            windowSettings[key] = value
+        end
+        return QuestieOptionsWindow.Create(windowSettings)
+    end
+
     before_each(function()
         ui = FakeUI.Install()
         originalIsForever = Questie.IsForever
@@ -32,10 +42,11 @@ describe("QuestieOptionsWindow", function()
         ui.Restore()
     end)
 
-    describe("Create", function()
+    describe("AddSearchBox", function()
         it("should forward search text changes", function()
             local searchText
-            local window = QuestieOptionsWindow.Create(function(text) searchText = text end)
+            local window = CreateWindow()
+            QuestieOptionsWindow.AddSearchBox(window, function(text) searchText = text end)
 
             window.searchBox:SetText("tracker")
             window.searchBox.scripts.OnTextChanged(window.searchBox, true)
@@ -45,7 +56,8 @@ describe("QuestieOptionsWindow", function()
 
         -- The placeholder would stay behind the typed text if the window replaced the template's own handling
         it("should show the search box's placeholder only while it is empty", function()
-            local window = QuestieOptionsWindow.Create(function() end)
+            local window = CreateWindow()
+            QuestieOptionsWindow.AddSearchBox(window, function() end)
             assert.are.equal("Search", window.searchBox.Instructions.text)
 
             window.searchBox:SetText("tracker")
@@ -57,24 +69,64 @@ describe("QuestieOptionsWindow", function()
             assert.is_true(window.searchBox.Instructions:IsShown())
         end)
 
+    end)
+
+    describe("Create", function()
         it("should start hidden and close with the Escape key", function()
-            local window = QuestieOptionsWindow.Create()
+            local window = CreateWindow({name = "SomeWindow"})
 
             assert.is_false(window:IsShown())
-            assert.are_same({"QuestieStandaloneSettings"}, UISpecialFrames)
+            assert.are.equal("SomeWindow", window:GetName())
+            assert.are_same({"SomeWindow"}, UISpecialFrames)
         end)
 
-        it("should take its height from the screen", function()
-            local window = QuestieOptionsWindow.Create()
+        it("should have the given size, and nothing to change it with", function()
+            local window = CreateWindow({width = 600, height = 500})
 
-            assert.are.equal(700, window:GetHeight())
+            assert.are_same({600, 500}, {window:GetSize()})
+            assert.are_same({}, ui.FindByTemplate(window, "PanelResizeButtonTemplate"))
+        end)
+
+        describe("with a minimum size", function()
+            local window, grip
+
+            before_each(function()
+                window = CreateWindow({minWidth = 300, minHeight = 200})
+                grip = ui.FindByTemplate(window, "PanelResizeButtonTemplate")[1]
+            end)
+
+            it("should be resized down to it with the grip", function()
+                assert.are.equal(window, grip.target)
+                assert.are_same({300, 200}, {grip.minWidth, grip.minHeight})
+            end)
+
+            it("should stop resizing when the window hides, because the mouse-up never arrives", function()
+                window:Show()
+                grip:OnMouseDown()
+                assert.is_true(window.isSizing)
+
+                window:Hide()
+
+                assert.is_false(window.isSizing)
+                assert.is_false(grip:IsActive())
+            end)
+
+            it("should leave the window alone when it hides while it isn't being resized", function()
+                local stops = 0
+                window.StopMovingOrSizing = function() stops = stops + 1 end
+                window:Show()
+
+                window:Hide()
+
+                assert.are.equal(0, stops)
+            end)
         end)
 
         describe("dragging", function()
             local window, dragBar, moving
 
             before_each(function()
-                window = QuestieOptionsWindow.Create()
+                window = CreateWindow()
                 dragBar = FindChildWithScript(window, "OnMouseDown")
                 moving = false
                 window.StartMoving = function() moving = true end
@@ -113,7 +165,7 @@ describe("QuestieOptionsWindow", function()
             before_each(function()
                 Questie.IsForever = client.isForever
                 clicks = 0
-                window = QuestieOptionsWindow.Create()
+                window = CreateWindow()
                 linkTab = QuestieOptionsWindow.CreateLinkTab(
                     window, "journey", {title = "My Journey", icon = 136797, iconCrop = 0.1875}, function() clicks = clicks + 1 end
                 )
@@ -175,7 +227,7 @@ describe("QuestieOptionsWindow", function()
         local window
 
         before_each(function()
-            window = QuestieOptionsWindow.Create()
+            window = CreateWindow()
         end)
 
         it("should tell which tab was selected", function()

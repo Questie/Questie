@@ -149,7 +149,7 @@ Deferring a callback to the next frame requires the same care: “the tooltip is
 | `C_TooltipInfo.GetBagItem` | Function presence confirmed. | Not directly invoked by this test. |
 | `C_TooltipInfo.GetHyperlink` | Function presence confirmed. | Not directly invoked by this test. |
 | `TooltipUtil.SurfaceArgs` | Absent at runtime; data fields already populated. | Older clients may have a different representation. |
-| `QuestieScanningTooltip` | Existing frame, setter/data getter methods, and `TOOLTIP_DATA_UPDATE` registration confirmed. | Does not prove all custom frames refresh correctly. |
+| `QuestieScanningTooltip` (removed since) | Existing frame, setter/data getter methods, and `TOOLTIP_DATA_UPDATE` registration confirmed. | Does not prove all custom frames refresh correctly. |
 | `issecretvalue` | Function presence confirmed; recorders used it for redaction. | No claimed secret-value/combat coverage. |
 
 ### Initial callback counts
@@ -353,7 +353,7 @@ This table describes the original migration. The [newer native-row styling proto
 | Object frontend | Forever handles public text from primary Object post-calls. Classic retains the frame-getter/FontString `OnUpdate` scanner. Both use the existing provider-backed name/zone resolver. | No Object polling or `CountTooltip()` reads on the structured path; its live Forever coverage remains to be verified. |
 | Duplicate detection | Forever Object callbacks use a per-clear flag. Unit/Item and Classic paths retain shared last-name/type/frame/count state and `CountTooltip()` reads. | Same-payload rebuilds are covered by tests; actual Forever clears/refreshes and the remaining FontString readers still need validation. |
 | Custom row layout | [TooltipLayout](../Modules/Tooltips/TooltipLayout.lua) measures and renders Questie-owned rows, with a template-based gap-measurement tooltip. | This is presentation measurement, not native entity scanning. Structured retrieval does not replace it. |
-| Journey item pre-cache | [QuestieSearchResults](../Modules/Journey/QuestieSearchResults.lua) creates `QuestieScanningTooltip` with `GameTooltipTemplate`, calls `SetItemByID`, and waits for cached item data. | Do not remove the scanner based only on warm direct-query success; its cache/layout purpose needs separate validation. |
+| Journey item tooltip | [JourneyDetails](../Modules/Journey/JourneyDetails.lua) shows `QuestieJourneyItemTooltip` with `GameTooltipTemplate`, calls `SetItemByID`, and calls it again every half second for five seconds, because the client loads an item it doesn't know in several steps. The row follows the tooltip's height. | Do not assume the tooltip is complete when it is first shown. |
 
 Unit/Item handlers reject forbidden frames and disabled tooltip settings. Several tooltip paths also skip processing above the existing group-size threshold. These are existing policies, not new losses introduced by the probes.
 

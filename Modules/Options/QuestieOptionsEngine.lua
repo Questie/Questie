@@ -12,6 +12,8 @@ local QuestieOptionsUtils = QuestieLoader:ImportModule("QuestieOptionsUtils")
 local QuestieOptionsWindow = QuestieLoader:ImportModule("QuestieOptionsWindow")
 ---@type QuestieJourney
 local QuestieJourney = QuestieLoader:ImportModule("QuestieJourney")
+---@type JourneyWindow
+local JourneyWindow = QuestieLoader:ImportModule("JourneyWindow")
 ---@type ThreadLib
 local ThreadLib = QuestieLoader:ImportModule("ThreadLib")
 ---@type l10n
@@ -75,16 +77,11 @@ local RenderMode = {
     POPUP = 2,
 }
 
+local POPUP_WIDTH = 675
 local CANVAS_WIDTH = 625
 
--- The book of the quest log, Interface\QuestFrame\UI-QuestLog-BookIcon, which every client has under this ID
-local JOURNEY_ICON = 136797
--- The book only fills part of its round picture. Cutting this much off each side shows it 1.6 times as large.
-local JOURNEY_ICON_CROP = 0.1875
-
--- How long canvas builds can run per frame, together. Keeps a slow client far from the script time limit, which
--- is much stricter in Hardcore, however long a single control takes to create and however many tabs are building.
-local BUILD_BUDGET_SECONDS = 0.004
+-- However long a single control takes to create and however many tabs are building
+local buildBudget = ThreadLib.CreateFrameBudget(0.004)
 
 ---@class QuestieOptionsTab
 ---@field key string
@@ -185,9 +182,7 @@ local function _CreateCanvasHeader(canvas, content, leftInset)
     headerWrapper:SetAllPoints(canvas)
     headerWrapper:SetPoint("TOPLEFT", canvas, "TOPLEFT", 0, -4)
 
-    local subtitle = content:CreateFontString(nil, "OVERLAY", "Game13Font")
-    subtitle:SetPoint("TOPLEFT", canvas, "TOPLEFT", 8 + leftInset, -10)
-    subtitle:SetTextColor(0.9, 0.9, 0.9, 1.0)
+    local subtitle = QuestieOptionsWindow.CreatePageTitle(content, canvas, leftInset)
     subtitle:SetText(l10n(tabData.subtitle or tabData.title))
 
     headerWrapper:SetPoint("BOTTOM", subtitle, "BOTTOM", 0, 0)
@@ -229,39 +224,6 @@ local function _CreateScrollFrames(parent, name, header, mode)
     return scrollBox, scrollChild
 end
 
-local budgetFrameTime, budgetStartedAt
-
----Starts the budget of this frame, unless another build already did earlier in the frame.
-local function _StartFrameBudget()
-    -- GetTime only changes between frames, which tells this apart from other builds earlier in the same frame
-    local frameTime = GetTime()
-    if frameTime ~= budgetFrameTime then
-        budgetFrameTime = frameTime
-        budgetStartedAt = GetTimePreciseSec()
-    end
-end
-
----Continues in a later frame once this frame's budget is spent. A resumed build starts the budget before it does
----anything, so its first control counts as well, and it waits for another frame if other builds already spent it.
----@async
-local function _YieldIfFrameBudgetSpent()
-    _StartFrameBudget()
-    while GetTimePreciseSec() - budgetStartedAt >= BUILD_BUDGET_SECONDS do
-        coYield()
-        _StartFrameBudget()
-    end
-end
-
----Continues in a later frame that no other build has used yet, and keeps the other builds out of the rest of it.
----@async
-local function _YieldForFrameOfItsOwn()
-    repeat
-        coYield()
-    until GetTime() ~= budgetFrameTime
-    budgetFrameTime = GetTime()
-    budgetStartedAt = GetTimePreciseSec() - BUILD_BUDGET_SECONDS
-end
-
 ---Creates everything on a canvas, pausing whenever the frame's budget is used up.
 ---Each control shows the current setting from the moment it exists, so settings changing mid-build are no problem.
 ---Neither is a search, because the controls are only placed at the end.
@@ -272,17 +234,17 @@ _BuildCanvas = function(canvas)
 
     local function AddControl(control)
         table.insert(canvas.controls, control)
-        _YieldIfFrameBudgetSpent()
+        buildBudget.YieldIfSpent()
     end
 
-    _YieldIfFrameBudgetSpent()
+    buildBudget.YieldIfSpent()
 
     -- Everything the build creates goes on here, so a failed build can be thrown away
     local content = CreateFrame("Frame", nil, canvas)
     content:SetAllPoints(canvas)
     canvas.content = content
 
-    local headerWrapper = _CreateCanvasHeader(canvas, content, isPopup and 44 or 0)
+    local headerWrapper = _CreateCanvasHeader(canvas, content, isPopup and QuestieOptionsWindow.HEADER_INSET or 8)
 
     local scrollBox, scrollChild = _CreateScrollFrames(content, canvas:GetName() .. "_Scroll", headerWrapper, canvas.mode)
 
@@ -309,7 +271,7 @@ _BuildCanvas = function(canvas)
     end
 
     -- Laying out a finished tab is a lot of work at once, so it gets a frame of its own
-    _YieldForFrameOfItsOwn()
+    buildBudget.YieldForFrameOfItsOwn()
 
     local placedSearchText
 
@@ -367,7 +329,14 @@ end
 
 ---@return Frame window
 local function _CreatePopup()
-    local window = QuestieOptionsWindow.Create(function(searchText)
+    local window = QuestieOptionsWindow.Create({
+        name = "QuestieStandaloneSettings",
+        title = "Questie",
+        strata = "HIGH",
+        width = POPUP_WIDTH,
+        height = math.floor(GetScreenHeight() * 0.7),
+    })
+    QuestieOptionsWindow.AddSearchBox(window, function(searchText)
         QuestieOptionsEngine:SetSearchText(searchText)
     end)
     -- Reset the search and selected tab for every close path, including Escape and the close button.
@@ -385,10 +354,10 @@ local function _CreatePopup()
     end
 
     QuestieOptionsWindow.CreateLinkTab(window, "journey", {
-        title = "My Journey", icon = JOURNEY_ICON, iconCrop = JOURNEY_ICON_CROP,
+        title = "My Journey", icon = JourneyWindow.ICON, iconCrop = JourneyWindow.ICON_CROP,
     }, function()
-        QuestieOptionsEngine:ToggleConfigWindow()
-        QuestieJourney:ToggleJourneyWindow()
+        QuestieOptionsEngine:HideFrame()
+        QuestieJourney.OpenTab()
     end)
 
     _SelectPopupTab(visibleTabs[1].key)

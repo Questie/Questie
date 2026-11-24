@@ -3,13 +3,30 @@ local Popup = QuestieLoader:ImportModule("QuestiePopup")
 
 ---@type QuestieJourney
 local QuestieJourney = QuestieLoader:ImportModule("QuestieJourney")
-local _QuestieJourney = QuestieJourney.private
+---@type JourneyWindow
+local JourneyWindow = QuestieLoader:ImportModule("JourneyWindow")
+---@type QuestieOptionsControls
+local QuestieOptionsControls = QuestieLoader:ImportModule("QuestieOptionsControls")
+---@type QuestieOptionsWindow
+local QuestieOptionsWindow = QuestieLoader:ImportModule("QuestieOptionsWindow")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
-local AceGUI = LibStub("AceGUI-3.0")
+local WINDOW_WIDTH, WINDOW_HEIGHT = 360, 190
 
-local _journeyCharacterBrowserFrame
+---Nil until the window is first opened.
+---@type Frame?
+local window
+local characterDropdown, importButton
+---@type FontString
+local emptyText
+
+---The characters whose journey can be imported, as keys of QuestieConfig.char. Brought up to date when the window opens.
+---@type table<string, table>
+local characters = {}
+---@type string?
+local selectedCharacter
+
 local _pendingJourneyImport
 
 ---@type table<string, boolean>
@@ -65,102 +82,94 @@ local function _ValidateJourneyData(data)
     return true
 end
 
----Shows a frame listing other characters on this account that have journey data, allowing import
----@return void
-function QuestieJourney:ShowCharacterBrowserFrame()
-    if _journeyCharacterBrowserFrame then
-        _journeyCharacterBrowserFrame:Show()
-        return
-    end
+---@param charKey string
+---@return string
+local function _GetCharacterText(charKey)
+    local name, realm = charKey:match("^(.-) %- (.+)$")
+    return name and (name .. " (" .. realm .. ")") or charKey -- There is no realm where names are unique
+end
 
-    local characters = _GetOtherCharactersWithJourney()
-
-    local frame = AceGUI:Create("Frame")
-    _journeyCharacterBrowserFrame = frame
-    frame:SetTitle(l10n("Import Journey data"))
-    frame:SetLayout("Flow")
-    frame:SetWidth(300)
-    frame:EnableResize(false)
-
-    local importBtnNative
-    frame:SetCallback("OnClose", function(widget)
-        if importBtnNative then importBtnNative:Hide() end
-        AceGUI:Release(widget)
-        _journeyCharacterBrowserFrame = nil
-    end)
-
-    if not next(characters) then
-        frame:SetHeight(150)
-        local label = AceGUI:Create("Label")
-        label:SetText(l10n("No other characters with journey data found."))
-        label:SetFullWidth(true)
-        frame:AddChild(label)
-        frame:Show()
-        return
-    end
-
-    frame:SetHeight(175)
-
-    local dropdownList = {}
-    local dropdownOrder = {}
+---@return table<string, string>
+local function _GetCharacterTexts()
+    local texts = {}
     for charKey in pairs(characters) do
-        local charName, realm = charKey:match("^(.-) %- (.+)$")
-        dropdownList[charKey] = charName .. " (" .. realm .. ")"
-        dropdownOrder[#dropdownOrder + 1] = charKey
+        texts[charKey] = _GetCharacterText(charKey)
     end
-    table.sort(dropdownOrder, function(a, b) return dropdownList[a] < dropdownList[b] end)
+    return texts
+end
 
-    local selectedCharacterName = dropdownOrder[1]
-
-    local dropdown = AceGUI:Create("Dropdown")
-    dropdown:SetLabel(l10n("Select a character to import"))
-    dropdown:SetFullWidth(true)
-    dropdown:SetList(dropdownList, dropdownOrder)
-    dropdown:SetValue(selectedCharacterName)
-
-    dropdown:SetCallback("OnValueChanged", function(_, _, value)
-        selectedCharacterName = value
-    end)
-
-    -- Find AceGUI's built-in close button and status bar.
-    -- statusbg is a Button (BackdropTemplate, no text) that spans the bottom and blocks clicks in that zone.
-    -- We hide it (unused) and anchor the Import button directly to the left of the close button.
-    local closeBtn, statusBar
-    for _, child in next, {frame.frame:GetChildren()} do
-        if child:GetObjectType() == "Button" then
-            local text = child:GetText()
-            if text == CLOSE then
-                closeBtn = child
-            elseif not text or text == "" then
-                statusBar = child
-            end
-        end
+---@return string[] charKeys Sorted by what is shown
+local function _GetCharacterOrder()
+    local order = {}
+    for charKey in pairs(characters) do
+        table.insert(order, charKey)
     end
-    if statusBar then statusBar:Hide() end
+    table.sort(order, function(a, b) return _GetCharacterText(a) < _GetCharacterText(b) end)
+    return order
+end
 
-    importBtnNative = CreateFrame("Button", nil, frame.frame, "UIPanelButtonTemplate")
-    importBtnNative:SetSize(100, 20)
-    importBtnNative:SetText(l10n("Import"))
-    if closeBtn then
-        importBtnNative:SetPoint("BOTTOMLEFT", frame.frame, "BOTTOMLEFT", 27, 17)
-    else
-        importBtnNative:SetPoint("BOTTOMRIGHT", frame.frame, "BOTTOMRIGHT", -132, 17)
+local function _ImportSelected()
+    local journey = characters[selectedCharacter]
+    if not _ValidateJourneyData(journey) then
+        Questie:Print(l10n("Invalid journey data - paste the full exported text."))
+        return
     end
-    importBtnNative:SetScript("OnClick", function()
-        local journey = QuestieConfig.char[selectedCharacterName] and QuestieConfig.char[selectedCharacterName].journey
-        if not journey or not _ValidateJourneyData(journey) then
-            Questie:Print(l10n("Invalid journey data - paste the full exported text."))
-            return
-        end
-        _pendingJourneyImport = journey
-        Popup.Show("QUESTIE_JOURNEY_IMPORT_CONFIRM")
-    end)
+    _pendingJourneyImport = journey
+    Popup.Show("QUESTIE_JOURNEY_IMPORT_CONFIRM")
+end
 
-    frame:AddChild(dropdown)
-    frame:Show()
+local function _CreateWindow()
+    window = QuestieOptionsWindow.Create({
+        name = "QuestieImportJourneyFrame",
+        title = l10n("Import Journey data"),
+        strata = "FULLSCREEN_DIALOG", -- Above the settings, which it is opened from
+        isPopup = true,
+        width = WINDOW_WIDTH,
+        height = WINDOW_HEIGHT,
+    })
 
-    QuestieImportJourneyFrame = frame
-    table.insert(UISpecialFrames, "QuestieImportJourneyFrame")
+    local canvas = window.canvasContainer
+    emptyText = canvas:CreateFontString(nil, "ARTWORK", "GameFontHighlight")
+    emptyText:SetPoint("LEFT", canvas, "LEFT", 14, 0)
+    emptyText:SetPoint("RIGHT", canvas, "RIGHT", -14, 0)
+    emptyText:SetText(l10n("No other characters with journey data found."))
+
+    characterDropdown = QuestieOptionsControls.Create(canvas, {
+        type = "dropdown",
+        title = l10n("Select a character to import"),
+        options = _GetCharacterTexts,
+        sortOrder = _GetCharacterOrder,
+        get = function() return selectedCharacter end,
+        set = function(charKey) selectedCharacter = charKey end,
+    }, WINDOW_WIDTH - 40, 1)
+    characterDropdown:SetPoint("TOP", canvas, "TOP", 0, -32)
+
+    importButton = QuestieOptionsControls.Create(canvas, {
+        type = "button",
+        title = "",
+        btnLabel = l10n("Import"),
+        align = "CENTER",
+        func = _ImportSelected,
+    }, WINDOW_WIDTH - 40, 1)
+    importButton:SetPoint("BOTTOM", canvas, "BOTTOM", 0, 4)
+end
+
+---Shows the other characters on this account that have journey data, to import it
+function QuestieJourney:ShowCharacterBrowserFrame()
+    characters = _GetOtherCharactersWithJourney()
+    if not characters[selectedCharacter] then
+        selectedCharacter = _GetCharacterOrder()[1]
+    end
+
+    if not window then
+        _CreateWindow()
+    end
+    local hasCharacters = selectedCharacter ~= nil
+    emptyText:SetShown(not hasCharacters)
+    characterDropdown:SetShown(hasCharacters)
+    importButton:SetShown(hasCharacters)
+    QuestieOptionsControls.Refresh(characterDropdown)
+    window:Show()
 end
 
 ---Popup dialog for confirming journey import
@@ -174,9 +183,8 @@ Popup.Dialogs["QUESTIE_JOURNEY_IMPORT_CONFIRM"] = {
     OnAccept = function()
         Questie.db.char.journey = _pendingJourneyImport
         _pendingJourneyImport = nil
-        if _journeyCharacterBrowserFrame then
-            _journeyCharacterBrowserFrame:Hide()
-        end
+        window:Hide()
+        JourneyWindow.Refresh()
         Questie:Print(l10n("Journey imported. Open the My Journey tab to see the changes."))
     end,
     OnCancel = function()

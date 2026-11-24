@@ -98,6 +98,15 @@ function _QuestieJourney:GetJourneyEntries()
     return dateTable
 end
 
+local QUEST_STATES = {Accept = "Accepted", Complete = "Completed", Abandon = "Abandoned"}
+
+---What happened to the quest of an entry.
+---@param entry JourneyEntry
+---@return string
+function _QuestieJourney.GetQuestState(entry)
+    return l10n(QUEST_STATES[entry.SubType])
+end
+
 function _QuestieJourney:GetEntryText(entry)
     local entryText = ""
 
@@ -106,18 +115,8 @@ function _QuestieJourney:GetEntryText(entry)
     elseif entry.Event == "Note" then
         entryText = l10n('Note: %s', entry.Title)
     elseif entry.Event == "Quest" then
-        local state
-        if entry.SubType == "Accept" then
-            state = l10n('Accepted')
-        elseif entry.SubType == "Complete" then
-            state = l10n('Completed')
-        elseif entry.SubType == "Abandon" then
-            state = l10n('Abandoned')
-        else
-            state = "ERROR!!"
-        end
         local qName = QuestieDB.QueryQuestSingle(entry.Quest, "name")
-        entryText = l10n('Quest %s: %s', state or "no state", qName or "no quest name")
+        entryText = l10n('Quest %s: %s', _QuestieJourney.GetQuestState(entry), qName or "no quest name")
     end
     return entryText
 end

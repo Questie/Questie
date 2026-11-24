@@ -4,94 +4,135 @@ local _QuestieJourney = QuestieJourney.private
 -------------------------
 --Import modules.
 -------------------------
----@type QuestieJourneyUtils
-local QuestieJourneyUtils = QuestieLoader:ImportModule("QuestieJourneyUtils")
----@type QuestieDB
-local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
----@type QuestieLib
-local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
+---@type JourneyDetails
+local JourneyDetails = QuestieLoader:ImportModule("JourneyDetails")
+---@type JourneyPanes
+local JourneyPanes = QuestieLoader:ImportModule("JourneyPanes")
+---@type JourneyTree
+local JourneyTree = QuestieLoader:ImportModule("JourneyTree")
+---@type QuestieOptionsControls
+local QuestieOptionsControls = QuestieLoader:ImportModule("QuestieOptionsControls")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
-local AceGUI = LibStub("AceGUI-3.0");
+local RECENT_COUNT = 5
+local RECENT_LINE_HEIGHT = 16
+local RECENT_TOP = 24
+local RECENT_HEIGHT = RECENT_COUNT * RECENT_LINE_HEIGHT + 16
+local NOTE_BUTTON_WIDTH = 240
 
---- Draw the "My Journey" tab
----@param container Frame
----@return SimpleGroup
-function _QuestieJourney.myJourney:DrawTab(container)
-    local header = AceGUI:Create("Heading");
-    header:SetText(l10n('Your Recent History'));
-    header:SetFullWidth(true);
-    container:AddChild(header);
-    QuestieJourneyUtils:Spacer(container);
+---@type FontString[]
+local recentLines = {}
+---@type JourneyTree.Instance
+local tree
+---@type JourneyDetails.Instance
+local details
 
-    -- get last 5 elements from table for history
-    local counter = #Questie.db.char.journey;
-    local recentEvents = {};
-    for i = counter, counter-4, -1 do
-        if i <= 0 then
-            break;
-        end
+---The selected entry itself, because the index of an entry changes when one before it is deleted.
+---@type JourneyEntry?
+local selectedEntry
 
-        recentEvents[i] = {};
-        recentEvents[i] = AceGUI:Create("Label");
-        recentEvents[i]:SetFullWidth(true);
+---What is listed. The journey is another one after an import, and otherwise entries are only added and deleted.
+---@type JourneyEntry[]?
+local listedJourney
+---@type number?
+local listedCount
 
-        local timestamp = Questie:Colorize(QuestieLib.FormatDate(Questie.db.char.journey[i].Timestamp) .. " ", 'lightBlue');
+---The journey whose newest month was expanded.
+---@type JourneyEntry[]?
+local expandedJourney
 
-        -- if it's a quest event
-        if Questie.db.char.journey[i].Event == "Quest" then
-            local qName = QuestieDB.QueryQuestSingle(Questie.db.char.journey[i].Quest, "name");
-            if qName then
-                qName = Questie:Colorize(qName, 'gray');
+---@param keepsScrollPosition boolean?
+local function _ShowDetails(keepsScrollPosition)
+    local rows = selectedEntry and _QuestieJourney.myJourney.GetEntryRows(selectedEntry) or {}
+    JourneyDetails.SetRows(details, rows, keepsScrollPosition)
+end
 
-                if Questie.db.char.journey[i].SubType == "Accept" then
-                    recentEvents[i]:SetText(timestamp .. Questie:Colorize(l10n('You Accepted the quest %s', qName), 'yellow'));
-                elseif Questie.db.char.journey[i].SubType == "Abandon" then
-                    recentEvents[i]:SetText(timestamp .. Questie:Colorize(l10n('You Abandoned the quest %s', qName), 'yellow'));
-                elseif Questie.db.char.journey[i].SubType == "Complete" then
-                    recentEvents[i]:SetText(timestamp .. Questie:Colorize(l10n('You Completed the quest %s', qName), 'yellow'));
-                end
-            end
-        elseif Questie.db.char.journey[i].Event == "Level" then
-            local level = Questie:Colorize(l10n('Level %s', Questie.db.char.journey[i].NewLevel), 'gray');
-            recentEvents[i]:SetText(timestamp .. Questie:Colorize(l10n('Congratulations! You reached %s !', level), 'yellow'));
-        elseif Questie.db.char.journey[i].Event == "Note" then
-            local title = Questie:Colorize(Questie.db.char.journey[i].Title, 'gray');
-            recentEvents[i]:SetText(timestamp .. Questie:Colorize(l10n('Note Created: %s', title), 'yellow'));
-        end
+---@param canvas Frame
+local function _CreateRecentHistory(canvas)
+    local box = QuestieOptionsControls.Create(canvas, {type = "container", title = l10n("Your Recent History")}, 200, 3)
+    box:EnableMouse(false)
+    box:SetPoint("TOPLEFT", canvas, "TOPLEFT", 12, -RECENT_TOP)
+    box:SetPoint("TOPRIGHT", canvas, "TOPRIGHT", -12, -RECENT_TOP)
+    box:SetHeight(RECENT_HEIGHT)
 
-        container:AddChild(recentEvents[i]);
+    for index = 1, RECENT_COUNT do
+        local line = box.contentArea:CreateFontString(nil, "ARTWORK", "GameFontHighlight")
+        local y = -8 - (index - 1) * RECENT_LINE_HEIGHT
+        line:SetPoint("TOPLEFT", box.contentArea, "TOPLEFT", 14, y)
+        line:SetPoint("TOPRIGHT", box.contentArea, "TOPRIGHT", -14, y)
+        line:SetJustifyH("LEFT")
+        line:SetWordWrap(false)
+        recentLines[index] = line
     end
+end
 
-    if counter == 0 then
-        local justdoit = AceGUI:Create("Label");
-        justdoit:SetFullWidth(true);
-        justdoit:SetText(Questie:Colorize(l10n("It's about time you embark on your first Journey!"), 'yellow'));
-        container:AddChild(justdoit);
+local function _UpdateRecentHistory()
+    local journey = Questie.db.char.journey
+    for index, line in ipairs(recentLines) do
+        local entry = journey[#journey + 1 - index] -- Newest first
+        line:SetText(entry and _QuestieJourney.myJourney.GetRecentText(entry) or "")
     end
+    if #journey == 0 then
+        recentLines[1]:SetText(Questie:Colorize(l10n("It's about time you embark on your first Journey!"), "yellow"))
+    end
+end
 
-    QuestieJourneyUtils:Spacer(container);
+---@param entry JourneyEntry?
+---@return number?
+local function _GetIndex(entry)
+    for index, candidate in ipairs(Questie.db.char.journey) do
+        if candidate == entry then
+            return index
+        end
+    end
+end
 
-    local treeHeader = AceGUI:Create("Heading");
-    treeHeader:SetText(l10n("%s's Journey", GetUnitName("player", true)));
-    treeHeader:SetFullWidth(true);
-    container:AddChild(treeHeader);
+local function _ListHistory()
+    local journey = Questie.db.char.journey
+    local history = _QuestieJourney:GetHistory()
+    local newestYear = history[1]
+    if newestYear and expandedJourney ~= journey then
+        expandedJourney = journey
+        JourneyTree.Expand(tree, newestYear.value, newestYear.children[1].value)
+    end
+    JourneyTree.SetNodes(tree, history)
+    listedJourney, listedCount = journey, #journey
 
-    local noteButton = AceGUI:Create("Button");
-    noteButton:SetText(l10n('Add New Adventure Note'));
-    noteButton:SetPoint("RIGHT");
-    noteButton:SetCallback("OnClick", _QuestieJourney.ShowNotePopup);
-    container:AddChild(noteButton);
+    local selectedIndex = _GetIndex(selectedEntry)
+    if not selectedIndex then
+        selectedEntry = nil
+    end
+    local path = selectedIndex and JourneyTree.FindPath(tree, function(node) return node.value == selectedIndex end)
+    JourneyTree.MoveSelection(tree, path)
+end
 
-    QuestieJourneyUtils:Spacer(container);
+---@param canvas Frame
+function _QuestieJourney.myJourney.Build(canvas)
+    local noteButton = QuestieOptionsControls.Create(canvas, {
+        type = "button",
+        title = "",
+        btnLabel = l10n("Add New Adventure Note"),
+        align = "RIGHT",
+        func = _QuestieJourney.ToggleNoteWindow,
+    }, NOTE_BUTTON_WIDTH, 1)
+    noteButton:SetPoint("BOTTOMRIGHT", canvas, "TOPRIGHT", -10, -3) -- In the header
 
-    ---@class SimpleGroup
-    local treeGroup = AceGUI:Create("SimpleGroup");
-    treeGroup:SetLayout("fill");
-    treeGroup:SetFullHeight(true);
-    treeGroup:SetFullWidth(true);
-    container:AddChild(treeGroup);
+    _CreateRecentHistory(canvas)
 
-    return treeGroup
+    local panes = JourneyPanes.Create(canvas, l10n("%s's Journey", GetUnitName("player", true)), RECENT_TOP + RECENT_HEIGHT + 12)
+    tree = JourneyTree.Create(panes.list.contentArea, function(node)
+        selectedEntry = Questie.db.char.journey[node.value]
+        _ShowDetails()
+    end)
+    details = JourneyDetails.Create(panes.details.contentArea)
+end
+
+function _QuestieJourney.myJourney.Refresh()
+    local journey = Questie.db.char.journey
+    if journey ~= listedJourney or #journey ~= listedCount then
+        _UpdateRecentHistory()
+        _ListHistory()
+    end
+    _ShowDetails(true)
 end

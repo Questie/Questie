@@ -20,6 +20,8 @@ local AchievementEventHandler = QuestieLoader:ImportModule("AchievementEventHand
 local GroupEventHandler = QuestieLoader:ImportModule("GroupEventHandler")
 ---@type QuestieJourney
 local QuestieJourney = QuestieLoader:ImportModule("QuestieJourney")
+---@type JourneyWindow
+local JourneyWindow = QuestieLoader:ImportModule("JourneyWindow")
 ---@type QuestieProfessions
 local QuestieProfessions = QuestieLoader:ImportModule("QuestieProfessions")
 ---@type ProfessionStations
@@ -635,12 +637,9 @@ function _EventHandler:PlayerRegenDisabled()
         QuestieTracker.HandleCombatStarted()
     end
 
-    -- Let's make sure the frame exists - might be nil if player is in combat upon login
-    if QuestieJourney then
-        if QuestieJourney:IsShown() then
-            journeyHiddenByCombat = true
-            QuestieJourney:ToggleJourneyWindow()
-        end
+    if JourneyWindow.IsShown() then
+        journeyHiddenByCombat = true
+        JourneyWindow.Hide()
     end
 
     -- The settings panel can be shown in combat, but some of its options
@@ -657,7 +656,7 @@ function _EventHandler:PlayerRegenEnabled()
     QuestieTracker.HandleCombatEnded()
 
     if journeyHiddenByCombat then
-        QuestieJourney:ToggleJourneyWindow()
+        JourneyWindow.ShowAgain()
         journeyHiddenByCombat = false
     end
 

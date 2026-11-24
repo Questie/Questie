@@ -240,12 +240,26 @@ Modules\Network\QuestiePartyObjectives.lua
 # Journey
 Modules\Journey\JourneyData.lua
 Modules\Journey\QuestieJourney.lua
-Modules\Journey\QuestieJourneyPrivates.lua
+Modules\Journey\JourneyThread.lua
+Modules\Journey\JourneyWindow.lua
+Modules\Journey\JourneyPanes.lua
+Modules\Journey\JourneyScrollBox.lua
+Modules\Journey\JourneyIcon.lua
+Modules\Journey\JourneyList.lua
+Modules\Journey\JourneyTree.lua
+Modules\Journey\JourneyResultList.lua
+Modules\Journey\JourneyDetails.lua
+Modules\Journey\JourneyLinks.lua
+Modules\Journey\JourneyLinkInput.lua
+Modules\Journey\ManualNotes.lua
+Modules\Journey\JourneyRawData.lua
+Modules\Journey\JourneyEntityDetails.lua
+Modules\Journey\JourneyQuestList.lua
 Modules\Journey\QuestieJourneyUtils.lua
 Modules\Journey\QuestieJourneyFactions.lua
 Modules\Journey\History.lua
 Modules\Journey\QuestieJourneyShare.lua
-Modules\Journey\QuestDetailsFrame.lua
+Modules\Journey\JourneyQuestDetails.lua
 Modules\Journey\tabs\MyJourney\Note.lua
 Modules\Journey\tabs\MyJourney\MyJourney.lua
 Modules\Journey\tabs\MyJourney\MyJourneyTab.lua
@@ -253,10 +267,8 @@ Modules\Journey\tabs\QuestsByZone\QuestsByZone.lua
 Modules\Journey\tabs\QuestsByZone\QuestsByZoneTab.lua
 Modules\Journey\tabs\QuestsByFaction\QuestsByFactions.lua
 Modules\Journey\tabs\QuestsByFaction\QuestsByFactionsTab.lua
-#Modules\Journey\tabs\Search\Search.lua
-#Modules\Journey\tabs\Search\SearchTab.lua
 Modules\Journey\QuestieSearch.lua
-Modules\Journey\QuestieSearchResults.lua
+Modules\Journey\tabs\Search\SearchTab.lua
 
 # Tracker
 Modules\Tracker\AutoCompleteFrame.lua
