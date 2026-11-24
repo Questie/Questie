@@ -90,7 +90,7 @@ describe("The quests of a zone", function()
 
     for state, category in pairs({
         AVAILABLE = "a", QUEST_LOG = "a", COMPLETED = "c", NO_PREQUESTSINGLE = "p", MISSING_REPUTATION = "p", LEVEL_TOO_LOW = "p",
-        LEVEL_TOO_HIGH = "u", SPELL_KNOWN = "u", EXCLUSIVE_COMPLETED = "c",
+        LEVEL_TOO_HIGH = "u", SPELL_KNOWN = "u", EXCLUSIVE_COMPLETED = "u",
     }) do
         it("should be in category " .. category .. " when they are " .. state, function()
             states[7] = state

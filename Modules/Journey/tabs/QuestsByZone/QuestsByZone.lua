@@ -150,8 +150,8 @@ function _QuestieJourney.questsByZone:CategorizeQuests(quests)
                         local blockedByExclusiveTo = false
                         for _, exclusiveToQuestId in pairs(childQuestExclusiveTo or {}) do
                             if ActiveQuests.Get(exclusiveToQuestId) or Questie.db.char.complete[exclusiveToQuestId] then
-                                tinsert(zoneTree[4].children, temp)
-                                completedCounter = completedCounter + 1
+                                tinsert(zoneTree[6].children, temp)
+                                unobtainableCounter = unobtainableCounter + 1
                                 blockedByExclusiveTo = true
                                 break
                             end
@@ -233,49 +233,8 @@ function _QuestieJourney.questsByZone:CategorizeQuests(quests)
                     tinsert(zoneTree[6].children, temp)
                     unobtainableCounter = unobtainableCounter + 1
                 elseif returnReason == DoableStates.EXCLUSIVE_COMPLETED or returnReason == DoableStates.EXCLUSIVE_IN_QUEST_LOG then -- exclusive quest completed or in quest log
-                    local nextQuestInChain = QuestieDB.QueryQuestSingle(questId, "nextQuestInChain")
-                    local preQuestSingle = QuestieDB.QueryQuestSingle(questId, "preQuestSingle")
-                    local questDecidedCategory = false
-                    -- checking for cases where the exclusiveTo is on the same level as other preQuestSingle values
-                    if preQuestSingle then
-                        for i = 1, #preQuestSingle do
-                            local exclusivePreQuests = QuestieDB.QueryQuestSingle(preQuestSingle[i], "exclusiveTo")
-                            if exclusivePreQuests then
-                                for _, exclusivePreQuestId in pairs(exclusivePreQuests) do
-                                    if not questDecidedCategory and (Questie.db.char.complete[exclusivePreQuestId] or ActiveQuests.Get(exclusivePreQuestId)) then
-                                        tinsert(zoneTree[6].children, temp)
-                                        unobtainableCounter = unobtainableCounter + 1
-                                        questDecidedCategory = true
-                                        break
-                                    end
-                                end
-                            end
-                        end
-                    end
-                    -- checking for cases where the exclusiveTo is on the same level as other nextQuestInChain values
-                    if nextQuestInChain and nextQuestInChain ~= 0 then
-                        local exclusiveFollowups = QuestieDB.QueryQuestSingle(nextQuestInChain, "exclusiveTo")
-                        if exclusiveFollowups then
-                            for _, exclusiveFollowupId in pairs(exclusiveFollowups) do
-                                if not questDecidedCategory and (Questie.db.char.complete[exclusiveFollowupId] or ActiveQuests.Get(exclusiveFollowupId)) then
-                                    tinsert(zoneTree[6].children, temp)
-                                    unobtainableCounter = unobtainableCounter + 1
-                                    questDecidedCategory = true
-                                    break
-                                end
-                            end
-                        end
-                    end
-                    -- "Regular" exclusives
-                    if not questDecidedCategory then
-                        if QuestieDB.IsRepeatable(questId) then
-                            tinsert(zoneTree[6].children, temp)
-                            unobtainableCounter = unobtainableCounter + 1
-                        else
-                            tinsert(zoneTree[4].children, temp)
-                            completedCounter = completedCounter + 1
-                        end
-                    end
+                    tinsert(zoneTree[6].children, temp)
+                    unobtainableCounter = unobtainableCounter + 1
                 elseif returnReason == DoableStates.MISSING_DAILY then -- not today's daily quest
                     tinsert(zoneTree[6].children, temp)
                     unobtainableCounter = unobtainableCounter + 1
