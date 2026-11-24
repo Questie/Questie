@@ -3,6 +3,7 @@ local WeaponMasterSkills = QuestieLoader:CreateModule("WeaponMasterSkills")
 
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
+local WEAPON_SKILL_ICON_SIZE = 12
 
 local WEAPON_SKILL_SPELL_IDS = {
     ["Bows"] = 264,
@@ -62,7 +63,7 @@ function WeaponMasterSkills.AppendSkillsToTitle(title, npcId)
     for index, skill in ipairs(skills) do
         local icon = GetWeaponSkillIcon(WEAPON_SKILL_SPELL_IDS[skill])
         local separator = index == 1 and "\n\n - " or "\n - "
-        title = title .. separator .. "|T" .. icon .. ":16|t " .. l10n(skill)
+        title = title .. separator .. "|T" .. icon .. ":" .. WEAPON_SKILL_ICON_SIZE .. "|t " .. l10n(skill)
     end
     return title
 end
