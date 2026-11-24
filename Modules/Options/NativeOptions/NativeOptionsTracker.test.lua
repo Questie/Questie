@@ -42,6 +42,7 @@ describe("native tracker options", function()
         isVoiceOverLoadedStub = stub(trackerUtils, "IsVoiceOverLoaded", function() return false end)
         isSpokenLoadedStub = stub(trackerUtils, "IsSpokenLoaded", function() return false end)
         dofile("Modules/Tracker/TrackerShortcuts.lua")
+        dofile("Localization/l10n.lua")
     end)
 
     after_each(function()
@@ -123,6 +124,93 @@ describe("native tracker options", function()
         assert.is_false(showPlayButtons.get())
         assert.is_false(Questie.db.profile.trackerShowPlayButtons)
         assert.spy(tracker.Update).was.called_with(tracker)
+    end)
+
+    describe("tracker sorting", function()
+        local function _SortItems()
+            return LoadTab().group_quests.items.group_objectives.items
+        end
+
+        local sortSettings = {
+            {item = "zoneSort", setting = "trackerZoneSort", value = "proximity", set = function(item, value) item.set(value) end},
+            {item = "zoneSortReversed", setting = "trackerZoneSortReversed", value = true, set = function(item, value) item.set(nil, value) end},
+            {item = "questSort", setting = "trackerQuestSort", value = "complete", set = function(item, value) item.set(value) end},
+            {item = "questSortReversed", setting = "trackerQuestSortReversed", value = true, set = function(item, value) item.set(nil, value) end},
+        }
+        for _, sortSetting in ipairs(sortSettings) do
+            it("should change the " .. sortSetting.setting .. " setting and update the tracker", function()
+                local item = _SortItems()[sortSetting.item]
+
+                sortSetting.set(item, sortSetting.value)
+
+                assert.are.equal(sortSetting.value, item.get())
+                assert.are.equal(sortSetting.value, Questie.db.profile[sortSetting.setting])
+                assert.spy(tracker.Update).was.called_with(tracker)
+            end)
+        end
+
+        local function _CountKeys(tbl)
+            local count = 0
+            for _ in pairs(tbl) do
+                count = count + 1
+            end
+            return count
+        end
+
+        it("should offer only sorts the tracker knows, plus no zone sort, and show each of them", function()
+            dofile("Modules/Tracker/Sorter/QuestSort.lua")
+            dofile("Modules/Tracker/Sorter/ZoneSort.lua")
+            local QuestSort = QuestieLoader:ImportModule("QuestSort")
+            local ZoneSort = QuestieLoader:ImportModule("ZoneSort")
+            local items = _SortItems()
+
+            -- The dropdown only shows options that are listed in sortOrder
+            assert.are.same({"none", "alphabetical", "proximity"}, items.zoneSort.sortOrder)
+            assert.are.equal(3, _CountKeys(items.zoneSort.options()))
+            for _, sortName in ipairs(items.zoneSort.sortOrder) do
+                assert.is_string(items.zoneSort.options()[sortName])
+                if sortName ~= "none" then
+                    assert.is_table(ZoneSort.Get(sortName, false))
+                end
+            end
+            assert.is_nil(ZoneSort.Get("none", false))
+
+            assert.are.same({"level", "complete", "proximity"}, items.questSort.sortOrder)
+            assert.are.equal(3, _CountKeys(items.questSort.options()))
+            for _, sortName in ipairs(items.questSort.sortOrder) do
+                assert.is_string(items.questSort.options()[sortName])
+                assert.is_table(QuestSort.Get(sortName, false))
+            end
+        end)
+
+        it("should select an offered sort by default", function()
+            dofile("Modules/Options/QuestieOptionsDefaults.lua")
+            local defaults = QuestieLoader:ImportModule("QuestieOptionsDefaults"):Load().profile
+            local items = _SortItems()
+
+            assert.is_string(items.zoneSort.options()[defaults.trackerZoneSort])
+            assert.is_string(items.questSort.options()[defaults.trackerQuestSort])
+            assert.is_false(defaults.trackerZoneSortReversed)
+            assert.is_false(defaults.trackerQuestSortReversed)
+        end)
+
+        it("should disable reversing the zone sort while there is no zone sort", function()
+            Questie.db.profile.trackerEnabled = true
+            Questie.db.profile.trackerZoneSort = "none"
+            local items = _SortItems()
+
+            assert.is_false(items.zoneSortReversed.enabled())
+            assert.is_true(items.questSortReversed.enabled())
+
+            Questie.db.profile.trackerZoneSort = "alphabetical"
+
+            assert.is_true(items.zoneSortReversed.enabled())
+
+            Questie.db.profile.trackerEnabled = false
+
+            assert.is_false(items.zoneSortReversed.enabled())
+            assert.is_false(items.questSortReversed.enabled())
+        end)
     end)
 
     it("should change the share quest shortcut", function()

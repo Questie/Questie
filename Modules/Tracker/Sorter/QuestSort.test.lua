@@ -14,8 +14,8 @@ describe("QuestSort", function()
     end
 
     ---@return QuestId[] questIds In the order the named quest sort lists the given quests.
-    local function _SortedIds(sortName, detailsList)
-        table.sort(detailsList, QuestSort.sorts[sortName].compare)
+    local function _SortedIds(sortName, reversed, detailsList)
+        table.sort(detailsList, QuestSort.Get(sortName, reversed).compare)
 
         local questIds = {}
         for index, details in ipairs(detailsList) do
@@ -34,6 +34,10 @@ describe("QuestSort", function()
         QuestSort = QuestieLoader:ImportModule("QuestSort")
     end)
 
+    it("has no sort for a name it does not know", function()
+        assert.is_nil(QuestSort.Get("somethingNewer", false))
+    end)
+
     describe("level", function()
         local function _Quests()
             typePriorities[2] = 7
@@ -41,11 +45,11 @@ describe("QuestSort", function()
         end
 
         it("lists lower levels first, then by quest type priority, then by quest ID", function()
-            assert.are.same({9, 4, 5, 2}, _SortedIds("level", _Quests()))
+            assert.are.same({9, 4, 5, 2}, _SortedIds("level", false, _Quests()))
         end)
 
         it("lists higher levels first when reversed, keeping type and ID order within a level", function()
-            assert.are.same({4, 5, 2, 9}, _SortedIds("levelReversed", _Quests()))
+            assert.are.same({4, 5, 2, 9}, _SortedIds("level", true, _Quests()))
         end)
     end)
 
@@ -60,11 +64,11 @@ describe("QuestSort", function()
         end
 
         it("lists the most complete quests first, lowest level first among equals", function()
-            assert.are.same({1, 3, 2, 4}, _SortedIds("complete", _Quests()))
+            assert.are.same({1, 3, 2, 4}, _SortedIds("complete", false, _Quests()))
         end)
 
         it("lists the least complete quests first when reversed, still lowest level first among equals", function()
-            assert.are.same({4, 3, 2, 1}, _SortedIds("completeReversed", _Quests()))
+            assert.are.same({4, 3, 2, 1}, _SortedIds("complete", true, _Quests()))
         end)
     end)
 
@@ -81,11 +85,11 @@ describe("QuestSort", function()
         end
 
         it("lists the player's continent first, nearest first, with unknown locations last and level order among equals", function()
-            assert.are.same({2, 5, 1, 6, 4, 3}, _SortedIds("proximity", _Quests()))
+            assert.are.same({2, 5, 1, 6, 4, 3}, _SortedIds("proximity", false, _Quests()))
         end)
 
         it("lists the exact opposite order when reversed", function()
-            assert.are.same({3, 4, 6, 1, 5, 2}, _SortedIds("proximityReversed", _Quests()))
+            assert.are.same({3, 4, 6, 1, 5, 2}, _SortedIds("proximity", true, _Quests()))
         end)
     end)
 end)

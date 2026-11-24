@@ -7,8 +7,8 @@ describe("ZoneSort", function()
     local groups, questDetails
 
     ---@return string[] names Group names in the order the named zone sort lists them.
-    local function _OrderedNames(sortName)
-        ZoneSort.sorts[sortName].order(groups, questDetails)
+    local function _OrderedNames(sortName, reversed)
+        ZoneSort.Get(sortName, reversed).order(groups, questDetails)
 
         local names = {}
         for index, group in ipairs(groups) do
@@ -39,21 +39,30 @@ describe("ZoneSort", function()
         }
     end)
 
+    it("has no sort for \"none\" or for a name it does not know", function()
+        assert.is_nil(ZoneSort.Get("none", false))
+        assert.is_nil(ZoneSort.Get("somethingNewer", false))
+    end)
+
     it("orders groups by name", function()
-        assert.are.same({"Alpha", "Bravo", "Echo", "Mike", "Zulu"}, _OrderedNames("alphabetical"))
+        assert.are.same({"Alpha", "Bravo", "Echo", "Mike", "Zulu"}, _OrderedNames("alphabetical", false))
+    end)
+
+    it("orders groups by name from Z to A when reversed", function()
+        assert.are.same({"Zulu", "Mike", "Echo", "Bravo", "Alpha"}, _OrderedNames("alphabetical", true))
     end)
 
     it("orders groups by their nearest shown quest, with unknown locations last by name", function()
-        assert.are.same({"Zulu", "Mike", "Alpha", "Bravo", "Echo"}, _OrderedNames("proximity"))
+        assert.are.same({"Zulu", "Mike", "Alpha", "Bravo", "Echo"}, _OrderedNames("proximity", false))
     end)
 
     it("orders the farthest group first when reversed, still with unknown locations last by name", function()
-        assert.are.same({"Alpha", "Mike", "Zulu", "Bravo", "Echo"}, _OrderedNames("proximityReversed"))
+        assert.are.same({"Alpha", "Mike", "Zulu", "Bravo", "Echo"}, _OrderedNames("proximity", true))
     end)
 
     it("orders groups at the same distance by name", function()
         questDetails[2].distance = 10
 
-        assert.are.same({"Alpha", "Zulu", "Mike", "Bravo", "Echo"}, _OrderedNames("proximity"))
+        assert.are.same({"Alpha", "Zulu", "Mike", "Bravo", "Echo"}, _OrderedNames("proximity", false))
     end)
 end)

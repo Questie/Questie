@@ -697,11 +697,10 @@ end
 ---@param zoneOrSort ZoneOrSort
 ---@param questId QuestId
 ---@return string zoneName Returns the zone name for a quest based on the quests zoneOrSort value and the current tracker sorting method. If the quest has no explicit zone or category, it will return "Unknown Zone".
---- If the sorting method is not byZone, it will return a custom zone name based on the sorting type.
+--- Without a zone sort it returns the one group that all quests share.
 local function _GetZoneName(zoneOrSort, questId, nativeHeader)
     local zoneName
-    local sortObj = Questie.db.profile.trackerSortObjectives
-    local _, zoneSort = Sorter.GetSorts(sortObj)
+    local _, zoneSort = Sorter.GetSorts()
     if zoneSort then
         if nativeHeader then
             return nativeHeader
@@ -719,27 +718,14 @@ local function _GetZoneName(zoneOrSort, questId, nativeHeader)
             Questie.Debug(Questie.DEBUG_CRITICAL, "[TrackerUtils:_GetZoneName] zoneOrSort", zoneOrSort, "of quest", questId, "is not in the Database!")
         end
     else
-        -- Let's create custom Zones based on Sorting type.
-        if sortObj == "byComplete" then
-            zoneName = "Quests (By %% Complete)"
-        elseif sortObj == "byCompleteReversed" then
-            zoneName = "Quests (By %% Complete Reversed)"
-        elseif sortObj == "byLevel" then
-            zoneName = "Quests (By Level)"
-        elseif sortObj == "byLevelReversed" then
-            zoneName = "Quests (By Level Reversed)"
-        elseif sortObj == "byProximity" then
-            zoneName = "Quests (By Proximity)"
-        elseif sortObj == "byProximityReversed" then
-            zoneName = "Quests (By Proximity Reversed)"
-        end
+        zoneName = l10n("Quests")
     end
     return zoneName or "Unknown Zone"
 end
 
 ---Returns the tracker group a quest is listed under; `collapsedZones` is keyed by this name.
 ---@param quest TrackerQuest
----@return string groupName The zone or category when sorting by zone, otherwise the sort mode's single group.
+---@return string groupName The zone or category when a zone sort is chosen, otherwise the one group that all quests share.
 function TrackerUtils.GetQuestGroupName(quest)
     return _GetZoneName(quest.zoneOrSort, quest.Id, quest.zoneName)
 end
@@ -810,7 +796,7 @@ local function _StartMovementTicker()
     end)
 end
 
----@return QuestId[] sortedQuestIds Every tracker quest, group by group, in the order of the trackerSortObjectives setting.
+---@return QuestId[] sortedQuestIds Every tracker quest, group by group, in the order chosen in the tracker options.
 ---@return table<QuestId, QuestSortDetails> questDetails Display records, completion fractions and grouping labels.
 function TrackerUtils:GetSortedQuestIds()
     ---@type table<QuestId, QuestSortDetails>
@@ -842,7 +828,7 @@ function TrackerUtils:GetSortedQuestIds()
     end
 
     -- Add what the chosen sorts need beyond the quest itself
-    local questSort, zoneSort = Sorter.GetSorts(Questie.db.profile.trackerSortObjectives)
+    local questSort, zoneSort = Sorter.GetSorts()
     local usesPlayerPosition = (questSort ~= nil and questSort.usesPlayerPosition) or (zoneSort ~= nil and zoneSort.usesPlayerPosition)
     if usesPlayerPosition then
         _AddProximityDetails(questDetails)

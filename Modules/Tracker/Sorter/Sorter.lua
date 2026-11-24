@@ -18,31 +18,13 @@ local ZoneSort = QuestieLoader:ImportModule("ZoneSort")
 ---@field isOnPlayerContinent boolean? Only set for sorts with `usesPlayerPosition`.
 ---@field isShown boolean? Whether the tracker draws the quest. Only set for zone sorts with `usesShownState`.
 
--- Every value of the trackerSortObjectives setting as a zone sort and a quest sort.
--- Without a zone sort, TrackerUtils.GetQuestGroupName lists every quest under one group.
----@type table<string, {zoneSort: string?, questSort: string}>
-local sortNamesBySetting = {
-    byZone = {zoneSort = "alphabetical", questSort = "level"},
-    byZonePlayerProximity = {zoneSort = "proximity", questSort = "proximity"},
-    byZonePlayerProximityReversed = {zoneSort = "proximityReversed", questSort = "proximityReversed"},
-    byLevel = {questSort = "level"},
-    byLevelReversed = {questSort = "levelReversed"},
-    byComplete = {questSort = "complete"},
-    byCompleteReversed = {questSort = "completeReversed"},
-    byProximity = {questSort = "proximity"},
-    byProximityReversed = {questSort = "proximityReversed"},
-}
-
----@param sortSetting string Value of the trackerSortObjectives setting.
----@return QuestSortDefinition? questSort Nil when this version does not know the value, for example one saved by a newer Questie.
----@return ZoneSortDefinition? zoneSort Nil when the setting lists all quests under one group.
-function Sorter.GetSorts(sortSetting)
-    local sortNames = sortNamesBySetting[sortSetting]
-    if not sortNames then
-        return nil, nil
-    end
-
-    return QuestSort.sorts[sortNames.questSort], ZoneSort.sorts[sortNames.zoneSort]
+---The sorts chosen in the tracker options.
+---@return QuestSortDefinition? questSort Nil when this version does not know the saved quest sort.
+---@return ZoneSortDefinition? zoneSort Nil when all quests are listed under one group.
+function Sorter.GetSorts()
+    local profile = Questie.db.profile
+    return QuestSort.Get(profile.trackerQuestSort, profile.trackerQuestSortReversed),
+        ZoneSort.Get(profile.trackerZoneSort, profile.trackerZoneSortReversed)
 end
 
 ---@param questDetails table<QuestId, QuestSortDetails>

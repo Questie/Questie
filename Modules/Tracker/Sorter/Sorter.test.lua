@@ -23,15 +23,6 @@ describe("Sorter", function()
         ZoneSort = QuestieLoader:ImportModule("ZoneSort")
     end)
 
-    describe("GetSorts", function()
-        it("returns no sorts for a setting value it does not know", function()
-            local questSort, zoneSort = Sorter.GetSorts("bySomethingNewer")
-
-            assert.is_nil(questSort)
-            assert.is_nil(zoneSort)
-        end)
-    end)
-
     describe("Sort", function()
         local questDetails
 
@@ -45,7 +36,7 @@ describe("Sorter", function()
         end)
 
         it("orders the groups by the zone sort and the quests of each group by the quest sort", function()
-            local groups = Sorter.Sort(questDetails, QuestSort.sorts.level, ZoneSort.sorts.alphabetical)
+            local groups = Sorter.Sort(questDetails, QuestSort.Get("level", false), ZoneSort.Get("alphabetical", false))
 
             assert.are.same({
                 {name = "Alpha", questIds = {4, 2}},
@@ -57,7 +48,7 @@ describe("Sorter", function()
             questDetails[1].distance, questDetails[1].isShown = 5, true
             questDetails[2].distance, questDetails[2].isShown = 50, true
 
-            local groups = Sorter.Sort(questDetails, QuestSort.sorts.levelReversed, ZoneSort.sorts.proximity)
+            local groups = Sorter.Sort(questDetails, QuestSort.Get("level", true), ZoneSort.Get("proximity", false))
 
             assert.are.same({
                 {name = "Zulu", questIds = {1, 3}},
@@ -70,7 +61,7 @@ describe("Sorter", function()
                 details.zoneName = "Quests"
             end
 
-            local groups = Sorter.Sort(questDetails, QuestSort.sorts.level, nil)
+            local groups = Sorter.Sort(questDetails, QuestSort.Get("level", false), nil)
 
             assert.are.same({{name = "Quests", questIds = {4, 3, 2, 1}}}, groups)
         end)

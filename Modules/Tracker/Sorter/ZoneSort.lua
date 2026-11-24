@@ -55,29 +55,52 @@ local function _OrderByProximity(groups, questDetails, farthestFirst)
     end)
 end
 
----@type table<string, ZoneSortDefinition>
-ZoneSort.sorts = {
+-- Each sort in both directions, by the value of the trackerZoneSort setting.
+---@type table<string, {forward: ZoneSortDefinition, reversed: ZoneSortDefinition}>
+local sorts = {
     alphabetical = {
-        order = function(groups)
-            table.sort(groups, function(a, b)
-                return a.name < b.name
-            end)
-        end,
+        forward = {
+            order = function(groups)
+                table.sort(groups, function(a, b)
+                    return a.name < b.name
+                end)
+            end,
+        },
+        reversed = {
+            order = function(groups)
+                table.sort(groups, function(a, b)
+                    return a.name > b.name
+                end)
+            end,
+        },
     },
 
     proximity = {
-        order = function(groups, questDetails)
-            _OrderByProximity(groups, questDetails, false)
-        end,
-        usesPlayerPosition = true,
-        usesShownState = true,
-    },
-
-    proximityReversed = {
-        order = function(groups, questDetails)
-            _OrderByProximity(groups, questDetails, true)
-        end,
-        usesPlayerPosition = true,
-        usesShownState = true,
+        forward = {
+            order = function(groups, questDetails)
+                _OrderByProximity(groups, questDetails, false)
+            end,
+            usesPlayerPosition = true,
+            usesShownState = true,
+        },
+        reversed = {
+            order = function(groups, questDetails)
+                _OrderByProximity(groups, questDetails, true)
+            end,
+            usesPlayerPosition = true,
+            usesShownState = true,
+        },
     },
 }
+
+---@param sortName string Value of the trackerZoneSort setting.
+---@param reversed boolean? Value of the trackerZoneSortReversed setting.
+---@return ZoneSortDefinition? zoneSort Nil for "none", which lists all quests under one group, and for a name this version does not know.
+function ZoneSort.Get(sortName, reversed)
+    local sort = sorts[sortName]
+    if not sort then
+        return nil
+    end
+
+    return reversed and sort.reversed or sort.forward
+end

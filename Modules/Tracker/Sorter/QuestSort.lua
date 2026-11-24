@@ -52,47 +52,66 @@ local function _CompareByProximity(a, b)
     return a.distance < b.distance
 end
 
----@type table<string, QuestSortDefinition>
-QuestSort.sorts = {
-    level = {compare = _CompareByLevel},
+-- Each sort in both directions, by the value of the trackerQuestSort setting.
+---@type table<string, {forward: QuestSortDefinition, reversed: QuestSortDefinition}>
+local sorts = {
+    level = {
+        forward = {compare = _CompareByLevel},
 
-    -- Only the level is reversed: quests that share a level keep the order by type and ID.
-    levelReversed = {
-        compare = function(a, b)
-            if a.quest.level == b.quest.level then
-                return _CompareByTypeAndId(a, b)
-            end
-            return a.quest.level > b.quest.level
-        end,
+        -- Only the level is reversed: quests that share a level keep the order by type and ID.
+        reversed = {
+            compare = function(a, b)
+                if a.quest.level == b.quest.level then
+                    return _CompareByTypeAndId(a, b)
+                end
+                return a.quest.level > b.quest.level
+            end,
+        },
     },
 
-    -- Most complete first.
     complete = {
-        compare = function(a, b)
-            if a.questCompletePercent == b.questCompletePercent then
-                return _CompareByLevel(a, b)
-            end
-            return a.questCompletePercent > b.questCompletePercent
-        end,
+        -- Most complete first.
+        forward = {
+            compare = function(a, b)
+                if a.questCompletePercent == b.questCompletePercent then
+                    return _CompareByLevel(a, b)
+                end
+                return a.questCompletePercent > b.questCompletePercent
+            end,
+        },
+
+        -- Least complete first. Equally complete quests are still listed lowest level first.
+        reversed = {
+            compare = function(a, b)
+                if a.questCompletePercent == b.questCompletePercent then
+                    return _CompareByLevel(a, b)
+                end
+                return a.questCompletePercent < b.questCompletePercent
+            end,
+        },
     },
 
-    -- Least complete first. Equally complete quests are still listed lowest level first.
-    completeReversed = {
-        compare = function(a, b)
-            if a.questCompletePercent == b.questCompletePercent then
-                return _CompareByLevel(a, b)
-            end
-            return a.questCompletePercent < b.questCompletePercent
-        end,
-    },
+    proximity = {
+        forward = {compare = _CompareByProximity, usesPlayerPosition = true},
 
-    proximity = {compare = _CompareByProximity, usesPlayerPosition = true},
-
-    -- The exact mirror of proximity: quests without a known location come first.
-    proximityReversed = {
-        compare = function(a, b)
-            return _CompareByProximity(b, a)
-        end,
-        usesPlayerPosition = true,
+        -- The exact mirror of forward: quests without a known location come first.
+        reversed = {
+            compare = function(a, b)
+                return _CompareByProximity(b, a)
+            end,
+            usesPlayerPosition = true,
+        },
     },
 }
+
+---@param sortName string Value of the trackerQuestSort setting.
+---@param reversed boolean? Value of the trackerQuestSortReversed setting.
+---@return QuestSortDefinition? questSort Nil when this version does not know the name, for example one saved by a newer Questie.
+function QuestSort.Get(sortName, reversed)
+    local sort = sorts[sortName]
+    if not sort then
+        return nil
+    end
+
+    return reversed and sort.reversed or sort.forward
+end

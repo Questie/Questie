@@ -38,7 +38,9 @@ describe("TrackerUtils", function()
         originalExpansion = QuestieLoader:ImportModule("Expansions").Current
         originalIsCata, originalIsWotlk = Questie.IsCata, Questie.IsWotlk
         Questie.db.profile = {
-            trackerShowCompleteQuests = true
+            trackerShowCompleteQuests = true,
+            trackerZoneSort = "alphabetical",
+            trackerQuestSort = "level",
         }
         Questie.db.char = {
             collapsedQuests = {},
@@ -73,6 +75,7 @@ describe("TrackerUtils", function()
         TrackerLinePool = QuestieLoader:ImportModule("TrackerLinePool")
         QuestieLoader:ImportModule("TrackerItemButton")
 
+        dofile("Localization/l10n.lua")
         dofile("Modules/Tracker/Sorter/Sorter.lua")
         dofile("Modules/Tracker/Sorter/QuestSort.lua")
         dofile("Modules/Tracker/Sorter/ZoneSort.lua")
@@ -1600,23 +1603,22 @@ describe("TrackerUtils", function()
     end)
 
     describe("GetQuestGroupName", function()
-        it("uses the native header when sorting by zone", function()
-            Questie.db.profile.trackerSortObjectives = "byZone"
+        it("uses the native header while a zone sort is chosen", function()
+            Questie.db.profile.trackerZoneSort = "alphabetical"
 
             assert.are.equal("Northshire Abbey", TrackerUtils.GetQuestGroupName({Id = 1, zoneName = "Northshire Abbey", zoneOrSort = 12}))
         end)
 
-        it("uses the sort mode's single group instead of the zone in other sort modes", function()
-            Questie.db.profile.trackerSortObjectives = "byLevel"
+        it("lists every quest under one group without a zone sort", function()
+            Questie.db.profile.trackerZoneSort = "none"
 
-            assert.are.equal("Quests (By Level)", TrackerUtils.GetQuestGroupName({Id = 1, zoneName = "Northshire Abbey", zoneOrSort = 12}))
+            assert.are.equal("Quests", TrackerUtils.GetQuestGroupName({Id = 1, zoneName = "Northshire Abbey", zoneOrSort = 12}))
         end)
     end)
 
     describe("GetSortedQuestIds", function()
         before_each(function()
             trackerQuests = {}
-            Questie.db.profile.trackerSortObjectives = "byZone"
             QuestieLib.GetQuestTypeSuffix = function() return "" end
 
             _G.C_Map = {
@@ -1663,8 +1665,7 @@ describe("TrackerUtils", function()
             assert.are.equal(1, details[3].questCompletePercent)
         end)
 
-        it("should return quest IDs correctly sorted for 'byZone' sorting", function()
-            Questie.db.profile.trackerSortObjectives = "byZone"
+        it("orders zones by name and their quests by level", function()
             trackerQuests = {
                 -- Incomplete: completion does not affect this sort.
                 [1] = {Id = 1, level = 10, zoneOrSort = ZoneIDs.DUROTAR, Objectives = {}, IsComplete = function() return 0 end},
@@ -1723,7 +1724,8 @@ describe("TrackerUtils", function()
                 _G.SecondsToTime = function(seconds) return tostring(seconds) end
                 dofile("Modules/Tracker/TrackerQuestTimers.lua")
 
-                Questie.db.profile.trackerSortObjectives = "byZonePlayerProximity"
+                Questie.db.profile.trackerZoneSort = "proximity"
+                Questie.db.profile.trackerQuestSort = "proximity"
                 QuestieTracker.IsTrackedByQuestie = function() return true end
                 _G.IsInInstance = function() return true end
                 _G.C_Map.GetBestMapForUnit = function() return 1 end
@@ -1758,7 +1760,8 @@ describe("TrackerUtils", function()
             end)
 
             it("reverses both group proximity and quest proximity within each group", function()
-                Questie.db.profile.trackerSortObjectives = "byZonePlayerProximityReversed"
+                Questie.db.profile.trackerZoneSortReversed = true
+                Questie.db.profile.trackerQuestSortReversed = true
 
                 local sortedIds = TrackerUtils:GetSortedQuestIds()
 
@@ -1774,7 +1777,8 @@ describe("TrackerUtils", function()
             end)
 
             it("keeps groups without coordinates last when proximity is reversed", function()
-                Questie.db.profile.trackerSortObjectives = "byZonePlayerProximityReversed"
+                Questie.db.profile.trackerZoneSortReversed = true
+                Questie.db.profile.trackerQuestSortReversed = true
                 trackerQuests[5] = _NewQuest(5, "Aardvark")
 
                 local sortedIds = TrackerUtils:GetSortedQuestIds()
@@ -1873,8 +1877,23 @@ describe("TrackerUtils", function()
             end)
         end)
 
-        it("leaves quests unsorted under one group for a sort setting this version does not know", function()
-            Questie.db.profile.trackerSortObjectives = "bySomethingNewer"
+        it("still orders the zones when this version does not know the saved quest sort", function()
+            Questie.db.profile.trackerQuestSort = "somethingNewer"
+            trackerQuests = {
+                [7] = {Id = 7, level = 2, zoneName = "Northshire Abbey", Objectives = {}, IsComplete = function() return 0 end},
+                [8] = {Id = 8, level = 1, zoneName = "Durotar", Objectives = {}, IsComplete = function() return 0 end},
+                [9] = {Id = 9, level = 3, zoneName = "Durotar", Objectives = {}, IsComplete = function() return 0 end},
+            }
+
+            local sortedIds = TrackerUtils:GetSortedQuestIds()
+
+            assert.are.equal(7, sortedIds[3])
+            table.sort(sortedIds)
+            assert.are.same({7, 8, 9}, sortedIds)
+        end)
+
+        it("lists every quest under one group when this version does not know the saved zone sort", function()
+            Questie.db.profile.trackerZoneSort = "somethingNewer"
             trackerQuests = {
                 [7] = {Id = 7, level = 2, zoneName = "Northshire Abbey", Objectives = {}, IsComplete = function() return 0 end},
                 [8] = {Id = 8, level = 1, zoneName = "Durotar", Objectives = {}, IsComplete = function() return 0 end},
@@ -1882,10 +1901,24 @@ describe("TrackerUtils", function()
 
             local sortedIds, details = TrackerUtils:GetSortedQuestIds()
 
-            table.sort(sortedIds)
-            assert.are.same({7, 8}, sortedIds)
-            assert.are.equal("Unknown Zone", details[7].zoneName)
-            assert.are.equal("Unknown Zone", details[8].zoneName)
+            assert.are.same({8, 7}, sortedIds)
+            assert.are.equal("Quests", details[7].zoneName)
+            assert.are.equal("Quests", details[8].zoneName)
+        end)
+
+        it("combines a reversed zone sort with a quest sort that follows its own direction", function()
+            Questie.db.profile.trackerZoneSortReversed = true
+            Questie.db.profile.trackerQuestSort = "complete"
+            trackerQuests = {
+                [1] = {Id = 1, level = 1, zoneName = "Alpha", IsComplete = function() return 0 end, Objectives = {{Collected = 1, Needed = 4}}},
+                [2] = {Id = 2, level = 1, zoneName = "Zulu", IsComplete = function() return 0 end, Objectives = {{Collected = 1, Needed = 2}}},
+                [3] = {Id = 3, level = 1, zoneName = "Alpha", IsComplete = function() return 1 end},
+                [4] = {Id = 4, level = 1, zoneName = "Zulu", IsComplete = function() return 0 end, Objectives = {{Collected = 0, Needed = 2}}},
+            }
+
+            local sortedIds = TrackerUtils:GetSortedQuestIds()
+
+            assert.are.same({2, 4, 3, 1}, sortedIds)
         end)
 
         describe("quest proximity", function()
@@ -1912,7 +1945,8 @@ describe("TrackerUtils", function()
                 originalMapLookup = ZoneDB.GetUiMapIdByAreaId
                 originalIsInInstance = _G.IsInInstance
 
-                Questie.db.profile.trackerSortObjectives = "byProximity"
+                Questie.db.profile.trackerZoneSort = "none"
+                Questie.db.profile.trackerQuestSort = "proximity"
                 _G.IsInInstance = function() return true end
                 _G.C_Map.GetBestMapForUnit = function() return KALIMDOR_ZONE end
                 _G.C_Map.GetMapInfo = function(uiMapId)
@@ -1943,8 +1977,8 @@ describe("TrackerUtils", function()
                 local sortedIds, details = TrackerUtils:GetSortedQuestIds()
 
                 assert.are.same({3, 1, 2}, sortedIds)
-                assert.are.equal("Quests (By Proximity)", details[1].zoneName)
-                assert.are.equal("Quests (By Proximity)", details[2].zoneName)
+                assert.are.equal("Quests", details[1].zoneName)
+                assert.are.equal("Quests", details[2].zoneName)
             end)
 
             it("places quests on another continent after every quest on the player's continent", function()
@@ -1987,7 +2021,7 @@ describe("TrackerUtils", function()
             end)
 
             it("reverses distance, continent and level order when reversed", function()
-                Questie.db.profile.trackerSortObjectives = "byProximityReversed"
+                Questie.db.profile.trackerQuestSortReversed = true
                 trackerQuests = {
                     [1] = _NewQuest(1, 30),
                     [2] = _NewQuest(2, 100),
@@ -1998,10 +2032,9 @@ describe("TrackerUtils", function()
                 }
                 trackerQuests[6].level = 5
 
-                local sortedIds, details = TrackerUtils:GetSortedQuestIds()
+                local sortedIds = TrackerUtils:GetSortedQuestIds()
 
                 assert.are.same({5, 4, 2, 1, 6, 3}, sortedIds)
-                assert.are.equal("Quests (By Proximity Reversed)", details[1].zoneName)
             end)
         end)
 
@@ -2049,7 +2082,8 @@ describe("TrackerUtils", function()
                 DistanceUtils.GetNearestSpawnForQuest = function() return {50, 50}, 1, "Quest location", 10 end
                 Expansions.Current = Expansions.Era
 
-                Questie.db.profile.trackerSortObjectives = "byProximity"
+                Questie.db.profile.trackerZoneSort = "none"
+                Questie.db.profile.trackerQuestSort = "proximity"
                 trackerQuests = {
                     [1] = {Id = 1, level = 10, zoneName = "Durotar", Objectives = {}, IsComplete = function() return 0 end},
                 }
@@ -2065,9 +2099,15 @@ describe("TrackerUtils", function()
                 TrackerQuestTimers.UpdateAndGetRemainingTime = originalTimerUpdate
             end)
 
-            for _, sortMode in ipairs({"byProximity", "byProximityReversed", "byZonePlayerProximity", "byZonePlayerProximityReversed"}) do
-                it("runs one five-second ticker while sorting " .. sortMode, function()
-                    Questie.db.profile.trackerSortObjectives = sortMode
+            local positionSorts = {
+                {zoneSort = "none", questSort = "proximity"},
+                {zoneSort = "proximity", questSort = "level"},
+                {zoneSort = "proximity", questSort = "proximity"},
+            }
+            for _, sorts in ipairs(positionSorts) do
+                it("runs one five-second ticker for zone sort " .. sorts.zoneSort .. " with quest sort " .. sorts.questSort, function()
+                    Questie.db.profile.trackerZoneSort = sorts.zoneSort
+                    Questie.db.profile.trackerQuestSort = sorts.questSort
 
                     TrackerUtils:GetSortedQuestIds()
                     TrackerUtils:GetSortedQuestIds()
@@ -2078,7 +2118,8 @@ describe("TrackerUtils", function()
             end
 
             it("does not run for sorts that ignore the player's position", function()
-                Questie.db.profile.trackerSortObjectives = "byZone"
+                Questie.db.profile.trackerZoneSort = "alphabetical"
+                Questie.db.profile.trackerQuestSort = "level"
 
                 TrackerUtils:GetSortedQuestIds()
 
@@ -2132,13 +2173,13 @@ describe("TrackerUtils", function()
                 TrackerUtils:GetSortedQuestIds()
                 TrackerUtils.FilterProximityTimer = true
 
-                Questie.db.profile.trackerSortObjectives = "byLevel"
+                Questie.db.profile.trackerQuestSort = "level"
                 TrackerUtils:GetSortedQuestIds()
 
                 assert.spy(tickers[1].Cancel).was.called(1)
                 assert.is_nil(TrackerUtils.FilterProximityTimer)
 
-                Questie.db.profile.trackerSortObjectives = "byProximity"
+                Questie.db.profile.trackerQuestSort = "proximity"
                 TrackerUtils:GetSortedQuestIds()
 
                 assert.are.equal(2, #tickers)
@@ -2160,8 +2201,9 @@ describe("TrackerUtils", function()
             end)
         end)
 
-        it("should return quest IDs correctly sorted for 'byComplete' sorting", function()
-            Questie.db.profile.trackerSortObjectives = "byComplete"
+        it("lists the most complete quests first without a zone sort", function()
+            Questie.db.profile.trackerZoneSort = "none"
+            Questie.db.profile.trackerQuestSort = "complete"
             trackerQuests = {
                 [1] = {Id = 1, level = 10, IsComplete = function() return 0 end, Objectives = {{Collected = 0, Needed = 1}}},
                 [2] = {Id = 2, level = 5, IsComplete = function() return 1 end},
@@ -2187,8 +2229,10 @@ describe("TrackerUtils", function()
             assert.are_same({2, 8, 6, 7, 9, 3, 5, 4, 1}, sortedIds)
         end)
 
-        it("should return quest IDs correctly sorted for 'byCompleteReversed' sorting", function()
-            Questie.db.profile.trackerSortObjectives = "byCompleteReversed"
+        it("lists the least complete quests first when the completion sort is reversed", function()
+            Questie.db.profile.trackerZoneSort = "none"
+            Questie.db.profile.trackerQuestSort = "complete"
+            Questie.db.profile.trackerQuestSortReversed = true
             trackerQuests = {
                 [1] = {Id = 1, level = 10, IsComplete = function() return 0 end, Objectives = {{Collected = 0, Needed = 1}}},
                 [2] = {Id = 2, level = 5, IsComplete = function() return 1 end},
@@ -2214,8 +2258,8 @@ describe("TrackerUtils", function()
             assert.are_same({1, 3, 5, 4, 9, 2, 8, 6, 7}, sortedIds)
         end)
 
-        it("should return quest IDs correctly sorted for 'byLevel' sorting", function()
-            Questie.db.profile.trackerSortObjectives = "byLevel"
+        it("lists the lowest quest levels first without a zone sort", function()
+            Questie.db.profile.trackerZoneSort = "none"
             trackerQuests = {
                 [1] = {Id = 1, level = 10, IsComplete = function() return 1 end},
                 -- Incomplete: completion does not affect this sort.
@@ -2239,8 +2283,9 @@ describe("TrackerUtils", function()
             assert.are_same({2, 6, 1, 5, 3, 4}, sortedIds)
         end)
 
-        it("should return quest IDs correctly sorted for 'byLevelReversed' sorting", function()
-            Questie.db.profile.trackerSortObjectives = "byLevelReversed"
+        it("lists the highest quest levels first when the level sort is reversed", function()
+            Questie.db.profile.trackerZoneSort = "none"
+            Questie.db.profile.trackerQuestSortReversed = true
             trackerQuests = {
                 [1] = {Id = 1, level = 10, IsComplete = function() return 1 end},
                 -- Incomplete: completion does not affect this sort.

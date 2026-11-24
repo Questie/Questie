@@ -29,7 +29,8 @@ local SharedMedia = LibStub("LibSharedMedia-3.0")
 
 local _GetShortcuts
 local _GetObjectiveColors
-local _GetObjectiveSortOptions
+local _GetZoneSortOptions
+local _GetQuestSortOptions
 local _GetGrowthDirections
 
 ---Toggle tracker visibility based on a condition
@@ -350,17 +351,62 @@ function QuestieOptionsEngine.tabs.tracker:Initialize()
                                     QuestieTracker:Update()
                                 end,
                             },
-                            sortObjectives = {
+                            zoneSort = {
                                 type = "dropdown",
                                 order = 7,
-                                title = "Objective Sorting",
-                                tooltip = "How Objectives are sorted in the Questie Tracker.",
+                                title = "Zone Sorting",
+                                tooltip = "How the zones are ordered in the Questie Tracker.\n\n\"None\" lists all Quests under one header.",
                                 width = "half",
-                                options = _GetObjectiveSortOptions,
+                                newline = true,
+                                options = _GetZoneSortOptions,
+                                sortOrder = {"none", "alphabetical", "proximity"},
                                 enabled = function() return Questie.db.profile.trackerEnabled end,
-                                get = function() return Questie.db.profile.trackerSortObjectives end,
+                                get = function() return Questie.db.profile.trackerZoneSort end,
                                 set = function(key)
-                                    Questie.db.profile.trackerSortObjectives = key
+                                    Questie.db.profile.trackerZoneSort = key
+                                    QuestieTracker:Update()
+                                end,
+                            },
+                            zoneSortReversed = {
+                                type = "checkbox",
+                                order = 8,
+                                title = "Reverse Zone Sorting",
+                                tooltip = "If checked, the zones are listed in the opposite order.",
+                                width = "half",
+                                -- Without a zone sort there is one header and nothing to reverse
+                                enabled = function() return Questie.db.profile.trackerEnabled and Questie.db.profile.trackerZoneSort ~= "none" end,
+                                get = function() return Questie.db.profile.trackerZoneSortReversed end,
+                                set = function(_, value)
+                                    Questie.db.profile.trackerZoneSortReversed = value
+                                    QuestieTracker:Update()
+                                end,
+                            },
+                            questSort = {
+                                type = "dropdown",
+                                order = 9,
+                                title = "Quest Sorting",
+                                tooltip = "How the Quests under a header are ordered in the Questie Tracker.",
+                                width = "half",
+                                newline = true,
+                                options = _GetQuestSortOptions,
+                                sortOrder = {"level", "complete", "proximity"},
+                                enabled = function() return Questie.db.profile.trackerEnabled end,
+                                get = function() return Questie.db.profile.trackerQuestSort end,
+                                set = function(key)
+                                    Questie.db.profile.trackerQuestSort = key
+                                    QuestieTracker:Update()
+                                end,
+                            },
+                            questSortReversed = {
+                                type = "checkbox",
+                                order = 10,
+                                title = "Reverse Quest Sorting",
+                                tooltip = "If checked, the Quests under a header are listed in the opposite order.",
+                                width = "half",
+                                enabled = function() return Questie.db.profile.trackerEnabled end,
+                                get = function() return Questie.db.profile.trackerQuestSortReversed end,
+                                set = function(_, value)
+                                    Questie.db.profile.trackerQuestSortReversed = value
                                     QuestieTracker:Update()
                                 end,
                             },
@@ -1070,17 +1116,21 @@ _GetObjectiveColors = function()
     }
 end
 
-_GetObjectiveSortOptions = function()
+-- The keys are the sort names of ZoneSort. "none" is not one of them: without a zone sort all quests share one header.
+_GetZoneSortOptions = function()
     return {
-        ["byComplete"] = l10n("By %% Complete"),
-        ["byCompleteReversed"] = l10n("By %% Complete (Reversed)"),
-        ["byLevel"] = l10n("By Level"),
-        ["byLevelReversed"] = l10n("By Level (Reversed)"),
-        ["byProximity"] = l10n("By Proximity"),
-        ["byProximityReversed"] = l10n("By Proximity (Reversed)"),
-        ["byZone"] = l10n("By Zone"),
-        ["byZonePlayerProximity"] = l10n("By Zone Prox"),
-        ["byZonePlayerProximityReversed"] = l10n("By Zone Prox (Reversed)"),
+        ["none"] = l10n("None"),
+        ["alphabetical"] = l10n("By Name"),
+        ["proximity"] = l10n("By Proximity"),
+    }
+end
+
+-- The keys are the sort names of QuestSort.
+_GetQuestSortOptions = function()
+    return {
+        ["level"] = l10n("By Level"),
+        ["complete"] = l10n("By %% Complete"),
+        ["proximity"] = l10n("By Proximity"),
     }
 end
 
