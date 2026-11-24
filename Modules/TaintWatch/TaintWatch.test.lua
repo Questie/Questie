@@ -112,6 +112,24 @@ describe("TaintWatch", function()
             assert.are.same(40, #_TaintWatch.notes)
             assert.are.same(6, _TaintWatch.notes[1].detail)
         end)
+
+        it("should keep the first time of each Questie action after its notes dropped out", function()
+            TaintWatch.Note("HideUIPanel WorldMapFrame")
+            now = 200
+            for i = 1, 45 do
+                TaintWatch.Note("note", i)
+            end
+
+            local report = _TaintWatch.BuildReport("title")
+
+            assert.truthy(report:find("First time of each Questie action this session:\n  -0.0s note 1\n  -100.0s HideUIPanel WorldMapFrame", 1, true))
+        end)
+
+        it("should not keep the first time of Blizzard events", function()
+            TaintWatch.Note("[event] ShowUIPanel", "QuestFrame")
+
+            assert.is_nil(_TaintWatch.firstActions["[event] ShowUIPanel"])
+        end)
     end)
 
     describe("debug mode", function()
@@ -327,7 +345,7 @@ describe("TaintWatch", function()
             _G.hooksecurefunc = function(functionName, hook) hooks[functionName] = hook end
             _G.ShowUIPanel, _G.HideUIPanel, _G.CloseSpecialWindows = function() end, function() end, function() end
             TaintWatch.Initialize()
-            local questFrame = {GetName = function() return "QuestFrame" end}
+            local questFrame = {GetName = function() return "QuestFrame" end, IsForbidden = function() return false end}
 
             hooks.ShowUIPanel(questFrame)
             hooks.HideUIPanel(questFrame)
@@ -337,6 +355,19 @@ describe("TaintWatch", function()
             assert.are.same({"[event] HideUIPanel", "QuestFrame"}, {_TaintWatch.notes[2].label, _TaintWatch.notes[2].detail})
             assert.are.same("[event] CloseSpecialWindows", _TaintWatch.notes[3].label)
             assert.is_nil(_TaintWatch.notes[3].detail)
+        end)
+
+        it("should not read the name of a forbidden panel", function()
+            local hooks = {}
+            _G.hooksecurefunc = function(functionName, hook) hooks[functionName] = hook end
+            _G.ShowUIPanel = function() end
+            TaintWatch.Initialize()
+            local forbiddenFrame = {GetName = spy.new(function() end), IsForbidden = function() return true end}
+
+            hooks.ShowUIPanel(forbiddenFrame)
+
+            assert.spy(forbiddenFrame.GetName).was.not_called()
+            assert.is_nil(_TaintWatch.notes[1].detail)
         end)
 
         it("should not build a stack for a capture that would be discarded", function()
