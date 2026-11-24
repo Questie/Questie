@@ -35,7 +35,7 @@ describe("TrackerQuestTooltip", function()
             self.visible, self.progress = nativeAvailable, nativeProgress
             return nativeAvailable
         end)
-        getNativeProgress = spy.new(function() error("must use the secure tooltip accessor") end)
+        getNativeProgress = spy.new(function() return nil end)
         canShare = false
         saved.Colorize = Questie.Colorize
         Questie.Colorize = function(_, text, color) return color .. ":" .. text end
@@ -71,6 +71,7 @@ describe("TrackerQuestTooltip", function()
         dofile("Localization/l10n.lua")
         QuestieTooltips = QuestieLoader:ImportModule("QuestieTooltips")
         QuestieTooltips.RegisterNativeQuestTooltip = spy.new(function() end)
+        dofile("Modules/Tooltips/Forever.lua")
         dofile("Modules/Tracker/TrackerQuestTooltip.lua")
         TrackerQuestTooltip = QuestieLoader:ImportModule("TrackerQuestTooltip")
     end)
@@ -132,7 +133,6 @@ describe("TrackerQuestTooltip", function()
         assert.spy(tooltip.SetOwner).was.called_with(match.is_ref(tooltip), match.is_ref(titleLine), "ANCHOR_NONE")
         assert.spy(tooltip.SetPoint).was.called_with(match.is_ref(tooltip), "BOTTOMLEFT", match.is_ref(titleLine), "TOPLEFT")
         assert.spy(setNativeProgress).was.called_with(match.is_ref(tooltip), 783, false, false)
-        assert.spy(getNativeProgress).was.not_called()
     end)
 
     it("should anchor above the hovered title line", function()
@@ -211,6 +211,12 @@ describe("TrackerQuestTooltip", function()
 
         assert.spy(setNativeProgress).was.called(1)
         assert.spy(tooltip.AddLine).was.called_with(match.is_ref(tooltip), "gray:(Shift + Left Click: Share Quest)")
+        assert.spy(tooltip.Show).was.called(1)
+    end)
+
+    it("should resize the tooltip after rendering the party progress without a share hint", function()
+        TrackerQuestTooltip.Show(_Line())
+
         assert.spy(tooltip.Show).was.called(1)
     end)
 
@@ -345,5 +351,123 @@ describe("TrackerQuestTooltip", function()
         TrackerQuestTooltip.Hide(second)
         assert.is_true(tickers[2].cancelled)
         assert.is_false(tooltip.visible)
+    end)
+
+    describe("party rows", function()
+        local saved2
+
+        local function _Rows(members)
+            local lines = {}
+            for _, member in ipairs(members) do
+                lines[#lines + 1] = {type = 18, leftText = member.name, guid = member.guid or member.name}
+                for _, objective in ipairs(member.rows) do
+                    lines[#lines + 1] = {
+                        type = 8, leftText = objective.text, numFulfilled = objective.fulfilled,
+                        numRequired = objective.required, completed = objective.completed,
+                    }
+                end
+            end
+            return {lines = lines}
+        end
+
+        local function _Added()
+            local added = {}
+            for _, call in ipairs(tooltip.AddLine.calls) do
+                added[#added + 1] = call.vals[2]
+            end
+            return added
+        end
+
+        before_each(function()
+            saved2 = {
+                Enum = _G.Enum, GetPlayerInfoByGUID = _G.GetPlayerInfoByGUID, UnitGUID = _G.UnitGUID,
+                OnQuest = _G.QUEST_PROGRESS_TOOLTIP_QUEST_ON_QUEST, GetClassColor = Questie.GetClassColor,
+                GetRGBForObjective = QuestieLoader:ImportModule("QuestieLib").GetRGBForObjective,
+            }
+            _G.Enum = {TooltipDataLineType = {QuestPlayer = 18, QuestObjective = 8}}
+            _G.GetPlayerInfoByGUID = function(guid) return "Class", guid == "Crux" and "MAGE" or "ROGUE" end
+            _G.UnitGUID = function() return "Crux" end
+            _G.QUEST_PROGRESS_TOOLTIP_QUEST_ON_QUEST = "On quest"
+            Questie.GetClassColor = function(_, class) return class == "MAGE" and "|cM" or "|cR" end
+            QuestieLoader:ImportModule("QuestieLib").GetRGBForObjective = function(_, counters)
+                return counters.fulfilled == counters.required and "|cG" or "|cO"
+            end
+            canShare = true
+            quests[783] = {Id = 783, IsComplete = function() return 0 end}
+        end)
+
+        after_each(function()
+            _G.Enum, _G.GetPlayerInfoByGUID, _G.UnitGUID = saved2.Enum, saved2.GetPlayerInfoByGUID, saved2.UnitGUID
+            _G.QUEST_PROGRESS_TOOLTIP_QUEST_ON_QUEST, Questie.GetClassColor = saved2.OnQuest, saved2.GetClassColor
+            QuestieLoader:ImportModule("QuestieLib").GetRGBForObjective = saved2.GetRGBForObjective
+        end)
+
+        local function _Show(data)
+            getNativeProgress = spy.new(function() return data end)
+            local line = _Line()
+            quests[783] = {Id = 783, IsComplete = function() return 0 end}
+            line.Quest = quests[783]
+            TrackerQuestTooltip.Show(line)
+        end
+
+        it("should list the objectives of all members grouped by objective, the player first", function()
+            _Show(_Rows({
+                {name = "Crux", guid = "Crux", rows = {{text = "8/8 A", fulfilled = 8, required = 8}, {text = "1/4 B", fulfilled = 1, required = 4}}},
+                {name = "Cheeq", rows = {{text = "3/8 A", fulfilled = 3, required = 8}, {text = "2/4 B", fulfilled = 2, required = 4}}},
+            }))
+
+            assert.spy(tooltip.SetText).was.called_with(match.is_ref(tooltip), "Quest 783")
+            assert.are.same({
+                "   |cG8/8 A|r (|cMCrux|r)",
+                "   |cO3/8 A|r (|cRCheeq|r)",
+                "   |cO1/4 B|r (|cMCrux|r)",
+                "   |cO2/4 B|r (|cRCheeq|r)",
+                "gray:(Shift + Left Click: Share Quest)",
+            }, _Added())
+            assert.spy(setNativeProgress).was.not_called()
+        end)
+
+        it("should show one complete row for members on the quest without objectives or ready to turn in", function()
+            _Show(_Rows({
+                {name = "Crux", guid = "Crux", rows = {{text = "Ready for turn-in", completed = true}}},
+                {name = "Cheeq", rows = {{text = "3/8 A", fulfilled = 3, required = 8}}},
+                {name = "Kiyoko", rows = {{text = "On quest"}}},
+            }))
+
+            assert.are.same({
+                "   28FF28:Quest Complete! (|cMCrux|r)",
+                "   28FF28:Quest Complete! (|cRKiyoko|r)",
+                "   |cO3/8 A|r (|cRCheeq|r)",
+                "gray:(Shift + Left Click: Share Quest)",
+            }, _Added())
+        end)
+
+        it("should treat the player as complete when Questie says so", function()
+            local data = _Rows({{name = "Crux", guid = "Crux", rows = {{text = "3/8 A", fulfilled = 3, required = 8}}}})
+            getNativeProgress = spy.new(function() return data end)
+            local line = _Line()
+            quests[783].IsComplete = function() return 1 end
+            line.Quest = quests[783]
+
+            TrackerQuestTooltip.Show(line)
+
+            assert.are.same({
+                "   28FF28:Quest Complete! (|cMCrux|r)",
+                "gray:(Shift + Left Click: Share Quest)",
+            }, _Added())
+        end)
+
+        it("should fall back to the native rendering when the client has no On quest string", function()
+            _G.QUEST_PROGRESS_TOOLTIP_QUEST_ON_QUEST = nil
+            _Show(_Rows({{name = "Crux", guid = "Crux", rows = {{text = "On quest"}}}}))
+
+            assert.spy(setNativeProgress).was.called(1)
+        end)
+
+        it("should fall back to the native rendering when the party data is not readable", function()
+            _Show(nil)
+
+            assert.spy(setNativeProgress).was.called(1)
+        end)
     end)
 end)

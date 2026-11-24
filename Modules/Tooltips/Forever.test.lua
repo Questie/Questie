@@ -312,4 +312,56 @@ describe("Forever", function()
             assert.spy(objectiveCalls).was.not_called()
         end)
     end)
+
+    describe("GetQuestPartyMembers", function()
+        local savedGlobals
+
+        before_each(function()
+            savedGlobals = {
+                Enum = _G.Enum, UnitGUID = _G.UnitGUID, GetPlayerInfoByGUID = _G.GetPlayerInfoByGUID,
+                OnQuest = _G.QUEST_PROGRESS_TOOLTIP_QUEST_ON_QUEST,
+            }
+            _G.Enum = {TooltipDataLineType = {QuestPlayer = 18, QuestObjective = 8}}
+            _G.UnitGUID = function() return "me" end
+            _G.GetPlayerInfoByGUID = function() return nil end
+            _G.QUEST_PROGRESS_TOOLTIP_QUEST_ON_QUEST = "On quest"
+        end)
+
+        after_each(function()
+            _G.Enum, _G.UnitGUID, _G.GetPlayerInfoByGUID = savedGlobals.Enum, savedGlobals.UnitGUID, savedGlobals.GetPlayerInfoByGUID
+            _G.QUEST_PROGRESS_TOOLTIP_QUEST_ON_QUEST = savedGlobals.OnQuest
+        end)
+
+        it("should read members, their objectives and the player", function()
+            local members = Forever.GetQuestPartyMembers({lines = {
+                {type = 18, leftText = "Me", guid = "me"},
+                {type = 8, leftText = "1/2 Wolf", numFulfilled = 1, numRequired = 2},
+                {type = 18, leftText = "Other", guid = "other"},
+                {type = 8, leftText = "On quest"},
+            }})
+
+            assert.are.equal(2, #members)
+            assert.is_true(members[1].isPlayer)
+            assert.are.same({{text = "1/2 Wolf", fulfilled = 1, required = 2}}, members[1].objectives)
+            assert.is_false(members[2].isPlayer)
+            assert.is_true(members[2].complete)
+        end)
+
+        it("should not treat a completed objective with counters as a complete quest", function()
+            local members = Forever.GetQuestPartyMembers({lines = {
+                {type = 18, leftText = "Me", guid = "me"},
+                {type = 8, leftText = "2/2 Wolf", numFulfilled = 2, numRequired = 2, completed = true},
+            }})
+
+            assert.is_false(members[1].complete)
+            assert.are.equal(1, #members[1].objectives)
+        end)
+
+        it("should return nothing for unreadable or empty data", function()
+            assert.is_nil(Forever.GetQuestPartyMembers(nil))
+            assert.is_nil(Forever.GetQuestPartyMembers({lines = {}}))
+            _G.issecretvalue = function(value) return value == "secret" end
+            assert.is_nil(Forever.GetQuestPartyMembers({lines = {{type = 18, leftText = "secret"}}}))
+        end)
+    end)
 end)

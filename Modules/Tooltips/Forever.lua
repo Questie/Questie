@@ -219,6 +219,68 @@ function Forever.GetNativePartyProgress(lines)
     return progress
 end
 
+---@class QuestPartyMember
+---@field name string
+---@field classColor string Color escape of the member's class, empty when unknown
+---@field isPlayer boolean
+---@field complete boolean The row is Blizzard's "On quest" or a ready-for-turn-in row without counters
+---@field objectives NativePartyObjective[]
+
+---Reads who is on a quest, and how far they are, from Blizzard's party progress without the title row.
+---@param data table? Result of C_TooltipInfo.GetQuestPartyProgress(questId, true)
+---@return QuestPartyMember[]? members The player and the party members, nil if the data is unreadable or empty
+function Forever.GetQuestPartyMembers(data)
+    local lineTypes = Enum and Enum.TooltipDataLineType
+    if not (lineTypes and QUEST_PROGRESS_TOOLTIP_QUEST_ON_QUEST and _IsPublicTable(data)) then return nil end
+    if TooltipUtil and type(TooltipUtil.SurfaceArgs) == "function" then
+        TooltipUtil.SurfaceArgs(data)
+    end
+    local lines = data.lines
+    if not _IsPublicTable(lines) then return nil end
+
+    local members, member = {}, nil
+    for _, line in ipairs(lines) do
+        if not _IsPublicTable(line) then return nil end
+        if TooltipUtil and type(TooltipUtil.SurfaceArgs) == "function" then
+            TooltipUtil.SurfaceArgs(line)
+        end
+        local lineType = line.type
+        if _IsSecret(lineType) then return nil end
+
+        if lineType == lineTypes.QuestPlayer then
+            local name, guid = line.leftText, line.guid
+            if _IsSecret(name) or type(name) ~= "string" then return nil end
+            local classColor, isPlayer = "", false
+            if (not _IsSecret(guid)) and type(guid) == "string" then
+                local playerGuid = UnitGUID("player")
+                isPlayer = (not _IsSecret(playerGuid)) and guid == playerGuid
+                local _, class = GetPlayerInfoByGUID(guid)
+                if class then
+                    classColor = Questie:GetClassColor(class) or ""
+                end
+            end
+            member = {name = name, classColor = classColor, isPlayer = isPlayer, complete = false, objectives = {}}
+            members[#members + 1] = member
+        elseif lineType == lineTypes.QuestObjective and member then
+            local text, fulfilled, required, completed = line.leftText, line.numFulfilled, line.numRequired, line.completed
+            if _IsSecret(text) or _IsSecret(fulfilled) or _IsSecret(required) or _IsSecret(completed) then return nil end
+            if type(text) ~= "string" then return nil end
+            local counted = type(fulfilled) == "number" and type(required) == "number" and required > 0
+            if text == QUEST_PROGRESS_TOOLTIP_QUEST_ON_QUEST or (completed and (not counted)) then
+                member.complete = true
+            else
+                member.objectives[#member.objectives + 1] = {
+                    text = text,
+                    fulfilled = counted and fulfilled or nil,
+                    required = counted and required or nil,
+                }
+            end
+        end
+    end
+    if #members == 0 then return nil end
+    return members
+end
+
 ---Builds public quest-log candidates once for a native tooltip rebuild. Discard the formatter on tooltip clear.
 ---Rendering accepts possibly secret IDs and text without exposing the selected quest. Only the latest title's
 ---possibly secret mismatch markers are kept, until the next title row or tooltip clear.

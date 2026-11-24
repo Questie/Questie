@@ -857,7 +857,56 @@ local function _ProcessNativeQuestLine(tooltip, lineData, lineType)
     return _StyleNativeQuestLine(tooltip, lineData, lineType)
 end
 
+-- Hides a native party member row and keeps the class colored name for the objective rows that follow it.
+-- Unreadable rows stay native.
+---@return true? consumed
+local function _HideNativePlayerRow(state, lineData)
+    state.playerName = nil
+    if (not Questie.db.profile.enableTooltips) or (not _IsPublicTooltipTable(lineData)) then return end
+
+    local name, rightText, guid = lineData.leftText, lineData.rightText, lineData.guid
+    if (issecretvalue and (issecretvalue(name) or issecretvalue(rightText))) or type(name) ~= "string" or rightText ~= nil then
+        return
+    end
+
+    local color = ""
+    if (not (issecretvalue and issecretvalue(guid))) and type(guid) == "string" then
+        local _, class = GetPlayerInfoByGUID(guid)
+        if class then
+            color = Questie:GetClassColor(class) or ""
+        end
+    end
+    state.playerName = color .. name .. "|r"
+    return true
+end
+
+-- Adds an open objective with its party member's name as one unwrapped row, so the tooltip is sized for the whole text.
+-- Completed objectives keep Blizzard's own row, which draws its completion mark.
+---@return true? consumed
+local function _AddNativeObjectiveWithPlayer(tooltip, state, lineData)
+    if (not state.playerName) or (not Questie.db.profile.enableTooltips) or (not _IsPublicTooltipTable(lineData)) then return end
+
+    local text, rightText, completed = lineData.leftText, lineData.rightText, lineData.completed
+    local fulfilled, required = lineData.numFulfilled, lineData.numRequired
+    if issecretvalue and (issecretvalue(text) or issecretvalue(rightText) or issecretvalue(completed)
+        or issecretvalue(fulfilled) or issecretvalue(required)) then
+        return
+    end
+    if type(text) ~= "string" or rightText ~= nil or completed then return end
+
+    -- The same progress color the target tooltips use for party members
+    local counters = {}
+    if type(fulfilled) == "number" and type(required) == "number" and required > 0 then
+        counters = {fulfilled = fulfilled, required = required}
+    end
+    local color = QuestieLib:GetRGBForObjective(counters)
+    tooltip:AddLine("   " .. color .. text .. "|r (" .. state.playerName .. ")", 238 / 255, 238 / 255, 238 / 255, false)
+    state.consumed = lineData
+    return true
+end
+
 ---Applies Questie's quest formatting without replacing native rows or their completion decorations.
+---Party member rows are replaced by a class colored name behind each of their objectives.
 ---@param tooltip GameTooltip
 function QuestieTooltips.RegisterNativeQuestTooltip(tooltip)
     if nativeQuestTooltipStates[tooltip] then return end
@@ -869,13 +918,17 @@ function QuestieTooltips.RegisterNativeQuestTooltip(tooltip)
         return
     end
 
-    tooltip:HookScript("OnTooltipCleared", function() state.formatter = nil end)
+    tooltip:HookScript("OnTooltipCleared", function()
+        state.formatter = nil
+        state.playerName = nil
+        state.consumed = nil
+    end)
     for _, name in ipairs({"QuestTitle", "QuestObjective"}) do
         local lineType = Enum.TooltipDataLineType[name]
         if lineType then
             TooltipDataProcessor.AddLinePostCall(lineType, function(frame, lineData)
                 if frame ~= tooltip or frame:IsForbidden() or not Questie.db.profile.enableTooltips
-                    or not _IsPublicTooltipTable(lineData) then
+                    or not _IsPublicTooltipTable(lineData) or state.consumed == lineData then
                     return
                 end
                 local text, index = lineData.leftText, lineData.lineIndex
@@ -888,9 +941,14 @@ function QuestieTooltips.RegisterNativeQuestTooltip(tooltip)
                 state.formatter = state.formatter or Forever.CreateFormatter()
                 -- Display-only writes: do not read FontStrings, mutate tooltip data or inspect completion.
                 if name == "QuestTitle" then
+                    state.playerName = nil
                     fontString:SetText(state.formatter.Title(lineData.id, text))
                 else
-                    fontString:SetText(state.formatter.Objective(text))
+                    local objective = state.formatter.Objective(text)
+                    if state.playerName then
+                        objective = objective .. " (" .. state.playerName .. ")"
+                    end
+                    fontString:SetText(objective)
                 end
             end)
         end
@@ -914,7 +972,15 @@ function QuestieTooltips:InitBlizzardTooltips()
         local lineType = Enum.TooltipDataLineType[name]
         if lineType then
             TooltipDataProcessor.AddLinePreCall(lineType, function(tooltip, lineData)
-                if nativeQuestTooltipStates[tooltip] then return end
+                local state = nativeQuestTooltipStates[tooltip]
+                if state then
+                    if name == "QuestPlayer" then
+                        return _HideNativePlayerRow(state, lineData)
+                    elseif name == "QuestObjective" then
+                        return _AddNativeObjectiveWithPlayer(tooltip, state, lineData)
+                    end
+                    return
+                end
                 if Questie.IsForever then
                     return _ProcessNativeQuestLine(tooltip, lineData, name)
                 end
