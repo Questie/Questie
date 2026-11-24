@@ -514,6 +514,22 @@ describe("AvailableQuests", function()
             assert.spy(mapStarterFrame.texture.SetTexture).was.called(1)
             assert.spy(minimapStarterFrame.texture.SetTexture).was.called(1)
         end)
+
+        -- E.g. a daily quest after the daily reset, which Questie only learns about at the next login
+        it("should keep the starters of a completed quest that its giver offers again", function()
+            QuestieDB.QuestPointers = {[QUEST_ID] = true}
+            QuestieDB.autoBlacklist = {}
+            QuestieLoader:ImportModule("QuestieCorrections").hiddenQuests = {}
+            Questie.db.char.hidden = {}
+            Questie.db.char.complete = {[QUEST_ID] = true}
+            QuestieMap.UnloadQuestFrames = spy.new(function() end)
+
+            AvailableQuests.CalculateAndDrawAll()
+            submittedJobs[1].threadFunction()
+
+            assert.spy(QuestieMap.UnloadQuestFrames).was.not_called()
+            assert.are_equal(1, #submittedJobs)
+        end)
     end)
 
     describe("DrawAvailableQuest", function()

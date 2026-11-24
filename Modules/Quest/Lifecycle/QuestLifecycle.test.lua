@@ -234,7 +234,7 @@ describe("QuestLifecycle", function()
 
             QuestLifecycle:AcceptQuest(questId)
 
-            assert.is_nil(Questie.db.char.complete[childQuestId])
+            assert.is_false(Questie.db.char.complete[childQuestId])
         end)
     end)
 
@@ -512,7 +512,7 @@ describe("QuestLifecycle", function()
             _G.WOW_PROJECT_ID = nil
             dofile("Modules/Expansions.lua")
             assert.is_true(Questie.db.char.complete[13700])
-            assert.is_nil(Questie.db.char.complete[13686])
+            assert.is_false(Questie.db.char.complete[13686])
         end)
 
         it("should set Horde champion marker and clear tournament eligibility marker on WotLK+", function()
@@ -526,7 +526,7 @@ describe("QuestLifecycle", function()
             _G.WOW_PROJECT_ID = nil
             dofile("Modules/Expansions.lua")
             assert.is_true(Questie.db.char.complete[13701])
-            assert.is_nil(Questie.db.char.complete[13687])
+            assert.is_false(Questie.db.char.complete[13687])
         end)
 
         it("should remove child quests that are not in the quest log", function()
@@ -648,7 +648,7 @@ describe("QuestLifecycle", function()
 
             QuestLifecycle:AbandonQuest(questId)
 
-            assert.is_nil(Questie.db.char.complete[13686])
+            assert.is_false(Questie.db.char.complete[13686])
         end)
 
         it("should clear Horde tournament eligibility marker", function()
@@ -659,7 +659,7 @@ describe("QuestLifecycle", function()
 
             QuestLifecycle:AbandonQuest(questId)
 
-            assert.is_nil(Questie.db.char.complete[13687])
+            assert.is_false(Questie.db.char.complete[13687])
         end)
 
         it("should remove child quests that are not in the quest log", function()

@@ -725,6 +725,7 @@ describe("TrackerData", function()
             }
             Questie.IsForever = true
             Questie.db.profile.autoAccept = {enabled = false}
+            Questie.db.char.complete = {}
             local sounds = QuestieLoader:ImportModule("Sounds")
             sounds.PlayQuestComplete = function() end
             sounds.PlayObjectiveComplete = function() end
@@ -745,6 +746,7 @@ describe("TrackerData", function()
             QuestieLoader:ImportModule("QuestieNameplate").UpdateNameplate = function() end
             QuestieLoader:ImportModule("QuestiePartyObjectives").ScheduleUpdate = function() end
             QuestieLoader:ImportModule("BreadcrumbQuests").CheckQuestBreadcrumbs = function() end
+            QuestieLoader:ImportModule("CompletedQuests").ScheduleUpdate = function() end
             dofile("Public/Enums.lua")
             QuestieLoader:ImportModule("QuestieAPI").PropagateQuestUpdate = function() end
             QuestieLoader:ImportModule("QuestieCombatQueue").Queue = function(_, callback) callback() end
