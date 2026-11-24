@@ -716,8 +716,8 @@ describe("QuestieCompat.GetQuestGreenRange", function()
     local MISTS_PROJECT_ID = 19
     local QuestieCompat
     local originals
-    -- Loading as Forever also creates the tracker visibility frame and installs SetDesaturation.
-    local globalNames = {"WOW_PROJECT_ID", "CreateFrame", "SetDesaturation", "C_QuestLog", "GetQuestGreenRange", "print"}
+    -- Loading as Forever also creates the tracker visibility frame.
+    local globalNames = {"WOW_PROJECT_ID", "CreateFrame", "C_QuestLog", "GetQuestGreenRange", "print"}
 
     ---isForever is resolved from the project ID when the module loads.
     ---@param projectID number
@@ -1060,7 +1060,7 @@ describe("QuestieCompat Classic paths", function()
     local originals
     local names = {
         "WOW_PROJECT_ID", "Questie", "QuestWatchFrame", "WatchFrame", "CreateFrame",
-        "SetDesaturation", "IsQuestWatched", "MouseIsOver", "GetQuestTimers", "C_PlayerInfo", "HaveQuestData",
+        "IsQuestWatched", "MouseIsOver", "GetQuestTimers", "C_PlayerInfo", "HaveQuestData",
     }
     local watchFrame
 
@@ -1077,7 +1077,6 @@ describe("QuestieCompat Classic paths", function()
         }
         _G.QuestWatchFrame = watchFrame
         _G.CreateFrame = spy.new(function() error("Classic must not allocate the Forever visibility frame") end)
-        _G.SetDesaturation = nil
         dofile("Modules/QuestieCompat.lua")
         QuestieCompat = QuestieLoader:ImportModule("QuestieCompat")
     end)
@@ -1100,7 +1099,6 @@ describe("QuestieCompat Classic paths", function()
             assert.are.same({"TOP", "parent", "BOTTOM", 1, 2}, {QuestieCompat.GetWatchFramePoint()})
         end
         assert.spy(CreateFrame).was.not_called()
-        assert.is_nil(SetDesaturation)
     end)
 
     it("preserves Titan's alpha-based visibility workaround", function()
@@ -1139,7 +1137,6 @@ describe("QuestieCompat Classic paths", function()
         _G.WOW_PROJECT_ID = 1
         dofile("Modules/QuestieCompat.lua")
         assert.spy(CreateFrame).was.not_called()
-        assert.is_nil(SetDesaturation)
     end)
 end)
 
@@ -1150,7 +1147,7 @@ describe("QuestieCompat Forever paths", function()
         "GetQuestLogIndexByID", "GetQuestIDFromLogIndex", "SelectQuestLogEntry", "GetQuestLogSelection",
         "GetQuestIndexForWatch", "IsQuestWatched", "AddQuestWatch", "RemoveQuestWatch", "GetQuestTagInfo",
         "GetNumQuestWatches", "GetFactionInfo", "GetFactionInfoByID", "GetNumFactions", "ExpandFactionHeader",
-        "GetAddOnMetadata", "SetDesaturation", "UnitAura", "MouseIsOver", "GetQuestTimers",
+        "GetAddOnMetadata", "UnitAura", "MouseIsOver", "GetQuestTimers",
     }
     local dependencies = {
         "QuestieLoader", "QuestieCompat", "C_QuestLog", "C_Reputation", "Enum", "CreateFrame",
@@ -1213,18 +1210,6 @@ describe("QuestieCompat Forever paths", function()
         for _, name in ipairs(dependencies) do
             _G[name] = savedGlobals[name]
         end
-    end)
-
-    it("installs the missing AceGUI desaturation bridge before Questie exists", function()
-        assert.is_nil(_G.Questie)
-        assert.is_nil(_G.QuestieCompat)
-        local texture = {SetDesaturated = spy.new(function() end)}
-        SetDesaturation(texture, true)
-        assert.spy(texture.SetDesaturated).was.called_with(texture, true)
-
-        local textureBridge = SetDesaturation
-        dofile("Modules/QuestieCompat.lua")
-        assert.are.equal(textureBridge, SetDesaturation)
     end)
 
     describe("GetQuestDifficulty", function()
