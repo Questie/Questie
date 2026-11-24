@@ -327,6 +327,28 @@ describe("TaintWatch", function()
         end)
     end)
 
+    describe("quest details", function()
+        it("should report a quest details value that Questie tainted", function()
+            _G.QuestMapFrame = {DetailsFrame = {}}
+            TaintWatch.Initialize()
+            taintedValues[_G.QuestMapFrame.DetailsFrame] = {questID = "Questie"}
+
+            tickerCallback()
+
+            assert.spy(errorHandler).was.called(1)
+            local report = errorHandler.calls[1].vals[1]
+            assert.truthy(report:find("QuestMapFrame.DetailsFrame.questID was tainted by Questie", 1, true))
+            _G.QuestMapFrame = nil
+        end)
+
+        it("should not fail when the quest map frame does not exist", function()
+            _G.QuestMapFrame = nil
+            TaintWatch.Initialize()
+
+            assert.has_no.errors(function() tickerCallback() end)
+        end)
+    end)
+
     describe("hooks", function()
         it("should note when the world map is shown and hidden", function()
             local scripts = {}

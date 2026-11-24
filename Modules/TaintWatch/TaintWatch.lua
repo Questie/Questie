@@ -196,6 +196,11 @@ function _TaintWatch.GetPolledValues()
 
     Add("QuestDetailScrollChildFrame.alphaDependentText", function() return QuestDetailScrollChildFrame end, "alphaDependentText")
 
+    local function QuestDetails() return QuestMapFrame and QuestMapFrame.DetailsFrame end
+    for _, key in ipairs({"questID", "returnMapID", "questMapID"}) do
+        Add("QuestMapFrame.DetailsFrame." .. key, QuestDetails, key)
+    end
+
     local function Tracker() return ObjectiveTrackerFrame end
     for _, key in ipairs({"dirty", "dirtyCallback", "layoutParent"}) do
         Add("ObjectiveTrackerFrame." .. key, Tracker, key)
