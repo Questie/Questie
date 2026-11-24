@@ -52,6 +52,33 @@ describe("QuestieMap", function()
             assert.is_nil(minimapIcon)
             assert.spy(Questie.Warning).was.called_with("No UiMapID or fitting parentAreaId for areaId : 123 - Missing location")
         end)
+
+        it("should hide an icon that is drawn while its quest is hidden", function()
+            getUiMapId:revert()
+            getUiMapId = stub(QuestieLoader:ImportModule("ZoneDB"), "GetUiMapIdByAreaId", function() return 1429 end)
+            local QuestieFramePool, originalFrames = QuestieLoader:ImportModule("QuestieFramePool"), QuestieMap.questIdFrames
+            local originalGetFrame, originalQueueDraw, originalUsedIcons = QuestieFramePool.GetFrame, QuestieMap.QueueDraw, Questie.usedIcons
+            local DBM = QuestieLoader:ImportModule("QuestieDBMIntegration")
+            local originalRegister = DBM.RegisterHudQuestIcon
+            DBM.RegisterHudQuestIcon = function() end
+            Questie.usedIcons, QuestieMap.questIdFrames, QuestieMap.QueueDraw = {}, {}, function() end
+            QuestieFramePool.GetFrame = function()
+                local frame = {
+                    UpdateTexture = function() end, GetName = function() return "QuestieFrame1" end,
+                    texture = {GetVertexColor = function() return 1, 1, 1 end},
+                    ShouldBeHidden = function(self) return self.data.Id == 8 end,
+                }
+                frame.FakeHide = function() frame.hidden = true end
+                return frame
+            end
+
+            local shownIcon, shownMinimapIcon = QuestieMap:DrawWorldIcon({Id = 7}, 12, 50, 50)
+            local hiddenIcon, hiddenMinimapIcon = QuestieMap:DrawWorldIcon({Id = 8}, 12, 50, 50)
+
+            QuestieFramePool.GetFrame, QuestieMap.QueueDraw, Questie.usedIcons = originalGetFrame, originalQueueDraw, originalUsedIcons
+            QuestieMap.questIdFrames, DBM.RegisterHudQuestIcon = originalFrames, originalRegister
+            assert.are_same({nil, nil, true, true}, {shownIcon.hidden, shownMinimapIcon.hidden, hiddenIcon.hidden, hiddenMinimapIcon.hidden})
+        end)
     end)
 
     describe("ShowObject", function()

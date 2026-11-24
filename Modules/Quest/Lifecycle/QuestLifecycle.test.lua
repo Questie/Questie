@@ -28,6 +28,7 @@ describe("QuestLifecycle", function()
             complete = {},
             collapsedQuests = {},
             AutoUntrackedQuests = {},
+            hidden = {},
         }
         Questie.SendMessage = spy.new(function() end)
 
@@ -164,6 +165,15 @@ describe("QuestLifecycle", function()
             assert.is_nil(Questie.db.char.AutoUntrackedQuests[questId])
         end)
 
+        it("should keep a quest hidden that the player hid", function()
+            Questie.db.char.hidden[100] = true
+            QuestieDB.GetQuest = function() return {IsComplete = function() return 0 end} end
+
+            QuestLifecycle:AcceptQuest(100)
+
+            assert.is_true(Questie.db.char.hidden[100])
+        end)
+
         it("should reset and repopulate a failed quest re-accepted in place", function()
             local questId = 100
             local quest = {
@@ -239,7 +249,7 @@ describe("QuestLifecycle", function()
     end)
 
     describe("AdoptQuest", function()
-        it("should add the quest as at login once the giver's frames are unloaded, keeping the player's tracker choices", function()
+        it("should add the quest as at login once the giver's frames are unloaded, keeping what the player chose about it", function()
             local questId = 100
             local quest = {Id = questId}
             QuestieDB.GetQuest = spy.new(function() return quest end)
@@ -250,6 +260,7 @@ describe("QuestLifecycle", function()
             end)
             Questie.db.char.collapsedQuests[questId] = true
             Questie.db.char.AutoUntrackedQuests[questId] = true
+            Questie.db.char.hidden[questId] = true
 
             QuestLifecycle:AdoptQuest(questId)
 
@@ -265,6 +276,7 @@ describe("QuestLifecycle", function()
             assert.spy(CommsVisibility.ScheduleSnapshot).was.called(1)
             assert.is_true(Questie.db.char.collapsedQuests[questId])
             assert.is_true(Questie.db.char.AutoUntrackedQuests[questId])
+            assert.is_true(Questie.db.char.hidden[questId])
         end)
 
         it("should not bring back a quest turned in before the giver's frames were unloaded", function()
@@ -454,6 +466,15 @@ describe("QuestLifecycle", function()
             assert.is_nil(ActiveQuests.Get(questId))
         end)
 
+        it("should keep a quest hidden that the player hid", function()
+            Questie.db.char.hidden[100] = true
+            ActiveQuests.Add(100, {})
+
+            QuestLifecycle:CompleteQuest(100)
+
+            assert.is_true(Questie.db.char.hidden[100])
+        end)
+
         it("should reset WasComplete and isComplete flags before removing from log", function()
             local questId = 100
             local quest = {WasComplete = true, isComplete = true}
@@ -607,6 +628,16 @@ describe("QuestLifecycle", function()
             assert.spy(QuestieTracker.Update).was.called(1)
             assert.spy(QuestieDB.GetQuest).was.not_called()
             assert.spy(AvailableQuests.RemoveQuest).was.not_called()
+        end)
+
+        it("should keep a quest hidden that the player hid", function()
+            Questie.db.char.hidden[100] = true
+            ActiveQuests.Add(100, {})
+            QuestieDB.GetQuest = function() return {} end
+
+            QuestLifecycle:AbandonQuest(100)
+
+            assert.is_true(Questie.db.char.hidden[100])
         end)
 
         it("should remove quest from the quest log", function()

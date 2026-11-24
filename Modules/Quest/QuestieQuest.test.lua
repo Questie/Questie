@@ -570,22 +570,79 @@ describe("QuestieQuest", function()
 
     describe("hiding a quest", function()
         local QUEST_ID = 123
-        local shownAsHidden
+        local shownAsHidden, icons
+
+        ---@param questId QuestId
+        ---@param isHiddenAtFirst boolean
+        ---@param isHiddenAnyway boolean? By something else than the player hiding the quest
+        ---@return table icon
+        local function DrawIcon(questId, isHiddenAtFirst, isHiddenAnyway)
+            local icon = {
+                hidden = isHiddenAtFirst,
+                ShouldBeHidden = function() return isHiddenAnyway or Questie.db.char.hidden[questId] == true end,
+            }
+            icon.FakeHide = function() icon.hidden = true end
+            icon.FakeShow = function() icon.hidden = false end
+            icons[questId] = icons[questId] or {}
+            table.insert(icons[questId], icon)
+            return icon
+        end
 
         before_each(function()
             Questie.db.char = {hidden = {}}
             AvailableQuests.RemoveQuest = spy.new(function() end)
-            QuestieQuest.PopulateObjectiveNotes = function() end
+            icons = {}
+            QuestieMap.GetFramesForQuest = function(_, questId) return icons[questId] or {} end
             shownAsHidden = nil
             JourneyWindow.Refresh = function() shownAsHidden = Questie.db.char.hidden[QUEST_ID] == true end
         end)
 
-        it("should remove it from the map", function()
+        it("should remove it from the map as an available quest, and calculate them again when it is shown again", function()
             QuestieQuest:HideQuest(QUEST_ID)
-
             assert.is_true(Questie.db.char.hidden[QUEST_ID])
             assert.spy(AvailableQuests.RemoveQuest).was.called_with(QUEST_ID)
-            assert.spy(CommsVisibility.ScheduleSnapshot).was.called()
+            assert.spy(CommsVisibility.ScheduleSnapshot).was.called(1)
+
+            QuestieQuest:UnhideQuest(QUEST_ID)
+            assert.is_nil(Questie.db.char.hidden[QUEST_ID])
+            assert.spy(AvailableQuests.CalculateAndDrawAll).was.called(1)
+            assert.spy(CommsVisibility.ScheduleSnapshot).was.called(2)
+        end)
+
+        -- Removed icons would come back with the next update of the quest
+        it("should hide its icons while it is in the quest log, and show them again", function()
+            ActiveQuests.Add(QUEST_ID)
+            local icon, finisher, iconOfAnotherQuest = DrawIcon(QUEST_ID, false), DrawIcon(QUEST_ID, false), DrawIcon(456, false)
+
+            QuestieQuest:HideQuest(QUEST_ID)
+            assert.are_same({true, true, false}, {icon.hidden, finisher.hidden, iconOfAnotherQuest.hidden})
+            assert.spy(AvailableQuests.RemoveQuest).was.not_called()
+
+            QuestieQuest:UnhideQuest(QUEST_ID)
+            assert.are_same({false, false, false}, {icon.hidden, finisher.hidden, iconOfAnotherQuest.hidden})
+            assert.spy(AvailableQuests.CalculateAndDrawAll).was.not_called()
+            assert.spy(CommsVisibility.ScheduleSnapshot).was.called(2)
+        end)
+
+        it("should show the icons of party members again who have a quest the player doesn't have", function()
+            Questie.db.char.hidden[QUEST_ID] = true
+            local icon = DrawIcon(QUEST_ID, true)
+
+            QuestieQuest:UnhideQuest(QUEST_ID)
+
+            assert.is_false(icon.hidden)
+        end)
+
+        -- The tracker hides the objectives of a quest, but not where to turn it in
+        it("should only show the icons again that nothing else hides", function()
+            ActiveQuests.Add(QUEST_ID)
+            Questie.db.char.TrackerHiddenQuests = {[QUEST_ID] = true}
+            local objective, finisher = DrawIcon(QUEST_ID, true, true), DrawIcon(QUEST_ID, false)
+            QuestieQuest:HideQuest(QUEST_ID)
+
+            QuestieQuest:UnhideQuest(QUEST_ID)
+
+            assert.are_same({true, false}, {objective.hidden, finisher.hidden})
         end)
 
         for _, isInQuestLog in ipairs({false, true}) do
@@ -599,37 +656,6 @@ describe("QuestieQuest", function()
                 assert.is_false(shownAsHidden)
             end)
         end
-    end)
-
-    describe("UnhideQuest", function()
-        it("should unhide a quest", function()
-            local questId = 123
-            Questie.db.char = {hidden = {[questId] = true}}
-            QuestieQuest.PopulateObjectiveNotes = spy.new(function() end)
-
-            QuestieQuest:UnhideQuest(questId)
-
-            assert.is_nil(Questie.db.char.hidden[questId])
-            assert.spy(CommsVisibility.ScheduleSnapshot).was.called()
-            assert.spy(AvailableQuests.CalculateAndDrawAll).was.called()
-            assert.spy(QuestieDB.GetQuest).was.not_called()
-            assert.spy(QuestieQuest.PopulateObjectiveNotes).was.not_called()
-        end)
-
-        it("should unhide a quest that is in the quest log", function()
-            local questId = 123
-            Questie.db.char = {hidden = {[questId] = true}}
-            ActiveQuests.Add(questId)
-            QuestieQuest.PopulateObjectiveNotes = spy.new(function() end)
-
-            QuestieQuest:UnhideQuest(questId)
-
-            assert.is_nil(Questie.db.char.hidden[questId])
-            assert.spy(CommsVisibility.ScheduleSnapshot).was.called()
-            assert.spy(AvailableQuests.CalculateAndDrawAll).was.not_called()
-            assert.spy(QuestieDB.GetQuest).was.called_with(123)
-            assert.spy(QuestieQuest.PopulateObjectiveNotes).was.called_with(QuestieQuest, {})
-        end)
     end)
 
     describe("ToggleNotes manual icons", function()
