@@ -36,10 +36,12 @@ local FIXTURE = {
         forestSpider = 30, -- "Forest Spider", Elwynn Forest (zone 12)
         gelvas = 14828, -- "Gelvas Grimegate", Darkmoon Faire, two spawn zones
         yebb = 14829, -- "Yebb Neblegear"
+        hanashi = 2704, -- "Hanashi", weapon master in Orgrimmar
     },
     Object = {
         oldLionStatue = 31, -- "Old Lion Statue"
         silverleaf = 1617, -- "Silverleaf", shares its name with 3725
+        stormwindMailbox = 142075, -- "Mailbox", Alliance only
     },
     Quest = {
         sharptalonsClaw = 2, -- "Sharptalon's Claw"
@@ -319,19 +321,26 @@ describe("QuestieDBMock conformance with LibQuestieDB", function()
             end
         end)
 
-        it("supports the shared-enum contract and older consumer contracts", function()
+        it("supports the entity-fact contract and older consumer contracts", function()
             local seen = Conform(function(lib)
-                local ok, message = lib.RequireContract(4)
+                local ok, message = lib.RequireContract(5)
                 return {
                     ok = ok, message = message,
                     contract1 = lib.RequireContract(1), contract2 = lib.RequireContract(2),
-                    contract3 = lib.RequireContract(3),
-                    future = lib.RequireContract(5), nonNumeric = lib.RequireContract("4"),
+                    contract3 = lib.RequireContract(3), contract4 = lib.RequireContract(4),
+                    future = lib.RequireContract(6), nonNumeric = lib.RequireContract("5"),
                 }
             end)
             assert.are_same({
-                ok = true, contract1 = true, contract2 = true, contract3 = true, future = false, nonNumeric = false,
+                ok = true, contract1 = true, contract2 = true, contract3 = true, contract4 = true,
+                future = false, nonNumeric = false,
             }, seen)
+        end)
+
+        it("carries the provider's service, class, weapon skill and event IDs", function()
+            for _, name in ipairs({"serviceKeys", "classIDs", "weaponSkillKeys", "eventKeys"}) do
+                assert.are_same(provider.Enum[name], mock.lib.Enum[name])
+            end
         end)
     end)
 
@@ -429,6 +438,77 @@ describe("QuestieDBMock conformance with LibQuestieDB", function()
             end)
             assert.are_same({}, seen.startedBy)
             assert.are_same(0, seen.requiredLevel)
+        end)
+    end)
+
+    describe("list membership", function()
+        it("builds a lookup set that skips nil arguments", function()
+            local seen = Conform(function(lib)
+                return {set = lib.Set(3, nil, 8), empty = lib.Set()}
+            end)
+            assert.are_same({set = {[3] = true, [8] = true}, empty = {}}, seen)
+        end)
+
+        it("answers HasAny over a list field, exactly and only for known entities", function()
+            local seen = Conform(function(lib)
+                local id = FIXTURE.Npc.hanashi
+                local bows = lib.Enum.weaponSkillKeys.BOWS
+                return {
+                    match = lib.Npc.HasAny(id, "trainerSkills", lib.Set(bows)),
+                    anyOfSeveral = lib.Npc.HasAny(id, "trainerSkills", lib.Set(1, bows)),
+                    noMatch = lib.Npc.HasAny(id, "trainerSkills", lib.Set(lib.Enum.weaponSkillKeys.GUNS)),
+                    otherSign = lib.Npc.HasAny(id, "trainerSkills", lib.Set(-bows)),
+                    scalarField = lib.Npc.HasAny(id, "name", lib.Set("Hanashi")),
+                    unknownEntity = lib.Npc.HasAny(ABSENT_ID, "trainerSkills", lib.Set(bows)),
+                    missingSet = lib.Npc.HasAny(id, "trainerSkills", nil),
+                    absentList = lib.Npc.HasAny(FIXTURE.Npc.forestSpider, "trainerSkills", lib.Set(bows)),
+                }
+            end)
+            assert.are_same({
+                match = true, anyOfSeveral = true, noMatch = false, otherSign = false, scalarField = false,
+                unknownEntity = false, missingSet = false, absentList = false,
+            }, seen)
+        end)
+
+        it("answers HasServices and GetServices for NPCs and objects", function()
+            local seen = Conform(function(lib)
+                local services = lib.Enum.serviceKeys
+                local owned = lib.Npc.GetServices(FIXTURE.Npc.hanashi)
+                owned[services.MAILBOX] = true
+                return {
+                    weaponMaster = lib.Npc.HasServices(FIXTURE.Npc.hanashi, lib.Set(services.WEAPON_MASTER)),
+                    notInnkeeper = lib.Npc.HasServices(FIXTURE.Npc.hanashi, lib.Set(services.INNKEEPER)),
+                    npcSet = lib.Npc.GetServices(FIXTURE.Npc.hanashi),
+                    noServices = lib.Npc.GetServices(FIXTURE.Npc.forestSpider) == nil,
+                    unknownNpc = lib.Npc.GetServices(ABSENT_ID) == nil,
+                    mailbox = lib.Object.HasServices(FIXTURE.Object.stormwindMailbox, lib.Set(services.MAILBOX)),
+                    objectSet = lib.Object.GetServices(FIXTURE.Object.stormwindMailbox),
+                    requiredFaction = lib.Object.Get(FIXTURE.Object.stormwindMailbox, "requiredFaction"),
+                    unrestricted = lib.Object.Get(FIXTURE.Object.oldLionStatue, "requiredFaction") == nil,
+                }
+            end)
+            assert.is_true(seen.weaponMaster)
+            assert.is_false(seen.notInnkeeper)
+            -- A caller's mutation of an earlier set must not have leaked into this one.
+            assert.is_nil(seen.npcSet[25])
+            assert.is_true(seen.npcSet[30])
+            assert.is_true(seen.noServices)
+            assert.is_true(seen.unknownNpc)
+            assert.is_true(seen.mailbox)
+            assert.are_same({[25] = true}, seen.objectSet)
+            assert.are_equal("A", seen.requiredFaction)
+            assert.is_true(seen.unrestricted)
+        end)
+
+        it("follows a Correction to a list field", function()
+            local seen = Conform(function(lib, owner)
+                local services = lib.Enum.serviceKeys
+                local id = FIXTURE.Object.oldLionStatue
+                local before = lib.Object.HasServices(id, lib.Set(services.ANVIL))
+                lib.GetRegistrar(owner).Set("Object", "services", {[id] = {[lib.Meta.ObjectMeta.objectKeys.services] = {services.ANVIL}}})
+                return {before = before, after = lib.Object.HasServices(id, lib.Set(services.ANVIL))}
+            end)
+            assert.are_same({before = false, after = true}, seen)
         end)
     end)
 
@@ -1071,5 +1151,89 @@ describe("PreloadEntityData on the real provider", function()
         until coroutine.status(preload) == "dead"
 
         assert.are_same({1, 2, 3, 4, 4}, loadedTypesAfterResume)
+    end)
+end)
+
+-- The mock only knows the services a test seeds. The real provider shows whether Townsfolk and
+-- the provider agree on the fields and IDs: a renamed field or renumbered service empties every
+-- category here while the mock-based tests keep passing.
+describe("Townsfolk on the real provider", function()
+    local savedProvider, savedExpansion
+    ---@type Expansions
+    local Expansions
+
+    before_each(function()
+        savedProvider = _G.LibQuestieDB
+        Expansions = QuestieLoader:ImportModule("Expansions")
+        savedExpansion = Expansions.Current
+    end)
+
+    after_each(function()
+        _G.LibQuestieDB = savedProvider
+        Expansions.Current = savedExpansion
+    end)
+
+    ---@param list number[]|nil
+    ---@param id number
+    ---@return boolean
+    local function Contains(list, id)
+        for _, candidate in ipairs(list or {}) do
+            if candidate == id then
+                return true
+            end
+        end
+        return false
+    end
+
+    it("builds every Classic category from the provider's services", function()
+        local provider = LoadProvider()
+        _G.LibQuestieDB = provider
+        dofile("Database/QuestieDB.lua")
+        local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
+        QuestieDB.NPCPointers = provider.Npc.GetAllIds(true)
+        QuestieDB.ItemPointers = provider.Item.GetAllIds(true)
+        QuestieDB.ObjectPointers = provider.Object.GetAllIds(true)
+        Expansions.Current = Expansions.Era
+
+        dofile("Modules/QuestieProfessions.lua")
+        local professionKeys = QuestieLoader:ImportModule("QuestieProfessions").professionKeys
+        local stationObjects
+        QuestieLoader:ImportModule("ProfessionStations").SetStationObjects = function(objectIdsByKey)
+            stationObjects = objectIdsByKey
+        end
+        dofile("Modules/QuestieMenu/Townsfolk.lua")
+        local Townsfolk = QuestieLoader:ImportModule("Townsfolk")
+
+        local initialize = coroutine.create(Townsfolk.Initialize)
+        repeat
+            local ok, err = coroutine.resume(initialize)
+            assert(ok, err)
+        until coroutine.status(initialize) == "dead"
+
+        local townsfolk = Townsfolk.townsfolk
+        assert.is_true(Contains(townsfolk["Flight Master"], 352)) -- Dungar Longdrink, Stormwind
+        assert.is_true(Contains(townsfolk["Weapon Master"], 2704)) -- Hanashi, Orgrimmar
+        -- Katie Hunter: base data marks her an innkeeper, a provider Correction removes it.
+        assert.is_false(Contains(townsfolk["Innkeeper"], 384))
+        assert.is_nil(townsfolk["Barber"])
+
+        local classSpecific = Townsfolk.classSpecificTownsfolk
+        assert.is_true(Contains(classSpecific.MAGE["Class Trainer"], 198)) -- Khelden Bremen
+        assert.is_true(Contains(classSpecific.HUNTER["Class Trainer"], 543)) -- a pet trainer
+        assert.is_false(Contains(classSpecific.WARRIOR["Class Trainer"], 198))
+        assert.is_true(#classSpecific.MAGE["Portal Trainer"] > 0)
+        assert.is_true(#classSpecific.HUNTER["Stable Master"] > 0)
+
+        assert.is_true(Contains(Townsfolk.professionTrainers[professionKeys.ALCHEMY], 1386))
+        assert.is_false(Contains(Townsfolk.professionTrainers[professionKeys.BLACKSMITHING], 1386))
+
+        local factionSpecific = Townsfolk.factionSpecificTownsfolk
+        assert.is_true(Contains(factionSpecific.Alliance["Mailbox"], 142075)) -- Stormwind, Alliance only
+        assert.is_false(Contains(factionSpecific.Horde["Mailbox"], 142075))
+        assert.is_true(#factionSpecific.Horde["Mailbox"] > 0)
+
+        assert.is_true(Contains(stationObjects["Anvil"], 1744))
+        assert.is_true(Contains(stationObjects["Forge"], 1685))
+        assert.is_false(Contains(stationObjects["Forge"], 1744))
     end)
 end)

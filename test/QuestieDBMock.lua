@@ -62,13 +62,12 @@ local function LoadQuestieDBMock()
         publishCounts = {Quest = 0, Npc = 0, Item = 0, Object = 0},
         setLocaleCalls = {},
         nameIndexBuilds = {Quest = 0, Npc = 0, Item = 0, Object = 0},
-        contractVersion = 4,
+        contractVersion = 5,
         minSupportedContract = 1,
     }
     local lib = {}
     -- Support values retain provider identity; wrappers own any decoded or merged tables.
     mock.supportModules = {
-        QuestieDB = {factionTemplate = {}},
         QuestXP = {db = {}},
         ZoneDB = {
             zoneIDs = {}, instanceIdToAreaId = {},
@@ -405,6 +404,49 @@ local function LoadQuestieDBMock()
             BuildNameIndex(datatype)
         end
 
+        ---@param id number
+        ---@param key string|integer
+        ---@param wanted table<any, boolean>
+        ---@return boolean hasAny Whether the composed list field holds a value that is a key of `wanted`.
+        function entity.HasAny(id, key, wanted)
+            if type(id) ~= "number" or type(wanted) ~= "table" or not Exists(datatype, id) then
+                return false
+            end
+            local list = ComposedValue(datatype, id, FieldIndex(datatype, key))
+            if type(list) ~= "table" then
+                return false
+            end
+            for i = 1, #list do
+                if wanted[list[i]] then
+                    return true
+                end
+            end
+            return false
+        end
+
+        if keys[datatype].services then
+            ---@param id number
+            ---@param wanted table<integer, boolean>
+            ---@return boolean hasService
+            function entity.HasServices(id, wanted)
+                return entity.HasAny(id, "services", wanted)
+            end
+
+            ---@param id number
+            ---@return table<integer, true>|nil services A fresh lookup set, or nil without services.
+            function entity.GetServices(id)
+                local list = entity.Get(id, "services")
+                if not list then
+                    return nil
+                end
+                local set = {}
+                for i = 1, #list do
+                    set[list[i]] = true
+                end
+                return set
+            end
+        end
+
         -- Named getters mirror the provider's schema-generated accessors, e.g. `Object.name(id)`.
         for fieldName in pairs(keys[datatype]) do
             entity[fieldName] = function(id)
@@ -461,7 +503,49 @@ local function LoadQuestieDBMock()
             SPIRIT_HEALER = 32, SPIRIT_GUIDE = 64, INNKEEPER = 128, BANKER = 256, PETITIONER = 512,
             TABARD_DESIGNER = 1024, BATTLEMASTER = 2048, AUCTIONEER = 4096, STABLEMASTER = 8192, REPAIR = 16384,
         },
+        -- The same in every provider flavor.
+        serviceKeys = {
+            GOSSIP = 1, QUEST_GIVER = 2, VENDOR = 3, VENDOR_AMMO = 4, VENDOR_FOOD = 5, VENDOR_POISON = 6,
+            VENDOR_REAGENT = 7, REPAIR = 8, FLIGHT_MASTER = 9, TRAINER = 10, CLASS_TRAINER = 11,
+            PROFESSION_TRAINER = 12, SPIRIT_HEALER = 13, SPIRIT_GUIDE = 14, INNKEEPER = 15, BANKER = 16,
+            PETITIONER = 17, TABARD_DESIGNER = 18, BATTLEMASTER = 19, AUCTIONEER = 20, STABLE_MASTER = 21,
+            GUILD_BANKER = 22, SPELLCLICK = 23, BARBER = 24, MAILBOX = 25, ARCANE_REFORGER = 26,
+            TRANSMOGRIFIER = 27, VOID_STORAGE = 28, BLACK_MARKET = 29, WEAPON_MASTER = 30, PORTAL_TRAINER = 31,
+            PET_TRAINER = 32, DEMON_TRAINER = 33, BATTLE_PET_TRAINER = 34, RIDING_TRAINER = 35,
+            MEETING_STONE = 36, ANVIL = 37, FORGE = 38, ALCHEMY_LAB = 39, MOONWELL = 40,
+        },
+        classIDs = {
+            WARRIOR = 1, PALADIN = 2, HUNTER = 3, ROGUE = 4, PRIEST = 5, DEATH_KNIGHT = 6, SHAMAN = 7,
+            MAGE = 8, WARLOCK = 9, MONK = 10, DRUID = 11,
+        },
+        weaponSkillKeys = {
+            SWORDS = 43, AXES = 44, BOWS = 45, GUNS = 46, MACES = 54, TWO_HANDED_SWORDS = 55, STAVES = 136,
+            TWO_HANDED_MACES = 160, UNARMED = 162, TWO_HANDED_AXES = 172, DAGGERS = 173, THROWN = 176,
+            CROSSBOWS = 226, WANDS = 228, POLEARMS = 229, FIST_WEAPONS = 473,
+        },
+        eventKeys = {
+            FIREWORKS_SPECTACULAR = 62, WINTER_VEIL = 141, NOBLEGARDEN = 181, CHILDRENS_WEEK = 201,
+            STRANGLETHORN_FISHING_EXTRAVAGANZA = 301, HARVEST_FESTIVAL = 321, HALLOWS_END = 324,
+            LUNAR_FESTIVAL = 327, LOVE_IS_IN_THE_AIR = 335, MIDSUMMER = 341, BREWFEST = 372,
+            DARKMOON_FAIRE_ELWYNN = 374, DARKMOON_FAIRE_MULGORE = 375, DARKMOON_FAIRE_TEROKKAR = 376,
+            PIRATES_DAY = 398, PILGRIMS_BOUNTY = 404, DAY_OF_THE_DEAD = 409, KALUAK_FISHING_DERBY = 424,
+            DARKMOON_FAIRE_ISLAND = 479,
+            AHN_QIRAJ_WAR_EFFORT = 100001, SCOURGE_INVASION = 100002,
+        },
     }
+
+    ---@param ... any Values to include; nil arguments are skipped.
+    ---@return table<any, boolean> set A fresh lookup set for `HasAny` and `HasServices`.
+    function lib.Set(...)
+        local set = {}
+        for i = 1, select("#", ...) do
+            local value = select(i, ...)
+            if value ~= nil then
+                set[value] = true
+            end
+        end
+        return set
+    end
 
     -- Provider-owned Objective Order hints; tests seed IDs directly.
     lib.ObjectiveFirst = {

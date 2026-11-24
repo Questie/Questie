@@ -17,10 +17,10 @@
 ---@alias QuestieDBDatatype QuestieDBCanonicalDatatype|"quest"|"npc"|"item"|"object"
 ---@alias QuestieDBReadMode "source"|"baked"
 
----@alias QuestieDBQuestField "name"|"startedBy"|"finishedBy"|"requiredLevel"|"questLevel"|"requiredRaces"|"requiredClasses"|"objectivesText"|"triggerEnd"|"objectives"|"sourceItemId"|"preQuestGroup"|"preQuestSingle"|"childQuests"|"inGroupWith"|"exclusiveTo"|"zoneOrSort"|"requiredSkill"|"requiredMinRep"|"requiredMaxRep"|"requiredSourceItems"|"nextQuestInChain"|"questFlags"|"specialFlags"|"parentQuest"|"reputationReward"|"breadcrumbForQuestId"|"breadcrumbs"|"extraObjectives"|"requiredSpell"|"requiredSpecialization"|"requiredMaxLevel"|"availableUntilCompleted"|"availableStartingWith"|"requiredRanks"|"disabledByQuest"
----@alias QuestieDBNpcField "name"|"minLevelHealth"|"maxLevelHealth"|"minLevel"|"maxLevel"|"rank"|"spawns"|"waypoints"|"zoneID"|"questStarts"|"questEnds"|"factionID"|"friendlyToFaction"|"subName"|"npcFlags"
+---@alias QuestieDBQuestField "name"|"startedBy"|"finishedBy"|"requiredLevel"|"questLevel"|"requiredRaces"|"requiredClasses"|"objectivesText"|"triggerEnd"|"objectives"|"sourceItemId"|"preQuestGroup"|"preQuestSingle"|"childQuests"|"inGroupWith"|"exclusiveTo"|"zoneOrSort"|"requiredSkill"|"requiredMinRep"|"requiredMaxRep"|"requiredSourceItems"|"nextQuestInChain"|"questFlags"|"specialFlags"|"parentQuest"|"reputationReward"|"breadcrumbForQuestId"|"breadcrumbs"|"extraObjectives"|"requiredSpell"|"requiredSpecialization"|"requiredMaxLevel"|"availableUntilCompleted"|"availableStartingWith"|"requiredRanks"|"disabledByQuest"|"eventIds"
+---@alias QuestieDBNpcField "name"|"minLevelHealth"|"maxLevelHealth"|"minLevel"|"maxLevel"|"rank"|"spawns"|"waypoints"|"zoneID"|"questStarts"|"questEnds"|"factionID"|"friendlyToFaction"|"subName"|"npcFlags"|"services"|"trainerClass"|"trainerSkills"|"eventIds"
 ---@alias QuestieDBItemField "name"|"npcDrops"|"objectDrops"|"itemDrops"|"startQuest"|"questRewards"|"flags"|"foodType"|"itemLevel"|"requiredLevel"|"ammoType"|"class"|"subClass"|"vendors"|"relatedQuests"|"teachesSpell"
----@alias QuestieDBObjectField "name"|"questStarts"|"questEnds"|"spawns"|"zoneID"|"factionID"|"waypoints"
+---@alias QuestieDBObjectField "name"|"questStarts"|"questEnds"|"spawns"|"zoneID"|"factionID"|"waypoints"|"services"|"requiredFaction"
 
 --------------------------------------------------------------------------------
 -- Shared read shapes
@@ -69,19 +69,20 @@
 -- Localization
 --------------------------------------------------------------------------------
 
----@alias QuestieDBLocalizedValue string|string[]
----@alias QuestieDBL10nProvider fun(id: number, entityFieldIndex: integer): QuestieDBLocalizedValue?, string?
+---@alias QuestieDBLocalizedValue string|string[]|table<string, string> English -> translated text maps translate texts inside list elements.
+---@alias QuestieDBL10nProvider fun(id: number, entityFieldIndex: integer, english: any?): QuestieDBLocalizedValue?, string?
 ---@alias QuestieDBL10nScalarFields table<integer, true>
 ---@alias QuestieDBL10nIsActive fun(): boolean
 ---@alias QuestieDBLocaleChangedCallback fun(locale: string)
 ---@alias QuestieDBTranslationLocale string Non-empty locale other than enUS; custom locales need no Baked blocks.
 ---@alias QuestieDBTranslationRows table<integer, table<integer, QuestieDBLocalizedValue>>
----@alias QuestieDBL10nFieldName "name"|"objectivesText"|"subName"
+---@alias QuestieDBL10nFieldName "name"|"objectivesText"|"subName"|"extraObjectives"
 ---@alias QuestieDBEntity QuestDB|NpcDB|ItemDB|ObjectDB
 
 ---@class QuestieDBL10nField
 ---@field name QuestieDBL10nFieldName Canonical entity field carrying translations.
 ---@field list? true The Localization block column contains string lists instead of scalar strings.
+---@field textIndex? integer The column contains English -> translated text maps merged into each element at this index.
 
 ---Localization state and dot-called controls. Missing translations fall back to corrected entity data.
 ---@class QuestieDBL10n
@@ -104,6 +105,9 @@
 -- Corrections
 --------------------------------------------------------------------------------
 
+---Canonical indices replace; Enum field_add/field_remove keys accept tables in the field's shape.
+---List entries compare as complete values; groups preserve unsupplied slots. Empty operands do nothing.
+---Invalid operations raise without publishing a partial Dynamic view.
 ---@alias QuestieDBCorrectionFields table<integer, any>
 ---@alias QuestieDBCorrections table<number, QuestieDBCorrectionFields>
 ---@alias QuestieDBCorrectionProvider fun(): QuestieDBCorrections

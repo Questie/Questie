@@ -23,7 +23,7 @@
 ## Category-zhCN: 任务
 ## Category-zhTW: 任務
 ## Version: 12.13.0
-## X-QuestieDB-Contract: 4
+## X-QuestieDB-Contract: 5
 ## OptionalDeps: QuestieDB, QuestieTrace, Ace3, CallbackHandler-1.0, HereBeDragons, Krowi_WorldMapButtons, LibDataBroker-1.1, LibDBIcon-1.0, LibSharedMedia-3.0, LibStub
 ## LoadSavedVariablesFirst: 1
 ## SavedVariables: QuestieConfig, QuestieProfilerEnabled
@@ -141,26 +141,6 @@ Modules\EventHandler\QuestEventHandler.lua
 Modules\Migration.lua
 Modules\Phasing.lua
 Modules\QuestieMenu\Townsfolk.lua
-Modules\QuestieMenu\ClassTrainers.lua
-Modules\QuestieMenu\Mailboxes.lua
-Modules\QuestieMenu\MeetingStones.lua
-Modules\QuestieMenu\WeaponTrainers.lua
-Modules\QuestieMenu\ProfessionTrainers\AlchemyTrainers.lua
-Modules\QuestieMenu\ProfessionTrainers\ArchaeologyTrainers.lua
-Modules\QuestieMenu\ProfessionTrainers\BlacksmithingTrainers.lua
-Modules\QuestieMenu\ProfessionTrainers\CookingTrainers.lua
-Modules\QuestieMenu\ProfessionTrainers\EnchantingTrainers.lua
-Modules\QuestieMenu\ProfessionTrainers\EngineeringTrainers.lua
-Modules\QuestieMenu\ProfessionTrainers\FirstAidTrainers.lua
-Modules\QuestieMenu\ProfessionTrainers\FishingTrainers.lua
-Modules\QuestieMenu\ProfessionTrainers\HerbalismTrainers.lua
-Modules\QuestieMenu\ProfessionTrainers\InscriptionTrainers.lua
-Modules\QuestieMenu\ProfessionTrainers\JewelcraftingTrainers.lua
-Modules\QuestieMenu\ProfessionTrainers\LeatherworkingTrainers.lua
-Modules\QuestieMenu\ProfessionTrainers\MiningTrainers.lua
-Modules\QuestieMenu\ProfessionTrainers\RidingTrainers.lua
-Modules\QuestieMenu\ProfessionTrainers\SkinningTrainers.lua
-Modules\QuestieMenu\ProfessionTrainers\TailoringTrainers.lua
 Modules\QuestieMenu\QuestieTraceMenu.lua
 Modules\QuestieMenu\QuestieMenu.lua
 Modules\QuestieAnnounce.lua

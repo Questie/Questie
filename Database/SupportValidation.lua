@@ -177,20 +177,6 @@ function SupportValidation.ValidateZones(zones, expansion)
     return _Result(failures, "Zones", expansion)
 end
 
----@param factionTemplate any
----@param expansion number
----@return boolean valid
----@return string? report
-function SupportValidation.ValidateFactionTemplates(factionTemplate, expansion)
-    local failures = {}
-    _Check(failures, "consumer expansion", flavors[expansion] ~= nil, true)
-    _Check(failures, "factionTemplate", type(factionTemplate), "table")
-    _Probe(failures, "factionTemplate[1]", factionTemplate, {1}, 12)
-    _Probe(failures, "factionTemplate[2]", factionTemplate, {2}, 10)
-    _Probe(failures, "factionTemplate[7]", factionTemplate, {7}, 0)
-    return _Result(failures, "FactionTemplates", expansion)
-end
-
 ---@type table<number, table<number, number[]>>
 local xpControls = {
     [1] = {[2] = {30, 2450}},

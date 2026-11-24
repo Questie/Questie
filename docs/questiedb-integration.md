@@ -24,7 +24,7 @@ are recorded in [ADR 0001](adr/0001-questietdb-is-the-only-entity-database.md),
 
 ## Initialization and compatibility
 
-Each flavor TOC declares `RequiredDeps: QuestieDB` and `X-QuestieDB-Contract: 4`. Build preflight
+Each flavor TOC declares `RequiredDeps: QuestieDB` and `X-QuestieDB-Contract: 5`. Build preflight
 checks that contract declarations are valid and consistent. At runtime,
 [`VersionCheckDB.Check`](../Modules/VersionCheckDB.lua) reads the active TOC's requirement.
 
@@ -63,6 +63,15 @@ Contract 4 adds the shared `Enum.factionIDs` and the active-flavor `Enum.classKe
 together; contract-2 providers fail the version check, while the updated provider still supports
 older contract-1 and contract-2 consumers. Provider conversion supplies extended Forever faction masks,
 so Questie's membership check no longer widens legacy `77`/`178` subsets.
+
+Contract 5 adds entity facts. NPCs and objects state what they provide in a `services` list of
+`Enum.serviceKeys` IDs, NPCs state what they train in `trainerClass` and `trainerSkills`, and
+objects state a faction restriction in `requiredFaction`. [`Townsfolk`](../Modules/QuestieMenu/Townsfolk.lua)
+builds every menu category from those fields in one pass over NPCs and one over objects; Questie
+keeps no mailbox, meeting stone, trainer or profession station ID lists. Only presentation stays
+here: which menu category a service belongs to, hunter-only stable masters before MoP, and which
+profession stations a character needs. The provider deprecated object `factionID` and reports
+addons that read it, so object projections leave that field out.
 
 Questie forwards the effective UI locale through `LibQuestieDB.l10n.SetLocale`. External entity
 lookups are adapted into localization slots under owner `QuestieLocalesOverride`, rather than

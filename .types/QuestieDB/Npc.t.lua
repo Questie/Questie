@@ -15,7 +15,10 @@
 ---@field factionID fun(id: NpcId): FactionId? Faction ID.
 ---@field friendlyToFaction fun(id: NpcId): "A"|"H"|"AH"? Friendly player factions.
 ---@field subName fun(id: NpcId): string? NPC subname.
----@field npcFlags fun(id: NpcId): number? NPC flag bitmask.
+---@field npcFlags fun(id: NpcId): number? Legacy NPC flag bitmask with the active flavor's bit values, rebuilt from `services`. Prefer `services`.
+---@field services fun(id: NpcId): integer[]? Services the NPC provides, as `Enum.serviceKeys` values; nil when it has none.
+---@field trainerClass fun(id: NpcId): integer? `Enum.classIDs` value of the class the NPC trains; `0` when it trains none.
+---@field trainerSkills fun(id: NpcId): SkillId[]? Skill line IDs the NPC trains (`Enum.professionKeys` and `Enum.weaponSkillKeys` values); nil when it trains none.
 ---@field GetByIndex fun(id: NpcId, fieldIndex: integer): any Read a field by positional index.
 ---@field Get fun(id: NpcId, key: QuestieDBNpcField|integer): any Read a field by canonical name or index.
 ---@field GetAll fun(id: NpcId, keys: (QuestieDBNpcField|integer)[]): QuestieDBPackedValues? Read fields into a packed table, or nil for an unknown ID.
@@ -23,7 +26,12 @@
 ---@field Exists fun(id: NpcId): boolean Test the composed view.
 ---@field InvalidateCache fun(id?: NpcId) Drop cached fields for one NPC or every NPC.
 ---@field BuildNameIndex fun() Build the Name index now (a no-op when it exists) instead of on the first IdsByName call; a full pass over every NPC name.
+---@field BuildNameIndexAsync fun(iterationsPerCycle?: integer) Build the complete Name index inside a caller-owned coroutine; yield between positive-sized ID batches (default 250), restart after invalidation, return when ready.
 ---@field IdsByName fun(name: string): NpcId[]? Every composed NPC ID whose current name equals `name` exactly, ascending, or nil; shared and read-only.
+---@field eventIds fun(id: NpcId): integer[]? Signed `Enum.eventKeys` values: positive means present only during that event (any one of several is enough), negative means absent during it; nil when no event gates the NPC.
+---@field HasServices fun(id: NpcId, wanted: table<integer, boolean>): boolean Whether the NPC provides any service that is a key of `wanted`; allocates nothing per call.
+---@field GetServices fun(id: NpcId): table<integer, true>? The NPC's services as a fresh lookup set, or nil when it has none; prefer `HasServices` when scanning.
+---@field HasAny fun(id: NpcId, key: QuestieDBNpcField|integer, wanted: table<any, boolean>): boolean Whether a list field holds any value that is a key of `wanted`; false for an unknown ID or a scalar field. Allocates nothing per call.
 NpcDB = {}
 
 ---Deprecated compatibility getter. Health is no longer stored.
