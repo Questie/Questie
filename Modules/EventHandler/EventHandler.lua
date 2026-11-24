@@ -36,6 +36,8 @@ local TrackerRecipes = QuestieLoader:ImportModule("TrackerRecipes")
 local TrackerUtils = QuestieLoader:ImportModule("TrackerUtils")
 ---@type TrackerSuperTrack
 local TrackerSuperTrack = QuestieLoader:ImportModule("TrackerSuperTrack")
+---@type TaintWatch
+local TaintWatch = QuestieLoader:ImportModule("TaintWatch")
 ---@type QuestieReputation
 local QuestieReputation = QuestieLoader:ImportModule("QuestieReputation")
 ---@type QuestieNameplate
@@ -83,7 +85,9 @@ function EventHandler:RegisterEarlyEvents()
             if GetCVar("questPOI") == "0" and WorldMapFrame:IsShown() then
                 -- We need to manually hide the map, because having questPOI set to 0 will open it on login, thanks to Blizzard.
                 -- Don't use WorldMapFrame:Hide() that will cause taint issues
+                TaintWatch.Note("HideUIPanel WorldMapFrame")
                 HideUIPanel(WorldMapFrame)
+                TaintWatch.Note("UISpecialFrames WorldMapFrame")
                 tinsert(UISpecialFrames, "WorldMapFrame") -- This helps to not taint when in combat on login
             end
             questPOIHandled = true

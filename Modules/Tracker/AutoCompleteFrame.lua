@@ -1,5 +1,7 @@
 ---@type QuestieCompat
 local QuestieCompat = QuestieLoader:ImportModule("QuestieCompat")
+---@type TaintWatch
+local TaintWatch = QuestieLoader:ImportModule("TaintWatch")
 
 ---@class AutoCompleteFrame
 local AutoCompleteFrame = QuestieLoader:CreateModule("AutoCompleteFrame")
@@ -52,6 +54,7 @@ function AutoCompleteFrame.Initialize(baseFrame)
     autoCompleteFrame.hintText:SetPoint("TOP", 0, -25)
 
     autoCompleteFrame:SetScript("OnClick", function()
+        TaintWatch.Note("ShowQuestComplete", autoCompleteFrame.questId)
         ShowQuestComplete(QuestieCompat.GetQuestLogIndexByID(autoCompleteFrame.questId))
         autoCompleteFrame:Hide()
     end)

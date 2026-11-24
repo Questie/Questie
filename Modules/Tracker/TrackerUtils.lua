@@ -97,6 +97,7 @@ function TrackerUtils:ShowQuestLog(quest)
             QuestieCompat.OpenWorldMap(uiMapId)
         else
             -- Checked in the Forever UI source: QuestUtil.OpenQuestDetails opens QuestLogPopupDetailFrame without touching WorldMapFrame
+            TaintWatch.Note("QuestUtil.OpenQuestDetails", quest.Id)
             QuestUtil.OpenQuestDetails(quest.Id)
         end
         return
