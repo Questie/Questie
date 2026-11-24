@@ -20,7 +20,7 @@ describe("WeaponMasterSkills", function()
     it("adds a weapon icon to every listed skill", function()
         local title = WeaponMasterSkills.AppendSkillsToTitle("Weapon Master", 11865)
 
-        assert.matches("Weapon Master\n\n %- |Ticon:15590:12|t Fist Weapons", title)
+        assert.matches("Weapon Master\n %- |Ticon:15590:12|t Fist Weapons", title)
         assert.matches("\n %- |Ticon:266:12|t Guns", title)
         assert.matches("\n %- |Ticon:196:12|t One%-Handed Axes", title)
         assert.matches("\n %- |Ticon:199:12|t Two%-Handed Maces", title)

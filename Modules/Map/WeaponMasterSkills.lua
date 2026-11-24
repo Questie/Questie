@@ -60,10 +60,9 @@ function WeaponMasterSkills.AppendSkillsToTitle(title, npcId)
         return title
     end
 
-    for index, skill in ipairs(skills) do
+    for _, skill in ipairs(skills) do
         local icon = GetWeaponSkillIcon(WEAPON_SKILL_SPELL_IDS[skill])
-        local separator = index == 1 and "\n\n - " or "\n - "
-        title = title .. separator .. "|T" .. icon .. ":" .. WEAPON_SKILL_ICON_SIZE .. "|t " .. l10n(skill)
+        title = title .. "\n - " .. "|T" .. icon .. ":" .. WEAPON_SKILL_ICON_SIZE .. "|t " .. l10n(skill)
     end
     return title
 end
