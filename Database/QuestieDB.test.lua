@@ -18,7 +18,6 @@ describe("QuestieDB", function()
     local testQuest
 
     before_each(function()
-        QuestieLoader:ImportModule("SupportValidation").ValidateFactionTemplates = function() return true end
         mock = LoadQuestieDBMock()
         Questie.db.char.complete = {}
         Questie.IsTitanReforged = false
@@ -510,7 +509,6 @@ describe("QuestieDB", function()
 
         it("binds the provider schema, query functions, and Objective Order tables at file load", function()
             LibQuestieDB.ObjectiveFirst.spellObjectiveFirst[2] = true
-            mock.supportModules.QuestieDB.factionTemplate = {[35] = 12}
             -- The outer before_each stubs some of these after loading; a fresh load shows the bindings.
             dofile("Database/QuestieDB.lua")
             QuestieDB = QuestieLoader:ImportModule("QuestieDB")
@@ -537,8 +535,13 @@ describe("QuestieDB", function()
             assert.are_equal(LibQuestieDB.ObjectiveFirst.eventObjectiveFirst, QuestieDB.eventObjectiveFirst)
             assert.are_equal(LibQuestieDB.ObjectiveFirst.spellObjectiveFirst, QuestieDB.spellObjectiveFirst)
             assert.is_true(QuestieDB.spellObjectiveFirst[2])
-            assert.are_equal(mock.supportModules.QuestieDB.factionTemplate, QuestieDB.factionTemplate)
-            assert.are_equal(12, QuestieDB.factionTemplate[35])
+
+            assert.are_equal(LibQuestieDB.Enum.serviceKeys, QuestieDB.serviceKeys)
+            assert.are_equal(LibQuestieDB.Enum.classIDs, QuestieDB.classIDs)
+            assert.are_equal(LibQuestieDB.Enum.weaponSkillKeys, QuestieDB.weaponSkillKeys)
+            assert.are_equal(LibQuestieDB.Set, QuestieDB.ServiceSet)
+            assert.are_equal(LibQuestieDB.Npc.HasServices, QuestieDB.NpcHasServices)
+            assert.are_equal(LibQuestieDB.Object.HasServices, QuestieDB.ObjectHasServices)
         end)
 
         it("binds the composed ID maps", function()
@@ -693,23 +696,6 @@ describe("QuestieDB", function()
             end, "RefreshAfterCorrectionApply: unknown datatype npc")
         end)
     end)
-    it("validates the bound faction template before initializing consumer state with debug disabled", function()
-        Questie.db.profile.debugEnabled = false
-        local bound = {[1] = 99}
-        QuestieDB.factionTemplate = bound
-        local validator = spy.new(function() return false, "faction report" end)
-        QuestieLoader:ImportModule("SupportValidation").ValidateFactionTemplates = validator
-        local initTags = spy.new(function() end)
-        QuestieDB.private.InitializeQuestTagInfoCorrections = initTags
-        local valid, report = QuestieDB.Initialize()
-        assert.is_false(valid)
-        assert.are_equal("faction report", report)
-        assert.spy(validator).was.called_with(bound, QuestieLoader:ImportModule("Expansions").Current)
-        assert.spy(initTags).was.not_called()
-        assert.are_same({[1] = 99}, bound)
-        assert.are_not_equal(bound, mock.supportModules.QuestieDB.factionTemplate)
-    end)
-
     describe("IsComplete", function()
         local QuestLogCache, QuestieQuest, originalQuestLog, originalCheckQuestSourceItem
 

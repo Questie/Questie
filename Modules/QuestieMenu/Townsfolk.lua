@@ -10,14 +10,17 @@ local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 local QuestieProfessions = QuestieLoader:ImportModule("QuestieProfessions")
 ---@type Expansions
 local Expansions = QuestieLoader:ImportModule("Expansions")
+---@type ProfessionStations
+local ProfessionStations = QuestieLoader:ImportModule("ProfessionStations")
 
 local playerClass = UnitClassBase("player")
 local playerFaction = UnitFactionGroup("player")
 
-local tinsert = table.insert
-local sub, bitband, strlen = string.sub, bit.band, string.len
+local tinsert, sort = table.insert, table.sort
+local sub = string.sub
 
 local professionKeys = QuestieProfessions.professionKeys
+local serviceKeys = QuestieDB.serviceKeys
 
 -- Townsfolk lookups, rebuilt from composed reads on every login by `Initialize`. They live on
 -- the module rather than in SavedVariables because nothing is meant to survive a session;
@@ -33,14 +36,53 @@ Townsfolk.factionSpecificTownsfolk = {}
 ---@type table<string, ItemId[]> Pet food category to Item IDs; the lists stay empty for non-hunters
 Townsfolk.petFoodVendorTypes = {}
 
----@type table<ProfessionEnum, NpcId[]> Filled by the files in ProfessionTrainers/
-local professionTrainerIds = {}
+-- QuestieDB states what each NPC and object provides in its `services` field. The tables below
+-- only say which menu category a service belongs to.
 
----@param professionKey ProfessionEnum
----@param ids NpcId[]
-function Townsfolk.SetProfessionTrainerIds(professionKey, ids)
-    professionTrainerIds[professionKey] = ids
-end
+-- Categories every character sees. They exist even when empty, so their menu rows always resolve.
+---@type table<integer, string> Service to category name
+local sharedNpcCategories = {
+    [serviceKeys.REPAIR] = "Repair",
+    [serviceKeys.AUCTIONEER] = "Auctioneer",
+    [serviceKeys.BANKER] = "Banker",
+    [serviceKeys.BATTLEMASTER] = "Battlemaster",
+    [serviceKeys.FLIGHT_MASTER] = "Flight Master",
+    [serviceKeys.INNKEEPER] = "Innkeeper",
+}
+
+-- Categories that exist only in flavors whose data has such NPCs.
+---@type table<integer, string> Service to category name
+local optionalNpcCategories = {
+    [serviceKeys.WEAPON_MASTER] = "Weapon Master",
+    [serviceKeys.BARBER] = "Barber",
+    [serviceKeys.ARCANE_REFORGER] = "Arcane Reforger",
+    [serviceKeys.TRANSMOGRIFIER] = "Transmogrifier",
+    [serviceKeys.BATTLE_PET_TRAINER] = "Battle Pet Trainer",
+}
+
+-- Pet and demon trainers are listed with the class trainers of the class they serve.
+---@type table<integer, boolean>
+local classTrainerServices = {
+    [serviceKeys.CLASS_TRAINER] = true,
+    [serviceKeys.PET_TRAINER] = true,
+    [serviceKeys.DEMON_TRAINER] = true,
+}
+
+-- `trainerClass` holds a client class ID; the per-class lists are keyed by class file name.
+---@type table<integer, string>
+local classFileById = {
+    "WARRIOR", "PALADIN", "HUNTER", "ROGUE", "PRIEST", "DEATHKNIGHT", "SHAMAN", "MAGE", "WARLOCK", "MONK", "DRUID",
+}
+
+---@type table<integer, string> Object service to profession station menu key
+local stationKeyByService = {
+    [serviceKeys.ANVIL] = "Anvil",
+    [serviceKeys.FORGE] = "Forge",
+    [serviceKeys.ALCHEMY_LAB] = "Alchemy Lab",
+    [serviceKeys.MOONWELL] = "Moonwell",
+}
+
+local vendorService = QuestieDB.ServiceSet(serviceKeys.VENDOR)
 
 local function _reformatVendors(lst, existingTable)
     local newList = existingTable or {}
@@ -50,117 +92,17 @@ local function _reformatVendors(lst, existingTable)
     return newList
 end
 
----Uses a table to fetch multiple townfolk types at the same time.
----@param folkTypes table<string, {mask: NpcFlags|integer, requireSubname: boolean, data: NpcId[]}>
-local function _PopulateTownsfolkTypes(folkTypes) -- populate the table with all npc ids based on the given bitmask
-    local count = 0
-    for id in pairs(QuestieDB.NPCPointers) do
-        local flags = QuestieDB.QueryNPCSingle(id, "npcFlags")
-        for name, folkType in pairs(folkTypes) do
-            if flags and folkType.mask and bitband(flags, folkType.mask) == folkType.mask then
-                local npcName = QuestieDB.QueryNPCSingle(id, "name")
-                local subName = QuestieDB.QueryNPCSingle(id, "subName")
-                if npcName and sub(npcName, 1, 5) ~= "[DND]" then
-                    if (not folkType.requireSubname) or (subName and strlen(subName) > 1) then
-                        folkType.data[#folkType.data+1] = id
-                    end
-                end
-            end
-        end
-        if count > 700 then -- 700 seems like a good number
-            count = 0
-            coroutine.yield()
-        end
-        count = count + 1
+---Sorts every list of a category table, so results do not depend on ID map iteration order.
+---@param categories table<any, number[]>
+local function _SortLists(categories)
+    for _, ids in pairs(categories) do
+        sort(ids)
     end
-    return folkTypes
 end
 
-
-function Townsfolk.Initialize()
-
-    --? This datastructure is used in PopulateTownsfolkTypes to fetch multiple townfolk data in the same npc loop cycle
-    ---@type table<string, {mask: NpcFlags|integer, requireSubname: boolean, data: NpcId[]}>
-    local townsfolkData = {
-        ["Repair"] = {
-            mask = QuestieDB.npcFlags.REPAIR,
-            requireSubname = false,
-            data = {}
-        },
-        ["Auctioneer"] = {
-            mask = QuestieDB.npcFlags.AUCTIONEER,
-            requireSubname = false,
-            data = {}
-        },
-        ["Banker"] = {
-            mask = QuestieDB.npcFlags.BANKER,
-            requireSubname = false,
-            data = {}
-        },
-        ["Battlemaster"] = {
-            mask = QuestieDB.npcFlags.BATTLEMASTER,
-            requireSubname = false,
-            data = {}
-        },
-        ["Flight Master"] = {
-            mask = QuestieDB.npcFlags.FLIGHT_MASTER,
-            requireSubname = false,
-            data = {}
-        },
-        ["Innkeeper"] = {
-            mask = QuestieDB.npcFlags.INNKEEPER,
-            requireSubname = false,
-            data = {}
-        },
-        ["Stable Master"] = { -- Used further down by hunters.
-            mask = QuestieDB.npcFlags.STABLEMASTER,
-            requireSubname = false,
-            data = {}
-        },
-        ["Spirit Healer"] = {-- Used further down
-            mask = QuestieDB.npcFlags.SPIRIT_HEALER,
-            requireSubname = false,
-            data = {}
-        },
-        ["Barber"] = {
-            mask = QuestieDB.npcFlags.BARBER,
-            requireSubname = false,
-            data = {}
-        },
-        ["Transmogrifier"] = {
-            mask = QuestieDB.npcFlags.TRANSMOGRIFIER,
-            requireSubname = false,
-            data = {}
-        },
-        ["Arcane Reforger"] = {
-            mask = QuestieDB.npcFlags.ARCANE_REFORGER,
-            requireSubname = false,
-            data = {}
-        }
-    }
-    _PopulateTownsfolkTypes(townsfolkData)
-
-    local townfolk = {
-        ["Repair"] = townsfolkData["Repair"].data,
-        ["Auctioneer"] = townsfolkData["Auctioneer"].data,
-        ["Banker"] = townsfolkData["Banker"].data,
-        ["Battlemaster"] = townsfolkData["Battlemaster"].data,
-        ["Flight Master"] = townsfolkData["Flight Master"].data,
-        ["Innkeeper"] = townsfolkData["Innkeeper"].data,
-        ["Barber"] = QuestieDB.npcFlags.BARBER and townsfolkData["Barber"].data or nil,
-        ["Arcane Reforger"] = QuestieDB.npcFlags.ARCANE_REFORGER and townsfolkData["Arcane Reforger"].data or nil,
-        ["Transmogrifier"] = QuestieDB.npcFlags.TRANSMOGRIFIER and townsfolkData["Transmogrifier"].data or nil
-    }
-
-    if Expansions.Current <= Expansions.Wotlk then
-        townfolk["Weapon Master"] = {}
-        for _, id in ipairs(Townsfolk.GetWeaponTrainers()) do
-            if QuestieDB.NPCPointers[id] then
-                tinsert(townfolk["Weapon Master"], id)
-            end
-        end
-    end
-
+---The profession trainer categories this flavor has, each starting empty.
+---@return table<ProfessionEnum, NpcId[]>
+local function _NewProfessionTrainers()
     ---@type table<ProfessionEnum, NpcId[]>
     local professionTrainers = {
         [professionKeys.FIRST_AID] = {},
@@ -190,66 +132,135 @@ function Townsfolk.Initialize()
         professionTrainers[professionKeys.ARCHAEOLOGY] = {}
     end
 
-    for professionId, ids in pairs(professionTrainerIds) do
-        if professionTrainers[professionId] then
-            for i = 1, #ids do
-                if QuestieDB.NPCPointers[ids[i]] then
-                    tinsert(professionTrainers[professionId], ids[i])
+    return professionTrainers
+end
+
+function Townsfolk.Initialize()
+    local townfolk = {}
+    for _, category in pairs(sharedNpcCategories) do
+        townfolk[category] = {}
+    end
+    local stableMasters, spiritHealers, portalTrainers = {}, {}, {}
+    local professionTrainers = _NewProfessionTrainers()
+
+    local classSpecificTownsfolk = {}
+    for _, classFile in pairs(classFileById) do
+        classSpecificTownsfolk[classFile] = {["Class Trainer"] = {}}
+    end
+
+    -- One pass over every NPC. Most carry no services, and reading the absent list is cheap.
+    local count = 0
+    for id in pairs(QuestieDB.NPCPointers) do
+        local services = QuestieDB.QueryNPCSingle(id, "services")
+        if services then
+            local npcName = QuestieDB.QueryNPCSingle(id, "name")
+            if npcName and sub(npcName, 1, 5) ~= "[DND]" then
+                for i = 1, #services do
+                    local service = services[i]
+                    local category = sharedNpcCategories[service]
+                    if category then
+                        tinsert(townfolk[category], id)
+                    elseif optionalNpcCategories[service] then
+                        category = optionalNpcCategories[service]
+                        townfolk[category] = townfolk[category] or {}
+                        tinsert(townfolk[category], id)
+                    elseif service == serviceKeys.STABLE_MASTER then
+                        tinsert(stableMasters, id)
+                    elseif service == serviceKeys.SPIRIT_HEALER then
+                        tinsert(spiritHealers, id)
+                    elseif service == serviceKeys.PORTAL_TRAINER then
+                        tinsert(portalTrainers, id)
+                    elseif classTrainerServices[service] then
+                        local classFile = classFileById[QuestieDB.QueryNPCSingle(id, "trainerClass")]
+                        if classFile then
+                            tinsert(classSpecificTownsfolk[classFile]["Class Trainer"], id)
+                        end
+                    end
+                end
+
+                local trainerSkills = QuestieDB.QueryNPCSingle(id, "trainerSkills")
+                if trainerSkills then
+                    for i = 1, #trainerSkills do
+                        local trainers = professionTrainers[trainerSkills[i]]
+                        if trainers then
+                            tinsert(trainers, id)
+                        end
+                    end
                 end
             end
         end
-    end
-
-    if Expansions.Current >= Expansions.Tbc then
-        local meetingStones = Townsfolk.GetMeetingStones()
-
-        townfolk["Meeting Stones"] = {}
-        for _, id in pairs(meetingStones) do
-            tinsert(townfolk["Meeting Stones"], id)
+        if count > 700 then -- 700 seems like a good number
+            count = 0
+            coroutine.yield()
         end
+        count = count + 1
     end
 
-    if Expansions.Current >= Expansions.MoP then
-        townfolk["Battle Pet Trainer"] = {}
-        for id in pairs(QuestieDB.NPCPointers) do
-            local subName = QuestieDB.QueryNPCSingle(id, "subName")
-            if subName and subName == "Battle Pet Trainer" then
-                tinsert(townfolk["Battle Pet Trainer"], id)
+    -- Objects: mailboxes, meeting stones and profession stations.
+    local allianceMailboxes, hordeMailboxes, meetingStones = {}, {}, {}
+    local stationObjects = {}
+    for _, key in pairs(stationKeyByService) do
+        stationObjects[key] = {}
+    end
+    count = 0
+    for id in pairs(QuestieDB.ObjectPointers) do
+        local services = QuestieDB.QueryObjectSingle(id, "services")
+        if services then
+            for i = 1, #services do
+                local service = services[i]
+                if service == serviceKeys.MAILBOX then
+                    -- A mailbox without a faction restriction serves both factions.
+                    local requiredFaction = QuestieDB.QueryObjectSingle(id, "requiredFaction")
+                    if requiredFaction ~= "H" then
+                        tinsert(allianceMailboxes, id)
+                    end
+                    if requiredFaction ~= "A" then
+                        tinsert(hordeMailboxes, id)
+                    end
+                elseif service == serviceKeys.MEETING_STONE then
+                    tinsert(meetingStones, id)
+                elseif stationKeyByService[service] then
+                    tinsert(stationObjects[stationKeyByService[service]], id)
+                end
             end
         end
-
-        townfolk["Stable Master"] = townsfolkData["Stable Master"].data
+        if count > 700 then
+            count = 0
+            coroutine.yield()
+        end
+        count = count + 1
     end
 
-    -- todo: specialized trainer types (leatherworkers, engineers, etc)
+    if #meetingStones > 0 then
+        townfolk["Meeting Stones"] = meetingStones
+    end
 
-    local classSpecificTownsfolk = {}
     local factionSpecificTownsfolk = {["Horde"] = {}, ["Alliance"] = {}, ["Neutral"] = {}}
+    factionSpecificTownsfolk["Horde"]["Spirit Healer"] = spiritHealers
+    factionSpecificTownsfolk["Alliance"]["Spirit Healer"] = spiritHealers
+    factionSpecificTownsfolk["Horde"]["Mailbox"] = hordeMailboxes
+    factionSpecificTownsfolk["Alliance"]["Mailbox"] = allianceMailboxes
 
-    local classTrainers = Townsfolk.GetClassTrainers()
-    for class, trainers in pairs(classTrainers) do
-        local newTrainers = {}
-        for _, trainer in pairs(trainers) do
-            if QuestieDB.NPCPointers[trainer] then
-                tinsert(newTrainers, trainer)
-            end
-        end
-        classSpecificTownsfolk[class] = {}
-        classSpecificTownsfolk[class]["Class Trainer"] = newTrainers
+    -- From MoP every class can stable pets; before that only hunters have a use for stable masters.
+    -- Class lists are filtered later, when the player class does not match.
+    if Expansions.Current >= Expansions.MoP then
+        townfolk["Stable Master"] = stableMasters
+    else
+        classSpecificTownsfolk["HUNTER"]["Stable Master"] = stableMasters
+    end
+    classSpecificTownsfolk["MAGE"]["Portal Trainer"] = portalTrainers
+
+    _SortLists(townfolk)
+    _SortLists(professionTrainers)
+    _SortLists(stationObjects)
+    for _, categories in pairs(classSpecificTownsfolk) do
+        _SortLists(categories)
+    end
+    for _, categories in pairs(factionSpecificTownsfolk) do
+        _SortLists(categories)
     end
 
-    -- These are filtered later, when the player class does not match
-    if Expansions.Current < Expansions.MoP then
-        classSpecificTownsfolk["HUNTER"]["Stable Master"] = townsfolkData["Stable Master"].data
-    end
-    classSpecificTownsfolk["MAGE"]["Portal Trainer"] = {4165,2485,2489,5958,5957,2492,16654,16755,19340,20791,27703,27705,29156,45139,47253}
-
-    factionSpecificTownsfolk["Horde"]["Spirit Healer"]  = townsfolkData["Spirit Healer"].data
-    factionSpecificTownsfolk["Alliance"]["Spirit Healer"]  = townsfolkData["Spirit Healer"].data
-
-    local allianceMailBoxes, hordeMailBoxes = Townsfolk.GetFactionSpecificMailboxes()
-    factionSpecificTownsfolk["Horde"]["Mailbox"] = hordeMailBoxes
-    factionSpecificTownsfolk["Alliance"]["Mailbox"] = allianceMailBoxes
+    ProfessionStations.SetStationObjects(stationObjects)
 
     local petFoodVendorTypes = {["Meat"] = {},["Fish"]={},["Cheese"]={},["Bread"]={},["Fungus"]={},["Fruit"]={},["Raw Meat"]={},["Raw Fish"]={}}
     local petFoodIndexes = {"Meat","Fish","Cheese","Bread","Fungus","Fruit","Raw Meat","Raw Fish"}
@@ -257,7 +268,7 @@ function Townsfolk.Initialize()
     -- Only hunters get a "Pet Food" vendor list (UpdatePlayerVendors), so other classes skip
     -- this scan over every Item and keep the categories empty.
     if playerClass == "HUNTER" then
-        local count = 0
+        count = 0
         for id in pairs(QuestieDB.ItemPointers) do
             -- Number fields read 0 for Items without a food type; only food types 1-8 name a pet food category.
             local petFoodCategory = petFoodIndexes[QuestieDB.QueryItemSingle(id, "foodType")]
@@ -385,7 +396,6 @@ function Townsfolk:PopulateVendors(itemList, existingTable, restrictLevel)
     local tbl = existingTable or {}
     -- Create a cache to minimize db calls
     local factionCache = {}
-    local flagCache = {}
 
     local playerLevel = restrictLevel and UnitLevel("Player") or 0
     for _, id in pairs(itemList) do
@@ -406,11 +416,7 @@ function Townsfolk:PopulateVendors(itemList, existingTable, restrictLevel)
                         factionCache[vendorId] = friendlyToFaction
                     end
                     if (not friendlyToFaction) or friendlyToFaction == "AH" or friendlyToFaction == factionKey then
-                        local flags = flagCache[vendorId] or QuestieDB.QueryNPCSingle(vendorId, "npcFlags")
-                        if not flagCache[vendorId] then
-                            flagCache[vendorId] = flags
-                        end
-                        if bitband(flags, QuestieDB.npcFlags.VENDOR) == QuestieDB.npcFlags.VENDOR then
+                        if QuestieDB.NpcHasServices(vendorId, vendorService) then
                             tbl[vendorId] = true
                         end
                     end
@@ -419,37 +425,4 @@ function Townsfolk:PopulateVendors(itemList, existingTable, restrictLevel)
         end
     end
     return tbl
-end
-
----@return number[], number[] -- Returns two lists of mailbox IDs, one for Alliance and one for Horde
-function Townsfolk.GetFactionSpecificMailboxes()
-    local allianceMailBoxes = {}
-    local hordeMailBoxes = {}
-
-    local mailboxes = Townsfolk.GetMailboxes()
-    for i=1, #mailboxes do
-        local id = mailboxes[i]
-        if QuestieDB.ObjectPointers[id] then
-            local factionID = QuestieDB.QueryObjectSingle(id, "factionID")
-
-            if factionID == 0 then
-                tinsert(hordeMailBoxes, id)
-                tinsert(allianceMailBoxes, id)
-            elseif QuestieDB.factionTemplate[factionID] and bitband(QuestieDB.factionTemplate[factionID], 12) == 0 and bitband(QuestieDB.factionTemplate[factionID], 10) == 0 then
-                tinsert(hordeMailBoxes, id)
-                tinsert(allianceMailBoxes, id)
-            elseif QuestieDB.factionTemplate[factionID] and bitband(QuestieDB.factionTemplate[factionID], 12) == 0 then
-                tinsert(hordeMailBoxes, id)
-            elseif QuestieDB.factionTemplate[factionID] and bitband(QuestieDB.factionTemplate[factionID], 10) == 0 then
-                tinsert(allianceMailBoxes, id)
-            else
-                tinsert(hordeMailBoxes, id)
-                tinsert(allianceMailBoxes, id)
-            end
-        else
-            Questie.Debug(Questie.DEBUG_DEVELOP, "Missing mailbox:", tostring(id))
-        end
-    end
-
-    return allianceMailBoxes, hordeMailBoxes
 end

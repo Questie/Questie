@@ -37,6 +37,7 @@
 ---@field availableStartingWith fun(id: QuestId): QuestId? Quest that starts availability while active or completed.
 ---@field requiredRanks fun(id: QuestId): QuestieDBSkillRankPair[]? Alternative profession rank requirements.
 ---@field disabledByQuest fun(id: QuestId): QuestId? Quest that temporarily disables this quest while active.
+---@field eventIds fun(id: QuestId): integer[]? Signed `Enum.eventKeys` values: positive means available only during that event (any one of several is enough), negative means unavailable during it; nil when no event gates the quest.
 ---@field GetByIndex fun(id: QuestId, fieldIndex: integer): any Read a field by positional index.
 ---@field Get fun(id: QuestId, key: QuestieDBQuestField|integer): any Read a field by canonical name or index.
 ---@field GetAll fun(id: QuestId, keys: (QuestieDBQuestField|integer)[]): QuestieDBPackedValues? Read fields into a packed table, or nil for an unknown ID.
@@ -44,7 +45,9 @@
 ---@field Exists fun(id: QuestId): boolean Test the composed view.
 ---@field InvalidateCache fun(id?: QuestId) Drop cached fields for one quest or every quest.
 ---@field BuildNameIndex fun() Build the Name index now (a no-op when it exists) instead of on the first IdsByName call; a full pass over every quest name.
+---@field BuildNameIndexAsync fun(iterationsPerCycle?: integer) Build the complete Name index inside a caller-owned coroutine; yield between positive-sized ID batches (default 250), restart after invalidation, return when ready.
 ---@field IdsByName fun(name: string): QuestId[]? Every composed quest ID whose current name equals `name` exactly, ascending, or nil; shared and read-only.
+---@field HasAny fun(id: QuestId, key: QuestieDBQuestField|integer, wanted: table<any, boolean>): boolean Whether a list field holds any value that is a key of `wanted`; false for an unknown ID or a scalar field. Allocates nothing per call.
 QuestDB = {}
 
 ---Returns the composed ID list, or a read-only lookup map when `hashmap` is true.

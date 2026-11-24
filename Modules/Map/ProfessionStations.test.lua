@@ -47,13 +47,16 @@ describe("ProfessionStations", function()
         return shown
     end
 
+    -- What Townsfolk hands over at login: the objects QuestieDB marks with each station's service.
+    local stationObjects = {
+        ["Moonwell"] = {19549, 19550},
+        ["Anvil"] = {1744, 1748, 1752},
+        ["Forge"] = {1685, 1743},
+        ["Alchemy Lab"] = {177387},
+    }
+
     local function getExpectedIds(category)
-        local ids = {}
-        for _, id in ipairs(ProfessionStations.stations[category].objectIds) do
-            ids[#ids + 1] = id
-        end
-        table.sort(ids)
-        return ids
+        return stationObjects[category]
     end
 
     before_each(function()
@@ -78,6 +81,28 @@ describe("ProfessionStations", function()
 
         dofile("Modules/Map/ProfessionStations.lua")
         ProfessionStations = QuestieLoader:ImportModule("ProfessionStations")
+        ProfessionStations.SetStationObjects(stationObjects)
+    end)
+
+    describe("SetStationObjects", function()
+        it("starts every station without objects until Townsfolk provides them", function()
+            dofile("Modules/Map/ProfessionStations.lua")
+            ProfessionStations = QuestieLoader:ImportModule("ProfessionStations")
+
+            ProfessionStations.ShowAll("Anvil")
+
+            assert.are_same({}, collectShown(QuestieMap.ShowObject))
+        end)
+
+        it("clears a station that the new set leaves out", function()
+            ProfessionStations.SetStationObjects({["Anvil"] = {1744}})
+
+            ProfessionStations.ShowAll("Forge")
+            assert.are_same({}, collectShown(QuestieMap.ShowObject))
+
+            ProfessionStations.ShowAll("Anvil")
+            assert.are_same({1744}, collectShown(QuestieMap.ShowObject))
+        end)
     end)
 
     for _, category in ipairs(categories) do

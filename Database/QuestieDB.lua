@@ -8,8 +8,6 @@ local QuestieCompat = QuestieLoader:ImportModule("QuestieCompat")
 ---@field objectKeys QuestieDBObjectKeys
 local QuestieDB = QuestieLoader:CreateModule("QuestieDB")
 
----@type SupportValidation
-local SupportValidation = QuestieLoader:ImportModule("SupportValidation")
 ---@class QuestieDBPrivate
 local _QuestieDB = QuestieDB.private
 
@@ -162,8 +160,10 @@ QuestieDB.raceKeys = {
 QuestieDB.classKeys = LibQuestieDB.Enum.classKeys
 QuestieDB.factionIDs = LibQuestieDB.Enum.factionIDs
 
----@alias NpcFlags integer
-QuestieDB.npcFlags = LibQuestieDB.Enum.npcFlags
+-- Entity facts: what an NPC or object provides, and the IDs those fields hold. The same in every flavor.
+QuestieDB.serviceKeys = LibQuestieDB.Enum.serviceKeys
+QuestieDB.classIDs = LibQuestieDB.Enum.classIDs
+QuestieDB.weaponSkillKeys = LibQuestieDB.Enum.weaponSkillKeys
 
 QuestieDB.itemClasses = {
     QUEST = 12,
@@ -216,6 +216,19 @@ for datatype, prefix in pairs({Quest = "quest", Npc = "npc", Item = "item", Obje
     QuestieDB["_" .. prefix .. "AdapterQueryOrder"] = queryOrder
 end
 
+-- Object projections leave out `factionID`. The provider deprecated it: it always reads 0, and
+-- the provider reports every addon that still reads it. `requiredFaction` replaces it. Without
+-- that field the list no longer lines up with `objectKeys`, so `GetObject` maps results by name.
+do
+    local objectQueryOrder = {}
+    for _, key in ipairs(QuestieDB._objectAdapterQueryOrder) do
+        if key ~= "factionID" then
+            objectQueryOrder[#objectQueryOrder + 1] = key
+        end
+    end
+    QuestieDB._objectAdapterQueryOrder = objectQueryOrder
+end
+
 -- Query bindings keep the provider's plain-function (dot-call) shape.
 QuestieDB.QueryQuestSingle = LibQuestieDB.Quest.Get
 QuestieDB.QueryNPCSingle = LibQuestieDB.Npc.Get
@@ -226,8 +239,11 @@ QuestieDB.QueryNPC = LibQuestieDB.Npc.GetAll
 QuestieDB.QueryItem = LibQuestieDB.Item.GetAll
 QuestieDB.QueryObject = LibQuestieDB.Object.GetAll
 
--- Shared support data is read-only; faction filtering remains in Questie.
-QuestieDB.factionTemplate = LibQuestieDB.Support.Get("QuestieDB").factionTemplate
+-- Service checks run over lists the provider retains, so they allocate nothing per call.
+-- Build the wanted set once with `ServiceSet` and reuse it.
+QuestieDB.ServiceSet = LibQuestieDB.Set
+QuestieDB.NpcHasServices = LibQuestieDB.Npc.HasServices
+QuestieDB.ObjectHasServices = LibQuestieDB.Object.HasServices
 
 -- QuestieDB owns Objective Order. These are provider tables that consumers must not mutate.
 QuestieDB.killCreditObjectiveFirst = LibQuestieDB.ObjectiveFirst.killCreditObjectiveFirst
@@ -276,12 +292,7 @@ end
 ---Binds the composed ID maps and resets the caches during Login Initialization. It runs after the
 ---provider locale is forwarded and after Questie's initial Policy Correction writes, so the first
 ---bound view is already composed.
----@return false|nil valid @Nil on success; false stops initialization.
----@return string? report
 function QuestieDB.Initialize()
-    local valid, report = SupportValidation.ValidateFactionTemplates(QuestieDB.factionTemplate, Expansions.Current)
-    if not valid then return false, report end
-
     _QuestieDB.InitializeQuestTagInfoCorrections()
 
     _BindEntityIdMaps()
@@ -362,8 +373,8 @@ function QuestieDB:GetObject(objectId)
         type = "object"
     }
 
-    for stringKey, intKey in pairs(QuestieDB.objectKeys) do
-        obj[stringKey] = rawdata[intKey]
+    for index, key in ipairs(QuestieDB._objectAdapterQueryOrder) do
+        obj[key] = rawdata[index]
     end
     return obj;
 end

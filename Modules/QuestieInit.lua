@@ -203,7 +203,7 @@ QuestieInit.Stages[1] = function() -- run as a coroutine
     Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieInit:Stage1] QuestieDB initializing.")
     -- Binds the ID maps and resets the caches against the applied composed view; queries and
     -- Objective Order were bound when QuestieDB.lua loaded.
-    if _StopOnSupportFailure(QuestieDB.Initialize()) then return false end
+    QuestieDB.Initialize()
     coYield()
 
     Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieInit:Stage1] Townsfolk building.")

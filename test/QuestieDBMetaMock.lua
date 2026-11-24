@@ -50,6 +50,7 @@ local questKeys = {
     ["availableStartingWith"] = 34, -- int: the ID of the quest that needs to be in quest log OR turned in for the current one to be available.
     ["requiredRanks"] = 35, -- table: {{skill(int), value(int)}}. Table of professions and ranks to be checked with OR logic
     ["disabledByQuest"] = 36, -- int: quest that, if in player's quest log, makes current quest unavailable for the duration
+    ["eventIds"] = 37, -- table: {eventId(int), ...} signed Enum.eventKeys values; positive = only during, negative = not during
 }
 
 local npcKeys = {
@@ -69,6 +70,10 @@ local npcKeys = {
     ["subName"] = 14, -- string, The title or function of the NPC, e.g. "Weapon Vendor"
     ["npcFlags"] = 15, -- int, Bitmask containing various flags about the NPCs function (Vendor, Trainer, Flight Master, etc.).
                        -- For flag values see https://github.com/cmangos/mangos-classic/blob/172c005b0a69e342e908f4589b24a6f18246c95e/src/game/Entities/Unit.h#L536
+    ["services"] = 16, -- table {serviceKey(int),...}, see Enum.serviceKeys
+    ["trainerClass"] = 17, -- int, Enum.classIDs value of the class this NPC trains
+    ["trainerSkills"] = 18, -- table {skillLineID(int),...}
+    ["eventIds"] = 19, -- table: {eventId(int), ...} signed Enum.eventKeys values
 }
 
 local itemKeys = {
@@ -98,6 +103,8 @@ local objectKeys = {
     ["zoneID"] = 5, -- guess as to where this object is most common
     ["factionID"] = 6, -- faction restriction mask (same as spawndb factionid)
     ["waypoints"] = 7, -- waypoints for objects on ships/zeppelins/etc
+    ["services"] = 8, -- table {serviceKey(int),...}, see Enum.serviceKeys
+    ["requiredFaction"] = 9, -- "A" or "H" when only that faction can use the object
 }
 
 -- Field storage types per Database Key Enum index, copied from the provider's src/meta/*Meta.lua.
@@ -109,12 +116,12 @@ local questTypes = {
     [15] = "table", [16] = "table", [17] = "number", [18] = "table", [19] = "table", [20] = "table", [21] = "table",
     [22] = "number", [23] = "number", [24] = "number", [25] = "number", [26] = "table", [27] = "number", [28] = "table",
     [29] = "table", [30] = "number", [31] = "number", [32] = "number", [33] = "number", [34] = "number", [35] = "table",
-    [36] = "number",
+    [36] = "number", [37] = "table",
 }
 local npcTypes = {
     [1] = "string", [2] = "number", [3] = "number", [4] = "number", [5] = "number", [6] = "number", [7] = "table",
     [8] = "table", [9] = "number", [10] = "table", [11] = "table", [12] = "number", [13] = "string", [14] = "string",
-    [15] = "number",
+    [15] = "number", [16] = "table", [17] = "number", [18] = "table", [19] = "table",
 }
 local itemTypes = {
     [1] = "string", [2] = "table", [3] = "table", [4] = "table", [5] = "number", [6] = "table", [7] = "number",
@@ -123,6 +130,7 @@ local itemTypes = {
 }
 local objectTypes = {
     [1] = "string", [2] = "table", [3] = "table", [4] = "table", [5] = "number", [6] = "number", [7] = "table",
+    [8] = "table", [9] = "string",
 }
 
 ---Key enums and field types per Contract datatype, shared with the full LibQuestieDB fake in

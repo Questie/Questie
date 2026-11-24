@@ -193,9 +193,8 @@ describe("SupportValidation", function()
         {name = "Cata", expansion = 4, db = {[2] = {23, 1850}, [28757] = {3, 500}}},
         {name = "MoP", expansion = 5, db = {[2] = {23, 1850}, [29948] = {87, 129000}}},
     }) do
-        it("accepts raw " .. case.name .. " XP and shared faction invariants including zero", function()
+        it("accepts raw " .. case.name .. " XP", function()
             assert.is_true(validation.ValidateQuestXP(case.db, case.expansion))
-            assert.is_true(validation.ValidateFactionTemplates({[1] = 12, [2] = 10, [7] = 0}, case.expansion))
         end)
     end
 
@@ -223,17 +222,8 @@ describe("SupportValidation", function()
         assert.matches("db[10289].xp: expected 2400, actual 1", report, 1, true)
     end)
 
-    it("rejects missing XP and faction tables without throwing", function()
+    it("rejects a missing XP table without throwing", function()
         assert.is_false(validation.ValidateQuestXP(nil, 1))
-        assert.is_false(validation.ValidateFactionTemplates(false, 1))
-    end)
-
-    it("aggregates faction failures and does not treat missing zero as valid", function()
-        local valid, report = validation.ValidateFactionTemplates({[1] = 13, [2] = 11}, 1)
-        assert.is_false(valid)
-        assert.matches("factionTemplate[1]: expected 12, actual 13", report, 1, true)
-        assert.matches("factionTemplate[2]: expected 10, actual 11", report, 1, true)
-        assert.matches("factionTemplate[7]: expected 0, actual nil", report, 1, true)
     end)
 
     for _, case in ipairs({

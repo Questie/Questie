@@ -15,6 +15,10 @@
 ---@field factionIDs table<string, FactionId> Shared faction IDs by name; read-only by contract.
 ---@field classKeys table<string, integer> Active provider flavor's class bitmasks, including ALL_CLASSES; read-only by contract.
 ---@field npcFlags table<string, integer> Active provider flavor's NPC flag bitmasks; flags a flavor lacks are absent. Read-only by contract.
+---@field serviceKeys table<string, integer> Shared service IDs for the `services` list field; the same in every flavor. Read-only by contract.
+---@field eventKeys table<string, integer> Shared world event IDs for the signed `eventIds` list field: Blizzard Holidays IDs, and QuestieDB-defined IDs from 100000. Read-only by contract.
+---@field classIDs table<string, integer> Shared class IDs (not `classKeys` mask bits) for `trainerClass`. Read-only by contract.
+---@field weaponSkillKeys table<string, integer> Shared weapon skill line IDs for `trainerSkills`. Read-only by contract.
 ---@field phases table<string, integer> Shared phase names to Blizzard or Questie-defined fake IDs; read-only by contract for consumers.
 
 ---@class LibQuestieDB
@@ -26,6 +30,7 @@
 ---@field minSupportedContract integer Oldest supported consumer contract.
 ---@field addonName string Loaded addon name.
 ---@field readMode QuestieDBReadMode Active source or baked reader.
+---@field Set fun(...: any): table<any, boolean> Build a lookup set `{ [value] = true }` for `HasAny`; the caller owns it.
 ---@field RequireContract fun(required: integer): boolean, string? Check whether this release supports a positive integer consumer contract.
 ---@field InvalidateCache fun(datatype?: QuestieDBDatatype, id?: number) Drop one entity cache, one datatype cache, or every cache.
 ---@field ApplyRegisteredCorrections fun(owner?: string): integer Apply pending Corrections for one owner or all pending owners.

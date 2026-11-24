@@ -136,13 +136,13 @@ describe("QuestieInit", function()
 
         it("uses the TOC requirement instead of a hardcoded contract", function()
             C_AddOns.GetAddOnMetadata = function(addon, field)
-                if addon == "Questie" and field == "X-QuestieDB-Contract" then return "5" end
+                if addon == "Questie" and field == "X-QuestieDB-Contract" then return "6" end
                 if addon == "QuestieDB" and field == "Version" then return "1.1.1" end
             end
 
             assert.has_error(function() _RunStage(1) end,
-                "Questie requires QuestieDB contract 5; installed QuestieDB version: 1.1.1. " ..
-                "QuestieDB contract mismatch: this consumer needs version 5, the installed QuestieDB provides 4 " ..
+                "Questie requires QuestieDB contract 6; installed QuestieDB version: 1.1.1. " ..
+                "QuestieDB contract mismatch: this consumer needs version 6, the installed QuestieDB provides 5 " ..
                 "(supporting consumers back to 1). Update whichever is older.")
             assert.are_same({}, mock.setLocaleCalls)
         end)
@@ -457,19 +457,6 @@ describe("QuestieInit", function()
                 "QuestXP", "Phasing"}, callOrder)
             assert.spy(threads).was.called(1)
             assert.spy(errors).was.not_called()
-        end)
-
-        it("stops stage 1 before Townsfolk and later consumer initialization", function()
-            QuestieLoader:ImportModule("QuestieDB").Initialize = function() return false, "faction report" end
-            _RunStage(1)
-            assert.are_same({"l10n.InitializeUILocale", "QuestieDB.PreloadEntityData", "LibQuestieDB.l10n.SetLocale:deDE",
-                "l10n.PublishLocaleOverrideEntityNames", "QuestieCorrections.Initialize"}, callOrder)
-            assert.spy(errors).was.called_with("faction report")
-            _AssertFatalIssue("startup.support-validation", "faction report")
-            assert.is_false(QuestieInit:Init())
-            assert.spy(threads).was.not_called()
-            assert.is_false(Questie.started)
-            assert.is_false(Questie.API.isReady)
         end)
 
         it("keeps DropDB in stage 3 and stops before timers, tracker and readiness", function()

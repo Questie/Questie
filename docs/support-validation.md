@@ -4,11 +4,10 @@ Questie validates a small set of independently authored controls in the QuestieD
 
 ## Checkpoints
 
-[`Database/SupportValidation.lua`](../Database/SupportValidation.lua) defines four validators:
+[`Database/SupportValidation.lua`](../Database/SupportValidation.lua) defines three validators:
 
 - `ValidateZones` checks stable zone IDs, effective map relationships and one dungeon shape after the zone wrapper decodes its maps and applies overrides.
 - `ValidateQuestXP` checks raw quest level and XP rows before player-level and buff adjustments.
-- `ValidateFactionTemplates` checks faction-template values before QuestieDB binds its composed entity ID maps.
 - `ValidateDropTables` checks the selected private-server source, a usable Wowhead percentage, and authored correction rows after the drop wrapper decodes and merges them. The Wowhead control accepts any numeric percentage greater than zero and at most 100 because that rate changes over time.
 
 Forever uses Era content rules but has independent native zone maps. When `Questie.IsForever` is set for Era content, zone validation checks Forever's continent override and reviewed Skyborne starting-zone relationships instead of the legacy Northrend suppression entry. Other zone controls remain active, and reports identify the consumer as Forever. Ordinary Era retains its original controls.
