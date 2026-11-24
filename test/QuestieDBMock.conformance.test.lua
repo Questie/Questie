@@ -1287,16 +1287,16 @@ describe("QuestieEvent on the real provider", function()
 
         local events = provider.Enum.eventKeys
         assert.are_same({events.HALLOWS_END}, QuestieEvent.eventQuests[1658]) -- Crashing the Wickerman Festival
-        assert.are_equal("Hallow's End", QuestieEvent.GetEventNameFor(1658))
         assert.is_true(QuestieCorrections.hiddenQuests[1658])
         -- The Alliance faire announcement is absent while the faire is in Mulgore.
         assert.are_same({events.DARKMOON_FAIRE_ELWYNN, events.DARKMOON_FAIRE_TEROKKAR}, QuestieEvent.eventQuests[7905])
         -- A Darkmoon deck quest is an event quest that stays visible all year.
-        assert.is_true(QuestieEvent.IsEventQuest(7907))
+        assert.is_not_nil(QuestieEvent.eventQuests[7907])
         assert.is_nil(QuestieCorrections.hiddenQuests[7907])
         -- War effort quests carry an event without a calendar and are not this module's concern.
-        assert.is_false(QuestieEvent.IsEventQuest(8792))
-        assert.is_false(QuestieEvent.IsEventQuest(2)) -- Sharptalon's Claw
+        assert.is_nil(QuestieEvent.eventQuests[8792])
+        assert.is_nil(QuestieCorrections.hiddenQuests[8792])
+        assert.is_nil(QuestieEvent.eventQuests[2]) -- Sharptalon's Claw
         assert.are_same({events.WINTER_VEIL}, QuestieEvent.eventNpcs[13418]) -- a Smokywood Pastures vendor
         assert.is_nil(QuestieEvent.eventNpcs[30]) -- Forest Spider
     end)

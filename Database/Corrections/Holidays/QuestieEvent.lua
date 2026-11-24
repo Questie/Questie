@@ -78,6 +78,11 @@ QuestieEvent.eventNpcs = {}
 QuestieEvent.activeQuests = {}
 QuestieEvent.calendarDataCached = false
 
+-- True once `Load` has decided which events are active. Until then no quest counts as an
+-- event quest: consumers such as QuestFinisher skip an event quest that is not active, and
+-- before the calendar reports in nothing is known to be active yet.
+local eventsLoaded = false
+
 -- Quests available for only part of their event: {start "DD/MM", end "DD/MM"}.
 ---@type table<QuestId, {[1]: string, [2]: string}>
 local questWindows = {
@@ -166,6 +171,16 @@ for eventId, eventName in pairs(eventNameById) do
     if eventName ~= "Darkmoon Faire" then
         eventIdByName[eventName] = eventId
     end
+end
+
+---@param eventName string
+---@return integer eventId
+local function _EventIdFor(eventName)
+    local eventId = eventIdByName[eventName]
+    if not eventId then
+        error("QuestieEvent: the event \"" .. tostring(eventName) .. "\" has dates but no event ID in eventNameById", 2)
+    end
+    return eventId
 end
 
 local _WithinDates, _LoadDarkmoonFaire, _GetDarkmoonFaireLocation, _GetDarkmoonFaireLocationEra, _GetDarkmoonFaireLocationSoD, _GetDarkmoonFaireLocationTBC, _GetDarkmoonFaireLocationWotlK, _IsDarkmoonFaireWeek, _GetLunarFestivalDates
@@ -423,7 +438,7 @@ function QuestieEvent:Load()
     ---@type table<integer, boolean>
     local activeEventIds = {}
     for eventName in pairs(activeEvents) do
-        activeEventIds[eventIdByName[eventName]] = true
+        activeEventIds[_EventIdFor(eventName)] = true
     end
     if dmfIsActive then
         activeEventIds[eventKeys.DARKMOON_FAIRE_ISLAND] = true
@@ -461,6 +476,8 @@ function QuestieEvent:Load()
     for npcId, eventIds in pairs(QuestieEvent.eventNpcs) do
         QuestieCorrections.questNPCBlacklist[npcId] = not _IsAvailable(eventIds, activeEventIds)
     end
+
+    eventsLoaded = true
 end
 
 ---@param year string
@@ -672,7 +689,7 @@ end
 ---@param questId QuestId
 ---@return string
 function QuestieEvent.GetEventNameFor(questId)
-    local eventIds = QuestieEvent.eventQuests[questId]
+    local eventIds = eventsLoaded and QuestieEvent.eventQuests[questId]
     if eventIds then
         for i = 1, #eventIds do
             local eventName = eventNameById[eventIds[i]]
@@ -687,7 +704,7 @@ end
 ---@param questId QuestId
 ---@return boolean @True if the quest is part of an event, false otherwise
 function QuestieEvent.IsEventQuest(questId)
-    return QuestieEvent.eventQuests[questId] ~= nil
+    return eventsLoaded and QuestieEvent.eventQuests[questId] ~= nil
 end
 
 ---@param questId QuestId

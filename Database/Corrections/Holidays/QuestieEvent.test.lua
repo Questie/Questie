@@ -1008,6 +1008,7 @@ describe("QuestieEvent", function()
             _RunInitialize()
 
             assert.is_nil(QuestieEvent.eventQuests[6963])
+            _LoadDuringHallowsEnd()
             assert.is_false(QuestieEvent.IsEventQuest(6963))
             -- Hiding a withheld quest is the blacklist's job; this module must not touch it.
             assert.is_nil(QuestieCorrections.hiddenQuests[6963])
@@ -1017,6 +1018,7 @@ describe("QuestieEvent", function()
             gates[6963] = false
 
             _RunInitialize()
+            _LoadDuringHallowsEnd()
 
             assert.is_true(QuestieEvent.IsEventQuest(6963))
             assert.is_true(QuestieCorrections.hiddenQuests[6963])
@@ -1024,16 +1026,20 @@ describe("QuestieEvent", function()
 
         it("ignores a quest that only lists an event without a calendar", function()
             _RunInitialize()
+            _LoadDuringHallowsEnd()
 
+            assert.is_nil(QuestieEvent.eventQuests[8792])
             assert.is_false(QuestieEvent.IsEventQuest(8792))
             assert.is_nil(QuestieCorrections.hiddenQuests[8792])
         end)
 
         it("treats a deck quest as an event quest without hiding it outside the faire", function()
             _RunInitialize()
+            _LoadDuringHallowsEnd()
 
             assert.is_true(QuestieEvent.IsEventQuest(7907))
             assert.is_nil(QuestieCorrections.hiddenQuests[7907])
+            assert.is_nil(QuestieEvent.activeQuests[7907])
         end)
 
         it("reveals only the quests of the active event", function()
@@ -1079,8 +1085,60 @@ describe("QuestieEvent", function()
             assert.is_nil(QuestieCorrections.questNPCBlacklist[30])
         end)
 
+        it("counts no quest as an event quest until the calendar has reported in", function()
+            -- QuestFinisher skips an event quest that is not active; before Load nothing is active yet.
+            _RunInitialize()
+
+            assert.is_false(QuestieEvent.IsEventQuest(1658))
+            assert.are_equal("", QuestieEvent.GetEventNameFor(1658))
+
+            _LoadDuringHallowsEnd()
+
+            assert.is_true(QuestieEvent.IsEventQuest(1658))
+        end)
+
+        it("reveals a quest that requires one event and excludes another only when both conditions hold", function()
+            mock.SetBaseRow("Quest", 9003, {[questKeys.name] = "Needs one, excludes the other", [questKeys.eventIds] = {events.HALLOWS_END, -events.WINTER_VEIL}})
+            mock.SetBaseRow("Quest", 9004, {[questKeys.name] = "Excluded by the active event", [questKeys.eventIds] = {events.WINTER_VEIL, -events.HALLOWS_END}})
+            mock.SetBaseRow("Quest", 9005, {[questKeys.name] = "Required and excluded events both active", [questKeys.eventIds] = {-events.HALLOWS_END, events.HALLOWS_END}})
+            QuestieDB.QuestPointers = mock.lib.Quest.GetAllIds(true)
+            _RunInitialize()
+
+            _LoadDuringHallowsEnd()
+
+            assert.is_true(QuestieEvent.activeQuests[9003])
+            assert.is_nil(QuestieEvent.activeQuests[9004])
+            assert.is_true(QuestieCorrections.hiddenQuests[9004])
+            assert.is_nil(QuestieEvent.activeQuests[9005])
+        end)
+
+        it("maps every event that has dates in any flavor to an event ID", function()
+            -- An unmapped name would raise in Load, and only on the days that event is active.
+            dofile("Database/Corrections/Holidays/QuestieEvent.lua")
+            QuestieEvent = QuestieLoader:ImportModule("QuestieEvent")
+            local names = {["Lunar Festival"] = true}
+            for eventName in pairs(QuestieEvent.eventDates) do names[eventName] = true end
+            for _, corrections in pairs(QuestieEvent.eventDateCorrections) do
+                for eventName in pairs(corrections) do names[eventName] = true end
+            end
+            Expansions.Current = Expansions.Cata
+            QuestieEvent.lunarFestival = {DEFAULT = {}, TITAN = {}}
+            QuestieCompat.GetCurrentCalendarTime = function()
+                    return {weekday = 1, monthDay = 15, month = 6, year = 2025, hour = 12, minute = 0}
+                end
+            local allYear = {}
+            for eventName in pairs(names) do
+                allYear[eventName] = {startDate = "1/1", endDate = "31/12"}
+            end
+            QuestieEvent.eventDates = allYear
+
+            assert.has_no.errors(function() QuestieEvent:Load() end)
+            assert.spy(printMock).was.called(12)
+        end)
+
         it("names the event of a quest for Journey grouping", function()
             _RunInitialize()
+            _LoadDuringHallowsEnd()
 
             assert.are_equal("Hallow's End", QuestieEvent.GetEventNameFor(1658))
             assert.are_equal("Darkmoon Faire", QuestieEvent.GetEventNameFor(7907))
