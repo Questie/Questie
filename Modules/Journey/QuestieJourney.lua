@@ -143,6 +143,12 @@ function QuestieJourney:SetupKeybinding()
     end
 end
 
+---@param entry JourneyEntry
+local function _AddEntry(entry)
+    tinsert(Questie.db.char.journey, entry)
+    JourneyWindow.Refresh()
+end
+
 function QuestieJourney:PlayerLevelUp(level)
     -- Complete Quest added to Journey
     ---@class JourneyEntry
@@ -158,7 +164,7 @@ function QuestieJourney:PlayerLevelUp(level)
         Timestamp = time()
     }
 
-    tinsert(Questie.db.char.journey, entry)
+    _AddEntry(entry)
 end
 
 function QuestieJourney:AcceptQuest(questId)
@@ -172,7 +178,7 @@ function QuestieJourney:AcceptQuest(questId)
         Timestamp = time()
     }
 
-    tinsert(Questie.db.char.journey, entry)
+    _AddEntry(entry)
 end
 
 function QuestieJourney:AbandonQuest(questId)
@@ -200,7 +206,7 @@ function QuestieJourney:AbandonQuest(questId)
             Timestamp = time()
         }
 
-        tinsert(Questie.db.char.journey, entry)
+        _AddEntry(entry)
     end
 end
 
@@ -215,5 +221,5 @@ function QuestieJourney:CompleteQuest(questId)
         Timestamp = time()
     }
 
-    tinsert(Questie.db.char.journey, entry)
+    _AddEntry(entry)
 end

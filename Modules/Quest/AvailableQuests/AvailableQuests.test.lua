@@ -29,6 +29,8 @@ describe("AvailableQuests", function()
     local DailyQuestCommsBlacklist
     ---@type IsleOfQuelDanas
     local IsleOfQuelDanas
+    ---@type JourneyWindow
+    local JourneyWindow
 
     ---@type AvailableQuests
     local AvailableQuests
@@ -79,6 +81,8 @@ describe("AvailableQuests", function()
         DailyQuestCommsBlacklist = QuestieLoader:ImportModule("DailyQuestCommsBlacklist")
         DailyQuestCommsBlacklist.IsBlacklisted = function() return false end
         IsleOfQuelDanas = QuestieLoader:ImportModule("IsleOfQuelDanas")
+        JourneyWindow = QuestieLoader:ImportModule("JourneyWindow")
+        JourneyWindow.Refresh = spy.new(function() end)
         originalThread = ThreadLib.Thread
         originalIsleOfQuelDanasQuests = IsleOfQuelDanas.quests
         originalQuestPointers = QuestieDB.QuestPointers
@@ -1831,6 +1835,42 @@ describe("AvailableQuests", function()
             AvailableQuests.CalculateAndDrawAll()
 
             assert.are_equal(1, passCount)
+        end)
+
+        it("should refresh the Journey once the available quests are calculated", function()
+            local finish
+            ThreadLib.Thread = function(_, _, _, callback) finish = callback end
+            AvailableQuests.CalculateAndDrawAll()
+            assert.spy(JourneyWindow.Refresh).was.not_called()
+
+            finish()
+
+            assert.spy(JourneyWindow.Refresh).was.called(1)
+        end)
+
+        it("should only refresh the Journey after the last of several passes", function()
+            local finish
+            ThreadLib.Thread = function(_, _, _, callback) finish = callback end
+            AvailableQuests.CalculateAndDrawAll()
+            AvailableQuests.CalculateAndDrawAll() -- queued
+
+            finish()
+            assert.spy(JourneyWindow.Refresh).was.not_called()
+
+            finish()
+            assert.spy(JourneyWindow.Refresh).was.called(1)
+        end)
+
+        it("should not refresh the Journey before a pass that a callback started is done", function()
+            local finish
+            ThreadLib.Thread = function(_, _, _, callback) finish = callback end
+            AvailableQuests.CalculateAndDrawAll(function() AvailableQuests.CalculateAndDrawAll() end)
+
+            finish()
+            assert.spy(JourneyWindow.Refresh).was.not_called()
+
+            finish()
+            assert.spy(JourneyWindow.Refresh).was.called(1)
         end)
 
         it("should queue a second call instead of starting a new pass while one is running", function()

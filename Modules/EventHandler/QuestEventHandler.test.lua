@@ -21,6 +21,8 @@ describe("QuestEventHandler", function()
     local QuestLifecycle
     ---@type QuestieJourney
     local QuestieJourney
+    ---@type JourneyWindow
+    local JourneyWindow
     ---@type AutoQuesting
     local AutoQuesting
     ---@type QuestieAnnounce
@@ -76,6 +78,8 @@ describe("QuestEventHandler", function()
         QuestLifecycle = QuestieLoader:ImportModule("QuestLifecycle")
         AutoQuesting = QuestieLoader:ImportModule("AutoQuesting")
         QuestieJourney = QuestieLoader:ImportModule("QuestieJourney")
+        JourneyWindow = QuestieLoader:ImportModule("JourneyWindow")
+        JourneyWindow.Refresh = function() end
         QuestieAnnounce = QuestieLoader:ImportModule("QuestieAnnounce")
         ActiveQuests.Reset()
         QuestieTracker = QuestieLoader:ImportModule("QuestieTracker")
@@ -642,6 +646,27 @@ describe("QuestEventHandler", function()
         assert.spy(QuestLifecycle.UpdateQuest).was.called_with(QuestLifecycle, QUEST_ID)
         assert.spy(QuestieTracker.UpdateQuestLines).was.called_with(QUEST_ID)
         assert.spy(QuestieTracker.Update).was.called()
+    end)
+
+    it("should show in the Journey what changed about a quest, e.g. that it is ready to turn in", function()
+        _G.C_Timer = {After = function() end}
+        ActiveQuests.Add(QUEST_ID, {})
+        QuestieQuest.SetObjectivesDirty = function() end
+        QuestieNameplate.UpdateNameplate = function() end
+        QuestieTracker.UpdateQuestLines = function() end
+        local isUpdated, refreshes, isUpdatedAtRefresh = false, 0, nil
+        QuestLifecycle.UpdateQuest = function() isUpdated = true end
+        JourneyWindow.Refresh = function() refreshes, isUpdatedAtRefresh = refreshes + 1, isUpdated end
+
+        QuestLogCache.CheckForChanges = function() return false, {} end
+        QuestEventHandler.QuestWatchUpdate(QUEST_ID)
+        QuestEventHandler.QuestLogUpdate()
+        assert.are.equal(0, refreshes)
+
+        QuestLogCache.CheckForChanges = function() return false, {[QUEST_ID] = {}} end
+        QuestEventHandler.QuestWatchUpdate(QUEST_ID)
+        QuestEventHandler.QuestLogUpdate()
+        assert.are_same({1, true}, {refreshes, isUpdatedAtRefresh})
     end)
 
     it("should update the party objectives of a quest whose objectives changed", function()

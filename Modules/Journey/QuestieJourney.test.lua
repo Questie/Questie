@@ -97,6 +97,30 @@ describe("QuestieJourney", function()
         end
     end)
 
+    describe("what happens", function()
+        local entriesAtRefresh
+
+        before_each(function()
+            _G.time = os.time
+            Questie.db.char.journey = {}
+            QuestieLoader:ImportModule("QuestiePlayer").GetPlayerLevel = function() return 10 end
+            entriesAtRefresh = {}
+            JourneyWindow.Refresh = function()
+                local entry = Questie.db.char.journey[#Questie.db.char.journey]
+                table.insert(entriesAtRefresh, entry.SubType or entry.Event)
+            end
+        end)
+
+        it("should show in the open window right away", function()
+            QuestieJourney:AcceptQuest(7)
+            QuestieJourney:AbandonQuest(7)
+            QuestieJourney:CompleteQuest(7)
+            QuestieJourney:PlayerLevelUp(11)
+
+            assert.are_same({"Accept", "Abandon", "Complete", "Level"}, entriesAtRefresh)
+        end)
+    end)
+
     describe("Initialize", function()
         it("should prepare the data without opening the window", function()
             _G.UnitGUID = function() return "Player-1" end

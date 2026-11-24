@@ -57,6 +57,8 @@ local DistanceUtils = QuestieLoader:ImportModule("DistanceUtils")
 local ThreadLib = QuestieLoader:ImportModule("ThreadLib")
 ---@type CommsVisibility
 local CommsVisibility = QuestieLoader:ImportModule("CommsVisibility")
+---@type JourneyWindow
+local JourneyWindow = QuestieLoader:ImportModule("JourneyWindow")
 
 --We should really try and squeeze out all the performance we can, especially in this.
 local tostring = tostring;
@@ -418,6 +420,7 @@ function QuestieQuest:HideQuest(questId)
     Questie.db.char.hidden[questId] = true
     AvailableQuests.RemoveQuest(questId)
     CommsVisibility:ScheduleSnapshot("HIDE_QUEST")
+    JourneyWindow.Refresh()
 end
 
 ---@param questId QuestId
@@ -431,6 +434,7 @@ function QuestieQuest:UnhideQuest(questId)
     else
         AvailableQuests.CalculateAndDrawAll()
     end
+    JourneyWindow.Refresh()
 end
 
 ---Whether the client still lists an unfinished objective, including rows the database does not map.

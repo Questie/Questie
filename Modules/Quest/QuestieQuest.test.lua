@@ -19,6 +19,8 @@ describe("QuestieQuest", function()
     local QuestieCombatQueue
     ---@type CommsVisibility
     local CommsVisibility
+    ---@type JourneyWindow
+    local JourneyWindow
     ---@type l10n
     local l10n
 
@@ -39,6 +41,8 @@ describe("QuestieQuest", function()
         QuestieCombatQueue.Queue = function() end
         CommsVisibility = QuestieLoader:ImportModule("CommsVisibility")
         CommsVisibility.ScheduleSnapshot = spy.new(function() end)
+        JourneyWindow = QuestieLoader:ImportModule("JourneyWindow")
+        JourneyWindow.Refresh = function() end
         l10n = QuestieLoader:ImportModule("l10n")
         setmetatable(l10n, {__call = function(_, key, ...) return key end})
 
@@ -562,6 +566,39 @@ describe("QuestieQuest", function()
 
             assert.are.same({}, QuestieTooltips.lookupByKey)
         end)
+    end)
+
+    describe("hiding a quest", function()
+        local QUEST_ID = 123
+        local shownAsHidden
+
+        before_each(function()
+            Questie.db.char = {hidden = {}}
+            AvailableQuests.RemoveQuest = spy.new(function() end)
+            QuestieQuest.PopulateObjectiveNotes = function() end
+            shownAsHidden = nil
+            JourneyWindow.Refresh = function() shownAsHidden = Questie.db.char.hidden[QUEST_ID] == true end
+        end)
+
+        it("should remove it from the map", function()
+            QuestieQuest:HideQuest(QUEST_ID)
+
+            assert.is_true(Questie.db.char.hidden[QUEST_ID])
+            assert.spy(AvailableQuests.RemoveQuest).was.called_with(QUEST_ID)
+            assert.spy(CommsVisibility.ScheduleSnapshot).was.called()
+        end)
+
+        for _, isInQuestLog in ipairs({false, true}) do
+            it("should show in the Journey right away, " .. (isInQuestLog and "in" or "not in") .. " the quest log", function()
+                if isInQuestLog then ActiveQuests.Add(QUEST_ID) end
+
+                QuestieQuest:HideQuest(QUEST_ID)
+                assert.is_true(shownAsHidden)
+
+                QuestieQuest:UnhideQuest(QUEST_ID)
+                assert.is_false(shownAsHidden)
+            end)
+        end
     end)
 
     describe("UnhideQuest", function()

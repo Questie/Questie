@@ -16,6 +16,8 @@ local QuestLogCache = QuestieLoader:ImportModule("QuestLogCache")
 local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
 ---@type QuestieJourney
 local QuestieJourney = QuestieLoader:ImportModule("QuestieJourney")
+---@type JourneyWindow
+local JourneyWindow = QuestieLoader:ImportModule("JourneyWindow")
 ---@type QuestieNameplate
 local QuestieNameplate = QuestieLoader:ImportModule("QuestieNameplate")
 ---@type QuestieLib
@@ -658,6 +660,7 @@ function _QuestEventHandler:UpdateAllQuests(doRetryWithoutChanges)
 
             QuestieAPI.PropagateQuestUpdate(questId, objIds, QuestieAPI.Enums.QuestUpdateTriggerReason.QUEST_UPDATED)
         end
+        JourneyWindow.Refresh() -- A quest can be ready to turn in now
         QuestieCombatQueue:Queue(function()
             C_Timer.After(1.0, function()
                 -- Don't update tracker if we're in a pet battle
