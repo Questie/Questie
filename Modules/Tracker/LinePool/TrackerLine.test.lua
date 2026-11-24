@@ -62,6 +62,7 @@ describe("TrackerLine untrack click", function()
         compat.QuestLog_Update = spy.new(function() end)
         QuestieLoader:ImportModule("TrackerUtils").IsTomTomAvailable = function() return false end
         dofile("Modules/Tracker/TrackerShortcuts.lua")
+        dofile("Modules/Tracker/LinePool/TrackerQuestLogButton.lua")
         dofile("Modules/Tracker/LinePool/TrackerLine.lua")
         TrackerLine = QuestieLoader:ImportModule("TrackerLine")
     end)
@@ -119,6 +120,28 @@ describe("TrackerLine untrack click", function()
         assert.spy(tooltip.Hide).was.called_with(line)
         line.scripts.OnHide(line)
         assert.spy(tooltip.Hide).was.called(2)
+    end)
+
+    it("should move the quest log button over the line on enter and keep the hover while the mouse is on the button", function()
+        local questLogButton = QuestieLoader:ImportModule("TrackerQuestLogButton")
+        local originalAttach, originalIsHovering = questLogButton.Attach, questLogButton.IsHovering
+        local hovering = false
+        questLogButton.Attach = spy.new(function() end)
+        questLogButton.IsHovering = function() return hovering end
+        local onEnter, onLeave = spy.new(function() end), spy.new(function() end)
+        local line = TrackerLine.New(1, {}, nil, onEnter, onLeave, function() end)
+
+        line.scripts.OnEnter(line)
+        hovering = true
+        line.scripts.OnLeave(line)
+
+        assert.spy(questLogButton.Attach).was.called_with(line)
+        assert.spy(onLeave).was_not.called()
+
+        hovering = false
+        line.scripts.OnLeave(line)
+        assert.spy(onLeave).was.called_with(line)
+        questLogButton.Attach, questLogButton.IsHovering = originalAttach, originalIsHovering
     end)
 
     it("links a Blizzard-only quest through its display data on Shift + Left Click while the chat input is open, over that click's shortcut", function()
