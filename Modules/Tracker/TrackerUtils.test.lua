@@ -401,7 +401,7 @@ describe("TrackerUtils", function()
         local globalNames = {
             "QuestLogFrame", "QuestLogExFrame", "ClassicQuestLog", "QuestLogEx", "QuestLogListScrollFrame",
             "QuestLogListScrollFrameScrollBar", "QuestMapFrame_OpenToQuestDetails", "ShowUIPanel", "InCombatLockdown",
-            "InputUtil", "C_QuestLog", "QuestUtil",
+            "InputUtil", "C_QuestLog", "C_Map",
         }
 
         before_each(function()
@@ -500,11 +500,29 @@ describe("TrackerUtils", function()
             openStub:revert()
         end)
 
-        it("should select the quest without opening the map on Forever when Blizzard knows no map for it", function()
+        it("should open the map on the player's zone on Forever when Blizzard knows no map for the quest", function()
             Questie.IsForever = true
             _G.InputUtil = {IsGamepadUIEnabled = function() return false end}
             _G.C_QuestLog = {SetSelectedQuest = spy.new(function() end)}
-            _G.QuestUtil = {OpenQuestDetails = spy.new(function() end)}
+            _G.C_Map = {GetBestMapForUnit = function() return 1411 end}
+            local compat = QuestieLoader:ImportModule("QuestieCompat")
+            local mapStub = stub(compat, "GetQuestUiMapID", function() return nil end)
+            local openStub = stub(compat, "OpenWorldMap")
+            dofile("Modules/Tracker/TrackerUtils.lua")
+
+            TrackerUtils:ShowQuestLog({Id = 783})
+
+            assert.spy(_G.C_QuestLog.SetSelectedQuest).was.called_with(783)
+            assert.stub(openStub).was.called_with(1411)
+            mapStub:revert()
+            openStub:revert()
+        end)
+
+        it("should only select the quest on Forever when neither the quest nor the player has a map", function()
+            Questie.IsForever = true
+            _G.InputUtil = {IsGamepadUIEnabled = function() return false end}
+            _G.C_QuestLog = {SetSelectedQuest = spy.new(function() end)}
+            _G.C_Map = {GetBestMapForUnit = function() return nil end}
             local compat = QuestieLoader:ImportModule("QuestieCompat")
             local mapStub = stub(compat, "GetQuestUiMapID", function() return nil end)
             local openStub = stub(compat, "OpenWorldMap")
@@ -514,42 +532,6 @@ describe("TrackerUtils", function()
 
             assert.spy(_G.C_QuestLog.SetSelectedQuest).was.called_with(783)
             assert.stub(openStub).was.not_called()
-            mapStub:revert()
-            openStub:revert()
-        end)
-
-        it("should open the quest details on Forever when Blizzard knows no map for the quest", function()
-            Questie.IsForever = true
-            _G.InputUtil = {IsGamepadUIEnabled = function() return false end}
-            _G.C_QuestLog = {SetSelectedQuest = spy.new(function() end)}
-            _G.QuestUtil = {OpenQuestDetails = spy.new(function() end)}
-            local compat = QuestieLoader:ImportModule("QuestieCompat")
-            local mapStub = stub(compat, "GetQuestUiMapID", function() return nil end)
-            local openStub = stub(compat, "OpenWorldMap")
-            dofile("Modules/Tracker/TrackerUtils.lua")
-
-            TrackerUtils:ShowQuestLog({Id = 4974})
-
-            assert.spy(_G.QuestUtil.OpenQuestDetails).was.called_with(4974)
-            assert.stub(openStub).was.not_called()
-            mapStub:revert()
-            openStub:revert()
-        end)
-
-        it("should not open the quest details on Forever when Blizzard knows a map for the quest", function()
-            Questie.IsForever = true
-            _G.InputUtil = {IsGamepadUIEnabled = function() return false end}
-            _G.C_QuestLog = {SetSelectedQuest = spy.new(function() end)}
-            _G.QuestUtil = {OpenQuestDetails = spy.new(function() end)}
-            local compat = QuestieLoader:ImportModule("QuestieCompat")
-            local mapStub = stub(compat, "GetQuestUiMapID", function() return 1429 end)
-            local openStub = stub(compat, "OpenWorldMap")
-            dofile("Modules/Tracker/TrackerUtils.lua")
-
-            TrackerUtils:ShowQuestLog({Id = 783})
-
-            assert.stub(openStub).was.called_with(1429)
-            assert.spy(_G.QuestUtil.OpenQuestDetails).was.not_called()
             mapStub:revert()
             openStub:revert()
         end)

@@ -12,6 +12,7 @@ describe("TrackerLinePool", function()
         TrackerData.GetObjectiveText = spy.new(function() return "Updated objective text" end)
         TrackerQuestTooltip = QuestieLoader:ImportModule("TrackerQuestTooltip")
         TrackerQuestTooltip.Show, TrackerQuestTooltip.Hide = spy.new(function() end), spy.new(function() end)
+        dofile("Modules/Tracker/LinePool/TrackerQuestLogButton.lua")
         dofile("Modules/Tracker/LinePool/TrackerLinePool.lua")
         TrackerLinePool = QuestieLoader:ImportModule("TrackerLinePool")
     end)
@@ -131,6 +132,7 @@ describe("TrackerLinePool", function()
             end
             _G.C_QuestLog = {GetMaxNumQuestsCanAccept = function() return 1 end}
 
+            dofile("Modules/Tracker/LinePool/TrackerQuestLogButton.lua")
             dofile("Modules/Tracker/LinePool/TrackerLinePool.lua")
             TrackerLinePool = QuestieLoader:ImportModule("TrackerLinePool")
             local co = coroutine.create(TrackerLinePool.Initialize)
@@ -160,6 +162,18 @@ describe("TrackerLinePool", function()
             assert.are_same({1, 0.5, 1}, {lines[1].alpha, lines[2].alpha, lines[3].alpha})
             assert.spy(TrackerQuestTooltip.Hide).was.called(1)
             assert.spy(TrackerQuestTooltip.Show).was.called_with(lines[3])
+        end)
+
+        it("should move the quest log button over the line now under the mouse after a redraw", function()
+            local questLogButton = QuestieLoader:ImportModule("TrackerQuestLogButton")
+            local originalAttach = questLogButton.Attach
+            questLogButton.Attach = spy.new(function() end)
+            lines[2].mouseOver = true
+
+            TrackerLinePool.RefreshHighlight()
+
+            assert.spy(questLogButton.Attach).was.called_with(lines[2])
+            questLogButton.Attach = originalAttach
         end)
 
         it("should highlight the quest of a line whose button is hovered outside the line frame", function()
@@ -230,6 +244,20 @@ describe("TrackerLinePool", function()
         TrackerLinePool.ResetLinesForChange()
         Questie.db.profile.trackerEnabled = enabled
         assert.spy(TrackerQuestTooltip.Hide).was.called(1)
+    end)
+
+    it("should move the quest log button away before resetting the line pool", function()
+        local questLogButton = QuestieLoader:ImportModule("TrackerQuestLogButton")
+        local originalDetach = questLogButton.Detach
+        questLogButton.Detach = spy.new(function() end)
+        local enabled = Questie.db.profile.trackerEnabled
+        Questie.db.profile.trackerEnabled = true
+
+        TrackerLinePool.ResetLinesForChange()
+
+        Questie.db.profile.trackerEnabled = enabled
+        assert.spy(questLogButton.Detach).was.called(1)
+        questLogButton.Detach = originalDetach
     end)
 
     it("should not expose UpdateQuestTitleLines, which Spoken uses to inject its own tracker play buttons", function()

@@ -46,6 +46,8 @@ local AchievementTracking = QuestieLoader:ImportModule("AchievementTracking")
 local TrackerRecipes = QuestieLoader:ImportModule("TrackerRecipes")
 ---@type QuestieMenuBuilder
 local QuestieMenuBuilder = QuestieLoader:ImportModule("QuestieMenuBuilder")
+---@type TrackerQuestLogButton
+local TrackerQuestLogButton = QuestieLoader:ImportModule("TrackerQuestLogButton")
 
 local LSM30 = LibStub("LibSharedMedia-3.0")
 
@@ -152,6 +154,7 @@ function TrackerLine.New(index, parent, previousLine, OnEnter, OnLeave, OnQuestA
     line:RegisterForClicks("RightButtonUp", "LeftButtonUp")
 
     function line:SetOnClick(onClickMode)
+        self.onClickMode = onClickMode
         if onClickMode == "quest" then
             self:SetScript("OnClick", _OnClickQuest)
         elseif onClickMode == "achieve" then
@@ -168,9 +171,13 @@ function TrackerLine.New(index, parent, previousLine, OnEnter, OnLeave, OnQuestA
         OnEnter(self)
         TrackerFadeTicker.Unfade()
         TrackerQuestTooltip.Show(self)
+        TrackerQuestLogButton.Attach(self)
     end)
 
     line:SetScript("OnLeave", function(self)
+        if TrackerQuestLogButton.IsHovering(self) then
+            return
+        end
         OnLeave(self)
         TrackerFadeTicker.Fade()
         TrackerQuestTooltip.Hide(self)
