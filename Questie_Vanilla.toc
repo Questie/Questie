@@ -235,6 +235,7 @@ Modules\Network\QuestiePartyObjectives.lua
 
 # Journey
 Modules\Journey\JourneyData.lua
+Modules\Journey\JourneyPrerequisites.lua
 Modules\Journey\QuestieJourney.lua
 Modules\Journey\JourneyThread.lua
 Modules\Journey\JourneyWindow.lua

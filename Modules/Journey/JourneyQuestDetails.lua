@@ -33,6 +33,8 @@ local JourneyEntityDetails = QuestieLoader:ImportModule("JourneyEntityDetails")
 local JourneyIcon = QuestieLoader:ImportModule("JourneyIcon")
 ---@type JourneyLinks
 local JourneyLinks = QuestieLoader:ImportModule("JourneyLinks")
+---@type JourneyPrerequisites
+local JourneyPrerequisites = QuestieLoader:ImportModule("JourneyPrerequisites")
 ---@type JourneyRawData
 local JourneyRawData = QuestieLoader:ImportModule("JourneyRawData")
 ---@type JourneyWindow
@@ -393,7 +395,9 @@ function JourneyQuestDetails.GetRows(quest)
     table.insert(rows, {type = "heading", text = l10n("Quest Information")})
     _AddQuestInformation(rows, quest)
 
-    JourneyDetails.AddBox(rows, l10n("Requires one of these quests to be finished"), JourneyLinks.GetRows("quest", quest.preQuestSingle or {}))
+    -- One of them is enough, so the other faction's only get in the way. Each of the second box is required, so it shows all.
+    local preQuestSingle = JourneyPrerequisites.GetShown(quest.requiredRaces, quest.preQuestSingle or {})
+    JourneyDetails.AddBox(rows, l10n("Requires one of these quests to be finished"), JourneyLinks.GetRows("quest", preQuestSingle))
     JourneyDetails.AddBox(rows, l10n("Requires all of these quests to be finished"), JourneyLinks.GetRows("quest", quest.preQuestGroup or {}))
     JourneyDetails.AddBox(rows, l10n("Next in chain"), JourneyLinks.GetRows("quest", _GetNextInChain(quest)))
 

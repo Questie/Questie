@@ -1,5 +1,7 @@
 dofile("setupTests.lua")
 
+local LoadQuestieDBMock = dofile("test/QuestieDBMock.lua")
+
 describe("JourneyQuestDetails", function()
     ---@type JourneyQuestDetails
     local JourneyQuestDetails
@@ -75,6 +77,7 @@ describe("JourneyQuestDetails", function()
         dofile("Modules/Journey/JourneyLinks.lua")
         dofile("Modules/Journey/ManualNotes.lua")
         dofile("Modules/Journey/QuestieSearch.lua")
+        dofile("Modules/Journey/JourneyPrerequisites.lua")
         dofile("Modules/Journey/JourneyRawData.lua")
         dofile("Modules/Journey/JourneyEntityDetails.lua")
         dofile("Modules/Journey/JourneyQuestDetails.lua")
@@ -262,6 +265,33 @@ describe("JourneyQuestDetails", function()
             assert.are_same({"Quest 92517"}, Box(rows, "Requires one of these quests to be finished"))
             Find(rows, "Quest 92517").onClick()
             assert.are_same({{"quest", 92517}}, opened)
+        end)
+
+        describe("of the other faction", function()
+            local originalLibQuestieDB
+
+            before_each(function()
+                originalLibQuestieDB = _G.LibQuestieDB
+                LoadQuestieDBMock()
+                questFields[92517] = {requiredRaces = QuestieDB.raceKeys.ALL_HORDE}
+                questFields[94568] = {requiredRaces = QuestieDB.raceKeys.ALL_ALLIANCE}
+            end)
+
+            after_each(function()
+                _G.LibQuestieDB = originalLibQuestieDB
+            end)
+
+            it("should not be shown when only one of them is required", function()
+                local rows = GetRows({requiredRaces = QuestieDB.raceKeys.ALL_HORDE, preQuestSingle = {92517, 94568}})
+
+                assert.are_same({"Quest 92517"}, Box(rows, "Requires one of these quests to be finished"))
+            end)
+
+            it("should be shown when all of them are required", function()
+                local rows = GetRows({requiredRaces = QuestieDB.raceKeys.ALL_HORDE, preQuestGroup = {-92517, 94568}})
+
+                assert.are_same({"Quest 92517", "Quest 94568"}, Box(rows, "Requires all of these quests to be finished"))
+            end)
         end)
 
         it("should lead to each grouped prerequisite, of which some have a negative ID", function()
