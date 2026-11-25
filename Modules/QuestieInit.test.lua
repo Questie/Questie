@@ -136,13 +136,13 @@ describe("QuestieInit", function()
 
         it("uses the TOC requirement instead of a hardcoded contract", function()
             C_AddOns.GetAddOnMetadata = function(addon, field)
-                if addon == "Questie" and field == "X-QuestieDB-Contract" then return "5" end
+                if addon == "Questie" and field == "X-QuestieDB-Contract" then return "6" end
                 if addon == "QuestieDB" and field == "Version" then return "1.1.1" end
             end
 
             assert.has_error(function() _RunStage(1) end,
-                "Questie requires QuestieDB contract 5; installed QuestieDB version: 1.1.1. " ..
-                "QuestieDB contract mismatch: this consumer needs version 5, the installed QuestieDB provides 4 " ..
+                "Questie requires QuestieDB contract 6; installed QuestieDB version: 1.1.1. " ..
+                "QuestieDB contract mismatch: this consumer needs version 6, the installed QuestieDB provides 5 " ..
                 "(supporting consumers back to 1). Update whichever is older.")
             assert.are_same({}, mock.setLocaleCalls)
         end)
