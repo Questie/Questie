@@ -14,6 +14,18 @@ local mapLocales = {
         ["zhCN"] = "你确定要隐藏任务 %s 吗？\n如果此任务实际上并不存在，请向开发团队报告！",
         ["zhTW"] = "是否確定要隱藏任務 '%s'? \n如果實際上這個任務並不存在，請回報給開發團隊!",
     },
+    ["You abandoned the quest '%s'.\nDo you want to hide its icon?"] = {
+        ["enUS"] = true,
+        ["deDE"] = "Du hast die Quest '%s' abgebrochen.\nMöchtest du ihr Icon verstecken?",
+        ["esES"] = "Has abandonado la misión '%s'.\n¿Quieres ocultar su icono?",
+        ["esMX"] = "Has abandonado la misión '%s'.\n¿Quieres ocultar su icono?",
+        ["frFR"] = "Vous avez abandonné la quête « %s ».\nVoulez-vous cacher son icône ?",
+        ["koKR"] = "'%s' 퀘스트를 포기했습니다.\n이 퀘스트의 아이콘을 숨길까요?",
+        ["ptBR"] = "Você abandonou a missão '%s'.\nDeseja ocultar o ícone dela?",
+        ["ruRU"] = "Вы отказались от задания '%s'.\nСкрыть его значок?",
+        ["zhCN"] = "你放弃了任务 '%s'。\n是否隐藏该任务的图标？",
+        ["zhTW"] = "你放棄了任務 '%s'。\n是否隱藏該任務的圖示？",
+    },
     ["Unknown Zone"] = {
         ["enUS"] = true,
         ["deDE"] = "Unbekannte Zone",

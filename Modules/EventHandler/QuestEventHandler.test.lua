@@ -51,6 +51,8 @@ describe("QuestEventHandler", function()
     local Expansions
     ---@type CompletedQuests
     local CompletedQuests
+    ---@type AbandonHidePrompt
+    local AbandonHidePrompt
     local originalTimer, originalTime, originalExpansion, newTimerMock, retryTimers
 
     before_each(function()
@@ -96,6 +98,8 @@ describe("QuestEventHandler", function()
         QuestieLib.RepairMissingItemNames = spy.new(function() end)
         CompletedQuests = QuestieLoader:ImportModule("CompletedQuests")
         CompletedQuests.ScheduleUpdate = spy.new(function() end)
+        AbandonHidePrompt = QuestieLoader:ImportModule("AbandonHidePrompt")
+        AbandonHidePrompt.Show = spy.new(function() end)
 
         dofile("Modules/EventHandler/QuestEventHandler.lua")
         QuestEventHandler = QuestieLoader:ImportModule("QuestEventHandler")
@@ -354,6 +358,8 @@ describe("QuestEventHandler", function()
         assert.spy(QuestieJourney.AbandonQuest).was.called_with(QuestieJourney, QUEST_ID)
         assert.spy(QuestieAnnounce.AbandonedQuest).was.called_with(QuestieAnnounce, QUEST_ID)
         assert.spy(AvailableQuests.ResetLastNpcGuid).was.called()
+        -- The quest is active again, so there is no icon to hide
+        assert.spy(AbandonHidePrompt.Show).was.not_called()
 
         assert.spy(QuestLogCache.CheckForChanges).was.called_with({[QUEST_ID] = true})
         assert.spy(QuestieQuest.SetObjectivesDirty).was.called(1)
@@ -387,6 +393,8 @@ describe("QuestEventHandler", function()
         assert.spy(QuestieAnnounce.AbandonedQuest).was.called_with(QuestieAnnounce, QUEST_ID)
         assert.spy(AvailableQuests.ResetLastNpcGuid).was.called()
         assert.spy(AutoCompleteFrame.HideIfShowing).was.called_with(QUEST_ID)
+        assert.spy(AbandonHidePrompt.Show).was.called(1)
+        assert.spy(AbandonHidePrompt.Show).was.called_with(QUEST_ID)
     end)
 
     it("should mark quest as abandoned without an AutoCompleteFrame before Cata", function()
@@ -452,6 +460,7 @@ describe("QuestEventHandler", function()
             assert.spy(QuestLifecycle.AbandonQuest).was.not_called()
             assert.spy(QuestieJourney.AbandonQuest).was.not_called()
             assert.spy(QuestieAnnounce.AbandonedQuest).was.not_called()
+            assert.spy(AbandonHidePrompt.Show).was.not_called()
         end)
 
         it("skips only the late duplicate: the next turn-in of the same quest counts", function()
