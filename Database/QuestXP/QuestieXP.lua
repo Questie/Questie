@@ -62,12 +62,22 @@ local function getAdjustedXP(xp, qLevel, ignorePlayerLevel)
         return 0
     end
 
-    --? These calculations are fetched from cmangos
-    local xpMultiplier = 2 * (qLevel - charLevel) + 20
-    if (xpMultiplier < 1) then
-        xpMultiplier = Questie.IsForever and 5 or 1
-    elseif (xpMultiplier > 10) then
-        xpMultiplier = 10
+    if Questie.IsForever then
+        --? These calculations are fetched from cmangos
+        local xpMultiplier = 2 * (qLevel - charLevel) + 20
+        if (xpMultiplier < 5) then
+            xpMultiplier = 5
+        elseif (xpMultiplier > 10) then
+            xpMultiplier = 10
+        end
+     else
+        --? These calculations are fetched from cmangos
+        local xpMultiplier = 2 * (qLevel - charLevel) + 20
+        if (xpMultiplier < 1) then
+            xpMultiplier = 1
+        elseif (xpMultiplier > 10) then
+            xpMultiplier = 10
+        end
     end
 
     xp = xp * xpMultiplier / 10
