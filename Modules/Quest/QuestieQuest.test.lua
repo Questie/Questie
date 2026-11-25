@@ -516,6 +516,34 @@ describe("QuestieQuest", function()
     end)
 
     describe("ShowQuestIcons", function()
+        it("should hide icons that should be hidden and show the others", function()
+            local function newIcon(hidden, shouldHide)
+                return {
+                    data = {Type = "monster", QuestData = {}},
+                    hidden = hidden,
+                    ShouldBeHidden = function() return shouldHide end,
+                    FakeShow = spy.new(function(self) self.hidden = false end),
+                    FakeHide = spy.new(function(self) self.hidden = true end),
+                    FadeIn = function() end,
+                    FadeOut = function() end,
+                }
+            end
+            local toHide, toShow = newIcon(false, true), newIcon(true, false)
+            _G.FocusTestHide, _G.FocusTestShow = toHide, toShow
+            QuestieMap.questIdFrames = {[1] = {"FocusTestHide"}, [2] = {"FocusTestShow"}}
+            Questie.db.char.TrackerHiddenQuests = nil
+            Questie.db.char.TrackerHiddenObjectives = nil
+
+            for _, fn in ipairs({"ShowQuestIcons", "HideQuestIcons"}) do
+                toHide.hidden, toShow.hidden = false, true
+                local co = coroutine.create(function() QuestieQuest[fn](QuestieQuest) end)
+                assert.is_true(coroutine.resume(co))
+                assert.is_true(toHide.hidden)
+                assert.is_false(toShow.hidden)
+            end
+            _G.FocusTestHide, _G.FocusTestShow = nil, nil
+        end)
+
         it("should not throw an error when called from a coroutine", function()
             QuestieMap.questIdFrames = {}
 
