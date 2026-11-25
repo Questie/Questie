@@ -181,7 +181,7 @@ local function GetDifficultyString(questLevel, questMinLevel)
         diffStr = diffStr .. "|cFFC0C0C0[".. gray .."]|r "
     end
 
-    return Questie:Colorize(l10n('Difficulty Range: %s', diffStr), 'yellow')
+    return Questie:Colorize(l10n('Difficulty Range: %s', diffStr), JourneyDetails.LABEL_COLOR)
 end
 
 ---@param quest Quest

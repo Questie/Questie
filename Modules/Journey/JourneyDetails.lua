@@ -16,6 +16,9 @@ local QuestieOptionsUtils = QuestieLoader:ImportModule("QuestieOptionsUtils")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
+-- Of what is in front of a value, like the level. Quieter than the headings and the values.
+JourneyDetails.LABEL_COLOR = "E0D2B0"
+
 local ROW_INSET = 8
 local END_SPACE = 14 -- Below the last row, so it doesn't look cut off
 -- Space between the border of a box and what is in it
@@ -982,7 +985,7 @@ end
 ---@param value string|number
 ---@return string
 function JourneyDetails.GetFactText(label, value)
-    return Questie:Colorize(l10n(label) .. l10n(": "), "yellow") .. value
+    return Questie:Colorize(l10n(label) .. l10n(": "), JourneyDetails.LABEL_COLOR) .. value
 end
 
 ---Adds a box with some rows in it. Nothing is added without any rows.
