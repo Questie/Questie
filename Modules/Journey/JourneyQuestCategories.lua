@@ -137,25 +137,23 @@ function JourneyQuestCategories.Get(questId)
     return category, reason, name
 end
 
----How far a quest in the log is.
+---How far a quest in the log is, added up over all its objectives.
 ---@param questId QuestId
 ---@return string? text
 function JourneyQuestCategories.GetProgress(questId)
     local quest = QuestieDB.GetQuest(questId)
     local objectives = quest and quest.Objectives or {}
     if QuestieDB.IsComplete(questId) == 1 then
-        return Questie:Colorize(l10n("Complete"), "yellow")
+        return Questie:Colorize(l10n("Complete"):lower(), "yellow")
     elseif QuestieDB.IsComplete(questId) == -1 then
-        return Questie:Colorize(l10n("Failed"), "red")
+        return Questie:Colorize(l10n("Failed"):lower(), "red")
     end
-    if #objectives == 1 and (objectives[1].Needed or 0) > 1 then
-        return objectives[1].Collected .. "/" .. objectives[1].Needed
-    end
-    local done = 0
+    local collected, needed = 0, 0
     for _, objective in pairs(objectives) do
-        if objective.Completed then done = done + 1 end
+        collected = collected + (objective.Collected or 0)
+        needed = needed + (objective.Needed or 0)
     end
-    return #objectives > 1 and done .. "/" .. #objectives or nil
+    return needed > 1 and collected .. "/" .. needed or nil
 end
 
 ---@param timestamp number
