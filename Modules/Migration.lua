@@ -341,6 +341,30 @@ local migrationFunctions = {
         -- The Isle of Quel'Danas phase lives in the global scope; this profile copy was never read by the phase logic
         Questie.db.profile.isleOfQuelDanasPhase = nil
     end,
+    [56] = function()
+        -- The tracker's single sort setting became a zone sort and a quest sort, each with its own direction.
+        -- A profile without a saved value used the former default, which the new defaults match.
+        local formerSorts = {
+            byZone = {zoneSort = "alphabetical", questSort = "level"},
+            byZonePlayerProximity = {zoneSort = "proximity", questSort = "proximity"},
+            byZonePlayerProximityReversed = {zoneSort = "proximity", zoneSortReversed = true, questSort = "proximity", questSortReversed = true},
+            byLevel = {zoneSort = "none", questSort = "level"},
+            byLevelReversed = {zoneSort = "none", questSort = "level", questSortReversed = true},
+            byComplete = {zoneSort = "none", questSort = "complete"},
+            byCompleteReversed = {zoneSort = "none", questSort = "complete", questSortReversed = true},
+            byProximity = {zoneSort = "none", questSort = "proximity"},
+            byProximityReversed = {zoneSort = "none", questSort = "proximity", questSortReversed = true},
+        }
+        local profile = Questie.db.profile
+        local sorts = formerSorts[profile.trackerSortObjectives]
+        if sorts then
+            profile.trackerZoneSort = sorts.zoneSort
+            profile.trackerZoneSortReversed = sorts.zoneSortReversed or false
+            profile.trackerQuestSort = sorts.questSort
+            profile.trackerQuestSortReversed = sorts.questSortReversed or false
+        end
+        profile.trackerSortObjectives = nil
+    end,
 }
 
 function Migration:Migrate()

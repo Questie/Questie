@@ -912,45 +912,127 @@ local trackerOptionsLocales = {
         ["zhTW"] = "極簡",
     },
     ---------------------------------------------------------
-    ["Objective Sorting"] = {
+    ["Zone Sorting"] = {
         ["enUS"] = true,
-        ["deDE"] = "Quest-Zielsortierung",
-        ["esES"] = "Ordenación de los objetivos",
-        ["esMX"] = "Ordenación de los objetivos",
-        ["frFR"] = "Méthode de tri des objectifs",
-        ["koKR"] = "퀘스트 목표 정렬",
-        ["ptBR"] = "Ordenaçao dos objetivos",
-        ["ruRU"] = "Сортировка целей",
-        ["zhCN"] = "目标排序",
-        ["zhTW"] = "目標排序",
+        ["deDE"] = "Zonensortierung", -- AI 🤖
+        ["esES"] = "Ordenación de las zonas", -- AI 🤖
+        ["esMX"] = "Ordenación de las zonas", -- AI 🤖
+        ["frFR"] = "Méthode de tri des zones", -- AI 🤖
+        ["koKR"] = "지역 정렬", -- AI 🤖
+        ["ptBR"] = "Ordenação das zonas", -- AI 🤖
+        ["ruRU"] = "Сортировка зон", -- AI 🤖
+        ["zhCN"] = "区域排序", -- AI 🤖
+        ["zhTW"] = "區域排序", -- AI 🤖
     },
-    -- Classic and TBC only --
-    ["How Objectives are sorted in the Questie Tracker."] = {
+    ["How the zones are ordered in the Questie Tracker.\n\n\"None\" lists all Quests under one header."] = {
         ["enUS"] = true,
-        ["deDE"] = "Wie Quest-Ziele im Tracker sortiert werden.",
-        ["esES"] = "La manera en que se ordenan los objetivos en el rastreador.",
-        ["esMX"] = "La manera en que se ordenan los objetivos en el rastreador.",
-        ["frFR"] = "Comment les objectifs sont triés dans le suivi.",
-        ["koKR"] = "Questie 추적기에서 목표가 정렬되는 방식.",
-        ["ptBR"] = "Como os objetivos são ordenados no rastreador.",
-        ["ruRU"] = "Выбор типа сортировки целей заданий в трекере",
-        ["zhCN"] = "目标在Questie追踪器中的排序方式",
-        ["zhTW"] = "目標在Questie追蹤器中的排序方式",
+        ["deDE"] = "Wie die Zonen im Tracker sortiert werden.\n\n\"Keine\" listet alle Quests unter einer Überschrift auf.", -- AI 🤖
+        ["esES"] = "La manera en que se ordenan las zonas en el rastreador.\n\n\"Ninguna\" muestra todas las misiones bajo un solo encabezado.", -- AI 🤖
+        ["esMX"] = "La manera en que se ordenan las zonas en el rastreador.\n\n\"Ninguna\" muestra todas las misiones bajo un solo encabezado.", -- AI 🤖
+        ["frFR"] = "Comment les zones sont triées dans le suivi.\n\n\"Aucun\" affiche toutes les quêtes sous un seul en-tête.", -- AI 🤖
+        ["koKR"] = "Questie 추적기에서 지역이 정렬되는 방식.\n\n\"없음\"을 선택하면 모든 퀘스트가 하나의 제목 아래에 표시됩니다.", -- AI 🤖
+        ["ptBR"] = "Como as zonas são ordenadas no rastreador.\n\n\"Nenhuma\" lista todas as missões sob um único cabeçalho.", -- AI 🤖
+        ["ruRU"] = "Выбор типа сортировки зон в трекере.\n\n\"Нет\" показывает все задания под одним заголовком.", -- AI 🤖
+        ["zhCN"] = "区域在Questie追踪器中的排序方式\n\n“无”会将所有任务列在同一个标题下", -- AI 🤖
+        ["zhTW"] = "區域在Questie追蹤器中的排序方式\n\n「無」會將所有任務列在同一個標題下", -- AI 🤖
     },
-    -- Wrath of the Lich King only --
-    ["How Objectives are sorted in the Questie Tracker.\n\nNOTE: This will not sort Achievements."] = {
+    ["Reverse Zone Sorting"] = {
         ["enUS"] = true,
-        ["deDE"] = "Wie Quest-Ziele im Tracker sortiert werden.\n\nHINWEIS: Dies sortiert keine Erfolge.",
-        ["esES"] = "La manera en que se ordenan los objetivos en el rastreador.\n\nNOTA: Esto no ordenará los logros.",
-        ["esMX"] = "La manera en que se ordenan los objetivos en el rastreador.\n\nNOTA: Esto no ordenará los logros.",
-        ["frFR"] = "Comment les objectifs sont triés dans le suivi.\n\nREMARQUE : Cela ne triera pas les hauts faits.",
-        ["koKR"] = "추적기에서 퀘스트 목표를 어떻게 정렬해서 보여줄지 설정합니다.",
-        ["ptBR"] = "Como os objetivos são ordenados no rastreador.\n\nNOTA: Isso não ordenará as conquistas.",
-        ["ruRU"] = "Выбор типа сортировки целей заданий в трекере.\n\nПРИМЕЧАНИЕ: Это не сортирует достижения",
-        ["zhCN"] = "目标在Questie追踪器中的排序方式\n\n注意：此设置不会对成就进行排序",
-        ["zhTW"] = "目標在Questie追蹤器中的排序方式\n\n注意：此設定不會對成就進行排序",
+        ["deDE"] = "Zonensortierung umkehren", -- AI 🤖
+        ["esES"] = "Invertir el orden de las zonas", -- AI 🤖
+        ["esMX"] = "Invertir el orden de las zonas", -- AI 🤖
+        ["frFR"] = "Inverser le tri des zones", -- AI 🤖
+        ["koKR"] = "지역 정렬 반전", -- AI 🤖
+        ["ptBR"] = "Inverter a ordem das zonas", -- AI 🤖
+        ["ruRU"] = "Обратная сортировка зон", -- AI 🤖
+        ["zhCN"] = "反向区域排序", -- AI 🤖
+        ["zhTW"] = "反向區域排序", -- AI 🤖
+    },
+    ["If checked, the zones are listed in the opposite order."] = {
+        ["enUS"] = true,
+        ["deDE"] = "Wenn dies aktiviert ist, werden die Zonen in umgekehrter Reihenfolge aufgelistet.", -- AI 🤖
+        ["esES"] = "Si está seleccionado, las zonas se muestran en el orden inverso.", -- AI 🤖
+        ["esMX"] = "Si está seleccionado, las zonas se muestran en el orden inverso.", -- AI 🤖
+        ["frFR"] = "Si cette option est cochée, les zones sont affichées dans l'ordre inverse.", -- AI 🤖
+        ["koKR"] = "이 옵션을 선택하면 지역이 반대 순서로 표시됩니다.", -- AI 🤖
+        ["ptBR"] = "Se marcado, as zonas são listadas na ordem inversa.", -- AI 🤖
+        ["ruRU"] = "Когда включено, зоны отображаются в обратном порядке", -- AI 🤖
+        ["zhCN"] = "启用时，区域将按相反的顺序排列", -- AI 🤖
+        ["zhTW"] = "啟用時，區域會以相反的順序排列", -- AI 🤖
+    },
+    ["Quest Sorting"] = {
+        ["enUS"] = true,
+        ["deDE"] = "Questsortierung", -- AI 🤖
+        ["esES"] = "Ordenación de las misiones", -- AI 🤖
+        ["esMX"] = "Ordenación de las misiones", -- AI 🤖
+        ["frFR"] = "Méthode de tri des quêtes", -- AI 🤖
+        ["koKR"] = "퀘스트 정렬", -- AI 🤖
+        ["ptBR"] = "Ordenação das missões", -- AI 🤖
+        ["ruRU"] = "Сортировка заданий", -- AI 🤖
+        ["zhCN"] = "任务排序", -- AI 🤖
+        ["zhTW"] = "任務排序", -- AI 🤖
+    },
+    ["How the Quests under a header are ordered in the Questie Tracker."] = {
+        ["enUS"] = true,
+        ["deDE"] = "Wie die Quests unter einer Überschrift im Tracker sortiert werden.", -- AI 🤖
+        ["esES"] = "La manera en que se ordenan las misiones bajo un encabezado en el rastreador.", -- AI 🤖
+        ["esMX"] = "La manera en que se ordenan las misiones bajo un encabezado en el rastreador.", -- AI 🤖
+        ["frFR"] = "Comment les quêtes sous un en-tête sont triées dans le suivi.", -- AI 🤖
+        ["koKR"] = "Questie 추적기에서 제목 아래의 퀘스트가 정렬되는 방식.", -- AI 🤖
+        ["ptBR"] = "Como as missões sob um cabeçalho são ordenadas no rastreador.", -- AI 🤖
+        ["ruRU"] = "Выбор типа сортировки заданий под заголовком в трекере", -- AI 🤖
+        ["zhCN"] = "标题下的任务在Questie追踪器中的排序方式", -- AI 🤖
+        ["zhTW"] = "標題下的任務在Questie追蹤器中的排序方式", -- AI 🤖
+    },
+    ["Reverse Quest Sorting"] = {
+        ["enUS"] = true,
+        ["deDE"] = "Questsortierung umkehren", -- AI 🤖
+        ["esES"] = "Invertir el orden de las misiones", -- AI 🤖
+        ["esMX"] = "Invertir el orden de las misiones", -- AI 🤖
+        ["frFR"] = "Inverser le tri des quêtes", -- AI 🤖
+        ["koKR"] = "퀘스트 정렬 반전", -- AI 🤖
+        ["ptBR"] = "Inverter a ordem das missões", -- AI 🤖
+        ["ruRU"] = "Обратная сортировка заданий", -- AI 🤖
+        ["zhCN"] = "反向任务排序", -- AI 🤖
+        ["zhTW"] = "反向任務排序", -- AI 🤖
+    },
+    ["If checked, the Quests under a header are listed in the opposite order."] = {
+        ["enUS"] = true,
+        ["deDE"] = "Wenn dies aktiviert ist, werden die Quests unter einer Überschrift in umgekehrter Reihenfolge aufgelistet.", -- AI 🤖
+        ["esES"] = "Si está seleccionado, las misiones bajo un encabezado se muestran en el orden inverso.", -- AI 🤖
+        ["esMX"] = "Si está seleccionado, las misiones bajo un encabezado se muestran en el orden inverso.", -- AI 🤖
+        ["frFR"] = "Si cette option est cochée, les quêtes sous un en-tête sont affichées dans l'ordre inverse.", -- AI 🤖
+        ["koKR"] = "이 옵션을 선택하면 제목 아래의 퀘스트가 반대 순서로 표시됩니다.", -- AI 🤖
+        ["ptBR"] = "Se marcado, as missões sob um cabeçalho são listadas na ordem inversa.", -- AI 🤖
+        ["ruRU"] = "Когда включено, задания под заголовком отображаются в обратном порядке", -- AI 🤖
+        ["zhCN"] = "启用时，标题下的任务将按相反的顺序排列", -- AI 🤖
+        ["zhTW"] = "啟用時，標題下的任務會以相反的順序排列", -- AI 🤖
     },
     ---------------------------------------------------------
+    ["None"] = {
+        ["enUS"] = true,
+        ["deDE"] = "Keine", -- AI 🤖
+        ["esES"] = "Ninguna", -- AI 🤖
+        ["esMX"] = "Ninguna", -- AI 🤖
+        ["frFR"] = "Aucun", -- AI 🤖
+        ["koKR"] = "없음", -- AI 🤖
+        ["ptBR"] = "Nenhuma", -- AI 🤖
+        ["ruRU"] = "Нет", -- AI 🤖
+        ["zhCN"] = "无", -- AI 🤖
+        ["zhTW"] = "無", -- AI 🤖
+    },
+    ["By Name"] = {
+        ["enUS"] = true,
+        ["deDE"] = "Nach Name", -- AI 🤖
+        ["esES"] = "Por nombre", -- AI 🤖
+        ["esMX"] = "Por nombre", -- AI 🤖
+        ["frFR"] = "Par nom", -- AI 🤖
+        ["koKR"] = "이름순", -- AI 🤖
+        ["ptBR"] = "Por nome", -- AI 🤖
+        ["ruRU"] = "По названию", -- AI 🤖
+        ["zhCN"] = "按名称", -- AI 🤖
+        ["zhTW"] = "依名稱", -- AI 🤖
+    },
     ["By %% Complete"] = {
         ["enUS"] = true,
         ["deDE"] = "Nach %% Fertigstellung",
@@ -962,18 +1044,6 @@ local trackerOptionsLocales = {
         ["ruRU"] = "По %% выполнения",
         ["zhCN"] = "按完成度 %%",
         ["zhTW"] = "依完成度 %%",
-    },
-    ["By %% Complete (Reversed)"] = {
-        ["enUS"] = true,
-        ["deDE"] = "Nach %% Fertigstellung (Absteigend)",
-        ["esES"] = "Por %% completada (inverso)",
-        ["esMX"] = "Por %% completada (inverso)",
-        ["frFR"] = "Par %% complet (inversé)",
-        ["koKR"] = "완료된 퍼센트 (역순)",
-        ["ptBR"] = "Por %% completo (invertido)",
-        ["ruRU"] = "По %% выполнения (убыв.)",
-        ["zhCN"] = "按完成度 %%（反向）",
-        ["zhTW"] = "依完成度 %%（反向）",
     },
     ["By Level"] = {
         ["enUS"] = true,
@@ -987,18 +1057,6 @@ local trackerOptionsLocales = {
         ["zhCN"] = "按等级",
         ["zhTW"] = "依等級",
     },
-    ["By Level (Reversed)"] = {
-        ["enUS"] = true,
-        ["deDE"] = "Nach Level (Absteigend)",
-        ["esES"] = "Por nivel (inverso)",
-        ["esMX"] = "Por nivel (inverso)",
-        ["frFR"] = "Par niveau (inversé)",
-        ["koKR"] = "레벨 순서 (역순)",
-        ["ptBR"] = "Por nível (invertido)",
-        ["ruRU"] = "По уровню (убыв.)",
-        ["zhCN"] = "按等级（反向）",
-        ["zhTW"] = "依等級（反向）",
-    },
     ["By Proximity"] = {
         ["enUS"] = true,
         ["deDE"] = "Nach Nähe",
@@ -1010,54 +1068,6 @@ local trackerOptionsLocales = {
         ["ruRU"] = "По близости",
         ["zhCN"] = "按远近",
         ["zhTW"] = "依遠近",
-    },
-    ["By Proximity (Reversed)"] = {
-        ["enUS"] = true,
-        ["deDE"] = "Nach Nähe (Absteigend)",
-        ["esES"] = "Por proximidad (inverso)",
-        ["esMX"] = "Por proximidad (inverso)",
-        ["frFR"] = "Par proximité (inversé)",
-        ["koKR"] = "근접도 순 (역순)",
-        ["ptBR"] = "Por proximidade (invertido)",
-        ["ruRU"] = "По близости (убыв.)",
-        ["zhCN"] = "按远近（反向）",
-        ["zhTW"] = "依遠近（反向）",
-    },
-    ["By Zone"] = {
-        ["enUS"] = true,
-        ["deDE"] = "Nach Zone",
-        ["esES"] = "Por zona",
-        ["esMX"] = "Por zona",
-        ["frFR"] = "Par zone",
-        ["koKR"] = "지역별",
-        ["ptBR"] = "Por zona",
-        ["ruRU"] = "По игровой зоне",
-        ["zhCN"] = "按区域",
-        ["zhTW"] = "依區域",
-    },
-    ["By Zone Prox"] = {
-        ["enUS"] = true,
-        ["deDE"] = "Nach Zonen-Nähe",
-        ["esES"] = "Por proximidad de zona",
-        ["esMX"] = "Por proximidad de zona",
-        ["frFR"] = "Par proximité de zone",
-        ["koKR"] = "지역 근접도",
-        ["ptBR"] = "Por proximidade de zona",
-        ["ruRU"] = "По дальности зоны",
-        ["zhCN"] = "按区域远近",
-        ["zhTW"] = "依區域遠近",
-    },
-    ["By Zone Prox (Reversed)"] = {
-        ["enUS"] = true,
-        ["deDE"] = "Nach Zonen-Nähe (Absteigend)",
-        ["esES"] = "Por proximidad de zona (inverso)",
-        ["esMX"] = "Por proximidad de zona (inverso)",
-        ["frFR"] = "Par proximité de zone (inverté)",
-        ["koKR"] = "지역 근접도 (역순)",
-        ["ptBR"] = "Por proximidade de zona (invertido)",
-        ["ruRU"] = "По дальности зоны (убыв.)",
-        ["zhCN"] = "按区域远近（反向）",
-        ["zhTW"] = "依區域遠近（反向）",
     },
     ---------------------------------------------------------
     ["Shortcuts"] = {
