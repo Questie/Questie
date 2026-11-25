@@ -492,9 +492,25 @@ function FakeUI.Install()
         self.texCoord = {...}
     end
     function methods:GetTexture() return self.texture end
-    function methods:SetCreature(npcId) self.npcId, self.modelSets = npcId, (self.modelSets or 0) + 1 end
-    function methods:ClearModel() self.npcId = nil end
-    function methods:GetDisplayInfo() return ui.knownNpcs[self.npcId] and 1 or 0 end
+    -- Nothing happens for an NPC the client doesn't know, also not later
+    function methods:SetCreature(npcId)
+        self.npcId, self.modelSets = npcId, (self.modelSets or 0) + 1
+        if not ui.knownNpcs[npcId] then
+            return
+        end
+        self.displayInfo, self.modelFile = npcId, npcId
+        if ui.modelLoadSeconds == 0 then
+            FireScript(self, "OnModelLoaded")
+        else
+            _G.C_Timer.After(ui.modelLoadSeconds, function()
+                if self.modelFile == npcId then FireScript(self, "OnModelLoaded") end
+            end)
+        end
+    end
+    function methods:ClearModel() self.npcId, self.modelFile = nil, nil end
+    function methods:GetModelFileID() return self.modelFile end
+    -- Stays the one of the NPC before, also after ClearModel
+    function methods:GetDisplayInfo() return self.displayInfo or 0 end
 
     -- Tooltips
     function methods:SetItemByID(itemId) self.itemId = itemId end
@@ -576,6 +592,7 @@ function FakeUI.Install()
     _G.GetCursorPosition = function() return ui.cursorX or 0, 0 end
     _G.SetCursor = function(cursor) ui.cursor = cursor end
     ui.knownNpcs = {}
+    ui.modelLoadSeconds = 0
     _G.NineSliceUtil = {ApplyLayoutByName = function() end}
     _G.CreateScrollBoxLinearView = function()
         return {SetPadding = function() end, SetPanExtent = function() end}

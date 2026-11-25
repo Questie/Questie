@@ -30,8 +30,8 @@ local ITEM_TOOLTIP_PADDING = 4
 local UNKNOWN_ITEM_TOOLTIP_HEIGHT = 60
 local ITEM_TOOLTIP_UPDATES, ITEM_TOOLTIP_UPDATE_SECONDS = 10, 0.5
 local UNKNOWN_ICON = 134400 -- Interface\Icons\INV_Misc_QuestionMark
-local PORTRAIT_ATTEMPTS = 4
-local PORTRAIT_RETRY_SECONDS = 0.5
+local PORTRAIT_ATTEMPTS = 50
+local PORTRAIT_RETRY_SECONDS = 0.1
 -- The button for the map in Blizzard's quest log. The image is the same on every supported client, also on those whose quest
 -- log doesn't have the button (checked in the files of each).
 local MAP_TEXTURE = 316593 -- Interface\QuestFrame\UI-QuestMap_Button
@@ -129,7 +129,16 @@ local function _GetEntityTextWidth(data, width)
     return math.max(1, width - _GetEntityTextX(data) - _GetRightWidth(data))
 end
 
----Shows an NPC's face. The client asks the server about one it hasn't seen yet, and only knows it some time later.
+---Whether there is a model, which can still be loading. The display doesn't tell, because it stays the one of the NPC before.
+---@param model Frame
+---@return boolean
+local function _HasModel(model)
+    local file = model:GetModelFileID()
+    return file ~= nil and file ~= 0
+end
+
+---Shows an NPC's face, when it is loaded. The client asks the server about an NPC it hasn't seen yet, and doesn't show it when it
+---gets the answer, so it has to be asked again.
 ---@param part Frame
 ---@param npcId NpcId
 ---@param attempts number
@@ -137,16 +146,18 @@ local function _ShowPortrait(part, npcId, attempts)
     if not part.Model then
         part.Model = CreateFrame("PlayerModel", nil, part.Picture)
         part.Model:SetAllPoints(part.Picture)
-        part.Model:SetScript("OnModelLoaded", function(model) model:SetPortraitZoom(1) end)
+        part.Model:SetScript("OnModelLoaded", function(model)
+            model:SetPortraitZoom(1)
+            part.Icon:SetShown(not _HasModel(model))
+        end)
     end
 
+    part.Icon:Show()
     part.Model:ClearModel()
     part.Model:SetCreature(npcId)
     part.Model:SetPortraitZoom(1)
 
-    local isKnown = part.Model:GetDisplayInfo() ~= 0
-    part.Icon:SetShown(not isKnown)
-    if not isKnown and attempts > 1 then
+    if not _HasModel(part.Model) and attempts > 1 then
         part.portraitTimer = C_Timer.NewTimer(PORTRAIT_RETRY_SECONDS, function()
             if part:IsVisible() then
                 _ShowPortrait(part, npcId, attempts - 1)

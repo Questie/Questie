@@ -422,19 +422,45 @@ describe("JourneyDetails", function()
             assert.is_false(Part(1).Icon:IsShown())
         end)
 
+        it("should show a placeholder until the client knows the NPC, also after the face of another one", function()
+            ui.knownNpcs[299] = true
+            JourneyDetails.SetRows(details, {{type = "entity", text = "NPC ID: 299", npcId = 299}})
+            JourneyDetails.SetRows(details, {{type = "entity", text = "NPC ID: 300", npcId = 300}})
+            assert.is_true(Part(1).Icon:IsShown())
+
+            ui.knownNpcs[300] = true
+            ui.RunFor(0.3)
+
+            assert.is_false(Part(1).Icon:IsShown())
+            assert.are.equal(300, Part(1).Model.modelFile)
+        end)
+
+        it("should show a placeholder until the face is loaded, without asking again, which would load it again", function()
+            ui.knownNpcs[299] = true
+            ui.modelLoadSeconds = 0.5
+
+            JourneyDetails.SetRows(details, {{type = "entity", text = "NPC ID: 299", npcId = 299}})
+            ui.RunFor(0.4)
+            assert.is_true(Part(1).Icon:IsShown())
+
+            ui.RunFor(0.2)
+            assert.is_false(Part(1).Icon:IsShown())
+            assert.are.equal(1, Part(1).Model.modelSets)
+        end)
+
         it("should stop asking for an NPC the server doesn't know", function()
             JourneyDetails.SetRows(details, {{type = "entity", text = "NPC ID: 1", npcId = 1}})
 
             ui.RunUntilIdle()
 
-            assert.are.equal(4, Part(1).Model.modelSets)
+            assert.are.equal(50, Part(1).Model.modelSets)
             assert.is_true(Part(1).Icon:IsShown())
         end)
 
         it("should not ask right away, because the server needs some time", function()
             JourneyDetails.SetRows(details, {{type = "entity", text = "NPC ID: 1", npcId = 1}})
 
-            ui.RunFor(0.3)
+            ui.RunFor(0.05)
 
             assert.are.equal(1, Part(1).Model.modelSets)
         end)
@@ -455,7 +481,7 @@ describe("JourneyDetails", function()
 
             ui.RunUntilIdle()
 
-            assert.are.equal(5 + 3, Part(1).Model.modelSets)
+            assert.are.equal(5 + 49, Part(1).Model.modelSets)
         end)
 
         it("should lead somewhere, if its row says so", function()
