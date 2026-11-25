@@ -91,8 +91,10 @@ end
 ---@param row Button It may have shown something else before
 ---@param content JourneyList.Content
 local function _UpdateRow(row, content)
-    local indent = (content.depth or 0) * INDENT
     local canBeCollapsed = content.isCollapsed ~= nil
+    local depth = content.depth or 0
+    -- What isn't a header is indented like the one it belongs to, so its icon is below the toggle
+    local indent = (canBeCollapsed and depth or math.max(depth - 1, 0)) * INDENT
 
     row.Toggle:SetPoint("LEFT", row, "LEFT", indent + 1, 0)
     row.Toggle:SetShown(canBeCollapsed)
@@ -132,7 +134,7 @@ function JourneyList.Create(parent, getContent, onClick)
         end
         _UpdateRow(row, getContent(index))
     end)
-    return JourneyScrollBox.Create(parent, view)
+    return JourneyScrollBox.Create(parent, view, true)
 end
 
 ---Shows other rows.

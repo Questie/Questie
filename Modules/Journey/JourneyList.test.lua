@@ -187,6 +187,18 @@ describe("JourneyList", function()
             assert.is_false(row.Icon:IsShown())
         end)
 
+        it("should be below the text of its header, with its icon below the toggle", function()
+            for depth = 0, 1 do
+                local row = ShowRow({text = "Available", isSelected = false, isCollapsed = false, depth = depth})
+                local toggleCenter, label = GetX(row.Toggle) + row.Toggle:GetWidth() / 2, GetX(row.Label)
+
+                ShowRow({text = "Wolves", isSelected = false, icon = "complete", depth = depth + 1})
+
+                assert.are.equal(label, GetX(row.Label))
+                assert.is_true(math.abs(GetX(row.Icon) - toggleCenter) <= 1)
+            end
+        end)
+
         it("should move everything to the right the deeper it is, and back", function()
             local row = ShowRow({text = "Wolves", isSelected = false})
             local toggle, icon, label = GetX(row.Toggle), GetX(row.Icon), GetX(row.Label)

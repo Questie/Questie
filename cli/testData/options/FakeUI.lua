@@ -17,7 +17,7 @@ local LINE_HEIGHTS = {GameFontNormalMed1 = 16}
 local DEFAULT_LINE_HEIGHT = 14
 
 local GLOBALS = {
-    "CreateFrame", "UIParent", "SettingsPanel", "CreateScrollBoxLinearView", "ScrollUtil", "Settings", "GameTooltip",
+    "CreateFrame", "UIParent", "SettingsPanel", "CreateScrollBoxLinearView", "ScrollUtil", "CreateAnchor", "Settings", "GameTooltip",
     "ColorPickerFrame", "NineSliceUtil", "UISpecialFrames", "tinsert", "GetScreenHeight", "GetScreenWidth",
     "CreateFont",
     "GameFontHighlightSmall", "C_Timer", "GetTime", "GetTimePreciseSec", "PlaySound", "SOUNDKIT", "IsMouseButtonDown",
@@ -554,6 +554,7 @@ function FakeUI.Install()
         RegisterScrollBoxWithScrollBar = function() end,
         AddManagedScrollBarVisibilityBehavior = function() end,
     }
+    _G.CreateAnchor = function(...) return {...} end
     _G.ScrollBoxConstants = {RetainScrollPosition = true, DiscardScrollPosition = false, AlignNearest = 1}
     _G.CreateScrollBoxListLinearView = function()
         return {
