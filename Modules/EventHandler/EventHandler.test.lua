@@ -15,6 +15,7 @@ describe("EventHandler event dispatch", function()
     local AvailableQuests
     local savedSkillCallbacks
     local TrackerRecipes
+    local PetFood
     local originalHideUnlearned
 
     before_each(function()
@@ -73,6 +74,8 @@ describe("EventHandler event dispatch", function()
         TrackerSuperTrack.OnQuestAccepted = function() end
         TrackerRecipes = QuestieLoader:ImportModule("TrackerRecipes")
         TrackerRecipes.IsSupported = function() return false end
+        PetFood = QuestieLoader:ImportModule("PetFood")
+        PetFood.IsNeeded = function() return false end
 
         dofile("Modules/EventHandler/EventHandler.lua")
         QuestieLoader:ImportModule("EventHandler"):RegisterLateEvents()
@@ -306,6 +309,78 @@ describe("EventHandler event dispatch", function()
 
         assert.spy(QuestieProfessions.Update).was.called_with(QuestieProfessions)
         assert.spy(AvailableQuests.CalculateAndDrawAll).was.not_called()
+    end)
+
+    describe("vendors that depend on the player's level and pet", function()
+        local QuestieMenu, queued, reportedErrors
+        local originals
+
+        before_each(function()
+            QuestieMenu = QuestieLoader:ImportModule("QuestieMenu")
+            local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
+            local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
+            local QuestieJourney = QuestieLoader:ImportModule("QuestieJourney")
+            local QuestieTracker = QuestieLoader:ImportModule("QuestieTracker")
+            originals = {
+                RefreshPlayerVendors = QuestieMenu.RefreshPlayerVendors,
+                RegisterEvents = PetFood.RegisterEvents,
+                Queue = QuestieCombatQueue.Queue,
+                SetPlayerLevel = QuestiePlayer.SetPlayerLevel,
+                PlayerLevelUp = QuestieJourney.PlayerLevelUp,
+                Update = QuestieTracker.Update,
+                ResetLevelRequirementCache = AvailableQuests.ResetLevelRequirementCache,
+                CallErrorHandler = _G.CallErrorHandler,
+            }
+            reportedErrors = {}
+            _G.CallErrorHandler = function(message) table.insert(reportedErrors, message) end
+            QuestieMenu.RefreshPlayerVendors = spy.new(function() end)
+            PetFood.RegisterEvents = spy.new(function() end)
+            QuestiePlayer.SetPlayerLevel = function() end
+            QuestieJourney.PlayerLevelUp = function() end
+            QuestieTracker.Update = function() end
+            AvailableQuests.ResetLevelRequirementCache = function() end
+            queued = {}
+            QuestieCombatQueue.Queue = function(_, callback) table.insert(queued, callback) end
+        end)
+
+        after_each(function()
+            _G.CallErrorHandler = originals.CallErrorHandler
+            QuestieMenu.RefreshPlayerVendors = originals.RefreshPlayerVendors
+            PetFood.RegisterEvents = originals.RegisterEvents
+            QuestieLoader:ImportModule("QuestieCombatQueue").Queue = originals.Queue
+            QuestieLoader:ImportModule("QuestiePlayer").SetPlayerLevel = originals.SetPlayerLevel
+            QuestieLoader:ImportModule("QuestieJourney").PlayerLevelUp = originals.PlayerLevelUp
+            QuestieLoader:ImportModule("QuestieTracker").Update = originals.Update
+            AvailableQuests.ResetLevelRequirementCache = originals.ResetLevelRequirementCache
+        end)
+
+        it("should refresh when the pet was updated", function()
+            PetFood.IsNeeded = function() return true end
+            PetFood.RegisterEvents = function(onUpdated) onUpdated() end
+
+            QuestieLoader:ImportModule("EventHandler"):RegisterLateEvents()
+
+            assert.spy(QuestieMenu.RefreshPlayerVendors).was.called(1)
+        end)
+
+        it("should leave the pet alone when nobody needs pet food", function()
+            QuestieLoader:ImportModule("EventHandler"):RegisterLateEvents()
+
+            assert.spy(PetFood.RegisterEvents).was.not_called()
+        end)
+
+        it("should still listen for quests when the client does not know a pet event, and report that", function()
+            PetFood.IsNeeded = function() return true end
+            PetFood.RegisterEvents = function() error("Attempt to register unknown event") end
+            callbacks = {}
+
+            QuestieLoader:ImportModule("EventHandler"):RegisterLateEvents()
+
+            assert.is_function(callbacks.QUEST_ACCEPTED)
+            assert.is_function(callbacks.QUEST_TURNED_IN)
+            assert.are_equal(1, #reportedErrors)
+            assert.is_truthy(reportedErrors[1]:find("unknown event", 1, true))
+        end)
     end)
 
     describe("loading screens", function()

@@ -17,6 +17,23 @@
 ---@field npcFlags table<string, integer> Active provider flavor's NPC flag bitmasks; flags a flavor lacks are absent. Read-only by contract.
 ---@field phases table<string, integer> Shared phase names to Blizzard or Questie-defined fake IDs; read-only by contract for consumers.
 
+---@class QuestieDBPetFood
+---@field itemIdsByFoodType table<integer, ItemId[]> Food type (ItemPetFood ID, 1 Meat to 8 Raw Fish) to ascending item IDs. Read-only by contract.
+---@field foodTypesByFamily table<integer, integer[]> Creature family ID to the food types its pets eat, ascending; a family that eats nothing is absent. Read-only by contract.
+---@field foodTypesByName table<string, integer> Food type name as the client gives it, in any language, to food type. Read-only by contract.
+
+---Whole-table support data, read-only by contract.
+---@class QuestieDBSupport
+---@field GetAll fun(): table<string, table> Every support module of the active flavor by name.
+local Support = {}
+
+---Returns one support module, or nil when the active flavor has none by that name. `PetFood` exists only on flavors with
+---pet happiness, and a drop table only on the flavors it describes.
+---@param moduleName string
+---@return table? module
+---@overload fun(moduleName: "PetFood"): QuestieDBPetFood?
+function Support.Get(moduleName) end
+
 ---@class LibQuestieDB
 ---@field Quest QuestDB Quest entity reads.
 ---@field Npc NpcDB NPC entity reads.
@@ -40,7 +57,7 @@
 ---@field Enum QuestieDBEnums Shared constants exposed to consumers.
 ---@field ObjectiveFirst QuestieDBObjectiveFirst Shared objective-ordering hints; read-only for consumers.
 ---@field l10n QuestieDBL10n Localization controls and state.
----@field Support table Whole-table support data.
+---@field Support QuestieDBSupport Whole-table support data.
 ---@field EraToForever fun(areaId: AreaId, x: number, y: number): number, number Explicit Era-to-Forever zone percentages (0-100), unrounded; other AreaIDs pass through. Preserves (-1,-1), rejects partial sentinels. Never apply to already-Forever points.
 ---@field EraToForeverByUiMapId fun(uiMapId: integer, x: number, y: number): number, number Same projection using the point's Era UiMapID; other UiMapIDs pass through. No automatic flavor selection.
 ---@field ModeIndicator table Source-mode indicator API.

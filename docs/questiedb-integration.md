@@ -24,7 +24,7 @@ are recorded in [ADR 0001](adr/0001-questietdb-is-the-only-entity-database.md),
 
 ## Initialization and compatibility
 
-Each flavor TOC declares `RequiredDeps: QuestieDB` and `X-QuestieDB-Contract: 4`. Build preflight
+Each flavor TOC declares `RequiredDeps: QuestieDB` and `X-QuestieDB-Contract: 5`. Build preflight
 checks that contract declarations are valid and consistent. At runtime,
 [`VersionCheckDB.Check`](../Modules/VersionCheckDB.lua) reads the active TOC's requirement.
 
@@ -148,10 +148,11 @@ conformance cases cover the provider's index behavior.
 
 ## Support data and retained caches
 
-Zones, Quest XP, drop data, and faction templates come from `LibQuestieDB.Support.Get`. Questie
+Zones, Quest XP, drop data, faction templates, and pet food come from `LibQuestieDB.Support.Get`. Questie
 keeps the wrappers and calculations. Shared provider tables are read-only; decoded maps and
 merged correction maps are consumer-owned. MoP deliberately uses MoP Wowhead drops and Cata
-private-server drops.
+private-server drops. Contract 5 adds pet food, which Vanilla, TBC, Wrath and Forever have; it is `nil` on Cata
+and MoP, where pets no longer have to be fed.
 
 [Runtime support-data validation](support-validation.md) describes the bounded controls, protected
 decoding, initialization checkpoints, and failure reports. These checks are compatibility controls,

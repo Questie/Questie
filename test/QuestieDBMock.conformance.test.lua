@@ -1074,3 +1074,110 @@ describe("PreloadEntityData on the real provider", function()
         assert.are_same({1, 2, 3, 4, 4}, loadedTypesAfterResume)
     end)
 end)
+
+-- The mock has no pet food of its own, so only the real provider can show that Questie reads it by the right names.
+describe("PetFood on the real provider", function()
+    local WOLF, OWL = 1, 26
+    local TOUGH_JERKY, SLITHERSKIN_MACKEREL, SHINY_RED_APPLE, GALESTRIDER_JERKY = 117, 787, 4536, 252022
+
+    local originals
+    local updatePet -- what PetFood queues to update the pet
+
+    before_each(function()
+        originals = {
+            LibQuestieDB = _G.LibQuestieDB,
+            RegisterEvent = Questie.RegisterEvent,
+            Queue = QuestieLoader:ImportModule("QuestieCombatQueue").Queue,
+            UnitClassBase = _G.UnitClassBase,
+            UnitCreatureFamily = _G.UnitCreatureFamily,
+            UnitLevel = _G.UnitLevel,
+            HasPetUI = _G.HasPetUI,
+            QueryItemSingle = QuestieLoader:ImportModule("QuestieDB").QueryItemSingle,
+            GetPlayerLevel = QuestieLoader:ImportModule("QuestiePlayer").GetPlayerLevel,
+            GetPetFoodTypes = QuestieLoader:ImportModule("QuestieCompat").GetPetFoodTypes,
+            GetCurrentStablePetFoodTypes = QuestieLoader:ImportModule("QuestieCompat").GetCurrentStablePetFoodTypes,
+        }
+        Questie.RegisterEvent = function() end
+        QuestieLoader:ImportModule("QuestieCombatQueue").Queue = function(_, callback) updatePet = callback end
+        QuestieLoader:ImportModule("QuestieCompat").GetPetFoodTypes = function() return {} end
+        QuestieLoader:ImportModule("QuestieCompat").GetCurrentStablePetFoodTypes = function() end
+        _G.UnitClassBase = function() return "HUNTER", 3 end
+        _G.UnitLevel = function() return 10 end
+        _G.HasPetUI = function() return true, true end
+        QuestieLoader:ImportModule("QuestiePlayer").GetPlayerLevel = function() return 10 end
+    end)
+
+    after_each(function()
+        _G.LibQuestieDB = originals.LibQuestieDB
+        Questie.RegisterEvent = originals.RegisterEvent
+        QuestieLoader:ImportModule("QuestieCombatQueue").Queue = originals.Queue
+        _G.UnitClassBase = originals.UnitClassBase
+        _G.UnitCreatureFamily = originals.UnitCreatureFamily
+        _G.UnitLevel = originals.UnitLevel
+        _G.HasPetUI = originals.HasPetUI
+        QuestieLoader:ImportModule("QuestieDB").QueryItemSingle = originals.QueryItemSingle
+        QuestieLoader:ImportModule("QuestiePlayer").GetPlayerLevel = originals.GetPlayerLevel
+        QuestieLoader:ImportModule("QuestieCompat").GetPetFoodTypes = originals.GetPetFoodTypes
+        QuestieLoader:ImportModule("QuestieCompat").GetCurrentStablePetFoodTypes = originals.GetCurrentStablePetFoodTypes
+    end)
+
+    ---@param expansion string
+    ---@return PetFood
+    local function _LoadPetFood(expansion)
+        _G.LibQuestieDB = LoadProvider(expansion)
+        QuestieLoader:ImportModule("QuestieDB").QueryItemSingle = _G.LibQuestieDB.Item.Get
+        dofile("Modules/QuestieMenu/PetFood.lua")
+        local PetFood = QuestieLoader:ImportModule("PetFood")
+        if PetFood.IsNeeded() then
+            PetFood.RegisterEvents(function() end)
+        end
+        return PetFood
+    end
+
+    ---@param PetFood PetFood
+    ---@param familyId number?
+    ---@return table<ItemId, true>
+    local function _FoodFor(PetFood, familyId)
+        _G.UnitCreatureFamily = function() return "Pet", familyId end
+        updatePet()
+        local food = {}
+        for _, itemId in ipairs(PetFood.GetItemIds()) do
+            food[itemId] = true
+        end
+        return food
+    end
+
+    for _, expansion in ipairs({"Classic", "TBC", "Wotlk", "Forever"}) do
+        it("feeds a wolf meat on " .. expansion, function()
+            local PetFood = _LoadPetFood(expansion)
+            assert.is_true(PetFood.IsNeeded())
+
+            local food = _FoodFor(PetFood, WOLF)
+            assert.is_true(food[TOUGH_JERKY])
+            assert.is_nil(food[SLITHERSKIN_MACKEREL])
+            assert.is_nil(food[SHINY_RED_APPLE])
+            assert.are_equal(expansion == "Forever", food[GALESTRIDER_JERKY] == true)
+        end)
+    end
+
+    it("understands a client in another language", function()
+        local PetFood = _LoadPetFood("Classic")
+        QuestieLoader:ImportModule("QuestieCompat").GetPetFoodTypes = function() return {"Fisch", "Fleisch"} end
+
+        local food = _FoodFor(PetFood, nil)
+        assert.is_true(food[TOUGH_JERKY])
+        assert.is_true(food[SLITHERSKIN_MACKEREL])
+        assert.is_nil(food[SHINY_RED_APPLE])
+    end)
+
+    it("uses the family table of the running client", function()
+        assert.is_nil(_FoodFor(_LoadPetFood("Classic"), OWL)[SLITHERSKIN_MACKEREL])
+        assert.is_true(_FoodFor(_LoadPetFood("Wotlk"), OWL)[SLITHERSKIN_MACKEREL])
+    end)
+
+    for _, expansion in ipairs({"Cata", "MoP"}) do
+        it("is not needed on " .. expansion, function()
+            assert.is_false(_LoadPetFood(expansion).IsNeeded())
+        end)
+    end
+end)
