@@ -167,6 +167,21 @@ function QuestieQuest.ToggleQuestNotes(showIcons)
     end)
 end
 
+---Hides or shows the icon according to ShouldBeHidden (evaluated once) and applies the quest's fade state.
+---@param icon IconFrame
+local function _ApplyIconVisibility(icon)
+    if icon:ShouldBeHidden() then
+        icon:FakeHide()
+    else
+        icon:FakeShow()
+    end
+    if icon.data.QuestData.FadeIcons and icon.data.Type ~= "complete" then
+        icon:FadeOut()
+    else
+        icon:FadeIn()
+    end
+end
+
 --- Shows all quest icons. Needs to be called from a coroutine.
 function QuestieQuest:ShowQuestIcons()
     assert(coroutine.running(), "ShowQuestIcons must be called from a coroutine")
@@ -180,16 +195,7 @@ function QuestieQuest:ShowQuestIcons()
                 local icon = _G[frameName];
                 local objectiveString = tostring(questId) .. " " .. tostring(icon.data.ObjectiveIndex)
                 if (not Questie.db.char.TrackerHiddenObjectives) or (not Questie.db.char.TrackerHiddenObjectives[objectiveString]) then
-                    if icon ~= nil and icon.hidden and (not icon:ShouldBeHidden()) then
-                        icon:FakeShow()
-                    elseif icon ~= nil and (not icon.hidden) and icon:ShouldBeHidden() then
-                        icon:FakeHide()
-                    end
-                    if icon.data.QuestData.FadeIcons and icon.data.Type ~= "complete" then
-                        icon:FadeOut()
-                    else
-                        icon:FadeIn()
-                    end
+                    _ApplyIconVisibility(icon)
                 end
             end
         end
@@ -242,17 +248,7 @@ function QuestieQuest:HideQuestIcons()
     for _, frameList in pairs(QuestieMap.questIdFrames) do
         for _, frameName in pairs(frameList) do -- this may seem a bit expensive, but its actually really fast due to the order things are checked
             local icon = _G[frameName];
-            if icon ~= nil and (not icon.hidden) and icon:ShouldBeHidden() then -- check for function to make sure its a frame
-                -- Hides Objective Icons
-                icon:FakeHide()
-            elseif icon ~= nil and icon.hidden and (not icon:ShouldBeHidden()) then
-                icon:FakeShow()
-            end
-            if icon.data.QuestData.FadeIcons and icon.data.Type ~= "complete" then
-                icon:FadeOut()
-            else
-                icon:FadeIn()
-            end
+            _ApplyIconVisibility(icon)
         end
 
         questCount = questCount + 1
