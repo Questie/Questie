@@ -171,6 +171,13 @@ local function _GetNote(questId, category, reason, completionTimes)
     return reason
 end
 
+---@param questId QuestId One that is available
+---@return string|JourneyIcon.DarkIcon
+function JourneyQuestCategories.GetAvailableIcon(questId)
+    local isLowLevel = QuestieDB.IsTrivial(QuestieLib.GetEffectiveQuestLevel(questId))
+    return isLowLevel and JourneyIcon.LOW_LEVEL or Questie.icons["available"]
+end
+
 ---@param questId QuestId
 ---@param category JourneyQuestCategory
 ---@return JourneyIcon.Icon?
@@ -180,7 +187,7 @@ function JourneyQuestCategories.GetIcon(questId, category)
     elseif category == "log" then
         return Questie.icons[QuestieDB.IsComplete(questId) == 1 and "complete" or "incomplete"]
     elseif category == "available" then
-        return Questie.icons["available"]
+        return JourneyQuestCategories.GetAvailableIcon(questId)
     elseif category == "repeatable" then
         return Questie.icons["repeatable"]
     elseif category == "later" then

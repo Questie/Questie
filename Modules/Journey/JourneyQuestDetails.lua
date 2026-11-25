@@ -265,12 +265,6 @@ local function _GetPreviousInChain(quest)
     return questIds
 end
 
----@param icon string
----@return string
-local function _Inline(icon)
-    return "|T" .. icon .. ":14|t "
-end
-
 ---@param questId QuestId
 ---@param isCurrent boolean?
 ---@return JourneyDetails.Row
@@ -369,12 +363,13 @@ local function _GetStatus(quest, category, reason, stateName)
     if category == "log" then
         local progress = JourneyQuestCategories.GetProgress(quest.Id)
         local isDone = QuestieDB.IsComplete(quest.Id) == 1
-        return _Inline(Questie.icons[isDone and "complete" or "incomplete"])
+        return JourneyIcon.GetMarkup(Questie.icons[isDone and "complete" or "incomplete"])
             .. (isDone and QUEST_WATCH_QUEST_READY or QUEST_LOG .. (progress and "  " .. progress or ""))
     elseif category == "available" or category == "repeatable" then
-        return _Inline(Questie.icons[category]) .. Questie:Colorize(l10n("Available"), "green")
+        local icon = category == "available" and JourneyQuestCategories.GetAvailableIcon(quest.Id) or Questie.icons["repeatable"]
+        return JourneyIcon.GetMarkup(icon) .. Questie:Colorize(l10n("Available"), "green")
     elseif category == "completed" then
-        return _Inline(Questie.icons["checkmark"]) .. l10n("Completed")
+        return JourneyIcon.GetMarkup(Questie.icons["checkmark"]) .. l10n("Completed")
     elseif category == "later" then
         if stateName == "NO_PREQUESTSINGLE" then
             reason = l10n("Incomplete pre-quest")
@@ -383,11 +378,11 @@ local function _GetStatus(quest, category, reason, stateName)
         elseif stateName == "LEVEL_TOO_LOW" then
             reason = ITEM_MIN_LEVEL:format(QuestieDB.QueryQuestSingle(quest.Id, "requiredLevel"))
         end
-        return _Inline(Questie.icons["cross"]) .. l10n("Unavailable") .. l10n(": ") .. (reason or "")
+        return JourneyIcon.GetMarkup(Questie.icons["cross"]) .. l10n("Unavailable") .. l10n(": ") .. (reason or "")
     elseif category == "unobtainable" then
-        return _Inline(Questie.icons["cross"]) .. l10n("Unavailable") .. l10n(": ") .. (reason or l10n("Exclusive quest completed"))
+        return JourneyIcon.GetMarkup(Questie.icons["cross"]) .. l10n("Unavailable") .. l10n(": ") .. (reason or l10n("Exclusive quest completed"))
     end
-    return _Inline(Questie.icons["cross"]) .. (QuestieDB.IsDoableVerbose(quest.Id, false, true, true) or "")
+    return JourneyIcon.GetMarkup(Questie.icons["cross"]) .. (QuestieDB.IsDoableVerbose(quest.Id, false, true, true) or "")
 end
 
 ---@param quest Quest

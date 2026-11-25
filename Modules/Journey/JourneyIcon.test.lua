@@ -9,6 +9,7 @@ describe("JourneyIcon", function()
     local texture
 
     local CHECKMARK = "Interface\\RaidFrame\\ReadyCheck-Ready"
+    local AVAILABLE = "Interface\\Addons\\Questie\\Icons\\available.blp"
     local COLORFUL = {1, 1, 1}
 
     before_each(function()
@@ -16,6 +17,7 @@ describe("JourneyIcon", function()
         dofile("Modules/Libs/QuestieLoader.lua")
         dofile("Modules/Journey/JourneyIcon.lua")
         JourneyIcon = QuestieLoader:ImportModule("JourneyIcon")
+        Questie.icons = {available = AVAILABLE}
 
         texture = JourneyIcon.Create(CreateFrame("Frame", nil, UIParent))
     end)
@@ -49,6 +51,31 @@ describe("JourneyIcon", function()
         JourneyIcon.Set(texture, JourneyIcon.HIDDEN)
 
         AssertShowsHidden()
+    end)
+
+    it("should show a low-level quest as a darker available one", function()
+        JourneyIcon.Set(texture, JourneyIcon.LOW_LEVEL)
+
+        assert.is_true(texture:IsShown())
+        assert.are.equal(AVAILABLE, texture:GetTexture())
+        assert.is_false(texture.isDesaturated)
+        assert.are_same({0.6, 0.6, 0.6}, texture.vertexColor)
+    end)
+
+    it("should show a texture in its own colors again after a darker one, and after a gray one", function()
+        JourneyIcon.Set(texture, JourneyIcon.LOW_LEVEL)
+        JourneyIcon.Set(texture, CHECKMARK)
+        AssertShowsCheckmark()
+
+        JourneyIcon.Set(texture, JourneyIcon.HIDDEN)
+        JourneyIcon.Set(texture, JourneyIcon.LOW_LEVEL)
+        assert.are_same({0, 1, 0, 1}, texture.texCoord)
+        assert.is_false(texture.isDesaturated)
+    end)
+
+    it("should be the same in a text", function()
+        assert.are.equal("|T" .. CHECKMARK .. ":14|t ", JourneyIcon.GetMarkup(CHECKMARK))
+        assert.are.equal("|T" .. AVAILABLE .. ":14:14:0:0:64:64:0:64:0:64:153:153:153|t ", JourneyIcon.GetMarkup(JourneyIcon.LOW_LEVEL))
     end)
 
     it("should not keep anything of the icon it showed before", function()
