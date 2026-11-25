@@ -715,7 +715,7 @@ local function _GetZoneName(zoneOrSort, questId, nativeHeader)
             zoneName = TrackerUtils:GetCategoryNameByID(zoneOrSort)
         else
             -- The quest has no explicit zone or category. Fallback to "Unknown Zone"
-            zoneName = "Unknown Zone"
+            zoneName = l10n("Unknown Zone")
             Questie.Debug(Questie.DEBUG_CRITICAL, "[TrackerUtils:_GetZoneName] zoneOrSort", zoneOrSort, "of quest", questId, "is not in the Database!")
         end
     else
@@ -734,7 +734,7 @@ local function _GetZoneName(zoneOrSort, questId, nativeHeader)
             zoneName = l10n("Quests (By Proximity Reversed)")
         end
     end
-    return zoneName or "Unknown Zone"
+    return zoneName or l10n("Unknown Zone")
 end
 
 ---Returns the tracker group a quest is listed under; `collapsedZones` is keyed by this name.
