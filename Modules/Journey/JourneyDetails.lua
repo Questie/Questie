@@ -32,15 +32,24 @@ local ITEM_TOOLTIP_UPDATES, ITEM_TOOLTIP_UPDATE_SECONDS = 10, 0.5
 local UNKNOWN_ICON = 134400 -- Interface\Icons\INV_Misc_QuestionMark
 local PORTRAIT_ATTEMPTS = 4
 local PORTRAIT_RETRY_SECONDS = 0.5
+-- The button for the map in Blizzard's quest log. The image is the same on every supported client, also on those whose quest
+-- log doesn't have the button (checked in the files of each).
+local MAP_TEXTURE = 316593 -- Interface\QuestFrame\UI-QuestMap_Button
+local MAP_WIDTH, MAP_HEIGHT = 48, 32
+local ACTION_ICON = "Interface\\AddOns\\Questie\\Icons\\map_scroll.png"
+local ACTION_SIZE = 20
+local STATUS_HEIGHT = 24
+local FOOTER_HEIGHT, FOOTER_BUTTON_HEIGHT, FOOTER_GAP, FOOTER_ICON_WIDTH, FOOTER_PADDING = 30, 22, 16, 20, 10
 
 ---@class JourneyDetails.Row
----@field type "heading"|"title"|"text"|"link"|"checkbox"|"button"|"entity"|"itemTooltip"|"gap"|"page"|"caption"|"buttons"|"step"
+---@field type "heading"|"title"|"text"|"link"|"checkbox"|"button"|"entity"|"itemTooltip"|"gap"|"page"|"caption"|"status"|"step"|"footer"
 ---@field text string? Finished text. It is never translated or formatted, because it can contain names and notes.
 ---@field title string? For the type entity, above the text
 ---@field onBack fun()? For the type page
 ---@field tag string? For the type page, at its right edge
----@field buttons {text: string, onClick: fun(), isOff: boolean?}[]? For the type buttons
----@field action {icon: number|string, tooltip: string, isOn: boolean?, onClick: fun()}? For the types link, step and entity, a button at the right edge
+---@field buttons {text: string, icon: JourneyIcon.Icon, onClick: fun()}[]? For the type footer
+---@field onShowMap fun()? For the types status and entity, a button with a text at the right edge
+---@field action {tooltip: string, isOn: boolean?, onClick: fun()}? For the types step and entity, a small map at the right edge
 ---@field font string? For the type text, a font object
 ---@field height number? For the type gap
 ---@field onClick fun()? For the types link, button and entity
@@ -93,13 +102,31 @@ local function _CreateWrappingText(row, font)
 end
 
 ---@param data JourneyDetails.Row
+---@return number x Behind the picture, if there is one
+local function _GetEntityTextX(data)
+    return (data.npcId or data.icon) and PICTURE_SIZE + PICTURE_GAP or 0
+end
+
+---@return number
+local function _GetShowMapWidth()
+    _MeasureText(SHOW_MAP, "GameFontNormal", 0)
+    return math.ceil(measuringText:GetStringWidth()) + MAP_WIDTH
+end
+
+---@param data JourneyDetails.Row
+---@return number width Left free for what is at the right edge
+local function _GetRightWidth(data)
+    if data.onShowMap then
+        return _GetShowMapWidth()
+    end
+    return data.action and ACTION_SIZE + 14 or 0
+end
+
+---@param data JourneyDetails.Row
 ---@param width number
 ---@return number textWidth
 local function _GetEntityTextWidth(data, width)
-    if data.npcId or data.icon then
-        return math.max(1, width - PICTURE_SIZE - PICTURE_GAP)
-    end
-    return width
+    return math.max(1, width - _GetEntityTextX(data) - _GetRightWidth(data))
 end
 
 ---Shows an NPC's face. The client asks the server about one it hasn't seen yet, and only knows it some time later.
@@ -196,14 +223,41 @@ local function _ShowItemTooltip(part)
     end, ITEM_TOOLTIP_UPDATES)
 end
 
-local ACTION_SIZE = 18
-local BUTTON_GAP, BUTTON_LINE_HEIGHT, BUTTON_PADDING = 6, 28, 28
+---@param icon Texture
+---@param isPushed boolean
+local function _SetMapPushed(icon, isPushed)
+    local top = isPushed and 0.5 or 0
+    icon:SetTexCoord(0.125, 0.875, top, top + 0.5)
+end
 
----@param text string
----@return number
-local function _GetButtonWidth(text)
-    _MeasureText(text, "GameFontNormal", 0)
-    return math.ceil(measuringText:GetStringWidth()) + BUTTON_PADDING
+---Blizzard's button that opens the map.
+---@param part Frame
+---@param owner Frame
+local function _CreateShowMap(part, owner)
+    local button = CreateFrame("Button", nil, owner)
+    button:SetSize(_GetShowMapWidth(), MAP_HEIGHT)
+    button:SetFrameLevel(owner:GetFrameLevel() + 2)
+
+    local icon = button:CreateTexture(nil, "ARTWORK")
+    icon:SetPoint("RIGHT", button, "RIGHT", 0, 0)
+    icon:SetSize(MAP_WIDTH, MAP_HEIGHT)
+    icon:SetTexture(MAP_TEXTURE)
+    _SetMapPushed(icon, false)
+
+    local text = button:CreateFontString(nil, "ARTWORK", "GameFontNormal")
+    text:SetPoint("RIGHT", icon, "LEFT", 0, 0)
+    text:SetText(SHOW_MAP)
+
+    local highlight = button:CreateTexture(nil, "HIGHLIGHT")
+    highlight:SetTexture("Interface\\Buttons\\ButtonHilight-Square")
+    highlight:SetBlendMode("ADD")
+    highlight:SetPoint("CENTER", icon, "CENTER", 0, 0)
+    highlight:SetSize(36, 25)
+
+    button:SetScript("OnMouseDown", function() _SetMapPushed(icon, true) end)
+    button:SetScript("OnMouseUp", function() _SetMapPushed(icon, false) end)
+    button:SetScript("OnClick", function() part.data.onShowMap() end)
+    part.ShowMap = button
 end
 
 ---@param part Frame
@@ -215,6 +269,7 @@ local function _CreateAction(part, owner)
     action.Icon = action:CreateTexture(nil, "ARTWORK")
     action.Icon:SetPoint("CENTER")
     action.Icon:SetSize(ACTION_SIZE, ACTION_SIZE)
+    action.Icon:SetTexture(ACTION_ICON)
     action:SetHighlightAtlas("Options_List_Hover")
     action:SetScript("OnClick", function()
         GameTooltip:Hide()
@@ -235,7 +290,6 @@ end
 local function _UpdateAction(part, data)
     part.Action:SetShown(data.action ~= nil)
     if data.action then
-        part.Action.Icon:SetTexture(data.action.icon)
         part.Action.Icon:SetDesaturated(not data.action.isOn)
         part.Action.Icon:SetAlpha(data.action.isOn and 1 or 0.75)
     end
@@ -330,40 +384,22 @@ local ROW_TYPES = {
         GetHeight = function() return 30 end,
     },
 
-    -- Several buttons next to each other
-    buttons = {
-        Create = function(part) part.controls = {} end,
+    -- What can be done with a quest
+    status = {
+        Create = function(part)
+            part.Text = _CreateWrappingText(part, "GameFontHighlight")
+            _CreateShowMap(part, part)
+            part.ShowMap:SetPoint("RIGHT", part, "RIGHT", -2, 0)
+        end,
         Update = function(part, data, width)
-            local x, y = 0, -4
-            for index, button in ipairs(data.buttons) do
-                local control = part.controls[index]
-                if not control then
-                    control = CreateFrame("Button", nil, part, "UIPanelButtonTemplate")
-                    control:SetHeight(24)
-                    control:SetScript("OnClick", function() part.data.buttons[index].onClick() end)
-                    part.controls[index] = control
-                end
-                control:SetText(button.text)
-                control:SetWidth(_GetButtonWidth(button.text))
-                if x > 0 and x + control:GetWidth() > width then
-                    x, y = 0, y - BUTTON_LINE_HEIGHT
-                end
-                control:SetPoint("TOPLEFT", part, "TOPLEFT", x, y)
-                control:Show()
-                x = x + control:GetWidth() + BUTTON_GAP
-            end
-            for index = #data.buttons + 1, #part.controls do part.controls[index]:Hide() end
+            part.Text:SetWidth(width - _GetRightWidth(data))
+            part.Text:SetText(data.text)
+            part.Text:ClearAllPoints()
+            part.Text:SetPoint("LEFT", part, "LEFT", 0, 0)
+            part.ShowMap:SetShown(data.onShowMap ~= nil)
         end,
         GetHeight = function(data, width)
-            local x, lines = 0, 1
-            for _, button in ipairs(data.buttons) do
-                local buttonWidth = _GetButtonWidth(button.text)
-                if x > 0 and x + buttonWidth > width then
-                    x, lines = 0, lines + 1
-                end
-                x = x + buttonWidth + BUTTON_GAP
-            end
-            return lines * BUTTON_LINE_HEIGHT + 6
+            return math.max(STATUS_HEIGHT, _MeasureText(data.text, "GameFontHighlight", width - _GetRightWidth(data)) + 4)
         end,
     },
 
@@ -519,13 +555,16 @@ local ROW_TYPES = {
             part.Text = _CreateWrappingText(button, "GameFontHighlight")
             _CreateAction(part, button)
             part.Action:SetPoint("TOPRIGHT", part, "TOPRIGHT", -2, -2)
+            _CreateShowMap(part, button)
+            part.ShowMap:SetPoint("TOPRIGHT", part, "TOPRIGHT", -2, -2)
         end,
         Update = function(part, data, width)
             local textWidth = _GetEntityTextWidth(data, width)
-            local x = width - textWidth
+            local x = _GetEntityTextX(data)
 
             part.Button:EnableMouse(data.onClick ~= nil)
             _UpdateAction(part, data)
+            part.ShowMap:SetShown(data.onShowMap ~= nil)
 
             part.Picture:SetShown(data.npcId ~= nil or data.icon ~= nil)
             part.Icon:SetTexture(data.icon)
@@ -559,6 +598,9 @@ local ROW_TYPES = {
             local height = _MeasureText(data.text, "GameFontHighlight", textWidth) + 6
             if data.title then
                 height = height + _MeasureText(data.title, "GameFontNormal", textWidth) + 2
+            end
+            if data.onShowMap then
+                height = math.max(height, MAP_HEIGHT + 2)
             end
             return (data.npcId or data.icon) and math.max(height, PICTURE_SIZE + 6) or height
         end,
@@ -696,8 +738,80 @@ local function _InitializeRow(row, data, rowWidth, onHeightChanged)
     _UpdateBox(row, data)
 end
 
+-------------------------
+-- Footer
+-------------------------
+
+---@param footer Frame
+---@return Button
+local function _CreateFooterButton(footer)
+    local button = CreateFrame("Button", nil, footer)
+    button:SetHeight(FOOTER_BUTTON_HEIGHT)
+    button:SetHighlightAtlas("Options_List_Hover")
+    button.Icon = JourneyIcon.Create(button)
+    button.Icon:SetPoint("CENTER", button, "LEFT", FOOTER_PADDING + 8, 0)
+    button.Text = button:CreateFontString(nil, "ARTWORK", "GameFontDisableSmall")
+    button.Text:SetPoint("LEFT", button, "LEFT", FOOTER_PADDING + FOOTER_ICON_WIDTH, 0)
+    button:SetScript("OnEnter", function() button.Text:SetFontObject("GameFontHighlightSmall") end)
+    button:SetScript("OnLeave", function() button.Text:SetFontObject("GameFontDisableSmall") end)
+    button:SetScript("OnClick", function() button.onClick() end)
+    return button
+end
+
+---@param parent Frame
+---@return Frame footer Below what can be scrolled
+local function _CreateFooter(parent)
+    local footer = CreateFrame("Frame", nil, parent)
+    footer:SetPoint("BOTTOMLEFT", parent, "BOTTOMLEFT", ROW_INSET, 2)
+    footer:SetPoint("BOTTOMRIGHT", parent, "BOTTOMRIGHT", -ROW_INSET, 2)
+    footer:SetHeight(FOOTER_HEIGHT)
+    footer.buttons = {}
+
+    local line = footer:CreateTexture(nil, "ARTWORK")
+    line:SetAtlas("Options_HorizontalDivider")
+    line:SetPoint("TOPLEFT", footer, "TOPLEFT", 0, 0)
+    line:SetPoint("TOPRIGHT", footer, "TOPRIGHT", 0, 0)
+    line:SetHeight(1.5)
+    line:SetAlpha(0.6)
+
+    footer:Hide()
+    return footer
+end
+
+---@param footer Frame
+---@param data JourneyDetails.Row?
+local function _ShowFooter(footer, data)
+    footer:SetShown(data ~= nil)
+    local buttons = data and data.buttons or {}
+
+    local totalWidth = (#buttons - 1) * FOOTER_GAP
+    for index, content in ipairs(buttons) do
+        local button = footer.buttons[index] or _CreateFooterButton(footer)
+        footer.buttons[index] = button
+        button.onClick = content.onClick
+        button.Text:SetText(content.text)
+        JourneyIcon.Set(button.Icon, content.icon)
+        button:SetWidth(math.ceil(button.Text:GetStringWidth()) + FOOTER_ICON_WIDTH + 2 * FOOTER_PADDING)
+        button:Show()
+        totalWidth = totalWidth + button:GetWidth()
+    end
+    for index = #buttons + 1, #footer.buttons do
+        footer.buttons[index]:Hide()
+    end
+
+    local x = -totalWidth / 2
+    for index = 1, #buttons do
+        local button = footer.buttons[index]
+        button:SetPoint("LEFT", footer, "CENTER", x, -1)
+        x = x + button:GetWidth() + FOOTER_GAP
+    end
+end
+
 ---@class JourneyDetails.Instance
 ---@field scrollBox Frame
+---@field parent Frame
+---@field scrollArea Frame Ends above the footer, if there is one
+---@field footer Frame
 ---@field rows JourneyDetails.Row[]
 ---@field heights table<JourneyDetails.Row, number> Those measured already, as scrolling asks for them again and again
 
@@ -705,8 +819,18 @@ end
 ---@param keepsScrollPosition boolean
 local function _ShowRows(details, keepsScrollPosition)
     details.heights = {}
+    local rows, footer = {}, nil
+    for _, row in ipairs(details.rows) do
+        if row.type == "footer" then
+            footer = row
+        else
+            table.insert(rows, row)
+        end
+    end
+    _ShowFooter(details.footer, footer)
+    details.scrollArea:SetPoint("BOTTOMRIGHT", details.parent, "BOTTOMRIGHT", 0, footer and FOOTER_HEIGHT or 0)
     details.scrollBox:SetDataProvider(
-        CreateDataProvider(details.rows),
+        CreateDataProvider(rows),
         keepsScrollPosition and ScrollBoxConstants.RetainScrollPosition or ScrollBoxConstants.DiscardScrollPosition
     )
 end
@@ -715,7 +839,7 @@ end
 ---@return JourneyDetails.Instance
 function JourneyDetails.Create(parent)
     ---@type JourneyDetails.Instance
-    local details = {rows = {}, heights = {}}
+    local details = {parent = parent, rows = {}, heights = {}}
 
     local isUpdateScheduled = false
     local function OnHeightChanged()
@@ -741,7 +865,12 @@ function JourneyDetails.Create(parent)
     view:SetElementInitializer("Frame", function(row, data)
         _InitializeRow(row, data, scrollBox:GetWidth(), OnHeightChanged)
     end)
-    scrollBox = JourneyScrollBox.Create(parent, view)
+    local scrollArea = CreateFrame("Frame", nil, parent)
+    scrollArea:SetPoint("TOPLEFT", parent, "TOPLEFT", 0, 0)
+    scrollArea:SetPoint("BOTTOMRIGHT", parent, "BOTTOMRIGHT", 0, 0)
+    details.scrollArea = scrollArea
+    details.footer = _CreateFooter(parent)
+    scrollBox = JourneyScrollBox.Create(scrollArea, view)
     details.scrollBox = scrollBox
 
     -- Text wraps differently, so every height has to be measured again

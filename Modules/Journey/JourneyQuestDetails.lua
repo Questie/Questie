@@ -334,7 +334,7 @@ local function _AddPerson(rows, person, quest)
         text = Questie:Colorize(_GetRole(person), "gray") .. (place and "\n" .. place or ""),
     }
     if showOnMap then
-        row.action = {icon = JourneyWindow.MAP_ICON, tooltip = l10n("Show on Map"), isOn = true, onClick = showOnMap}
+        row.action = {tooltip = l10n("Show on Map"), isOn = true, onClick = showOnMap}
     end
     table.insert(rows, JourneyLinks.Link(row, person.kind, person.entity.id))
 
@@ -361,10 +361,13 @@ end
 ---@return string
 local function _GetStatus(quest, category, reason, stateName)
     if category == "log" then
-        local progress = JourneyQuestCategories.GetProgress(quest.Id)
-        local isDone = QuestieDB.IsComplete(quest.Id) == 1
-        return JourneyIcon.GetMarkup(isDone and JourneyQuestCategories.GetCompleteIcon(quest.Id) or Questie.icons["incomplete"])
-            .. (isDone and QUEST_WATCH_QUEST_READY or QUEST_LOG .. (progress and "  " .. progress or ""))
+        local isComplete = QuestieDB.IsComplete(quest.Id)
+        if isComplete == 1 then
+            return JourneyIcon.GetMarkup(JourneyQuestCategories.GetCompleteIcon(quest.Id)) .. QUEST_WATCH_QUEST_READY
+        elseif isComplete == -1 then
+            return JourneyIcon.GetMarkup(Questie.icons["cross"]) .. Questie:Colorize(l10n("Failed"), "red")
+        end
+        return Questie:Colorize(QUEST_TOOLTIP_ACTIVE, "green")
     elseif category == "available" or category == "repeatable" then
         return JourneyIcon.GetMarkup(JourneyQuestCategories.GetKindIcon(quest.Id)) .. Questie:Colorize(l10n("Available"), "green")
     elseif category == "completed" then
@@ -384,31 +387,27 @@ local function _GetStatus(quest, category, reason, stateName)
     return JourneyIcon.GetMarkup(Questie.icons["cross"]) .. (QuestieDB.IsDoableVerbose(quest.Id, false, true, true) or "")
 end
 
----@param quest Quest
 ---@param people JourneyPerson[]
 ---@param category JourneyQuestCategory?
----@return JourneyDetails.Row
-local function _GetButtons(quest, people, category)
-    local buttons = {}
-    local isLeaving = category == "log"
+---@return JourneyPerson? person Who to go to next
+local function _GetTarget(people, category)
     local target
     for _, person in ipairs(people) do
-        if not target or isLeaving and person.ends and not target.ends then
+        if not target or category == "log" and person.ends and not target.ends then
             target = person
         end
     end
-    if target then
-        local _, showOnMap, setTomTomTarget = JourneyEntityDetails.GetPlace(target.kind, target.entity)
-        if showOnMap then
-            table.insert(buttons, {text = l10n("Show on Map"), onClick = showOnMap})
-        end
-        if setTomTomTarget then
-            table.insert(buttons, {text = "TomTom", onClick = setTomTomTarget})
-        end
-    end
+    return target
+end
+
+---@param quest Quest
+---@param setTomTomTarget fun()?
+---@return JourneyDetails.Row
+local function _GetFooter(quest, setTomTomTarget)
     local isHidden = Questie.db.char.hidden[quest.Id]
-    table.insert(buttons, {
+    local buttons = {{
         text = isHidden and l10n("Show on map again") or l10n("Hide from map"),
+        icon = JourneyIcon.HIDDEN,
         onClick = function()
             if Questie.db.char.hidden[quest.Id] then
                 QuestieQuest:UnhideQuest(quest.Id)
@@ -416,10 +415,11 @@ local function _GetButtons(quest, people, category)
                 QuestieQuest:HideQuest(quest.Id)
             end
         end,
-    })
-    local texts = {}
-    for _, button in ipairs(buttons) do table.insert(texts, button.text) end
-    return {type = "buttons", buttons = buttons, state = table.concat(texts, "|")}
+    }}
+    if setTomTomTarget then
+        table.insert(buttons, {text = "TomTom", icon = JourneyIcon.ARROW, onClick = setTomTomTarget})
+    end
+    return {type = "footer", buttons = buttons, state = tostring(isHidden) .. tostring(setTomTomTarget ~= nil)}
 end
 
 ---@param rows JourneyDetails.Row[]
@@ -458,7 +458,6 @@ local function _AddObjectives(rows, quest, category, onChanged)
                 local isShown = ManualNotes.IsShown(kind, id)
                 row.state = isShown and "shown" or "not shown"
                 row.action = {
-                    icon = JourneyWindow.MAP_ICON,
                     isOn = isShown,
                     tooltip = isShown and l10n("Remove from Map") or l10n("Show on Map"),
                     onClick = function()
@@ -572,8 +571,14 @@ function JourneyQuestDetails.GetRows(quest, onChanged)
     local rows = {
         {type = "page", text = QuestieLib:GetColoredQuestName(quest.Id, true, false), tag = table.concat(_GetTags(quest), ", ")},
         {type = "gap", height = 6},
-        {type = "text", text = _GetStatus(quest, category, reason, stateName)},
+        {type = "status", text = _GetStatus(quest, category, reason, stateName)},
     }
+    local target = _GetTarget(people, category)
+    local showOnMap, setTomTomTarget
+    if target then
+        showOnMap, setTomTomTarget = select(2, JourneyEntityDetails.GetPlace(target.kind, target.entity))
+    end
+    rows[#rows].onShowMap = showOnMap
     if Questie.db.char.hidden[quest.Id] then
         table.insert(rows, {type = "text", text = Questie:Colorize(l10n("You hid it from the map"), "gray") .. " ", trailingIcon = JourneyIcon.HIDDEN})
     elseif QuestieCorrections.hiddenQuests[quest.Id] then
@@ -590,7 +595,6 @@ function JourneyQuestDetails.GetRows(quest, onChanged)
             end
         end
     end
-    table.insert(rows, _GetButtons(quest, people, category))
     table.insert(rows, {type = "gap", height = 4})
 
     table.insert(rows, {type = "text", text = strtrim(QuestieJourneyUtils.CreateObjectiveText(quest.Description))})
@@ -636,6 +640,7 @@ function JourneyQuestDetails.GetRows(quest, onChanged)
     _AddSection(rows, "Your history", _GetHistory(quest)) -- Last, because it grows
 
     JourneyRawData.AddRows(rows, quest, QuestieDB.questKeys)
+    table.insert(rows, _GetFooter(quest, setTomTomTarget))
     return rows
 end
 

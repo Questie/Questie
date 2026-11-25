@@ -8,6 +8,8 @@ local JourneyDetails = QuestieLoader:ImportModule("JourneyDetails")
 local JourneyLinks = QuestieLoader:ImportModule("JourneyLinks")
 ---@type JourneyRawData
 local JourneyRawData = QuestieLoader:ImportModule("JourneyRawData")
+---@type JourneyIcon
+local JourneyIcon = QuestieLoader:ImportModule("JourneyIcon")
 ---@type JourneyWindow
 local JourneyWindow = QuestieLoader:ImportModule("JourneyWindow")
 ---@type ManualNotes
@@ -212,15 +214,15 @@ local function _GetSpawnRows(kind, id, onChanged)
         {type = "gap", height = 6},
         {type = "entity", npcId = isNpc and id or nil, text = table.concat(lines, "\n")},
     }
+    local footer
     if entity.spawns then
         local isShown = ManualNotes.IsShown(kind, id)
         local buttons = {}
-        if showOnMap then
-            table.insert(buttons, {text = l10n("Show on Map"), onClick = showOnMap})
-        end
+        rows[#rows].onShowMap = showOnMap
         if isShown then
             table.insert(buttons, {
                 text = l10n("Remove from Map"),
+                icon = JourneyIcon.HIDDEN,
                 onClick = function()
                     ManualNotes.Hide(kind, id)
                     onChanged()
@@ -228,9 +230,9 @@ local function _GetSpawnRows(kind, id, onChanged)
             })
         end
         if setTomTomTarget then
-            table.insert(buttons, {text = "TomTom", onClick = setTomTomTarget})
+            table.insert(buttons, {text = "TomTom", icon = JourneyIcon.ARROW, onClick = setTomTomTarget})
         end
-        table.insert(rows, {type = "buttons", buttons = buttons, state = tostring(isShown)})
+        footer = #buttons > 0 and {type = "footer", buttons = buttons, state = tostring(isShown)} or nil
     else
         table.insert(rows, {type = "text", text = l10n("No spawn data available.")})
     end
@@ -238,6 +240,7 @@ local function _GetSpawnRows(kind, id, onChanged)
     _AddQuests(rows, "Starts the following quests", entity.questStarts)
     _AddQuests(rows, "Ends the following quests", entity.questEnds)
     JourneyRawData.AddRows(rows, entity, isNpc and QuestieDB.npcKeys or QuestieDB.objectKeys)
+    table.insert(rows, footer)
     return rows
 end
 
