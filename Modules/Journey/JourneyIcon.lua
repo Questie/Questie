@@ -4,6 +4,7 @@ local JourneyIcon = QuestieLoader:CreateModule("JourneyIcon")
 
 local HEIGHT, WIDTH = 14, 14
 local GRAY = 0.75
+local LOW_LEVEL_BRIGHTNESS = 0.6
 
 ---An icon from one of Blizzard's atlases, shown in gray.
 ---@class JourneyIcon.GrayAtlas
@@ -22,9 +23,19 @@ local GRAY = 0.75
 ---@type JourneyIcon.GrayAtlas
 JourneyIcon.HIDDEN = {atlas = "transmog-icon-hidden", width = 17}
 
----A quest that is available, but too low level to be worth it. Like Blizzard's icon for it, TrivialQuests, but a bit brighter.
----@type JourneyIcon.DarkIcon
-JourneyIcon.LOW_LEVEL = {name = "available", brightness = 0.6}
+---@type table<string, JourneyIcon.DarkIcon>
+local lowLevelIcons = {}
+
+-- The arrow of the player on the minimap
+JourneyIcon.ARROW = "Interface\\Minimap\\MinimapArrow"
+
+---The icon of a quest that is too low level to be worth it. Like Blizzard's for those, TrivialQuests, but a bit brighter.
+---@param name string In Questie.icons
+---@return JourneyIcon.DarkIcon icon Always the same table, because a row with another one counts as changed
+function JourneyIcon.GetLowLevel(name)
+    lowLevelIcons[name] = lowLevelIcons[name] or {name = name, brightness = LOW_LEVEL_BRIGHTNESS}
+    return lowLevelIcons[name]
+end
 
 ---@param parent Frame
 ---@return Texture texture Shows nothing yet

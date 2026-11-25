@@ -363,11 +363,10 @@ local function _GetStatus(quest, category, reason, stateName)
     if category == "log" then
         local progress = JourneyQuestCategories.GetProgress(quest.Id)
         local isDone = QuestieDB.IsComplete(quest.Id) == 1
-        return JourneyIcon.GetMarkup(Questie.icons[isDone and "complete" or "incomplete"])
+        return JourneyIcon.GetMarkup(isDone and JourneyQuestCategories.GetCompleteIcon(quest.Id) or Questie.icons["incomplete"])
             .. (isDone and QUEST_WATCH_QUEST_READY or QUEST_LOG .. (progress and "  " .. progress or ""))
     elseif category == "available" or category == "repeatable" then
-        local icon = category == "available" and JourneyQuestCategories.GetAvailableIcon(quest.Id) or Questie.icons["repeatable"]
-        return JourneyIcon.GetMarkup(icon) .. Questie:Colorize(l10n("Available"), "green")
+        return JourneyIcon.GetMarkup(JourneyQuestCategories.GetKindIcon(quest.Id)) .. Questie:Colorize(l10n("Available"), "green")
     elseif category == "completed" then
         return JourneyIcon.GetMarkup(Questie.icons["checkmark"]) .. l10n("Completed")
     elseif category == "later" then

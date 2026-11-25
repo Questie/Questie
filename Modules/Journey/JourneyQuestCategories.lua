@@ -25,6 +25,9 @@ local QuestXP = QuestieLoader:ImportModule("QuestXP")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
+-- Trying out the Journey without it: the gray "!" of a quest that misses a requirement
+local SHOW_MISSING_REQUIREMENT_ICON = false
+
 ---@alias JourneyQuestCategory "log"|"available"|"repeatable"|"later"|"completed"|"unobtainable"|"hidden"
 
 ---In display order
@@ -171,11 +174,50 @@ local function _GetNote(questId, category, reason, completionTimes)
     return reason
 end
 
----@param questId QuestId One that is available
----@return string|JourneyIcon.DarkIcon
-function JourneyQuestCategories.GetAvailableIcon(questId)
+---Some quests are handed in without being accepted, so they are never in the quest log.
+---@param questId QuestId
+---@return boolean
+local function _IsTurnInOnly(questId)
+    local objectivesText = QuestieDB.QueryQuestSingle(questId, "objectivesText")
+    return not objectivesText or #objectivesText == 0 -- QuestieDB has none for those
+end
+
+---The kind of a quest, in the order the map uses too (QuestieLib.GetQuestIcon).
+---@param questId QuestId
+---@return string name Of its icon in Questie.icons
+local function _GetKind(questId)
+    if Questie.IsSoD and QuestieDB.IsSoDRuneQuest(questId) then
+        return "sod_rune"
+    elseif QuestieDB.IsActiveEventQuest(questId) then
+        return "eventquest"
+    elseif QuestieDB.IsPvPQuest(questId) then
+        return "pvpquest"
+    elseif QuestieDB.IsRepeatable(questId) then
+        return _IsTurnInOnly(questId) and "repeatable_complete" or "repeatable"
+    end
+    return "available"
+end
+
+---@param questId QuestId
+---@return string|JourneyIcon.DarkIcon icon Darker for a low-level quest
+function JourneyQuestCategories.GetKindIcon(questId)
+    local kind = _GetKind(questId)
     local isLowLevel = QuestieDB.IsTrivial(QuestieLib.GetEffectiveQuestLevel(questId))
-    return isLowLevel and JourneyIcon.LOW_LEVEL or Questie.icons["available"]
+    return isLowLevel and JourneyIcon.GetLowLevel(kind) or Questie.icons[kind]
+end
+
+---The same as for its turn-in on the map (QuestFinisher).
+---@param questId QuestId One that is complete
+---@return string icon
+function JourneyQuestCategories.GetCompleteIcon(questId)
+    if QuestieEvent.IsEventQuest(questId) then
+        return Questie.icons["eventquest_complete"]
+    elseif QuestieDB.IsPvPQuest(questId) then
+        return Questie.icons["pvpquest_complete"]
+    elseif QuestieDB.IsRepeatable(questId) then
+        return Questie.icons["repeatable_complete"]
+    end
+    return Questie.icons["complete"]
 end
 
 ---@param questId QuestId
@@ -184,14 +226,21 @@ end
 function JourneyQuestCategories.GetIcon(questId, category)
     if Questie.db.char.hidden[questId] then
         return JourneyIcon.HIDDEN
-    elseif category == "log" then
-        return Questie.icons[QuestieDB.IsComplete(questId) == 1 and "complete" or "incomplete"]
-    elseif category == "available" then
-        return JourneyQuestCategories.GetAvailableIcon(questId)
-    elseif category == "repeatable" then
-        return Questie.icons["repeatable"]
+    elseif category == "available" or category == "repeatable" then
+        return JourneyQuestCategories.GetKindIcon(questId)
     elseif category == "later" then
-        return Questie.icons["available_gray"]
+        if _GetKind(questId) ~= "available" then
+            return JourneyQuestCategories.GetKindIcon(questId)
+        end
+        return SHOW_MISSING_REQUIREMENT_ICON and Questie.icons["available_gray"] or nil
+    elseif category == "log" then
+        local isComplete = QuestieDB.IsComplete(questId)
+        if isComplete == 1 then
+            return JourneyQuestCategories.GetCompleteIcon(questId)
+        elseif isComplete == -1 then
+            return Questie.icons["cross"]
+        end
+        return Questie.icons["incomplete"]
     elseif category == "completed" then
         return Questie.icons["checkmark"]
     elseif category == "unobtainable" then
