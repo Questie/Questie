@@ -17,6 +17,7 @@ local QuestieOptionsUtils = QuestieLoader:ImportModule("QuestieOptionsUtils")
 local l10n = QuestieLoader:ImportModule("l10n")
 
 local ROW_INSET = 8
+local END_SPACE = 14 -- Below the last row, so it doesn't look cut off
 -- Space between the border of a box and what is in it
 local BOX_INSET = 14
 local BOX_PADDING = 8
@@ -728,7 +729,7 @@ function JourneyDetails.Create(parent)
     end
 
     local scrollBox
-    local view = CreateScrollBoxListLinearView()
+    local view = CreateScrollBoxListLinearView(0, END_SPACE)
     view:SetElementExtentCalculator(function(_, data)
         local height = details.heights[data]
         if not height then

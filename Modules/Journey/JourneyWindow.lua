@@ -17,7 +17,8 @@ local QuestieOptionsWindow = QuestieLoader:ImportModule("QuestieOptionsWindow")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
-local WINDOW_WIDTH, WINDOW_HEIGHT = 1000, 650
+local WINDOW_WIDTH, WINDOW_HEIGHT = 1000, 665
+local ABOVE_CENTER = 15
 local MIN_WINDOW_WIDTH, MIN_WINDOW_HEIGHT = 550, 400
 -- Left free on both sides of the window, so its tabs are still on a narrow screen
 local SIDE_TAB_SPACE = 60
@@ -146,6 +147,7 @@ local function _CreateWindow()
         minWidth = MIN_WINDOW_WIDTH,
         minHeight = MIN_WINDOW_HEIGHT,
     })
+    window:SetPoint("CENTER", 0, ABOVE_CENTER)
     canvasTitle = QuestieOptionsWindow.CreatePageTitle(window.canvasContainer, window.canvasContainer, QuestieOptionsWindow.HEADER_INSET)
 
     local headerLine = window.canvasContainer:CreateTexture(nil, "BORDER")
