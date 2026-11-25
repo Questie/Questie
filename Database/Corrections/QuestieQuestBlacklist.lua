@@ -7055,16 +7055,6 @@ function QuestieQuestBlacklist:Load()
         [78132] = not Questie.IsSoD, -- Dragonslayer's Helm
         [78133] = not Questie.IsSoD, -- Dragonslayer's Shield
         [78134] = not Questie.IsSoD, -- Dragonslayer's Lance
-        -- Season of Discovery's replacements of profession quests (ContentPhases/SeasonOfDiscovery.lua),
-        -- present in the Forever data with no profession requirement while the originals stay active
-        [79637] = not Questie.IsSoD, -- A Ticking Present - SoD replacement for 8769
-        [80241] = not Questie.IsSoD, -- The Origins of Smithing - SoD replacement for 2758
-        [81570] = not Questie.IsSoD, -- Jarl Needs a Blade - SoD replacement for 1203
-        [82656] = not Questie.IsSoD, -- Wild Leather Vest - SoD replacement for 2856
-        [82657] = not Questie.IsSoD, -- Wild Leather Vest - SoD replacement for 2849
-        [82662] = not Questie.IsSoD, -- The Way of the Weaponsmith - SoD replacement for 5284
-        [85712] = not Questie.IsSoD, -- The Art of the Armorsmith - SoD replacement for 5301
-        [85713] = not Questie.IsSoD, -- The Art of the Armorsmith - SoD replacement for 5283
         [78142] = HIDE_ON_MAP, -- Bewitchments and Glamours
         [78143] = HIDE_ON_MAP, -- Secrets of the Dreamers
         [78145] = HIDE_ON_MAP, -- Arcanic Systems Manual
@@ -7085,7 +7075,8 @@ function QuestieQuestBlacklist:Load()
         [79097] = HIDE_ON_MAP, -- Baxtan: On Destructive Magics
         [79098] = not Questie.IsSoD, -- Clear the Forest!
         [79535] = HIDE_ON_MAP, -- Basilisks: Should Petrification be Feared?
-        [79536] = HIDE_ON_MAP, -- Greater Friend of the Library -- TODO fix questhubs for these 3 quests
+        [79536] = HIDE_ON_MAP, -- Greater Friend of the Library -- TODO fix questhubs for these 3 quest
+        [79637] = not Questie.IsSoD, -- A Ticking Present - SoD replacement for 8769s
         [79947] = HIDE_ON_MAP, -- Geomancy: The Stone-Cold Truth
         [79948] = HIDE_ON_MAP, -- Defensive Magics 101
         [79949] = HIDE_ON_MAP, -- A Web of Lies: Debunking Myths and Legends
@@ -7094,8 +7085,10 @@ function QuestieQuestBlacklist:Load()
         [79952] = HIDE_ON_MAP, -- RwlRwlRwlRwl!
         [79953] = HIDE_ON_MAP, -- A Ludite's Guide to Caring for Your Demonic Pet        
         [80001] = not Questie.IsSoD, -- Rekinde
+        [80241] = not Questie.IsSoD, -- The Origins of Smithing - SoD replacement for 2758
         [80324] = not Questie.IsSoD, -- The Mad King
         [80325] = not Questie.IsSoD, -- The Mad King
+        [81570] = not Questie.IsSoD, -- Jarl Needs a Blade - SoD replacement for 1203
         [81730] = not Questie.IsSoD, -- Duskwood Mission I: Defeat Worgen
         [81731] = not Questie.IsSoD, -- Duskwood Mission II: Defeat Ogres
         [81732] = not Questie.IsSoD, -- Duskwood Mission III: Defeat Dragonkin
@@ -7160,6 +7153,9 @@ function QuestieQuestBlacklist:Load()
         [81956] = HIDE_ON_MAP, -- Conjurer's Codex
         [82068] = not Questie.IsSoD, -- Fight the Nightmare Incursions
         [82208] = HIDE_ON_MAP, -- Greater Friend of the Library -- TODO fix questhubs for these 3 quests
+        [82656] = not Questie.IsSoD, -- Wild Leather Vest - SoD replacement for 2856
+        [82657] = not Questie.IsSoD, -- Wild Leather Vest - SoD replacement for 2849
+        [82662] = not Questie.IsSoD, -- The Way of the Weaponsmith - SoD replacement for 5284
         [84395] = HIDE_ON_MAP, -- Undead Potatoes
         [84396] = HIDE_ON_MAP, -- Magma or Lava?
         [84397] = HIDE_ON_MAP, -- Northern Kalimdor - A Comprehensive Guide
@@ -7169,6 +7165,8 @@ function QuestieQuestBlacklist:Load()
         [84401] = HIDE_ON_MAP, -- Scourge: Undead Menace or Misunderstood?
         [84402] = HIDE_ON_MAP, -- Necromancy 101
         [84555] = not Questie.IsSoD, -- Nostro's Compendium
+        [85712] = not Questie.IsSoD, -- The Art of the Armorsmith - SoD replacement for 5301
+        [85713] = not Questie.IsSoD, -- The Art of the Armorsmith - SoD replacement for 5283
 
         [87318] = true, -- Hearts of the Lost
         [88757] = true, -- Accessories of the Lost
