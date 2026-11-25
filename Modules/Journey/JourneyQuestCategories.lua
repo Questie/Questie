@@ -68,20 +68,6 @@ local function _GetStateName(state)
     return state and stateNames[state]
 end
 
----@param questId QuestId
----@return boolean
-local function _IsChildAvailable(questId)
-    if Questie.db.char.complete[questId] or QuestieCorrections.hiddenQuests[questId] then
-        return false
-    end
-    local preQuestSingle = QuestieDB.QueryQuestSingle(questId, "preQuestSingle")
-    if preQuestSingle then
-        return QuestieDB:IsPreQuestSingleFulfilled(preQuestSingle)
-    end
-    local preQuestGroup = QuestieDB.QueryQuestSingle(questId, "preQuestGroup")
-    return not preQuestGroup or QuestieDB:IsPreQuestGroupFulfilled(preQuestGroup)
-end
-
 ---The quest that has to be finished before this one.
 ---@param questId QuestId
 ---@return QuestId?
@@ -110,9 +96,6 @@ function JourneyQuestCategories.Get(questId)
             if ActiveQuests.Get(id) or Questie.db.char.complete[id] then
                 return "unobtainable", nil, name
             end
-        end
-        if not _IsChildAvailable(questId) then
-            return nil
         end
     elseif name == "EXCEED_REPUTATION" and QuestieDB.questsOnlyAvailableUntilReputationValue[questId] then
         category = "unobtainable"
