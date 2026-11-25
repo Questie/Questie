@@ -57,7 +57,7 @@ local SEARCH_WIDTH = 270
 ---@type JourneyTabInfo[]
 local TABS = {
     {key = "quests", module = "quests", title = "Quests", icon = JourneyWindow.MAP_ICON},
-    {key = "history", module = "myJourney", title = "History", icon = JourneyWindow.ICON, iconCrop = JourneyWindow.ICON_CROP},
+    {key = "history", module = "myJourney", title = HISTORY, icon = JourneyWindow.ICON, iconCrop = JourneyWindow.ICON_CROP},
 }
 
 -- What the menus and bindings ask for
@@ -157,7 +157,7 @@ local function _CreateWindow()
     for _, frame in ipairs({window, window.dragBar, window.resizeGrip}) do
         frame:HookScript("OnMouseDown", function() window.searchBox:ClearFocus() end)
     end
-    QuestieOptionsWindow.AddSearchBox(window, function() end, SEARCH_WIDTH, l10n("Search quests, NPCs, objects, items"))
+    QuestieOptionsWindow.AddSearchBox(window, function() end, SEARCH_WIDTH, table.concat({l10n("Quests"), l10n("NPCs"), l10n("Objects"), l10n("Items")}, ", "))
     window.searchBox:SetPoint("RIGHT", window.canvasContainer, "TOPRIGHT", -16, -17)
     _QuestieJourney.quests.UseSearchBox(window.searchBox)
 

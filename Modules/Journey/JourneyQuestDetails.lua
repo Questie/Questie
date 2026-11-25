@@ -370,18 +370,18 @@ local function _GetStatus(quest, category, reason, stateName)
         local progress = JourneyQuestCategories.GetProgress(quest.Id)
         local isDone = QuestieDB.IsComplete(quest.Id) == 1
         return _Inline(Questie.icons[isDone and "complete" or "incomplete"])
-            .. (isDone and l10n("Ready to turn in") or l10n("In your quest log") .. (progress and "  " .. progress or ""))
+            .. (isDone and QUEST_WATCH_QUEST_READY or QUEST_LOG .. (progress and "  " .. progress or ""))
     elseif category == "available" or category == "repeatable" then
-        return _Inline(Questie.icons[category]) .. Questie:Colorize(l10n("You can pick this up now"), "green")
+        return _Inline(Questie.icons[category]) .. Questie:Colorize(l10n("Available"), "green")
     elseif category == "completed" then
         return _Inline(Questie.icons["checkmark"]) .. l10n("Completed")
     elseif category == "later" then
         if stateName == "NO_PREQUESTSINGLE" or stateName == "NO_PREQUESTGROUP" then
-            return _Inline(Questie.icons["cross"]) .. l10n("Not yet: finish the quest before it")
+            return _Inline(Questie.icons["cross"]) .. l10n("Unavailable") .. l10n(": ") .. l10n("Incomplete pre-quest")
         end
-        return _Inline(Questie.icons["cross"]) .. l10n("Not yet: %s", reason or "")
+        return _Inline(Questie.icons["cross"]) .. l10n("Unavailable") .. l10n(": ") .. (reason or "")
     elseif category == "unobtainable" then
-        return _Inline(Questie.icons["cross"]) .. l10n("You can't do this any more: %s", reason or l10n("Exclusive quest completed"))
+        return _Inline(Questie.icons["cross"]) .. l10n("Unavailable") .. l10n(": ") .. (reason or l10n("Exclusive quest completed"))
     end
     return _Inline(Questie.icons["cross"]) .. (QuestieDB.IsDoableVerbose(quest.Id, false, true, true) or "")
 end
@@ -490,7 +490,7 @@ local function _GetRewards(quest)
     local rows = {}
     local xp = QuestXP:GetQuestLogRewardXP(quest.Id, Questie.db.profile.showQuestXpAtMaxLevel)
     if xp and xp > 0 then
-        _AddFact(rows, "Experience", BreakUpLargeNumbers(xp))
+        _AddFact(rows, COMBAT_XP_GAIN, BreakUpLargeNumbers(xp))
     end
     local reputationReward = GetReputationRewardString(quest.Id)
     if reputationReward then
@@ -550,7 +550,7 @@ local function _GetFacts(quest)
     -- Queried, so it isn't wrong for quests of level -1
     local requiredLevel = QuestieDB.QueryQuestSingle(quest.Id, "requiredLevel")
     local questLevel = QuestieDB.QueryQuestSingle(quest.Id, "questLevel")
-    _AddFact(rows, "Level", QuestieLib.GetEffectiveQuestLevel(quest.Id) .. Questie:Colorize("   " .. l10n("from level %s", requiredLevel), "gray"))
+    _AddFact(rows, "Level", QuestieLib.GetEffectiveQuestLevel(quest.Id) .. Questie:Colorize("   " .. l10n("Required Level") .. l10n(": ") .. requiredLevel, "gray"))
     table.insert(rows, {type = "text", text = GetDifficultyString(questLevel, requiredLevel)})
 
     local requiredRaces = QuestieDB.QueryQuestSingle(quest.Id, "requiredRaces")
@@ -622,7 +622,7 @@ function JourneyQuestDetails.GetRows(quest, onChanged)
     for _, id in pairs(quest.preQuestGroup or {}) do
         if QuestieDB.QuestPointers[math.abs(id)] then table.insert(needed, _GetStep(math.abs(id))) end
     end
-    _AddSection(rows, "Requires all of these", needed)
+    _AddSection(rows, "Requires all of these quests to be finished", needed)
 
     if #previous + #following > 0 then
         local chain = {}
@@ -633,9 +633,9 @@ function JourneyQuestDetails.GetRows(quest, onChanged)
         for _, row in ipairs(chain) do table.insert(rows, row) end
     end
 
-    _AddSection(rows, "Rewards", _GetRewards(quest))
-    _AddSection(rows, "Your history", _GetHistory(quest))
-    _AddSection(rows, "Details", _GetFacts(quest))
+    _AddSection(rows, REWARDS, _GetRewards(quest))
+    _AddSection(rows, "Quest Information", _GetFacts(quest))
+    _AddSection(rows, "Your history", _GetHistory(quest)) -- Last, because it grows
 
     JourneyRawData.AddRows(rows, quest, QuestieDB.questKeys)
     return rows

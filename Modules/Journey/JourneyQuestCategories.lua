@@ -30,13 +30,13 @@ local l10n = QuestieLoader:ImportModule("l10n")
 ---In display order
 ---@type {key: JourneyQuestCategory, title: string}[]
 local CATEGORIES = {
-    {key = "log", title = "In your log"},
-    {key = "available", title = "Available"},
-    {key = "repeatable", title = "Repeatable"},
-    {key = "later", title = "Not yet"},
-    {key = "completed", title = "Completed"},
-    {key = "unobtainable", title = "Unobtainable"},
-    {key = "hidden", title = "Hidden by you"},
+    {key = "log", title = QUEST_LOG},
+    {key = "available", title = "Available Quests"},
+    {key = "repeatable", title = "Repeatable Quests"},
+    {key = "later", title = "Missing Requirement"},
+    {key = "completed", title = "Completed Quests"},
+    {key = "unobtainable", title = "Unobtainable Quests"},
+    {key = "hidden", title = "Hidden Quests"},
 }
 
 ---The category for each reason why a quest can be done, or can't. Others aren't listed at all.
@@ -144,7 +144,7 @@ function JourneyQuestCategories.GetProgress(questId)
     local quest = QuestieDB.GetQuest(questId)
     local objectives = quest and quest.Objectives or {}
     if QuestieDB.IsComplete(questId) == 1 then
-        return Questie:Colorize(l10n("turn in"), "yellow")
+        return Questie:Colorize(l10n("Complete"), "yellow")
     elseif QuestieDB.IsComplete(questId) == -1 then
         return Questie:Colorize(l10n("Failed"), "red")
     end
@@ -185,7 +185,7 @@ local function _GetNote(questId, category, reason, completionTimes)
         return completionTimes[questId] and JourneyQuestCategories.GetShortDate(completionTimes[questId])
     elseif category == "available" or category == "repeatable" then
         local xp = QuestXP:GetQuestLogRewardXP(questId, Questie.db.profile.showQuestXpAtMaxLevel)
-        return xp and xp > 0 and BreakUpLargeNumbers(xp) .. " XP" or nil
+        return xp and xp > 0 and BreakUpLargeNumbers(xp) .. " " .. l10n("xp") or nil
     end
     return reason
 end

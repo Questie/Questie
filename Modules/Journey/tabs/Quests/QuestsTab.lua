@@ -203,7 +203,7 @@ local function _GetChoices()
             table.insert(choices, {text = name, value = PETS})
         elseif QuestieJourney.zones[id] then
             local zones = _GetNamedChoices(QuestieJourney.zones[id], "zone")
-            table.insert(zones, 1, {text = Questie:Colorize(l10n("Overview"), "yellow"), value = "zones:" .. id})
+            table.insert(zones, 1, {text = Questie:Colorize(OVERVIEW, "yellow"), value = "zones:" .. id})
             table.insert(zones, 2, {isDivider = true})
             table.insert(choices, {text = name, value = "zones:" .. id, choices = zones})
         end

@@ -53,6 +53,13 @@ local function _GetPlace(spawns)
     return anyZoneId
 end
 
+---@param coordinate number
+---@return string text Those below 10 start with two spaces, which are as wide as the digit others have there
+local function _FormatCoordinate(coordinate)
+    local text = ("%.1f"):format(coordinate)
+    return #text < 4 and "  " .. text or text
+end
+
 ---@param kind ManualNoteKind
 ---@param entity NPC|Object
 ---@return string? text
@@ -65,7 +72,7 @@ function JourneyEntityDetails.GetPlace(kind, entity)
     end
     local text = QuestieJourneyUtils:GetZoneName(zoneId)
     if x then
-        text = text .. ("  %.1f, %.1f"):format(x, y)
+        text = text .. "  " .. _FormatCoordinate(x) .. ", " .. _FormatCoordinate(y)
     end
     local uiMapId = ManualNotes.GetMap(zoneId)
     local showOnMap = uiMapId and function()
