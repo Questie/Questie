@@ -209,39 +209,6 @@ function JourneyQuestCategories.GetIcon(questId, category)
     end
 end
 
----How many quests come before this one.
----@param questId QuestId
----@return number
-local function _GetDepth(questId)
-    local depth, seen = 0, {}
-    while questId and not seen[questId] and depth < 50 do
-        seen[questId] = true
-        local single = QuestieDB.QueryQuestSingle(questId, "preQuestSingle")
-        local group = QuestieDB.QueryQuestSingle(questId, "preQuestGroup")
-        questId = single and single[1] or group and group[1] and math.abs(group[1])
-        depth = depth + (questId and 1 or 0)
-    end
-    return depth
-end
-
----Tells quests with the same name apart by their place in the chain.
----@param nodesByName table<string, JourneyTreeNode[]>
-local function _NumberSameNames(nodesByName)
-    for _, nodes in pairs(nodesByName) do
-        if #nodes > 1 then
-            local depths = {}
-            for _, node in ipairs(nodes) do depths[node] = _GetDepth(node.value) end
-            table.sort(nodes, function(a, b)
-                return depths[a] < depths[b] or depths[a] == depths[b] and a.value < b.value
-            end)
-            for index, node in ipairs(nodes) do
-                node.text = node.text .. Questie:Colorize("  " .. index .. "/" .. #nodes, "gray")
-            end
-        end
-        JourneyThread.YieldIfNeeded()
-    end
-end
-
 ---Yields, so it runs in a thread.
 ---@async
 ---@param questIds table<QuestId, any>
@@ -251,7 +218,7 @@ end
 function JourneyQuestCategories.Collect(questIds)
     local HIDE_ON_MAP, hiddenQuests = QuestieQuestBlacklist.HIDE_ON_MAP, QuestieCorrections.hiddenQuests
     local completionTimes = _GetCompletionTimes()
-    local nodes, nodesByKey, nodesByName = {}, {}, {}
+    local nodes, nodesByKey = {}, {}
     for index, category in ipairs(CATEGORIES) do
         nodes[index] = {value = category.key, text = l10n(category.title), children = {}}
         nodesByKey[category.key] = nodes[index]
@@ -277,12 +244,8 @@ function JourneyQuestCategories.Collect(questIds)
             if Questie.db.char.hidden[questId] then
                 table.insert(nodesByKey.hidden.children, node)
             end
-            local name = QuestieDB.QueryQuestSingle(questId, "name") or ""
-            nodesByName[name] = nodesByName[name] or {}
-            table.insert(nodesByName[name], node)
         end
     end
-    _NumberSameNames(nodesByName)
 
     for _, node in ipairs(nodes) do
         node.note = tostring(#node.children)
