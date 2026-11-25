@@ -1326,16 +1326,43 @@ function QuestieCompat.AchievementFrameAchievements_ForceUpdate()
     end
 end
 
----[Documentation](https://warcraft.wiki.gg/wiki/API_C_StableInfo.GetStablePetFoodTypes)
----Returns the food types a stable pet can eat as separate return values.
----@param index number Stable slot passed unchanged; callers use the legacy active-pet slot 0.
----@return string ... Food types.
-function QuestieCompat.GetStablePetFoodTypes(index)
-    if C_StableInfo and C_StableInfo.GetStablePetFoodTypes then
-        -- Unpack the array because the townsfolk menu collects these values into its own table.
-        return unpack(C_StableInfo.GetStablePetFoodTypes(index) or {})
-    elseif GetStablePetFoodTypes then
-        return GetStablePetFoodTypes(index)
+---[Documentation](https://warcraft.wiki.gg/wiki/API_GetPetFoodTypes)
+---Returns the food types of the pet that is out.
+---@return string[] foodTypeNames In the client's language; empty without a pet.
+function QuestieCompat.GetPetFoodTypes()
+    if C_PetInfo and C_PetInfo.GetPetFoodTypes then
+        return C_PetInfo.GetPetFoodTypes()
+    elseif GetPetFoodTypes then
+        return {GetPetFoodTypes()}
+    end
+    error(errorMsg, 2)
+end
+
+---[Documentation](https://warcraft.wiki.gg/wiki/API_GetStablePetInfo)
+---Returns the food types and the level of the player's current pet from the stable, which also knows a dismissed pet.
+---@return string[]? foodTypeNames In the client's language; nil without a current pet.
+---@return number? level
+function QuestieCompat.GetCurrentStablePetFoodTypes()
+    if C_StableInfo and C_StableInfo.GetStablePetInfo then
+        local petInfo = C_StableInfo.GetStablePetInfo(1) -- CURRENT_PET_SLOT of Forever's stable window
+        if petInfo then
+            return C_StableInfo.GetStablePetFoodTypes(1), petInfo.level
+        end
+        return nil, nil
+    elseif GetStablePetInfo then
+        -- Like the stable window of 1.15.9, 2.5.6 and 3.80.2: slot 1 tells whether there is a current pet, and its details
+        -- are read from slot 0. Stabled pets start at slot 2, so slot 1 cannot be another pet if slot 0 has no details.
+        if not GetStablePetInfo(1) then
+            return nil, nil
+        end
+        for slot = 0, 1 do
+            local names = {GetStablePetFoodTypes(slot)}
+            if names[1] then
+                local _, _, level = GetStablePetInfo(slot)
+                return names, level
+            end
+        end
+        return nil, nil
     end
     error(errorMsg, 2)
 end

@@ -941,6 +941,7 @@ describe("QuestEventHandler", function()
             QuestieLoader:ImportModule("QuestgiverFrame").RecheckGreeting = function() end
             QuestieLoader:ImportModule("QuestgiverFrame").RecheckGossip = function() end
             QuestieLoader:ImportModule("TrackerRecipes").IsSupported = function() return false end
+            QuestieLoader:ImportModule("PetFood").IsNeeded = function() return false end
             dofile("Modules/EventHandler/EventHandler.lua")
             QuestieLoader:ImportModule("EventHandler"):RegisterLateEvents()
         end)

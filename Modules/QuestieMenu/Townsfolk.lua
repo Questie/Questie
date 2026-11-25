@@ -1,13 +1,14 @@
----@type QuestieCompat
-local QuestieCompat = QuestieLoader:ImportModule("QuestieCompat")
-
 ---@class Townsfolk
 local Townsfolk = QuestieLoader:CreateModule("Townsfolk")
 
 ---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
+---@type PetFood
+local PetFood = QuestieLoader:ImportModule("PetFood")
 ---@type QuestieProfessions
 local QuestieProfessions = QuestieLoader:ImportModule("QuestieProfessions")
+---@type QuestiePlayer
+local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
 ---@type Expansions
 local Expansions = QuestieLoader:ImportModule("Expansions")
 
@@ -30,8 +31,6 @@ Townsfolk.professionTrainers = {}
 Townsfolk.classSpecificTownsfolk = {}
 ---@type table<string, table<string, NpcId[]>> Faction name to category to NPC IDs
 Townsfolk.factionSpecificTownsfolk = {}
----@type table<string, ItemId[]> Pet food category to Item IDs; the lists stay empty for non-hunters
-Townsfolk.petFoodVendorTypes = {}
 
 ---@type table<ProfessionEnum, NpcId[]> Filled by the files in ProfessionTrainers/
 local professionTrainerIds = {}
@@ -251,34 +250,12 @@ function Townsfolk.Initialize()
     factionSpecificTownsfolk["Horde"]["Mailbox"] = hordeMailBoxes
     factionSpecificTownsfolk["Alliance"]["Mailbox"] = allianceMailBoxes
 
-    local petFoodVendorTypes = {["Meat"] = {},["Fish"]={},["Cheese"]={},["Bread"]={},["Fungus"]={},["Fruit"]={},["Raw Meat"]={},["Raw Fish"]={}}
-    local petFoodIndexes = {"Meat","Fish","Cheese","Bread","Fungus","Fruit","Raw Meat","Raw Fish"}
-
-    -- Only hunters get a "Pet Food" vendor list (UpdatePlayerVendors), so other classes skip
-    -- this scan over every Item and keep the categories empty.
-    if playerClass == "HUNTER" then
-        local count = 0
-        for id in pairs(QuestieDB.ItemPointers) do
-            -- Number fields read 0 for Items without a food type; only food types 1-8 name a pet food category.
-            local petFoodCategory = petFoodIndexes[QuestieDB.QueryItemSingle(id, "foodType")]
-            if petFoodCategory then
-                tinsert(petFoodVendorTypes[petFoodCategory], id)
-            end
-            if count > 300 then -- Yield every 300 iterations, 300 is just a madeup number, is pretty fast.
-                count = 0
-                coroutine.yield()
-            end
-            count = count + 1
-        end
-    end
-
     coroutine.yield()
 
     Townsfolk.townsfolk = townfolk
     Townsfolk.professionTrainers = professionTrainers
     Townsfolk.classSpecificTownsfolk = classSpecificTownsfolk
     Townsfolk.factionSpecificTownsfolk = factionSpecificTownsfolk
-    Townsfolk.petFoodVendorTypes = petFoodVendorTypes
 end
 
 function Townsfolk.PostBoot() -- post DB boot (use queries here)
@@ -339,45 +316,74 @@ function Townsfolk:BuildCharacterTownsfolk()
     end
 end
 
-local function _UpdatePetFood() -- call on change pet
-    Questie.db.char.vendorList["Pet Food"] = {}
-    -- detect petfood vendors for player's pet
-    for _, key in pairs({QuestieCompat.GetStablePetFoodTypes(0)}) do
-        if Townsfolk.petFoodVendorTypes[key] then
-            Townsfolk:PopulateVendors(Townsfolk.petFoodVendorTypes[key], Questie.db.char.vendorList["Pet Food"], true)
-        end
+---@return table<NpcId, boolean>? vendors nil when this class or client does not need pet food
+local function _GetPetFoodVendors()
+    if PetFood.IsNeeded() then
+        return Townsfolk:PopulateVendors(PetFood.GetItemIds())
     end
-    Questie.db.char.vendorList["Pet Food"] = _reformatVendors(Questie.db.char.vendorList["Pet Food"])
 end
 
-local function _UpdateAmmoVendors() -- call on change weapon
-    if Expansions.Current >= Expansions.Cata then
-        return
+---@return table<NpcId, boolean>? vendors nil when this client has no ammo
+local function _GetAmmoVendors()
+    if Expansions.Current < Expansions.Cata then
+        return Townsfolk:PopulateVendors({11285,3030,19316,2515,2512,11284,19317,2519,2516,3033,28056,28053,28061,28060}, {}, true)
     end
-
-    Questie.db.char.vendorList["Ammo"] = _reformatVendors(Townsfolk:PopulateVendors({11285,3030,19316,2515,2512,11284,19317,2519,2516,3033,28056,28053,28061,28060}, {}, true))
 end
 
-local function _UpdateFoodDrink()
+---@return table<NpcId, boolean> vendors
+local function _GetDrinkVendors()
     local drink = {159,8766,1179,1708,1645,1205,17404,19300,19299,27860,28399,29395,29454,33042,32453,32455} -- water item ids -- TO DO: update this?
+    return Townsfolk:PopulateVendors(drink, {}, true)
+end
+
+---@return table<NpcId, boolean> vendors
+local function _GetFoodVendors()
     local food = { -- food item ids (from wowhead) -- TO DO: update this?
         8932,4536,8952,19301,13724,8953,3927,11109,8957,4608,4599,4593,4592,117,3770,3771,4539,8950,8948,7228,
         2287,4601,422,16166,4537,4602,4542,4594,1707,4540,414,4538,4607,17119,19225,2070,21552,787,4544,18632,16167,4606,16170,
         4541,4605,17408,17406,11444,21033,22324,18635,21030,17407,19305,18633,4604,21031,16168,19306,16169,19304,17344,19224,19223,
         27857,27854,20857,27858,27856,29448,27855,29451,30355,28486,29450,29393,29394,29449,29452
     }
-
-    Questie.db.char.vendorList["Food"] = _reformatVendors(Townsfolk:PopulateVendors(food, {}, true))
-    Questie.db.char.vendorList["Drink"] = _reformatVendors(Townsfolk:PopulateVendors(drink, {}, true))
+    return Townsfolk:PopulateVendors(food, {}, true)
 end
 
-function Townsfolk:UpdatePlayerVendors() -- call on levelup
-    _UpdateFoodDrink()
-    _UpdateAmmoVendors()
+---@param key string
+---@param vendors table<NpcId, boolean>
+---@return boolean changed Whether other NPCs are on the list now
+local function _StoreVendorList(key, vendors)
+    local previousIds = Questie.db.char.vendorList[key]
+    local vendorIds = _reformatVendors(vendors)
+    Questie.db.char.vendorList[key] = vendorIds
 
-    if playerClass == "HUNTER" then
-        _UpdatePetFood()
+    if (not previousIds) or #previousIds ~= #vendorIds then
+        return true
     end
+    -- A list holds each NPC once, so with the same length it is the same list when none of them is missing
+    for _, id in ipairs(previousIds) do
+        if not vendors[id] then
+            return true
+        end
+    end
+    return false
+end
+
+---Rebuilds the vendor lists that depend on the player's level and pet
+---@return string[] changedKeys The lists that have other NPCs on them now
+function Townsfolk:UpdatePlayerVendors()
+    local vendorsByKey = {
+        ["Food"] = _GetFoodVendors(),
+        ["Drink"] = _GetDrinkVendors(),
+        ["Ammo"] = _GetAmmoVendors(),
+        ["Pet Food"] = _GetPetFoodVendors(),
+    }
+
+    local changedKeys = {}
+    for key, vendors in pairs(vendorsByKey) do
+        if _StoreVendorList(key, vendors) then
+            tinsert(changedKeys, key)
+        end
+    end
+    return changedKeys
 end
 
 function Townsfolk:PopulateVendors(itemList, existingTable, restrictLevel)
@@ -387,7 +393,7 @@ function Townsfolk:PopulateVendors(itemList, existingTable, restrictLevel)
     local factionCache = {}
     local flagCache = {}
 
-    local playerLevel = restrictLevel and UnitLevel("Player") or 0
+    local playerLevel = restrictLevel and QuestiePlayer.GetPlayerLevel() or 0
     for _, id in pairs(itemList) do
         --print(id)
         local valid = true

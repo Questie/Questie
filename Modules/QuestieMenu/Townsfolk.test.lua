@@ -21,6 +21,7 @@ describe("Townsfolk", function()
     local originalIsSoD
     local originalUnitLevel
     local originalUnitClassBase
+    local playerLevel
 
     -- Classic-client NPC flag values, mirroring QuestieDB.npcFlags on Era.
     local NPC_FLAGS = {
@@ -76,6 +77,8 @@ describe("Townsfolk", function()
         Questie.db.global = {}
         Questie.db.char = {}
         _G.UnitLevel = function() return 60 end
+        playerLevel = 60
+        QuestieLoader:ImportModule("QuestiePlayer").GetPlayerLevel = function() return playerLevel end
 
         dofile("Modules/QuestieProfessions.lua")
         QuestieProfessions = QuestieLoader:ImportModule("QuestieProfessions")
@@ -116,8 +119,12 @@ describe("Townsfolk", function()
         mock.SetBaseRow("Npc", 8004, {[npcKeys.name] = "High Level Vendor", [npcKeys.npcFlags] = NPC_FLAGS.VENDOR, [npcKeys.friendlyToFaction] = "H"})
 
         -- Items
-        mock.SetBaseRow("Item", 7001, {[itemKeys.name] = "Haunch of Meat", [itemKeys.foodType] = 1})
-        mock.SetBaseRow("Item", 7002, {[itemKeys.name] = "Raw Brilliant Smallfish", [itemKeys.foodType] = 2})
+        mock.SetBaseRow("Item", 7001, {
+            [itemKeys.name] = "Haunch of Meat", [itemKeys.itemLevel] = 15, [itemKeys.requiredLevel] = 5, [itemKeys.vendors] = {8001, 8002},
+        })
+        mock.SetBaseRow("Item", 7002, {
+            [itemKeys.name] = "Longjaw Mud Snapper", [itemKeys.itemLevel] = 15, [itemKeys.requiredLevel] = 5, [itemKeys.vendors] = {8004},
+        })
         mock.SetBaseRow("Item", 7003, {[itemKeys.name] = "Linen Cloth"})
         mock.SetBaseRow("Item", 17031, {[itemKeys.name] = "Rune of Teleportation", [itemKeys.vendors] = {8001, 8002, 8003}})
         mock.SetBaseRow("Item", 159, {[itemKeys.name] = "Refreshing Spring Water", [itemKeys.vendors] = {8001}, [itemKeys.requiredLevel] = 50})
@@ -181,34 +188,6 @@ describe("Townsfolk", function()
             assert.are_same({6001}, factionSpecific.Horde["Mailbox"])
             assert.are_same({6001}, factionSpecific.Alliance["Mailbox"])
         end)
-
-        it("groups pet food Items by food type for hunters", function()
-            -- Townsfolk reads the player's class when its file loads.
-            _G.UnitClassBase = function() return "HUNTER", 3 end
-            dofile("Modules/QuestieMenu/Townsfolk.lua")
-
-            _RunInitialize()
-
-            local petFood = Townsfolk.petFoodVendorTypes
-            assert.are_same({7001}, petFood["Meat"])
-            assert.are_same({7002}, petFood["Fish"])
-            assert.are_same({}, petFood["Cheese"])
-        end)
-
-        it("skips the pet food Item scan for other classes", function()
-            local foodTypeReads = 0
-            local queryItemSingle = QuestieDB.QueryItemSingle
-            QuestieDB.QueryItemSingle = function(id, field)
-                if field == "foodType" then
-                    foodTypeReads = foodTypeReads + 1
-                end
-                return queryItemSingle(id, field)
-            end
-
-            _RunInitialize() -- as the druid from setupTests.lua
-
-            assert.are_equal(0, foodTypeReads)
-        end)
     end)
 
     describe("BuildCharacterTownsfolk", function()
@@ -243,6 +222,7 @@ describe("Townsfolk", function()
         it("fills the character vendor lists from composed Item vendors", function()
             _RunInitialize()
             Townsfolk:BuildCharacterTownsfolk()
+            dofile("Modules/QuestieMenu/PetFood.lua")
 
             Townsfolk.PostBoot()
 
@@ -250,6 +230,89 @@ describe("Townsfolk", function()
             assert.are_same({8001}, vendorList["Reagents"])
             assert.are_same({8001}, vendorList["Drink"])
             assert.are_same({}, vendorList["Ammo"])
+        end)
+    end)
+
+    describe("UpdatePlayerVendors", function()
+        local PetFood
+        local originalIsNeeded, originalGetItemIds
+        local isPetFoodNeeded, petFoodItemIds
+
+        before_each(function()
+            PetFood = QuestieLoader:ImportModule("PetFood")
+            originalIsNeeded, originalGetItemIds = PetFood.IsNeeded, PetFood.GetItemIds
+            isPetFoodNeeded, petFoodItemIds = true, {7001}
+            PetFood.IsNeeded = function() return isPetFoodNeeded end
+            PetFood.GetItemIds = function() return petFoodItemIds end
+            playerLevel = 20
+            Questie.db.char.vendorList = {}
+        end)
+
+        after_each(function()
+            PetFood.IsNeeded, PetFood.GetItemIds = originalIsNeeded, originalGetItemIds
+        end)
+
+        it("lists the friendly vendors that sell what the hunter's pet eats", function()
+            Townsfolk:UpdatePlayerVendors()
+
+            assert.are_same({8001}, Questie.db.char.vendorList["Pet Food"])
+        end)
+
+        it("feeds a low level pet low level food, whatever the player's level is", function()
+            playerLevel = 60
+            Townsfolk:UpdatePlayerVendors()
+
+            assert.are_same({8001}, Questie.db.char.vendorList["Pet Food"])
+        end)
+
+        it("reports which lists changed", function()
+            local changedKeys = Townsfolk:UpdatePlayerVendors()
+            table.sort(changedKeys)
+            assert.are_same({"Ammo", "Drink", "Food", "Pet Food"}, changedKeys)
+
+            assert.are_same({}, Townsfolk:UpdatePlayerVendors())
+
+            petFoodItemIds = {7002} -- one other vendor, so the length of the list stays the same
+            assert.are_same({"Pet Food"}, Townsfolk:UpdatePlayerVendors())
+
+            playerLevel = 60 -- Refreshing Spring Water, sold by one vendor, is for level 50
+            assert.are_same({"Drink"}, Townsfolk:UpdatePlayerVendors())
+        end)
+
+        it("offers hunters an empty list before a pet is known, so they can already track it", function()
+            petFoodItemIds = {}
+            Townsfolk:UpdatePlayerVendors()
+
+            assert.are_same({}, Questie.db.char.vendorList["Pet Food"])
+        end)
+
+        it("limits food, drink and ammo to the player's level", function()
+            mock.SetBaseRow("Item", 4540, {[itemKeys.requiredLevel] = 45, [itemKeys.vendors] = {8001}}) -- food
+            mock.SetBaseRow("Item", 2512, {[itemKeys.requiredLevel] = 45, [itemKeys.vendors] = {8001}}) -- ammo
+            for level, vendors in pairs({[44] = {}, [45] = {8001}, [65] = {8001}, [66] = {}}) do
+                playerLevel = level
+                Townsfolk:UpdatePlayerVendors()
+
+                assert.are_same(vendors, Questie.db.char.vendorList["Food"])
+                assert.are_same(vendors, Questie.db.char.vendorList["Ammo"])
+            end
+            playerLevel = 49
+            Townsfolk:UpdatePlayerVendors()
+            assert.are_same({}, Questie.db.char.vendorList["Drink"])
+        end)
+
+        it("has no ammo list on clients without ammo", function()
+            Expansions.Current = Expansions.Cata
+            Townsfolk:UpdatePlayerVendors()
+
+            assert.is_nil(Questie.db.char.vendorList["Ammo"])
+        end)
+
+        it("has no pet food list when nobody needs pet food", function()
+            isPetFoodNeeded = false
+            Townsfolk:UpdatePlayerVendors()
+
+            assert.is_nil(Questie.db.char.vendorList["Pet Food"])
         end)
     end)
 

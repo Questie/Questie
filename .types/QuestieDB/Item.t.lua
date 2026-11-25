@@ -8,7 +8,7 @@
 ---@field startQuest fun(id: ItemId): QuestId? Quest started by this item.
 ---@field questRewards fun(id: ItemId): QuestId[]? Quests that reward this item.
 ---@field flags fun(id: ItemId): number? Item flag bitmask.
----@field foodType fun(id: ItemId): number? Food type.
+---@field foodType fun(id: ItemId): number? Always 0 for an existing item; use `LibQuestieDB.Support.Get("PetFood")`.
 ---@field itemLevel fun(id: ItemId): number? Item level.
 ---@field requiredLevel fun(id: ItemId): number? Required player level.
 ---@field ammoType fun(id: ItemId): number? Ammo type.
@@ -24,6 +24,7 @@
 ---@field Exists fun(id: ItemId): boolean Test the composed view.
 ---@field InvalidateCache fun(id?: ItemId) Drop cached fields for one item or every item.
 ---@field BuildNameIndex fun() Build the Name index now (a no-op when it exists) instead of on the first IdsByName call; a full pass over every item name.
+---@field BuildNameIndexAsync fun(iterationsPerCycle?: integer) Build the complete Name index inside a caller-owned coroutine; yield between positive-sized ID batches (default 250), restart after invalidation, return when ready.
 ---@field IdsByName fun(name: string): ItemId[]? Every composed item ID whose current name equals `name` exactly, ascending, or nil; shared and read-only.
 ItemDB = {}
 

@@ -62,6 +62,8 @@ local QuestgiverFrame = QuestieLoader:ImportModule("QuestgiverFrame")
 local AvailableQuests = QuestieLoader:ImportModule("AvailableQuests")
 ---@type QuestieMenu
 local QuestieMenu = QuestieLoader:ImportModule("QuestieMenu")
+---@type PetFood
+local PetFood = QuestieLoader:ImportModule("PetFood")
 ---@type WatchFrameHook
 local WatchFrameHook = QuestieLoader:ImportModule("WatchFrameHook")
 ---@type AutoCompleteFrame
@@ -105,6 +107,13 @@ function EventHandler:RegisterLateEvents()
     Questie:RegisterEvent("PLAYER_LEVEL_UP", _EventHandler.PlayerLevelUp)
     Questie:RegisterEvent("PLAYER_REGEN_DISABLED", _EventHandler.PlayerRegenDisabled)
     Questie:RegisterEvent("PLAYER_REGEN_ENABLED", _EventHandler.PlayerRegenEnabled)
+
+    if PetFood.IsNeeded() then
+        -- The pet only fills one vendor list, so an error is reported but must not stop the events below
+        xpcall(function()
+            PetFood.RegisterEvents(QuestieMenu.RefreshPlayerVendors)
+        end, CallErrorHandler)
+    end
 
     -- Miscellaneous Events
     Questie:RegisterEvent("MAP_EXPLORATION_UPDATED", _EventHandler.MapExplorationUpdated)

@@ -898,15 +898,11 @@ describe("QuestieCompat legacy return shapes", function()
     before_each(function()
         originals = {
             C_QuestLog = _G.C_QuestLog,
-            C_StableInfo = _G.C_StableInfo,
             C_Item = _G.C_Item,
             GetAbandonQuestItems = _G.GetAbandonQuestItems,
-            GetStablePetFoodTypes = _G.GetStablePetFoodTypes,
         }
         _G.GetAbandonQuestItems = nil
-        _G.GetStablePetFoodTypes = nil
         _G.C_QuestLog = {GetAbandonQuestItems = function() return {} end}
-        _G.C_StableInfo = {GetStablePetFoodTypes = function() return {} end}
         _G.C_Item = {GetItemInfo = function(id) return ({[10] = "Letter", [20] = "Key"})[id] end}
         dofile("Modules/QuestieCompat.lua")
         QuestieCompat = QuestieLoader:ImportModule("QuestieCompat")
@@ -914,10 +910,8 @@ describe("QuestieCompat legacy return shapes", function()
 
     after_each(function()
         _G.C_QuestLog = originals.C_QuestLog
-        _G.C_StableInfo = originals.C_StableInfo
         _G.C_Item = originals.C_Item
         _G.GetAbandonQuestItems = originals.GetAbandonQuestItems
-        _G.GetStablePetFoodTypes = originals.GetStablePetFoodTypes
     end)
 
     it("returns nil for no abandonment items so the ordinary popup is selected", function()
@@ -938,15 +932,126 @@ describe("QuestieCompat legacy return shapes", function()
         _G.GetAbandonQuestItems = function() return "Legacy letter" end
         assert.are.equal("Legacy letter", QuestieCompat.GetAbandonQuestItems())
     end)
+end)
 
-    it("returns food types as varargs for the townsfolk menu", function()
-        C_StableInfo.GetStablePetFoodTypes = spy.new(function() return {"Meat", "Fish"} end)
-        assert.are.same({"Meat", "Fish"}, {QuestieCompat.GetStablePetFoodTypes(2)})
-        assert.spy(C_StableInfo.GetStablePetFoodTypes).was.called_with(2)
+describe("QuestieCompat pet food types", function()
+    local QuestieCompat
+    local originals
+
+    before_each(function()
+        originals = {
+            C_PetInfo = _G.C_PetInfo, C_StableInfo = _G.C_StableInfo, GetPetFoodTypes = _G.GetPetFoodTypes,
+            GetStablePetInfo = _G.GetStablePetInfo, GetStablePetFoodTypes = _G.GetStablePetFoodTypes,
+        }
+        for name in pairs(originals) do
+            _G[name] = nil
+        end
+        dofile("Modules/QuestieCompat.lua")
+        QuestieCompat = QuestieLoader:ImportModule("QuestieCompat")
     end)
 
-    it("returns no food types for an empty modern array", function()
-        assert.are.equal(0, select("#", QuestieCompat.GetStablePetFoodTypes(2)))
+    after_each(function()
+        for _, name in ipairs({"C_PetInfo", "C_StableInfo", "GetPetFoodTypes", "GetStablePetInfo", "GetStablePetFoodTypes"}) do
+            _G[name] = originals[name]
+        end
+    end)
+
+    describe("on Forever", function()
+        it("should return the food types of the pet that is out", function()
+            _G.C_PetInfo = {GetPetFoodTypes = function() return {"Meat", "Fish"} end}
+
+            assert.are_same({"Meat", "Fish"}, QuestieCompat.GetPetFoodTypes())
+        end)
+
+        it("should read the current pet from the first stable slot", function()
+            local pets = {{level = 23}, {level = 7}}
+            local diets = {{"Meat"}, {"Fruit"}}
+            _G.C_StableInfo = {
+                GetStablePetInfo = function(slot) return pets[slot] end,
+                GetStablePetFoodTypes = function(slot) return diets[slot] end,
+            }
+
+            local names, level = QuestieCompat.GetCurrentStablePetFoodTypes()
+
+            assert.are_same({"Meat"}, names)
+            assert.are_equal(23, level)
+        end)
+
+        it("should return nothing without a current pet", function()
+            -- The documentation gives both a luaIndex, which starts at 1
+            local function luaIndex(slot) assert(slot >= 1, "invalid index") end
+            _G.C_StableInfo = {
+                GetStablePetInfo = function(slot) luaIndex(slot) end,
+                GetStablePetFoodTypes = function(slot) luaIndex(slot) return {} end,
+            }
+
+            local names, level = QuestieCompat.GetCurrentStablePetFoodTypes()
+
+            assert.is_nil(names)
+            assert.is_nil(level)
+        end)
+    end)
+
+    describe("on Era, TBC and Wrath", function()
+        local pets, diets
+
+        before_each(function()
+            pets, diets = {}, {}
+            -- These clients have the namespace, but not these functions in it
+            _G.C_StableInfo = {GetNumStablePets = function() return 0 end}
+            _G.C_PetInfo = {}
+            _G.GetStablePetInfo = function(slot)
+                if pets[slot] then return 132203, "Snarl", pets[slot], "Wolf", "Loyal" end
+            end
+            _G.GetStablePetFoodTypes = function(slot) return unpack(diets[slot] or {}) end
+        end)
+
+        it("should return the food types of the pet that is out as a list", function()
+            _G.GetPetFoodTypes = function() return "Meat", "Fish" end
+            assert.are_same({"Meat", "Fish"}, QuestieCompat.GetPetFoodTypes())
+
+            _G.GetPetFoodTypes = function() end
+            assert.are_same({}, QuestieCompat.GetPetFoodTypes())
+        end)
+
+        it("should read the current pet from slot 1 when slot 0 has no details", function()
+            pets[1], diets[1] = 23, {"Meat", "Fish"}
+            pets[2], diets[2] = 7, {"Fruit"}
+
+            local names, level = QuestieCompat.GetCurrentStablePetFoodTypes()
+
+            assert.are_same({"Meat", "Fish"}, names)
+            assert.are_equal(23, level)
+        end)
+
+        it("should read the details from slot 0 when it has them, like the stable window", function()
+            pets[0], diets[0] = 23, {"Meat"}
+            pets[1], diets[1] = 7, {"Fruit"}
+
+            local names, level = QuestieCompat.GetCurrentStablePetFoodTypes()
+
+            assert.are_same({"Meat"}, names)
+            assert.are_equal(23, level)
+        end)
+
+        it("should find no current pet when slot 1 is empty, like the stable window", function()
+            pets[0], diets[0] = 23, {"Meat"}
+
+            local names, level = QuestieCompat.GetCurrentStablePetFoodTypes()
+
+            assert.is_nil(names)
+            assert.is_nil(level)
+        end)
+
+        it("should not mistake a stabled pet for the current one", function()
+            pets[1] = 23 -- known, but not what it eats
+            pets[2], diets[2] = 7, {"Fruit"}
+
+            local names, level = QuestieCompat.GetCurrentStablePetFoodTypes()
+
+            assert.is_nil(names)
+            assert.is_nil(level)
+        end)
     end)
 end)
 

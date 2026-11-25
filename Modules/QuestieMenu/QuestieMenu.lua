@@ -105,8 +105,10 @@ local _townsfolk_order = {
     "Spirit Healer",
 }
 
-local _spawned = {} -- used to check if we have already spawned an icon for this npc
+---@type table<NpcId, string|number> The townsfolk key an NPC's icon was drawn for; an NPC on several lists is drawn once
+local _spawned = {}
 local _spawnTickers = {} -- pending spawn ticker per townsfolk key, cancelled when the key is untracked
+local _objectKeys = {["Mailbox"] = true, ["Meeting Stones"] = true} -- townsfolk that are objects instead of NPCs
 
 ---@param id NpcId
 ---@param key string
@@ -144,6 +146,95 @@ local function isTracked(key)
     return Questie.db.profile.townsfolkConfig[key] or isTrackedAsKnownProfession(key)
 end
 
+---@param key string|number
+---@return number[]? ids NPCs, or objects for the keys in _objectKeys; nil when this character has no such list
+local function getIds(key)
+    return Townsfolk.townsfolk[key] or
+            Questie.db.char.townsfolk[key] or
+            Townsfolk.professionTrainers[key] or
+            Questie.db.char.vendorList[key]
+end
+
+---@param key string|number
+---@return string
+local function getIcon(key)
+    return _townsfolk_texturemap[key] or ("Interface\\Minimap\\tracking\\" .. strlower(key))
+end
+
+---Removes every NPC icon of a townsfolk key, including those of NPCs that are no longer on its list
+---@param key string|number
+---@return boolean anyRemoved
+local function hideNpcs(key)
+    -- Stop a spawn still in progress, or it keeps drawing icons after they were removed
+    if _spawnTickers[key] then
+        _spawnTickers[key]:Cancel()
+        _spawnTickers[key] = nil
+    end
+    QuestieMap:ResetManualFrames(key)
+    local anyRemoved = false
+    for id, drawnForKey in pairs(_spawned) do
+        if drawnForKey == key then
+            _spawned[id] = nil
+            anyRemoved = true
+        end
+    end
+    return anyRemoved
+end
+
+---Draws the NPCs of a townsfolk key that have no icon yet
+---@param key string|number
+---@param ids NpcId[]
+local function showNpcs(key, ids)
+    local icon = getIcon(key)
+    local faction = UnitFactionGroup("Player")
+    local timer
+    local e = 1
+    local max = (#ids)+1
+    if _spawnTickers[key] then
+        _spawnTickers[key]:Cancel()
+    end
+    timer = C_Timer.NewTicker(0.01, function()
+        local start = e
+        while e < max and e-start < 32 do
+            local id = ids[e]
+            if (not _spawned[id]) then
+                local friendly = QuestieDB.QueryNPCSingle(id, "friendlyToFaction")
+                if ((not friendly) or friendly == "AH" or (faction == "Alliance" and friendly == "A") or (faction == "Horde" and friendly == "H")) and (not QuestieCorrections.questNPCBlacklist[id]) then
+                    local npcTitle = getNpcTitle(id, key)
+
+                    QuestieMap:ShowNPC(id, icon, 1.2, npcTitle, {}, true, key, true)
+                    _spawned[id] = key
+                end
+            end
+            e = e + 1
+        end
+        if e == max then
+            timer:Cancel()
+            if _spawnTickers[key] == timer then
+                _spawnTickers[key] = nil
+            end
+        end
+    end)
+    _spawnTickers[key] = timer
+end
+
+---Draws the NPCs of every tracked list that have no icon yet
+local function drawTrackedNpcs()
+    local keys = {}
+    for key in pairs(Questie.db.profile.townsfolkConfig) do
+        keys[key] = true
+    end
+    for key in pairs(Townsfolk.professionTrainers) do
+        keys[key] = true
+    end
+    for key in pairs(keys) do
+        local ids = getIds(key)
+        if ids and isTracked(key) and (not _objectKeys[key]) then
+            showNpcs(key, ids)
+        end
+    end
+end
+
 local function toggle(key, forceRemove) -- /run QuestieLoader:ImportModule("QuestieMap"):ShowNPC(525, nil, 1, "teaste", {}, true)
     if ProfessionStations.stations[key] then
         if (not forceRemove) and Questie.db.profile.townsfolkConfig[key] and ProfessionStations.IsStationAvailable(key) then
@@ -154,18 +245,14 @@ local function toggle(key, forceRemove) -- /run QuestieLoader:ImportModule("Ques
         return
     end
 
-    local ids = Townsfolk.townsfolk[key] or
-            Questie.db.char.townsfolk[key] or
-            Townsfolk.professionTrainers[key] or
-            Questie.db.char.vendorList[key]
-
+    local ids = getIds(key)
     if (not ids) then
         Questie.Debug(Questie.DEBUG_INFO, "Invalid townsfolk key", tostring(key))
         return
     end
 
-    local icon = _townsfolk_texturemap[key] or ("Interface\\Minimap\\tracking\\" .. strlower(key))
-    if key == "Mailbox" or key == "Meeting Stones" then -- object type townsfolk
+    if _objectKeys[key] then
+        local icon = getIcon(key)
         if isTracked(key) and (not forceRemove) then
             for _, id in pairs(ids) do
                 if key == "Meeting Stones" then
@@ -184,45 +271,12 @@ local function toggle(key, forceRemove) -- /run QuestieLoader:ImportModule("Ques
         end
     else
         if isTracked(key) and (not forceRemove) then
-            local faction = UnitFactionGroup("Player")
-            local timer
-            local e = 1
-            local max = (#ids)+1
-            if _spawnTickers[key] then
-                _spawnTickers[key]:Cancel()
-            end
-            timer = C_Timer.NewTicker(0.01, function()
-                local start = e
-                while e < max and e-start < 32 do
-                    local id = ids[e]
-                    if (not _spawned[id]) then
-                        local friendly = QuestieDB.QueryNPCSingle(id, "friendlyToFaction")
-                        if ((not friendly) or friendly == "AH" or (faction == "Alliance" and friendly == "A") or (faction == "Horde" and friendly == "H")) and (not QuestieCorrections.questNPCBlacklist[id]) then
-                            local npcTitle = getNpcTitle(id, key)
-
-                            QuestieMap:ShowNPC(id, icon, 1.2, npcTitle, {}, true, key, true)
-                            _spawned[id] = true
-                        end
-                    end
-                    e = e + 1
-                end
-                if e == max then
-                    timer:Cancel()
-                    if _spawnTickers[key] == timer then
-                        _spawnTickers[key] = nil
-                    end
-                end
-            end)
-            _spawnTickers[key] = timer
+            showNpcs(key, ids)
         else
-            -- Stop a spawn still in progress, or it keeps drawing icons after they were removed
-            if _spawnTickers[key] then
-                _spawnTickers[key]:Cancel()
-                _spawnTickers[key] = nil
-            end
-            for _, id in pairs(ids) do
-                QuestieMap:UnloadManualFrames(id, key)
-                _spawned[id] = nil
+            local anyRemoved = hideNpcs(key)
+            if anyRemoved and (not forceRemove) then
+                -- Another tracked list may need an NPC that was drawn for this one
+                drawTrackedNpcs()
             end
         end
     end
@@ -230,7 +284,7 @@ end
 
 local function build(key)
     local station = ProfessionStations.stations[key]
-    local icon = (station and station.icon) or _townsfolk_texturemap[key] or ("Interface\\Minimap\\tracking\\" .. strlower(key))
+    local icon = (station and station.icon) or getIcon(key)
 
     return {
         text = l10n(tostring(key)),
@@ -242,7 +296,7 @@ local function build(key)
 end
 
 local function buildProfession(key, localizedText)
-    local icon = _townsfolk_texturemap[key] or ("Interface\\Minimap\\tracking\\" .. strlower(key))
+    local icon = getIcon(key)
 
     return {
         text = localizedText,
@@ -274,8 +328,26 @@ function QuestieMenu.RefreshKnownProfessionTrainers()
     end
 end
 
+---Rebuilds the vendor lists that depend on the player's level and pet, and redraws the tracked ones that changed
+function QuestieMenu.RefreshPlayerVendors()
+    local anyHidden = false
+    for _, key in ipairs(Townsfolk:UpdatePlayerVendors()) do
+        if isTracked(key) then
+            hideNpcs(key)
+            anyHidden = true
+        end
+    end
+    if anyHidden then
+        -- Not only the changed lists: an NPC that left one of them may still be on another tracked list
+        drawTrackedNpcs()
+    end
+end
+
 function QuestieMenu:OnLogin(forceRemove) -- toggle all icons
-    Townsfolk:UpdatePlayerVendors()
+    for _, key in ipairs(Townsfolk:UpdatePlayerVendors()) do
+        -- QuestieQuest:SmoothReset gets here twice, and a toggle only adds icons, so remove those of the earlier list
+        hideNpcs(key)
+    end
 
     if (not Questie.db.profile.townsfolkConfig) then
         Questie.db.profile.townsfolkConfig = {
