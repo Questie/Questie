@@ -321,16 +321,17 @@ describe("QuestieDBMock conformance with LibQuestieDB", function()
 
         it("supports the shared-enum contract and older consumer contracts", function()
             local seen = Conform(function(lib)
-                local ok, message = lib.RequireContract(4)
+                local ok, message = lib.RequireContract(5)
                 return {
                     ok = ok, message = message,
                     contract1 = lib.RequireContract(1), contract2 = lib.RequireContract(2),
-                    contract3 = lib.RequireContract(3),
-                    future = lib.RequireContract(5), nonNumeric = lib.RequireContract("4"),
+                    contract3 = lib.RequireContract(3), contract4 = lib.RequireContract(4),
+                    future = lib.RequireContract(6), nonNumeric = lib.RequireContract("5"),
                 }
             end)
             assert.are_same({
-                ok = true, contract1 = true, contract2 = true, contract3 = true, future = false, nonNumeric = false,
+                ok = true, contract1 = true, contract2 = true, contract3 = true, contract4 = true,
+                future = false, nonNumeric = false,
             }, seen)
         end)
     end)

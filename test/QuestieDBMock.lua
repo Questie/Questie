@@ -62,7 +62,7 @@ local function LoadQuestieDBMock()
         publishCounts = {Quest = 0, Npc = 0, Item = 0, Object = 0},
         setLocaleCalls = {},
         nameIndexBuilds = {Quest = 0, Npc = 0, Item = 0, Object = 0},
-        contractVersion = 4,
+        contractVersion = 5,
         minSupportedContract = 1,
     }
     local lib = {}
