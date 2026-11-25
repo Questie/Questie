@@ -32,8 +32,6 @@ JourneyWindow.ICON = 136797
 JourneyWindow.ICON_CROP = 0.1875
 
 JourneyWindow.MAP_ICON = 137195 -- Interface\WorldMap\WorldMap-Icon
-local FACTION_ICON = 135026 -- Interface\Icons\INV_Shirt_GuildTabard_01
-local SEARCH_ICON = 134442 -- Interface\Icons\INV_Misc_Spyglass_03
 local SETTINGS_ICON = 134063 -- Interface\Icons\INV_Misc_Gear_01
 
 ---@class JourneyTab
@@ -53,15 +51,21 @@ local SETTINGS_ICON = 134063 -- Interface\Icons\INV_Misc_Gear_01
 ---@field icon number
 ---@field iconCrop number?
 
-local SEARCH_KEY = "search"
+local SEARCH_WIDTH = 270
 
 ---In display order
 ---@type JourneyTabInfo[]
 local TABS = {
-    {key = "journey", module = "myJourney", title = "My Journey", icon = JourneyWindow.ICON, iconCrop = JourneyWindow.ICON_CROP},
-    {key = "zone", module = "questsByZone", title = "Quests by Zone", icon = JourneyWindow.MAP_ICON},
-    {key = "faction", module = "questsByFaction", title = "Quests by Faction", icon = FACTION_ICON},
-    {key = SEARCH_KEY, module = "search", title = "Advanced Search", icon = SEARCH_ICON},
+    {key = "quests", module = "quests", title = "Quests", icon = JourneyWindow.MAP_ICON},
+    {key = "history", module = "myJourney", title = "History", icon = JourneyWindow.ICON, iconCrop = JourneyWindow.ICON_CROP},
+}
+
+-- What the menus and bindings ask for
+local REQUESTS = {
+    zone = {tab = "quests", show = function() _QuestieJourney.quests.ShowCurrentZone() end},
+    faction = {tab = "quests", show = function() _QuestieJourney.quests.ShowWatchedFaction() end},
+    search = {tab = "quests", focusesSearch = true},
+    journey = {tab = "history"},
 }
 
 ---Nil until the window is first opened.
@@ -151,8 +155,11 @@ local function _CreateWindow()
     QuestieOptionsUtils.DisableSnapping(headerLine)
 
     for _, frame in ipairs({window, window.dragBar, window.resizeGrip}) do
-        frame:HookScript("OnMouseDown", function() _QuestieJourney.search.ClearFocus() end)
+        frame:HookScript("OnMouseDown", function() window.searchBox:ClearFocus() end)
     end
+    QuestieOptionsWindow.AddSearchBox(window, function() end, SEARCH_WIDTH, l10n("Search quests, NPCs, objects, items"))
+    window.searchBox:SetPoint("RIGHT", window.canvasContainer, "TOPRIGHT", -16, -17)
+    _QuestieJourney.quests.UseSearchBox(window.searchBox)
 
     local previousSideTab
     for _, tab in ipairs(TABS) do
@@ -176,7 +183,20 @@ function JourneyWindow.Show(tabKey)
         PlaySound(OPEN_SOUND)
         window:Show()
     end
-    _SelectTab(tabKey or selectedKey)
+    local request = REQUESTS[tabKey]
+    _SelectTab(request and request.tab or tabKey or selectedKey)
+    if request and request.show then
+        request.show()
+    elseif request and request.focusesSearch then
+        window.searchBox:SetFocus()
+    end
+end
+
+---Shows the list of quests, in which search results are shown as well.
+function JourneyWindow.ShowQuests()
+    if selectedKey ~= "quests" then
+        _SelectTab("quests")
+    end
 end
 
 ---Opens the window again as it was hidden.
@@ -204,16 +224,8 @@ end
 ---@param kind JourneyKind
 ---@param id number
 function JourneyWindow.OpenLink(kind, id)
-    local tab = _GetSelectedTab()
-    if kind == "quest" and tab.OpenQuest then
-        tab.OpenQuest(id)
-        return
-    end
-
-    if selectedKey ~= SEARCH_KEY then
-        _SelectTab(SEARCH_KEY)
-    end
-    _QuestieJourney.search.Open(kind, id)
+    JourneyWindow.ShowQuests()
+    _QuestieJourney.quests.Open(kind, id)
 end
 
 ---@return boolean

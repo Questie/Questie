@@ -84,7 +84,7 @@ function JourneyPanes.Create(canvas, listTitle, topInset)
     ---@type JourneyPanes.Instance
     local panes = {listWidth = DEFAULT_LIST_WIDTH}
 
-    local top = -topInset - TITLE_HEIGHT
+    local top = -topInset - (listTitle ~= "" and TITLE_HEIGHT or 0)
     local list = _CreateBox(canvas, listTitle)
     list:SetPoint("TOPLEFT", canvas, "TOPLEFT", 12, top)
     list:SetPoint("BOTTOMLEFT", canvas, "BOTTOMLEFT", 12, 12)

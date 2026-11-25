@@ -112,10 +112,10 @@ function QuestieOptionsWindow.Create(settings)
     local portrait = window.PortraitContainer.portrait
     if Questie.IsForever then
         if portrait then portrait:SetTexCoord(0.16, 0.86, 0.17, 0.87) end
-        if window.Bg then window.Bg:SetColorTexture(30 / 255, 23 / 255, 18 / 255, 0.85) end
+        if window.Bg then window.Bg:SetColorTexture(30 / 255, 23 / 255, 18 / 255, 0.96) end
     else
         if portrait then portrait:SetTexCoord(0.21, 0.815, 0.21, 0.815) end
-        if window.Bg then window.Bg:SetColorTexture(0.16, 0.145, 0.133, 0.85) end
+        if window.Bg then window.Bg:SetColorTexture(0.16, 0.145, 0.133, 0.96) end
     end
     QuestieOptionsUtils.DisableSnapping(portrait)
 
@@ -136,12 +136,14 @@ end
 ---Adds a search box, which stays in place whichever tab is shown.
 ---@param window Frame
 ---@param onSearchChanged fun(text: string)
-function QuestieOptionsWindow.AddSearchBox(window, onSearchChanged)
+---@param width number?
+---@param placeholder string?
+function QuestieOptionsWindow.AddSearchBox(window, onSearchChanged, width, placeholder)
     local searchBox = CreateFrame("EditBox", nil, window, "SearchBoxTemplate")
-    searchBox:SetSize(180, 20)
+    searchBox:SetSize(width or 180, 20)
     searchBox:SetPoint("RIGHT", window.canvasContainer, "TOPRIGHT", -QuestieOptionsWindow.HEADER_INSET, HEADER_CENTER_Y)
     searchBox:SetFrameLevel(window:GetFrameLevel() + 10) -- Above the canvases, which cover the header
-    searchBox.Instructions:SetText(l10n("Search"))
+    searchBox.Instructions:SetText(placeholder or l10n("Search"))
     -- Hooked, because the template shows and hides its placeholder and clear button from this
     searchBox:HookScript("OnTextChanged", function(self)
         onSearchChanged(self:GetText() or "")

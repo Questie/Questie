@@ -253,6 +253,8 @@ Modules\Journey\JourneyLinkInput.lua
 Modules\Journey\ManualNotes.lua
 Modules\Journey\JourneyRawData.lua
 Modules\Journey\JourneyEntityDetails.lua
+Modules\Journey\JourneyQuestCategories.lua
+Modules\Journey\JourneyPicker.lua
 Modules\Journey\JourneyQuestList.lua
 Modules\Journey\QuestieJourneyUtils.lua
 Modules\Journey\QuestieJourneyFactions.lua
@@ -268,6 +270,7 @@ Modules\Journey\tabs\QuestsByFaction\QuestsByFactions.lua
 Modules\Journey\tabs\QuestsByFaction\QuestsByFactionsTab.lua
 Modules\Journey\QuestieSearch.lua
 Modules\Journey\tabs\Search\SearchTab.lua
+Modules\Journey\tabs\Quests\QuestsTab.lua
 
 # Tracker
 Modules\Tracker\TrackerQuestieBehavior.lua

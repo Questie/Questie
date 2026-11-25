@@ -15,6 +15,7 @@ local ROW_HEIGHT = 20
 local TOGGLE_SIZE = 18
 local ICON_CENTER = 11
 local INDENT = 14
+local NOTE_INSET, NOTE_GAP, MAX_NOTE_SHARE = 8, 10, 0.48
 -- Takes up the same space on every row, so the text of rows with and without an icon or toggle lines up
 local GUTTER_WIDTH = 22
 
@@ -30,6 +31,7 @@ local COLLAPSED_ATLAS = "common-button-dropdown-closed"
 ---@field isSelected boolean
 ---@field isCollapsed boolean? Nil for a row that can't be collapsed
 ---@field depth number? How far the row is indented
+---@field note string? At the right edge
 
 ---@param row Button
 local function _UpdateBackground(row)
@@ -50,8 +52,13 @@ local function _CreateRow(row, onClick)
 
     row.Icon = JourneyIcon.Create(row)
 
+    local note = row:CreateFontString(nil, "ARTWORK", "GameFontDisableSmall")
+    note:SetPoint("RIGHT", row, "RIGHT", -NOTE_INSET, 0)
+    note:SetJustifyH("RIGHT")
+    note:SetWordWrap(false)
+    row.Note = note
+
     local label = row:CreateFontString(nil, "ARTWORK", "GameFontHighlight")
-    label:SetPoint("RIGHT", row, "RIGHT", -4, 0)
     label:SetJustifyH("LEFT")
     label:SetWordWrap(false)
     row.Label = label
@@ -64,9 +71,12 @@ local function _CreateRow(row, onClick)
     row:SetScript("OnEnter", function()
         row.isHovered = true
         _UpdateBackground(row)
-        if label:IsTruncated() then
+        if label:IsTruncated() or note:IsTruncated() then
             GameTooltip:SetOwner(row, "ANCHOR_RIGHT")
             GameTooltip:SetText(label:GetText(), 1, 1, 1, 1, true)
+            if note:GetText() then
+                GameTooltip:AddLine(note:GetText(), 0.7, 0.7, 0.7, true)
+            end
             GameTooltip:Show()
         end
     end)
@@ -91,7 +101,16 @@ local function _UpdateRow(row, content)
     row.Icon:SetPoint("CENTER", row, "LEFT", indent + ICON_CENTER, 0)
     JourneyIcon.Set(row.Icon, content.icon)
 
+    row.Note:SetFontObject(canBeCollapsed and "GameFontNormalSmall" or "GameFontDisableSmall")
+    row.Note:SetWidth(0) -- As wide as the text
+    row.Note:SetText(content.note)
+    local noteWidth = content.note and math.min(row.Note:GetStringWidth() + 1, row:GetWidth() * MAX_NOTE_SHARE) or 0
+    if noteWidth > 0 then
+        row.Note:SetWidth(noteWidth)
+    end
+
     row.Label:SetPoint("LEFT", row, "LEFT", indent + GUTTER_WIDTH, 0)
+    row.Label:SetPoint("RIGHT", row, "RIGHT", -NOTE_INSET - (noteWidth > 0 and noteWidth + NOTE_GAP or 0), 0)
     row.Label:SetFontObject(canBeCollapsed and "GameFontNormal" or "GameFontHighlight")
     row.Label:SetText(content.text)
 

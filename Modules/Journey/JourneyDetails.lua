@@ -33,9 +33,13 @@ local PORTRAIT_ATTEMPTS = 4
 local PORTRAIT_RETRY_SECONDS = 0.5
 
 ---@class JourneyDetails.Row
----@field type "heading"|"title"|"text"|"link"|"checkbox"|"button"|"entity"|"itemTooltip"|"gap"
+---@field type "heading"|"title"|"text"|"link"|"checkbox"|"button"|"entity"|"itemTooltip"|"gap"|"page"|"caption"|"buttons"|"step"
 ---@field text string? Finished text. It is never translated or formatted, because it can contain names and notes.
 ---@field title string? For the type entity, above the text
+---@field onBack fun()? For the type page
+---@field tag string? For the type page, at its right edge
+---@field buttons {text: string, onClick: fun(), isOff: boolean?}[]? For the type buttons
+---@field action {icon: number|string, tooltip: string, isOn: boolean?, onClick: fun()}? For the types link, step and entity, a button at the right edge
 ---@field font string? For the type text, a font object
 ---@field height number? For the type gap
 ---@field onClick fun()? For the types link, button and entity
@@ -191,6 +195,51 @@ local function _ShowItemTooltip(part)
     end, ITEM_TOOLTIP_UPDATES)
 end
 
+local ACTION_SIZE = 18
+local BUTTON_GAP, BUTTON_LINE_HEIGHT, BUTTON_PADDING = 6, 28, 28
+
+---@param text string
+---@return number
+local function _GetButtonWidth(text)
+    _MeasureText(text, "GameFontNormal", 0)
+    return math.ceil(measuringText:GetStringWidth()) + BUTTON_PADDING
+end
+
+---@param part Frame
+---@param owner Frame
+local function _CreateAction(part, owner)
+    local action = CreateFrame("Button", nil, owner)
+    action:SetSize(ACTION_SIZE + 8, ACTION_SIZE + 4)
+    action:SetFrameLevel(owner:GetFrameLevel() + 2)
+    action.Icon = action:CreateTexture(nil, "ARTWORK")
+    action.Icon:SetPoint("CENTER")
+    action.Icon:SetSize(ACTION_SIZE, ACTION_SIZE)
+    action:SetHighlightAtlas("Options_List_Hover")
+    action:SetScript("OnClick", function()
+        GameTooltip:Hide()
+        part.data.action.onClick()
+    end)
+    action:SetScript("OnEnter", function()
+        GameTooltip:SetOwner(action, "ANCHOR_RIGHT")
+        GameTooltip:SetText(part.data.action.tooltip, 1, 1, 1)
+        GameTooltip:Show()
+    end)
+    action:SetScript("OnLeave", function() GameTooltip:Hide() end)
+    QuestieOptionsUtils.HideTooltipOnHide(action)
+    part.Action = action
+end
+
+---@param part Frame
+---@param data JourneyDetails.Row
+local function _UpdateAction(part, data)
+    part.Action:SetShown(data.action ~= nil)
+    if data.action then
+        part.Action.Icon:SetTexture(data.action.icon)
+        part.Action.Icon:SetDesaturated(not data.action.isOn)
+        part.Action.Icon:SetAlpha(data.action.isOn and 1 or 0.75)
+    end
+end
+
 ---@class JourneyDetails.RowType
 ---@field Create fun(part: Frame)
 ---@field Update fun(part: Frame, data: JourneyDetails.Row, width: number)
@@ -228,6 +277,131 @@ local ROW_TYPES = {
         GetHeight = function(data, width)
             return _MeasureText(data.text, HEADING_FONT, width - HEADING_LINES_WIDTH) + 12
         end,
+    },
+
+    -- What the whole page is about
+    page = {
+        Create = function(part)
+            local back = CreateFrame("Button", nil, part)
+            back:SetSize(24, 24)
+            back:SetPoint("TOPLEFT", part, "TOPLEFT", -4, -2)
+            back:SetNormalTexture("Interface\\Buttons\\UI-SpellbookIcon-PrevPage-Up")
+            back:SetPushedTexture("Interface\\Buttons\\UI-SpellbookIcon-PrevPage-Down")
+            back:SetHighlightTexture("Interface\\Buttons\\UI-Common-MouseHilight", "ADD")
+            back:SetScript("OnClick", function() part.data.onBack() end)
+            part.Back = back
+            part.Tag = part:CreateFontString(nil, "ARTWORK", "GameFontDisableSmall")
+            part.Tag:SetPoint("TOPRIGHT", part, "TOPRIGHT", -4, -9)
+            part.Title = part:CreateFontString(nil, "ARTWORK", "GameFontNormalLarge")
+            part.Title:SetJustifyH("LEFT")
+            part.Title:SetWordWrap(false)
+            local line = part:CreateTexture(nil, "ARTWORK")
+            line:SetAtlas("Options_HorizontalDivider")
+            line:SetPoint("BOTTOMLEFT", part, "BOTTOMLEFT", 0, 1)
+            line:SetPoint("BOTTOMRIGHT", part, "BOTTOMRIGHT", 0, 1)
+            line:SetHeight(1.5)
+        end,
+        Update = function(part, data)
+            part.Back:SetShown(data.onBack ~= nil)
+            part.Title:ClearAllPoints()
+            part.Title:SetPoint("TOPLEFT", part, "TOPLEFT", data.onBack and 24 or 0, -6)
+            part.Title:SetPoint("RIGHT", part.Tag, "LEFT", -8, 0)
+            part.Tag:SetText(data.tag or " ")
+            part.Title:SetText(data.text)
+        end,
+        GetHeight = function() return 32 end,
+    },
+
+    -- The title of a section, with a line next to it
+    caption = {
+        Create = function(part)
+            part.Title = part:CreateFontString(nil, "ARTWORK", "GameFontNormal")
+            part.Title:SetPoint("BOTTOMLEFT", part, "BOTTOMLEFT", 0, 4)
+            local line = part:CreateTexture(nil, "ARTWORK")
+            line:SetPoint("LEFT", part.Title, "RIGHT", 8, 0)
+            line:SetPoint("RIGHT", part, "RIGHT", 0, 0)
+            line:SetHeight(1.5)
+            line:SetAtlas("Options_HorizontalDivider")
+            line:SetTexCoord(0.4, 1, 0, 1)
+            line:SetAlpha(0.6)
+        end,
+        Update = function(part, data) part.Title:SetText(data.text) end,
+        GetHeight = function() return 30 end,
+    },
+
+    -- Several buttons next to each other
+    buttons = {
+        Create = function(part) part.controls = {} end,
+        Update = function(part, data, width)
+            local x, y = 0, -4
+            for index, button in ipairs(data.buttons) do
+                local control = part.controls[index]
+                if not control then
+                    control = CreateFrame("Button", nil, part, "UIPanelButtonTemplate")
+                    control:SetHeight(24)
+                    control:SetScript("OnClick", function() part.data.buttons[index].onClick() end)
+                    part.controls[index] = control
+                end
+                control:SetText(button.text)
+                control:SetWidth(_GetButtonWidth(button.text))
+                if x > 0 and x + control:GetWidth() > width then
+                    x, y = 0, y - BUTTON_LINE_HEIGHT
+                end
+                control:SetPoint("TOPLEFT", part, "TOPLEFT", x, y)
+                control:Show()
+                x = x + control:GetWidth() + BUTTON_GAP
+            end
+            for index = #data.buttons + 1, #part.controls do part.controls[index]:Hide() end
+        end,
+        GetHeight = function(data, width)
+            local x, lines = 0, 1
+            for _, button in ipairs(data.buttons) do
+                local buttonWidth = _GetButtonWidth(button.text)
+                if x > 0 and x + buttonWidth > width then
+                    x, lines = 0, lines + 1
+                end
+                x = x + buttonWidth + BUTTON_GAP
+            end
+            return lines * BUTTON_LINE_HEIGHT + 6
+        end,
+    },
+
+    -- One of several things in an order, like the quests of a chain
+    step = {
+        Create = function(part)
+            local button = CreateFrame("Button", nil, part)
+            button:SetAllPoints(part)
+            button:SetHighlightAtlas("Options_List_Hover")
+            part.Button = button
+            part.Background = button:CreateTexture(nil, "BACKGROUND")
+            part.Background:SetAllPoints(button)
+            part.Background:SetAtlas("Options_List_Active")
+            part.Icon = JourneyIcon.Create(button)
+            part.Icon:SetPoint("CENTER", button, "LEFT", 12, 0)
+            part.Text = button:CreateFontString(nil, "ARTWORK", "GameFontHighlight")
+            part.Text:SetPoint("LEFT", button, "LEFT", 26, 0)
+            part.Text:SetJustifyH("LEFT")
+            part.Text:SetWordWrap(false)
+            part.Note = button:CreateFontString(nil, "ARTWORK", "GameFontDisableSmall")
+            part.Note:SetPoint("RIGHT", button, "RIGHT", -6, 0)
+            button:SetScript("OnClick", function()
+                GameTooltip:Hide()
+                if part.data.onClick then part.data.onClick() end
+            end)
+            _AddTooltip(button, part, "ANCHOR_CURSOR")
+            _CreateAction(part, button)
+            part.Action:SetPoint("RIGHT", button, "RIGHT", -2, 0)
+        end,
+        Update = function(part, data)
+            part.Background:SetShown(data.isCurrent == true)
+            JourneyIcon.Set(part.Icon, data.trailingIcon)
+            part.Note:SetText(data.tag or "")
+            part.Text:SetText(data.text)
+            part.Text:SetPoint("RIGHT", part.Button, "RIGHT", data.action and -34 or -8 - part.Note:GetStringWidth() - 8, 0)
+            part.Button:EnableMouse(data.onClick ~= nil)
+            _UpdateAction(part, data)
+        end,
+        GetHeight = function() return 21 end,
     },
 
     -- The title of a box, above it
@@ -342,12 +516,15 @@ local ROW_TYPES = {
             title:SetWordWrap(true)
             part.Title = title
             part.Text = _CreateWrappingText(button, "GameFontHighlight")
+            _CreateAction(part, button)
+            part.Action:SetPoint("TOPRIGHT", part, "TOPRIGHT", -2, -2)
         end,
         Update = function(part, data, width)
             local textWidth = _GetEntityTextWidth(data, width)
             local x = width - textWidth
 
             part.Button:EnableMouse(data.onClick ~= nil)
+            _UpdateAction(part, data)
 
             part.Picture:SetShown(data.npcId ~= nil or data.icon ~= nil)
             part.Icon:SetTexture(data.icon)
@@ -580,7 +757,8 @@ end
 
 -- All that can be different in details of the same thing, except for what a checkbox gets
 local SHOWN_FIELDS = {
-    "type", "text", "title", "font", "height", "npcId", "icon", "trailingIcon", "itemId", "isInBox", "isFirstInBox", "isLastInBox",
+    "type", "text", "title", "font", "height", "npcId", "icon", "trailingIcon", "itemId", "isInBox", "isFirstInBox", "isLastInBox", "tag",
+    "isCurrent", "state",
 }
 
 ---@param rows JourneyDetails.Row[]
