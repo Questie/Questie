@@ -31,6 +31,41 @@ describe("QuestXP support data", function()
         assert.are_same({20, 1000}, mock.supportModules.QuestXP.db[101])
     end)
 
+    describe("level fraction modifier", function()
+        local originalIsForever
+
+        before_each(function()
+            originalIsForever = Questie.IsForever
+        end)
+
+        after_each(function()
+            Questie.IsForever = originalIsForever
+        end)
+
+        it("should use 100% 80% 60% 50% fractions on Forever", function()
+            Questie.IsForever = true
+            local expected = {[25] = 1000, [26] = 800, [27] = 600, [28] = 500}
+            for level, xp in pairs(expected) do
+                playerLevel = level
+                assert.are_equal(xp, QuestXP:GetQuestLogRewardXP(101), "player level " .. level)
+            end
+        end)
+
+        it("should not go below 50% on Forever for much higher player levels", function()
+            Questie.IsForever = true
+            playerLevel = 40
+            assert.are_equal(500, QuestXP:GetQuestLogRewardXP(101))
+        end)
+
+        it("should keep the lower 10% floor outside of Forever", function()
+            Questie.IsForever = false
+            playerLevel = 28
+            assert.are_equal(400, QuestXP:GetQuestLogRewardXP(101))
+            playerLevel = 40
+            assert.are_equal(100, QuestXP:GetQuestLogRewardXP(101))
+        end)
+    end)
+
     describe("temporary reward buffs", function()
         local originalInCombatLockdown, originalRewardMoney, originalUnitAura, originalIsForever
 
