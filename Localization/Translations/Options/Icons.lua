@@ -170,6 +170,30 @@ local iconOptionsLocales = {
         ["zhCN"] = "隐藏未探索区域中的图标",
         ["zhTW"] = "隱藏在尚未探索的區域內的圖示",
     },
+    ["Only show focused quest objective icons"] = {
+        ["enUS"] = true,
+        ["deDE"] = "Nur Ziel-Icons der fokussierten Quest anzeigen",
+        ["esES"] = "Mostrar solo los iconos de objetivos de la misión enfocada", -- AI 🤖
+        ["esMX"] = "Mostrar solo los iconos de objetivos de la misión enfocada", -- AI 🤖
+        ["frFR"] = "Afficher uniquement les icônes d'objectifs de la quête ciblée", -- AI 🤖
+        ["koKR"] = "집중한 퀘스트의 목표 아이콘만 표시", -- AI 🤖
+        ["ptBR"] = "Mostrar apenas os ícones de objetivos da missão em foco", -- AI 🤖
+        ["ruRU"] = "Показывать значки целей только для выбранного задания", -- AI 🤖
+        ["zhCN"] = "仅显示已聚焦任务的目标图标", -- AI 🤖
+        ["zhTW"] = "僅顯示已聚焦任務的目標圖示", -- AI 🤖
+    },
+    ["When a quest is focused, hide other quests' objective icons."] = {
+        ["enUS"] = true,
+        ["deDE"] = "Verbirgt die Ziel-Icons anderer Quests, solange eine Quest fokussiert ist.",
+        ["esES"] = "Cuando una misión está enfocada, oculta los iconos de objetivos de las demás misiones.", -- AI 🤖
+        ["esMX"] = "Cuando una misión está enfocada, oculta los iconos de objetivos de las demás misiones.", -- AI 🤖
+        ["frFR"] = "Lorsqu'une quête est ciblée, masque les icônes d'objectifs des autres quêtes.", -- AI 🤖
+        ["koKR"] = "퀘스트에 집중하면 다른 퀘스트의 목표 아이콘을 숨깁니다.", -- AI 🤖
+        ["ptBR"] = "Quando uma missão está em foco, oculta os ícones de objetivos das outras missões.", -- AI 🤖
+        ["ruRU"] = "Когда выбрано задание, скрывает значки целей остальных заданий.", -- AI 🤖
+        ["zhCN"] = "聚焦某个任务时，隐藏其他任务的目标图标。", -- AI 🤖
+        ["zhTW"] = "聚焦某個任務時，隱藏其他任務的目標圖示。", -- AI 🤖
+    },
     ["Hide icons of untracked quests"] = {
         ["enUS"] = true,
         ["deDE"] = "Icons nicht getrackter Quests verbergen",

@@ -396,6 +396,52 @@ describe("QuestieFrame", function()
             assert.is_true(result)
         end)
 
+        describe("hideUnfocusedQuestObjectiveIcons", function()
+            local savedFocus
+
+            before_each(function()
+                savedFocus = Questie.db.char.TrackerFocus
+                Questie.db.profile.hideUnfocusedQuestObjectiveIcons = true
+                QuestieFrameInstance.data.Type = "monster"
+            end)
+
+            after_each(function()
+                Questie.db.char.TrackerFocus = savedFocus
+            end)
+
+            it("should hide objective icons of a quest that is not focused", function()
+                Questie.db.char.TrackerFocus = 456
+
+                assert.is_true(QuestieFrame.private.ShouldBeHidden(QuestieFrameInstance))
+            end)
+
+            it("should show objective icons of the focused quest", function()
+                Questie.db.char.TrackerFocus = 123
+
+                assert.is_false(QuestieFrame.private.ShouldBeHidden(QuestieFrameInstance))
+            end)
+
+            it("should show all objective icons when no quest is focused", function()
+                Questie.db.char.TrackerFocus = nil
+
+                assert.is_false(QuestieFrame.private.ShouldBeHidden(QuestieFrameInstance))
+            end)
+
+            it("should show objective icons of other quests when the setting is off", function()
+                Questie.db.char.TrackerFocus = 456
+                Questie.db.profile.hideUnfocusedQuestObjectiveIcons = false
+
+                assert.is_false(QuestieFrame.private.ShouldBeHidden(QuestieFrameInstance))
+            end)
+
+            it("should not hide turn-in icons of other quests", function()
+                Questie.db.char.TrackerFocus = 456
+                QuestieFrameInstance.data.Type = "complete"
+
+                assert.is_false(QuestieFrame.private.ShouldBeHidden(QuestieFrameInstance))
+            end)
+        end)
+
         it("should return true when icon type is object and objective icons are disabled", function()
             Questie.db.profile.enableObjectives = false
             QuestieFrameInstance.data.Type = "object"
