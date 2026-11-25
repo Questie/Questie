@@ -158,18 +158,6 @@ local zoneSectionLocales = {
         ["zhCN"] = "场景",
         ["zhTW"] = "事件",
     },
-    ["Unknown Zone"] = {
-        ["enUS"] = true,
-        ["deDE"] = "Unbekannte Zone",
-        ["esES"] = "Zona desconocida",
-        ["esMX"] = "Zona desconocida",
-        ["frFR"] = "Zone inconnue",
-        ["koKR"] = "알 수 없는 지역",
-        ["ptBR"] = "Zona desconhecida",
-        ["ruRU"] = "Неизвестная зона",
-        ["zhCN"] = "未知区域",
-        ["zhTW"] = "未知區域",
-    },
     ["Battle Pets"] = {
         ["enUS"] = true,
         ["deDE"] = "Kampfhaustiere",
