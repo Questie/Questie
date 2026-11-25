@@ -1,5 +1,5 @@
 ---The two boxes of a Journey Tab, a list and the details of what is selected in it, with a divider between them
----that can be dragged.
+---that can be dragged. A double-click on it puts it back.
 ---@class JourneyPanes
 local JourneyPanes = QuestieLoader:CreateModule("JourneyPanes")
 
@@ -72,6 +72,11 @@ local function _CreateDivider(panes, canvas)
     end)
     divider:SetScript("OnMouseUp", StopDragging)
     divider:SetScript("OnHide", StopDragging)
+    divider:SetScript("OnDoubleClick", function()
+        StopDragging()
+        panes.listWidth = DEFAULT_LIST_WIDTH
+        _PlaceDivider(panes, canvas)
+    end)
     divider:SetScript("OnEnter", function() SetCursor("UI_RESIZE_CURSOR") end)
     divider:SetScript("OnLeave", function() SetCursor(nil) end)
 end

@@ -98,6 +98,35 @@ describe("JourneyPanes", function()
         assert.is_nil(divider.scripts.OnUpdate)
     end)
 
+    it("should return to its original width when the divider is double-clicked", function()
+        local width = panes.list:GetWidth()
+        local divider = Drag(500, 560)
+        divider.scripts.OnMouseUp(divider)
+
+        divider.scripts.OnDoubleClick(divider)
+
+        assert.are.equal(width, panes.list:GetWidth())
+    end)
+
+    it("should stop dragging when the divider is double-clicked, which would undo it", function()
+        local divider = Drag(500, 560)
+
+        divider.scripts.OnDoubleClick(divider)
+
+        assert.is_nil(divider.scripts.OnUpdate)
+    end)
+
+    it("should return to its original width after a double-click in a small window when there is room again", function()
+        local width = panes.list:GetWidth()
+        Drag(500, 560)
+        canvas:SetWidth(550)
+
+        Divider().scripts.OnDoubleClick(Divider())
+        canvas:SetWidth(1000)
+
+        assert.are.equal(width, panes.list:GetWidth())
+    end)
+
     it("should show that it can be dragged with the cursor, only while the mouse is over it", function()
         Divider().scripts.OnEnter(Divider())
         assert.are.equal("UI_RESIZE_CURSOR", ui.cursor)
