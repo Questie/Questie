@@ -376,8 +376,12 @@ local function _GetStatus(quest, category, reason, stateName)
     elseif category == "completed" then
         return _Inline(Questie.icons["checkmark"]) .. l10n("Completed")
     elseif category == "later" then
-        if stateName == "NO_PREQUESTSINGLE" or stateName == "NO_PREQUESTGROUP" then
-            return _Inline(Questie.icons["cross"]) .. l10n("Unavailable") .. l10n(": ") .. l10n("Incomplete pre-quest")
+        if stateName == "NO_PREQUESTSINGLE" then
+            reason = l10n("Incomplete pre-quest")
+        elseif stateName == "NO_PREQUESTGROUP" then
+            reason = l10n("Incomplete pre-quest group")
+        elseif stateName == "LEVEL_TOO_LOW" then
+            reason = ITEM_MIN_LEVEL:format(QuestieDB.QueryQuestSingle(quest.Id, "requiredLevel"))
         end
         return _Inline(Questie.icons["cross"]) .. l10n("Unavailable") .. l10n(": ") .. (reason or "")
     elseif category == "unobtainable" then
