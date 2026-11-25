@@ -354,6 +354,11 @@ describe("EventHandler event dispatch", function()
             AvailableQuests.ResetLevelRequirementCache = originals.ResetLevelRequirementCache
         end)
 
+        local function _LeaveCombat()
+            for _, callback in ipairs(queued) do callback() end
+            queued = {}
+        end
+
         it("should refresh when the pet was updated", function()
             PetFood.IsNeeded = function() return true end
             PetFood.RegisterEvents = function(onUpdated) onUpdated() end
@@ -380,6 +385,14 @@ describe("EventHandler event dispatch", function()
             assert.is_function(callbacks.QUEST_TURNED_IN)
             assert.are_equal(1, #reportedErrors)
             assert.is_truthy(reportedErrors[1]:find("unknown event", 1, true))
+        end)
+
+        it("should refresh after combat when the player levels up", function()
+            callbacks.PLAYER_LEVEL_UP("PLAYER_LEVEL_UP", 11)
+            assert.spy(QuestieMenu.RefreshPlayerVendors).was.not_called()
+            _LeaveCombat()
+
+            assert.spy(QuestieMenu.RefreshPlayerVendors).was.called(1)
         end)
     end)
 

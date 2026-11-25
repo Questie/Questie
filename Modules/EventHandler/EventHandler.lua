@@ -515,6 +515,8 @@ function _EventHandler:PlayerLevelUp(level)
         QuestieTracker:Update()
         AvailableQuests.ResetLevelRequirementCache()
         AvailableQuests.CalculateAndDrawAll()
+        -- Which food, drink and ammo suit the player depends on the level
+        QuestieMenu.RefreshPlayerVendors()
     end)
 end
 
