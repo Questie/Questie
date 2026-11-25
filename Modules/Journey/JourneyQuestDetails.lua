@@ -313,6 +313,24 @@ local function _GetPeople(quest)
     return people
 end
 
+---What an NPC has above the head when the quest starts or ends there.
+---@param quest Quest
+---@param starts boolean?
+---@param ends boolean?
+---@return JourneyIcon.Icon[] badges
+---@return string state Differs when the badges do
+local function _GetBadges(quest, starts, ends)
+    local badges = {}
+    local startIcon, endIcon = JourneyQuestCategories.GetStartIcon(quest.Id), JourneyQuestCategories.GetCompleteIcon(quest.Id)
+    if starts then
+        table.insert(badges, startIcon)
+    end
+    if ends and not (starts and startIcon == endIcon) then -- The same for a quest that is only handed in
+        table.insert(badges, endIcon)
+    end
+    return badges, table.concat({tostring(starts), tostring(ends), startIcon, endIcon}, " ")
+end
+
 ---@param person JourneyPerson
 ---@return string
 local function _GetRole(person)
@@ -333,6 +351,7 @@ local function _AddPerson(rows, person, quest)
         title = person.entity.name,
         text = Questie:Colorize(_GetRole(person), "gray") .. (place and "\n" .. place or ""),
     }
+    row.badges, row.state = _GetBadges(quest, person.starts, person.ends)
     if showOnMap then
         row.action = {tooltip = l10n("Show on Map"), isOn = true, onClick = showOnMap}
     end
@@ -609,9 +628,12 @@ function JourneyQuestDetails.GetRows(quest, onChanged)
     for _, person in ipairs(people) do _AddPerson(who, person, quest) end
     local startItem = quest.Starts and quest.Starts.Item and QuestieDB:GetItem(quest.Starts.Item[1])
     if startItem then
+        local badges, state = _GetBadges(quest, true, false)
         table.insert(who, 1, {
             type = "entity",
             icon = QuestieCompat.GetItemIcon(startItem.Id),
+            badges = badges,
+            state = state,
             title = startItem.name,
             text = Questie:Colorize(l10n("Starts this quest"), "gray"),
             onClick = function() JourneyWindow.OpenLink("item", startItem.Id) end,

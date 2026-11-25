@@ -26,6 +26,10 @@ local HEADING_FONT = "GameFontNormalMed1"
 local HEADING_LINES_WIDTH = 80 -- Left for the lines on both sides of a long heading
 local PICTURE_SIZE = 46
 local PICTURE_GAP = 10
+local BADGE_SIZE, BADGE_ONLY_SIZE = 22, 30
+-- From the lower right corner of the picture. Two badges overlap and are tilted, like cards in a hand. Set by eye in the client.
+local SINGLE_BADGE = {x = -4, y = 6, degrees = 0}
+local TWO_BADGES = {{x = -12, y = 8, degrees = 16}, {x = -3, y = 8.3, degrees = -8}}
 local ITEM_TOOLTIP_PADDING = 4
 local UNKNOWN_ITEM_TOOLTIP_HEIGHT = 60
 local ITEM_TOOLTIP_UPDATES, ITEM_TOOLTIP_UPDATE_SECONDS = 10, 0.5
@@ -55,6 +59,7 @@ local FOOTER_HEIGHT, FOOTER_BUTTON_HEIGHT, FOOTER_GAP, FOOTER_ICON_WIDTH, FOOTER
 ---@field onClick fun()? For the types link, button and entity
 ---@field showTooltip fun()? For the types link, checkbox and entity. Fills the tooltip that was opened at the row.
 ---@field npcId NpcId? For the type entity, shows a portrait of the NPC
+---@field badges JourneyIcon.Icon[]? For the type entity, up to two icons at the lower right corner of the picture, or instead of one
 ---@field trailingIcon JourneyIcon.Icon? For the type text, behind it
 ---@field icon number|string|nil For the type entity
 ---@field itemId ItemId? For the type itemTooltip
@@ -104,7 +109,7 @@ end
 ---@param data JourneyDetails.Row
 ---@return number x Behind the picture, if there is one
 local function _GetEntityTextX(data)
-    return (data.npcId or data.icon) and PICTURE_SIZE + PICTURE_GAP or 0
+    return (data.npcId or data.icon or data.badges) and PICTURE_SIZE + PICTURE_GAP or 0
 end
 
 ---@return number
@@ -303,6 +308,26 @@ local function _UpdateAction(part, data)
     if data.action then
         part.Action.Icon:SetDesaturated(not data.action.isOn)
         part.Action.Icon:SetAlpha(data.action.isOn and 1 or 0.75)
+    end
+end
+
+---@param part Frame
+---@param data JourneyDetails.Row
+local function _ShowBadges(part, data)
+    local badges = data.badges or {}
+    local hasPicture = data.npcId or data.icon
+    local size = hasPicture and BADGE_SIZE or BADGE_ONLY_SIZE
+    for index, texture in ipairs(part.Badges) do
+        JourneyIcon.Set(texture, badges[index])
+        texture:SetSize(size, size)
+        if hasPicture then
+            local place = #badges == 2 and TWO_BADGES[index] or SINGLE_BADGE
+            texture:SetPoint("CENTER", part.Picture, "BOTTOMRIGHT", place.x, place.y)
+            texture:SetRotation(math.rad(place.degrees))
+        else
+            texture:SetPoint("CENTER", part.Picture, "CENTER", #badges == 1 and 0 or index == 1 and -10 or 10, 0)
+            texture:SetRotation(0)
+        end
     end
 end
 
@@ -559,6 +584,15 @@ local ROW_TYPES = {
             part.Icon = picture:CreateTexture(nil, "ARTWORK")
             part.Icon:SetAllPoints(picture)
 
+            local badges = CreateFrame("Frame", nil, button)
+            badges:SetAllPoints(picture)
+            badges:SetFrameLevel(picture:GetFrameLevel() + 10) -- Above the model of an NPC
+            part.Badges = {JourneyIcon.Create(badges), JourneyIcon.Create(badges)}
+            part.Badges[2]:SetDrawLayer("ARTWORK", 1) -- In front of the first
+            for _, badge in ipairs(part.Badges) do
+                QuestieOptionsUtils.DisableSnapping(badge) -- Otherwise they can end up a pixel apart
+            end
+
             local title = button:CreateFontString(nil, "ARTWORK", "GameFontNormal")
             title:SetJustifyH("LEFT")
             title:SetWordWrap(true)
@@ -591,6 +625,8 @@ local ROW_TYPES = {
                 _ShowPortrait(part, data.npcId, PORTRAIT_ATTEMPTS)
             end
 
+            _ShowBadges(part, data)
+
             part.Title:SetShown(data.title ~= nil)
             part.Title:SetPoint("TOPLEFT", part, "TOPLEFT", x, -2)
             part.Title:SetWidth(textWidth)
@@ -613,7 +649,7 @@ local ROW_TYPES = {
             if data.onShowMap then
                 height = math.max(height, MAP_HEIGHT + 2)
             end
-            return (data.npcId or data.icon) and math.max(height, PICTURE_SIZE + 6) or height
+            return (data.npcId or data.icon or data.badges) and math.max(height, PICTURE_SIZE + 6) or height
         end,
     },
 

@@ -533,6 +533,42 @@ describe("JourneyDetails", function()
             assert.are.equal(1234, Part(1).Icon:GetTexture())
         end)
 
+        describe("badges", function()
+            local START, FINISH = "available", "complete"
+
+            ---@param badges string[]?
+            ---@return table[] textures Those that are shown
+            local function ShowBadges(badges)
+                ui.knownNpcs[299] = true
+                JourneyDetails.SetRows(details, {{type = "entity", text = "NPC ID: 299", npcId = 299, badges = badges}})
+                local shown = {}
+                for _, texture in ipairs(Part(1).Badges) do
+                    if texture:IsShown() then table.insert(shown, texture) end
+                end
+                return shown
+            end
+
+            it("should show what an NPC does, and nothing of the row before", function()
+                local both = ShowBadges({START, FINISH})
+                assert.are_same({START, FINISH}, {both[1]:GetTexture(), both[2]:GetTexture()})
+
+                local one = ShowBadges({FINISH})
+                assert.are.equal(1, #one)
+                assert.are.equal(FINISH, one[1]:GetTexture())
+
+                assert.are.equal(0, #ShowBadges(nil))
+            end)
+
+            it("should only be tilted, away from each other, when there are two", function()
+                assert.are.equal(0, ShowBadges({START})[1].rotation)
+
+                local both = ShowBadges({START, FINISH})
+                assert.is_true(both[1].rotation > 0 and both[2].rotation < 0)
+
+                assert.are.equal(0, ShowBadges({START})[1].rotation)
+            end)
+        end)
+
         it("should use the whole width without a picture", function()
             JourneyDetails.SetRows(details, {{type = "entity", text = "Object ID: 55"}, {type = "entity", text = "Item", icon = 1}})
 

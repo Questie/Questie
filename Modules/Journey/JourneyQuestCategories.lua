@@ -206,6 +206,12 @@ function JourneyQuestCategories.GetKindIcon(questId)
     return isLowLevel and JourneyIcon.GetLowLevel(kind) or Questie.icons[kind]
 end
 
+---@param questId QuestId
+---@return string icon For where it starts, also bright for a low-level quest
+function JourneyQuestCategories.GetStartIcon(questId)
+    return Questie.icons[_GetKind(questId)]
+end
+
 ---The same as for its turn-in on the map (QuestFinisher).
 ---@param questId QuestId One that is complete
 ---@return string icon

@@ -32,7 +32,7 @@ local NO_OP_METHODS = {
     "SetDisabledTexture", "SetDrawLayer", "SetFixedWidth", "SetFontHeight", "SetFontString",
     "SetHighlightAtlas", "SetHighlightTexture", "SetHorizTile", "SetJustifyH", "SetJustifyV",
     "SetMaxLetters", "SetMovable", "SetNormalTexture", "SetPortraitTextureRaw", "SetPushedTexture",
-    "SetRotation", "SetSnapToPixelGrid", "SetTexelSnappingBias", "SetTitle", "SetWordWrap",
+    "SetSnapToPixelGrid", "SetTexelSnappingBias", "SetTitle", "SetWordWrap",
     "StartMoving", "SetPortraitZoom",
 }
 
@@ -492,6 +492,7 @@ function FakeUI.Install()
         self.texCoord = {...}
     end
     function methods:GetTexture() return self.texture end
+    function methods:SetRotation(radians) self.rotation = radians end
     -- Nothing happens for an NPC the client doesn't know, also not later
     function methods:SetCreature(npcId)
         self.npcId, self.modelSets = npcId, (self.modelSets or 0) + 1
