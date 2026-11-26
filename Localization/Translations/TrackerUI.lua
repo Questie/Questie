@@ -388,6 +388,18 @@ local trackerUILocales = {
         ["zhCN"] = "战斗中无法共享任务", -- AI 🤖
         ["zhTW"] = "戰鬥中無法分享任務", -- AI 🤖
     },
+    ["Quest can't be shared"] = {
+        ["enUS"] = true,
+        ["deDE"] = "Quest kann nicht geteilt werden", -- AI 🤖
+        ["esES"] = "La misión no se puede compartir", -- AI 🤖
+        ["esMX"] = "La misión no se puede compartir", -- AI 🤖
+        ["frFR"] = "La quête ne peut pas être partagée", -- AI 🤖
+        ["koKR"] = "퀘스트를 공유할 수 없습니다", -- AI 🤖
+        ["ptBR"] = "A missão não pode ser compartilhada", -- AI 🤖
+        ["ruRU"] = "Заданием нельзя поделиться", -- AI 🤖
+        ["zhCN"] = "任务无法共享", -- AI 🤖
+        ["zhTW"] = "任務無法分享", -- AI 🤖
+    },
     ["Maximize Quest"] = {
         ["enUS"] = true,
         ["deDE"] = "Quest maximieren",
