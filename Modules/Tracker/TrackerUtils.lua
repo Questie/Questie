@@ -826,6 +826,7 @@ function TrackerUtils:GetSortedQuestIds()
             local showQuest = QuestieTracker.IsTrackedByQuestie(questId)
                 and ((complete ~= 1 and not sortData.q.isComplete)
                     or Questie.db.profile.trackerShowCompleteQuests or sortData.q.trackTimedQuest)
+                and TrackerUtils.PassesQuestItemFilter(sortData.q, complete)
             local zoneName = questDetails[questId].zoneName
             if showQuest and zone and distance then
                 zoneDistances[zoneName] = math.min(zoneDistances[zoneName] or math.huge, distance)
@@ -1200,6 +1201,17 @@ function TrackerUtils.GetQuestItemIds(quest, complete)
     return usableQuestItems, nativeItemId
 end
 
+---Whether the "Only Show Quests With Usable Items" setting lets the tracker show the quest.
+---@param quest TrackerQuest
+---@param complete number @0 if the quest is not complete, 1 if the quest is complete, -1 if the quest is failed
+---@return boolean @true if the setting is off or the quest has a usable quest item
+function TrackerUtils.PassesQuestItemFilter(quest, complete)
+    if not Questie.db.profile.trackerShowOnlyQuestsWithItems then
+        return true
+    end
+    return #TrackerUtils.GetQuestItemIds(quest, complete) > 0
+end
+
 ---@param quest TrackerQuest @The quest to add the quest item buttons for
 ---@param complete number @0 if the quest is not complete, 1 if the quest is complete, -1 if the quest is failed
 ---@param line table @The line to add the quest item buttons to
@@ -1306,40 +1318,35 @@ function TrackerUtils.AddQuestItemButtons(quest, complete, line, questItemButton
     return true
 end
 
+---@return boolean @true if at least one tracked quest is shown in the Tracker
+local function _HasShownQuest()
+    if QuestieTracker.GetNumTrackedQuests() == 0 then
+        return false
+    end
+
+    local showCompleteQuests = Questie.db.profile.trackerShowCompleteQuests
+    if showCompleteQuests and (not Questie.db.profile.trackerShowOnlyQuestsWithItems) then
+        return true
+    end
+
+    -- This hides the Tracker when all tracked Quests are complete or hidden by the quest item filter
+    for _, quest in pairs(TrackerData.GetQuests()) do
+        local complete = quest:IsComplete()
+        if QuestieTracker.IsTrackedByQuestie(quest.Id)
+            and ((complete ~= 1 and not quest.isComplete) or showCompleteQuests or quest.trackTimedQuest)
+            and TrackerUtils.PassesQuestItemFilter(quest, complete) then
+            return true
+        end
+    end
+    return false
+end
+
 ---@return boolean @true if the Tracker tracks a quest, false if not
 function TrackerUtils.HasQuest()
-    local hasQuest
+    local hasQuest = _HasShownQuest()
 
-    if (QuestieTracker.GetNumTrackedQuests() == 0) then
-        if Expansions.Current >= Expansions.Wotlk then
-            if (not next(AchievementTracking.GetTrackedIds())) then
-                hasQuest = false
-            else
-                hasQuest = true
-            end
-        else
-            hasQuest = false
-        end
-    else
-        if not Questie.db.profile.trackerShowCompleteQuests then
-            local isTrackingIncompleteQuest = false
-            for _, quest in pairs(TrackerData.GetQuests()) do
-                if QuestieTracker.IsTrackedByQuestie(quest.Id)
-                    and ((quest:IsComplete() ~= 1 and not quest.isComplete) or quest.trackTimedQuest) then
-                    isTrackingIncompleteQuest = true
-                    break
-                end
-            end
-
-            -- This hides the Tracker when all tracked Quests are complete
-            if (not isTrackingIncompleteQuest) then
-                hasQuest = false
-            else
-                hasQuest = true
-            end
-        else
-            hasQuest = true
-        end
+    if (not hasQuest) and Expansions.Current >= Expansions.Wotlk and next(AchievementTracking.GetTrackedIds()) then
+        hasQuest = true
     end
 
     -- Recipes whose data is not loaded yet are not shown, so only the shown ones keep the tracker visible
