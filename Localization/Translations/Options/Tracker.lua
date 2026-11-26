@@ -624,6 +624,31 @@ local trackerOptionsLocales = {
         ["zhTW"] = "啟用時，滑鼠沒有指向任務清單時，背景和（如果有啟用）邊框會變成透明",
     },
     ---------------------------------------------------------
+    ["Fade Tracker"] = {
+        ["enUS"] = true,
+        ["deDE"] = "Tracker verblassen", -- AI 🤖
+        ["esES"] = "Desvanecer rastreador", -- AI 🤖
+        ["esMX"] = "Desvanecer rastreador", -- AI 🤖
+        ["frFR"] = "Fondu du suivi", -- AI 🤖
+        ["koKR"] = "트래커 페이드", -- AI 🤖
+        ["ptBR"] = "Desvanecer rastreador", -- AI 🤖
+        ["ruRU"] = "Скрывать трекер", -- AI 🤖
+        ["zhCN"] = "淡化追踪器", -- AI 🤖
+        ["zhTW"] = "淡出任務清單", -- AI 🤖
+    },
+    ["If checked, the whole Questie Tracker will fade and become fully transparent when not in use."] = {
+        ["enUS"] = true,
+        ["deDE"] = "Wenn diese Option aktiviert ist, wird der gesamte Questie-Tracker ausgeblendet und vollständig transparent, wenn er nicht verwendet wird.", -- AI 🤖
+        ["esES"] = "Si está seleccionado, todo el rastreador de Questie se desvanecerá y se volverá totalmente transparente cuando no esté en uso.", -- AI 🤖
+        ["esMX"] = "Si está seleccionado, todo el rastreador de Questie se desvanecerá y se volverá totalmente transparente cuando no esté en uso.", -- AI 🤖
+        ["frFR"] = "Si cette option est cochée, tout le suivi de Questie s'estompe et devient totalement transparent lorsqu'il n'est pas utilisé.", -- AI 🤖
+        ["koKR"] = "이 옵션을 선택하면 사용하지 않을 때 Questie 트래커 전체가 사라지고 완전히 투명해집니다.", -- AI 🤖
+        ["ptBR"] = "Se marcado, todo o rastreador do Questie desaparecerá e ficará totalmente transparente quando não estiver em uso.", -- AI 🤖
+        ["ruRU"] = "Когда включено, весь трекер Questie исчезает и становится полностью прозрачным при неиспользовании.", -- AI 🤖
+        ["zhCN"] = "启用时，整个Questie追踪器在不使用时会淡化并变为完全透明。", -- AI 🤖
+        ["zhTW"] = "啟用時，不使用時整個Questie任務清單會淡出並變為完全透明。", -- AI 🤖
+    },
+    ---------------------------------------------------------
     ["Disable Quest Hover Fade"] = {
         ["enUS"] = true,
         ["deDE"] = "Verblassen bei Quest-Hover deaktivieren",
