@@ -264,8 +264,15 @@ describe("QuestieQuest", function()
 
     describe("SmoothReset", function()
         local originalCTimer, originalThreadCallback, originalThreadInstant
+        local replacements
+
+        local function replace(owner, key, value)
+            replacements[#replacements + 1] = {owner, key, owner[key]}
+            owner[key] = value
+        end
 
         before_each(function()
+            replacements = {}
             originalCTimer = _G.C_Timer
             local ThreadLib = QuestieLoader:ImportModule("ThreadLib")
             originalThreadCallback = ThreadLib.ThreadCallbackInstant
@@ -284,6 +291,10 @@ describe("QuestieQuest", function()
         end)
 
         after_each(function()
+            for index = #replacements, 1, -1 do
+                local entry = replacements[index]
+                entry[1][entry[2]] = entry[3]
+            end
             _G.C_Timer = originalCTimer
             QuestieLoader:ImportModule("ThreadLib").ThreadCallbackInstant = originalThreadCallback
             QuestieLoader:ImportModule("ThreadLib").ThreadInstant = originalThreadInstant
@@ -449,6 +460,74 @@ describe("QuestieQuest", function()
 
             assert.are.equal(1, #pending)
             assert.spy(QuestieQuest.PopulateObjective).was.not_called()
+        end)
+
+        it("should redraw required item markers only for quests still incomplete when the thread runs", function()
+            local tick
+            _G.C_Timer = {NewTicker = function(_, callback)
+                tick = callback
+                return {Cancel = function() end}
+            end}
+            local completed, delayed, incomplete = 5, 6, 7
+            local questLog = {
+                [completed] = {isComplete = 1},
+                [delayed] = {isComplete = 0},
+                [incomplete] = {isComplete = 0},
+            }
+            local quests = {}
+            for questId in pairs(questLog) do
+                quests[questId] = {
+                    Id = questId, Objectives = {}, ObjectiveData = {},
+                    IsComplete = function(quest) return questLog[quest.Id].isComplete end,
+                    SpecialObjectives = {{
+                        Id = 8, Type = "item", Color = {},
+                        spawnList = {[8] = {
+                            Id = 8, Name = "Required item", TooltipKey = "m_1",
+                            Spawns = {[1] = {{10, 20}}}, GetIconScale = function() return 1 end,
+                        }},
+                    }},
+                }
+            end
+            local pending, draws, finishers, tooltips = {}, {}, {}, {}
+            local threadLib = QuestieLoader:ImportModule("ThreadLib")
+            threadLib.ThreadCallbackInstant = function(work, callback) work() callback() end
+            threadLib.ThreadInstant = function(work) table.insert(pending, work) end
+            QuestieDB.GetQuest = function(questId) return quests[questId] end
+            QuestieQuest.GetAllQuestIdsNoObjectives = function()
+                for questId, quest in pairs(quests) do ActiveQuests.Restore(questId, quest) end
+            end
+            QuestieQuest.CheckQuestSourceItem = function() end
+            replace(QuestLogCache, "GetQuest", function(questId) return questLog[questId] end)
+            replace(QuestLogCache, "GetQuestObjectives", function() return {} end)
+            replace(Questie.db, "profile", {enableObjectives = true, objectiveFilterDistance = 0})
+            replace(QuestieLoader:ImportModule("HBD"), "GetWorldCoordinatesFromZone", function() return 0, 0 end)
+            replace(QuestieLoader:ImportModule("Phasing"), "IsSpawnVisible", function() return true end)
+            replace(QuestieLoader:ImportModule("QuestieLib"), "Euclid", function() return 0 end)
+            replace(ZoneDB, "GetUiMapIdByAreaId", function() return 10 end)
+            replace(ZoneDB, "GetDungeonLocation", function() end)
+            replace(QuestieMap, "DrawWorldIcon", function(_, data) draws[data.Id] = true end)
+            replace(QuestieMap, "UnloadQuestFrames", function() end)
+            replace(QuestieLoader:ImportModule("QuestFinisher"), "AddFinisher", function(quest) finishers[quest.Id] = true end)
+            replace(QuestieLoader:ImportModule("QuestieTooltips"), "RegisterObjectiveTooltip", function(_, questId, key)
+                tooltips[questId] = key
+            end)
+            local oldIcon = {Unload = function() end}
+            local unload = spy.new(function() end)
+            replace(QuestieLoader:ImportModule("QuestieFramePool"), "UnloadFrame", unload)
+            replace(_G, "QuestieTestSpecialIcon", oldIcon)
+            replace(QuestieMap, "questIdFrames", {[completed] = {"QuestieTestSpecialIcon"}})
+            ActiveQuests.Add(completed, quests[completed])
+
+            QuestieQuest:SmoothReset()
+            for _ = 1, 10 do tick() end
+            questLog[delayed].isComplete = 1
+            QuestieQuest:UpdateQuest(delayed)
+            for _, work in ipairs(pending) do coroutine.wrap(work)() end
+
+            assert.are.equal(oldIcon, unload.calls[1].refs[2])
+            assert.are.same({[completed] = true, [delayed] = true}, finishers)
+            assert.are.same({[completed] = "m_1", [delayed] = "m_1", [incomplete] = "m_1"}, tooltips)
+            assert.are.same({[incomplete] = true}, draws)
         end)
     end)
 
