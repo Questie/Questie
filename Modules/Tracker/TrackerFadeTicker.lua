@@ -14,9 +14,17 @@ local fadeTickerValue = 0
 local fadeTickerStarted = false
 local trackerBaseFrame, trackerHeaderFrame
 
+local function _SetTrackerAlpha(alpha)
+    if Questie.db.profile.trackerFadeTracker then
+        trackerBaseFrame:SetAlpha(math.min(1, alpha))
+    end
+end
+
 function TrackerFadeTicker.Initialize(baseFrame, headerFrame)
     trackerBaseFrame = baseFrame
     trackerHeaderFrame = headerFrame
+    _SetTrackerAlpha(0)
+    fadeTickerValue = 0
     fadeTickerStarted = true
     TrackerFadeTicker.Start()
 end
@@ -28,6 +36,7 @@ function TrackerFadeTicker.Start()
                 -- Un-Fade All
                 if fadeTickerValue < 0.3 then
                     fadeTickerValue = fadeTickerValue + 0.02
+                    _SetTrackerAlpha(fadeTickerValue * 3.3)
 
                     -- Un-fade the background and border(if enabled)
                     if (Questie.db.char.isTrackerExpanded and Questie.db.profile.trackerBackdropEnabled and Questie.db.profile.trackerBackdropFader) then
@@ -63,6 +72,7 @@ function TrackerFadeTicker.Start()
                         TrackerLinePool.SetAllItemButtonAlpha(fadeTickerValue * 3.3)
                     end
                 else
+                    _SetTrackerAlpha(1)
                     fadeTicker:Cancel()
                     fadeTicker = nil
                 end
@@ -76,6 +86,7 @@ function TrackerFadeTicker.Start()
                         fadeTicker:Cancel()
                         fadeTicker = nil
                     end
+                    _SetTrackerAlpha(fadeTickerValue * 3.3)
 
                     -- Fade the background and border(if enabled)
                     if (Questie.db.char.isTrackerExpanded and Questie.db.profile.trackerBackdropEnabled and Questie.db.profile.trackerBackdropFader) then
@@ -121,15 +132,19 @@ function TrackerFadeTicker.Start()
     end
 end
 
+local function _CanFade()
+    return TrackerUtils.HasQuest() or Questie.db.profile.alwaysShowTracker
+end
+
 function TrackerFadeTicker.Unfade()
-    if TrackerUtils.HasQuest() then
+    if _CanFade() then
         fadeTickerDirection = true
         TrackerFadeTicker.Start()
     end
 end
 
 function TrackerFadeTicker.Fade()
-    if TrackerUtils.HasQuest() then
+    if _CanFade() or (trackerBaseFrame and (not trackerBaseFrame:IsShown())) then
         fadeTickerDirection = false
         TrackerFadeTicker.Start()
     end

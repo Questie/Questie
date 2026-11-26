@@ -525,6 +525,8 @@ function TrackerBaseFrame:OnProfileChange()
         return
     end
 
+    baseFrame:SetAlpha(Questie.db.profile.trackerFadeTracker and 0 or 1)
+
     if QuestieTrackerLoc then
         baseFrame:ClearAllPoints()
         baseFrame:SetPoint(QuestieTrackerLoc[1], QuestieTrackerLoc[2], QuestieTrackerLoc[3], QuestieTrackerLoc[4], QuestieTrackerLoc[5])

@@ -571,6 +571,19 @@ function QuestieOptionsEngine.tabs.tracker:Initialize()
                             QuestieTracker:Update()
                         end
                     },
+                    fadeTracker = {
+                        type = "checkbox",
+                        order = 7.4,
+                        width = "half",
+                        title = "Fade Tracker",
+                        tooltip = "If checked, the whole Questie Tracker will fade and become fully transparent when not in use.",
+                        enabled = function() return Questie.db.profile.trackerEnabled end,
+                        get = function() return Questie.db.profile.trackerFadeTracker end,
+                        set = function(_, value)
+                            Questie.db.profile.trackerFadeTracker = value
+                            TrackerBaseFrame.baseFrame:SetAlpha(value and 0 or 1)
+                        end
+                    },
                     disableHoverFade = {
                         type = "checkbox",
                         order = 8,
@@ -589,7 +602,6 @@ function QuestieOptionsEngine.tabs.tracker:Initialize()
                         title = "Hide Tracker Sizer",
                         tooltip = "If checked, the Questie Tracker Sizer that appears in the bottom or top right hand corner will be hidden.",
                         width = "half",
-                        newline = true,
                         enabled = function() return Questie.db.profile.trackerEnabled end,
                         get = function() return Questie.db.profile.sizerHidden end,
                         set = function(_, value)

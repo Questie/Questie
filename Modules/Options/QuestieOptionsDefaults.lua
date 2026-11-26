@@ -116,6 +116,7 @@ function QuestieOptionsDefaults:Load()
             currentBorderEnabled = false,
             trackerBackdropFader = false,
             currentBackdropFader = false,
+            trackerFadeTracker = false,
             sizerHidden = false,
             listAchievementsFirst = false,
             stickyVoiceOverFrame = false,
