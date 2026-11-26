@@ -1047,7 +1047,8 @@ function QuestieQuest:PopulateObjective(quest, objectiveIndex, objective, blockI
     -- For completed and uncompleted objectives
     _RegisterObjectiveTooltips(objective, quest.Id, blockItemTooltips)
 
-    if completed then
+    -- A local special objective such as a required source item can outlast quest completion.
+    if completed or (objectiveIndex == 0 and quest.WasComplete) then
         _UnloadAlreadySpawnedIcons(objective)
         return
     end
@@ -1132,7 +1133,7 @@ _RegisterObjectiveTooltips = function(objective, questId, blockItemTooltips)
 end
 
 _UnloadAlreadySpawnedIcons = function(objective)
-    if next(objective.spawnList) then
+    if objective.spawnList and next(objective.spawnList) then
         for id, _ in pairs(objective.spawnList) do
             local spawn = objective.AlreadySpawned[id]
             if spawn then
