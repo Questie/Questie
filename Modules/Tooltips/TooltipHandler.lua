@@ -136,6 +136,18 @@ function _QuestieTooltips.AddSpellIdToTooltip(tooltip, spellId)
     end
 end
 
+---Dungeon markers ({-1, -1}) only resolve to the entrance, which says nothing about which object is closest.
+local function _HasDungeonMarker(spawns)
+    for _, zoneSpawns in pairs(spawns) do
+        for _, spawn in pairs(zoneSpawns) do
+            if spawn[1] == -1 or spawn[2] == -1 then
+                return true
+            end
+        end
+    end
+    return false
+end
+
 ---Resolves a hovered name through the provider, then adds local and party quest lines for matching Objects.
 ---The caller owns showing/resizing the tooltip after its native render pass.
 ---@param name string
@@ -178,24 +190,28 @@ function _QuestieTooltips.AddObjectDataToTooltip(name, playerZone)
 
     -- Several quest related Objects with the same name in the zone: only the one closest to the player is meant.
     if #candidates > 1 and zoneFilter ~= 0 then
-        local closest, closestDistance
+        local closest, closestDistance = {}, nil
         local unresolved = {}
         for _, candidate in ipairs(candidates) do
             local spawns = QuestieDB.QueryObjectSingle(candidate.id, "spawns")
             local spawn, _, distance
-            if spawns and next(spawns) then
+            if spawns and next(spawns) and (not _HasDungeonMarker(spawns)) then
                 spawn, _, distance = DistanceUtils.GetNearestSpawn(spawns)
             end
             if spawn and distance then
                 if (not closestDistance) or distance < closestDistance then
-                    closest, closestDistance = candidate, distance
+                    closest, closestDistance = {candidate}, distance
+                elseif distance == closestDistance then
+                    closest[#closest + 1] = candidate
                 end
             else
                 unresolved[#unresolved + 1] = candidate
             end
         end
-        if closest then
-            unresolved[#unresolved + 1] = closest
+        if closestDistance then
+            for _, candidate in ipairs(closest) do
+                unresolved[#unresolved + 1] = candidate
+            end
             candidates = unresolved
         end
     end

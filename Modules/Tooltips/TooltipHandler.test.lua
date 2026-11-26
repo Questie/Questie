@@ -228,6 +228,27 @@ describe("TooltipHandler", function()
             assert.spy(GameTooltip.AddLine).was.called_with(GameTooltip, "o_2")
         end)
 
+        it("should keep all same-named objects with dungeon markers", function()
+            QuestieDB.QueryObjectSingle = function() return {[721] = {{-1, -1}}} end
+            QuestieTooltips.GetTooltip = function(key) return {key} end
+            DistanceUtils.GetNearestSpawn = function() return {1, 1}, 721, 50 end
+
+            _QuestieTooltips.AddObjectDataToTooltip(OBJECT_NAME, PLAYER_ZONE)
+
+            assert.spy(GameTooltip.AddLine).was.called(2)
+            assert.spy(GameTooltip.AddLine).was.called_with(GameTooltip, "o_1")
+            assert.spy(GameTooltip.AddLine).was.called_with(GameTooltip, "o_2")
+        end)
+
+        it("should keep objects that are equally close", function()
+            QuestieTooltips.GetTooltip = function(key) return {key} end
+            DistanceUtils.GetNearestSpawn = function() return {1, 1}, PLAYER_ZONE, 50 end
+
+            _QuestieTooltips.AddObjectDataToTooltip(OBJECT_NAME, PLAYER_ZONE)
+
+            assert.spy(GameTooltip.AddLine).was.called(2)
+        end)
+
         it("should show the only quest object without a distance check", function()
             QuestieTooltips.GetTooltip = function(key)
                 if key == "o_1" then return {key} end
