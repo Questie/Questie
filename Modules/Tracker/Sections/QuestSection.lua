@@ -22,7 +22,8 @@ local function _IsQuestShown(questId, quest, complete)
     local timedQuest = quest.trackTimedQuest
     return ((complete ~= 1 and (not quest.isComplete)) or Questie.db.profile.trackerShowCompleteQuests or timedQuest)
         and ((Questie.db.profile.autoTrackQuests and (not Questie.db.char.AutoUntrackedQuests[questId]))
-        or (not Questie.db.profile.autoTrackQuests and Questie.db.char.TrackedQuests[questId])) and true or false
+        or (not Questie.db.profile.autoTrackQuests and Questie.db.char.TrackedQuests[questId]))
+        and TrackerUtils.PassesQuestItemFilter(quest, complete) and true or false
 end
 
 ---Collapsed quests and quests in collapsed zones hide their quest item buttons.

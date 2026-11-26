@@ -85,6 +85,7 @@ describe("QuestSection", function()
         TrackerUtils = QuestieLoader:ImportModule("TrackerUtils")
         TrackerUtils.GetCompletionText = function() return nil end
         TrackerUtils.AddQuestItemButtons = spy.new(function() return true end)
+        TrackerUtils.PassesQuestItemFilter = spy.new(function() return true end)
 
         TrackerData = QuestieLoader:ImportModule("TrackerData")
         TrackerData.GetColoredQuestName = function(quest) return "Quest " .. quest.Id end
@@ -213,6 +214,38 @@ describe("QuestSection", function()
         assert.are_same({}, texts)
     end)
 
+    it("should skip quests the item filter hides and their empty zones", function()
+        TrackerUtils.PassesQuestItemFilter = spy.new(function(quest) return quest.Id == 1 end)
+        local first = _Quest(1, 0)
+
+        QuestSection.Draw(_Details({
+            {quest = first, zoneName = "Elwynn Forest"},
+            {quest = _Quest(2, 0), zoneName = "Elwynn Forest"},
+            {quest = _Quest(3, 0), zoneName = "Westfall"},
+        }))
+
+        assert.are_same({"|cFFC0C0C0Elwynn Forest|r", "Quest 1"}, texts)
+        assert.spy(TrackerUtils.PassesQuestItemFilter).was.called_with(first, 0)
+    end)
+
+    it("should skip a timed quest the item filter hides", function()
+        TrackerUtils.PassesQuestItemFilter = function() return false end
+        local quest = _Quest(1, 0)
+        quest.trackTimedQuest = true
+
+        QuestSection.Draw(_Details({{quest = quest, zoneName = "Elwynn Forest"}}))
+
+        assert.are_same({}, texts)
+    end)
+
+    it("should still draw the title of a collapsed quest the item filter passes", function()
+        Questie.db.char.collapsedQuests = {[1] = true}
+
+        QuestSection.Draw(_Details({{quest = _Quest(1, 0, {{Description = "Wolf slain: 1/5", Completed = false}}), zoneName = "Elwynn Forest"}}))
+
+        assert.are_same({"|cFFC0C0C0Elwynn Forest|r", "Quest 1"}, texts)
+    end)
+
     it("should only draw the zone header when the zone is collapsed", function()
         Questie.db.char.collapsedZones = {["Elwynn Forest"] = true}
 
@@ -324,6 +357,12 @@ describe("QuestSection", function()
             Questie.db.profile.collapseCompletedQuests = true
 
             assert.is_false(QuestSection.HasVisibleQuestItems(_Details({{quest = _Quest(1, 1), zoneName = "Elwynn Forest"}})))
+        end)
+
+        it("should return false when the item filter hides the quest with a quest item", function()
+            TrackerUtils.PassesQuestItemFilter = function() return false end
+
+            assert.is_false(QuestSection.HasVisibleQuestItems(_Details({{quest = _Quest(1, 0), zoneName = "Elwynn Forest"}})))
         end)
 
         it("should return false when the quest with a quest item is untracked", function()
