@@ -194,6 +194,30 @@ local minimapOptionsLocales = {
         ["zhCN"] = "靠近或与玩家重叠的标记，其淡出的透明度数值\n（默认：%s）",
         ["zhTW"] = "玩家附近的圖示要多透明\n（預設值：%s）",
     },
+    ["Float Icons on Minimap Edge"] = {
+        ["enUS"] = true,
+        ["deDE"] = "Icons am Minimap-Rand anzeigen", -- AI 🤖
+        ["esES"] = "Mostrar iconos en el borde del minimapa", -- AI 🤖
+        ["esMX"] = "Mostrar iconos en el borde del minimapa", -- AI 🤖
+        ["frFR"] = "Afficher les icônes au bord de la minicarte", -- AI 🤖
+        ["koKR"] = "미니맵 가장자리에 아이콘 표시", -- AI 🤖
+        ["ptBR"] = "Mostrar ícones na borda do minimapa", -- AI 🤖
+        ["ruRU"] = "Показывать значки на краю миникарты", -- AI 🤖
+        ["zhCN"] = "在小地图边缘显示图标", -- AI 🤖
+        ["zhTW"] = "在小地圖邊緣顯示圖示", -- AI 🤖
+    },
+    ["Pin icons that are outside of the minimap range to the edge of the minimap.\n\nNOTE: Changing this setting will reload the UI."] = {
+        ["enUS"] = true,
+        ["deDE"] = "Heftet Icons außerhalb der Minimap-Reichweite an den Rand der Minimap.\n\nHINWEIS: Das Ändern dieser Einstellung wird das Benutzerinterface neu laden.", -- AI 🤖
+        ["esES"] = "Fija los iconos fuera del alcance del minimapa en su borde.\n\nNOTA: Cambiar esta configuración recargará la interfaz de usuario.", -- AI 🤖
+        ["esMX"] = "Fija los iconos fuera del alcance del minimapa en su borde.\n\nNOTA: Cambiar esta configuración recargará la interfaz de usuario.", -- AI 🤖
+        ["frFR"] = "Épingle les icônes hors de portée de la minicarte sur son bord.\n\nREMARQUE : Modifier ce paramètre rechargera l'interface utilisateur.", -- AI 🤖
+        ["koKR"] = "미니맵 범위 밖의 아이콘을 미니맵 가장자리에 고정합니다.\n\n참고: 이 설정을 변경하면 UI가 다시 로드됩니다.", -- AI 🤖
+        ["ptBR"] = "Fixa os ícones fora do alcance do minimapa na borda dele.\n\nNOTA: Alterar essa configuração recarregará a IU.", -- AI 🤖
+        ["ruRU"] = "Закрепляет значки за пределами радиуса миникарты на ее краю.\n\nПРИМЕЧАНИЕ: Эта настройка перезапускает пользовательский интерфейс", -- AI 🤖
+        ["zhCN"] = "将超出小地图范围的图标固定在小地图边缘。\n\n注意：更改后会重新载入界面", -- AI 🤖
+        ["zhTW"] = "將超出小地圖範圍的圖示固定在小地圖邊緣。\n\n更改後會重新載入介面", -- AI 🤖
+    },
     ["Show Minimap Coordinates"] = {
         ["enUS"] = true,
         ["deDE"] = "Minimap-Koordinanten",

@@ -618,7 +618,7 @@ function QuestieMap:DrawManualIcon(data, areaID, x, y, typ)
     end
 
     -- add the minimap icon
-    QuestieMap:QueueDraw(QuestieMap.ICON_MINIMAP_TYPE, Questie, iconMinimap, iconMinimap.UiMapID, x / 100, y / 100, true, true);
+    QuestieMap:QueueDraw(QuestieMap.ICON_MINIMAP_TYPE, Questie, iconMinimap, iconMinimap.UiMapID, x / 100, y / 100, true, Questie.db.profile.floatIconsOnMinimapEdge);
     tinsert(QuestieMap.manualFrames[typ][data.id], iconMinimap:GetName())
 
     -- make sure notes are only shown when they are supposed to
@@ -685,7 +685,7 @@ function QuestieMap:DrawWorldIcon(data, areaID, x, y, phase, showFlag)
         return nil, nil
     end
 
-    local floatOnEdge = true
+    local floatOnEdge = Questie.db.profile.floatIconsOnMinimapEdge
 
     ---@type IconFrame
     local iconMap = QuestieFramePool:GetFrame()

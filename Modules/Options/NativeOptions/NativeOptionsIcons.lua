@@ -570,6 +570,19 @@ function QuestieOptionsEngine.tabs.icons:Initialize()
                             Questie.db.profile.fadeOverPlayerLevel = value
                         end,
                     },
+                    floatIconsOnMinimapEdge = {
+                        type = "checkbox",
+                        order = 4.8,
+                        title = "Float Icons on Minimap Edge",
+                        tooltip = "Pin icons that are outside of the minimap range to the edge of the minimap.\n\nNOTE: Changing this setting will reload the UI.",
+                        width = "full",
+                        enabled = function() return _IsMinimapEnabled() and (not InCombatLockdown()) end,
+                        get = function() return Questie.db.profile.floatIconsOnMinimapEdge end,
+                        set = function(_, value)
+                            Questie.db.profile.floatIconsOnMinimapEdge = value
+                            ReloadUI()
+                        end,
+                    },
                 },
             },
             icon_scales_group = {
