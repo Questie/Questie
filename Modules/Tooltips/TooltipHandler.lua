@@ -6,6 +6,8 @@ local _QuestieTooltips = QuestieTooltips.private
 local l10n = QuestieLoader:ImportModule("l10n")
 ---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
+---@type DistanceUtils
+local DistanceUtils = QuestieLoader:ImportModule("DistanceUtils")
 
 local lastGuid
 
@@ -161,23 +163,50 @@ function _QuestieTooltips.AddObjectDataToTooltip(name, playerZone)
     -- Only a provider-wide unique name can bypass zone disambiguation (0 = any zone).
     local zoneFilter = count == 1 and 0 or playerZone
 
-    local addedObjects = 0
-    local alreadyAddedObjectiveLines = {}
+    local candidates = {}
     -- GetTooltip checks local and Comms registrations; party-only Objects need no local registration.
     for _, gameObjectId in ipairs(ids or {}) do
-        if addedObjects >= 10 then
+        if #candidates >= 10 then
             break
         end
 
         local tooltipData = QuestieTooltips.GetTooltip("o_" .. gameObjectId, zoneFilter)
         if tooltipData and next(tooltipData) then
-            for _, line in pairs(tooltipData) do
-                if not alreadyAddedObjectiveLines[line] then
-                    alreadyAddedObjectiveLines[line] = true
-                    GameTooltip:AddLine(line)
-                end
+            candidates[#candidates + 1] = {id = gameObjectId, lines = tooltipData}
+        end
+    end
+
+    -- Several quest related Objects with the same name in the zone: only the one closest to the player is meant.
+    if #candidates > 1 and zoneFilter ~= 0 then
+        local closest, closestDistance
+        local unresolved = {}
+        for _, candidate in ipairs(candidates) do
+            local spawns = QuestieDB.QueryObjectSingle(candidate.id, "spawns")
+            local spawn, _, distance
+            if spawns and next(spawns) then
+                spawn, _, distance = DistanceUtils.GetNearestSpawn(spawns)
             end
-            addedObjects = addedObjects + 1
+            if spawn and distance then
+                if (not closestDistance) or distance < closestDistance then
+                    closest, closestDistance = candidate, distance
+                end
+            else
+                unresolved[#unresolved + 1] = candidate
+            end
+        end
+        if closest then
+            unresolved[#unresolved + 1] = closest
+            candidates = unresolved
+        end
+    end
+
+    local alreadyAddedObjectiveLines = {}
+    for _, candidate in ipairs(candidates) do
+        for _, line in pairs(candidate.lines) do
+            if not alreadyAddedObjectiveLines[line] then
+                alreadyAddedObjectiveLines[line] = true
+                GameTooltip:AddLine(line)
+            end
         end
     end
 

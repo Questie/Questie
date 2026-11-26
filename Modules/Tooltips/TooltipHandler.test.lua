@@ -180,6 +180,67 @@ describe("TooltipHandler", function()
         end)
     end)
 
+    describe("AddObjectDataToTooltip with same-named quest objects", function()
+        local QuestieDB, DistanceUtils, originalQuery, originalNearest
+
+        before_each(function()
+            QuestieDB = QuestieLoader:ImportModule("QuestieDB")
+            DistanceUtils = QuestieLoader:ImportModule("DistanceUtils")
+            originalQuery, originalNearest = QuestieDB.QueryObjectSingle, DistanceUtils.GetNearestSpawn
+            QuestieDB.QueryObjectSingle = function(id) return {[PLAYER_ZONE] = {{id, id}}} end
+            DistanceUtils.GetNearestSpawn = function(spawns)
+                local distance = spawns[PLAYER_ZONE][1][1]
+                return {1, 1}, PLAYER_ZONE, distance
+            end
+            _G.LibQuestieDB.Object.IdsByName = function() return {1, 2} end
+        end)
+
+        after_each(function()
+            QuestieDB.QueryObjectSingle, DistanceUtils.GetNearestSpawn = originalQuery, originalNearest
+        end)
+
+        it("should only show the closest object when several have quest lines", function()
+            QuestieTooltips.GetTooltip = function(key) return {key} end
+            -- object 2 is closer
+            DistanceUtils.GetNearestSpawn = function(spawns)
+                return {1, 1}, PLAYER_ZONE, 100 - spawns[PLAYER_ZONE][1][1]
+            end
+
+            _QuestieTooltips.AddObjectDataToTooltip(OBJECT_NAME, PLAYER_ZONE)
+
+            assert.spy(GameTooltip.AddLine).was.called(1)
+            assert.spy(GameTooltip.AddLine).was.called_with(GameTooltip, "o_2")
+        end)
+
+        it("should keep candidates whose spawn does not resolve", function()
+            QuestieTooltips.GetTooltip = function(key) return {key} end
+            DistanceUtils.GetNearestSpawn = function(spawns)
+                if spawns[PLAYER_ZONE][1][1] == 1 then
+                    return nil, nil, 999999999
+                end
+                return {2, 2}, PLAYER_ZONE, 5
+            end
+
+            _QuestieTooltips.AddObjectDataToTooltip(OBJECT_NAME, PLAYER_ZONE)
+
+            assert.spy(GameTooltip.AddLine).was.called(2)
+            assert.spy(GameTooltip.AddLine).was.called_with(GameTooltip, "o_1")
+            assert.spy(GameTooltip.AddLine).was.called_with(GameTooltip, "o_2")
+        end)
+
+        it("should show the only quest object without a distance check", function()
+            QuestieTooltips.GetTooltip = function(key)
+                if key == "o_1" then return {key} end
+            end
+            DistanceUtils.GetNearestSpawn = spy.new(function() end)
+
+            _QuestieTooltips.AddObjectDataToTooltip(OBJECT_NAME, PLAYER_ZONE)
+
+            assert.spy(GameTooltip.AddLine).was.called_with(GameTooltip, "o_1")
+            assert.spy(DistanceUtils.GetNearestSpawn).was.not_called()
+        end)
+    end)
+
     describe("AddUnitDataToTooltip", function()
         local saved
 
