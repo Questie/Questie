@@ -2845,6 +2845,7 @@ function _QuestieDB.InitializeQuestTagInfoCorrections()
         [97197] = {81, l10n("Dungeon")}, -- Fragment of the Firelands
         [97198] = {81, l10n("Dungeon")}, -- Blackmaw Magic
         [97250] = {1, l10n("Elite")}, -- Wrongly Blamed, Justly Corrected
+        [97270] = {41, l10n("PvP")}, -- Brawl at the Maul
         [97288] = {81, l10n("Dungeon")}, -- Unending Torment
         [97327] = {81, l10n("Dungeon")}, -- Blackmaw Pouches
         [97386] = {1, l10n("Elite")}, -- The Offense of Grom'gol
@@ -2896,10 +2897,15 @@ function _QuestieDB.InitializeQuestTagInfoCorrections()
         [98906] = {41, l10n("PvP")}, -- The Battle for Darkspear Islands!
         [98907] = {41, l10n("PvP")}, -- The Battle for Darkspear Islands!
         [98908] = {41, l10n("PvP")}, -- The Battle for Darkspear Islands!
+        [98918] = {41, l10n("PvP")}, -- Conquering the Isles
+        [98919] = {41, l10n("PvP")}, -- Conquering the Island
         [99052] = {1, l10n("Elite")}, -- Threat from Below
         [99156] = {1, l10n("Elite")}, -- Rear Guard Patrol
         [99187] = {81, l10n("Dungeon")}, -- The Reliquary of Tyr
+        [99233] = {41, l10n("PvP")}, -- Brawl at the Maul
+        [99234] = {41, l10n("PvP")}, -- Brawl at the Maul
         [99258] = {1, l10n("Elite")}, -- Mana Mania
+        [99435] = {62, l10n("Raid")}, -- The Great Masquerade
     }
 
     -- Keep Titan tags behind the same flavor and season boundary as the provider's Titan Quest records.
