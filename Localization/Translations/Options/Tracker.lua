@@ -101,6 +101,30 @@ local trackerOptionsLocales = {
         ["zhCN"] = "启用时，任务标题的任务等级将显示在Questie追踪窗口",
         ["zhTW"] = "啟用時，任務清單中的任務標題將會顯示任務等級",
     },
+    ["Only Show Quests With Usable Items"] = {
+        ["enUS"] = true,
+        ["deDE"] = "Nur Quests mit benutzbaren Gegenständen anzeigen", -- AI 🤖
+        ["esES"] = "Mostrar solo misiones con objetos utilizables", -- AI 🤖
+        ["esMX"] = "Mostrar solo misiones con objetos utilizables", -- AI 🤖
+        ["frFR"] = "Afficher uniquement les quêtes avec des objets utilisables", -- AI 🤖
+        ["koKR"] = "사용 가능한 아이템이 있는 퀘스트만 표시", -- AI 🤖
+        ["ptBR"] = "Mostrar apenas missões com itens utilizáveis", -- AI 🤖
+        ["ruRU"] = "Только задания с используемыми предметами", -- AI 🤖
+        ["zhCN"] = "只显示有可使用物品的任务", -- AI 🤖
+        ["zhTW"] = "只顯示有可使用物品的任務", -- AI 🤖
+    },
+    ["If checked, the Questie Tracker only shows Quests that currently have a usable Quest Item. Other Quests are hidden from the Tracker but still show on the map."] = {
+        ["enUS"] = true,
+        ["deDE"] = "Wenn diese Option aktiviert ist, zeigt der Questie-Tracker nur Quests an, die derzeit einen benutzbaren Questgegenstand haben. Andere Quests werden im Tracker ausgeblendet, aber weiterhin auf der Karte angezeigt.", -- AI 🤖
+        ["esES"] = "Si está seleccionado, el rastreador de Questie solo muestra las misiones que tienen actualmente un objeto de misión utilizable. Las demás misiones se ocultan del rastreador, pero se siguen mostrando en el mapa.", -- AI 🤖
+        ["esMX"] = "Si está seleccionado, el rastreador de Questie solo muestra las misiones que tienen actualmente un objeto de misión utilizable. Las demás misiones se ocultan del rastreador, pero se siguen mostrando en el mapa.", -- AI 🤖
+        ["frFR"] = "Si cette option est cochée, le suivi de Questie n'affiche que les quêtes qui ont actuellement un objet de quête utilisable. Les autres quêtes sont masquées dans le suivi mais restent affichées sur la carte.", -- AI 🤖
+        ["koKR"] = "이 옵션을 선택하면 Questie 트래커에 현재 사용 가능한 퀘스트 아이템이 있는 퀘스트만 표시됩니다. 다른 퀘스트는 트래커에서 숨겨지지만 지도에는 계속 표시됩니다.", -- AI 🤖
+        ["ptBR"] = "Se marcado, o rastreador do Questie mostra apenas as missões que têm atualmente um item de missão utilizável. As outras missões ficam ocultas no rastreador, mas continuam sendo mostradas no mapa.", -- AI 🤖
+        ["ruRU"] = "Если включено, отслеживание Questie показывает только задания, для которых сейчас есть используемый предмет задания. Остальные задания скрываются из отслеживания, но по-прежнему отображаются на карте.", -- AI 🤖
+        ["zhCN"] = "启用时，Questie追踪窗口只显示当前有可使用任务物品的任务。其他任务会从追踪窗口中隐藏，但仍会显示在地图上。", -- AI 🤖
+        ["zhTW"] = "啟用時，Questie追蹤清單只顯示目前有可使用任務物品的任務。其他任務會從追蹤清單中隱藏，但仍會顯示在地圖上。", -- AI 🤖
+    },
     ---------------------------------------------------------
     ["Auto Minimize Completed Quests"] = {
         ["enUS"] = true,

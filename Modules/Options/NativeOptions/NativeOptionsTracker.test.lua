@@ -166,6 +166,16 @@ describe("native tracker options", function()
         assert.spy(compat.QuestLog_Update).was.not_called()
     end)
 
+    it("filters the tracker by usable quest items when enabled", function()
+        local option = LoadTab().group_quests.items.showOnlyQuestsWithItems
+
+        option.set(nil, true)
+
+        assert.is_true(Questie.db.profile.trackerShowOnlyQuestsWithItems)
+        assert.is_true(option.get())
+        assert.spy(tracker.Update).was.called_with(tracker)
+    end)
+
     -- Quest-log checks skip unchanged quests, so this setting must request the quest lines itself.
     it("lays out the tracker when always showing it expands a minimized tracker", function()
         Questie.db.char.isTrackerExpanded = false
