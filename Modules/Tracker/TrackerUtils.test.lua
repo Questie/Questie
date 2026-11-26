@@ -684,6 +684,30 @@ describe("TrackerUtils", function()
     end)
 
     describe("PassesQuestItemFilter", function()
+        local itemClasses
+
+        before_each(function()
+            itemClasses = {[5] = 12}
+            local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
+            QuestieDB.itemClasses = {QUEST = 12}
+            QuestieDB.QueryItemSingle = function(itemId, key) return key == "class" and itemClasses[itemId] or nil end
+        end)
+
+        it("rejects a quest whose first usable item gets no item button because it is not a quest item", function()
+            Questie.db.profile.trackerShowOnlyQuestsWithItems = true
+            itemClasses[7] = 0
+            TrackerUtils.GetQuestItemIds = function() return {7, 5} end
+
+            assert.is_false(TrackerUtils.PassesQuestItemFilter({Id = 1}, 0))
+        end)
+
+        it("passes a quest whose first usable item is the native quest item without a quest item class", function()
+            Questie.db.profile.trackerShowOnlyQuestsWithItems = true
+            TrackerUtils.GetQuestItemIds = function() return {7}, 7 end
+
+            assert.is_true(TrackerUtils.PassesQuestItemFilter({Id = 1}, 0))
+        end)
+
         it("passes every quest without checking items when the filter is off", function()
             TrackerUtils.GetQuestItemIds = spy.new(function() return {} end)
 
@@ -1383,6 +1407,9 @@ describe("TrackerUtils", function()
             end
 
             before_each(function()
+                local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
+                QuestieDB.itemClasses = {QUEST = 12}
+                QuestieDB.QueryItemSingle = function() return 12 end
                 Questie.db.profile.trackerShowOnlyQuestsWithItems = true
                 QuestieTracker.GetNumTrackedQuests = function() return 2 end
                 QuestieTracker.IsTrackedByQuestie = function() return true end
@@ -1892,6 +1919,9 @@ describe("TrackerUtils", function()
             end)
 
             it("excludes quests hidden by the item filter from a group's nearest distance", function()
+                local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
+                QuestieDB.itemClasses = {QUEST = 12}
+                QuestieDB.QueryItemSingle = function() return 12 end
                 Questie.db.profile.trackerShowOnlyQuestsWithItems = true
                 trackerQuests[5] = _NewQuest(5, "Alpha", 1)
                 TrackerUtils.GetQuestItemIds = function(quest) return quest.Id ~= 5 and {9} or {} end

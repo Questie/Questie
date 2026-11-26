@@ -1204,12 +1204,20 @@ end
 ---Whether the "Only Show Quests With Usable Items" setting lets the tracker show the quest.
 ---@param quest TrackerQuest
 ---@param complete number @0 if the quest is not complete, 1 if the quest is complete, -1 if the quest is failed
----@return boolean @true if the setting is off or the quest has a usable quest item
+---@return boolean @true if the setting is off or the quest gets a quest item button
 function TrackerUtils.PassesQuestItemFilter(quest, complete)
     if not Questie.db.profile.trackerShowOnlyQuestsWithItems then
         return true
     end
-    return #TrackerUtils.GetQuestItemIds(quest, complete) > 0
+
+    local usableQuestItems, nativeItemId = TrackerUtils.GetQuestItemIds(quest, complete)
+    local primaryItemId = usableQuestItems[1]
+    if not primaryItemId then
+        return false
+    end
+    -- Mirrors TrackerItemButton:SetItem: the primary button only takes Blizzard's quest item or a quest-class item,
+    -- and AddQuestItemButtons adds no button at all when the primary one fails.
+    return primaryItemId == nativeItemId or QuestieDB.QueryItemSingle(primaryItemId, "class") == QuestieDB.itemClasses.QUEST
 end
 
 ---@param quest TrackerQuest @The quest to add the quest item buttons for
