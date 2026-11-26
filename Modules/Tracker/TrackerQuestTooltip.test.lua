@@ -220,11 +220,13 @@ describe("TrackerQuestTooltip", function()
         assert.spy(tooltip.Show).was.called(1)
     end)
 
-    it("should not add the share hint when the quest can not be shared", function()
+    it("should show a grey note instead of the share hint when the quest can not be shared", function()
         TrackerQuestTooltip.Show(_Line())
 
-        assert.spy(tooltip.AddLine).was.not_called()
+        assert.spy(tooltip.AddLine).was.called(1)
+        assert.spy(tooltip.AddLine).was.called_with(match.is_ref(tooltip), "gray:(Quest can't be shared)")
     end)
+
 
     it("should not add the share hint when the share shortcut is disabled", function()
         canShare = true

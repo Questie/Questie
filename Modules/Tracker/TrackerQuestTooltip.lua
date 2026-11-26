@@ -83,11 +83,15 @@ local function _GetShortcutText(bind)
     return click
 end
 
+local function _IsShareBound()
+    local bind = Questie.db.profile.trackerbindShareQuest
+    return bind ~= nil and bind ~= "disabled"
+end
+
 ---@param questId QuestId
 ---@return boolean
 local function _CanShare(questId)
-    local bind = Questie.db.profile.trackerbindShareQuest
-    return bind ~= nil and bind ~= "disabled" and TrackerUtils.CanShareQuest(questId)
+    return _IsShareBound() and TrackerUtils.CanShareQuest(questId)
 end
 
 local function _HasPartyProgress()
@@ -167,6 +171,8 @@ local function _Refresh()
     if canShare then
         local hint = l10n("(") .. _GetShortcutText(Questie.db.profile.trackerbindShareQuest) .. l10n(": ") .. l10n("Share Quest") .. l10n(")")
         tooltip:AddLine(Questie:Colorize(hint, "gray"))
+    elseif _IsShareBound() then
+        tooltip:AddLine(Questie:Colorize(l10n("(") .. l10n("Quest can't be shared") .. l10n(")"), "gray"))
     end
     -- Resizes the tooltip to the objective rows Questie widened after Blizzard laid them out
     tooltip:Show()
