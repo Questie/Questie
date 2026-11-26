@@ -51,7 +51,10 @@ end
 ---@param questId number
 ---@return Button?
 local function _GetDetailsButton(questId)
-    local titleButton = QuestLogQuests_GetQuestButton(questId)
+    -- Clicking a title does not show a hidden quest log panel (collapsed, or the map is maximized), Blizzard's tracker
+    -- block does.
+    local isPanelShown = (not QuestMapFrame) or QuestMapFrame:IsShown()
+    local titleButton = isPanelShown and QuestLogQuests_GetQuestButton(questId)
     if titleButton then
         return titleButton
     end
@@ -81,8 +84,13 @@ local function _PreClick(self, button)
 
     local questId = line.Quest.Id
     local uiMapId = QuestieCompat.GetQuestUiMapID(questId) or C_Map.GetBestMapForUnit("player")
+    -- Without a map there is nothing to open, but a tracker header can still show the details.
+    local detailsButton
     if (not uiMapId) then
-        return
+        detailsButton = _GetDetailsButton(questId)
+        if (not detailsButton) then
+            return
+        end
     end
 
     if QuestieMenuBuilder.IsOpen() then
@@ -91,10 +99,12 @@ local function _PreClick(self, button)
     self.opensQuestLog = true
     TaintWatch.Note("C_QuestLog.SetSelectedQuest", questId)
     C_QuestLog.SetSelectedQuest(questId)
-    QuestieCompat.OpenWorldMap(uiMapId)
 
-    -- Without such a button the click only opens the map.
-    local detailsButton = _GetDetailsButton(questId)
+    if uiMapId then
+        QuestieCompat.OpenWorldMap(uiMapId)
+        -- Without such a button the click only opens the map.
+        detailsButton = _GetDetailsButton(questId)
+    end
     if detailsButton then
         self:SetAttribute("clickbutton", detailsButton)
         self:SetAttribute("type", "click")
