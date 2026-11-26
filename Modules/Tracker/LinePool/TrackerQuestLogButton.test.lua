@@ -53,6 +53,7 @@ describe("TrackerQuestLogButton", function()
             C_QuestLog = _G.C_QuestLog,
             C_Map = _G.C_Map,
             IsModifiedClick = _G.IsModifiedClick,
+            QuestMapFrame = _G.QuestMapFrame,
             QuestObjectiveTracker = _G.QuestObjectiveTracker,
             CampaignQuestObjectiveTracker = _G.CampaignQuestObjectiveTracker,
         }
@@ -67,6 +68,7 @@ describe("TrackerQuestLogButton", function()
         playerMap = nil
         _G.IsModifiedClick = function() return false end
         questBlocks, campaignBlocks = {}, {}
+        _G.QuestMapFrame = {IsShown = function() return true end}
         _G.QuestObjectiveTracker = {GetExistingBlock = function(_, questId) return questBlocks[questId] end}
         _G.CampaignQuestObjectiveTracker = {GetExistingBlock = function(_, questId) return campaignBlocks[questId] end}
         _G.C_Map = {GetBestMapForUnit = function() return playerMap end}
@@ -105,6 +107,7 @@ describe("TrackerQuestLogButton", function()
         _G.C_QuestLog = originals.C_QuestLog
         _G.C_Map = originals.C_Map
         _G.IsModifiedClick = originals.IsModifiedClick
+        _G.QuestMapFrame = originals.QuestMapFrame
         _G.QuestObjectiveTracker = originals.QuestObjectiveTracker
         _G.CampaignQuestObjectiveTracker = originals.CampaignQuestObjectiveTracker
         compat.GetQuestUiMapID, compat.OpenWorldMap = compatOriginals.GetQuestUiMapID, compatOriginals.OpenWorldMap
@@ -275,6 +278,27 @@ describe("TrackerQuestLogButton", function()
             assert.are_equal(headerButton, overlay.attributes.clickbutton)
         end)
 
+        it("should click the quest's block in Blizzard's tracker when the map's quest log panel is hidden, as a title does not show it", function()
+            _G.QuestMapFrame = {IsShown = function() return false end}
+            local headerButton = {}
+            questBlocks[783] = {HeaderButton = headerButton}
+            _Attach(_QuestLine())
+
+            overlay.scripts.PreClick(overlay, "LeftButton")
+
+            assert.are_equal(headerButton, overlay.attributes.clickbutton)
+        end)
+
+        it("should only open the map when the map's quest log panel is hidden and Blizzard's tracker shows no block", function()
+            _G.QuestMapFrame = {IsShown = function() return false end}
+            _Attach(_QuestLine())
+
+            overlay.scripts.PreClick(overlay, "LeftButton")
+
+            assert.spy(compat.OpenWorldMap).was.called_with(1429)
+            assert.is_nil(overlay.attributes.type)
+        end)
+
         it("should click the quest's block in Blizzard's campaign tracker when the map's quest log shows no title for the quest", function()
             questTitles[783] = nil
             local headerButton = {}
@@ -330,6 +354,18 @@ describe("TrackerQuestLogButton", function()
             assert.spy(compat.OpenWorldMap).was_not.called()
             assert.is_nil(overlay.attributes.type)
             assert.spy(line.scripts.OnClick).was.called_with(line, "LeftButton")
+        end)
+
+        it("should click the quest's block in Blizzard's tracker without opening a map when neither the quest nor the player has a map", function()
+            local headerButton = {}
+            questBlocks[4974] = {HeaderButton = headerButton}
+            _Attach(_QuestLine(4974))
+
+            overlay.scripts.PreClick(overlay, "LeftButton")
+
+            assert.spy(compat.OpenWorldMap).was_not.called()
+            assert.are_equal(headerButton, overlay.attributes.clickbutton)
+            assert.are_equal("click", overlay.attributes.type)
         end)
 
         it("should close an open menu before opening the quest log like a line click does", function()
