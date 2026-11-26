@@ -34,6 +34,7 @@ function QuestieOptionsDefaults:Load()
             globalMiniMapTownsfolkScale = 0.7,
             fadeLevel = 20,
             fadeOverPlayer = true,
+            floatIconsOnMinimapEdge = true,
             fadeOverPlayerLevel = 0.5,
             fadeOverPlayerDistance = 5,
             nameplateX = -17,
