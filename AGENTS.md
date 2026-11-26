@@ -197,8 +197,11 @@ Use `Expansions` for content checks (quests, NPCs, data). Use the flags only whe
 
 Questie comes with a lot of settings a user can adjust to their liking. All the default values are stored in `Modules/Options/QuestieOptionsDefaults.lua`.
 
-Whenever a new default value is added or an existing setting is adjusted, a matching change function in the `Modules/Migration.lua` is needed. This ensures that existing user
+Whenever an existing setting's default or stored value is changed, a matching change function in the `Modules/Migration.lua` is needed. This ensures that existing user
 configurations are migrated and correctly updated to the new values.
+
+A brand-new setting does not need a migration: AceDB applies the default for any unset key and keeps explicit user choices. Only add one if existing users need a value
+different from the new default.
 
 ### Database Corrections
 
