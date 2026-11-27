@@ -6,7 +6,7 @@ describe("JourneyEntityDetails", function()
     ---@type JourneyEntityDetails
     local JourneyEntityDetails
     local ui
-    local originalQuestie, originalTomTom, originalReady
+    local originalQuestie, originalTomTom
     local QuestieDB
     local npcs, categories, completion
     local notes, openedMaps, canOpenMap, windowHidden, changes, tomTomTargets, openedLinks
@@ -17,7 +17,6 @@ describe("JourneyEntityDetails", function()
     before_each(function()
         ui = FakeUI.Install()
         originalQuestie, originalTomTom = _G.Questie, _G.TomTom
-        originalReady = _G.QUEST_WATCH_QUEST_READY
         _G.Questie = {
             db = {profile = {}},
             icons = {complete = "complete", available = "available", incomplete = "incomplete", object = "object"},
@@ -26,7 +25,6 @@ describe("JourneyEntityDetails", function()
             Debug = function() end,
         }
         _G.TomTom = nil
-        _G.QUEST_WATCH_QUEST_READY = "Ready for turn-in"
         notes, openedMaps, canOpenMap, windowHidden, changes, tomTomTargets, openedLinks = {}, {}, true, false, 0, {}, {}
 
         dofile("Modules/Libs/QuestieLoader.lua")
@@ -114,7 +112,6 @@ describe("JourneyEntityDetails", function()
 
     after_each(function()
         _G.Questie, _G.TomTom = originalQuestie, originalTomTom
-        _G.QUEST_WATCH_QUEST_READY = originalReady
         ui.Restore()
     end)
 
@@ -226,7 +223,7 @@ describe("JourneyEntityDetails", function()
                 }
                 completion = {[11] = "ready", [12] = "active", [13] = "failed"}
 
-                assert.are.equal("|Tcomplete:14|t Ready for turn-in: 1     |Tavailable:14|t Available: 2     |Tincomplete:14|t Active: 1", Status())
+                assert.are.equal("|Tcomplete:14|t Complete: 1     |Tavailable:14|t Available: 2     |Tincomplete:14|t Active: 1", Status())
             end)
 
             it("should only count the quests in the log that end there, and those that start there", function()
@@ -427,7 +424,7 @@ describe("JourneyEntityDetails", function()
 
         local status = FindType(GetRows("object", 55), "status")
 
-        assert.are.equal("|Tcomplete:14|t Ready for turn-in: 1", status.text)
+        assert.are.equal("|Tcomplete:14|t Complete: 1", status.text)
     end)
 
     describe("GetMapAction", function()

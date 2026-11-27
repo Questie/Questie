@@ -164,7 +164,7 @@ local function _GetNpcLines(npc)
     return lines
 end
 
----What the player can do here now, in the words and colors of the status of a quest. Nil when there is nothing.
+---What the player can do here now, in the colors of the status of a quest. Nil when there is nothing.
 ---@param starts JourneyQuestCategories.Entry[]
 ---@param ends JourneyQuestCategories.Entry[]
 ---@return string? text
@@ -186,15 +186,16 @@ local function _GetStatus(starts, ends)
         end
     end
 
+    -- Questie's words, not the sentences of a quest's status, which some languages end with a period, like
+    -- QUEST_WATCH_QUEST_READY in Russian: "Можно сдать."
     local parts = {}
     if ready > 0 then
-        table.insert(parts, JourneyIcon.GetMarkup(Questie.icons["complete"]) .. Questie:Colorize(QUEST_WATCH_QUEST_READY .. l10n(": "), "green") .. ready)
+        table.insert(parts, JourneyIcon.GetMarkup(Questie.icons["complete"]) .. Questie:Colorize(l10n("Complete") .. l10n(": "), "green") .. ready)
     end
     if available > 0 then
         table.insert(parts, JourneyIcon.GetMarkup(Questie.icons["available"]) .. Questie:Colorize(l10n("Available") .. l10n(": "), "gold") .. available)
     end
     if active > 0 then
-        -- Not QUEST_TOOLTIP_ACTIVE of the quest's status, which is a sentence: "You are on this quest"
         table.insert(parts, JourneyIcon.GetMarkup(Questie.icons["incomplete"]) .. Questie:Colorize(l10n("Active") .. l10n(": "), "lightBlue") .. active)
     end
     return #parts > 0 and table.concat(parts, "     ") or nil
