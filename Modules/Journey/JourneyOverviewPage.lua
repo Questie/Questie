@@ -302,7 +302,8 @@ local function _GetZoneRow(page, zone, index)
         total = summary.total,
         isOdd = index % 2 == 1,
         onClick = function() page.onOpenSource("zone:" .. zone.id) end,
-        showTooltip = function() _ShowTooltip(zone, summary, levels) end,
+        -- With the last count, which can differ from the one of the row: a row stays as it is while nothing that it shows changed
+        showTooltip = function() _ShowTooltip(zone, _GetSummary(zone) or JourneySummary.EMPTY, levels) end,
     })
 end
 

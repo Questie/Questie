@@ -452,6 +452,22 @@ describe("JourneyOverviewPage", function()
             }, GameTooltip.lines)
         end)
 
+        -- Like a quest that is too low for the player, whose requirement was done in another zone. The row stays as it is.
+        it("should explain a zone with what was counted last, also when nothing that the row shows changed", function()
+            Count("Duskwood", {available = 1, later = 1})
+            JourneyPage.Refresh(page)
+            ui.RunUntilIdle()
+            local zone = Zone("Duskwood")
+
+            Count("Duskwood", {available = 2})
+            JourneyPage.Refresh(page)
+            ui.RunUntilIdle()
+            assert.are.equal(zone, Zone("Duskwood"))
+            GameTooltip:SetOwner(UIParent)
+            Zone("Duskwood").showTooltip()
+
+            assert.are_same({"Eastern Kingdoms", {"Level", "18 - 30"}, {"Available Quests", "2"}}, GameTooltip.lines)
+        end)
     end)
 
     it("should list what isn't a zone, like a profession, with what there is something to do for first", function()
