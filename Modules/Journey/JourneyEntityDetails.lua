@@ -8,6 +8,8 @@ local JourneyDetails = QuestieLoader:ImportModule("JourneyDetails")
 local JourneyLinks = QuestieLoader:ImportModule("JourneyLinks")
 ---@type JourneyRawData
 local JourneyRawData = QuestieLoader:ImportModule("JourneyRawData")
+---@type JourneyIcon
+local JourneyIcon = QuestieLoader:ImportModule("JourneyIcon")
 ---@type JourneyWindow
 local JourneyWindow = QuestieLoader:ImportModule("JourneyWindow")
 ---@type ManualNotes
@@ -18,6 +20,12 @@ local QuestieCompat = QuestieLoader:ImportModule("QuestieCompat")
 local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
 ---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
+---@type JourneyQuestCategories
+local JourneyQuestCategories = QuestieLoader:ImportModule("JourneyQuestCategories")
+---@type JourneyNameColors
+local JourneyNameColors = QuestieLoader:ImportModule("JourneyNameColors")
+---@type QuestieLib
+local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 ---@type QuestieJourneyUtils
 local QuestieJourneyUtils = QuestieLoader:ImportModule("QuestieJourneyUtils")
 ---@type TrackerUtils
@@ -47,6 +55,39 @@ local function _GetPlace(spawns)
         end
     end
     return anyZoneId
+end
+
+---@param coordinate number
+---@return string text Those below 10 start with two spaces, which are as wide as the digit others have there
+local function _FormatCoordinate(coordinate)
+    local text = ("%.1f"):format(coordinate)
+    return #text < 4 and "  " .. text or text
+end
+
+---@param kind ManualNoteKind
+---@param entity NPC|Object
+---@return string? text
+---@return fun()? showOnMap
+---@return fun()? setTomTomTarget
+function JourneyEntityDetails.GetPlace(kind, entity)
+    local zoneId, x, y = _GetPlace(entity.spawns)
+    if not zoneId then
+        return nil
+    end
+    local text = QuestieJourneyUtils:GetZoneName(zoneId)
+    if x then
+        text = text .. "  " .. _FormatCoordinate(x) .. ", " .. _FormatCoordinate(y)
+    end
+    local uiMapId = ManualNotes.GetMap(zoneId)
+    local showOnMap = uiMapId and function()
+        if ManualNotes.OpenMap(kind, entity.id, uiMapId) then
+            JourneyWindow.Hide() -- It would cover the map
+        end
+    end
+    local setTomTomTarget = x and TomTom and TomTom.AddWaypoint and function()
+        TrackerUtils:SetTomTomTarget(entity.name, zoneId, x, y)
+    end
+    return text, showOnMap, setTomTomTarget
 end
 
 ---Adds where something is, as a link that opens the map. Adds nothing when that isn't known.
@@ -114,14 +155,38 @@ local function _GetNpcLines(npc)
         friendlyTo = "Horde"
     end
 
-    local lines = {JourneyDetails.GetFactText("NPC ID", npc.id)}
+    local lines = {}
     if npc.subName then
         table.insert(lines, JourneyDetails.GetFactText("Title", npc.subName))
     end
     table.insert(lines, JourneyDetails.GetFactText("Level", _Range(npc.minLevel, npc.maxLevel)))
-    table.insert(lines, JourneyDetails.GetFactText("Health", _Range(npc.minLevelHealth, npc.maxLevelHealth)))
+    if (npc.maxLevelHealth or 0) > 1 then
+        table.insert(lines, JourneyDetails.GetFactText("Health", _Range(npc.minLevelHealth, npc.maxLevelHealth)))
+    end
     table.insert(lines, JourneyDetails.GetFactText("Friendly to", l10n(friendlyTo)))
     return lines
+end
+
+---@param rows JourneyDetails.Row[]
+---@param caption string
+---@param questIds QuestId[]?
+local function _AddQuests(rows, caption, questIds)
+    local steps = {}
+    for _, questId in pairs(questIds or {}) do
+        if QuestieDB.QuestPointers[questId] then
+            local category, reason = JourneyQuestCategories.Get(questId)
+            table.insert(steps, JourneyLinks.Link({
+                type = "step",
+                text = QuestieLib:GetColoredQuestName(questId, true, false),
+                trailingIcon = JourneyQuestCategories.GetIcon(questId, category),
+                tag = category == "log" and JourneyQuestCategories.GetProgress(questId) or reason,
+            }, "quest", questId))
+        end
+    end
+    if #steps > 0 then
+        table.insert(rows, {type = "caption", text = l10n(caption)})
+        for _, step in ipairs(steps) do table.insert(rows, step) end
+    end
 end
 
 ---@param kind ManualNoteKind
@@ -140,30 +205,48 @@ local function _GetSpawnRows(kind, id, onChanged)
         return {}
     end
 
-    local lines = isNpc and _GetNpcLines(entity) or {JourneyDetails.GetFactText("Object ID", id)}
+    local place, showOnMap, setTomTomTarget = JourneyEntityDetails.GetPlace(kind, entity)
+    local lines = isNpc and _GetNpcLines(entity) or {}
+    if place then
+        table.insert(lines, place)
+    end
     ---@type JourneyDetails.Row[]
     local rows = {
-        {type = "heading", text = entity.name},
+        {
+            type = "page",
+            text = isNpc and JourneyNameColors.Npc(id, entity.name) or JourneyNameColors.Object(entity.name),
+            tag = l10n(isNpc and "NPC ID" or "Object ID") .. l10n(": ") .. id,
+        },
+        {type = "gap", height = 6},
         {type = "entity", npcId = isNpc and id or nil, text = table.concat(lines, "\n")},
     }
+    local footer
     if entity.spawns then
-        JourneyEntityDetails.AddPlace(rows, kind, entity)
-        table.insert(rows, _GetNoteButton(ManualNotes.IsShown(kind, id), function()
-            if ManualNotes.IsShown(kind, id) then
-                ManualNotes.Hide(kind, id)
-            else
-                ManualNotes.Show(kind, id)
-            end
-            onChanged()
-        end))
-        JourneyEntityDetails.AddTomTom(rows, entity)
+        local isShown = ManualNotes.IsShown(kind, id)
+        local buttons = {}
+        rows[#rows].onShowMap = showOnMap
+        if isShown then
+            table.insert(buttons, {
+                text = l10n("Remove from Map"),
+                icon = JourneyIcon.HIDDEN,
+                onClick = function()
+                    ManualNotes.Hide(kind, id)
+                    onChanged()
+                end,
+            })
+        end
+        if setTomTomTarget then
+            table.insert(buttons, {text = "TomTom", icon = JourneyIcon.ARROW, onClick = setTomTomTarget})
+        end
+        footer = #buttons > 0 and {type = "footer", buttons = buttons, state = tostring(isShown)} or nil
     else
         table.insert(rows, {type = "text", text = l10n("No spawn data available.")})
     end
 
-    JourneyDetails.AddBox(rows, l10n("Starts the following quests"), JourneyLinks.GetRows("quest", entity.questStarts or {}))
-    JourneyDetails.AddBox(rows, l10n("Ends the following quests"), JourneyLinks.GetRows("quest", entity.questEnds or {}))
+    _AddQuests(rows, "Starts the following quests", entity.questStarts)
+    _AddQuests(rows, "Ends the following quests", entity.questEnds)
     JourneyRawData.AddRows(rows, entity, isNpc and QuestieDB.npcKeys or QuestieDB.objectKeys)
+    table.insert(rows, footer)
     return rows
 end
 
@@ -208,7 +291,7 @@ local function _GetItemRow(itemId)
     return {
         type = "entity",
         icon = QuestieCompat.GetItemIcon(itemId),
-        text = JourneyDetails.GetFactText("Item ID", itemId),
+        text = " ",
         onClick = function()
             local _, link = QuestieCompat.GetItemInfo(itemId)
             if not link then
@@ -238,7 +321,8 @@ local function _GetItemRows(itemId, onChanged)
 
     ---@type JourneyDetails.Row[]
     local rows = {
-        {type = "heading", text = name},
+        {type = "page", text = JourneyNameColors.Item(itemId, name), tag = l10n("Item ID") .. l10n(": ") .. itemId},
+        {type = "gap", height = 6},
         _GetItemRow(itemId),
         {type = "itemTooltip", itemId = itemId},
     }
@@ -252,7 +336,7 @@ local function _GetItemRows(itemId, onChanged)
         local ids = _GetReachableIds(source, idsBySource[index])
         local hasSources = idsBySource[index] and next(idsBySource[index]) ~= nil
 
-        table.insert(rows, {type = "heading", text = l10n(source.heading)})
+        table.insert(rows, {type = "caption", text = l10n(source.heading)})
         table.insert(rows, {type = "text", text = hasSources and l10n(source.countText, #ids) or l10n(source.noneText)})
         if #ids > 0 then
             local group = "item " .. itemId .. " " .. source.field

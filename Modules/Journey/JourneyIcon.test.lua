@@ -9,6 +9,8 @@ describe("JourneyIcon", function()
     local texture
 
     local CHECKMARK = "Interface\\RaidFrame\\ReadyCheck-Ready"
+    local AVAILABLE = "Interface\\Addons\\Questie\\Icons\\available.blp"
+    local REPEATABLE = "Interface\\Addons\\Questie\\Icons\\repeatable.blp"
     local COLORFUL = {1, 1, 1}
 
     before_each(function()
@@ -16,6 +18,7 @@ describe("JourneyIcon", function()
         dofile("Modules/Libs/QuestieLoader.lua")
         dofile("Modules/Journey/JourneyIcon.lua")
         JourneyIcon = QuestieLoader:ImportModule("JourneyIcon")
+        Questie.icons = {available = AVAILABLE, repeatable = REPEATABLE}
 
         texture = JourneyIcon.Create(CreateFrame("Frame", nil, UIParent))
     end)
@@ -49,6 +52,42 @@ describe("JourneyIcon", function()
         JourneyIcon.Set(texture, JourneyIcon.HIDDEN)
 
         AssertShowsHidden()
+    end)
+
+    it("should show the icon of a low-level quest darker", function()
+        JourneyIcon.Set(texture, JourneyIcon.GetLowLevel("available"))
+
+        assert.is_true(texture:IsShown())
+        assert.are.equal(AVAILABLE, texture:GetTexture())
+        assert.is_false(texture.isDesaturated)
+        assert.are_same({0.6, 0.6, 0.6}, texture.vertexColor)
+    end)
+
+    it("should show a texture in its own colors again after a darker one, and after a gray one", function()
+        JourneyIcon.Set(texture, JourneyIcon.GetLowLevel("available"))
+        JourneyIcon.Set(texture, CHECKMARK)
+        AssertShowsCheckmark()
+
+        JourneyIcon.Set(texture, JourneyIcon.HIDDEN)
+        JourneyIcon.Set(texture, JourneyIcon.GetLowLevel("available"))
+        assert.are_same({0, 1, 0, 1}, texture.texCoord)
+        assert.is_false(texture.isDesaturated)
+    end)
+
+    it("should be the same in a text", function()
+        assert.are.equal("|T" .. CHECKMARK .. ":14|t ", JourneyIcon.GetMarkup(CHECKMARK))
+        assert.are.equal("|T" .. AVAILABLE .. ":14:14:0:0:64:64:0:64:0:64:153:153:153|t ", JourneyIcon.GetMarkup(JourneyIcon.GetLowLevel("available")))
+    end)
+
+    it("should have a darker icon for every kind of quest, and not look like another one when it is asked for again", function()
+        local repeatable = JourneyIcon.GetLowLevel("repeatable")
+
+        JourneyIcon.Set(texture, repeatable)
+        assert.are.equal(REPEATABLE, texture:GetTexture())
+        assert.are_same({0.6, 0.6, 0.6}, texture.vertexColor)
+
+        assert.are.equal(repeatable, JourneyIcon.GetLowLevel("repeatable"))
+        assert.are_not.equal(repeatable, JourneyIcon.GetLowLevel("available"))
     end)
 
     it("should not keep anything of the icon it showed before", function()

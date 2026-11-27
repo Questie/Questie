@@ -111,6 +111,26 @@ describe("QuestieOptionsWindow", function()
                 assert.is_false(grip:IsActive())
             end)
 
+            it("should tell the size it was resized to when the grip is released, also when the window hides then", function()
+                local sizes = {}
+                window = CreateWindow({minWidth = 300, minHeight = 200, onResized = function(width, height)
+                    table.insert(sizes, {width, height})
+                end})
+                grip = ui.FindByTemplate(window, "PanelResizeButtonTemplate")[1]
+                window:Show()
+
+                grip:OnMouseDown()
+                window:SetSize(700, 450)
+                assert.are_same({}, sizes)
+                grip:OnMouseUp()
+                assert.are_same({{700, 450}}, sizes)
+
+                grip:OnMouseDown()
+                window:SetSize(650, 420)
+                window:Hide()
+                assert.are_same({{700, 450}, {650, 420}}, sizes)
+            end)
+
             it("should leave the window alone when it hides while it isn't being resized", function()
                 local stops = 0
                 window.StopMovingOrSizing = function() stops = stops + 1 end

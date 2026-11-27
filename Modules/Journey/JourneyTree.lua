@@ -11,6 +11,8 @@ local PATH_SEPARATOR = "\001"
 ---@field value string|number Unique among the nodes next to it
 ---@field text string|number
 ---@field children JourneyTreeNode[]? Makes the node a header, which is only shown with something below it
+---@field note string? At the right edge
+---@field icon JourneyIcon.Icon?
 
 ---@class JourneyTree.Row
 ---@field node JourneyTreeNode
@@ -64,8 +66,10 @@ end
 ---@param parent Frame The tree fills it
 ---@param onSelect fun(node: JourneyTreeNode) Called when the user clicks an entry
 ---@param getIcon nil|fun(node: JourneyTreeNode): JourneyIcon.Icon? The icon in front of an entry
+---@param getText nil|fun(node: JourneyTreeNode): string For entries that don't have their text yet
+---@param getNote nil|fun(node: JourneyTreeNode): string? The same for what is at their right edge
 ---@return JourneyTree.Instance
-function JourneyTree.Create(parent, onSelect, getIcon)
+function JourneyTree.Create(parent, onSelect, getIcon, getText, getNote)
     ---@type JourneyTree.Instance
     local tree = {nodes = {}, rows = {}, expandedPaths = {}}
 
@@ -73,8 +77,9 @@ function JourneyTree.Create(parent, onSelect, getIcon)
         local row = tree.rows[index]
         local node = row.node
         return {
-            text = node.text,
-            icon = getIcon and not node.children and getIcon(node) or nil,
+            text = node.text or getText(node),
+            note = node.note or getNote and not node.children and getNote(node) or nil,
+            icon = node.icon or getIcon and not node.children and getIcon(node) or nil,
             isSelected = row.path == tree.selectedPath,
             isCollapsed = node.children and not tree.expandedPaths[row.path],
             depth = row.depth,
@@ -103,6 +108,12 @@ end
 function JourneyTree.SetNodes(tree, nodes)
     tree.nodes = nodes
     _ShowRows(tree)
+end
+
+---Brings the rows on screen up to date with their entries, like the icon of a quest that was completed since.
+---@param tree JourneyTree.Instance
+function JourneyTree.Update(tree)
+    JourneyList.Update(tree.list)
 end
 
 ---Expands headers, also ones that only come with the next entries.
@@ -194,6 +205,31 @@ function JourneyTree.Select(tree, path)
     end
     _ShowRows(tree)
 
+    for index, row in ipairs(tree.rows) do
+        if row.path == path then
+            JourneyList.ScrollTo(tree.list, index)
+            return
+        end
+    end
+end
+
+---Forgets what was expanded and selected, and shows nothing.
+---@param tree JourneyTree.Instance
+function JourneyTree.Clear(tree)
+    tree.expandedPaths, tree.selectedPath = {}, nil
+    JourneyTree.SetNodes(tree, {})
+end
+
+---Expands a header and those above it, and brings it into view.
+---@param tree JourneyTree.Instance
+---@param ... string|number The value of the highest header, of the one below it, and so on
+function JourneyTree.Reveal(tree, ...)
+    JourneyTree.Expand(tree, ...)
+    _ShowRows(tree)
+    local path
+    for _, value in ipairs({...}) do
+        path = _GetPath(path, value)
+    end
     for index, row in ipairs(tree.rows) do
         if row.path == path then
             JourneyList.ScrollTo(tree.list, index)

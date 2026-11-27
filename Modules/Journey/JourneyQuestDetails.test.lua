@@ -9,15 +9,29 @@ describe("JourneyQuestDetails", function()
     local JourneyIcon
     local QuestieDB, QuestieCorrections
     local originalQuestie, originalUnitLevel, originalStrtrim
-    local questFields, hidden, opened, isDoableShown
+    -- Blizzard's texts, in English
+    local GLOBAL_STRINGS = {
+        COMBAT_XP_GAIN = "Experience", ITEM_MIN_LEVEL = "Requires Level %d", QUEST_TOOLTIP_ACTIVE = "You are on this quest",
+        QUEST_WATCH_QUEST_READY = "Ready for turn-in", REWARDS = "Rewards",
+    }
+    local originalStrings, originalLibQuestieDB = {}, nil
+    local questFields, hidden, opened
+    ---@type table<QuestId, {category: JourneyQuestCategory, reason: string?, stateName: string?}> What the quests are
+    local categories
 
     before_each(function()
         originalQuestie, originalUnitLevel, originalStrtrim = _G.Questie, _G.UnitLevel, _G.strtrim
+        originalLibQuestieDB = _G.LibQuestieDB
+        LoadQuestieDBMock()
+        for name, text in pairs(GLOBAL_STRINGS) do
+            originalStrings[name] = _G[name]
+            _G[name] = text
+        end
         _G.strtrim = function(text) return (text:gsub("^%s+", ""):gsub("%s+$", "")) end
         _G.UnitLevel = function() return 5 end
-        hidden, opened, isDoableShown = {}, {}, false
+        hidden, opened = {}, {}
         _G.Questie = {
-            db = {char = {complete = {}, hidden = hidden}, profile = {}},
+            db = {char = {complete = {}, hidden = hidden, journey = {}}, profile = {}},
             icons = {checkmark = "checkmark", cross = "cross"},
             Colorize = function(_, text) return text end,
         }
@@ -34,9 +48,16 @@ describe("JourneyQuestDetails", function()
         questFields = {[93036] = {requiredLevel = 5, questLevel = 8}}
         QuestieDB.QueryQuestSingle = function(id, field) return questFields[id] and questFields[id][field] end
         QuestieDB.IsRepeatable = function() return false end
+        QuestieDB.IsDailyQuest = function() return false end
+        QuestieDB.IsWeeklyQuest = function() return false end
+        QuestieDB.IsDungeonQuest = function() return false end
+        QuestieDB.IsRaidQuest = function() return false end
+        QuestieDB.IsPvPQuest = function() return false end
+        QuestieDB.IsComplete = function() return 0 end
+        QuestieLoader:ImportModule("QuestXP").GetQuestLogRewardXP = function() return 0 end
         QuestieDB.IsDoableVerbose = function(_, _, isVerbose, isForPlayer)
             assert(isVerbose and isForPlayer, "asked for something that can't be shown")
-            return "Unavailable: Level too low", isDoableShown
+            return "Unavailable: Level too low"
         end
         local npcs = {
             [197] = {id = 197, name = "Marshal McBride", spawns = {[12] = {{48.92, 41.6}}}, questStarts = {93036, 7}, questEnds = {9}},
@@ -79,6 +100,24 @@ describe("JourneyQuestDetails", function()
         dofile("Modules/Journey/QuestieSearch.lua")
         dofile("Modules/Journey/JourneyPrerequisites.lua")
         dofile("Modules/Journey/JourneyRawData.lua")
+        -- The colors of names are tested with JourneyNameColors
+        local JourneyNameColors = QuestieLoader:ImportModule("JourneyNameColors")
+        JourneyNameColors.Npc = function(_, name) return name end
+        JourneyNameColors.Object = function(name) return name end
+        JourneyNameColors.Item = function(_, name) return name end
+        -- What the quests are, and their icons, are tested with JourneyQuestCategories
+        categories = {}
+        local JourneyQuestCategories = QuestieLoader:ImportModule("JourneyQuestCategories")
+        JourneyQuestCategories.Get = function(id)
+            local quest = categories[id] or {category = "later", reason = "Level 5", stateName = "LEVEL_TOO_LOW"}
+            return quest.category, quest.reason, quest.stateName
+        end
+        JourneyQuestCategories.GetIcon = function(_, category) return "icon of " .. category end
+        JourneyQuestCategories.GetKindIcon = function() return "available" end
+        JourneyQuestCategories.GetStartIcon = function() return "available" end
+        JourneyQuestCategories.GetCompleteIcon = function() return "complete" end
+        JourneyQuestCategories.GetProgress = function() return "1/2" end
+        JourneyQuestCategories.GetShortDate = function() return "Nov 27" end
         dofile("Modules/Journey/JourneyEntityDetails.lua")
         dofile("Modules/Journey/JourneyQuestDetails.lua")
         JourneyQuestDetails = QuestieLoader:ImportModule("JourneyQuestDetails")
@@ -87,6 +126,10 @@ describe("JourneyQuestDetails", function()
 
     after_each(function()
         _G.Questie, _G.UnitLevel, _G.strtrim = originalQuestie, originalUnitLevel, originalStrtrim
+        _G.LibQuestieDB = originalLibQuestieDB
+        for name in pairs(GLOBAL_STRINGS) do
+            _G[name] = originalStrings[name]
+        end
     end)
 
     ---@param fields table?
@@ -111,37 +154,108 @@ describe("JourneyQuestDetails", function()
     end
 
     ---@param rows JourneyDetails.Row[]
-    ---@param title string
-    ---@return string[]? texts What is in the box with the title
-    local function Box(rows, title)
+    ---@param caption string Without what follows it, like the count of a chain
+    ---@return string[]? texts Of the rows under the caption, an entity's as "title, text". Nil without the caption.
+    local function Section(rows, caption)
         local texts
         for _, row in ipairs(rows) do
-            if row.type == "title" then
-                texts = row.text == title and {} or texts
-            elseif texts and row.isInBox then
-                table.insert(texts, row.title and (row.title .. ", " .. row.text) or row.text)
-                if row.isLastInBox then
+            if row.type == "caption" or row.type == "footer" then
+                if texts then
                     return texts
                 end
+                texts = row.type == "caption" and (row.text:match("^(.-)   ") or row.text) == caption and {} or nil
+            elseif texts then
+                table.insert(texts, row.title and (row.title .. ", " .. row.text) or row.text)
+            end
+        end
+        return texts
+    end
+
+    ---@param rows JourneyDetails.Row[]
+    ---@return string status Without its icon
+    local function Status(rows)
+        for _, row in ipairs(rows) do
+            if row.type == "status" then
+                return (row.text:gsub("|T.-|t ", ""))
             end
         end
     end
 
-    it("should show the name and the objective", function()
+    ---@param rows JourneyDetails.Row[]
+    ---@return table<string, JourneyDetails.Row> rows Of the entities, by title
+    local function Entities(rows)
+        local entities = {}
+        for _, row in ipairs(rows) do
+            if row.type == "entity" then
+                entities[row.title] = row
+            end
+        end
+        return entities
+    end
+
+    it("should show the name, and the objective under the status", function()
         local rows = GetRows()
 
-        assert.are_same({"heading", "Infiltrating the Cult"}, {rows[1].type, rows[1].text})
-        assert.are_same({"text", "Speak with Sania."}, {rows[2].type, rows[2].text})
+        assert.are_same({"page", "Quest 93036"}, {rows[1].type, rows[1].text})
+        assert.are.equal("text", Find(rows, "Speak with Sania.").type)
+    end)
+
+    describe("the status", function()
+        for situation, expected in pairs({
+            ["in the quest log"] = {category = "log", text = "You are on this quest"},
+            ["ready to turn in"] = {category = "log", isComplete = 1, text = "Ready for turn-in"},
+            ["failed"] = {category = "log", isComplete = -1, text = "Failed"},
+            ["available"] = {category = "available", text = "Available"},
+            ["repeatable"] = {category = "repeatable", text = "Available"},
+            ["completed"] = {category = "completed", text = "Completed"},
+            ["too high a level"] = {category = "later", stateName = "LEVEL_TOO_LOW", text = "Unavailable: Requires Level 5"},
+            ["after another quest"] = {category = "later", stateName = "NO_PREQUESTSINGLE", text = "Unavailable: Incomplete pre-quest"},
+            ["after other quests"] = {category = "later", stateName = "NO_PREQUESTGROUP", text = "Unavailable: Incomplete pre-quest group"},
+            ["for another reason"] = {category = "later", reason = "Requires Honored with Stormwind", text = "Unavailable: Requires Honored with Stormwind"},
+            ["unobtainable"] = {category = "unobtainable", text = "Unavailable: Exclusive quest completed"},
+            -- Then why the game says it can't be done
+            ["not listed"] = {text = "Unavailable: Level too low"},
+        }) do
+            it("should say what the player can do with a quest that is " .. situation, function()
+                categories[93036] = {category = expected.category, reason = expected.reason, stateName = expected.stateName}
+                QuestieDB.IsComplete = function() return expected.isComplete or 0 end
+
+                assert.are.equal(expected.text, Status(GetRows()))
+            end)
+        end
+    end)
+
+    describe("a quest that can't be done yet", function()
+        before_each(function()
+            questFields[93036].preQuestSingle = {92517}
+            questFields[92517] = {preQuestSingle = {94568}}
+        end)
+
+        it("should say which one of its chain to start with", function()
+            Questie.db.char.complete[94568] = true
+
+            local step = Find(GetRows(), "Quest 92517")
+
+            assert.are.equal("start with this one", step.tag)
+        end)
+
+        it("should not say where to start when it can be done", function()
+            categories[93036] = {category = "available"}
+
+            for _, row in ipairs(GetRows()) do
+                assert.are_not.equal("start with this one", row.tag)
+            end
+        end)
     end)
 
     it("should show facts about the quest", function()
         questFields[93036].requiredRaces = 77
         questFields[93036].requiredClasses = 128
 
-        local rows = GetRows()
+        local facts = Section(GetRows(), "Quest Information")
 
-        for _, fact in ipairs({"Quest ID: 93036", "Quest Level: 9", "Required Level: 5", "Required Faction: Alliance", "Required Class: Mage"}) do
-            assert.is_not_nil(Find(rows, fact), fact)
+        for _, fact in ipairs({"Level: 9   Required Level: 5", "Required Faction: Alliance", "Required Class: Mage", "Quest ID: 93036"}) do
+            assert.is_truthy(tContains(facts, fact), fact)
         end
     end)
 
@@ -176,7 +290,7 @@ describe("JourneyQuestDetails", function()
         it("should be listed when there are several, also those that aren't allowed", function()
             questFields[93036].requiredRanks = {{164, 2}, {186, -1}}
 
-            assert.is_not_nil(Find(GetRows(), "Required Profession: \n  Blacksmithing (Journeyman)\n  Not Mining (Apprentice)"))
+            assert.is_not_nil(Find(GetRows(), "Required Profession: Blacksmithing (Journeyman), Not Mining (Apprentice)"))
         end)
     end)
 
@@ -210,105 +324,91 @@ describe("JourneyQuestDetails", function()
         end)
     end)
 
-    it("should show the reputation it rewards", function()
+    it("should show the experience and the reputation it rewards", function()
+        QuestieLoader:ImportModule("QuestXP").GetQuestLogRewardXP = function(_, id) return id == 93036 and 1250 or 0 end
+        _G.BreakUpLargeNumbers = function(number) return number == 1250 and "1,250" or tostring(number) end
         local QuestieReputation = QuestieLoader:ImportModule("QuestieReputation")
         QuestieReputation.GetReputationReward = function(id) return id == 93036 and {{72, 50}} or nil end
         QuestieReputation.GetReputationRewardString = function(rewards) return "+" .. rewards[1][2] .. " Stormwind" end
 
-        assert.is_not_nil(Find(GetRows(), "Reputation Reward: +50 Stormwind"))
-    end)
+        local rewards = Section(GetRows(), "Rewards")
+        _G.BreakUpLargeNumbers = nil
 
-    it("should show whether the quest is complete", function()
-        assert.are.equal("cross", Find(GetRows(), "Complete: ").trailingIcon)
-
-        Questie.db.char.complete[93036] = true
-
-        assert.are.equal("checkmark", Find(GetRows(), "Complete: ").trailingIcon)
+        assert.are_same({"Experience: 1,250", "Reputation Reward: +50 Stormwind"}, rewards)
     end)
 
     describe("a hidden quest", function()
         it("should say so when Questie hides it, also when that is only on the map", function()
-            assert.is_nil(Find(GetRows(), "Hidden by Questie: "))
+            assert.is_nil(Find(GetRows(), "Hidden by Questie "))
 
             for _, reason in ipairs({true, "HIDE_ON_MAP"}) do
                 QuestieCorrections.hiddenQuests[93036] = reason
-                assert.are.equal(JourneyIcon.HIDDEN, Find(GetRows(), "Hidden by Questie: ").trailingIcon)
+                assert.are.equal(JourneyIcon.HIDDEN, Find(GetRows(), "Hidden by Questie ").trailingIcon)
             end
         end)
 
-        it("should not be said to be hidden by Questie when the user hid it", function()
+        it("should say that the user hid it, rather than Questie", function()
+            QuestieCorrections.hiddenQuests[93036] = true
             hidden[93036] = true
 
-            assert.is_nil(Find(GetRows(), "Hidden by Questie: "))
+            local rows = GetRows()
+
+            assert.is_nil(Find(rows, "Hidden by Questie "))
+            assert.are.equal(JourneyIcon.HIDDEN, Find(rows, "You hid it from the map ").trailingIcon)
         end)
 
         -- Questie doesn't hide it while it is in the quest log, and it may stop doing so
         it("should be able to be hidden by the user and shown again, also when Questie hides it", function()
             for _, isHiddenByQuestie in ipairs({false, true}) do
                 QuestieCorrections.hiddenQuests[93036] = isHiddenByQuestie or nil
-                local checkbox = Find(GetRows(), "Hide from map")
-                assert.is_false(checkbox.get())
+                local button = GetRows()[#GetRows()].buttons[1]
+                assert.are.equal("Hide from map", button.text)
 
-                checkbox.set()
-                assert.is_true(checkbox.get())
+                button.onClick()
+                assert.is_true(hidden[93036])
+                button = GetRows()[#GetRows()].buttons[1]
+                assert.are.equal("Show on map again", button.text)
 
-                checkbox.set()
-                assert.is_false(checkbox.get())
+                button.onClick()
+                assert.is_nil(hidden[93036])
             end
         end)
     end)
 
     describe("related quests", function()
-        it("should lead to a single prerequisite", function()
-            local rows = GetRows({preQuestSingle = {92517}})
+        it("should lead to the quest before it in its chain", function()
+            questFields[93036].preQuestSingle = {92517}
+            local rows = GetRows()
 
-            assert.are_same({"Quest 92517"}, Box(rows, "Requires one of these quests to be finished"))
+            assert.are_same({"Quest 92517", "Quest 93036"}, Section(rows, "Chain"))
             Find(rows, "Quest 92517").onClick()
             assert.are_same({{"quest", 92517}}, opened)
         end)
 
-        describe("of the other faction", function()
-            local originalLibQuestieDB
+        it("should leave the other faction's quest out of the chain, when only one of them is required", function()
+            questFields[92517] = {requiredRaces = QuestieDB.raceKeys.ALL_HORDE}
+            questFields[94568] = {requiredRaces = QuestieDB.raceKeys.ALL_ALLIANCE}
+            questFields[93036].requiredRaces = QuestieDB.raceKeys.ALL_HORDE
+            questFields[93036].preQuestSingle = {92517, 94568}
 
-            before_each(function()
-                originalLibQuestieDB = _G.LibQuestieDB
-                LoadQuestieDBMock()
-                questFields[92517] = {requiredRaces = QuestieDB.raceKeys.ALL_HORDE}
-                questFields[94568] = {requiredRaces = QuestieDB.raceKeys.ALL_ALLIANCE}
-            end)
-
-            after_each(function()
-                _G.LibQuestieDB = originalLibQuestieDB
-            end)
-
-            it("should not be shown when only one of them is required", function()
-                local rows = GetRows({requiredRaces = QuestieDB.raceKeys.ALL_HORDE, preQuestSingle = {92517, 94568}})
-
-                assert.are_same({"Quest 92517"}, Box(rows, "Requires one of these quests to be finished"))
-            end)
-
-            it("should be shown when all of them are required", function()
-                local rows = GetRows({requiredRaces = QuestieDB.raceKeys.ALL_HORDE, preQuestGroup = {-92517, 94568}})
-
-                assert.are_same({"Quest 92517", "Quest 94568"}, Box(rows, "Requires all of these quests to be finished"))
-            end)
+            assert.are_same({"Quest 92517", "Quest 93036"}, Section(GetRows(), "Chain"))
         end)
 
         it("should lead to each grouped prerequisite, of which some have a negative ID", function()
             local rows = GetRows({preQuestGroup = {-92517, 94568}})
 
-            assert.are_same({"Quest 92517", "Quest 94568"}, Box(rows, "Requires all of these quests to be finished"))
+            assert.are_same({"Quest 92517", "Quest 94568"}, Section(rows, "Requires all of these quests to be finished"))
             Find(rows, "Quest 92517").onClick()
             Find(rows, "Quest 94568").onClick()
             assert.are_same({{"quest", 92517}, {"quest", 94568}}, opened)
         end)
 
-        it("should show the whole chain", function()
+        it("should show the whole chain, also a breadcrumb after it", function()
             questFields[93036].nextQuestInChain = 10
             questFields[10] = {nextQuestInChain = 0, breadcrumbForQuestId = 11}
             questFields[11] = {nextQuestInChain = 0}
 
-            assert.are_same({"Quest 10", "Quest 11"}, Box(GetRows(), "Next in chain"))
+            assert.are_same({"Quest 93036", "Quest 10", "Quest 11"}, Section(GetRows(), "Chain"))
         end)
 
         it("should not follow a chain in circles", function()
@@ -316,7 +416,7 @@ describe("JourneyQuestDetails", function()
             questFields[10] = {nextQuestInChain = 11}
             questFields[11] = {nextQuestInChain = 10}
 
-            assert.are_same({"Quest 10", "Quest 11"}, Box(GetRows(), "Next in chain"))
+            assert.are_same({"Quest 93036", "Quest 10", "Quest 11"}, Section(GetRows(), "Chain"))
         end)
 
         it("should end the chain at a hidden quest", function()
@@ -324,71 +424,59 @@ describe("JourneyQuestDetails", function()
             questFields[10] = {nextQuestInChain = 11}
             QuestieCorrections.hiddenQuests[11] = true
 
-            assert.are_same({"Quest 10"}, Box(GetRows(), "Next in chain"))
+            assert.are_same({"Quest 93036", "Quest 10"}, Section(GetRows(), "Chain"))
         end)
 
-        it("should not show empty boxes", function()
-            for _, row in ipairs(GetRows()) do
-                assert.are_not.equal("title", row.type)
+        it("should not show a caption without anything under it", function()
+            local rows = GetRows()
+
+            for index, row in ipairs(rows) do
+                if row.type == "caption" then
+                    assert.is_truthy(rows[index + 1].type ~= "caption" and rows[index + 1].type ~= "footer", row.text)
+                end
             end
+            assert.is_nil(Section(rows, "Chain"))
+            assert.is_nil(Section(rows, "Requires all of these quests to be finished"))
         end)
     end)
 
-    it("should show who starts and ends the quest, where they are, and their other quests", function()
+    it("should show who starts and ends the quest, where they are, and their other available quests", function()
+        categories[7] = {category = "available"}
+
         local rows = GetRows({Starts = {NPC = {197, 240}}, Finisher = {NPC = {240}}})
 
         assert.are_same({
-            "Marshal McBride, NPC ID: 197",
-            "|T137195:14|t Elwynn Forest   X: 48.92 || Y: 41.60",
-            "This NPC Also Starts the following quests:",
+            "Marshal McBride, Starts this quest\nElwynn Forest  48.9, 41.6",
+            "Also available there",
             "Quest 7",
-        }, Box(rows, "Quest Start NPC Information"))
-        assert.are_same({
-            "Marshal Dughan, NPC ID: 240",
-            "|T137195:14|t Elwynn Forest   X: 42.10 || Y: 65.90",
-            "This NPC Also Completes the following quests:",
-            "Quest 8",
-        }, Box(rows, "Quest Turn-in NPC Information"))
+            "Marshal Dughan, Starts and ends this quest\nElwynn Forest  42.1, 65.9",
+        }, Section(rows, "Where"))
     end)
 
     it("should show objects and items that start the quest, and objects that end it", function()
         local rows = GetRows({Starts = {GameObject = {55}, Item = {725}}, Finisher = {GameObject = {55}}})
 
         assert.are_same({
-            "Half-eaten body, Object ID: 55",
-            "|T137195:14|t Elwynn Forest   X: 72.60 || Y: 60.30",
-        }, Box(rows, "Quest Start Object Information"))
-        assert.are_same({"Gnoll Paw, Item ID: 725"}, Box(rows, "Quest Start Item Information"))
-        assert.are_same({
-            "Half-eaten body, Object ID: 55",
-            "|T137195:14|t Elwynn Forest   X: 72.60 || Y: 60.30",
-            "This Object Also Completes the following quests:",
-            "Quest 11",
-        }, Box(rows, "Quest Turn-in Object Information"))
+            "Gnoll Paw, Starts this quest",
+            "Half-eaten body, Starts and ends this quest\nElwynn Forest  72.6, 60.3",
+        }, Section(rows, "Where"))
     end)
 
     it("should show everyone who ends the quest, but nobody who isn't in the database", function()
         assert.are_same({
-            "Marshal Dughan, NPC ID: 240",
-            "|T137195:14|t Elwynn Forest   X: 42.10 || Y: 65.90",
-            "This NPC Also Completes the following quests:",
-            "Quest 8",
-            "Marshal McBride, NPC ID: 197",
-            "|T137195:14|t Elwynn Forest   X: 48.92 || Y: 41.60",
-            "This NPC Also Completes the following quests:",
-            "Quest 9",
-        }, Box(GetRows({Finisher = {NPC = {240, 404, 197}}}), "Quest Turn-in NPC Information"))
+            "Marshal Dughan, Ends this quest\nElwynn Forest  42.1, 65.9",
+            "Marshal McBride, Ends this quest\nElwynn Forest  48.9, 41.6",
+        }, Section(GetRows({Finisher = {NPC = {240, 404, 197}}}), "Where"))
     end)
 
-    it("should show every object that starts the quest", function()
+    it("should show every object that starts the quest, also one without a place", function()
         local GetObject = QuestieDB.GetObject
         QuestieDB.GetObject = function(self, id) return id == 56 and {id = 56, name = "Grave"} or GetObject(self, id) end
 
         assert.are_same({
-            "Half-eaten body, Object ID: 55",
-            "|T137195:14|t Elwynn Forest   X: 72.60 || Y: 60.30",
-            "Grave, Object ID: 56",
-        }, Box(GetRows({Starts = {GameObject = {55, 56}}}), "Quest Start Object Information"))
+            "Half-eaten body, Starts this quest\nElwynn Forest  72.6, 60.3",
+            "Grave, Starts this quest",
+        }, Section(GetRows({Starts = {GameObject = {55, 56}}}), "Where"))
     end)
 
     it("should open the map at an object, and not at the NPC with the same ID", function()
@@ -402,7 +490,7 @@ describe("JourneyQuestDetails", function()
         end
         QuestieLoader:ImportModule("JourneyWindow").Hide = function() end
 
-        Find(GetRows({Starts = {GameObject = {55}}}), "|T137195:14|t Elwynn Forest   X: 72.60 || Y: 60.30").onClick()
+        Entities(GetRows({Starts = {GameObject = {55}}}))["Half-eaten body"].action.onClick()
 
         assert.are_same({"object 55", "map 1429"}, shown)
     end)
@@ -417,55 +505,106 @@ describe("JourneyQuestDetails", function()
                 table.insert(pictures, row.npcId or row.icon or "none")
             end
         end
-        assert.are_same({{"npc", 197}, {"object", 55}, {"item", 725}}, opened)
-        assert.are_same({197, "none", "icon of 725"}, pictures)
+        assert.are_same({{"item", 725}, {"npc", 197}, {"object", 55}}, opened)
+        assert.are_same({"icon of 725", 197, "none"}, pictures)
     end)
 
     it("should show the tooltip of the item that starts it", function()
         local ui = dofile("cli/testData/options/FakeUI.lua").Install()
-        for _, row in ipairs(GetRows({Starts = {Item = {725}}})) do
-            if row.type == "entity" then row.showTooltip() end
-        end
+        Entities(GetRows({Starts = {Item = {725}}}))["Gnoll Paw"].showTooltip()
         local itemId = GameTooltip.itemId
         ui.Restore()
 
         assert.are.equal(725, itemId)
     end)
 
-    it("should offer TomTom for who starts it", function()
+    it("should offer TomTom for where to go", function()
         local originalTomTom, targets = _G.TomTom, {}
         _G.TomTom = {AddWaypoint = function() end}
         QuestieLoader:ImportModule("TrackerUtils").SetTomTomTarget = function(_, ...) table.insert(targets, {...}) end
 
-        Find(GetRows({Starts = {NPC = {197}}}), "Set |cFF54e33bTomTom|r Target").onClick()
+        local rows = GetRows({Starts = {NPC = {197}}})
+        rows[#rows].buttons[2].onClick()
         _G.TomTom = originalTomTom
 
         assert.are_same({{"Marshal McBride", 12, 48.92, 41.6}}, targets)
     end)
 
+    it("should lead to whoever ends a quest that is in the quest log", function()
+        local originalTomTom, targets = _G.TomTom, {}
+        _G.TomTom = {AddWaypoint = function() end}
+        QuestieLoader:ImportModule("TrackerUtils").SetTomTomTarget = function(_, name) table.insert(targets, name) end
+        categories[93036] = {category = "log"}
+
+        local rows = GetRows({Starts = {NPC = {197}}, Finisher = {NPC = {240}}})
+        rows[#rows].buttons[2].onClick()
+        _G.TomTom = originalTomTom
+
+        assert.are_same({"Marshal Dughan"}, targets)
+    end)
+
     it("should not fail for NPCs, objects and items that aren't in the database", function()
         local rows = GetRows({Starts = {NPC = {404}, GameObject = {404}, Item = {404}}, Finisher = {NPC = {404}}})
 
-        assert.is_nil(Box(rows, "Quest Start NPC Information"))
-        assert.is_nil(Box(rows, "Quest Start Item Information"))
+        assert.is_nil(Section(rows, "Where"))
     end)
 
-    for period, text in pairs({Daily = "Repeatable: Daily", Weekly = "Repeatable: Weekly", Monthly = "Repeatable: Monthly", none = "Repeatable"}) do
+    for period, tag in pairs({Daily = "Daily", Weekly = "Weekly", Monthly = "Repeatable", none = "Repeatable"}) do
         it("should say how often the quest can be repeated: " .. period, function()
             QuestieDB.IsRepeatable = function() return true end
             for _, candidate in ipairs({"Daily", "Weekly", "Monthly"}) do
                 QuestieDB["Is" .. candidate .. "Quest"] = function() return candidate == period end
             end
 
-            assert.is_not_nil(Find(GetRows(), text))
+            assert.are.equal(tag, GetRows()[1].tag)
         end)
     end
 
-    it("should say why the quest isn't available, unless that is clear already", function()
-        assert.is_nil(Find(GetRows(), "Doable: Unavailable: Level too low"))
+    it("should say that it is a dungeon, raid or PvP quest, after how often it can be repeated", function()
+        QuestieDB.IsDailyQuest = function() return true end
+        QuestieDB.IsDungeonQuest = function() return true end
+        QuestieDB.IsPvPQuest = function() return true end
 
-        isDoableShown = true
-        assert.is_not_nil(Find(GetRows(), "Doable: Unavailable: Level too low"))
+        assert.are.equal("Daily, Dungeon, PvP", GetRows()[1].tag)
+    end)
+
+    describe("the objectives", function()
+        before_each(function()
+            QuestieDB.QueryNPCSingle = function(id, field) return id == 197 and field == "name" and "Marshal McBride" or nil end
+            QuestieDB.QueryItemSingle = function(id, field) return id == 725 and field == "name" and "Gnoll Paw" or nil end
+            QuestieDB.QueryObjectSingle = function() return nil end
+            QuestieLoader:ImportModule("QuestieMap").manualFrames = {}
+        end)
+
+        local OBJECTIVES = {{Type = "monster", Id = 197}, {Type = "item", Id = 725}, {Type = "object", Id = 404}}
+
+        it("should lead to what is to be killed or collected, and leave out what isn't in the database", function()
+            local rows = GetRows({ObjectiveData = OBJECTIVES})
+
+            Find(rows, "Marshal McBride").onClick()
+            Find(rows, "Gnoll Paw").onClick()
+            assert.are_same({{"npc", 197}, {"item", 725}}, opened)
+        end)
+
+        it("should show how far the player is while the quest is in the log", function()
+            categories[93036] = {category = "log"}
+
+            local rows = GetRows({ObjectiveData = OBJECTIVES, Objectives = {{Collected = 3, Needed = 8}, {Collected = 0, Needed = 1}}})
+
+            assert.are.equal("3/8", Find(rows, "Marshal McBride").tag)
+            assert.are.equal("0/1", Find(rows, "Gnoll Paw").tag)
+        end)
+    end)
+
+    it("should show the history of the quest, and only of this quest", function()
+        Questie.db.char.journey = {
+            {Event = "Quest", SubType = "Accept", Quest = 93036, Level = 5, Timestamp = 0},
+            {Event = "Quest", SubType = "Accept", Quest = 1, Level = 5, Timestamp = 0},
+            {Event = "Level", NewLevel = 6, Timestamp = 0},
+            {Event = "Quest", SubType = "Complete", Quest = 93036, Timestamp = 0},
+        }
+
+        assert.are_same({"Accepted   Level 5", "Completed"}, Section(GetRows(), "Your history"))
     end)
 
     it("should show its raw data while debugging", function()

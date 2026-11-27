@@ -6,7 +6,7 @@ describe("JourneyPanes", function()
     ---@type JourneyPanes
     local JourneyPanes
     local ui
-    local canvas, panes
+    local canvas, panes, sizes
 
     before_each(function()
         ui = FakeUI.Install()
@@ -18,7 +18,8 @@ describe("JourneyPanes", function()
 
         canvas = CreateFrame("Frame", nil, UIParent)
         canvas:SetSize(1000, 500)
-        panes = JourneyPanes.Create(canvas, "Quests", 64)
+        sizes = {}
+        panes = JourneyPanes.Create(canvas, "Quests", 64, sizes)
     end)
 
     after_each(function()
@@ -49,6 +50,41 @@ describe("JourneyPanes", function()
 
         assert.is_true(y < -64 and y > -100)
         assert.are.equal("Quests", panes.list.titleFrame.text)
+    end)
+
+    ---@param expected number
+    ---@param actual number
+    local function AssertAbout(expected, actual)
+        assert.is_true(math.abs(expected - actual) < 0.01, ("expected about %s, but got %s"):format(expected, actual))
+    end
+
+    -- The divider between them is 2 wide
+    it("should make the list as wide as the details until the divider is dragged, also in a smaller window", function()
+        assert.are.equal(499, panes.list:GetWidth())
+
+        canvas:SetWidth(700)
+
+        assert.are.equal(349, panes.list:GetWidth())
+    end)
+
+    it("should keep the share of the width the list was dragged to when the window is resized", function()
+        Drag(500, 600) -- To 599 of 998
+
+        canvas:SetWidth(800)
+
+        AssertAbout(599 / 998 * 798, panes.list:GetWidth())
+    end)
+
+    it("should keep where the divider was dragged to for the next time, until it is double-clicked", function()
+        Drag(500, 600)
+        AssertAbout(599 / 998, sizes.listShare)
+
+        local otherCanvas = CreateFrame("Frame", nil, UIParent)
+        otherCanvas:SetSize(1000, 500)
+        AssertAbout(599, JourneyPanes.Create(otherCanvas, "Quests", 64, sizes).list:GetWidth())
+
+        Divider().scripts.OnDoubleClick(Divider())
+        assert.is_nil(sizes.listShare)
     end)
 
     it("should make the list wider and narrower by dragging", function()
@@ -98,6 +134,35 @@ describe("JourneyPanes", function()
         assert.is_nil(divider.scripts.OnUpdate)
     end)
 
+    it("should return to its original width when the divider is double-clicked", function()
+        local width = panes.list:GetWidth()
+        local divider = Drag(500, 560)
+        divider.scripts.OnMouseUp(divider)
+
+        divider.scripts.OnDoubleClick(divider)
+
+        assert.are.equal(width, panes.list:GetWidth())
+    end)
+
+    it("should stop dragging when the divider is double-clicked, which would undo it", function()
+        local divider = Drag(500, 560)
+
+        divider.scripts.OnDoubleClick(divider)
+
+        assert.is_nil(divider.scripts.OnUpdate)
+    end)
+
+    it("should return to its original width after a double-click in a small window when there is room again", function()
+        local width = panes.list:GetWidth()
+        Drag(500, 560)
+        canvas:SetWidth(550)
+
+        Divider().scripts.OnDoubleClick(Divider())
+        canvas:SetWidth(1000)
+
+        assert.are.equal(width, panes.list:GetWidth())
+    end)
+
     it("should show that it can be dragged with the cursor, only while the mouse is over it", function()
         Divider().scripts.OnEnter(Divider())
         assert.are.equal("UI_RESIZE_CURSOR", ui.cursor)
@@ -114,15 +179,14 @@ describe("JourneyPanes", function()
         assert.is_true(panes.list:GetWidth() >= 200)
     end)
 
-    it("should shrink the list in a small window, and restore it when there is room again", function()
-        local width = panes.list:GetWidth()
+    it("should leave room for the details in a small window, and give the list its share again when there is room", function()
+        Drag(500, 700) -- To 699 of 998
 
         canvas:SetWidth(550)
-        local narrowWidth = panes.list:GetWidth()
-        canvas:SetWidth(1000)
+        assert.are.equal(550 - 2 - 240, panes.list:GetWidth())
 
-        assert.is_true(narrowWidth < width and narrowWidth >= 200)
-        assert.are.equal(width, panes.list:GetWidth())
+        canvas:SetWidth(1000)
+        AssertAbout(699, panes.list:GetWidth())
     end)
 
     it("should drag from where the divider is in a small window", function()

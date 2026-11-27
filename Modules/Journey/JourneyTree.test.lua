@@ -6,7 +6,7 @@ describe("JourneyTree", function()
     ---@type JourneyTree
     local JourneyTree
     local ui
-    local parent, tree, selected
+    local parent, tree, selected, completed
 
     ---@return JourneyTreeNode[]
     local function CreateNodes()
@@ -47,16 +47,30 @@ describe("JourneyTree", function()
         dofile("Modules/Journey/JourneyTree.lua")
         JourneyTree = QuestieLoader:ImportModule("JourneyTree")
 
-        parent, selected = CreateFrame("Frame", nil, UIParent), {}
+        parent, selected, completed = CreateFrame("Frame", nil, UIParent), {}, {}
         tree = JourneyTree.Create(
             parent,
             function(node) table.insert(selected, node.value) end,
-            function(node) return (node.value == 8 or node.children) and "complete" or nil end
+            function(node) return (node.value == 8 or node.children or completed[node.value]) and "complete" or nil end
         )
     end)
 
     after_each(function()
         ui.Restore()
+    end)
+
+    -- Like the icon of a quest that was completed since
+    it("should bring its rows up to date, without new entries", function()
+        JourneyTree.SetNodes(tree, CreateNodes())
+        Click("Available")
+        local wolves = ui.Rows(parent, 1)[2]
+        assert.is_false(wolves.Icon:IsShown())
+
+        completed[7] = true
+        JourneyTree.Update(tree)
+
+        assert.is_true(wolves.Icon:IsShown())
+        assert.are.equal("complete", wolves.Icon:GetTexture())
     end)
 
     it("should only show headers at first", function()
@@ -107,19 +121,29 @@ describe("JourneyTree", function()
         assert.is_false(JourneyTree.IsEmpty(tree))
     end)
 
+    ---@param region table
+    ---@return number x Where it starts in its row
+    local function GetLeft(region)
+        for index = 1, #region.points do
+            local _, _, relativePoint, x = region:GetPoint(index)
+            if relativePoint == "LEFT" then return x end
+        end
+    end
+
     it("should show headers and entries differently", function()
         JourneyTree.SetNodes(tree, CreateNodes())
         Click("Available")
         local available, wolves, kobolds, completed = unpack(ui.Rows(parent, 1))
 
-        assert.are.equal("common-button-dropdown-open", available.Toggle.atlas)
-        assert.are.equal("common-button-dropdown-closed", completed.Toggle.atlas)
+        assert.are.equal("Interface\\Buttons\\UI-MinusButton-Up", available.Toggle.texture)
+        assert.are.equal("Interface\\Buttons\\UI-PlusButton-Up", completed.Toggle.texture)
         assert.is_false(wolves.Toggle:IsShown())
         assert.is_false(available.Icon:IsShown()) -- The toggle is there
         assert.is_false(wolves.Icon:IsShown())
         assert.is_true(kobolds.Icon:IsShown())
         assert.are.equal("complete", kobolds.Icon:GetTexture())
-        assert.is_true(wolves.Label.points[2][4] > available.Label.points[2][4])
+        -- Like Blizzard's settings: the text of an entry is in line with its header's, and its icon below the toggle
+        assert.are.equal(GetLeft(available.Label), GetLeft(wolves.Label))
     end)
 
     it("should select an entry that is clicked", function()

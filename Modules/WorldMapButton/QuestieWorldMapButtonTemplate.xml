@@ -64,4 +64,6 @@
             <OnHide method="OnHide"/>
         </Scripts>
     </Button>
+
+    <Button name="QuestieJourneyMapButtonTemplate" inherits="QuestieWorldMapButtonTemplate" mixin="QuestieJourneyMapButtonMixin" virtual="true"/>
 </Ui>

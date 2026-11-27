@@ -17,13 +17,14 @@ local QuestieOptionsWindow = QuestieLoader:ImportModule("QuestieOptionsWindow")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
-local WINDOW_WIDTH, WINDOW_HEIGHT = 1000, 650
+local WINDOW_WIDTH, WINDOW_HEIGHT = 1000, 665
+local ABOVE_CENTER = 15
 local MIN_WINDOW_WIDTH, MIN_WINDOW_HEIGHT = 550, 400
 -- Left free on both sides of the window, so its tabs are still on a narrow screen
 local SIDE_TAB_SPACE = 60
 local OPEN_SOUND = 882
 -- Height of the header with the title of the tab
-local CANVAS_TOP = 36
+local CANVAS_TOP = 44
 
 -- Every client has these icons under the same ID
 
@@ -32,8 +33,6 @@ JourneyWindow.ICON = 136797
 JourneyWindow.ICON_CROP = 0.1875
 
 JourneyWindow.MAP_ICON = 137195 -- Interface\WorldMap\WorldMap-Icon
-local FACTION_ICON = 135026 -- Interface\Icons\INV_Shirt_GuildTabard_01
-local SEARCH_ICON = 134442 -- Interface\Icons\INV_Misc_Spyglass_03
 local SETTINGS_ICON = 134063 -- Interface\Icons\INV_Misc_Gear_01
 
 ---@class JourneyTab
@@ -46,6 +45,13 @@ local SETTINGS_ICON = 134063 -- Interface\Icons\INV_Misc_Gear_01
 ---@field Open fun(kind: JourneyKind, id: number)
 ---@field ClearFocus fun()
 
+---What the user resized, saved for the character
+---@class JourneyWindow.Sizes
+---@field width number? Nil until the window is resized
+---@field height number?
+---@field quests JourneyPanes.Sizes Each tab has its own divider
+---@field history JourneyPanes.Sizes
+
 ---@class JourneyTabInfo
 ---@field key string
 ---@field module string Where its JourneyTab is in the private table of QuestieJourney
@@ -53,15 +59,20 @@ local SETTINGS_ICON = 134063 -- Interface\Icons\INV_Misc_Gear_01
 ---@field icon number
 ---@field iconCrop number?
 
-local SEARCH_KEY = "search"
 
 ---In display order
 ---@type JourneyTabInfo[]
 local TABS = {
-    {key = "journey", module = "myJourney", title = "My Journey", icon = JourneyWindow.ICON, iconCrop = JourneyWindow.ICON_CROP},
-    {key = "zone", module = "questsByZone", title = "Quests by Zone", icon = JourneyWindow.MAP_ICON},
-    {key = "faction", module = "questsByFaction", title = "Quests by Faction", icon = FACTION_ICON},
-    {key = SEARCH_KEY, module = "search", title = "Advanced Search", icon = SEARCH_ICON},
+    {key = "quests", module = "quests", title = "Quests", icon = JourneyWindow.MAP_ICON},
+    {key = "history", module = "myJourney", title = HISTORY, icon = JourneyWindow.ICON, iconCrop = JourneyWindow.ICON_CROP},
+}
+
+-- What the menus and bindings ask for
+local REQUESTS = {
+    zone = {tab = "quests", show = function() _QuestieJourney.quests.ShowCurrentZone() end},
+    faction = {tab = "quests", show = function() _QuestieJourney.quests.ShowWatchedFaction() end},
+    search = {tab = "quests", show = function() _QuestieJourney.quests.ShowSearch() end},
+    journey = {tab = "history"},
 }
 
 ---Nil until the window is first opened.
@@ -132,17 +143,55 @@ local function _OnSideTabClicked(tabKey)
     end
 end
 
+---Typing stops when the window is clicked, like when the world is clicked.
+local function _ClearFocusInWindow()
+    local focus = GetCurrentKeyBoardFocus()
+    local frame = focus
+    while frame do
+        if frame == window then
+            focus:ClearFocus()
+            return
+        end
+        frame = frame:GetParent()
+    end
+end
+
+---Shrinks a size of the window to what fits on the screen. A saved size can be too big after the UI scale was changed.
+---@param width number
+---@param height number
+---@return number width
+---@return number height
+local function _FitToScreen(width, height)
+    return math.min(width, GetScreenWidth() - 2 * SIDE_TAB_SPACE), math.min(height, GetScreenHeight())
+end
+
 local function _CreateWindow()
+    ---@type JourneyWindow.Sizes
+    local sizes = Questie.db.char.journeyWindow
+    local width, height = _FitToScreen(sizes.width or WINDOW_WIDTH, sizes.height or WINDOW_HEIGHT)
     window = QuestieOptionsWindow.Create({
         name = "QuestieJourneyFrame",
         title = l10n("%s's Journey", GetUnitName("player", true)),
         strata = "FULLSCREEN_DIALOG", -- Above the maximized world map
-        width = math.min(WINDOW_WIDTH, GetScreenWidth() - 2 * SIDE_TAB_SPACE),
-        height = WINDOW_HEIGHT,
+        width = width,
+        height = height,
         minWidth = MIN_WINDOW_WIDTH,
         minHeight = MIN_WINDOW_HEIGHT,
+        onResized = function(resizedWidth, resizedHeight)
+            sizes.width, sizes.height = resizedWidth, resizedHeight
+        end,
     })
+    window:SetPoint("CENTER", 0, ABOVE_CENTER)
+    -- Double-clicking the grip resets the window to its default size, and forgets the saved one. The grip's mouse-up
+    -- comes before the click, so it has already let go of the window and saved the size it was dragged to.
+    window.resizeGrip:SetScript("OnDoubleClick", function()
+        sizes.width, sizes.height = nil, nil
+        window:SetSize(_FitToScreen(WINDOW_WIDTH, WINDOW_HEIGHT))
+    end)
     canvasTitle = QuestieOptionsWindow.CreatePageTitle(window.canvasContainer, window.canvasContainer, QuestieOptionsWindow.HEADER_INSET)
+    -- In the middle of the header, like the tabs of the quests next to it
+    canvasTitle:ClearAllPoints()
+    canvasTitle:SetPoint("LEFT", window.canvasContainer, "TOPLEFT", QuestieOptionsWindow.HEADER_INSET, -CANVAS_TOP / 2 - 3)
 
     local headerLine = window.canvasContainer:CreateTexture(nil, "BORDER")
     headerLine:SetPoint("TOPLEFT", window.canvasContainer, "TOPLEFT", 0, -CANVAS_TOP + 2)
@@ -151,8 +200,9 @@ local function _CreateWindow()
     QuestieOptionsUtils.DisableSnapping(headerLine)
 
     for _, frame in ipairs({window, window.dragBar, window.resizeGrip}) do
-        frame:HookScript("OnMouseDown", function() _QuestieJourney.search.ClearFocus() end)
+        frame:HookScript("OnMouseDown", _ClearFocusInWindow)
     end
+    _QuestieJourney.quests.UseHeader(canvasTitle)
 
     local previousSideTab
     for _, tab in ipairs(TABS) do
@@ -176,7 +226,18 @@ function JourneyWindow.Show(tabKey)
         PlaySound(OPEN_SOUND)
         window:Show()
     end
-    _SelectTab(tabKey or selectedKey)
+    local request = REQUESTS[tabKey]
+    _SelectTab(request and request.tab or tabKey or selectedKey)
+    if request and request.show then
+        request.show()
+    end
+end
+
+---Shows the list of quests, in which search results are shown as well.
+function JourneyWindow.ShowQuests()
+    if selectedKey ~= "quests" then
+        _SelectTab("quests")
+    end
 end
 
 ---Opens the window again as it was hidden.
@@ -204,16 +265,8 @@ end
 ---@param kind JourneyKind
 ---@param id number
 function JourneyWindow.OpenLink(kind, id)
-    local tab = _GetSelectedTab()
-    if kind == "quest" and tab.OpenQuest then
-        tab.OpenQuest(id)
-        return
-    end
-
-    if selectedKey ~= SEARCH_KEY then
-        _SelectTab(SEARCH_KEY)
-    end
-    _QuestieJourney.search.Open(kind, id)
+    JourneyWindow.ShowQuests()
+    _QuestieJourney.quests.Open(kind, id)
 end
 
 ---@return boolean

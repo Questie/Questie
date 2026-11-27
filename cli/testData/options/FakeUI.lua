@@ -17,23 +17,24 @@ local LINE_HEIGHTS = {GameFontNormalMed1 = 16}
 local DEFAULT_LINE_HEIGHT = 14
 
 local GLOBALS = {
-    "CreateFrame", "UIParent", "SettingsPanel", "CreateScrollBoxLinearView", "ScrollUtil", "Settings", "GameTooltip",
+    "CreateFrame", "UIParent", "SettingsPanel", "CreateScrollBoxLinearView", "ScrollUtil", "CreateAnchor", "Settings", "GameTooltip",
     "ColorPickerFrame", "NineSliceUtil", "UISpecialFrames", "tinsert", "GetScreenHeight", "GetScreenWidth",
     "CreateFont",
     "GameFontHighlightSmall", "C_Timer", "GetTime", "GetTimePreciseSec", "PlaySound", "SOUNDKIT", "IsMouseButtonDown",
     "strtrim", "print", "LibStub", "debugstack", "wipe", "OKAY", "Menu", "strsplit", "CreateScrollBoxListLinearView",
-    "CreateDataProvider", "CreateIndexRangeDataProvider", "ScrollBoxConstants", "GetCursorPosition", "SetCursor",
+    "CreateDataProvider", "CreateIndexRangeDataProvider", "ScrollBoxConstants", "GetCursorPosition", "SetCursor", "C_Texture",
+    "GetCurrentKeyBoardFocus", "CreateColor", "BreakUpLargeNumbers",
 }
 
 -- Art and setup calls that have no behavior worth simulating
 local NO_OP_METHODS = {
-    "AddMaskTexture", "ClearAllPoints", "RegisterForClicks", "SetAllPoints", "SetAutoFocus",
+    "AddMaskTexture", "ClearAllPoints", "RegisterForClicks", "SetAutoFocus",
     "SetBlendMode", "SetCheckedTexture", "SetClampedToScreen", "SetColorTexture", "SetDisabledCheckedTexture",
     "SetDisabledTexture", "SetDrawLayer", "SetFixedWidth", "SetFontHeight", "SetFontString",
     "SetHighlightAtlas", "SetHighlightTexture", "SetHorizTile", "SetJustifyH", "SetJustifyV",
-    "SetMaxLetters", "SetMovable", "SetNormalTexture", "SetPortraitTextureRaw", "SetPushedTexture",
-    "SetRotation", "SetSnapToPixelGrid", "SetTexelSnappingBias", "SetTitle", "SetWordWrap",
-    "StartMoving", "SetPortraitZoom",
+    "SetMaxLetters", "SetMovable", "SetPortraitTextureRaw", "SetPushedTexture",
+    "SetSnapToPixelGrid", "SetTexelSnappingBias", "SetTitle", "SetWordWrap",
+    "StartMoving", "SetPortraitZoom", "SetGradient",
 }
 
 -- Only these have scripts for clicks. Setting one on another frame is an error.
@@ -65,8 +66,10 @@ local TEMPLATE_METHODS = {
         OnMouseUp = function(self)
             self.isActive = false
             self.target:StopMovingOrSizing()
+            if self.resizeStoppedCallback then self.resizeStoppedCallback(self.target) end
         end,
         IsActive = function(self) return self.isActive == true end,
+        SetOnResizeStoppedCallback = function(self, callback) self.resizeStoppedCallback = callback end,
     },
     MinimalTabTemplate = {
         SetSelected = function(self, isSelected) self.isSelected = isSelected end,
@@ -276,8 +279,9 @@ function FakeUI.Install()
             hook(...)
         end
     end
-    function methods:Click()
-        if self.enabled then FireScript(self, "OnClick") end
+    -- Like Blizzard's, a click without a mouse button is one of the left button
+    function methods:Click(mouseButton)
+        if self.enabled then FireScript(self, "OnClick", mouseButton or "LeftButton") end
     end
 
     -- Size and position
@@ -307,6 +311,12 @@ function FakeUI.Install()
         end
         table.insert(self.points, point)
     end
+    -- Covers the frame it is set to, or its parent
+    function methods:SetAllPoints(relativeTo)
+        relativeTo = relativeTo or self.parent
+        self:SetPoint("TOPLEFT", relativeTo, "TOPLEFT", 0, 0)
+        self:SetPoint("BOTTOMRIGHT", relativeTo, "BOTTOMRIGHT", 0, 0)
+    end
     function methods:GetPoint(index)
         local point = self.points[index] or {}
         return point[1], point[2], point[3], point[4], point[5]
@@ -330,6 +340,14 @@ function FakeUI.Install()
             width = math.max(width, #line * CHARACTER_WIDTH)
         end
         return self.maxTextWidth and math.min(width, self.maxTextWidth) or width
+    end
+    -- As wide as all of the text, whatever width the font string has
+    function methods:GetUnboundedStringWidth()
+        local maxTextWidth = self.maxTextWidth
+        self.maxTextWidth = nil
+        local width = self:GetStringWidth()
+        self.maxTextWidth = maxTextWidth
+        return width
     end
     function methods:GetStringHeight()
         if ui.stringHeight then return ui.stringHeight end
@@ -363,6 +381,8 @@ function FakeUI.Install()
     end
     function methods:GetText() return self.text end
     function methods:AddLine(text) self.lines = self.lines or {}; table.insert(self.lines, text) end
+    -- A line with a text at the left and one at the right, which can be numbers like in the real one
+    function methods:AddDoubleLine(left, right) self:AddLine({tostring(left), tostring(right)}) end
     -- Like the real one, which is empty until something is added and hidden until it is shown
     function methods:SetOwner(owner)
         self.owner, self.text, self.lines = owner, nil, nil
@@ -385,6 +405,13 @@ function FakeUI.Install()
     function methods:SetDesaturated(isDesaturated) self.isDesaturated = isDesaturated end
     function methods:SetVertexColor(...) self.vertexColor = {...} end
     function methods:SetTextColor(...) self.textColor = {...} end
+    -- Status bars
+    function methods:SetStatusBarTexture(texture) self.statusBarTexture = texture end
+    function methods:GetStatusBarTexture()
+        self.statusBarRegion = self.statusBarRegion or NewFrame("Texture", nil, self)
+        return self.statusBarRegion
+    end
+    function methods:SetStatusBarColor(...) self.statusBarColor = {...} end
     function methods:SetFont(path) self.fontPath = path end
     function methods:SetFontObject(font) self.fontObject = font end
 
@@ -408,6 +435,9 @@ function FakeUI.Install()
     -- Dropdowns follow DropdownButtonMixin: being set up while shown and every OnShow generate the menu, the text comes
     -- from the selected entry, and opening generates the menu before it counts as open.
     local function UpdateSelectionText(dropdown)
+        if dropdown.disableSelectionText then
+            return
+        end
         dropdown.text = dropdown.defaultText
         for _, entry in ipairs(dropdown.menuEntries or {}) do
             if entry.isSelected and entry.isSelected() then
@@ -418,24 +448,36 @@ function FakeUI.Install()
     end
     -- Like Blizzard's, this only shows once the text is updated
     function methods:SetDefaultText(text) self.defaultText = text end
+    -- Like DropdownSelectionTextMixin: the text stays, whatever is selected
+    function methods:OverrideText(text)
+        if not text then return end
+        self.disableSelectionText = true
+        self.text = text
+    end
     function methods:SetupMenu(generator)
         self.menuGenerator = generator
         self:HookScript("OnShow", function(dropdown) dropdown:GenerateMenu() end)
         if self:IsShown() then self:GenerateMenu() end
     end
+    -- Like Blizzard's element descriptions: a menu, and every entry, can have entries of its own
+    local function AddDescriptionMethods(description, entries)
+        function description.SetScrollMode(_, height) entries.scrollHeight = height end
+        function description.CreateDivider() table.insert(entries, {isDivider = true}) end
+        local function AddEntry(text, isSelected, select)
+            local entry = {text = text, isSelected = isSelected, select = select, entries = {}}
+            function entry:AddInitializer(initializer) self.initializer = initializer end
+            AddDescriptionMethods(entry, entry.entries)
+            table.insert(entries, entry)
+            return entry
+        end
+        function description.CreateRadio(_, text, isSelected, select) return AddEntry(text, isSelected, select) end
+        function description.CreateButton(_, text, select) return AddEntry(text, nil, select) end
+        return description
+    end
     function methods:GenerateMenu()
         self.generatedMenus = (self.generatedMenus or 0) + 1
         local entries = {}
-        self.menuGenerator(self, {
-            SetScrollMode = function(_, height) entries.scrollHeight = height end,
-            CreateDivider = function() table.insert(entries, {isDivider = true}) end,
-            CreateRadio = function(_, text, isSelected, select)
-                local entry = {text = text, isSelected = isSelected, select = select}
-                function entry:AddInitializer(initializer) self.initializer = initializer end
-                table.insert(entries, entry)
-                return entry
-            end,
-        })
+        self.menuGenerator(self, AddDescriptionMethods({}, entries))
         self.menuEntries = entries
         UpdateSelectionText(self)
     end
@@ -492,9 +534,28 @@ function FakeUI.Install()
         self.texCoord = {...}
     end
     function methods:GetTexture() return self.texture end
-    function methods:SetCreature(npcId) self.npcId, self.modelSets = npcId, (self.modelSets or 0) + 1 end
-    function methods:ClearModel() self.npcId = nil end
-    function methods:GetDisplayInfo() return ui.knownNpcs[self.npcId] and 1 or 0 end
+    -- The texture of a button while it isn't pushed or disabled
+    function methods:SetNormalTexture(asset) self.normalTexture = asset end
+    function methods:SetRotation(radians) self.rotation = radians end
+    -- Nothing happens for an NPC the client doesn't know, also not later
+    function methods:SetCreature(npcId)
+        self.npcId, self.modelSets = npcId, (self.modelSets or 0) + 1
+        if not ui.knownNpcs[npcId] then
+            return
+        end
+        self.displayInfo, self.modelFile = npcId, npcId
+        if ui.modelLoadSeconds == 0 then
+            FireScript(self, "OnModelLoaded")
+        else
+            _G.C_Timer.After(ui.modelLoadSeconds, function()
+                if self.modelFile == npcId then FireScript(self, "OnModelLoaded") end
+            end)
+        end
+    end
+    function methods:ClearModel() self.npcId, self.modelFile = nil, nil end
+    function methods:GetModelFileID() return self.modelFile end
+    -- Stays the one of the NPC before, also after ClearModel
+    function methods:GetDisplayInfo() return self.displayInfo or 0 end
 
     -- Tooltips
     function methods:SetItemByID(itemId) self.itemId = itemId end
@@ -554,6 +615,7 @@ function FakeUI.Install()
         RegisterScrollBoxWithScrollBar = function() end,
         AddManagedScrollBarVisibilityBehavior = function() end,
     }
+    _G.CreateAnchor = function(...) return {...} end
     _G.ScrollBoxConstants = {RetainScrollPosition = true, DiscardScrollPosition = false, AlignNearest = 1}
     _G.CreateScrollBoxListLinearView = function()
         return {
@@ -574,7 +636,27 @@ function FakeUI.Install()
     end
     _G.GetCursorPosition = function() return ui.cursorX or 0, 0 end
     _G.SetCursor = function(cursor) ui.cursor = cursor end
+    -- Only the atlases in ui.atlases exist, like on a client without Forever's
+    _G.C_Texture = {GetAtlasInfo = function(atlas) return ui.atlases and ui.atlases[atlas] or nil end}
+    _G.GetCurrentKeyBoardFocus = function() return ui.focus end
+    -- With a comma between thousands, like Blizzard's in English
+    _G.BreakUpLargeNumbers = function(value)
+        local text = tostring(math.floor(value)):reverse():gsub("(%d%d%d)", "%1,"):reverse()
+        return (text:gsub("^(-?),", "%1"))
+    end
+    -- Like ColorMixin. The color code is written like Cata's WrapTextInColorCode, which later clients do in C_ColorUtil.
+    _G.CreateColor = function(r, g, b, a)
+        local function Byte(value) return math.floor(value * 255 + 0.5) end
+        return {
+            r = r, g = g, b = b, a = a,
+            GetRGB = function(color) return color.r, color.g, color.b end,
+            WrapTextInColorCode = function(color, text)
+                return ("|cff%.2x%.2x%.2x%s|r"):format(Byte(color.r), Byte(color.g), Byte(color.b), text)
+            end,
+        }
+    end
     ui.knownNpcs = {}
+    ui.modelLoadSeconds = 0
     _G.NineSliceUtil = {ApplyLayoutByName = function() end}
     _G.CreateScrollBoxLinearView = function()
         return {SetPadding = function() end, SetPanExtent = function() end}

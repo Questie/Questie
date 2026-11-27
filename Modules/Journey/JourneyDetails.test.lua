@@ -325,6 +325,71 @@ describe("JourneyDetails", function()
         end)
     end)
 
+    -- FakeUI makes each character 7 wide. A row is 8 narrower on both sides than the list.
+    describe("a step", function()
+        local QUEST, TAG = "Supplies to Private Thorsen", "this quest" -- 189 and 70 wide
+        -- Its name starts 26 from the left, and its tag ends 8 from the right, 8 away from the name
+        local FITTING_WIDTH = 2 * 8 + 26 + 189 + 8 + 70 + 8
+
+        ---@return number x Of the right edge of the name, from the right edge of the row
+        local function NameRight()
+            for index = 1, #Part(1).Text.points do
+                local point, _, _, x = Part(1).Text:GetPoint(index)
+                if point == "RIGHT" then return x end
+            end
+        end
+
+        it("should show its tag next to a name that fits with it", function()
+            details.scrollBox:SetWidth(FITTING_WIDTH)
+            JourneyDetails.SetRows(details, {{type = "step", text = QUEST, tag = TAG}})
+
+            assert.is_true(Part(1).Note:IsShown())
+            assert.are.equal(TAG, Part(1).Note.text)
+            assert.are.equal(-8 - 70 - 8, NameRight())
+        end)
+
+        it("should leave out its tag rather than cut off the name", function()
+            details.scrollBox:SetWidth(FITTING_WIDTH - 1)
+            JourneyDetails.SetRows(details, {{type = "step", text = QUEST, tag = TAG}})
+
+            assert.is_false(Part(1).Note:IsShown())
+            assert.are.equal(-8, NameRight())
+        end)
+    end)
+
+    describe("a page", function()
+        local TITLE, TAG = "Welcome to the Jungle", "Dungeon" -- 147 and 49 wide
+        -- The tag is 12 away from the title, and 4 from the right edge
+        local FITTING_WIDTH = 2 * 8 + 147 + 12 + 49
+
+        it("should show its tag next to a title that fits with it", function()
+            details.scrollBox:SetWidth(FITTING_WIDTH)
+            JourneyDetails.SetRows(details, {{type = "page", text = TITLE, tag = TAG}})
+
+            assert.is_true(Part(1).Tag:IsShown())
+            assert.are.equal(TAG, Part(1).Tag.text)
+            assert.are.equal(TITLE, Part(1).Title.text)
+            assert.are.equal(32, RowHeight(1))
+        end)
+
+        it("should take more lines for a long title rather than cut it off, and leave out its tag", function()
+            details.scrollBox:SetWidth(2 * 8 + 100)
+            JourneyDetails.SetRows(details, {{type = "page", text = TITLE, tag = TAG}})
+
+            assert.is_false(Part(1).Tag:IsShown())
+            assert.are.equal(100, Part(1).Title:GetWidth())
+            assert.is_true(RowHeight(1) >= Part(1).Title:GetStringHeight() + 6)
+            assert.is_true(RowHeight(1) > 32)
+        end)
+
+        it("should keep its height without a tag, while the title fits on one line", function()
+            JourneyDetails.SetRows(details, {{type = "page", text = "Wolves"}})
+
+            assert.is_false(Part(1).Tag:IsShown())
+            assert.are.equal(32, RowHeight(1))
+        end)
+    end)
+
     describe("a link", function()
         it("should do what its row says, also after the row was reused", function()
             local clicked = {}
@@ -396,6 +461,22 @@ describe("JourneyDetails", function()
         assert.are.equal(1, clicks)
     end)
 
+    for _, rowType in ipairs({"status", "entity"}) do
+        it("should offer Blizzard's map button in a " .. rowType .. " that has a place to show, and leave room for it", function()
+            local shown = 0
+            JourneyDetails.SetRows(details, {{type = rowType, text = "Elwynn Forest"}})
+            assert.is_false(Part(1).ShowMap:IsShown())
+            local fullWidth = Part(1).Text:GetWidth()
+
+            JourneyDetails.SetRows(details, {{type = rowType, text = "Elwynn Forest", onShowMap = function() shown = shown + 1 end}})
+            Part(1).ShowMap:Click()
+
+            assert.is_true(Part(1).ShowMap:IsShown())
+            assert.are.equal(1, shown)
+            assert.is_true(Part(1).Text:GetWidth() < fullWidth)
+        end)
+    end
+
     describe("an entity", function()
         local UNKNOWN_ICON = 134400
 
@@ -422,19 +503,45 @@ describe("JourneyDetails", function()
             assert.is_false(Part(1).Icon:IsShown())
         end)
 
+        it("should show a placeholder until the client knows the NPC, also after the face of another one", function()
+            ui.knownNpcs[299] = true
+            JourneyDetails.SetRows(details, {{type = "entity", text = "NPC ID: 299", npcId = 299}})
+            JourneyDetails.SetRows(details, {{type = "entity", text = "NPC ID: 300", npcId = 300}})
+            assert.is_true(Part(1).Icon:IsShown())
+
+            ui.knownNpcs[300] = true
+            ui.RunFor(0.3)
+
+            assert.is_false(Part(1).Icon:IsShown())
+            assert.are.equal(300, Part(1).Model.modelFile)
+        end)
+
+        it("should show a placeholder until the face is loaded, without asking again, which would load it again", function()
+            ui.knownNpcs[299] = true
+            ui.modelLoadSeconds = 0.5
+
+            JourneyDetails.SetRows(details, {{type = "entity", text = "NPC ID: 299", npcId = 299}})
+            ui.RunFor(0.4)
+            assert.is_true(Part(1).Icon:IsShown())
+
+            ui.RunFor(0.2)
+            assert.is_false(Part(1).Icon:IsShown())
+            assert.are.equal(1, Part(1).Model.modelSets)
+        end)
+
         it("should stop asking for an NPC the server doesn't know", function()
             JourneyDetails.SetRows(details, {{type = "entity", text = "NPC ID: 1", npcId = 1}})
 
             ui.RunUntilIdle()
 
-            assert.are.equal(4, Part(1).Model.modelSets)
+            assert.are.equal(50, Part(1).Model.modelSets)
             assert.is_true(Part(1).Icon:IsShown())
         end)
 
         it("should not ask right away, because the server needs some time", function()
             JourneyDetails.SetRows(details, {{type = "entity", text = "NPC ID: 1", npcId = 1}})
 
-            ui.RunFor(0.3)
+            ui.RunFor(0.05)
 
             assert.are.equal(1, Part(1).Model.modelSets)
         end)
@@ -455,7 +562,7 @@ describe("JourneyDetails", function()
 
             ui.RunUntilIdle()
 
-            assert.are.equal(5 + 3, Part(1).Model.modelSets)
+            assert.are.equal(5 + 49, Part(1).Model.modelSets)
         end)
 
         it("should lead somewhere, if its row says so", function()
@@ -505,6 +612,42 @@ describe("JourneyDetails", function()
             assert.is_false(Part(1).Model:IsShown())
             assert.is_true(Part(1).Icon:IsShown())
             assert.are.equal(1234, Part(1).Icon:GetTexture())
+        end)
+
+        describe("badges", function()
+            local START, FINISH = "available", "complete"
+
+            ---@param badges string[]?
+            ---@return table[] textures Those that are shown
+            local function ShowBadges(badges)
+                ui.knownNpcs[299] = true
+                JourneyDetails.SetRows(details, {{type = "entity", text = "NPC ID: 299", npcId = 299, badges = badges}})
+                local shown = {}
+                for _, texture in ipairs(Part(1).Badges) do
+                    if texture:IsShown() then table.insert(shown, texture) end
+                end
+                return shown
+            end
+
+            it("should show what an NPC does, and nothing of the row before", function()
+                local both = ShowBadges({START, FINISH})
+                assert.are_same({START, FINISH}, {both[1]:GetTexture(), both[2]:GetTexture()})
+
+                local one = ShowBadges({FINISH})
+                assert.are.equal(1, #one)
+                assert.are.equal(FINISH, one[1]:GetTexture())
+
+                assert.are.equal(0, #ShowBadges(nil))
+            end)
+
+            it("should only be tilted, away from each other, when there are two", function()
+                assert.are.equal(0, ShowBadges({START})[1].rotation)
+
+                local both = ShowBadges({START, FINISH})
+                assert.is_true(both[1].rotation > 0 and both[2].rotation < 0)
+
+                assert.are.equal(0, ShowBadges({START})[1].rotation)
+            end)
         end)
 
         it("should use the whole width without a picture", function()

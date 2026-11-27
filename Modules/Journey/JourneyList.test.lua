@@ -160,16 +160,81 @@ describe("JourneyList", function()
             assert.is_false(GameTooltip:IsShown())
         end)
 
+        describe("note", function()
+            -- FakeUI makes each character 7 wide. The text of a row starts 22 from its left, and its note ends 8 from its right.
+            local QUEST = "Supplies to Private Thorsen" -- 189 wide
+            local XP = "1,250 xp" -- 56 wide, and 10 between it and the name
+
+            ---@param row table
+            ---@return number x Of the right edge of the name, from the right edge of the row
+            local function LabelRight(row)
+                for index = 1, #row.Label.points do
+                    local point, _, _, x = row.Label:GetPoint(index)
+                    if point == "RIGHT" then return x end
+                end
+            end
+
+            it("should be next to the name while both fit", function()
+                list:SetWidth(22 + 189 + 10 + 56 + 8)
+                local row = ShowRow({text = QUEST, note = XP, isSelected = false})
+
+                assert.is_true(row.Note:IsShown())
+                assert.are.equal(XP, row.Note.text)
+                assert.are.equal(-8 - 56 - 10, LabelRight(row))
+            end)
+
+            it("should be left out rather than cut off the name", function()
+                list:SetWidth(22 + 189 + 10 + 56 + 8 - 1)
+                local row = ShowRow({text = QUEST, note = XP, isSelected = false})
+
+                assert.is_false(row.Note:IsShown())
+                assert.are.equal(-8, LabelRight(row))
+            end)
+
+            it("should be in the tooltip while it is left out", function()
+                list:SetWidth(200)
+                local row = ShowRow({text = QUEST, note = XP, isSelected = false})
+
+                row.scripts.OnEnter(row)
+
+                assert.is_true(GameTooltip:IsShown())
+                assert.are.equal(QUEST, GameTooltip.text)
+                assert.are_same({XP}, GameTooltip.lines)
+            end)
+
+            it("should be shown or left out again when the list gets wider or narrower", function()
+                list:SetWidth(400)
+                local row = ShowRow({text = QUEST, note = XP, isSelected = false})
+                assert.is_true(row.Note:IsShown())
+
+                list:SetWidth(200)
+                assert.is_false(row.Note:IsShown())
+
+                list:SetWidth(400)
+                assert.is_true(row.Note:IsShown())
+            end)
+        end)
+
         it("should show whether it can be collapsed", function()
             local row = ShowRow({text = "Wolves", isSelected = false})
             assert.is_false(row.Toggle:IsShown())
 
             ShowRow({text = "Available", isSelected = false, isCollapsed = true})
             assert.is_true(row.Toggle:IsShown())
-            assert.are.equal("common-button-dropdown-closed", row.Toggle.atlas)
+            assert.are.equal("Interface\\Buttons\\UI-PlusButton-Up", row.Toggle.texture)
 
             ShowRow({text = "Available", isSelected = false, isCollapsed = false})
             assert.is_true(row.Toggle:IsShown())
+            assert.are.equal("Interface\\Buttons\\UI-MinusButton-Up", row.Toggle.texture)
+        end)
+
+        it("should show that it can be collapsed like Blizzard's settings, on the client that has their art", function()
+            ui.atlases = {["common-button-dropdown-open"] = {}, ["common-button-dropdown-closed"] = {}}
+
+            local row = ShowRow({text = "Available", isSelected = false, isCollapsed = true})
+            assert.are.equal("common-button-dropdown-closed", row.Toggle.atlas)
+
+            ShowRow({text = "Available", isSelected = false, isCollapsed = false})
             assert.are.equal("common-button-dropdown-open", row.Toggle.atlas)
         end)
 
@@ -185,6 +250,18 @@ describe("JourneyList", function()
 
             ShowRow({text = "Wolves", isSelected = false})
             assert.is_false(row.Icon:IsShown())
+        end)
+
+        it("should be below the text of its header, with its icon below the toggle", function()
+            for depth = 0, 1 do
+                local row = ShowRow({text = "Available", isSelected = false, isCollapsed = false, depth = depth})
+                local toggleCenter, label = GetX(row.Toggle) + row.Toggle:GetWidth() / 2, GetX(row.Label)
+
+                ShowRow({text = "Wolves", isSelected = false, icon = "complete", depth = depth + 1})
+
+                assert.are.equal(label, GetX(row.Label))
+                assert.is_true(math.abs(GetX(row.Icon) - toggleCenter) <= 1)
+            end
         end)
 
         it("should move everything to the right the deeper it is, and back", function()

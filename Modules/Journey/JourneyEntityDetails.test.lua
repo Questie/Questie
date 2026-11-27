@@ -91,6 +91,16 @@ describe("JourneyEntityDetails", function()
         dofile("Modules/Journey/QuestieJourneyUtils.lua")
         dofile("Modules/Journey/QuestieSearch.lua")
         dofile("Modules/Journey/JourneyRawData.lua")
+        -- The colors of names are tested with JourneyNameColors
+        local JourneyNameColors = QuestieLoader:ImportModule("JourneyNameColors")
+        JourneyNameColors.Npc = function(_, name) return name end
+        JourneyNameColors.Object = function(name) return name end
+        JourneyNameColors.Item = function(_, name) return name end
+        -- What the quests are, and their icons, are tested with JourneyQuestCategories
+        local JourneyQuestCategories = QuestieLoader:ImportModule("JourneyQuestCategories")
+        JourneyQuestCategories.Get = function() return "available" end
+        JourneyQuestCategories.GetIcon = function(_, category) return "icon of " .. category end
+        JourneyQuestCategories.GetProgress = function() return "1/2" end
         dofile("Modules/Journey/JourneyEntityDetails.lua")
         JourneyEntityDetails = QuestieLoader:ImportModule("JourneyEntityDetails")
     end)
@@ -133,17 +143,29 @@ describe("JourneyEntityDetails", function()
 
     describe("of an NPC", function()
         it("should show what it is, where it is and its quests", function()
+            local rows = GetRows("npc", 299)
+
             assert.are_same({
-                "heading: Young Wolf",
-                "entity: NPC ID: 299\nLevel: 1 - 2\nHealth: 42\nFriendly to: Horde",
-                "link: |T137195:14|t Elwynn Forest   X: 48.92 || Y: 41.60",
-                "button: Show on Map",
-                "title: Starts the following quests",
-                "link: Quest 7",
-                "title: Ends the following quests",
-                "link: Quest 8",
-            }, Describe(GetRows("npc", 299)))
-            assert.are.equal(299, GetRows("npc", 299)[2].npcId)
+                "page: Young Wolf",
+                "gap: nil",
+                "entity: Level: 1 - 2\nHealth: 42\nFriendly to: Horde\nElwynn Forest  48.9, 41.6",
+                "caption: Starts the following quests",
+                "step: Quest 7",
+                "caption: Ends the following quests",
+                "step: Quest 8",
+            }, Describe(rows))
+            assert.are.equal("NPC ID: 299", rows[1].tag)
+            assert.are.equal(299, rows[3].npcId)
+        end)
+
+        it("should say how far along a quest in the log is, and why another can't be done", function()
+            local JourneyQuestCategories = QuestieLoader:ImportModule("JourneyQuestCategories")
+            JourneyQuestCategories.Get = function(id) if id == 7 then return "log" end return "later", "Level 5" end
+
+            local rows = GetRows("npc", 299)
+
+            assert.are_same({"1/2", "icon of log"}, {Find(rows, "Quest 7").tag, Find(rows, "Quest 7").trailingIcon})
+            assert.are_same({"Level 5", "icon of later"}, {Find(rows, "Quest 8").tag, Find(rows, "Quest 8").trailingIcon})
         end)
 
         for faction, text in pairs({AH = "both factions", A = "Alliance", none = "no faction"}) do
@@ -158,7 +180,7 @@ describe("JourneyEntityDetails", function()
             local rows = GetRows("npc", 300)
 
             assert.is_not_nil(Find(rows, "No spawn data available."))
-            assert.is_nil(Find(rows, "Show on Map"))
+            assert.is_nil(rows[3].onShowMap)
             assert.is_not_nil(Find(rows, "Health: 1 - 2"))
         end)
 
@@ -178,33 +200,28 @@ describe("JourneyEntityDetails", function()
         it("should prefer a place with coordinates", function()
             QuestieDB:GetNPC(299).spawns = {[1581] = {{-1, -1}}, [ZONE_WITHOUT_MAP] = {}, [ELWYNN] = {{48.92, 41.6}}}
 
-            assert.is_not_nil(Find(GetRows("npc", 299), "Elwynn Forest   X: 48.92"))
+            assert.is_not_nil(Find(GetRows("npc", 299), "Elwynn Forest  48.9, 41.6"))
         end)
 
         it("should only name a zone that has no places", function()
             QuestieDB:GetNPC(299).spawns = {[ELWYNN] = {}}
 
-            assert.are.equal("|T137195:14|t Elwynn Forest", GetRows("npc", 299)[3].text)
+            assert.are.equal("Level: 1 - 2\nHealth: 42\nFriendly to: Horde\nElwynn Forest", GetRows("npc", 299)[3].text)
         end)
 
         it("should only name the instance it is in, where it has no coordinates", function()
             QuestieDB:GetNPC(299).spawns = {[1581] = {{-1, -1}}}
 
-            assert.are.equal("|T137195:14|t The Deadmines", GetRows("npc", 299)[3].text)
+            assert.are.equal("Level: 1 - 2\nHealth: 42\nFriendly to: Horde\nThe Deadmines", GetRows("npc", 299)[3].text)
         end)
 
         it("should not lead to a map that doesn't exist", function()
             QuestieDB:GetNPC(299).spawns = {[ZONE_WITHOUT_MAP] = {{1, 2}}}
 
-            local row = Find(GetRows("npc", 299), "Nowhere")
+            local rows = GetRows("npc", 299)
 
-            assert.are_same({"text", "Nowhere   X: 1.00 || Y: 2.00"}, {row.type, row.text})
-        end)
-
-        it("should explain in a tooltip what its place leads to", function()
-            Find(GetRows("npc", 299), "Elwynn Forest").showTooltip()
-
-            assert.are_same({"Show on Map"}, GameTooltip.lines)
+            assert.is_not_nil(Find(rows, "Nowhere    1.0,   2.0"))
+            assert.is_nil(rows[3].onShowMap)
         end)
 
         it("should show its raw data while debugging", function()
@@ -219,18 +236,8 @@ describe("JourneyEntityDetails", function()
             assert.are_same({}, GetRows("npc", 404))
         end)
 
-        it("should be shown on the map and removed again", function()
-            Find(GetRows("npc", 299), "Show on Map").onClick()
-            assert.are_same({[299] = {}}, notes)
-            assert.are.equal(1, changes)
-
-            Find(GetRows("npc", 299), "Remove from Map").onClick()
-            assert.are_same({}, notes)
-            assert.are.equal(2, changes)
-        end)
-
         it("should open the map at its place, instead of the window that would cover it", function()
-            Find(GetRows("npc", 299), "Elwynn Forest").onClick()
+            GetRows("npc", 299)[3].onShowMap()
 
             assert.are_same({1012}, openedMaps)
             assert.are_same({[299] = {}}, notes)
@@ -240,20 +247,38 @@ describe("JourneyEntityDetails", function()
         it("should leave the window open when the map can't be opened", function()
             canOpenMap = false
 
-            Find(GetRows("npc", 299), "Elwynn Forest").onClick()
+            GetRows("npc", 299)[3].onShowMap()
 
             assert.is_false(windowHidden)
         end)
 
-        it("should offer TomTom only with the addon", function()
-            assert.is_nil(Find(GetRows("npc", 299), "TomTom"))
+        it("should be removed from the map again", function()
+            local rows = GetRows("npc", 299)
+            assert.are_not.equal("footer", rows[#rows].type)
+            rows[3].onShowMap()
+
+            rows = GetRows("npc", 299)
+            local button = rows[#rows].buttons[1]
+            assert.are.equal("Remove from Map", button.text)
+            button.onClick()
+
+            assert.are_same({}, notes)
+            assert.are.equal(1, changes)
+        end)
+
+        it("should offer TomTom only with the addon, and only where there are coordinates", function()
+            local rows = GetRows("npc", 299)
+            assert.are_not.equal("footer", rows[#rows].type)
 
             _G.TomTom = {AddWaypoint = function() end}
-            Find(GetRows("npc", 299), "TomTom").onClick()
+            rows = GetRows("npc", 299)
+            assert.are.equal("TomTom", rows[#rows].buttons[1].text)
+            rows[#rows].buttons[1].onClick()
             assert.are_same({{"Young Wolf", ELWYNN, 48.92, 41.6}}, tomTomTargets)
 
             QuestieDB:GetNPC(299).spawns = {[1581] = {{-1, -1}}}
-            assert.is_nil(Find(GetRows("npc", 299), "TomTom"))
+            rows = GetRows("npc", 299)
+            assert.are_not.equal("footer", rows[#rows].type)
         end)
     end)
 
@@ -261,14 +286,14 @@ describe("JourneyEntityDetails", function()
         local rows = GetRows("object", 55)
 
         assert.are_same({
-            "heading: Half-eaten body",
-            "entity: Object ID: 55",
-            "link: |T137195:14|t Elwynn Forest   X: 72.60 || Y: 60.30",
-            "button: Show on Map",
+            "page: Half-eaten body",
+            "gap: nil",
+            "entity: Elwynn Forest  72.6, 60.3",
         }, Describe(rows))
-        assert.is_nil(rows[2].npcId)
+        assert.are.equal("Object ID: 55", rows[1].tag)
+        assert.is_nil(rows[3].npcId)
 
-        rows[4].onClick()
+        rows[3].onShowMap()
         assert.are_same({[-55] = {}}, notes)
     end)
 
@@ -279,24 +304,28 @@ describe("JourneyEntityDetails", function()
         end)
 
         it("should show its tooltip and where it comes from", function()
+            local rows = GetRows("item", 725)
+
             assert.are_same({
-                "heading: Gnoll Paw",
-                "entity: Item ID: 725",
+                "page: Gnoll Paw",
+                "gap: nil",
+                "entity:  ",
                 "itemTooltip: 725",
-                "heading: NPCs",
+                "caption: NPCs",
                 "text: 1 NPCs drop this item",
                 "button: Show on Map",
                 "link: [2] Young Wolf (299)",
-                "heading: Objects",
+                "caption: Objects",
                 "text: 1 Objects drop this item",
                 "button: Show on Map",
                 "link: Half-eaten body (55)",
-                "heading: Vendors",
+                "caption: Vendors",
                 "text: 1 Vendors sell this item",
                 "button: Show on Map",
                 "link: [2] Young Wolf (299)",
-            }, Describe(GetRows("item", 725)))
-            assert.are.equal("icon of 725", GetRows("item", 725)[2].icon)
+            }, Describe(rows))
+            assert.are.equal("Item ID: 725", rows[1].tag)
+            assert.are.equal("icon of 725", rows[3].icon)
         end)
 
         it("should not list vendors of the other faction", function()
@@ -383,7 +412,7 @@ describe("JourneyEntityDetails", function()
                 _G.IsShiftKeyDown = function() return true end
                 _G.ChatEdit_GetActiveWindow = function() return {} end
 
-                GetRows("item", 725)[2].onClick()
+                GetRows("item", 725)[3].onClick()
 
                 assert.are_same({"[Gnoll Paw]"}, {inserted, openedChat, dressedUp})
             end)
@@ -391,7 +420,7 @@ describe("JourneyEntityDetails", function()
             it("should open the chat with its link", function()
                 _G.IsShiftKeyDown = function() return true end
 
-                GetRows("item", 725)[2].onClick()
+                GetRows("item", 725)[3].onClick()
 
                 assert.is_nil(inserted)
                 assert.are.equal("[Gnoll Paw]", openedChat)
@@ -400,7 +429,7 @@ describe("JourneyEntityDetails", function()
             it("should try it on", function()
                 _G.IsControlKeyDown = function() return true end
 
-                GetRows("item", 725)[2].onClick()
+                GetRows("item", 725)[3].onClick()
 
                 assert.are.equal("[Gnoll Paw]", dressedUp)
             end)
@@ -409,7 +438,7 @@ describe("JourneyEntityDetails", function()
                 QuestieLoader:ImportModule("QuestieCompat").GetItemInfo = function() end
                 _G.IsShiftKeyDown = function() return true end
 
-                GetRows("item", 725)[2].onClick()
+                GetRows("item", 725)[3].onClick()
 
                 assert.is_nil(inserted)
                 assert.is_nil(openedChat)
@@ -417,7 +446,7 @@ describe("JourneyEntityDetails", function()
             end)
 
             it("should do nothing without a key", function()
-                GetRows("item", 725)[2].onClick()
+                GetRows("item", 725)[3].onClick()
 
                 assert.is_nil(inserted)
                 assert.is_nil(openedChat)

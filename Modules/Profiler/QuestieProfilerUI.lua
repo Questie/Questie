@@ -36,9 +36,9 @@ local mmin = math.min
 
 ---Every size, gap and inset the window is built from.
 local LAYOUT = {
-    -- Sized to the content rather than to a round number: the widest identity in a normal session
-    -- (QuestieJourney.private.questsByFaction.InitializeFactionQuestData) fits beside the tree pane and five
-    -- numeric columns without truncation, and the height stops short of covering the middle of the screen.
+    -- Sized to the content rather than to a round number: the widest identities of a normal session fit beside
+    -- the tree pane and five numeric columns without truncation, and the height stops short of covering the middle
+    -- of the screen.
     windowDefaultWidth = 1000,
     windowDefaultHeight = 520,
     windowMinWidth = 494,

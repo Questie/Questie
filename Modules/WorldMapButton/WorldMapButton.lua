@@ -10,6 +10,12 @@ local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 local MapIconVisibility = QuestieLoader:ImportModule("MapIconVisibility")
 ---@type QuestieMenu
 local QuestieMenu = QuestieLoader:ImportModule("QuestieMenu")
+---@type JourneyPlaces
+local JourneyPlaces = QuestieLoader:ImportModule("JourneyPlaces")
+---@type JourneyWindow
+local JourneyWindow = QuestieLoader:ImportModule("JourneyWindow")
+---@type QuestieJourney
+local QuestieJourney = QuestieLoader:ImportModule("QuestieJourney")
 ---@type QuestieOptionsEngine
 local QuestieOptionsEngine = QuestieLoader:ImportModule("QuestieOptionsEngine")
 
@@ -20,10 +26,11 @@ if Questie.IsForever then
     KButtons.HasNoOverlay = false
 end
 
-local mapButton
+local mapButton, journeyButton
 
 function WorldMapButton.Initialize()
     mapButton = KButtons:Add("QuestieWorldMapButtonTemplate", "BUTTON")
+    journeyButton = KButtons:Add("QuestieJourneyMapButtonTemplate", "BUTTON")
 
     Questie.WorldMap = {
         Button = mapButton
@@ -34,10 +41,12 @@ end
 
 ---@param shouldShow boolean
 function WorldMapButton.Toggle(shouldShow)
-    if shouldShow then
-        mapButton:Show()
-    else
-        mapButton:Hide()
+    for _, button in ipairs({mapButton, journeyButton}) do
+        if shouldShow then
+            button:Show()
+        else
+            button:Hide()
+        end
     end
 end
 
@@ -82,4 +91,48 @@ QuestieWorldMapButtonMixin = {
     OnLeave = function() end,
     OnClick = function() end, -- Only fires on left click
     Refresh = function() end,
+}
+
+-------------------------
+-- My Journey
+-------------------------
+
+---What the Journey can list for the map that is shown, or for the closest map around it.
+---@return JourneyPlace?
+---@return string? source
+local function GetShownPlace()
+    local uiMapId = WorldMapFrame:GetMapID()
+    while uiMapId and uiMapId > 0 do
+        local zone, continent = JourneyPlaces.GetZoneOfMap(uiMapId), JourneyPlaces.GetContinentOfMap(uiMapId)
+        if zone then
+            return zone, "zone:" .. zone.id
+        elseif continent then
+            return continent, "overview:" .. continent.id
+        end
+        local info = C_Map.GetMapInfo(uiMapId)
+        uiMapId = info and info.parentMapID
+    end
+end
+
+QuestieJourneyMapButtonMixin = {
+    OnLoad = function(self)
+        self.Icon:SetTexture(JourneyWindow.ICON)
+        local crop = JourneyWindow.ICON_CROP
+        self.Icon:SetTexCoord(crop, 1 - crop, crop, 1 - crop)
+    end,
+    OnMouseDown = function()
+        GameTooltip:Hide()
+        local _, source = GetShownPlace()
+        QuestieJourney.OpenSource(source)
+    end,
+    OnEnter = function(self)
+        local place = Questie.started and GetShownPlace()
+        GameTooltip:SetOwner(self, "ANCHOR_NONE")
+        GameTooltip:SetPoint("TOPRIGHT", self, "BOTTOMRIGHT", 0, 0)
+        GameTooltip:SetText(l10n("My Journey"), 1, 0.82, 0)
+        if place then
+            GameTooltip:AddLine(place.name, 1, 1, 1)
+        end
+        GameTooltip:Show()
+    end,
 }
