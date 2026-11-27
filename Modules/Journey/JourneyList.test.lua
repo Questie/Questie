@@ -160,6 +160,61 @@ describe("JourneyList", function()
             assert.is_false(GameTooltip:IsShown())
         end)
 
+        describe("note", function()
+            -- FakeUI makes each character 7 wide. The text of a row starts 22 from its left, and its note ends 8 from its right.
+            local QUEST = "Supplies to Private Thorsen" -- 189 wide
+            local XP = "1,250 xp" -- 56 wide, and 10 between it and the name
+
+            ---@param row table
+            ---@return number x Of the right edge of the name, from the right edge of the row
+            local function LabelRight(row)
+                for index = 1, #row.Label.points do
+                    local point, _, _, x = row.Label:GetPoint(index)
+                    if point == "RIGHT" then return x end
+                end
+            end
+
+            it("should be next to the name while both fit", function()
+                list:SetWidth(22 + 189 + 10 + 56 + 8)
+                local row = ShowRow({text = QUEST, note = XP, isSelected = false})
+
+                assert.is_true(row.Note:IsShown())
+                assert.are.equal(XP, row.Note.text)
+                assert.are.equal(-8 - 56 - 10, LabelRight(row))
+            end)
+
+            it("should be left out rather than cut off the name", function()
+                list:SetWidth(22 + 189 + 10 + 56 + 8 - 1)
+                local row = ShowRow({text = QUEST, note = XP, isSelected = false})
+
+                assert.is_false(row.Note:IsShown())
+                assert.are.equal(-8, LabelRight(row))
+            end)
+
+            it("should be in the tooltip while it is left out", function()
+                list:SetWidth(200)
+                local row = ShowRow({text = QUEST, note = XP, isSelected = false})
+
+                row.scripts.OnEnter(row)
+
+                assert.is_true(GameTooltip:IsShown())
+                assert.are.equal(QUEST, GameTooltip.text)
+                assert.are_same({XP}, GameTooltip.lines)
+            end)
+
+            it("should be shown or left out again when the list gets wider or narrower", function()
+                list:SetWidth(400)
+                local row = ShowRow({text = QUEST, note = XP, isSelected = false})
+                assert.is_true(row.Note:IsShown())
+
+                list:SetWidth(200)
+                assert.is_false(row.Note:IsShown())
+
+                list:SetWidth(400)
+                assert.is_true(row.Note:IsShown())
+            end)
+        end)
+
         it("should show whether it can be collapsed", function()
             local row = ShowRow({text = "Wolves", isSelected = false})
             assert.is_false(row.Toggle:IsShown())

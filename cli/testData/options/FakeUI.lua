@@ -331,6 +331,14 @@ function FakeUI.Install()
         end
         return self.maxTextWidth and math.min(width, self.maxTextWidth) or width
     end
+    -- As wide as all of the text, whatever width the font string has
+    function methods:GetUnboundedStringWidth()
+        local maxTextWidth = self.maxTextWidth
+        self.maxTextWidth = nil
+        local width = self:GetStringWidth()
+        self.maxTextWidth = maxTextWidth
+        return width
+    end
     function methods:GetStringHeight()
         if ui.stringHeight then return ui.stringHeight end
         local lines = 0

@@ -15,7 +15,7 @@ local ROW_HEIGHT = 20
 local TOGGLE_SIZE = 18
 local ICON_CENTER = 11
 local INDENT = 14
-local NOTE_INSET, NOTE_GAP, MAX_NOTE_SHARE = 8, 10, 0.48
+local NOTE_INSET, NOTE_GAP = 8, 10
 -- Takes up the same space on every row, so the text of rows with and without an icon or toggle lines up
 local GUTTER_WIDTH = 22
 
@@ -33,7 +33,7 @@ local COLLAPSED_TEXTURE = "Interface\\Buttons\\UI-PlusButton-Up"
 ---@field isSelected boolean
 ---@field isCollapsed boolean? Nil for a row that can't be collapsed
 ---@field depth number? How far the row is indented
----@field note string? At the right edge
+---@field note string? At the right edge, while the whole text fits next to it
 
 ---@param row Button
 local function _UpdateBackground(row)
@@ -73,7 +73,7 @@ local function _CreateRow(row, onClick)
     row:SetScript("OnEnter", function()
         row.isHovered = true
         _UpdateBackground(row)
-        if label:IsTruncated() or note:IsTruncated() then
+        if label:IsTruncated() or row.isNoteHidden then
             GameTooltip:SetOwner(row, "ANCHOR_RIGHT")
             GameTooltip:SetText(label:GetText(), 1, 1, 1, 1, true)
             if note:GetText() then
@@ -92,7 +92,8 @@ end
 
 ---@param row Button It may have shown something else before
 ---@param content JourneyList.Content
-local function _UpdateRow(row, content)
+---@param width number Of the row
+local function _UpdateRow(row, content, width)
     local canBeCollapsed = content.isCollapsed ~= nil
     local depth = content.depth or 0
     -- What isn't a header is indented like the one it belongs to, so its icon is below the toggle
@@ -105,18 +106,19 @@ local function _UpdateRow(row, content)
     row.Icon:SetPoint("CENTER", row, "LEFT", indent + ICON_CENTER, 0)
     JourneyIcon.Set(row.Icon, content.icon)
 
-    row.Note:SetFontObject(canBeCollapsed and "GameFontNormalSmall" or "GameFontDisableSmall")
-    row.Note:SetWidth(0) -- As wide as the text
-    row.Note:SetText(content.note)
-    local noteWidth = content.note and math.min(row.Note:GetStringWidth() + 1, row:GetWidth() * MAX_NOTE_SHARE) or 0
-    if noteWidth > 0 then
-        row.Note:SetWidth(noteWidth)
-    end
-
-    row.Label:SetPoint("LEFT", row, "LEFT", indent + GUTTER_WIDTH, 0)
-    row.Label:SetPoint("RIGHT", row, "RIGHT", -NOTE_INSET - (noteWidth > 0 and noteWidth + NOTE_GAP or 0), 0)
     row.Label:SetFontObject(canBeCollapsed and "GameFontNormal" or "GameFontHighlight")
     row.Label:SetText(content.text)
+    row.Note:SetFontObject(canBeCollapsed and "GameFontNormalSmall" or "GameFontDisableSmall")
+    row.Note:SetText(content.note)
+
+    -- The name comes first. The note is only shown while all of the name fits next to it, and is in the tooltip otherwise.
+    local labelX = indent + GUTTER_WIDTH
+    local noteSpace = content.note and row.Note:GetUnboundedStringWidth() + NOTE_GAP or 0
+    local showsNote = noteSpace > 0 and row.Label:GetUnboundedStringWidth() + noteSpace <= width - labelX - NOTE_INSET
+    row.Note:SetShown(showsNote)
+    row.isNoteHidden = content.note ~= nil and not showsNote
+    row.Label:SetPoint("LEFT", row, "LEFT", labelX, 0)
+    row.Label:SetPoint("RIGHT", row, "RIGHT", -NOTE_INSET - (showsNote and noteSpace or 0), 0)
 
     row.isSelected = content.isSelected
     row.isHovered = row:IsMouseMotionFocus() -- Unlike IsMouseOver not when something covers the row
@@ -128,15 +130,26 @@ end
 ---@param onClick fun(index: number)
 ---@return Frame list
 function JourneyList.Create(parent, getContent, onClick)
+    local scrollBox
     local view = CreateScrollBoxListLinearView()
     view:SetElementExtent(ROW_HEIGHT)
     view:SetElementInitializer("Button", function(row, index)
         if not row.Label then
             _CreateRow(row, onClick)
         end
-        _UpdateRow(row, getContent(index))
+        _UpdateRow(row, getContent(index), scrollBox:GetWidth())
     end)
-    return JourneyScrollBox.Create(parent, view, true)
+    scrollBox = JourneyScrollBox.Create(parent, view, true)
+
+    -- Whether the notes fit next to the names depends on the width
+    local shownWidth = scrollBox:GetWidth()
+    scrollBox:HookScript("OnSizeChanged", function(_, width)
+        if width ~= shownWidth then
+            shownWidth = width
+            scrollBox:ReinitializeFrames()
+        end
+    end)
+    return scrollBox
 end
 
 ---Shows other rows.

@@ -325,6 +325,71 @@ describe("JourneyDetails", function()
         end)
     end)
 
+    -- FakeUI makes each character 7 wide. A row is 8 narrower on both sides than the list.
+    describe("a step", function()
+        local QUEST, TAG = "Supplies to Private Thorsen", "this quest" -- 189 and 70 wide
+        -- Its name starts 26 from the left, and its tag ends 8 from the right, 8 away from the name
+        local FITTING_WIDTH = 2 * 8 + 26 + 189 + 8 + 70 + 8
+
+        ---@return number x Of the right edge of the name, from the right edge of the row
+        local function NameRight()
+            for index = 1, #Part(1).Text.points do
+                local point, _, _, x = Part(1).Text:GetPoint(index)
+                if point == "RIGHT" then return x end
+            end
+        end
+
+        it("should show its tag next to a name that fits with it", function()
+            details.scrollBox:SetWidth(FITTING_WIDTH)
+            JourneyDetails.SetRows(details, {{type = "step", text = QUEST, tag = TAG}})
+
+            assert.is_true(Part(1).Note:IsShown())
+            assert.are.equal(TAG, Part(1).Note.text)
+            assert.are.equal(-8 - 70 - 8, NameRight())
+        end)
+
+        it("should leave out its tag rather than cut off the name", function()
+            details.scrollBox:SetWidth(FITTING_WIDTH - 1)
+            JourneyDetails.SetRows(details, {{type = "step", text = QUEST, tag = TAG}})
+
+            assert.is_false(Part(1).Note:IsShown())
+            assert.are.equal(-8, NameRight())
+        end)
+    end)
+
+    describe("a page", function()
+        local TITLE, TAG = "Welcome to the Jungle", "Dungeon" -- 147 and 49 wide
+        -- The tag is 12 away from the title, and 4 from the right edge
+        local FITTING_WIDTH = 2 * 8 + 147 + 12 + 49
+
+        it("should show its tag next to a title that fits with it", function()
+            details.scrollBox:SetWidth(FITTING_WIDTH)
+            JourneyDetails.SetRows(details, {{type = "page", text = TITLE, tag = TAG}})
+
+            assert.is_true(Part(1).Tag:IsShown())
+            assert.are.equal(TAG, Part(1).Tag.text)
+            assert.are.equal(TITLE, Part(1).Title.text)
+            assert.are.equal(32, RowHeight(1))
+        end)
+
+        it("should take more lines for a long title rather than cut it off, and leave out its tag", function()
+            details.scrollBox:SetWidth(2 * 8 + 100)
+            JourneyDetails.SetRows(details, {{type = "page", text = TITLE, tag = TAG}})
+
+            assert.is_false(Part(1).Tag:IsShown())
+            assert.are.equal(100, Part(1).Title:GetWidth())
+            assert.is_true(RowHeight(1) >= Part(1).Title:GetStringHeight() + 6)
+            assert.is_true(RowHeight(1) > 32)
+        end)
+
+        it("should keep its height without a tag, while the title fits on one line", function()
+            JourneyDetails.SetRows(details, {{type = "page", text = "Wolves"}})
+
+            assert.is_false(Part(1).Tag:IsShown())
+            assert.are.equal(32, RowHeight(1))
+        end)
+    end)
+
     describe("a link", function()
         it("should do what its row says, also after the row was reused", function()
             local clicked = {}

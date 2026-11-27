@@ -18,6 +18,8 @@ local GOLD = {1, 0.82, 0}
 -- Forever's, which the other clients have older art for under the same name, StoryHeader-BG. In the top left of the file.
 local BANNER_TEXTURE = "Interface\\AddOns\\Questie\\Icons\\Journey\\banner.png"
 local BANNER_RIGHT, BANNER_BOTTOM = 608 / 1024, 138 / 256
+-- Between a name and what is next to it
+local NAME_GAP = 8
 
 ---A picture: an icon, as a file ID or a path, which is shown without the frame that is part of icons. In a table, an atlas or a file
 ---that is shown whole, like a round one.
@@ -26,7 +28,7 @@ local BANNER_RIGHT, BANNER_BOTTOM = 608 / 1024, 138 / 256
 ---@class JourneyOverviewRows.Tile
 ---@field text string
 ---@field picture JourneyOverviewRows.Picture? Without it, the text starts at the left
----@field width number? Without it, the tile shares what the others leave of the row
+---@field width number? Without it, the tile shares what the others leave of the row. Not while the tiles are below each other.
 ---@field note string? Instead of the bar
 ---@field value number? For the bar
 ---@field maximum number?
@@ -134,6 +136,14 @@ end
 
 local TILE_HEIGHT, TOP_TILE_HEIGHT, TILE_GAP = 48, 46, 6
 local TILE_PICTURE_SIZE = 34
+-- Two tiles are next to each other while both can be this wide, which most names fit in. Otherwise they are below each other.
+local MIN_TILE_WIDTH = 170
+
+---@param width number Of the row
+---@return boolean
+local function _AreTilesStacked(width)
+    return width < 2 * MIN_TILE_WIDTH + TILE_GAP
+end
 
 ---@param row Frame
 ---@return Button
@@ -210,7 +220,7 @@ local function _UpdateTile(tile, data)
     tile.UpdateColors()
 end
 
----One or two tiles next to each other.
+---One or two tiles next to each other, or below each other when the row is too narrow for that.
 ---@param tiles JourneyOverviewRows.Tile[]
 ---@param isTop boolean? For the tiles at the top, which are a bit lower
 ---@return JourneyDetails.Row
@@ -229,6 +239,8 @@ JourneyDetails.AddRowType("tiles", {
         part.Tiles = {_CreateTile(part), _CreateTile(part)}
     end,
     Update = function(part, data, width)
+        local height = data.isTop and TOP_TILE_HEIGHT or TILE_HEIGHT
+        local isStacked = _AreTilesStacked(width)
         -- There is room for two. A tile with a width takes that much of it.
         local fixedWidth, fixedCount = 0, 0
         for _, tile in ipairs(data.tiles) do
@@ -238,20 +250,27 @@ JourneyDetails.AddRowType("tiles", {
         end
         local sharedWidth = (width - TILE_GAP - fixedWidth) / math.max(1, 2 - fixedCount)
 
-        local x = 0
+        local x, y = 0, 0
         for index, tile in ipairs(part.Tiles) do
             local tileData = data.tiles[index]
             tile:SetShown(tileData ~= nil)
             if tileData then
-                local tileWidth = tileData.width or sharedWidth
-                tile:SetPoint("TOPLEFT", part, "TOPLEFT", x, 0)
-                tile:SetSize(tileWidth, data.isTop and TOP_TILE_HEIGHT or TILE_HEIGHT)
+                local tileWidth = isStacked and width or tileData.width or sharedWidth
+                tile:SetPoint("TOPLEFT", part, "TOPLEFT", x, -y)
+                tile:SetSize(tileWidth, height)
                 _UpdateTile(tile, tileData)
-                x = x + tileWidth + TILE_GAP
+                if isStacked then
+                    y = y + height + TILE_GAP
+                else
+                    x = x + tileWidth + TILE_GAP
+                end
             end
         end
     end,
-    GetHeight = function(data) return (data.isTop and TOP_TILE_HEIGHT or TILE_HEIGHT) + TILE_GAP end,
+    GetHeight = function(data, width)
+        local height = (data.isTop and TOP_TILE_HEIGHT or TILE_HEIGHT) + TILE_GAP
+        return _AreTilesStacked(width) and #data.tiles * height or height
+    end,
 })
 
 -------------------------
@@ -294,6 +313,11 @@ JourneyDetails.AddRowType("banner", {
         part.Note = part:CreateFontString(nil, "ARTWORK", "GameFontHighlightSmall")
         part.Note:SetPoint("BOTTOMLEFT", part.TextStart, "BOTTOMLEFT", 0, 5)
         part.Note:SetTextColor(0.85, 0.79, 0.66)
+        for _, text in ipairs({part.Title, part.Note}) do
+            text:SetPoint("RIGHT", part, "RIGHT", -INSET - 6, 0)
+            text:SetJustifyH("LEFT")
+            text:SetWordWrap(false)
+        end
     end,
     Update = function(part, data)
         part.Picture:SetShown(data.picture ~= nil)
@@ -338,6 +362,8 @@ JourneyDetails.AddRowType("section", {
         part.Picture = part:CreateTexture(nil, "OVERLAY")
         part.Picture:SetPoint("CENTER", part, "BOTTOMLEFT", INSET + 4 + SECTION_PICTURE_SIZE / 2, 6 + SECTION_PICTURE_SIZE / 2)
         part.Title = part:CreateFontString(nil, "OVERLAY", "GameFontNormal")
+        part.Title:SetJustifyH("LEFT")
+        part.Title:SetWordWrap(false)
         part.Note = part:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
         part.Note:SetPoint("BOTTOMRIGHT", part, "BOTTOMRIGHT", -INSET - 6, 9)
         QuestieOptionsUtils.DisableSnapping(part.Ornament)
@@ -352,10 +378,18 @@ JourneyDetails.AddRowType("section", {
         if data.picture then
             _SetPicture(part.Picture, data.picture, SECTION_PICTURE_SIZE)
         end
-        part.Title:SetPoint("BOTTOMLEFT", part, "BOTTOMLEFT", INSET + (data.picture and 28 or 8), 9)
+        local titleX = INSET + (data.picture and 28 or 8)
+        part.Title:SetPoint("BOTTOMLEFT", part, "BOTTOMLEFT", titleX, 9)
         part.Title:SetTextColor(color[1], color[2], color[3])
         part.Title:SetText(data.text)
         part.Note:SetText(data.tag or "")
+        -- The title comes first: the note is only shown while all of the title fits next to it
+        local room = width - titleX - INSET - 6
+        local titleWidth = math.ceil(part.Title:GetUnboundedStringWidth()) + 1
+        local noteSpace = data.tag and part.Note:GetUnboundedStringWidth() + NAME_GAP or 0
+        local showsNote = noteSpace > 0 and titleWidth + noteSpace <= room
+        part.Note:SetShown(showsNote)
+        part.Title:SetWidth(math.max(1, math.min(titleWidth, room)))
     end,
     GetHeight = function() return SECTION_HEIGHT end,
 })
@@ -393,8 +427,12 @@ JourneyDetails.AddRowType("label", {
 local ZONE_HEIGHT = 24
 local ZONE_BAR_WIDTH = 96
 local HERE_SIZE = 16
+local NAME_X = 24
 -- From the right edge to the right edge of the number
 local SUITED_X, LOG_X = -ZONE_BAR_WIDTH - 12, -ZONE_BAR_WIDTH - 58
+-- From the right edge to the left edge of the columns: the number and its icon, or the bar
+local COUNT_WIDTH = 40
+local LOG_LEFT, SUITED_LEFT, BAR_LEFT = -LOG_X + COUNT_WIDTH, -SUITED_X + COUNT_WIDTH, ZONE_BAR_WIDTH + 4
 
 ---@class JourneyOverviewRows.Zone
 ---@field name string
@@ -447,11 +485,11 @@ JourneyDetails.AddRowType("zone", {
         part.Here:SetPoint("CENTER", button, "LEFT", 12, 0)
         part.Here:SetText(JourneyIcon.GetHereMarkup(HERE_SIZE))
         part.Name = button:CreateFontString(nil, "ARTWORK", "GameFontHighlight")
-        part.Name:SetPoint("LEFT", button, "LEFT", 24, 0)
+        part.Name:SetPoint("LEFT", button, "LEFT", NAME_X, 0)
         part.Name:SetJustifyH("LEFT")
         part.Name:SetWordWrap(false)
         part.Levels = button:CreateFontString(nil, "ARTWORK", "GameFontDisableSmall")
-        part.Levels:SetPoint("LEFT", part.Name, "RIGHT", 8, -1)
+        part.Levels:SetPoint("LEFT", part.Name, "RIGHT", NAME_GAP, -1)
         part.Suited, part.SuitedIcon = _CreateCount(button, SUITED_X)
         part.Log, part.LogIcon = _CreateCount(button, LOG_X)
         part.Bar = _CreateBar(button, 13)
@@ -476,16 +514,37 @@ JourneyDetails.AddRowType("zone", {
         part.Here:SetShown(zone.isHere)
         local color = zone.color or {r = 0.85, g = 0.85, b = 0.85}
         part.Name:SetTextColor(color.r, color.g, color.b)
-        part.Name:SetWidth(0)
         part.Name:SetText(zone.name)
         part.Levels:SetText(zone.levels or "")
-        local space = width + LOG_X - 40 - 24 - part.Levels:GetStringWidth() - 8
-        part.Name:SetWidth(math.max(1, math.min(part.Name:GetStringWidth() + 1, space)))
-        part.Suited:SetText(zone.suited > 0 and zone.suited or "")
-        JourneyIcon.Set(part.SuitedIcon, zone.suited > 0 and Questie.icons["available"] or nil)
-        part.Log:SetText(zone.log > 0 and zone.log or "")
-        JourneyIcon.Set(part.LogIcon, zone.log > 0 and Questie.icons[zone.isLogComplete and "complete" or "incomplete"] or nil)
-        part.Bar:SetShown(zone.total > 0)
+
+        -- The name comes first. It is given room by leaving out the levels, then the columns from the left. The tooltip shows them all.
+        local log = {isShown = zone.log > 0, left = LOG_LEFT}
+        local suited = {isShown = zone.suited > 0, left = SUITED_LEFT}
+        local bar = {isShown = zone.total > 0, left = BAR_LEFT}
+        local function GetRoom()
+            for _, column in ipairs({log, suited, bar}) do
+                if column.isShown then
+                    return width - column.left - NAME_GAP - NAME_X
+                end
+            end
+            return width - NAME_X - 4
+        end
+        local nameWidth = math.ceil(part.Name:GetUnboundedStringWidth()) + 1
+        local showsLevels = zone.levels ~= nil and nameWidth + NAME_GAP + part.Levels:GetUnboundedStringWidth() <= GetRoom()
+        for _, column in ipairs({log, suited, bar}) do
+            if nameWidth <= GetRoom() then
+                break
+            end
+            column.isShown = false
+        end
+        part.Name:SetWidth(math.max(1, math.min(nameWidth, GetRoom())))
+        part.Levels:SetShown(showsLevels)
+
+        part.Log:SetText(log.isShown and zone.log or "")
+        JourneyIcon.Set(part.LogIcon, log.isShown and Questie.icons[zone.isLogComplete and "complete" or "incomplete"] or nil)
+        part.Suited:SetText(suited.isShown and zone.suited or "")
+        JourneyIcon.Set(part.SuitedIcon, suited.isShown and Questie.icons["available"] or nil)
+        part.Bar:SetShown(bar.isShown)
         _SetBar(part.Bar, zone.completed, zone.total, DONE_COLOR, _GetBarText(zone.completed, zone.total))
     end,
     GetHeight = function() return ZONE_HEIGHT end,
@@ -494,6 +553,11 @@ JourneyDetails.AddRowType("zone", {
 -------------------------
 -- Factions
 -------------------------
+
+-- Of the row, which the bar of a faction takes at most
+local MAX_BAR_SHARE = 0.48
+-- Around the text in the bar of a faction
+local BAR_TEXT_PADDING = 8
 
 ---@param name string
 ---@param standing JourneyFactions.Standing? Nil when the player hasn't met it
@@ -514,7 +578,7 @@ JourneyDetails.AddRowType("faction", {
         part.Background:SetAllPoints(button)
         part.Background:SetColorTexture(1, 1, 1, 0.025)
         part.Name = button:CreateFontString(nil, "ARTWORK", "GameFontHighlight")
-        part.Name:SetPoint("LEFT", button, "LEFT", 24, 0)
+        part.Name:SetPoint("LEFT", button, "LEFT", NAME_X, 0)
         part.Name:SetJustifyH("LEFT")
         part.Name:SetWordWrap(false)
         part.Bar = _CreateBar(button, 15)
@@ -522,17 +586,27 @@ JourneyDetails.AddRowType("faction", {
     end,
     Update = function(part, data, width)
         local standing = data.standing
-        local barWidth = math.floor(width * 0.48)
         part.Background:SetShown(data.isOdd)
         part.Name:SetText(data.text)
-        part.Name:SetWidth(math.max(1, width - barWidth - 40))
         part.Name:SetTextColor(standing and 1 or 0.6, standing and 1 or 0.6, standing and 1 or 0.6)
-        part.Bar:SetShown(standing ~= nil)
-        part.Bar:SetWidth(barWidth)
+
+        -- The name comes first. The bar takes what is left of the row, up to about half of it. When it gets narrow, it only shows the
+        -- standing, and without room for that it is left out.
+        local room = width - NAME_X - 4
+        local nameWidth = math.ceil(part.Name:GetUnboundedStringWidth()) + 1
+        local barWidth = math.min(math.floor(width * MAX_BAR_SHARE), room - nameWidth - NAME_GAP)
+        local showsBar = false
         if standing then
             local r, g, b = standing.color:GetRGB()
             _SetBar(part.Bar, standing.value, standing.size, {r, g, b}, standing.name .. "   " .. _GetBarText(standing.value, standing.size))
+            if part.Bar.Text:GetUnboundedStringWidth() + BAR_TEXT_PADDING > barWidth then
+                part.Bar.Text:SetText(standing.name)
+            end
+            showsBar = part.Bar.Text:GetUnboundedStringWidth() + BAR_TEXT_PADDING <= barWidth
         end
+        part.Bar:SetShown(showsBar)
+        part.Bar:SetWidth(math.max(1, barWidth))
+        part.Name:SetWidth(math.max(1, showsBar and nameWidth or math.min(nameWidth, room)))
     end,
     GetHeight = function() return ZONE_HEIGHT end,
 })

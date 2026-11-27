@@ -48,6 +48,13 @@ local MAP_WIDTH, MAP_HEIGHT = 48, 32
 local ACTION_ICON = "Interface\\AddOns\\Questie\\Icons\\map_scroll.png"
 local ACTION_SIZE = 20
 local STATUS_HEIGHT = 24
+local PAGE_FONT, PAGE_TAG_FONT = "GameFontNormalLarge", "GameFontDisableSmall"
+local PAGE_HEIGHT = 32
+-- Above and below the title of a page that takes more than one line, with the line below it
+local PAGE_TITLE_SPACE = 15
+-- Left of the tag of a page, and right of it
+local PAGE_TAG_SPACE = 12
+local STEP_TEXT_X = 26
 local BAR_TEXTURE = "Interface\\TargetingFrame\\UI-StatusBar"
 local STANDING_BAR_HEIGHT = 18
 local FOOTER_HEIGHT, FOOTER_BUTTON_HEIGHT, FOOTER_GAP, FOOTER_ICON_WIDTH, FOOTER_PADDING = 30, 22, 16, 20, 10
@@ -56,7 +63,7 @@ local FOOTER_HEIGHT, FOOTER_BUTTON_HEIGHT, FOOTER_GAP, FOOTER_ICON_WIDTH, FOOTER
 ---@field type string One of those below, or of those that were added with AddRowType: "heading"|"title"|"text"|"link"|"checkbox"|"button"|"entity"|"itemTooltip"|"gap"|"page"|"caption"|"status"|"step"|"footer"|"standing"
 ---@field text string? Finished text. It is never translated or formatted, because it can contain names and notes.
 ---@field title string? For the type entity, above the text
----@field tag string? For the type page, at its right edge
+---@field tag string? For the types page and step, at its right edge while all of the text fits next to it
 ---@field buttons {text: string, icon: JourneyIcon.Icon, onClick: fun()}[]? For the type footer
 ---@field onShowMap fun()? For the types status and entity, a button with a text at the right edge
 ---@field action {tooltip: string, isOn: boolean?, onClick: fun()}? For the types step and entity, a small map at the right edge
@@ -111,6 +118,22 @@ end
 ---@return number x Behind the picture, if there is one
 local function _GetEntityTextX(data)
     return (data.npcId or data.icon or data.badges) and PICTURE_SIZE + PICTURE_GAP or 0
+end
+
+---@param text string
+---@param font string
+---@return number width On one line
+local function _GetTextWidth(text, font)
+    _MeasureText(text, font, 0)
+    return measuringText:GetUnboundedStringWidth()
+end
+
+---The title comes first: the tag is only shown while all of the title fits next to it.
+---@param data JourneyDetails.Row
+---@param width number
+---@return boolean
+local function _ShowsPageTag(data, width)
+    return (data.tag or "") ~= "" and _GetTextWidth(data.text, PAGE_FONT) + _GetTextWidth(data.tag, PAGE_TAG_FONT) + PAGE_TAG_SPACE <= width
 end
 
 ---@return number
@@ -372,27 +395,31 @@ local ROW_TYPES = {
         end,
     },
 
-    -- What the whole page is about
+    -- What the whole page is about. Its title is never cut off, but takes more lines when it doesn't fit on one.
     page = {
         Create = function(part)
-            part.Tag = part:CreateFontString(nil, "ARTWORK", "GameFontDisableSmall")
+            part.Tag = part:CreateFontString(nil, "ARTWORK", PAGE_TAG_FONT)
             part.Tag:SetPoint("TOPRIGHT", part, "TOPRIGHT", -4, -9)
-            part.Title = part:CreateFontString(nil, "ARTWORK", "GameFontNormalLarge")
+            part.Title = _CreateWrappingText(part, PAGE_FONT)
             part.Title:SetPoint("TOPLEFT", part, "TOPLEFT", 0, -6)
-            part.Title:SetPoint("RIGHT", part.Tag, "LEFT", -8, 0)
-            part.Title:SetJustifyH("LEFT")
-            part.Title:SetWordWrap(false)
             local line = part:CreateTexture(nil, "ARTWORK")
             line:SetAtlas("Options_HorizontalDivider")
             line:SetPoint("BOTTOMLEFT", part, "BOTTOMLEFT", 0, 1)
             line:SetPoint("BOTTOMRIGHT", part, "BOTTOMRIGHT", 0, 1)
             line:SetHeight(1.5)
         end,
-        Update = function(part, data)
-            part.Tag:SetText(data.tag or " ")
+        Update = function(part, data, width)
+            part.Tag:SetShown(_ShowsPageTag(data, width))
+            part.Tag:SetText(data.tag)
+            part.Title:SetWidth(width) -- Next to the tag, the title fits anyway
             part.Title:SetText(data.text)
         end,
-        GetHeight = function() return 32 end,
+        GetHeight = function(data, width)
+            if _ShowsPageTag(data, width) then
+                return PAGE_HEIGHT
+            end
+            return math.max(PAGE_HEIGHT, _MeasureText(data.text, PAGE_FONT, width) + PAGE_TITLE_SPACE)
+        end,
     },
 
     -- The title of a section, with a line next to it
@@ -444,7 +471,7 @@ local ROW_TYPES = {
             part.Icon = JourneyIcon.Create(button)
             part.Icon:SetPoint("CENTER", button, "LEFT", 12, 0)
             part.Text = button:CreateFontString(nil, "ARTWORK", "GameFontHighlight")
-            part.Text:SetPoint("LEFT", button, "LEFT", 26, 0)
+            part.Text:SetPoint("LEFT", button, "LEFT", STEP_TEXT_X, 0)
             part.Text:SetJustifyH("LEFT")
             part.Text:SetWordWrap(false)
             part.Note = button:CreateFontString(nil, "ARTWORK", "GameFontDisableSmall")
@@ -457,12 +484,17 @@ local ROW_TYPES = {
             _CreateAction(part, button)
             part.Action:SetPoint("RIGHT", button, "RIGHT", -2, 0)
         end,
-        Update = function(part, data)
+        Update = function(part, data, width)
             part.Background:SetShown(data.isCurrent == true)
             JourneyIcon.Set(part.Icon, data.trailingIcon)
-            part.Note:SetText(data.tag or "")
             part.Text:SetText(data.text)
-            part.Text:SetPoint("RIGHT", part.Button, "RIGHT", data.action and -34 or -8 - part.Note:GetStringWidth() - 8, 0)
+            part.Note:SetText(data.tag or "")
+            -- The name comes first: the tag is only shown while all of the name fits next to it
+            local right = data.action and ACTION_SIZE + 14 or 8
+            local tagSpace = data.tag and part.Note:GetUnboundedStringWidth() + 8 or 0
+            local showsTag = tagSpace > 0 and part.Text:GetUnboundedStringWidth() + tagSpace <= width - STEP_TEXT_X - right
+            part.Note:SetShown(showsTag)
+            part.Text:SetPoint("RIGHT", part.Button, "RIGHT", -right - (showsTag and tagSpace or 0), 0)
             part.Button:EnableMouse(data.onClick ~= nil)
             _UpdateAction(part, data)
         end,
