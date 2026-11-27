@@ -1048,7 +1048,7 @@ function QuestieQuest:PopulateObjective(quest, objectiveIndex, objective, blockI
     _RegisterObjectiveTooltips(objective, quest.Id, blockItemTooltips)
 
     -- A local special objective such as a required source item can outlast quest completion.
-    if completed or (objectiveIndex == 0 and quest.WasComplete) then
+    if completed or (objective.isSpecial and quest.WasComplete) then
         _UnloadAlreadySpawnedIcons(objective)
         return
     end
