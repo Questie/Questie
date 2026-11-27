@@ -22,8 +22,10 @@ local GUTTER_WIDTH = 22
 -- The same on every supported client. Checked in Blizzard's source (see AGENTS.md).
 local SELECTED_ATLAS = "Options_List_Active"
 local HOVER_ATLAS = "Options_List_Hover"
-local EXPANDED_ATLAS = "common-button-dropdown-open"
-local COLLAPSED_ATLAS = "common-button-dropdown-closed"
+-- Like the tracker's. Every supported client has them, checked in the files of each build. The atlases of Blizzard's settings for
+-- this, common-button-dropdown-open and -closed, are only in Forever.
+local EXPANDED_TEXTURE = "Interface\\Buttons\\UI-MinusButton-Up"
+local COLLAPSED_TEXTURE = "Interface\\Buttons\\UI-PlusButton-Up"
 
 ---@class JourneyList.Content
 ---@field text string|number
@@ -98,7 +100,7 @@ local function _UpdateRow(row, content)
 
     row.Toggle:SetPoint("LEFT", row, "LEFT", indent + 1, 0)
     row.Toggle:SetShown(canBeCollapsed)
-    row.Toggle:SetAtlas(content.isCollapsed and COLLAPSED_ATLAS or EXPANDED_ATLAS)
+    row.Toggle:SetTexture(content.isCollapsed and COLLAPSED_TEXTURE or EXPANDED_TEXTURE)
 
     row.Icon:SetPoint("CENTER", row, "LEFT", indent + ICON_CENTER, 0)
     JourneyIcon.Set(row.Icon, content.icon)

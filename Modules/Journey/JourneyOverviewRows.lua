@@ -15,12 +15,13 @@ local BAR_TEXTURE = "Interface\\TargetingFrame\\UI-StatusBar"
 local EDGE_COLOR = {0.45, 0.36, 0.22}
 local DONE_COLOR = {0.20, 0.45, 0.13}
 local GOLD = {1, 0.82, 0}
--- Blizzard's round portraits use it. Every supported client has it, checked in Blizzard's source (see AGENTS.md).
-local ROUND_MASK = "Interface\\CharacterFrame\\TempPortraitAlphaMask"
+-- Forever's, which the other clients have older art for under the same name, StoryHeader-BG. In the top left of the file.
+local BANNER_TEXTURE = "Interface\\AddOns\\Questie\\Icons\\Journey\\banner.png"
+local BANNER_RIGHT, BANNER_BOTTOM = 608 / 1024, 138 / 256
 
----A picture: a texture, or an atlas when it is a table. Of an atlas with a lot of glow around what it shows, only a round middle is
----drawn, so it is as large as the icons.
----@alias JourneyOverviewRows.Picture number|string|{atlas: string, middle: number?}
+---A picture: an icon, as a file ID or a path, which is shown without the frame that is part of icons. In a table, an atlas or a file
+---that is shown whole, like a round one.
+---@alias JourneyOverviewRows.Picture number|string|{atlas: string}|{file: number|string}
 
 ---@class JourneyOverviewRows.Tile
 ---@field text string
@@ -38,44 +39,13 @@ local ROUND_MASK = "Interface\\CharacterFrame\\TempPortraitAlphaMask"
 -------------------------
 
 ---@param texture Texture
----@param atlas string
----@param middle number The share of its width and height that is drawn
-local function _SetMiddleOfAtlas(texture, atlas, middle)
-    local info = C_Texture.GetAtlasInfo(atlas)
-    local cutX = (info.rightTexCoord - info.leftTexCoord) * (1 - middle) / 2
-    local cutY = (info.bottomTexCoord - info.topTexCoord) * (1 - middle) / 2
-    texture:SetTexture(info.file)
-    texture:SetTexCoord(info.leftTexCoord + cutX, info.rightTexCoord - cutX, info.topTexCoord + cutY, info.bottomTexCoord - cutY)
-end
-
----A cut glow would show the corners of the picture.
----@param texture Texture
----@param isRound boolean
-local function _SetRound(texture, isRound)
-    if not texture.RoundMask then
-        if not isRound then
-            return
-        end
-        texture.RoundMask = texture:GetParent():CreateMaskTexture()
-        texture.RoundMask:SetAllPoints(texture)
-        texture.RoundMask:SetTexture(ROUND_MASK, "CLAMPTOBLACKADDITIVE", "CLAMPTOBLACKADDITIVE")
-    end
-    if isRound and not texture.isRound then
-        texture:AddMaskTexture(texture.RoundMask)
-    elseif not isRound and texture.isRound then
-        texture:RemoveMaskTexture(texture.RoundMask)
-    end
-    texture.isRound = isRound
-end
-
----@param texture Texture
 ---@param picture JourneyOverviewRows.Picture
 ---@param size number
 local function _SetPicture(texture, picture, size)
     texture:SetSize(size, size)
-    _SetRound(texture, type(picture) == "table" and picture.middle ~= nil)
-    if type(picture) == "table" and picture.middle then
-        _SetMiddleOfAtlas(texture, picture.atlas, picture.middle)
+    if type(picture) == "table" and picture.file then
+        texture:SetTexture(picture.file)
+        texture:SetTexCoord(0, 1, 0, 1)
     elseif type(picture) == "table" then
         texture:SetTexCoord(0, 1, 0, 1)
         texture:SetAtlas(picture.atlas)
@@ -302,7 +272,8 @@ JourneyDetails.AddRowType("banner", {
     isFullWidth = true,
     Create = function(part)
         local background = part:CreateTexture(nil, "BACKGROUND")
-        background:SetAtlas("StoryHeader-BG")
+        background:SetTexture(BANNER_TEXTURE)
+        background:SetTexCoord(0, BANNER_RIGHT, 0, BANNER_BOTTOM)
         background:SetPoint("TOPLEFT", part, "TOPLEFT", 0, 0)
         background:SetPoint("BOTTOMRIGHT", part, "BOTTOMRIGHT", 0, 4)
         background:SetAlpha(0.75)

@@ -2887,6 +2887,7 @@ globals = {
     "WORLD",
     "REPUTATION",
     "OTHER",
+    "CLASS",
     "FACTION_BAR_COLORS",
     "CreateColor",
     "QUEST_LOG",

@@ -74,7 +74,8 @@ function QuestieJourney:Initialize()
         end
     end
     coroutine.yield()
-    continents[questCategoryKeys.CLASS] = QuestiePlayer:GetLocalizedClassName()
+    -- Like the professions, not the player's class. Blizzard's text, which every supported client has (checked in GlobalStrings).
+    continents[questCategoryKeys.CLASS] = CLASS
 
     checkForCharacterRecreation()
 

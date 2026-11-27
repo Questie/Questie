@@ -166,11 +166,11 @@ describe("JourneyList", function()
 
             ShowRow({text = "Available", isSelected = false, isCollapsed = true})
             assert.is_true(row.Toggle:IsShown())
-            assert.are.equal("common-button-dropdown-closed", row.Toggle.atlas)
+            assert.are.equal("Interface\\Buttons\\UI-PlusButton-Up", row.Toggle.texture)
 
             ShowRow({text = "Available", isSelected = false, isCollapsed = false})
             assert.is_true(row.Toggle:IsShown())
-            assert.are.equal("common-button-dropdown-open", row.Toggle.atlas)
+            assert.are.equal("Interface\\Buttons\\UI-MinusButton-Up", row.Toggle.texture)
         end)
 
         it("should tell headers apart by their font", function()

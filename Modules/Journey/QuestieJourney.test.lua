@@ -124,6 +124,7 @@ describe("QuestieJourney", function()
     describe("Initialize", function()
         it("should prepare the data without opening the window", function()
             _G.UnitGUID = function() return "Player-1" end
+            _G.CLASS = "Class"
             QuestieLoader:ImportModule("l10n").continentLookup = {}
             QuestieLoader:ImportModule("QuestiePlayer").GetLocalizedClassName = function() return "Warrior" end
             local zoneMap, zones = {[12] = {[1] = true}}, {[1] = {[12] = "Elwynn Forest"}}
@@ -139,6 +140,8 @@ describe("QuestieJourney", function()
                 assert(coroutine.resume(thread))
             end
 
+            -- The group of class quests is called like the others, not after the player's class
+            assert.are.equal("Class", QuestieJourney.continents[QuestieJourney.questCategoryKeys.CLASS])
             assert.are.equal(zoneMap, QuestieJourney.zoneMap)
             assert.are.equal(zones, QuestieJourney.zones)
             assert.are_same({"factions", "quests of factions"}, prepared)

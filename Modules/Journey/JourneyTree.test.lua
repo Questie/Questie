@@ -112,8 +112,8 @@ describe("JourneyTree", function()
         Click("Available")
         local available, wolves, kobolds, completed = unpack(ui.Rows(parent, 1))
 
-        assert.are.equal("common-button-dropdown-open", available.Toggle.atlas)
-        assert.are.equal("common-button-dropdown-closed", completed.Toggle.atlas)
+        assert.are.equal("Interface\\Buttons\\UI-MinusButton-Up", available.Toggle.texture)
+        assert.are.equal("Interface\\Buttons\\UI-PlusButton-Up", completed.Toggle.texture)
         assert.is_false(wolves.Toggle:IsShown())
         assert.is_false(available.Icon:IsShown()) -- The toggle is there
         assert.is_false(wolves.Icon:IsShown())

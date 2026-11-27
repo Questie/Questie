@@ -46,14 +46,29 @@ local MAX_GOOD_ZONES, MAX_GOOD_DUNGEONS, MAX_GOOD_FACTIONS = 4, 3, 2
 local REPUTATION_COLOR = {0.36, 0.36, 0.78}
 local CITIES = BUG_CATEGORY4 -- Blizzard's only string that is just "Cities"
 
--- Icons. The ones for achievements, with the continents, were checked in the files of every client but TBC's.
-local FACTIONS_PICTURE, ALL_PICTURE, DEFAULT_PICTURE = 236681, 133741, 134269
+-- Icons of every supported client, checked in the files of each build
+local ALL_PICTURE, DEFAULT_PICTURE = 133741, 134269
 local SEARCH_PICTURE = "Interface\\Icons\\INV_Misc_Spyglass_03"
 local SEARCH_TILE_WIDTH = 116
--- Blizzard's mark for the entrance of a dungeon, which Leatrix Maps shows on the map too
--- The ring is 53% of the atlas, the rest is glow (measured in the client)
-local DUNGEONS_PICTURE = {atlas = "Dungeon", middle = 0.58}
 local ALLIANCE_BANNER, HORDE_BANNER = 132486, 132485
+
+-- Copies of Blizzard's pictures, because not every client has them. The icons of the achievements for exploring the continents and
+-- for reputation are missing in TBC, and Forever's mark for the entrance of a dungeon is sharper than the others'.
+local PICTURES = "Interface\\AddOns\\Questie\\Icons\\Journey\\"
+local FACTIONS_PICTURE = PICTURES .. "reputation.png"
+local DUNGEONS_PICTURE = {file = PICTURES .. "dungeon.png"} -- Round, so it is shown whole
+
+---Neither works for every class: Mists has no atlas classicon- for the Monk, and Wrath and Cata have no icon ClassIcon_ for the Death
+---Knight. Checked in the files of each build, and in the running client of Mists.
+---@param classFile string Like "MONK"
+---@return JourneyOverviewRows.Picture
+function JourneyOverviewPage.GetClassPicture(classFile)
+    local atlas = "classicon-" .. classFile:lower()
+    if C_Texture.GetAtlasInfo(atlas) then
+        return {atlas = atlas}
+    end
+    return "Interface\\Icons\\ClassIcon_" .. classFile
+end
 
 ---@type table<number, JourneyOverviewRows.Picture> By group
 local pictures
@@ -63,15 +78,20 @@ local pictures
 local function _GetPicture(groupId)
     local keys = QuestieJourney.questCategoryKeys
     pictures = pictures or {
-        [keys.EASTERN_KINGDOMS] = 236759,
-        [keys.KALIMDOR] = 236807,
-        [keys.OUTLAND] = 236813,
-        [keys.NORTHREND] = 236812,
+        [keys.EASTERN_KINGDOMS] = PICTURES .. "eastern_kingdoms.png",
+        [keys.KALIMDOR] = PICTURES .. "kalimdor.png",
+        [keys.OUTLAND] = PICTURES .. "outland.png",
+        [keys.NORTHREND] = PICTURES .. "northrend.png",
+        [keys.CATACLYSM] = PICTURES .. "cataclysm.png",
+        [keys.THE_MAELSTROM] = PICTURES .. "cataclysm.png", -- Its zones are those of Cataclysm too
+        [keys.PANDARIA] = PICTURES .. "pandaria.png",
         [keys.DUNGEONS] = DUNGEONS_PICTURE,
         [keys.BATTLEGROUNDS] = UnitFactionGroup("player") == "Horde" and HORDE_BANNER or ALLIANCE_BANNER,
-        [keys.CLASS] = {atlas = "classicon-" .. UnitClassBase("player"):lower()},
+        [keys.CLASS] = JourneyOverviewPage.GetClassPicture(UnitClassBase("player")),
         [keys.PROFESSIONS] = 136241, -- Trade_BlackSmithing
         [keys.EVENTS] = 133202, -- INV_Holiday_Christmas_Present_01
+        -- Tracking_WildPet, a paw without the background of icons. Only Mists has the group, and the icon (checked in the running client).
+        [keys.PET_BATTLES] = {file = 613074},
     }
     return pictures[groupId] or DEFAULT_PICTURE
 end
