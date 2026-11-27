@@ -77,7 +77,8 @@ end
 function JourneyQuestCategories.GetMissingQuest(questId)
     local group = QuestieDB.QueryQuestSingle(questId, "preQuestGroup")
     for _, id in pairs(group or {}) do
-        if not Questie.db.char.complete[math.abs(id)] then
+        -- QuestieDB counts a quest as done too when one of its exclusive quests was done instead
+        if not QuestieDB:IsPreQuestGroupFulfilled({id}) then
             return math.abs(id)
         end
     end

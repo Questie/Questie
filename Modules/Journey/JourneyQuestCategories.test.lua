@@ -267,6 +267,17 @@ describe("JourneyQuestCategories", function()
                 assert.are_same({"later", "after Kobolds", "NO_PREQUESTGROUP"}, {category, reason, stateName})
             end)
 
+            it("should skip a quest of the group that is done by doing its exclusive one", function()
+                -- The game counts A Sacrifice in Vain as done, when its exclusive quest was done instead
+                SetQuest(ORDINARY_QUEST, {preQuestGroup = {A_SACRIFICE_IN_VAIN, KOBOLDS}})
+                QuestieDB.Initialize()
+                Questie.db.char.complete[UNNERVING_SILENCE] = true
+
+                local category, reason, stateName = JourneyQuestCategories.Get(ORDINARY_QUEST)
+
+                assert.are_same({"later", "after Kobolds", "NO_PREQUESTGROUP"}, {category, reason, stateName})
+            end)
+
             it("should be the level a quest needs when the player is too low", function()
                 SetQuest(ORDINARY_QUEST, {requiredLevel = 14})
                 QuestieDB.Initialize()
