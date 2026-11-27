@@ -480,7 +480,7 @@ describe("QuestieQuest", function()
                     Id = questId, Objectives = {}, ObjectiveData = {},
                     IsComplete = function(quest) return questLog[quest.Id].isComplete end,
                     SpecialObjectives = {{
-                        Id = 8, Type = "item", Color = {},
+                        Id = 8, Type = "item", Color = {}, isSpecial = true,
                         spawnList = {[8] = {
                             Id = 8, Name = "Required item", TooltipKey = "m_1",
                             Spawns = {[1] = {{10, 20}}}, GetIconScale = function() return 1 end,

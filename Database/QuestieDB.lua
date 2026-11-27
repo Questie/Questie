@@ -1768,6 +1768,7 @@ function QuestieDB.GetQuest(questId) -- /dump QuestieDB.GetQuest(867)
                     QO.SpecialObjectives[itemId] = {
                         Type = "item",
                         Id = itemId,
+                        isSpecial = true,
                         ---@type string @We have to hard-type it here because of the function
                         Description = QuestieDB.QueryItemSingle(itemId, "name")
                     }
@@ -1784,6 +1785,7 @@ function QuestieDB.GetQuest(questId) -- /dump QuestieDB.GetQuest(867)
                 Icon = o[2],
                 Description = o[3],
                 RealObjectiveIndex = o[4],
+                isSpecial = true,
             }
             if o[1] then -- custom spawn
                 specialObjective.spawnList = {{

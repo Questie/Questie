@@ -166,6 +166,7 @@ describe("QuestieDB", function()
                 [67890] = {
                     Type = "item",
                     Id = 67890,
+                    isSpecial = true,
                     Description = "Required Item",
                 },
             }, quest.SpecialObjectives)
