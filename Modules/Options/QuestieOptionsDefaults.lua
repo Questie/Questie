@@ -257,6 +257,11 @@ function QuestieOptionsDefaults:Load()
             questieLocale = "enUS",
             questieLocaleDiff = false,
             journeyKeybindDefaultApplied = false,
+            -- These realm-keyed tables used to be created only by migrations 17 and 36. Migrations are tracked per profile, while
+            -- these tables are account-wide, so they could be missing and AvailableQuests.Initialize would fail on login (#8545).
+            unavailableQuestsDeterminedByTalking = {},
+            unavailableDailyQuestsByNpc = {},
+            lastKnownDailyReset = {},
         }
     }
 end
