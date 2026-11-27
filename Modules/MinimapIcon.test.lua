@@ -16,6 +16,10 @@ describe("MinimapIcon", function()
     local QuestieCombatQueue
     ---@type QuestieStatus
     local QuestieStatus
+    ---@type QuestieLib
+    local QuestieLib
+    ---@type MapIconVisibility
+    local MapIconVisibility
 
     local LibDBIconMock = {
         Hide = spy.new(function() end),
@@ -24,6 +28,9 @@ describe("MinimapIcon", function()
         RemoveButtonFromCompartment = spy.new(function() end),
         Refresh = spy.new(function() end),
     }
+    local dataBrokerObject
+    local minimapButtonMock
+    local minimapOnEnter
 
     local match = require("luassert.match")
     local _ = match._ -- any match
@@ -42,6 +49,39 @@ describe("MinimapIcon", function()
         LibDBIconMock.RemoveButtonFromCompartment:clear()
         LibDBIconMock.Refresh:clear()
 
+        dataBrokerObject = nil
+        minimapOnEnter = spy.new(function() end)
+        minimapButtonMock = {
+            IsMouseOver = function() return true end,
+            GetScript = function(_, scriptName)
+                if scriptName == "OnEnter" then
+                    return minimapOnEnter
+                end
+            end,
+            icon = {
+                ClearAllPoints = function() end,
+                SetSize = function() end,
+                SetPoint = function() end,
+            },
+            CreateTexture = function()
+                return {
+                    SetSize = function() end,
+                    SetPoint = function() end,
+                    SetTexCoord = function() end,
+                    SetAtlas = function() end,
+                    SetTexture = function() return true end,
+                    Show = function() end,
+                    Hide = function() end,
+                }
+            end,
+        }
+        LibDBIconMock.Register = spy.new(function() end)
+        LibDBIconMock.GetMinimapButton = function() return minimapButtonMock end
+        LibDBIconMock.NewDataObject = function(_, _, data)
+            dataBrokerObject = data
+            return data
+        end
+
         _G.IsControlKeyDown = function() return false end
         _G.IsShiftKeyDown = function() return false end
 
@@ -50,7 +90,8 @@ describe("MinimapIcon", function()
         QuestieJourney.ToggleJourneyWindow = spy.new(function() end)
 
         QuestieLoader:ImportModule("QuestieProfessions")
-        QuestieLoader:ImportModule("QuestieLib")
+        QuestieLib = QuestieLoader:ImportModule("QuestieLib")
+        QuestieLib.GetAddonVersionString = function() return "test" end
 
         QuestieMenu = QuestieLoader:ImportModule("QuestieMenu")
         QuestieMenu.Show = spy.new(function() end)
@@ -60,6 +101,10 @@ describe("MinimapIcon", function()
         QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
         QuestieQuest.SmoothReset = spy.new(function() end)
         QuestieQuest.ToggleNotes = spy.new(function() end)
+
+        MapIconVisibility = QuestieLoader:ImportModule("MapIconVisibility")
+        MapIconVisibility.ToggleMinimap = spy.new(function() end)
+        MapIconVisibility.IsMinimapShown = function() return true end
 
         QuestieOptionsEngine = QuestieLoader:ImportModule("QuestieOptionsEngine")
         QuestieOptionsEngine.IsShown = spy.new(function() end)
@@ -73,6 +118,8 @@ describe("MinimapIcon", function()
         QuestieStatus.Severity = {Error = 1, Warning = 2, Info = 3}
 
         _G.LibStub = function() return LibDBIconMock end
+        _G.GameTooltip = {Hide = spy.new(function() end)}
+        Questie.Colorize = function(_, value) return value end
         dofile("Localization/l10n.lua")
 
         dofile("Modules/MinimapIcon.lua")
@@ -338,7 +385,7 @@ describe("MinimapIcon", function()
     it("should open drop down menu on right click", function()
         QuestieMenu.IsOpen = function() return false end
         local button = "RightButton"
-        local clickedFrame = {GetObjectType = function() return "Button" end}
+        local clickedFrame = minimapButtonMock
 
         MinimapIcon.private.OnClick(clickedFrame, button)
 
@@ -432,14 +479,45 @@ describe("MinimapIcon", function()
         assert.spy(QuestieMenu.Show).was.not_called()
     end)
 
-    it("should hide minimap icon on right click with CTRL key down", function()
-        local button = "RightButton"
+    it("should toggle the minimap icons on right click with CTRL key down", function()
         _G.IsControlKeyDown = function() return true end
 
-        MinimapIcon.private.OnClick(newMinimapFrame(), button)
+        MinimapIcon.private.OnClick(newMinimapFrame(), "RightButton")
 
-        assert.is_true(Questie.db.profile.minimap.hide)
-        assert.spy(LibDBIconMock.Hide).was.called_with(_, "Questie")
+        assert.spy(MapIconVisibility.ToggleMinimap).was.called()
+        assert.spy(QuestieOptionsEngine.RefreshStates).was.called()
+        assert.is_false(Questie.db.profile.minimap.hide)
+        assert.spy(LibDBIconMock.Hide).was.not_called()
+    end)
+
+    it("should refresh the tooltip after toggling minimap notes", function()
+        MinimapIcon:Init()
+        _G.IsControlKeyDown = function() return true end
+
+        MinimapIcon.private:OnClick("RightButton")
+
+        assert.spy(GameTooltip.Hide).was.called()
+        assert.spy(minimapOnEnter).was.called_with(minimapButtonMock)
+    end)
+
+    it("should describe the effective minimap icon action in its tooltip", function()
+        MinimapIcon:Init()
+        local actions
+        local tooltip = {
+            AddLine = function() end,
+            AddDoubleLine = function(_, left, right)
+                actions[left] = right
+            end,
+        }
+
+        actions = {}
+        dataBrokerObject.OnTooltipShow(tooltip)
+        assert.are_equal("Hide Minimap Icons", actions["Ctrl + Right Click"])
+
+        MapIconVisibility.IsMinimapShown = function() return false end
+        actions = {}
+        dataBrokerObject.OnTooltipShow(tooltip)
+        assert.are_equal("Show Minimap Icons", actions["Ctrl + Right Click"])
     end)
 
     it("should add the button to the compartment when toggled on", function()
