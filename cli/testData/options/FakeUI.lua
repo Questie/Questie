@@ -32,7 +32,7 @@ local NO_OP_METHODS = {
     "SetBlendMode", "SetCheckedTexture", "SetClampedToScreen", "SetColorTexture", "SetDisabledCheckedTexture",
     "SetDisabledTexture", "SetDrawLayer", "SetFixedWidth", "SetFontHeight", "SetFontString",
     "SetHighlightAtlas", "SetHighlightTexture", "SetHorizTile", "SetJustifyH", "SetJustifyV",
-    "SetMaxLetters", "SetMovable", "SetNormalTexture", "SetPortraitTextureRaw", "SetPushedTexture",
+    "SetMaxLetters", "SetMovable", "SetPortraitTextureRaw", "SetPushedTexture",
     "SetSnapToPixelGrid", "SetTexelSnappingBias", "SetTitle", "SetWordWrap",
     "StartMoving", "SetPortraitZoom", "SetGradient",
 }
@@ -532,6 +532,8 @@ function FakeUI.Install()
         self.texCoord = {...}
     end
     function methods:GetTexture() return self.texture end
+    -- The texture of a button while it isn't pushed or disabled
+    function methods:SetNormalTexture(asset) self.normalTexture = asset end
     function methods:SetRotation(radians) self.rotation = radians end
     -- Nothing happens for an NPC the client doesn't know, also not later
     function methods:SetCreature(npcId)
