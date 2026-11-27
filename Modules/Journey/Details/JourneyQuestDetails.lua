@@ -373,22 +373,22 @@ local function _AddPerson(rows, person, quest)
     end
 end
 
----@param quest Quest
+---@param questId QuestId
 ---@param category JourneyQuestCategory?
 ---@param reason string?
 ---@param stateName string?
 ---@return string
-local function _GetStatus(quest, category, reason, stateName)
+local function _GetStatus(questId, category, reason, stateName)
     if category == "log" then
-        local isComplete = QuestieDB.IsComplete(quest.Id)
+        local isComplete = QuestieDB.IsComplete(questId)
         if isComplete == 1 then
-            return JourneyIcon.GetMarkup(JourneyQuestCategories.GetCompleteIcon(quest.Id)) .. Questie:Colorize(QUEST_WATCH_QUEST_READY, "green")
+            return JourneyIcon.GetMarkup(JourneyQuestCategories.GetCompleteIcon(questId)) .. Questie:Colorize(QUEST_WATCH_QUEST_READY, "green")
         elseif isComplete == -1 then
             return JourneyIcon.GetMarkup(Questie.icons["cross"]) .. Questie:Colorize(l10n("Failed"), "red")
         end
         return Questie:Colorize(QUEST_TOOLTIP_ACTIVE, "lightBlue") -- Like the timers of quests in the tracker
     elseif category == "available" or category == "repeatable" then
-        return JourneyIcon.GetMarkup(JourneyQuestCategories.GetKindIcon(quest.Id)) .. Questie:Colorize(l10n("Available"), "gold") -- Like the headings
+        return JourneyIcon.GetMarkup(JourneyQuestCategories.GetKindIcon(questId)) .. Questie:Colorize(l10n("Available"), "gold") -- Like the headings
     elseif category == "completed" then
         return JourneyIcon.GetMarkup(Questie.icons["checkmark"]) .. l10n("Completed")
     elseif category == "later" then
@@ -397,14 +397,21 @@ local function _GetStatus(quest, category, reason, stateName)
         elseif stateName == "NO_PREQUESTGROUP" then
             reason = l10n("Incomplete pre-quest group")
         elseif stateName == "LEVEL_TOO_LOW" then
-            reason = ITEM_MIN_LEVEL:format(QuestieDB.QueryQuestSingle(quest.Id, "requiredLevel"))
+            reason = ITEM_MIN_LEVEL:format(QuestieDB.QueryQuestSingle(questId, "requiredLevel"))
         end
         return JourneyIcon.GetMarkup(Questie.icons["cross"]) .. Questie:Colorize(l10n("Unavailable") .. l10n(": "), "red") .. (reason or "")
     elseif category == "unobtainable" then
         return JourneyIcon.GetMarkup(Questie.icons["cross"]) .. Questie:Colorize(l10n("Unavailable") .. l10n(": "), "red")
             .. (reason or l10n("Exclusive quest completed"))
     end
-    return JourneyIcon.GetMarkup(Questie.icons["cross"]) .. (QuestieDB.IsDoableVerbose(quest.Id, false, true, true) or "")
+    return JourneyIcon.GetMarkup(Questie.icons["cross"]) .. (QuestieDB.IsDoableVerbose(questId, false, true, true) or "")
+end
+
+---What can be done with a quest, as its details say at the top.
+---@param questId QuestId
+---@return string text
+function JourneyQuestDetails.GetStatus(questId)
+    return _GetStatus(questId, JourneyQuestCategories.Get(questId))
 end
 
 ---@param people JourneyPerson[]
@@ -585,7 +592,7 @@ function JourneyQuestDetails.GetRows(quest, onChanged)
     local rows = {
         {type = "page", text = QuestieLib:GetColoredQuestName(quest.Id, true, false), tag = table.concat(_GetTags(quest), ", ")},
         {type = "gap", height = 6},
-        {type = "status", text = _GetStatus(quest, category, reason, stateName)},
+        {type = "status", text = _GetStatus(quest.Id, category, reason, stateName)},
     }
     local target = _GetTarget(people, category)
     local showOnMap, setTomTomTarget

@@ -8,6 +8,10 @@ local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 ---@type JourneyQuestCategories
 local JourneyQuestCategories = QuestieLoader:ImportModule("JourneyQuestCategories")
+---@type JourneyQuestDetails
+local JourneyQuestDetails = QuestieLoader:ImportModule("JourneyQuestDetails")
+---@type JourneyNameColors
+local JourneyNameColors = QuestieLoader:ImportModule("JourneyNameColors")
 ---@type JourneyWindow
 local JourneyWindow = QuestieLoader:ImportModule("JourneyWindow")
 ---@type QuestieLink
@@ -33,10 +37,27 @@ end
 local function _FillQuestTooltip(questId)
     local quest = QuestieDB.GetQuest(questId)
     GameTooltip:AddLine(QuestieLib:GetColoredQuestName(questId, true, false))
+    GameTooltip:AddLine(JourneyQuestDetails.GetStatus(questId), 1, 1, 1)
     for _, line in pairs(quest.Description or {}) do
         for _, text in pairs(WrappedText:TextWrap(line, "    ", false, 360)) do
             GameTooltip:AddLine(text, 1, 1, 1)
         end
+    end
+end
+
+---Like the game's tooltip of an NPC: its name in the color of how it reacts to the player, its title, and its level, with the
+---dragon of its rank like on the details.
+---@param npcId NpcId
+local function _FillNpcTooltip(npcId)
+    local npc = QuestieDB:GetNPC(npcId)
+    GameTooltip:AddLine(JourneyNameColors.Npc(npcId, npc.name) .. JourneyLinks.GetIdText("npc", npcId))
+    if npc.subName then
+        GameTooltip:AddLine(npc.subName, 1, 1, 1)
+    end
+    if npc.minLevel then
+        local level = (npc.maxLevel or npc.minLevel) == npc.minLevel and npc.minLevel or (npc.minLevel .. " - " .. npc.maxLevel)
+        local rank = QuestieLib.GetRankMarkup(npc.rank)
+        GameTooltip:AddLine(TOOLTIP_UNIT_LEVEL:format(level) .. (rank and " " .. rank or ""), 1, 1, 1)
     end
 end
 
@@ -49,13 +70,9 @@ local function _FillTooltip(kind, id)
         -- The game's own, which also gets Questie's lines, and the ID while the settings show it
         GameTooltip:SetItemByID(id)
     elseif kind == "npc" then
-        local npc = QuestieDB:GetNPC(id)
-        GameTooltip:AddLine("[" .. (npc.minLevel or 0) .. "] " .. npc.name .. JourneyLinks.GetIdText(kind, id))
-        if npc.subName then
-            GameTooltip:AddLine("    " .. npc.subName, 1, 1, 1)
-        end
+        _FillNpcTooltip(id)
     else
-        GameTooltip:AddLine(QuestieSearch.GetName(kind, id) .. JourneyLinks.GetIdText(kind, id))
+        GameTooltip:AddLine(JourneyNameColors.Object(QuestieSearch.GetName(kind, id)) .. JourneyLinks.GetIdText(kind, id))
     end
     GameTooltip:AddLine("\n" .. l10n("Click to show"))
 end

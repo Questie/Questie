@@ -6,7 +6,7 @@ describe("JourneyLinks", function()
     ---@type JourneyLinks
     local JourneyLinks
     local ui
-    local originalQuestie, originalIsModifiedClick, originalGetActiveWindow, originalInsertLink
+    local originalQuestie, originalIsModifiedClick, originalGetActiveWindow, originalInsertLink, originalUnitLevel
     local opened, insertedLinks
     local QuestieDB, JourneyQuestCategories
 
@@ -14,7 +14,9 @@ describe("JourneyLinks", function()
         ui = FakeUI.Install()
         originalQuestie, originalIsModifiedClick = _G.Questie, _G.IsModifiedClick
         originalGetActiveWindow, originalInsertLink = _G.ChatEdit_GetActiveWindow, _G.ChatEdit_InsertLink
+        originalUnitLevel = _G.TOOLTIP_UNIT_LEVEL
         _G.Questie = {db = {profile = {}}}
+        _G.TOOLTIP_UNIT_LEVEL = "Level %s"
         opened, insertedLinks = {}, {}
         _G.ChatEdit_InsertLink = function(link) table.insert(insertedLinks, link) end
 
@@ -25,14 +27,20 @@ describe("JourneyLinks", function()
         QuestieDB.GetQuest = function(id)
             return {level = 5, name = "Wolves", Id = id, Description = {"Kill ten wolves."}}
         end
-        QuestieDB.GetNPC = function() return {name = "Young Wolf", minLevel = 1, subName = "The Hungry"} end
+        QuestieDB.GetNPC = function() return {name = "Young Wolf", minLevel = 1, maxLevel = 1, rank = 0, subName = "The Hungry"} end
         QuestieDB.QueryObjectSingle = function(id) return id == 55 and "Half-eaten body" or nil end
+        dofile("Modules/Libs/QuestieLib.lua")
         QuestieLoader:ImportModule("QuestieLib").GetColoredQuestName = function(_, id, showLevel, showState)
             return (showLevel and "[5] " or "") .. "Quest " .. id .. (showState and "" or " without its state")
         end
         QuestieLoader:ImportModule("QuestieLink").GetQuestLinkStringById = function(id) return "link to " .. id end
         QuestieLoader:ImportModule("WrappedText").TextWrap = function(_, line) return {line} end
         QuestieLoader:ImportModule("JourneyWindow").OpenLink = function(kind, id) table.insert(opened, {kind, id}) end
+        -- The colors of names are tested with JourneyNameColors, and the status of a quest with JourneyQuestDetails
+        local JourneyNameColors = QuestieLoader:ImportModule("JourneyNameColors")
+        JourneyNameColors.Npc = function(_, name) return "<reaction>" .. name end
+        JourneyNameColors.Object = function(name) return "<gold>" .. name end
+        QuestieLoader:ImportModule("JourneyQuestDetails").GetStatus = function(id) return "status of " .. id end
         -- Which quests are listed, in what order and with what note, and their icons, are tested with JourneyQuestCategories
         JourneyQuestCategories = QuestieLoader:ImportModule("JourneyQuestCategories")
         JourneyQuestCategories.Arrange = function(questIds)
@@ -54,6 +62,7 @@ describe("JourneyLinks", function()
     after_each(function()
         _G.Questie, _G.IsModifiedClick = originalQuestie, originalIsModifiedClick
         _G.ChatEdit_GetActiveWindow, _G.ChatEdit_InsertLink = originalGetActiveWindow, originalInsertLink
+        _G.TOOLTIP_UNIT_LEVEL = originalUnitLevel
         ui.Restore()
     end)
 
@@ -77,9 +86,18 @@ describe("JourneyLinks", function()
         end)
 
         it("should describe what it leads to in its tooltip", function()
-            assert.are_same({"[5] Quest 7 without its state", "Kill ten wolves.", "\nClick to show"}, TooltipLines("quest", 7))
-            assert.are_same({"[1] Young Wolf", "    The Hungry", "\nClick to show"}, TooltipLines("npc", 299))
-            assert.are_same({"Half-eaten body", "\nClick to show"}, TooltipLines("object", 55))
+            assert.are_same({"[5] Quest 7 without its state", "status of 7", "Kill ten wolves.", "\nClick to show"}, TooltipLines("quest", 7))
+            assert.are_same({"<gold>Half-eaten body", "\nClick to show"}, TooltipLines("object", 55))
+        end)
+
+        it("should describe an NPC like the game: its name in the color of how it reacts, its title, then its level", function()
+            assert.are_same({"<reaction>Young Wolf", "The Hungry", "Level 1", "\nClick to show"}, TooltipLines("npc", 299))
+        end)
+
+        it("should give the levels an NPC can have, and the dragon of its rank", function()
+            QuestieDB.GetNPC = function() return {name = "Hogger", minLevel = 10, maxLevel = 12, rank = 1} end
+
+            assert.are.equal("Level 10 - 12 |A:nameplates-icon-elite-gold:14:14:0:0|a", TooltipLines("npc", 448)[2])
         end)
 
         it("should show the game's own tooltip of an item", function()
@@ -91,20 +109,20 @@ describe("JourneyLinks", function()
 
         it("should show the ID of each kind only while its setting does", function()
             Questie.db.profile.enableTooltipsNPCID = true
-            assert.are.equal("[1] Young Wolf (299)", TooltipLines("npc", 299)[1])
-            assert.are.equal("Half-eaten body", TooltipLines("object", 55)[1])
+            assert.are.equal("<reaction>Young Wolf (299)", TooltipLines("npc", 299)[1])
+            assert.are.equal("<gold>Half-eaten body", TooltipLines("object", 55)[1])
 
             Questie.db.profile.enableTooltipsNPCID, Questie.db.profile.enableTooltipsObjectID = false, true
-            assert.are.equal("[1] Young Wolf", TooltipLines("npc", 299)[1])
-            assert.are.equal("Half-eaten body (55)", TooltipLines("object", 55)[1])
+            assert.are.equal("<reaction>Young Wolf", TooltipLines("npc", 299)[1])
+            assert.are.equal("<gold>Half-eaten body (55)", TooltipLines("object", 55)[1])
         end)
 
         it("should understand NPCs and quests that lack some of their data", function()
             QuestieDB.GetNPC = function() return {name = "Young Wolf"} end
             QuestieDB.GetQuest = function(id) return {level = 5, name = "Wolves", Id = id} end
 
-            assert.are_same({"[0] Young Wolf", "\nClick to show"}, TooltipLines("npc", 299))
-            assert.are_same({"[5] Quest 7 without its state", "\nClick to show"}, TooltipLines("quest", 7))
+            assert.are_same({"<reaction>Young Wolf", "\nClick to show"}, TooltipLines("npc", 299))
+            assert.are_same({"[5] Quest 7 without its state", "status of 7", "\nClick to show"}, TooltipLines("quest", 7))
         end)
     end)
 

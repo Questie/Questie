@@ -221,6 +221,8 @@ describe("JourneyQuestDetails", function()
                 QuestieDB.IsComplete = function() return expected.isComplete or 0 end
 
                 assert.are.equal(expected.text, Status(GetRows()))
+                -- The same where a link to the quest shows it
+                assert.are.equal(expected.text, (JourneyQuestDetails.GetStatus(93036):gsub("|T.-|t ", "")))
             end)
         end
     end)
