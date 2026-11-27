@@ -282,11 +282,11 @@ describe("QuestieMapUtils", function()
     end)
 
     describe("MapExplorationUpdate", function()
-        local QuestieQuest
+        local MapIconVisibility
 
         before_each(function()
-            QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
-            QuestieQuest.private.ShowManualIcons = spy.new(function() end)
+            MapIconVisibility = QuestieLoader:ImportModule("MapIconVisibility")
+            MapIconVisibility.ShowManualIcons = spy.new(function() end)
         end)
 
         it("should keep map icons hidden when settings hide them", function()
@@ -316,7 +316,7 @@ describe("QuestieMapUtils", function()
 
             QuestieMap.utils.MapExplorationUpdate()
 
-            assert.spy(QuestieQuest.private.ShowManualIcons).was.called(1)
+            assert.spy(MapIconVisibility.ShowManualIcons).was.called(1)
         end)
     end)
 end)

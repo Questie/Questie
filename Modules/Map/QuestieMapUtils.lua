@@ -1,7 +1,7 @@
 ---@type QuestieMap
 local QuestieMap = QuestieLoader:ImportModule("QuestieMap");
----@type QuestieQuest
-local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
+---@type MapIconVisibility
+local MapIconVisibility = QuestieLoader:ImportModule("MapIconVisibility")
 ---@class QuestieMapUtils
 QuestieMap.utils = QuestieMap.utils or {}
 
@@ -107,7 +107,7 @@ function QuestieMap.utils.MapExplorationUpdate()
             end
         end
     end
-    QuestieQuest.private:ShowManualIcons()
+    MapIconVisibility.ShowManualIcons()
 end
 
 --- Rescale a single icon
