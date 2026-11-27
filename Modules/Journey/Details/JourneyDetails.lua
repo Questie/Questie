@@ -23,10 +23,6 @@ local ROW_INSET = 8
 -- For a row type that fills the whole row
 JourneyDetails.ROW_INSET = ROW_INSET
 local END_SPACE = 14 -- Below the last row, so it doesn't look cut off
--- Space between the border of a box and what is in it
-local BOX_INSET = 14
-local BOX_PADDING = 8
-local BOX_ALPHA = 0.45 -- Like the boxes of the settings
 local HEADING_FONT = "GameFontNormalMed1"
 local HEADING_LINES_WIDTH = 80 -- Left for the lines on both sides of a long heading
 local PICTURE_SIZE = 46
@@ -59,7 +55,7 @@ local STANDING_BAR_HEIGHT = 18
 local FOOTER_HEIGHT, FOOTER_BUTTON_HEIGHT, FOOTER_GAP, FOOTER_ICON_WIDTH, FOOTER_PADDING = 30, 22, 16, 20, 10
 
 ---@class JourneyDetails.Row
----@field type string One of those below, or of those that were added with AddRowType: "heading"|"title"|"text"|"link"|"checkbox"|"button"|"entity"|"itemTooltip"|"gap"|"page"|"caption"|"status"|"step"|"footer"|"standing"
+---@field type string One of those below, or of those that were added with AddRowType: "heading"|"text"|"checkbox"|"button"|"entity"|"itemTooltip"|"gap"|"page"|"caption"|"status"|"step"|"footer"|"standing"
 ---@field text string? Finished text. It is never translated or formatted, because it can contain names and notes.
 ---@field title string? For the type entity, above the text
 ---@field tag string? For the types page and step, at its right edge while all of the text fits next to it
@@ -70,8 +66,8 @@ local FOOTER_HEIGHT, FOOTER_BUTTON_HEIGHT, FOOTER_GAP, FOOTER_ICON_WIDTH, FOOTER
 ---@field height number? For the type gap
 ---@field standing JourneyFactions.Standing? For the type standing
 ---@field gain number? For the type standing, reputation that would be added to it
----@field onClick fun()? For the types link, button and entity, and the icon of the type itemTooltip
----@field showTooltip fun()? For the types link, checkbox and entity. Fills the tooltip that was opened at the row.
+---@field onClick fun()? For the types step, button and entity, and the icon of the type itemTooltip
+---@field showTooltip fun()? For the types step, checkbox and entity. Fills the tooltip that was opened at the row.
 ---@field npcId NpcId? For the type entity, shows a portrait of the NPC
 ---@field badges JourneyIcon.Icon[]? For the type entity, up to two icons at the lower right corner of the picture, or instead of one
 ---@field trailingIcon JourneyIcon.Icon? For the type text, behind it
@@ -79,9 +75,6 @@ local FOOTER_HEIGHT, FOOTER_BUTTON_HEIGHT, FOOTER_GAP, FOOTER_ICON_WIDTH, FOOTER
 ---@field itemId ItemId? For the type itemTooltip
 ---@field get fun(): boolean For the type checkbox
 ---@field set fun()? For the type checkbox
----@field isFirstInBox boolean?
----@field isLastInBox boolean?
----@field isInBox boolean?
 
 ---Measures text without showing it
 ---@type FontString
@@ -500,18 +493,6 @@ local ROW_TYPES = {
         GetHeight = function() return 21 end,
     },
 
-    -- The title of a box, above it
-    title = {
-        Create = function(part)
-            part.Title = part:CreateFontString(nil, "OVERLAY", "GameFontNormal")
-            part.Title:SetPoint("BOTTOMLEFT", part, "BOTTOMLEFT", 10, 4)
-        end,
-        Update = function(part, data)
-            part.Title:SetText(data.text)
-        end,
-        GetHeight = function() return 26 end,
-    },
-
     text = {
         Create = function(part)
             part.Text = _CreateWrappingText(part, "GameFontHighlight")
@@ -526,28 +507,6 @@ local ROW_TYPES = {
         end,
         GetHeight = function(data, width)
             return _MeasureText(data.text, data.font or "GameFontHighlight", width) + 4
-        end,
-    },
-
-    link = {
-        Create = function(part)
-            local button = CreateFrame("Button", nil, part)
-            button:SetAllPoints(part)
-            button:SetHighlightAtlas("Options_List_Hover")
-            part.Text = _CreateWrappingText(button, "GameFontHighlight")
-            part.Text:SetPoint("TOPLEFT", button, "TOPLEFT", 4, -2)
-            button:SetScript("OnClick", function()
-                GameTooltip:Hide()
-                part.data.onClick()
-            end)
-            _AddTooltip(button, part, "ANCHOR_CURSOR")
-        end,
-        Update = function(part, data, width)
-            part.Text:SetWidth(width - 8)
-            part.Text:SetText(data.text)
-        end,
-        GetHeight = function(data, width)
-            return _MeasureText(data.text, "GameFontHighlight", width - 8) + 6
         end,
     },
 
@@ -762,82 +721,6 @@ local ROW_TYPES = {
 }
 
 -------------------------
--- Boxes
--------------------------
-
--- The pieces of the NineSlice layout the settings use for their boxes, TooltipGluesLayout. A box goes over several rows,
--- so each row draws its part of it.
-local BOX_PIECES = {
-    topLeft = "Tooltip-Glues-NineSlice-CornerTopLeft",
-    topRight = "Tooltip-Glues-NineSlice-CornerTopRight",
-    bottomLeft = "Tooltip-Glues-NineSlice-CornerBottomLeft",
-    bottomRight = "Tooltip-Glues-NineSlice-CornerBottomRight",
-    top = "_Tooltip-Glues-NineSlice-EdgeTop",
-    bottom = "_Tooltip-Glues-NineSlice-EdgeBottom",
-    left = "!Tooltip-Glues-NineSlice-EdgeLeft",
-    right = "!Tooltip-Glues-NineSlice-EdgeRight",
-}
-
----@param row Frame
----@return table box
-local function _CreateBox(row)
-    local box = {}
-    for name, atlas in pairs(BOX_PIECES) do
-        local piece = row:CreateTexture(nil, "BORDER")
-        piece:SetAtlas(atlas, true)
-        piece:SetAlpha(BOX_ALPHA)
-        QuestieOptionsUtils.DisableSnapping(piece)
-        box[name] = piece
-    end
-
-    box.topLeft:SetPoint("TOPLEFT", row, "TOPLEFT", 0, 0)
-    box.topRight:SetPoint("TOPRIGHT", row, "TOPRIGHT", 0, 0)
-    box.bottomLeft:SetPoint("BOTTOMLEFT", row, "BOTTOMLEFT", 0, 0)
-    box.bottomRight:SetPoint("BOTTOMRIGHT", row, "BOTTOMRIGHT", 0, 0)
-    box.top:SetPoint("TOPLEFT", box.topLeft, "TOPRIGHT", 0, 0)
-    box.top:SetPoint("TOPRIGHT", box.topRight, "TOPLEFT", 0, 0)
-    box.bottom:SetPoint("BOTTOMLEFT", box.bottomLeft, "BOTTOMRIGHT", 0, 0)
-    box.bottom:SetPoint("BOTTOMRIGHT", box.bottomRight, "BOTTOMLEFT", 0, 0)
-    return box
-end
-
----@param row Frame
----@param data JourneyDetails.Row
-local function _UpdateBox(row, data)
-    if not row.box then
-        if not data.isInBox then
-            return
-        end
-        row.box = _CreateBox(row)
-    end
-
-    local box = row.box
-    for _, name in ipairs({"topLeft", "top", "topRight"}) do
-        box[name]:SetShown(data.isFirstInBox == true)
-    end
-    for _, name in ipairs({"bottomLeft", "bottom", "bottomRight"}) do
-        box[name]:SetShown(data.isLastInBox == true)
-    end
-    for _, side in ipairs({"left", "right"}) do
-        local sidePoint = side:upper()
-        local topCorner = side == "left" and box.topLeft or box.topRight
-        local bottomCorner = side == "left" and box.bottomLeft or box.bottomRight
-        box[side]:ClearAllPoints()
-        if data.isFirstInBox then
-            box[side]:SetPoint("TOP" .. sidePoint, topCorner, "BOTTOM" .. sidePoint, 0, 0)
-        else
-            box[side]:SetPoint("TOP" .. sidePoint, row, "TOP" .. sidePoint, 0, 0)
-        end
-        if data.isLastInBox then
-            box[side]:SetPoint("BOTTOM" .. sidePoint, bottomCorner, "TOP" .. sidePoint, 0, 0)
-        else
-            box[side]:SetPoint("BOTTOM" .. sidePoint, row, "BOTTOM" .. sidePoint, 0, 0)
-        end
-        box[side]:SetShown(data.isInBox == true)
-    end
-end
-
--------------------------
 -- Rows
 -------------------------
 
@@ -847,7 +730,7 @@ local function _GetInset(data)
     if ROW_TYPES[data.type].isFullWidth then
         return 0
     end
-    return data.isInBox and BOX_INSET or ROW_INSET
+    return ROW_INSET
 end
 
 ---@param data JourneyDetails.Row
@@ -861,10 +744,7 @@ end
 ---@param rowWidth number
 ---@return number
 local function _GetRowHeight(data, rowWidth)
-    local height = ROW_TYPES[data.type].GetHeight(data, _GetContentWidth(data, rowWidth))
-    if data.isFirstInBox then height = height + BOX_PADDING end
-    if data.isLastInBox then height = height + BOX_PADDING end
-    return height
+    return ROW_TYPES[data.type].GetHeight(data, _GetContentWidth(data, rowWidth))
 end
 
 ---Fills a row, which may have shown something else before.
@@ -888,12 +768,10 @@ local function _InitializeRow(row, data, rowWidth, onHeightChanged)
     end
 
     local inset = _GetInset(data)
-    part:SetPoint("TOPLEFT", row, "TOPLEFT", inset, data.isFirstInBox and -BOX_PADDING or 0)
-    part:SetPoint("BOTTOMRIGHT", row, "BOTTOMRIGHT", -inset, data.isLastInBox and BOX_PADDING or 0)
+    part:SetPoint("TOPLEFT", row, "TOPLEFT", inset, 0)
+    part:SetPoint("BOTTOMRIGHT", row, "BOTTOMRIGHT", -inset, 0)
     part.data = data
     ROW_TYPES[data.type].Update(part, data, _GetContentWidth(data, rowWidth))
-
-    _UpdateBox(row, data)
 end
 
 -------------------------
@@ -1053,8 +931,7 @@ end
 
 -- All that can be different in details of the same thing, except for what a checkbox gets
 local SHOWN_FIELDS = {
-    "type", "text", "title", "font", "height", "npcId", "icon", "trailingIcon", "itemId", "isInBox", "isFirstInBox", "isLastInBox", "tag",
-    "isCurrent", "state",
+    "type", "text", "title", "font", "height", "npcId", "icon", "trailingIcon", "itemId", "tag", "isCurrent", "state",
 }
 
 ---@param rows JourneyDetails.Row[]
@@ -1102,26 +979,6 @@ end
 ---@return string
 function JourneyDetails.GetFactText(label, value)
     return Questie:Colorize(l10n(label) .. l10n(": "), JourneyDetails.LABEL_COLOR) .. value
-end
-
----Adds a box with some rows in it. Nothing is added without any rows.
----@param rows JourneyDetails.Row[]
----@param title string Shown above the box
----@param boxRows JourneyDetails.Row[]
-function JourneyDetails.AddBox(rows, title, boxRows)
-    if #boxRows == 0 then
-        return
-    end
-
-    if title ~= "" then
-        table.insert(rows, {type = "title", text = title})
-    end
-    for index, row in ipairs(boxRows) do
-        row.isInBox = true
-        row.isFirstInBox = index == 1
-        row.isLastInBox = index == #boxRows
-        table.insert(rows, row)
-    end
 end
 
 return JourneyDetails

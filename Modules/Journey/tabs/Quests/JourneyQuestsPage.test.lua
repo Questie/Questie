@@ -74,7 +74,7 @@ describe("JourneyQuestsPage", function()
         JourneyFactions.GetRows = function(factionId, overview, onZone)
             return {
                 {type = "text", text = "Reputation with " .. factionId .. " from " .. overview.factionId},
-                {type = "link", text = "Elwynn Forest", onClick = function() onZone(ELWYNN) end},
+                {type = "step", text = "Elwynn Forest", onClick = function() onZone(ELWYNN) end},
             }
         end
         QuestieLoader:ImportModule("QuestieDB").GetQuest = function(id) return {Id = id} end
