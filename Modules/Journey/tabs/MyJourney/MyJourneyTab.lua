@@ -182,7 +182,8 @@ end
 local function _List()
     local journey = Questie.db.char.journey
     local nodes = _GetNodes()
-    local isNew = listedJourney ~= journey or listedFilter ~= filter
+    -- Also the first entries of an empty journey, which are added to the same table
+    local isNew = listedJourney ~= journey or listedFilter ~= filter or listedCount == 0
     listedJourney, listedCount, listedFilter = journey, #journey, filter
     if isNew and nodes[1] then
         JourneyTree.Expand(tree, nodes[1].value, nodes[1].children[1].value)
