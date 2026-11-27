@@ -85,8 +85,11 @@ describe("QuestieMap", function()
         local waypoints = {{{62, 60}, {65, 63}}}
         local getObject
         local getDungeonLocation
+        local originalProfile
 
         before_each(function()
+            originalProfile = Questie.db.profile
+            Questie.db.profile = {}
             dofile("Localization/l10n.lua")
             ---@type QuestieDB
             local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
@@ -101,6 +104,7 @@ describe("QuestieMap", function()
         end)
 
         after_each(function()
+            Questie.db.profile = originalProfile
             getObject:revert()
             getDungeonLocation:revert()
         end)
@@ -113,6 +117,73 @@ describe("QuestieMap", function()
             assert.spy(QuestieMap.DrawManualIcon).was.called_with(QuestieMap, match._, 12, 62, 60, nil)
             assert.spy(QuestieMap.DrawWaypoints).was.called_with(QuestieMap, {zone = 1519}, "o_5", waypoints, 1519)
             assert.spy(QuestieMap.DrawWaypoints).was.called_with(QuestieMap, {zone = 12}, "o_5", waypoints, 12)
+        end)
+
+        it("should only name its ID in its tooltip while the setting shows the IDs of objects", function()
+            local body
+            QuestieMap.DrawManualIcon = function(_, data) body = data.ManualTooltipData.Body end
+
+            QuestieMap:ShowObject(5)
+            local bodyWithoutId = body
+            Questie.db.profile.enableTooltipsObjectID = true
+            QuestieMap:ShowObject(5)
+
+            assert.are_same({{}, {{"ID:", "5"}}}, {bodyWithoutId, body})
+        end)
+
+        it("should keep the tooltip it is given as it is", function()
+            local body
+            QuestieMap.DrawManualIcon = function(_, data) body = data.ManualTooltipData.Body end
+            Questie.db.profile.enableTooltipsObjectID = true
+
+            QuestieMap:ShowObject(5, nil, nil, "Mailbox", {{"Given", "1"}})
+
+            assert.are_same({{"Given", "1"}}, body)
+        end)
+    end)
+
+    describe("ShowNPC", function()
+        local getNPC, getDungeonLocation, appendSkills
+        local body
+        local originalProfile
+
+        before_each(function()
+            originalProfile = Questie.db.profile
+            Questie.db.profile = {}
+            dofile("Localization/l10n.lua")
+            getNPC = stub(QuestieLoader:ImportModule("QuestieDB"), "GetNPC", function(_, id)
+                return {id = id, name = "Innkeeper", minLevel = 30, maxLevel = 30, minLevelHealth = 1200, maxLevelHealth = 1200,
+                    spawns = {[1519] = {{61, 76}}}}
+            end)
+            getDungeonLocation = stub(QuestieLoader:ImportModule("ZoneDB"), "GetDungeonLocation", function() return nil end)
+            appendSkills = stub(QuestieLoader:ImportModule("WeaponMasterSkills"), "AppendSkillsToTitle", function(title) return title end)
+            QuestieMap.DrawManualIcon = function(_, data) body = data.ManualTooltipData.Body end
+        end)
+
+        after_each(function()
+            Questie.db.profile = originalProfile
+            getNPC:revert()
+            getDungeonLocation:revert()
+            appendSkills:revert()
+        end)
+
+        it("should only name its ID in its tooltip while the setting shows the IDs of NPCs", function()
+            QuestieMap:ShowNPC(6740)
+            local bodyWithoutId = body
+            Questie.db.profile.enableTooltipsNPCID = true
+            QuestieMap:ShowNPC(6740)
+
+            assert.are_same({{"Level: ", "30"}, {"Health: ", "1200"}}, bodyWithoutId)
+            assert.are_same({{"ID: ", "6740"}, {"Level: ", "30"}, {"Health: ", "1200"}}, body)
+        end)
+
+        it("should keep the tooltip it is given as it is", function()
+            local given = {{"Given", "1"}}
+            Questie.db.profile.enableTooltipsNPCID = true
+
+            QuestieMap:ShowNPC(6740, nil, nil, "Innkeeper", given)
+
+            assert.are_same({{"Given", "1"}}, body)
         end)
     end)
 
