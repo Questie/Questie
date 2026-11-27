@@ -461,6 +461,22 @@ describe("JourneyDetails", function()
         assert.are.equal(1, clicks)
     end)
 
+    for _, rowType in ipairs({"status", "entity"}) do
+        it("should offer Blizzard's map button in a " .. rowType .. " that has a place to show, and leave room for it", function()
+            local shown = 0
+            JourneyDetails.SetRows(details, {{type = rowType, text = "Elwynn Forest"}})
+            assert.is_false(Part(1).ShowMap:IsShown())
+            local fullWidth = Part(1).Text:GetWidth()
+
+            JourneyDetails.SetRows(details, {{type = rowType, text = "Elwynn Forest", onShowMap = function() shown = shown + 1 end}})
+            Part(1).ShowMap:Click()
+
+            assert.is_true(Part(1).ShowMap:IsShown())
+            assert.are.equal(1, shown)
+            assert.is_true(Part(1).Text:GetWidth() < fullWidth)
+        end)
+    end
+
     describe("an entity", function()
         local UNKNOWN_ICON = 134400
 
