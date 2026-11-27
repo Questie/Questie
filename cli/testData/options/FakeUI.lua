@@ -633,9 +633,16 @@ function FakeUI.Install()
         local text = tostring(math.floor(value)):reverse():gsub("(%d%d%d)", "%1,"):reverse()
         return (text:gsub("^(-?),", "%1"))
     end
-    -- Like ColorMixin
+    -- Like ColorMixin. The color code is written like Cata's WrapTextInColorCode, which later clients do in C_ColorUtil.
     _G.CreateColor = function(r, g, b, a)
-        return {r = r, g = g, b = b, a = a, GetRGB = function(color) return color.r, color.g, color.b end}
+        local function Byte(value) return math.floor(value * 255 + 0.5) end
+        return {
+            r = r, g = g, b = b, a = a,
+            GetRGB = function(color) return color.r, color.g, color.b end,
+            WrapTextInColorCode = function(color, text)
+                return ("|cff%.2x%.2x%.2x%s|r"):format(Byte(color.r), Byte(color.g), Byte(color.b), text)
+            end,
+        }
     end
     ui.knownNpcs = {}
     ui.modelLoadSeconds = 0
