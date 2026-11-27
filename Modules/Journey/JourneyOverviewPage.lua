@@ -96,6 +96,10 @@ local function _GetPicture(groupId)
     return pictures[groupId] or DEFAULT_PICTURE
 end
 
+-- The tabs of the quests show them too
+JourneyOverviewPage.GetGroupPicture = _GetPicture
+JourneyOverviewPage.FACTIONS_PICTURE, JourneyOverviewPage.ALL_PICTURE = FACTIONS_PICTURE, ALL_PICTURE
+
 -------------------------
 -- Counts
 -------------------------

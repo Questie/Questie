@@ -7,8 +7,6 @@ _QuestieJourney.quests = {}
 -------------------------
 --Import modules.
 -------------------------
----@type JourneyIcon
-local JourneyIcon = QuestieLoader:ImportModule("JourneyIcon")
 ---@type JourneyOverviewPage
 local JourneyOverviewPage = QuestieLoader:ImportModule("JourneyOverviewPage")
 ---@type JourneyPage
@@ -25,14 +23,55 @@ local JourneyTabBar = QuestieLoader:ImportModule("JourneyTabBar")
 local JourneyWindow = QuestieLoader:ImportModule("JourneyWindow")
 ---@type QuestieCompat
 local QuestieCompat = QuestieLoader:ImportModule("QuestieCompat")
+---@type QuestieDB
+local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 ---@type QuestieOptionsWindow
 local QuestieOptionsWindow = QuestieLoader:ImportModule("QuestieOptionsWindow")
+---@type l10n
+local l10n = QuestieLoader:ImportModule("l10n")
 
 local TOOLBAR_HEIGHT = 40
 local BAR_HEIGHT = 18
 local HISTORY_BUTTON_SIZE = 24
 local TITLE_GAP, TAB_BAR_RIGHT_INSET = 18, 16
-local HERE_ICON_SIZE = 10
+
+-- A capital city has the icon of the spell that teleports there. The other zones have the picture of their continent. From SpellMisc of
+-- Mists. Every client with the city has its icon, checked in the files of each build.
+local CITY_PICTURES = {
+    [1519] = 135763, -- Stormwind City, Spell_Arcane_TeleportStormWind
+    [1537] = 135757, -- Ironforge
+    [1657] = 135755, -- Darnassus
+    [3557] = 135756, -- The Exodar
+    [1637] = 135759, -- Orgrimmar
+    [1497] = 135766, -- Undercity
+    [1638] = 135765, -- Thunder Bluff
+    [3487] = 135761, -- Silvermoon City
+    [3703] = 135760, -- Shattrath City
+    [4395] = 237509, -- Dalaran
+}
+
+local sorts = QuestieDB.sortKeys
+-- The icons of the professions, from SkillLine of Forever and Wrath (Era's and TBC's has a placeholder instead of most). Every client
+-- with the profession has its icon, checked in the files of each build.
+local PROFESSION_PICTURES = {
+    [sorts.ALCHEMY] = 136240,
+    [sorts.BLACKSMITHING] = 136241,
+    [sorts.COOKING] = 133971,
+    [sorts.ENGINEERING] = 136243,
+    [sorts.FIRST_AID] = 135966,
+    [sorts.FISHING] = 136245,
+    [sorts.HERBALISM] = 136246,
+    [sorts.INSCRIPTION] = 237171,
+    [sorts.JEWELCRAFTING] = 134071,
+    [sorts.LEATHERWORKING] = 136247,
+    [sorts.TAILORING] = 136249,
+}
+
+-- The class of each sort of class quests. Its key in the sorts is its name in UnitClassBase.
+local CLASS_OF_SORT = {}
+for _, classFile in ipairs({"WARRIOR", "PALADIN", "HUNTER", "ROGUE", "PRIEST", "DEATHKNIGHT", "SHAMAN", "MAGE", "WARLOCK", "MONK", "DRUID"}) do
+    CLASS_OF_SORT[sorts[classFile]] = classFile
+end
 
 ---@class JourneyQuestsTab
 ---@field source string? What is listed. Nil for the overview.
@@ -86,11 +125,55 @@ local function _ShowToolbar()
     forwardButton:SetEnabled(page ~= nil and JourneyPage.CanGoForward(page))
 end
 
+---@param source string
+---@return JourneyOverviewRows.Picture
+local function _GetPicture(source)
+    local kind, id = JourneyPlaces.Split(source)
+    if kind == "zone" then
+        if CLASS_OF_SORT[id] then
+            return JourneyOverviewPage.GetClassPicture(CLASS_OF_SORT[id])
+        end
+        return CITY_PICTURES[id] or PROFESSION_PICTURES[id] or JourneyOverviewPage.GetGroupPicture(JourneyPlaces.GetGroupOf(id))
+    elseif kind == "faction" then
+        return JourneyOverviewPage.FACTIONS_PICTURE
+    end
+    return JourneyOverviewPage.ALL_PICTURE
+end
+
+---What kind of place it is, for below its name. Blizzard's texts, which every supported client has (checked in GlobalStrings), but
+---Blizzard has none for the current zone.
+---@param tab JourneyQuestsTab
+---@return string
+local function _GetLabel(tab)
+    if tab == hereTab then
+        return l10n("Current Zone")
+    end
+    local kind, id = JourneyPlaces.Split(tab.source)
+    if kind == "faction" then
+        return FACTION
+    elseif kind ~= "zone" then
+        return ""
+    end
+    local groupId = JourneyPlaces.GetGroupOf(id)
+    local keys = QuestieJourney.questCategoryKeys
+    if groupId == keys.DUNGEONS then
+        return LFG_TYPE_DUNGEON
+    elseif groupId == keys.BATTLEGROUNDS then
+        return BATTLEGROUND
+    elseif groupId and not JourneyPlaces.IsContinent(groupId) then
+        return JourneyPlaces.GetGroupName(groupId) -- Like the class, professions and events
+    end
+    return ZONE
+end
+
 local function _ShowTabs()
     local shownTabs = {}
     for index, tab in ipairs(tabs) do
         shownTabs[index] = {
-            name = (tab == hereTab and JourneyIcon.GetHereMarkup(HERE_ICON_SIZE) .. " " or "") .. JourneyPlaces.GetName(tab.source),
+            name = JourneyPlaces.GetName(tab.source),
+            picture = _GetPicture(tab.source),
+            isHere = tab == hereTab,
+            label = _GetLabel(tab),
             isSelected = tab == selectedTab,
             onSelect = function() _Select(tab) end,
             onClose = tab ~= hereTab and function() _Close(tab) end or nil,

@@ -55,6 +55,9 @@ local function _SetPicture(texture, picture, size)
     end
 end
 
+-- The tabs of the quests show their pictures like these
+JourneyOverviewRows.SetPicture = _SetPicture
+
 ---@param frame Frame
 ---@param layer string
 ---@return Texture[]

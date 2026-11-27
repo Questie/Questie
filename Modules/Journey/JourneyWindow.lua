@@ -24,7 +24,7 @@ local MIN_WINDOW_WIDTH, MIN_WINDOW_HEIGHT = 550, 400
 local SIDE_TAB_SPACE = 60
 local OPEN_SOUND = 882
 -- Height of the header with the title of the tab
-local CANVAS_TOP = 36
+local CANVAS_TOP = 44
 
 -- Every client has these icons under the same ID
 
@@ -161,6 +161,9 @@ local function _CreateWindow()
     })
     window:SetPoint("CENTER", 0, ABOVE_CENTER)
     canvasTitle = QuestieOptionsWindow.CreatePageTitle(window.canvasContainer, window.canvasContainer, QuestieOptionsWindow.HEADER_INSET)
+    -- In the middle of the header, like the tabs of the quests next to it
+    canvasTitle:ClearAllPoints()
+    canvasTitle:SetPoint("LEFT", window.canvasContainer, "TOPLEFT", QuestieOptionsWindow.HEADER_INSET, -CANVAS_TOP / 2 - 3)
 
     local headerLine = window.canvasContainer:CreateTexture(nil, "BORDER")
     headerLine:SetPoint("TOPLEFT", window.canvasContainer, "TOPLEFT", 0, -CANVAS_TOP + 2)
