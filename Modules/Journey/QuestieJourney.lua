@@ -16,13 +16,13 @@ local Expansions = QuestieLoader:ImportModule("Expansions")
 local JourneyWindow = QuestieLoader:ImportModule("JourneyWindow")
 ---@type CompletedQuests
 local CompletedQuests = QuestieLoader:ImportModule("CompletedQuests")
+---@type QuestieJourneyFactions
+local QuestieJourneyFactions = QuestieLoader:ImportModule("QuestieJourneyFactions")
 
 local tinsert = table.insert
 
 QuestieJourney.continents = {}
 QuestieJourney.zones = {}
-
-_QuestieJourney.questsByZone = {}
 
 -- These need to match with l10n.continentLookup
 local questCategoryKeys = {
@@ -81,19 +81,10 @@ function QuestieJourney:Initialize()
 
     coroutine.yield()
     self.continents = continents
-    -- Generate once here; tabs reuse these quest groups and dropdown choices instead of rescanning the database.
+    -- Generate once here; JourneyPlaces reads these quest groups and zone names instead of rescanning the database.
     self.zoneMap, self.zones = JourneyData.Build(true)
     coroutine.yield()
-
-    -- Pre-initialize faction data used by the "Quests by Faction" tab so it is ready on first open.
-    if _QuestieJourney.questsByFaction then
-        if _QuestieJourney.questsByFaction.InitializeFactionData then
-            _QuestieJourney.questsByFaction:InitializeFactionData()
-        end
-        if _QuestieJourney.questsByFaction.InitializeFactionQuestData then
-            _QuestieJourney.questsByFaction:InitializeFactionQuestData()
-        end
-    end
+    QuestieJourneyFactions.Initialize()
 
     -- Set up default keybinding for Journey window
     self:SetupKeybinding()

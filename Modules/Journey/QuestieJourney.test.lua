@@ -227,11 +227,8 @@ describe("QuestieJourney", function()
             QuestieLoader:ImportModule("QuestiePlayer").GetLocalizedClassName = function() return "Warrior" end
             local zoneMap, zones = {[12] = {[1] = true}}, {[1] = {[12] = "Elwynn Forest"}}
             QuestieLoader:ImportModule("JourneyData").Build = function() return zoneMap, zones end
-            local prepared = {}
-            QuestieJourney.private.questsByFaction = {
-                InitializeFactionData = function() table.insert(prepared, "factions") end,
-                InitializeFactionQuestData = function() table.insert(prepared, "quests of factions") end,
-            }
+            local factionsPrepared = false
+            QuestieLoader:ImportModule("QuestieJourneyFactions").Initialize = function() factionsPrepared = true end
 
             local thread = coroutine.create(function() QuestieJourney:Initialize() end)
             while coroutine.status(thread) ~= "dead" do
@@ -242,7 +239,7 @@ describe("QuestieJourney", function()
             assert.are.equal("Class", QuestieJourney.continents[QuestieJourney.questCategoryKeys.CLASS])
             assert.are.equal(zoneMap, QuestieJourney.zoneMap)
             assert.are.equal(zones, QuestieJourney.zones)
-            assert.are_same({"factions", "quests of factions"}, prepared)
+            assert.is_true(factionsPrepared)
             assert.are_same({}, openedTabs)
         end)
     end)

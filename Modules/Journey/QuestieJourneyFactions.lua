@@ -1,9 +1,27 @@
+---The factions the Journey lists quests for, grouped by the expansion that introduced them, and the quests of each.
 ---@class QuestieJourneyFactions
 local QuestieJourneyFactions = QuestieLoader:CreateModule("QuestieJourneyFactions")
 
+---@type QuestieJourney
+local QuestieJourney = QuestieLoader:ImportModule("QuestieJourney")
+---@type QuestieDB
+local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
+---@type QuestieReputation
+local QuestieReputation = QuestieLoader:ImportModule("QuestieReputation")
+---@type QuestieCorrections
+local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
+---@type QuestieQuestBlacklist
+local QuestieQuestBlacklist = QuestieLoader:ImportModule("QuestieQuestBlacklist")
+---@type QuestieEvent
+local QuestieEvent = QuestieLoader:ImportModule("QuestieEvent")
+---@type QuestiePlayer
+local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
+---@type Expansions
+local Expansions = QuestieLoader:ImportModule("Expansions")
+
 local factionIDs = LibQuestieDB.Enum.factionIDs
 
----Per-expansion faction lists for the Journey "Quests by Faction" tab.
+---The factions each expansion introduced. A faction missing here counts as one of the last expansion.
 ---@type table<string, FactionId[]>
 QuestieJourneyFactions.expansionFactionCandidates = {
     classic = {
@@ -179,4 +197,85 @@ function QuestieJourneyFactions.BuildFactionIntroductionOrder(expansionOrderByKe
     end
 
     return orderMap
+end
+
+local EXPANSIONS = {
+    {key = "classic", order = Expansions.Era},
+    {key = "tbc", order = Expansions.Tbc},
+    {key = "wotlk", order = Expansions.Wotlk},
+    {key = "cata", order = Expansions.Cata},
+    {key = "mop", order = Expansions.MoP},
+}
+
+local expansionKeyByOrder, expansionOrderByKey = {}, {}
+for _, expansion in ipairs(EXPANSIONS) do
+    expansionKeyByOrder[expansion.order] = expansion.key
+    expansionOrderByKey[expansion.key] = expansion.order
+end
+
+local factionIntroductionOrder = QuestieJourneyFactions.BuildFactionIntroductionOrder(expansionOrderByKey)
+
+---Faction names by faction ID, grouped by the key of the expansion that introduced them. Only factions with quests.
+---@type table<string, table<FactionId, string>>
+QuestieJourney.factionsByExpansion = {}
+
+local QUEST_FIELDS = {"requiredMinRep", "requiredMaxRep", "reputationReward", "requiredRaces", "requiredClasses"}
+
+---@param factionMap table<FactionId, table<QuestId, boolean>>
+---@param factionId FactionId?
+---@param questId QuestId
+local function _AddQuestToFaction(factionMap, factionId, questId)
+    if not factionId then
+        return
+    end
+    if not factionMap[factionId] then
+        factionMap[factionId] = {}
+        local name = QuestieReputation.GetFactionName(factionId)
+        local expansionKey = expansionKeyByOrder[factionIntroductionOrder[factionId] or Expansions.MoP]
+        if name and name ~= "" and expansionKey then
+            QuestieJourney.factionsByExpansion[expansionKey] = QuestieJourney.factionsByExpansion[expansionKey] or {}
+            QuestieJourney.factionsByExpansion[expansionKey][factionId] = name
+        end
+    end
+    factionMap[factionId][questId] = true
+end
+
+---Finds the quests of every faction: those that need a standing with it, or give reputation with it. Only quests the
+---player's race and class can do, and not those Questie hides. Yields, so it runs in a thread.
+---@async
+function QuestieJourneyFactions.Initialize()
+    local HIDE_ON_MAP = QuestieQuestBlacklist.HIDE_ON_MAP
+    local hiddenQuests = QuestieCorrections.hiddenQuests
+    ---@type table<FactionId, table<QuestId, boolean>>
+    local factionMap = {}
+
+    local yieldCounter = 0
+    for questId in pairs(QuestieDB.QuestPointers) do
+        yieldCounter = yieldCounter + 1
+        if yieldCounter >= 1000 then
+            yieldCounter = 0
+            coroutine.yield()
+        end
+        -- Indexed one by one: fields the quest doesn't have are holes, which unpack can stop at
+        local result = QuestieDB.QueryQuest(questId, QUEST_FIELDS) or {}
+        local requiredMinRep, requiredMaxRep, reputationReward = result[1], result[2], result[3]
+        local requiredRaces, requiredClasses = result[4], result[5]
+
+        if QuestiePlayer.HasRequiredRace(requiredRaces) and QuestiePlayer.HasRequiredClass(requiredClasses)
+            and hiddenQuests and ((not hiddenQuests[questId]) or hiddenQuests[questId] == HIDE_ON_MAP or QuestieEvent.IsEventQuest(questId)) then
+            if requiredMinRep then
+                _AddQuestToFaction(factionMap, requiredMinRep[1], questId)
+            end
+            if requiredMaxRep then
+                _AddQuestToFaction(factionMap, requiredMaxRep[1], questId)
+            end
+            for _, reward in pairs(reputationReward or {}) do
+                _AddQuestToFaction(factionMap, reward[1], questId)
+            end
+        end
+    end
+
+    ---Quest IDs by faction ID
+    ---@type table<FactionId, table<QuestId, boolean>>
+    QuestieJourney.factionMap = factionMap
 end
