@@ -38,6 +38,7 @@ local utf8 = QuestieLoader:ImportModule("utf8")
 
 local TOOLBAR_HEIGHT = 40
 local BAR_HEIGHT = 18
+local HISTORY_BUTTON_SIZE = 24
 local TITLE_GAP, SEARCH_GAP, SEARCH_INSET = 18, 12, 16
 local HERE_ICON_SIZE = 10
 local SEARCH_ICON = "|TInterface\\Common\\UI-Searchbox-Icon:10:10:0:-2|t "
@@ -49,6 +50,8 @@ local MIN_SEARCH_LENGTHS = {koKR = 2, zhCN = 2, zhTW = 2}
 ---@field source string? What is listed. For the search, what was searched for. Nil for the overview.
 ---@field content JourneyPage.Content
 ---@field page JourneyPage.Instance? Nil until the tab is shown
+---@field openedFrom string? When the overview created the tab: the overview, with the category it showed. After the tab's own history,
+---back leads there and closes the tab, like it was never opened.
 
 ---Where the player is. It only changes when the window is opened, so the list doesn't change while the player is using it.
 ---@type JourneyQuestsTab
@@ -75,6 +78,10 @@ local panes
 local tabBar
 ---@type Frame
 local progressBar
+---@type Button
+local backButton
+---@type Button
+local forwardButton
 ---@type EditBox
 local searchBox
 ---@type FontString
@@ -86,13 +93,16 @@ local title
 
 local _Select, _Close, _EndSearch
 
-local function _ShowProgress()
+local function _ShowToolbar()
     local page = selectedTab.page
     local text, share = page and page.progressText or "", page and page.progressShare
     progressBar.Text:SetText(text)
     progressBar:SetValue(share or 0)
     progressBar.Background:SetShown(share ~= nil)
     for _, edge in ipairs(progressBar.Edges) do edge:SetShown(share ~= nil) end
+
+    backButton:SetEnabled(page ~= nil and (JourneyPage.CanGoBack(page) or selectedTab.openedFrom ~= nil))
+    forwardButton:SetEnabled(page ~= nil and JourneyPage.CanGoForward(page))
 end
 
 local function _ShowTabs()
@@ -116,14 +126,17 @@ local function _ShowTabs()
     JourneyTabBar.SetTabs(tabBar, shownTabs, selectedTab == overviewTab)
 end
 
-local _OpenSource
+local _OpenSource, _OpenFromOverview
 
 ---@param tab JourneyQuestsTab
 local function _EnsurePage(tab)
     if not tab.page then
-        -- The overview has its own list, so its page is never for anything else
-        tab.page = tab ~= overviewTab and table.remove(freePages)
-            or JourneyPage.Create(panes, function(source) _OpenSource(source) end, _ShowProgress)
+        if tab == overviewTab then
+            -- The overview has its own list, so its page is never for anything else
+            tab.page = JourneyPage.Create(panes, _OpenFromOverview, _ShowToolbar)
+        else
+            tab.page = table.remove(freePages) or JourneyPage.Create(panes, function(source) _OpenSource(source) end, _ShowToolbar)
+        end
         JourneyPage.SetContent(tab.page, tab.content, tab.source)
     end
 end
@@ -147,7 +160,7 @@ _Select = function(tab)
     _EnsurePage(tab)
     JourneyPage.SetShown(tab.page, true)
     _ShowTabs()
-    _ShowProgress()
+    _ShowToolbar()
     JourneyPage.Refresh(tab.page)
 end
 
@@ -190,7 +203,6 @@ _OpenSource = function(source)
     if kind then
         _EnsurePage(overviewTab)
         _Select(overviewTab)
-        overviewTab.page.pastSelections = {}
         JourneyPage.Select(overviewTab.page, {kind = "category", id = tonumber(category) or category})
         return
     end
@@ -204,6 +216,18 @@ _OpenSource = function(source)
         table.insert(tabs, tab)
     end
     _Select(tab)
+end
+
+---A tab that is already open is only shown, so it doesn't lead back to the overview.
+---@param source string
+_OpenFromOverview = function(source)
+    local category = overviewTab.page.selection.id
+    local isNew = _FindTab(source) == nil
+    _OpenSource(source)
+    if isNew then
+        selectedTab.openedFrom = "overview:" .. category
+        _ShowToolbar()
+    end
 end
 
 ---The player can have gone somewhere else since the window was open. A tab the zone already had stays, for when the player leaves it.
@@ -321,12 +345,46 @@ end
 -- Canvas
 -------------------------
 
+local function _GoBack()
+    local tab = selectedTab
+    if JourneyPage.CanGoBack(tab.page) then
+        JourneyPage.GoBack(tab.page)
+    else
+        _OpenSource(tab.openedFrom)
+        _Close(tab)
+    end
+end
+
+---Back and forward through what the shown tab showed, like in a browser
+---@param canvas Frame
+local function _CreateHistoryButtons(canvas)
+    ---@param textureName string Of the arrows of the spellbook
+    ---@param onClick fun()
+    ---@return Button
+    local function Create(textureName, onClick)
+        local button = CreateFrame("Button", nil, canvas)
+        button:SetSize(HISTORY_BUTTON_SIZE, HISTORY_BUTTON_SIZE)
+        local path = "Interface\\Buttons\\UI-SpellbookIcon-" .. textureName
+        button:SetNormalTexture(path .. "-Up")
+        button:SetPushedTexture(path .. "-Down")
+        button:SetDisabledTexture(path .. "-Disabled")
+        button:SetHighlightTexture("Interface\\Buttons\\UI-Common-MouseHilight", "ADD")
+        button:SetScript("OnClick", onClick)
+        return button
+    end
+
+    backButton = Create("PrevPage", _GoBack)
+    backButton:SetPoint("LEFT", canvas, "TOPLEFT", -2, -TOOLBAR_HEIGHT / 2)
+    forwardButton = Create("NextPage", function() JourneyPage.GoForward(selectedTab.page) end)
+    forwardButton:SetPoint("LEFT", backButton, "RIGHT", -2, 0)
+end
+
 ---@param canvas Frame
 local function _CreateProgressBar(canvas)
     progressBar = CreateFrame("StatusBar", nil, canvas)
-    -- Lines up with the borders of the boxes below, which reach the sides
-    progressBar:SetPoint("TOPLEFT", canvas, "TOPLEFT", 2, -11)
-    progressBar:SetPoint("TOPRIGHT", canvas, "TOPRIGHT", -2, -11)
+    -- It ends a bit before the border of the box below
+    progressBar:SetPoint("LEFT", forwardButton, "RIGHT", 4, 0)
+    progressBar:SetPoint("RIGHT", canvas, "TOPRIGHT", -10, -TOOLBAR_HEIGHT / 2)
     progressBar:SetHeight(BAR_HEIGHT)
     progressBar:SetStatusBarTexture("Interface\\TargetingFrame\\UI-StatusBar")
     progressBar:SetStatusBarColor(0.20, 0.45, 0.13)
@@ -355,6 +413,7 @@ function _QuestieJourney.quests.Build(canvas)
     tabBar = JourneyTabBar.Create(canvas, function() _Select(overviewTab) end)
     tabBar:SetPoint("BOTTOMLEFT", canvas, "TOPLEFT", QuestieOptionsWindow.HEADER_INSET + title:GetStringWidth() + TITLE_GAP, 1)
     tabBar:SetPoint("BOTTOMRIGHT", canvas, "TOPRIGHT", -SEARCH_INSET - searchBox:GetWidth() - SEARCH_GAP, 1)
+    _CreateHistoryButtons(canvas)
     _CreateProgressBar(canvas)
     panes = JourneyPanes.Create(canvas, "", TOOLBAR_HEIGHT)
 end

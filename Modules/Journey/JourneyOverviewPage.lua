@@ -130,7 +130,6 @@ end
 ---@param page JourneyPage.Instance
 ---@param id number|string
 local function _SelectCategory(page, id)
-    page.pastSelections = {}
     JourneyPage.Select(page, {kind = "category", id = id})
 end
 

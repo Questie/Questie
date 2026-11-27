@@ -56,7 +56,6 @@ local FOOTER_HEIGHT, FOOTER_BUTTON_HEIGHT, FOOTER_GAP, FOOTER_ICON_WIDTH, FOOTER
 ---@field type string One of those below, or of those that were added with AddRowType: "heading"|"title"|"text"|"link"|"checkbox"|"button"|"entity"|"itemTooltip"|"gap"|"page"|"caption"|"status"|"step"|"footer"|"standing"
 ---@field text string? Finished text. It is never translated or formatted, because it can contain names and notes.
 ---@field title string? For the type entity, above the text
----@field onBack fun()? For the type page
 ---@field tag string? For the type page, at its right edge
 ---@field buttons {text: string, icon: JourneyIcon.Icon, onClick: fun()}[]? For the type footer
 ---@field onShowMap fun()? For the types status and entity, a button with a text at the right edge
@@ -376,17 +375,11 @@ local ROW_TYPES = {
     -- What the whole page is about
     page = {
         Create = function(part)
-            local back = CreateFrame("Button", nil, part)
-            back:SetSize(24, 24)
-            back:SetPoint("TOPLEFT", part, "TOPLEFT", -4, -2)
-            back:SetNormalTexture("Interface\\Buttons\\UI-SpellbookIcon-PrevPage-Up")
-            back:SetPushedTexture("Interface\\Buttons\\UI-SpellbookIcon-PrevPage-Down")
-            back:SetHighlightTexture("Interface\\Buttons\\UI-Common-MouseHilight", "ADD")
-            back:SetScript("OnClick", function() part.data.onBack() end)
-            part.Back = back
             part.Tag = part:CreateFontString(nil, "ARTWORK", "GameFontDisableSmall")
             part.Tag:SetPoint("TOPRIGHT", part, "TOPRIGHT", -4, -9)
             part.Title = part:CreateFontString(nil, "ARTWORK", "GameFontNormalLarge")
+            part.Title:SetPoint("TOPLEFT", part, "TOPLEFT", 0, -6)
+            part.Title:SetPoint("RIGHT", part.Tag, "LEFT", -8, 0)
             part.Title:SetJustifyH("LEFT")
             part.Title:SetWordWrap(false)
             local line = part:CreateTexture(nil, "ARTWORK")
@@ -396,10 +389,6 @@ local ROW_TYPES = {
             line:SetHeight(1.5)
         end,
         Update = function(part, data)
-            part.Back:SetShown(data.onBack ~= nil)
-            part.Title:ClearAllPoints()
-            part.Title:SetPoint("TOPLEFT", part, "TOPLEFT", data.onBack and 24 or 0, -6)
-            part.Title:SetPoint("RIGHT", part.Tag, "LEFT", -8, 0)
             part.Tag:SetText(data.tag or " ")
             part.Title:SetText(data.text)
         end,

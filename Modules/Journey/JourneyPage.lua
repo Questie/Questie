@@ -38,7 +38,8 @@ local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 ---@field source string? What the content is about
 ---@field isLoaded boolean? Whether its list was filled before
 ---@field selection JourneyPage.Selection? It doesn't have to be in the list, because links lead anywhere
----@field pastSelections JourneyPage.Selection[] What was shown before
+---@field backSelections JourneyPage.Selection[] What was shown before, the last one last
+---@field forwardSelections JourneyPage.Selection[] What was gone back from, the last one first
 ---@field tree JourneyTree.Instance
 ---@field details JourneyDetails.Instance
 ---@field emptyText FontString
@@ -49,7 +50,7 @@ local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 ---@field listFrame Frame
 ---@field detailsFrame Frame
 ---@field onOpenSource fun(source: string)
----@field onProgress fun()
+---@field onChange fun() When the progress changes, or what is shown
 
 -------------------------
 -- Details
@@ -75,16 +76,11 @@ end
 ---@param keepsScrollPosition boolean? For details of the same thing as before
 function JourneyPage.ShowDetails(page, keepsScrollPosition)
     local rows = page.selection and _GetRows(page, page.selection) or {}
-    if rows[1] and #page.pastSelections > 0 then
-        rows[1].onBack = function()
-            JourneyPage.Select(page, table.remove(page.pastSelections))
-        end
-        rows[1].state = "back"
-    end
     JourneyDetails.SetRows(page.details, rows, keepsScrollPosition)
     if page.content.OnShowDetails and not keepsScrollPosition then
         page.content.OnShowDetails(page)
     end
+    page.onChange()
 end
 
 ---@param page JourneyPage.Instance
@@ -110,16 +106,53 @@ function JourneyPage.Select(page, selection)
     JourneyPage.ShowDetails(page)
 end
 
+-------------------------
+-- Back and forward
+-------------------------
+
+---Keeps what is shown, so that it can be gone back to. Like in a browser, what was gone back from is forgotten.
+---@param page JourneyPage.Instance
+---@param selection JourneyPage.Selection What is shown next
+local function _Remember(page, selection)
+    local shown = page.selection
+    if shown and not (shown.kind == selection.kind and shown.id == selection.id) then
+        table.insert(page.backSelections, shown)
+        page.forwardSelections = {}
+    end
+end
+
 ---The same for a link. What was shown before can be gone back to.
 ---@param page JourneyPage.Instance
 ---@param kind JourneyKind
 ---@param id number
 function JourneyPage.Open(page, kind, id)
-    local selection = page.selection
-    if selection and not (selection.kind == kind and selection.id == id) then
-        table.insert(page.pastSelections, selection)
-    end
-    JourneyPage.Select(page, {kind = kind, id = id})
+    local selection = {kind = kind, id = id}
+    _Remember(page, selection)
+    JourneyPage.Select(page, selection)
+end
+
+---@param page JourneyPage.Instance
+---@return boolean
+function JourneyPage.CanGoBack(page)
+    return #page.backSelections > 0
+end
+
+---@param page JourneyPage.Instance
+---@return boolean
+function JourneyPage.CanGoForward(page)
+    return #page.forwardSelections > 0
+end
+
+---@param page JourneyPage.Instance
+function JourneyPage.GoBack(page)
+    table.insert(page.forwardSelections, 1, page.selection)
+    JourneyPage.Select(page, table.remove(page.backSelections))
+end
+
+---@param page JourneyPage.Instance
+function JourneyPage.GoForward(page)
+    table.insert(page.backSelections, page.selection)
+    JourneyPage.Select(page, table.remove(page.forwardSelections, 1))
 end
 
 -------------------------
@@ -151,7 +184,7 @@ end
 ---@param share number? Without it, there is only the text
 function JourneyPage.SetProgress(page, text, share)
     page.progressText, page.progressShare = text, share
-    page.onProgress()
+    page.onChange()
 end
 
 -------------------------
@@ -171,7 +204,9 @@ local function _OnClick(page, node)
     if kind == "quest" then
         JourneyLinks.TryInsertIntoChat(node.value)
     end
-    page.selection, page.pastSelections = {kind = kind, id = node.value}, {}
+    local selection = {kind = kind, id = node.value}
+    _Remember(page, selection)
+    page.selection = selection
     JourneyPage.ShowDetails(page)
 end
 
@@ -186,11 +221,13 @@ end
 
 ---@param panes JourneyPanes.Instance
 ---@param onOpenSource fun(source: string)
----@param onProgress fun()
+---@param onChange fun() When the progress changes, or what is shown
 ---@return JourneyPage.Instance page Hidden, and without content
-function JourneyPage.Create(panes, onOpenSource, onProgress)
+function JourneyPage.Create(panes, onOpenSource, onChange)
     ---@type JourneyPage.Instance
-    local page = {onOpenSource = onOpenSource, onProgress = onProgress, pastSelections = {}, progressText = "", data = {}}
+    local page = {
+        onOpenSource = onOpenSource, onChange = onChange, backSelections = {}, forwardSelections = {}, progressText = "", data = {},
+    }
     page.listFrame = _CreateFrame(panes.list.contentArea)
     page.detailsFrame = _CreateFrame(panes.details.contentArea)
 
@@ -218,7 +255,7 @@ function JourneyPage.Clear(page)
         page.loadTimer:Cancel()
     end
     page.isLoaded, page.data = false, {}
-    page.selection, page.pastSelections = nil, {}
+    page.selection, page.backSelections, page.forwardSelections = nil, {}, {}
     page.progressText, page.progressShare = "", nil
     page.emptyText:Hide()
     JourneyTree.Clear(page.tree)
