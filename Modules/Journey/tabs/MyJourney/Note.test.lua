@@ -34,7 +34,7 @@ describe("Adventure notes", function()
         originalHook, originalChatFrameUtil = _G.hooksecurefunc, _G.ChatFrameUtil
         _G.ChatFrameUtil = {InsertLink = function() end}
         _G.hooksecurefunc = function(owner, name, hook) owner[name] = hook end
-        dofile("Modules/Journey/JourneyLinkInput.lua")
+        dofile("Modules/Journey/Details/JourneyLinkInput.lua")
         QuestieLoader:ImportModule("QuestieOptionsEngine").RefreshStates = function() end
 
         dofile("Modules/Options/QuestieOptionsUtils.lua")

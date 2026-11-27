@@ -149,9 +149,9 @@ describe("The Quests tab", function()
         _QuestieJourney.myJourney = {Build = function() end, Refresh = function() end}
         for _, path in ipairs({
             "Libs/ThreadLib", "Options/QuestieOptionsUtils", "Options/QuestieOptionsControls", "Options/QuestieOptionsWindow",
-            "Journey/QuestieJourney", "Journey/JourneyThread", "Journey/JourneyWindow", "Journey/JourneyPanes", "Journey/JourneyScrollBox",
-            "Journey/JourneyIcon", "Journey/JourneyList", "Journey/JourneyTree", "Journey/JourneyDetails", "Journey/JourneyPage",
-            "Journey/JourneyQuestsPage", "Journey/JourneyOverviewRows", "Journey/JourneyTabBar", "Journey/tabs/Quests/QuestsTab",
+            "Journey/QuestieJourney", "Journey/Data/JourneyThread", "Journey/Window/JourneyWindow", "Journey/Window/JourneyPanes", "Journey/Window/JourneyScrollBox",
+            "Journey/Window/JourneyIcon", "Journey/Window/JourneyList", "Journey/Window/JourneyTree", "Journey/Details/JourneyDetails", "Journey/tabs/Quests/JourneyPage",
+            "Journey/tabs/Quests/JourneyQuestsPage", "Journey/tabs/Quests/JourneyOverviewRows", "Journey/tabs/Quests/JourneyTabBar", "Journey/tabs/Quests/QuestsTab",
         }) do
             dofile("Modules/" .. path .. ".lua")
         end

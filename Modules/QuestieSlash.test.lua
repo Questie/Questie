@@ -26,7 +26,7 @@ describe("QuestieSlash", function()
         dofile("Localization/l10n.lua")
         dofile("Modules/Libs/ThreadLib.lua")
         QuestieLoader:ImportModule("QuestiePopup").Dialogs = {}
-        dofile("Modules/Journey/JourneyThread.lua")
+        dofile("Modules/Journey/Data/JourneyThread.lua")
         QuestieSearch = QuestieLoader:ImportModule("QuestieSearch")
         QuestieSearch.Search = function(kind, query)
             for _ = 1, 5 do coroutine.yield() end
@@ -40,7 +40,7 @@ describe("QuestieSlash", function()
         QuestieMap.ShowNPC = function(_, id) notes[id] = {} end
         QuestieMap.ShowObject = function(_, id) notes[-id] = {} end
         QuestieMap.ResetManualFrames = function() for id in pairs(notes) do notes[id] = nil end end
-        dofile("Modules/Journey/ManualNotes.lua")
+        dofile("Modules/Journey/Details/ManualNotes.lua")
 
         dofile("Modules/QuestieSlash.lua")
         QuestieSlash = QuestieLoader:ImportModule("QuestieSlash")
