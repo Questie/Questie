@@ -2910,6 +2910,7 @@ globals = {
     "OKAY",
     "DEFAULT",
     "DIALOG_VOLUME",
+    "ERR_NOT_IN_COMBAT",
     "ERR_QUEST_ACCEPTED_S",
     "ERR_QUEST_COMPLETE_S",
     "FX_VOLUME",

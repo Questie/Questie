@@ -104,12 +104,25 @@ function QuestieJourney:IsShown()
     return JourneyWindow.IsShown()
 end
 
----Opens the window on a tab.
+---Nothing of the Journey happens in combat. The player's own combat state counts too: in a combat the player logged in
+---to, the lockdown only starts after the login.
+---@return boolean
+local function _IsInCombat()
+    return InCombatLockdown() or UnitAffectingCombat("player")
+end
+
+---Opens the window on a tab. Every way to open the Journey comes here.
 ---@param tabKey string? One of "journey", "zone", "faction" and "search". The tab that was shown last when nil.
 function QuestieJourney.OpenTab(tabKey)
     -- Reachable while Questie is loading, before the data for the tabs is ready
     if (not Questie.started) then
         print(Questie:Colorize(l10n("Please wait a moment for Questie to finish loading")))
+        return
+    end
+    -- The window never opens in combat, and combat closes it (EventHandler). The error is Blizzard's own, as its
+    -- queue status shows it on every supported client.
+    if _IsInCombat() then
+        UIErrorsFrame:AddMessage(ERR_NOT_IN_COMBAT, 1.0, 0.1, 0.1, 1.0)
         return
     end
 
@@ -137,13 +150,8 @@ function QuestieJourney:ToggleJourneyWindow()
     end
 end
 
-function QuestieJourney:SetupKeybinding()
-    _G.BINDING_NAME_QUESTIE_TOGGLE_JOURNEY = l10n("Toggle My Journey")
-
+local function _ApplyDefaultKeybinding()
     -- Only ever attempt to set the default keybind once, so we never fight a user who later changes or removes their bindings
-    if Questie.db.global.journeyKeybindDefaultApplied then
-        return
-    end
     Questie.db.global.journeyKeybindDefaultApplied = true
 
     local currentBinding = GetBindingKey("QUESTIE_TOGGLE_JOURNEY")
@@ -151,6 +159,26 @@ function QuestieJourney:SetupKeybinding()
         SetBinding("SEMICOLON", "QUESTIE_TOGGLE_JOURNEY")
         Questie.Debug(Questie.DEBUG_INFO, "Set default keybind ';' for Questie Journey")
     end
+end
+
+function QuestieJourney:SetupKeybinding()
+    _G.BINDING_NAME_QUESTIE_TOGGLE_JOURNEY = l10n("Toggle My Journey")
+
+    if Questie.db.global.journeyKeybindDefaultApplied then
+        return
+    end
+    -- SetBinding is blocked in combat, and the startup can run during a combat the player logged in to. The key then
+    -- waits until that combat is over. QuestieCombatQueue doesn't run yet at this point of the startup.
+    if _IsInCombat() then
+        local waiter = CreateFrame("Frame")
+        waiter:RegisterEvent("PLAYER_REGEN_ENABLED")
+        waiter:SetScript("OnEvent", function()
+            waiter:UnregisterEvent("PLAYER_REGEN_ENABLED")
+            _ApplyDefaultKeybinding()
+        end)
+        return
+    end
+    _ApplyDefaultKeybinding()
 end
 
 ---@param entry JourneyEntry
