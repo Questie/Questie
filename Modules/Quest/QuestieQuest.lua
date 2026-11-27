@@ -144,59 +144,14 @@ function QuestieQuest:ToggleNotes(showIcons)
             ThreadLib.ThreadInstant(function()
                 if showIcons then
                     MapIconVisibility.ShowQuestIcons()
-                    _QuestieQuest:ShowManualIcons()
+                    MapIconVisibility.ShowManualIcons()
                 else
                     MapIconVisibility.HideQuestIcons()
-                    _QuestieQuest:HideManualIcons()
+                    MapIconVisibility.HideManualIcons()
                 end
             end)
         end
     )
-end
-
--- Manual notes follow map visibility and exploration without quest-specific filters.
----@param icon IconFrame
----@return boolean
-local function _ShouldShowManualIcon(icon)
-    local profile = Questie.db.profile
-    if (not profile.enabled) then
-        return false
-    end
-
-    if profile.hideUnexploredMapIcons and icon.manualType ~= "any" and (not QuestieMap.utils.IsExplored(icon.UiMapID, icon.x, icon.y)) then
-        return false
-    end
-
-    if icon.miniMapIcon then
-        return profile.enableMiniMapIcons
-    end
-    return profile.enableMapIcons
-end
-
-function _QuestieQuest:ShowManualIcons()
-    for _, townsfolk in pairs(QuestieMap.manualFrames) do
-        for _, frameList in pairs(townsfolk) do
-            for _, frameName in pairs(frameList) do
-                local icon = _G[frameName];
-                if icon ~= nil and icon.hidden and _ShouldShowManualIcon(icon) then
-                    icon:FakeShow()
-                end
-            end
-        end
-    end
-end
-
-function _QuestieQuest:HideManualIcons()
-    for _, townsfolk in pairs(QuestieMap.manualFrames) do
-        for _, frameList in pairs(townsfolk) do
-            for _, frameName in pairs(frameList) do
-                local icon = _G[frameName];
-                if icon ~= nil and (not icon.hidden) and (not _ShouldShowManualIcon(icon)) then
-                    icon:FakeHide()
-                end
-            end
-        end
-    end
 end
 
 function QuestieQuest:ClearAllNotes()
