@@ -287,8 +287,8 @@ do
                         local startedBy = _QueryQuestSingle(questId, "startedBy")
 
                         if startedBy then
-                            zoneMap = _ZoneDB.GetZonesWithQuestsFromNPCs(zoneMap, startedBy[1])
-                            zoneMap = _ZoneDB.GetZonesWithQuestsFromObjects(zoneMap, startedBy[2])
+                            zoneMap = _ZoneDB.GetZonesWithQuestsFromNPCs(zoneMap, questId, startedBy[1])
+                            zoneMap = _ZoneDB.GetZonesWithQuestsFromObjects(zoneMap, questId, startedBy[2])
                         end
                         if yield then
                             count = count + extraYield
@@ -300,8 +300,8 @@ do
 
                         local finishedBy = _QueryQuestSingle(questId, "finishedBy")
                         if finishedBy then
-                            zoneMap = _ZoneDB.GetZonesWithQuestsFromNPCs(zoneMap, finishedBy[1])
-                            zoneMap = _ZoneDB.GetZonesWithQuestsFromObjects(zoneMap, finishedBy[2])
+                            zoneMap = _ZoneDB.GetZonesWithQuestsFromNPCs(zoneMap, questId, finishedBy[1])
+                            zoneMap = _ZoneDB.GetZonesWithQuestsFromObjects(zoneMap, questId, finishedBy[2])
                         end
                         if yield then count = count + extraYield end
                     end
@@ -354,19 +354,21 @@ function _ZoneDB.IsSpecialQuest(zoneOrSort)
 end
 
 ---@param zones any @ I have no idea what this is does or looks
+---@param questId QuestId
 ---@param npcIds NpcId[]
 ---@return any @ Ditto
-function _ZoneDB.GetZonesWithQuestsFromNPCs(zones, npcIds)
+function _ZoneDB.GetZonesWithQuestsFromNPCs(zones, questId, npcIds)
     if (not npcIds) then
         return zones
     end
 
-    for npcId in pairs(npcIds) do
+    for _, npcId in ipairs(npcIds) do
         local spawns = QuestieDB.QueryNPCSingle(npcId, "spawns")
         if spawns then
-            for zone in pairs(spawns) do
+            for spawnZone in pairs(spawns) do
+                local zone = ZoneDB:GetParentZoneId(spawnZone) or spawnZone
                 if not zones[zone] then zones[zone] = {} end
-                zones[zone][npcId] = true
+                zones[zone][questId] = true
             end
         end
     end
@@ -375,19 +377,21 @@ function _ZoneDB.GetZonesWithQuestsFromNPCs(zones, npcIds)
 end
 
 ---@param zones any @ I have no idea what this is does or looks
+---@param questId QuestId
 ---@param objectIds ObjectId[]
 ---@return any @ Ditto
-function _ZoneDB.GetZonesWithQuestsFromObjects(zones, objectIds)
+function _ZoneDB.GetZonesWithQuestsFromObjects(zones, questId, objectIds)
     if (not objectIds) then
         return zones
     end
 
-    for objectId in pairs(objectIds) do
+    for _, objectId in ipairs(objectIds) do
         local spawns = QuestieDB.QueryObjectSingle(objectId, "spawns")
         if spawns then
-            for zone in pairs(spawns) do
+            for spawnZone in pairs(spawns) do
+                local zone = ZoneDB:GetParentZoneId(spawnZone) or spawnZone
                 if not zones[zone] then zones[zone] = {} end
-                zones[zone][objectId] = true
+                zones[zone][questId] = true
             end
         end
     end

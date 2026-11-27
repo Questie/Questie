@@ -163,6 +163,50 @@ describe("ZoneDB", function()
             }, ZoneDB.GetZonesWithQuests())
         end)
 
+        describe("quests without a zone", function()
+            before_each(function()
+                quests[200] = {zoneOrSort = 0}
+                QuestieDB.QueryNPCSingle = function(npcId, field)
+                    local npcs = {[4567] = {spawns = {[12] = {{50, 50}}}}, [4568] = {spawns = {[133] = {{50, 50}}}}}
+                    return npcs[npcId] and npcs[npcId][field]
+                end
+                QuestieDB.QueryObjectSingle = function(objectId, field)
+                    local objects = {[2001] = {spawns = {[14] = {{50, 50}}}}}
+                    return objects[objectId] and objects[objectId][field]
+                end
+            end)
+
+            it("groups a quest started by an NPC under the spawn zone using the quest id", function()
+                quests[200].startedBy = {{4567}}
+
+                assert.are_same({[200] = true}, ZoneDB.GetZonesWithQuests()[12])
+            end)
+
+            it("groups a quest started by an object under the spawn zone using the quest id", function()
+                quests[200].startedBy = {nil, {2001}}
+
+                assert.are_same({[200] = true}, ZoneDB.GetZonesWithQuests()[14])
+            end)
+
+            it("groups a quest finished by an NPC or object under the spawn zones using the quest id", function()
+                quests[200].finishedBy = {{4567}, {2001}}
+
+                local zoneMap = ZoneDB.GetZonesWithQuests()
+
+                assert.are_same({[200] = true}, zoneMap[12])
+                assert.are_same({[200] = true}, zoneMap[14])
+            end)
+
+            it("groups a quest under the parent zone of the spawn zone", function()
+                quests[200].startedBy = {{4568}}
+
+                local zoneMap = ZoneDB.GetZonesWithQuests()
+
+                assert.are_same({[102] = true, [200] = true}, zoneMap[1])
+                assert.is_nil(zoneMap[133])
+            end)
+        end)
+
         it("merges redirected quests and builds dropdowns from the same map without changing quest data", function()
             local overrides = {[-676] = 141}
             local zoneMap = ZoneDB.GetZonesWithQuests(false, overrides)
