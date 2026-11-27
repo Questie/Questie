@@ -568,15 +568,15 @@ local searchLocales = {
     },
     ["Can't open the map while in combat. Open it manually."] = {
         ["enUS"] = true,
-        ["deDE"] = false,
-        ["esES"] = false,
-        ["esMX"] = false,
-        ["frFR"] = false,
-        ["koKR"] = false,
-        ["ptBR"] = false,
-        ["ruRU"] = false,
-        ["zhCN"] = false,
-        ["zhTW"] = false,
+        ["deDE"] = "Die Karte kann im Kampf nicht geöffnet werden. Öffne sie manuell.", -- AI 🤖
+        ["esES"] = "No se puede abrir el mapa en combate. Ábrelo manualmente.", -- AI 🤖
+        ["esMX"] = "No se puede abrir el mapa en combate. Ábrelo manualmente.", -- AI 🤖
+        ["frFR"] = "Impossible d'ouvrir la carte en combat. Ouvrez-la manuellement.", -- AI 🤖
+        ["koKR"] = "전투 중에는 지도를 열 수 없습니다. 직접 여세요.", -- AI 🤖
+        ["ptBR"] = "Não é possível abrir o mapa em combate. Abra-o manualmente.", -- AI 🤖
+        ["ruRU"] = "Нельзя открыть карту в бою. Откройте её вручную.", -- AI 🤖
+        ["zhCN"] = "战斗中无法打开地图。请手动打开。", -- AI 🤖
+        ["zhTW"] = "戰鬥中無法開啟地圖。請手動開啟。", -- AI 🤖
     },
 }
 
