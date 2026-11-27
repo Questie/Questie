@@ -89,7 +89,7 @@ describe("Issue 8493 - The open Journey shows what changed", function()
         QuestiePlayer.GetCurrentContinentId = function() return 0 end
         QuestiePlayer.GetCurrentZoneId = function() return ELWYNN end
         local ZoneDB = Import("ZoneDB")
-        ZoneDB.private.subZoneToParentZoneOverride = "return {}"
+        ZoneDB.GetParentZoneId = function() return nil end
         ZoneDB.GetDungeons = function() return {} end
         local QuestieLib = Import("QuestieLib")
         QuestieLib.GetColoredQuestName = function(_, id) return names[id] end

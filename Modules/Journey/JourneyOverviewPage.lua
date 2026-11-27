@@ -86,13 +86,16 @@ local function _GetPicture(groupId)
         [keys.THE_MAELSTROM] = PICTURES .. "cataclysm.png", -- Its zones are those of Cataclysm too
         [keys.PANDARIA] = PICTURES .. "pandaria.png",
         [keys.DUNGEONS] = DUNGEONS_PICTURE,
-        [keys.BATTLEGROUNDS] = UnitFactionGroup("player") == "Horde" and HORDE_BANNER or ALLIANCE_BANNER,
         [keys.CLASS] = JourneyOverviewPage.GetClassPicture(UnitClassBase("player")),
         [keys.PROFESSIONS] = 136241, -- Trade_BlackSmithing
         [keys.EVENTS] = 133202, -- INV_Holiday_Christmas_Present_01
         -- Tracking_WildPet, a paw without the background of icons. Only Mists has the group, and the icon (checked in the running client).
         [keys.PET_BATTLES] = {file = 613074},
     }
+    if groupId == keys.BATTLEGROUNDS then
+        -- Not kept with the others: a Pandaren of Mists only picks a faction after the start
+        return UnitFactionGroup("player") == "Horde" and HORDE_BANNER or ALLIANCE_BANNER
+    end
     return pictures[groupId] or DEFAULT_PICTURE
 end
 
@@ -614,15 +617,10 @@ local function _CreateSearch(page)
         end
         _Search(page, search, SEARCH_DELAY_SECONDS)
     end)
+    -- Enter means the typing is done: what was typed is searched for at once
     box:SetScript("OnEnterPressed", function()
         box:ClearFocus()
-        local query = _GetTypedQuery(search)
-        local place = query ~= "" and JourneyResultsPage.GetTypedPlace(query)
-        if place then
-            page.onOpenSource(place)
-        else
-            _Search(page, search)
-        end
+        _Search(page, search)
     end)
     local function TakeItem()
         local cursorType, _, itemLink = GetCursorInfo()
@@ -704,7 +702,8 @@ local function _Show(page)
         JourneyTree.Update(page.search.tree)
     end
     local completed, total = _CountAll()
-    JourneyPage.SetProgress(page, total > 0 and l10n("%s of %s completed", completed, total) or "", total > 0 and completed / total or nil)
+    JourneyPage.SetProgress(page, total > 0 and l10n("%s of %s completed", BreakUpLargeNumbers(completed), BreakUpLargeNumbers(total)) or "",
+        total > 0 and completed / total or nil)
 end
 
 ---@param page JourneyPage.Instance

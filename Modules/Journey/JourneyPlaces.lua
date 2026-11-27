@@ -89,9 +89,9 @@ end
 
 ---@return number zoneId Of a zone with quests of its own, not of a part of it
 function JourneyPlaces.GetPlayerZone()
-    local subZoneToParentZoneOverride = loadstring(ZoneDB.private.subZoneToParentZoneOverride)()
     local zoneId = QuestiePlayer:GetCurrentZoneId()
-    return subZoneToParentZoneOverride[zoneId] or zoneId
+    -- The same parent zone the quests of a part of it are grouped under (ZoneDB.GetZonesWithQuests)
+    return ZoneDB:GetParentZoneId(zoneId) or zoneId
 end
 
 ---@param groupId number
@@ -161,11 +161,14 @@ end
 ---@return JourneyPlace? continent
 function JourneyPlaces.GetContinentOfMap(uiMapId)
     _ReadMaps()
+    -- The group with the lowest ID, when several have the map: the continents come first
+    local foundId
     for groupId, groupMap in pairs(mapsByGroup) do
-        if groupMap == uiMapId then
-            return {id = groupId, name = JourneyPlaces.GetGroupName(groupId)}
+        if groupMap == uiMapId and (not foundId or groupId < foundId) then
+            foundId = groupId
         end
     end
+    return foundId and {id = foundId, name = JourneyPlaces.GetGroupName(foundId)} or nil
 end
 
 -------------------------
@@ -271,13 +274,6 @@ function JourneyPlaces.Search(query)
     end
     query = query:lower()
     return _Filter(allZones, query), _Filter(JourneyPlaces.GetFactions(), query)
-end
-
----@param place JourneyPlace
----@param query string
----@return boolean
-function JourneyPlaces.StartsWith(place, query)
-    return place.name:lower():find(query:lower(), 1, true) == 1
 end
 
 return JourneyPlaces

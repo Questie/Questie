@@ -87,20 +87,7 @@ function JourneyResultsPage.GetNote(node)
         zoneId = QuestieDB.QueryObjectSingle(node.value, "zoneID")
     end
     if zoneId and zoneId > 0 then
-        local isKnown, name = pcall(QuestieJourneyUtils.GetZoneName, QuestieJourneyUtils, zoneId)
-        return isKnown and name or nil
-    end
-end
-
----The zone or faction whose name the user started to type.
----@param query string
----@return JourneySource?
-function JourneyResultsPage.GetTypedPlace(query)
-    local zones, factions = JourneyPlaces.Search(query)
-    if zones[1] and JourneyPlaces.StartsWith(zones[1], query) then
-        return "zone:" .. zones[1].id
-    elseif factions[1] and JourneyPlaces.StartsWith(factions[1], query) then
-        return "faction:" .. factions[1].id
+        return QuestieJourneyUtils:GetZoneName(zoneId)
     end
 end
 

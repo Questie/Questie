@@ -17,7 +17,7 @@ describe("JourneyOverviewPage", function()
     local counts
     local summaries
     local met, unmet, closest
-    local found, searches, typedPlaces
+    local found, searches
 
     -- Blizzard's texts, in English
     local GLOBAL_STRINGS = {
@@ -150,7 +150,6 @@ describe("JourneyOverviewPage", function()
             table.insert(searches, query)
             return found
         end
-        JourneyResultsPage.GetTypedPlace = function(query) return typedPlaces[query] end
         JourneyResultsPage.GetText = function(node) return node.kind .. " " .. node.value end
         JourneyResultsPage.GetIcon = function() end
         JourneyResultsPage.GetNote = function() end
@@ -180,7 +179,7 @@ describe("JourneyOverviewPage", function()
         }
         counts, summaries, opened, linkedQuests = {}, {}, {}, {}
         met, unmet, closest = {}, {}, {}
-        found, searches, typedPlaces = {}, {}, {}
+        found, searches = {}, {}
 
         dofile("Modules/Libs/QuestieLoader.lua")
         dofile("Localization/l10n.lua")
@@ -669,13 +668,17 @@ describe("JourneyOverviewPage", function()
             end)
         end
 
-        it("should open the zone or faction whose name was typed when Enter is pressed", function()
-            typedPlaces["elwy"] = "zone:" .. ID["Elwynn Forest"]
+        -- Enter means the typing is done, also when it is the start of the name of a zone
+        it("should only search when Enter is pressed, and open nothing", function()
             box:SetText("elwy")
 
             box:PressEnter()
+            ui.RunFrame()
+            ui.RunFrame()
 
-            assert.are_same({"zone:" .. ID["Elwynn Forest"]}, opened)
+            assert.are_same({"elwy"}, searches)
+            assert.are_same({}, opened)
+            assert.is_false(box:HasFocus())
         end)
 
         it("should search for the name of a link that was put into the box", function()

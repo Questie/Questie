@@ -78,7 +78,7 @@ describe("JourneyPlaces", function()
         QuestieLoader:ImportModule("QuestiePlayer").GetCurrentZoneId = function() return currentZoneId end
         QuestieLoader:ImportModule("JourneyThread").YieldIfNeeded = function() end
         local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
-        ZoneDB.private.subZoneToParentZoneOverride = "return {[" .. GOLDSHIRE .. "] = " .. ELWYNN_FOREST .. "}"
+        ZoneDB.GetParentZoneId = function(_, areaId) return ({[GOLDSHIRE] = ELWYNN_FOREST})[areaId] end
         ZoneDB.GetUiMapIdByAreaId = function(_, areaId) return UI_MAPS[areaId] end
 
         dofile("Modules/Journey/JourneyPlaces.lua")

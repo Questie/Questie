@@ -112,23 +112,4 @@ describe("JourneyResultsPage", function()
             assert.is_nil(JourneyResultsPage.GetNote({value = 2589, kind = "item"}))
         end)
     end)
-
-    describe("GetTypedPlace", function()
-        it("should open the zone whose name was started to be typed, also over a faction of the same name", function()
-            assert.are.equal("zone:1519", JourneyResultsPage.GetTypedPlace("storm"))
-            assert.are.equal("zone:1519", JourneyResultsPage.GetTypedPlace("STORMWIND"))
-            assert.are.equal("zone:1657", JourneyResultsPage.GetTypedPlace("darn"))
-        end)
-
-        it("should open the faction whose name was started to be typed when no zone's name starts with it", function()
-            assert.are.equal("faction:169", JourneyResultsPage.GetTypedPlace("steam"))
-            -- Darnassus and Durotar only have it inside their names
-            assert.are.equal("faction:529", JourneyResultsPage.GetTypedPlace("ar"))
-        end)
-
-        it("should open nothing when no name starts with what was typed", function()
-            assert.is_nil(JourneyResultsPage.GetTypedPlace("wind"))
-            assert.is_nil(JourneyResultsPage.GetTypedPlace("hogger"))
-        end)
-    end)
 end)

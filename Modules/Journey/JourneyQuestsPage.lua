@@ -56,7 +56,7 @@ function JourneyQuestsPage.Load(page)
         end
     end
     JourneyPage.SetNodes(page, nodes, l10n("No Quests found"))
-    JourneyPage.SetProgress(page, total > 0 and l10n("%s of %s completed", completed, total) or "", total > 0 and completed / total or nil)
+    JourneyPage.SetProgress(page, total > 0 and l10n("%s of %s completed", BreakUpLargeNumbers(completed), BreakUpLargeNumbers(total)) or "", total > 0 and completed / total or nil)
     JourneyPage.ShowDetails(page, page.isLoaded)
 end
 

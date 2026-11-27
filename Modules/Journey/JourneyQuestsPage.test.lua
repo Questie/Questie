@@ -193,6 +193,17 @@ describe("JourneyQuestsPage", function()
             assert.are_same({"1 of 3 completed", 1 / 3}, {page.progressText, page.progressShare})
         end)
 
+        it("should break up large numbers of quests, like the bars do", function()
+            QuestieLoader:ImportModule("JourneyQuestCategories").Collect = function(questIds)
+                local nodes = Collect(questIds)
+                return nodes, 1234, 5678
+            end
+
+            Open("zone:12")
+
+            assert.are.equal("1,234 of 5,678 completed", page.progressText)
+        end)
+
         it("should say so when it has no quests, and show no progress", function()
             categoriesBySource["zone:12"] = {}
 
