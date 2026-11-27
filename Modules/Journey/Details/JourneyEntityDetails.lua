@@ -14,6 +14,8 @@ local JourneyIcon = QuestieLoader:ImportModule("JourneyIcon")
 local JourneyWindow = QuestieLoader:ImportModule("JourneyWindow")
 ---@type ManualNotes
 local ManualNotes = QuestieLoader:ImportModule("ManualNotes")
+---@type JourneyQuestCategories
+local JourneyQuestCategories = QuestieLoader:ImportModule("JourneyQuestCategories")
 ---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 ---@type QuestieLib
@@ -61,6 +63,14 @@ local function _GetZones(spawns)
         return a.zoneId < b.zoneId
     end)
     return zones
+end
+
+---Where an NPC or object is most of all: the zone with the most spawns, preferring those with coordinates.
+---@param spawns table<AreaId, CoordPair[]>?
+---@return AreaId? zoneId Nil without spawns
+function JourneyEntityDetails.GetZoneId(spawns)
+    local zone = _GetZones(spawns)[1]
+    return zone and zone.zoneId
 end
 
 ---@param coordinate number
@@ -114,7 +124,7 @@ end
 ---@param kind ManualNoteKind
 ---@param id number
 ---@param onChanged fun() Called after it was clicked
----@return {tooltip: string, isOn: boolean, onClick: fun()} action
+---@return JourneyDetails.Action action
 ---@return string state Differs when the action does
 function JourneyEntityDetails.GetMapAction(kind, id, onChanged)
     local isShown = ManualNotes.IsShown(kind, id)
@@ -129,7 +139,8 @@ function JourneyEntityDetails.GetMapAction(kind, id, onChanged)
     return action, isShown and "shown" or "not shown"
 end
 
----What the game shows about an NPC: its title below the name, and its level with the dragon of its rank.
+---What the game shows about an NPC: its title below the name, and its level with the dragon of its rank. Then whom it is
+---friendly to.
 ---@param npc NPC
 ---@return string[] lines
 local function _GetNpcLines(npc)
@@ -161,10 +172,10 @@ local function _GetStatus(starts, ends)
     local ready, available, active = 0, 0, 0
     for _, entry in ipairs(ends) do
         if entry.category == "log" then
-            local isComplete = QuestieDB.IsComplete(entry.questId)
-            if isComplete == 1 then
+            local state = JourneyQuestCategories.GetLogState(entry.questId)
+            if state == "ready" then
                 ready = ready + 1
-            elseif isComplete ~= -1 then
+            elseif state == "active" then
                 active = active + 1
             end
         end
@@ -194,7 +205,8 @@ end
 ---@param kind ManualNoteKind
 ---@param id number
 ---@param zones JourneyEntityZone[]
-local function _AddZones(rows, kind, id, zones)
+---@param onChanged fun()
+local function _AddZones(rows, kind, id, zones, onChanged)
     if #zones < 2 then
         return
     end
@@ -205,19 +217,12 @@ local function _AddZones(rows, kind, id, zones)
             type = "step",
             text = QuestieJourneyUtils:GetZoneName(zone.zoneId),
             tag = zone.count > 1 and tostring(zone.count) or nil, -- How many spawns, like the zones of a faction say how many quests
-            onClick = showOnMap,
+            onClick = showOnMap and function()
+                showOnMap()
+                onChanged() -- It is on the map now, also when the map can't be opened in combat
+            end,
             showTooltip = showOnMap and function() GameTooltip:AddLine(l10n("Show on Map")) end,
         })
-    end
-end
-
----@param rows JourneyDetails.Row[]
----@param caption string
----@param steps JourneyDetails.Row[]
-local function _AddQuests(rows, caption, steps)
-    if #steps > 0 then
-        table.insert(rows, {type = "caption", text = l10n(caption)})
-        for _, step in ipairs(steps) do table.insert(rows, step) end
     end
 end
 
@@ -271,7 +276,10 @@ function JourneyEntityDetails.GetRows(kind, id, onChanged)
             -- Objects have no face, so they have the icon of their objectives
             icon = not isNpc and Questie.icons["object"] or nil,
             text = table.concat(lines, "\n"),
-            onShowMap = showOnMap,
+            onShowMap = showOnMap and function()
+                showOnMap()
+                onChanged() -- It is on the map now, also when the map can't be opened in combat
+            end,
         },
     }
     if not entity.spawns then
@@ -286,9 +294,9 @@ function JourneyEntityDetails.GetRows(kind, id, onChanged)
         table.insert(rows, {type = "status", text = status})
     end
 
-    _AddZones(rows, kind, id, _GetZones(entity.spawns))
-    _AddQuests(rows, "Starts the following quests", starts)
-    _AddQuests(rows, "Ends the following quests", ends)
+    _AddZones(rows, kind, id, _GetZones(entity.spawns), onChanged)
+    JourneyDetails.AddSection(rows, l10n("Starts the following quests"), starts)
+    JourneyDetails.AddSection(rows, l10n("Ends the following quests"), ends)
     JourneyRawData.AddRows(rows, entity, isNpc and QuestieDB.npcKeys or QuestieDB.objectKeys)
     if entity.spawns then
         table.insert(rows, _GetFooter(kind, id, setTomTomTarget, onChanged))

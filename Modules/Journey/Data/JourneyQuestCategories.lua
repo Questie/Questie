@@ -126,15 +126,31 @@ function JourneyQuestCategories.Get(questId)
     return category, reason, name
 end
 
+---@alias JourneyQuestLogState "ready"|"failed"|"active"
+
+---How far a quest in the log is: ready to be turned in, failed, or still to be done.
+---@param questId QuestId
+---@return JourneyQuestLogState
+function JourneyQuestCategories.GetLogState(questId)
+    local isComplete = QuestieDB.IsComplete(questId)
+    if isComplete == 1 then
+        return "ready"
+    elseif isComplete == -1 then
+        return "failed"
+    end
+    return "active"
+end
+
 ---How far a quest in the log is, added up over all its objectives.
 ---@param questId QuestId
 ---@return string? text
 function JourneyQuestCategories.GetProgress(questId)
     local quest = QuestieDB.GetQuest(questId)
     local objectives = quest and quest.Objectives or {}
-    if QuestieDB.IsComplete(questId) == 1 then
+    local state = JourneyQuestCategories.GetLogState(questId)
+    if state == "ready" then
         return Questie:Colorize(l10n("Complete"):lower(), "green") -- Like Ready to turn-in in the details
-    elseif QuestieDB.IsComplete(questId) == -1 then
+    elseif state == "failed" then
         return Questie:Colorize(l10n("Failed"):lower(), "red")
     end
     local collected, needed = 0, 0
@@ -247,10 +263,10 @@ function JourneyQuestCategories.GetIcon(questId, category)
         end
         return SHOW_MISSING_REQUIREMENT_ICON and Questie.icons["available_gray"] or nil
     elseif category == "log" then
-        local isComplete = QuestieDB.IsComplete(questId)
-        if isComplete == 1 then
+        local state = JourneyQuestCategories.GetLogState(questId)
+        if state == "ready" then
             return JourneyQuestCategories.GetCompleteIcon(questId)
-        elseif isComplete == -1 then
+        elseif state == "failed" then
             return Questie.icons["cross"]
         end
         return Questie.icons["incomplete"]
@@ -259,6 +275,39 @@ function JourneyQuestCategories.GetIcon(questId, category)
     elseif category == "unobtainable" then
         return Questie.icons["cross"]
     end
+end
+
+---What can be done with a quest, as the top of its details and its tooltip say it.
+---@param questId QuestId
+---@return string text With an icon in front
+function JourneyQuestCategories.GetStatus(questId)
+    local category, reason, stateName = JourneyQuestCategories.Get(questId)
+    if category == "log" then
+        local state = JourneyQuestCategories.GetLogState(questId)
+        if state == "ready" then
+            return JourneyIcon.GetMarkup(JourneyQuestCategories.GetCompleteIcon(questId)) .. Questie:Colorize(QUEST_WATCH_QUEST_READY, "green")
+        elseif state == "failed" then
+            return JourneyIcon.GetMarkup(Questie.icons["cross"]) .. Questie:Colorize(l10n("Failed"), "red")
+        end
+        return Questie:Colorize(QUEST_TOOLTIP_ACTIVE, "lightBlue") -- Like the timers of quests in the tracker
+    elseif category == "available" or category == "repeatable" then
+        return JourneyIcon.GetMarkup(JourneyQuestCategories.GetKindIcon(questId)) .. Questie:Colorize(l10n("Available"), "gold") -- Like the headings
+    elseif category == "completed" then
+        return JourneyIcon.GetMarkup(Questie.icons["checkmark"]) .. l10n("Completed")
+    elseif category == "later" then
+        if stateName == "NO_PREQUESTSINGLE" then
+            reason = l10n("Incomplete pre-quest")
+        elseif stateName == "NO_PREQUESTGROUP" then
+            reason = l10n("Incomplete pre-quest group")
+        elseif stateName == "LEVEL_TOO_LOW" then
+            reason = ITEM_MIN_LEVEL:format(QuestieDB.QueryQuestSingle(questId, "requiredLevel"))
+        end
+        return JourneyIcon.GetMarkup(Questie.icons["cross"]) .. Questie:Colorize(l10n("Unavailable") .. l10n(": "), "red") .. (reason or "")
+    elseif category == "unobtainable" then
+        return JourneyIcon.GetMarkup(Questie.icons["cross"]) .. Questie:Colorize(l10n("Unavailable") .. l10n(": "), "red")
+            .. (reason or l10n("Exclusive quest completed"))
+    end
+    return JourneyIcon.GetMarkup(Questie.icons["cross"]) .. (QuestieDB.IsDoableVerbose(questId, false, true, true) or "")
 end
 
 ---@param questId QuestId

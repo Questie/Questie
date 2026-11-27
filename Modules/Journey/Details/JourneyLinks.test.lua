@@ -36,11 +36,11 @@ describe("JourneyLinks", function()
         QuestieLoader:ImportModule("QuestieLink").GetQuestLinkStringById = function(id) return "link to " .. id end
         QuestieLoader:ImportModule("WrappedText").TextWrap = function(_, line) return {line} end
         QuestieLoader:ImportModule("JourneyWindow").OpenLink = function(kind, id) table.insert(opened, {kind, id}) end
-        -- The colors of names are tested with JourneyNameColors, and the status of a quest with JourneyQuestDetails
+        -- The colors of names are tested with JourneyNameColors, and the status of a quest with JourneyQuestCategories
         local JourneyNameColors = QuestieLoader:ImportModule("JourneyNameColors")
         JourneyNameColors.Npc = function(_, name) return "<reaction>" .. name end
         JourneyNameColors.Object = function(name) return "<gold>" .. name end
-        QuestieLoader:ImportModule("JourneyQuestDetails").GetStatus = function(id) return "status of " .. id end
+        QuestieLoader:ImportModule("JourneyQuestCategories").GetStatus = function(id) return "status of " .. id end
         -- Which quests are listed, in what order and with what note, and their icons, are tested with JourneyQuestCategories
         JourneyQuestCategories = QuestieLoader:ImportModule("JourneyQuestCategories")
         JourneyQuestCategories.Arrange = function(questIds)

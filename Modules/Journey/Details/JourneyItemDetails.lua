@@ -2,6 +2,8 @@
 ---@class JourneyItemDetails
 local JourneyItemDetails = QuestieLoader:CreateModule("JourneyItemDetails")
 
+---@type JourneyDetails
+local JourneyDetails = QuestieLoader:ImportModule("JourneyDetails")
 ---@type JourneyEntityDetails
 local JourneyEntityDetails = QuestieLoader:ImportModule("JourneyEntityDetails")
 ---@type JourneyIcon
@@ -40,16 +42,6 @@ local SOURCES = {
     {field = "vendors", kind = "npc", caption = "Vendors"},
 }
 
----@param rows JourneyDetails.Row[]
----@param caption string Is translated
----@param section JourneyDetails.Row[] Nothing is added without any
-local function _AddSection(rows, caption, section)
-    if #section > 0 then
-        table.insert(rows, {type = "caption", text = caption})
-        for _, row in ipairs(section) do table.insert(rows, row) end
-    end
-end
-
 ---@param itemId ItemId
 local function _OnIconClick(itemId)
     local _, link = QuestieCompat.GetItemInfo(itemId)
@@ -67,44 +59,36 @@ local function _OnIconClick(itemId)
     end
 end
 
----@param source JourneyItemSource
----@param id number
----@return boolean isReachable Whether the player can get the item there
-local function _IsReachable(source, id)
-    local spawns
-    if source.kind == "npc" then
-        spawns = QuestieDB.QueryNPCSingle(id, "spawns")
-    else
-        spawns = QuestieDB.QueryObjectSingle(id, "spawns")
-    end
-    local isHostileVendor = source.field == "vendors"
-        and not QuestieDB.IsFriendlyToPlayer(QuestieDB.QueryNPCSingle(id, "friendlyToFaction"))
-    return spawns ~= nil and not isHostileVendor
-end
-
 ---@class JourneyItemSourceEntry
 ---@field id number
 ---@field name string
+---@field zoneId AreaId Where it is most of all, like its own page says
 ---@field dropRate number? In percent
 
 ---Those the player can get the item from, the most likely drop first.
 ---@param itemId ItemId
 ---@param source JourneyItemSource
 ---@param ids number[]?
----@return JourneyItemSourceEntry[]
+---@return JourneyItemSourceEntry[] entries
+---@return boolean isAnyWithoutSpawns Whether the database doesn't know where some are
 local function _GetEntries(itemId, source, ids)
-    local entries = {}
+    local entries, isAnyWithoutSpawns = {}, false
     for _, id in ipairs(ids or {}) do
-        local name
+        local name, spawns
         if source.kind == "npc" then
-            name = QuestieDB.QueryNPCSingle(id, "name")
+            name, spawns = QuestieDB.QueryNPCSingle(id, "name"), QuestieDB.QueryNPCSingle(id, "spawns")
         else
-            name = QuestieDB.QueryObjectSingle(id, "name")
+            name, spawns = QuestieDB.QueryObjectSingle(id, "name"), QuestieDB.QueryObjectSingle(id, "spawns")
         end
-        if name and _IsReachable(source, id) then
+        local isHostileVendor = source.field == "vendors"
+            and not QuestieDB.IsFriendlyToPlayer(QuestieDB.QueryNPCSingle(id, "friendlyToFaction"))
+        isAnyWithoutSpawns = isAnyWithoutSpawns or (name ~= nil and spawns == nil)
+        if name and spawns and not isHostileVendor then
             -- Only NPCs have drop rates
             local dropRate = source.field == "npcDrops" and QuestieDB.GetItemDroprate(itemId, id)
-            table.insert(entries, {id = id, name = name, dropRate = dropRate and dropRate[1] or nil})
+            table.insert(entries, {
+                id = id, name = name, zoneId = JourneyEntityDetails.GetZoneId(spawns), dropRate = dropRate and dropRate[1] or nil,
+            })
         end
     end
     table.sort(entries, function(a, b)
@@ -113,27 +97,17 @@ local function _GetEntries(itemId, source, ids)
         end
         return a.name < b.name or a.name == b.name and a.id < b.id
     end)
-    return entries
+    return entries, isAnyWithoutSpawns
 end
 
----@param source JourneyItemSource
 ---@param entry JourneyItemSourceEntry
----@return string? tag Where it is, and how likely it drops the item
-local function _GetSourceTag(source, entry)
-    local zoneId
-    if source.kind == "npc" then
-        zoneId = QuestieDB.QueryNPCSingle(entry.id, "zoneID")
-    else
-        zoneId = QuestieDB.QueryObjectSingle(entry.id, "zoneID")
-    end
-    local parts = {}
-    if zoneId and zoneId > 0 then
-        table.insert(parts, QuestieJourneyUtils:GetZoneName(zoneId))
-    end
+---@return string tag Where it is, and how likely it drops the item
+local function _GetSourceTag(entry)
+    local tag = QuestieJourneyUtils:GetZoneName(entry.zoneId)
     if entry.dropRate then
-        table.insert(parts, QuestieLib.FormatDropRate(entry.dropRate) .. "%")
+        tag = tag .. "   " .. QuestieLib.FormatDropRate(entry.dropRate) .. "%"
     end
-    return #parts > 0 and table.concat(parts, "   ") or nil
+    return tag
 end
 
 ---@param source JourneyItemSource
@@ -144,7 +118,7 @@ local function _GetSourceRow(source, entry, onChanged)
     local row = {
         type = "step",
         text = source.kind == "npc" and JourneyNameColors.Npc(entry.id, entry.name) or JourneyNameColors.Object(entry.name),
-        tag = _GetSourceTag(source, entry),
+        tag = _GetSourceTag(entry),
     }
     row.action, row.state = JourneyEntityDetails.GetMapAction(source.kind, entry.id, onChanged)
     return JourneyLinks.Link(row, source.kind, entry.id)
@@ -222,7 +196,7 @@ function JourneyItemDetails.GetRows(itemId, onChanged)
         {type = "gap", height = 6},
         {type = "itemTooltip", itemId = itemId, icon = QuestieCompat.GetItemIcon(itemId), onClick = function() _OnIconClick(itemId) end},
     }
-    _AddSection(rows, l10n("Starts this quest"), JourneyLinks.GetQuestSteps({QuestieDB.QueryItemSingle(itemId, "startQuest")}))
+    JourneyDetails.AddSection(rows, l10n("Starts this quest"), (JourneyLinks.GetQuestSteps({QuestieDB.QueryItemSingle(itemId, "startQuest")})))
 
     local footer
     if QuestieCorrections.questItemBlacklist[itemId] then
@@ -230,8 +204,11 @@ function JourneyItemDetails.GetRows(itemId, onChanged)
     else
         local idsByKind = {npc = {}, object = {}}
         local isListed = {npc = {}, object = {}}
+        local isAnyListed, isAnyWithoutSpawns = false, false
         for _, source in ipairs(SOURCES) do
-            local entries = _GetEntries(itemId, source, QuestieDB.QueryItemSingle(itemId, source.field))
+            local entries, isSomeWithoutSpawns = _GetEntries(itemId, source, QuestieDB.QueryItemSingle(itemId, source.field))
+            isAnyListed = isAnyListed or #entries > 0
+            isAnyWithoutSpawns = isAnyWithoutSpawns or isSomeWithoutSpawns
             local sourceRows = {}
             for _, entry in ipairs(entries) do
                 table.insert(sourceRows, _GetSourceRow(source, entry, onChanged))
@@ -240,15 +217,20 @@ function JourneyItemDetails.GetRows(itemId, onChanged)
                     table.insert(idsByKind[source.kind], entry.id)
                 end
             end
-            _AddSection(rows, l10n(source.caption) .. Questie:Colorize("   " .. #entries, "gray"), sourceRows)
+            JourneyDetails.AddSection(rows, l10n(source.caption) .. Questie:Colorize("   " .. #entries, "gray"), sourceRows)
         end
         footer = _GetFooter(itemId, idsByKind, onChanged)
+        if isAnyWithoutSpawns and not isAnyListed then
+            table.insert(rows, {type = "text", text = l10n("No spawn data available.")})
+        end
     end
 
-    _AddSection(rows, l10n("Contained in"), _GetItemSteps(QuestieDB.QueryItemSingle(itemId, "itemDrops")))
-    _AddSection(rows, l10n("Reward from"), JourneyLinks.GetQuestSteps(QuestieDB.QueryItemSingle(itemId, "questRewards")))
+    JourneyDetails.AddSection(rows, l10n("Contained in"), _GetItemSteps(QuestieDB.QueryItemSingle(itemId, "itemDrops")))
+    JourneyDetails.AddSection(rows, l10n("Reward from"), (JourneyLinks.GetQuestSteps(QuestieDB.QueryItemSingle(itemId, "questRewards"))))
     JourneyRawData.AddRows(rows, QuestieDB:GetItem(itemId), QuestieDB.itemKeys)
-    table.insert(rows, footer)
+    if footer then
+        table.insert(rows, footer)
+    end
     return rows
 end
 

@@ -928,8 +928,8 @@ function QuestieLib.UpdateLastKnownDailyReset()
 end
 
 -- The dragons of Blizzard's nameplates. Silver marks a rare or a rare elite: it might not be there. Gold marks an elite or a
--- boss: bring friends. The nameplates of every supported client use both, except those of Cata (4.4.2), whose UI doesn't
--- name them (checked in Blizzard_NamePlateClassificationFrame.lua of each).
+-- boss: bring friends. Both are atlases of Era, TBC, Mists and Forever (AtlasInfo in Ketho/BlizzardInterfaceResources), and
+-- the nameplates of Titan use them. Cata's UI (4.4.2) never names them, so there they may not show.
 local SILVER_DRAGON = "|A:nameplates-icon-elite-silver:14:14:0:0|a"
 local GOLD_DRAGON = "|A:nameplates-icon-elite-gold:14:14:0:0|a"
 ---@type table<number, string> By the rank of the NPC

@@ -55,7 +55,6 @@ describe("JourneyEntityDetails", function()
         QuestieDB.GetObject = function(_, id) return objects[id] end
         -- How far the quests in the log are, by quest
         completion = {}
-        QuestieDB.IsComplete = function(questId) return completion[questId] or 0 end
 
         dofile("Modules/Libs/QuestieLib.lua")
         QuestieLoader:ImportModule("QuestieLib").GetColoredQuestName = function(_, id) return "Quest " .. id end
@@ -108,6 +107,7 @@ describe("JourneyEntityDetails", function()
             return entries
         end
         JourneyQuestCategories.GetIcon = function(_, category) return "icon of " .. category end
+        JourneyQuestCategories.GetLogState = function(questId) return completion[questId] or "active" end
         dofile("Modules/Journey/Details/JourneyEntityDetails.lua")
         JourneyEntityDetails = QuestieLoader:ImportModule("JourneyEntityDetails")
     end)
@@ -224,7 +224,7 @@ describe("JourneyEntityDetails", function()
                     [7] = {"available"}, [9] = {"repeatable"}, [10] = {"later", "Level 5"},
                     [11] = {"log"}, [12] = {"log"}, [13] = {"log"},
                 }
-                completion = {[11] = 1, [12] = 0, [13] = -1}
+                completion = {[11] = "ready", [12] = "active", [13] = "failed"}
 
                 assert.are.equal("|Tcomplete:14|t Ready for turn-in: 1     |Tavailable:14|t Available: 2     |Tincomplete:14|t Active: 1", Status())
             end)
@@ -263,10 +263,15 @@ describe("JourneyEntityDetails", function()
                 assert.is_not_nil(Find(GetRows("npc", 299), "Wald von Elwynn"))
             end)
 
-            it("should prefer a place with coordinates", function()
-                npcs[299].spawns = {[DEADMINES] = {{-1, -1}}, [ELWYNN] = {{48.92, 41.6}}}
+            it("should prefer a place with coordinates, also over one with more spawns, and lead TomTom there", function()
+                npcs[299].spawns = {[DEADMINES] = {{-1, -1}, {-1, -1}}, [ELWYNN] = {{48.92, 41.6}}}
+                _G.TomTom = {AddWaypoint = function() end}
 
-                assert.are.equal("Level: 1 - 2\nFriendly to: Horde\nElwynn Forest", Card(299))
+                local rows = GetRows("npc", 299)
+                FindType(rows, "footer").buttons[2].onClick()
+
+                assert.are.equal("Level: 1 - 2\nFriendly to: Horde\nElwynn Forest", rows[3].text)
+                assert.are_same({{"Young Wolf", ELWYNN, 48.92, 41.6}}, tomTomTargets)
             end)
 
             it("should only give coordinates where they lead to its only spawn, but lead TomTom to the first spawn anyway", function()
@@ -296,11 +301,15 @@ describe("JourneyEntityDetails", function()
                 assert.are_same({"Nowhere", "Elwynn Forest"}, {where[1].text, where[2].text})
                 assert.is_nil(where[1].onClick)
 
+                where[2].showTooltip()
+                assert.are_same({"Show on Map"}, GameTooltip.lines)
                 where[2].onClick()
 
                 assert.are_same({1000 + ELWYNN}, openedMaps)
                 assert.are_same({[299] = {}}, notes)
                 assert.is_true(windowHidden)
+                -- Also when the map can't be opened in combat, the page shows that it is on the map
+                assert.are.equal(1, changes)
             end)
 
             it("should not list the zone when there is only one", function()
@@ -339,12 +348,14 @@ describe("JourneyEntityDetails", function()
             assert.is_true(windowHidden)
         end)
 
-        it("should leave the window open when the map can't be opened", function()
+        it("should leave the window open when the map can't be opened, and show that it is on the map", function()
             canOpenMap = false
 
             GetRows("npc", 299)[3].onShowMap()
 
             assert.is_false(windowHidden)
+            assert.are.equal(1, changes)
+            assert.are.equal("Remove from Map", FindType(GetRows("npc", 299), "footer").buttons[1].text)
         end)
 
         it("should be put on the map without opening it, and removed again", function()
@@ -407,6 +418,16 @@ describe("JourneyEntityDetails", function()
 
         rows[3].onShowMap()
         assert.are_same({[-55] = {}}, notes)
+    end)
+
+    it("should say what can be handed in at an object", function()
+        QuestieDB:GetObject(55).questEnds = {11}
+        categories[11] = {"log"}
+        completion[11] = "ready"
+
+        local status = FindType(GetRows("object", 55), "status")
+
+        assert.are.equal("|Tcomplete:14|t Ready for turn-in: 1", status.text)
     end)
 
     describe("GetMapAction", function()

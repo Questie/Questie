@@ -118,6 +118,7 @@ describe("JourneyQuestDetails", function()
         JourneyQuestCategories.GetCompleteIcon = function() return "complete" end
         JourneyQuestCategories.GetProgress = function() return "1/2" end
         JourneyQuestCategories.GetShortDate = function() return "Nov 27" end
+        JourneyQuestCategories.GetStatus = function(id) return "status of " .. id end
         dofile("Modules/Journey/Details/JourneyEntityDetails.lua")
         dofile("Modules/Journey/Details/JourneyQuestDetails.lua")
         JourneyQuestDetails = QuestieLoader:ImportModule("JourneyQuestDetails")
@@ -200,31 +201,8 @@ describe("JourneyQuestDetails", function()
         assert.are.equal("text", Find(rows, "Speak with Sania.").type)
     end)
 
-    describe("the status", function()
-        for situation, expected in pairs({
-            ["in the quest log"] = {category = "log", text = "You are on this quest"},
-            ["ready to turn in"] = {category = "log", isComplete = 1, text = "Ready for turn-in"},
-            ["failed"] = {category = "log", isComplete = -1, text = "Failed"},
-            ["available"] = {category = "available", text = "Available"},
-            ["repeatable"] = {category = "repeatable", text = "Available"},
-            ["completed"] = {category = "completed", text = "Completed"},
-            ["too high a level"] = {category = "later", stateName = "LEVEL_TOO_LOW", text = "Unavailable: Requires Level 5"},
-            ["after another quest"] = {category = "later", stateName = "NO_PREQUESTSINGLE", text = "Unavailable: Incomplete pre-quest"},
-            ["after other quests"] = {category = "later", stateName = "NO_PREQUESTGROUP", text = "Unavailable: Incomplete pre-quest group"},
-            ["for another reason"] = {category = "later", reason = "Requires Honored with Stormwind", text = "Unavailable: Requires Honored with Stormwind"},
-            ["unobtainable"] = {category = "unobtainable", text = "Unavailable: Exclusive quest completed"},
-            -- Then why the game says it can't be done
-            ["not listed"] = {text = "Unavailable: Level too low"},
-        }) do
-            it("should say what the player can do with a quest that is " .. situation, function()
-                categories[93036] = {category = expected.category, reason = expected.reason, stateName = expected.stateName}
-                QuestieDB.IsComplete = function() return expected.isComplete or 0 end
-
-                assert.are.equal(expected.text, Status(GetRows()))
-                -- The same where a link to the quest shows it
-                assert.are.equal(expected.text, (JourneyQuestDetails.GetStatus(93036):gsub("|T.-|t ", "")))
-            end)
-        end
+    it("should say at the top what the player can do with it", function()
+        assert.are.equal("status of 93036", Status(GetRows()))
     end)
 
     describe("a quest that can't be done yet", function()

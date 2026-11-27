@@ -783,6 +783,7 @@ describe("JourneyDetails", function()
 
         it("should have the icon of the item in front of it, which does what the row says when it is clicked", function()
             local clicks = 0
+            details.scrollBox:SetWidth(500)
             JourneyDetails.SetRows(details, {{type = "itemTooltip", itemId = 725, icon = 134400, onClick = function() clicks = clicks + 1 end}})
 
             assert.is_true(Part(1).IconButton:IsShown())
@@ -794,11 +795,29 @@ describe("JourneyDetails", function()
         end)
 
         it("should be as high as its icon, while the tooltip is lower", function()
+            details.scrollBox:SetWidth(500)
             JourneyDetails.SetRows(details, {{type = "itemTooltip", itemId = 725, icon = 134400}})
             Tooltip():SetSize(200, 10)
             ui.RunUntilIdle()
 
             assert.are.equal(Part(1).IconButton:GetHeight() + 8, RowHeight(1))
+        end)
+
+        it("should give the tooltip the whole row where the icon and it don't fit next to each other, and the icon where they do", function()
+            details.scrollBox:SetWidth(200)
+            JourneyDetails.SetRows(details, {{type = "itemTooltip", itemId = 725, icon = 134400}})
+            Tooltip():SetSize(180, 100)
+            ui.RunUntilIdle()
+
+            local _, _, _, tooltipX = Tooltip():GetPoint(1)
+            assert.are_same({false, 0}, {Part(1).IconButton:IsShown(), tooltipX})
+
+            details.scrollBox:SetWidth(500)
+            ui.RunUntilIdle()
+
+            _, _, _, tooltipX = Tooltip():GetPoint(1)
+            assert.is_true(Part(1).IconButton:IsShown())
+            assert.is_true(tooltipX >= Part(1).IconButton:GetWidth())
         end)
 
         it("should start at the edge without an icon", function()

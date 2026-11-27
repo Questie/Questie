@@ -60,7 +60,8 @@ describe("JourneyItemDetails", function()
         QuestieDB.GetItemDroprate = function(itemId, npcId)
             return itemId == 725 and dropRates[npcId] and {dropRates[npcId], "wowhead"} or nil
         end
-        QuestieDB.IsFriendlyToPlayer = function(faction) return faction ~= nil and faction:find("A", 1, true) ~= nil end
+        -- Like the real one for an Alliance player: an NPC without a faction is friendly to everyone
+        QuestieDB.IsFriendlyToPlayer = function(faction) return not faction or faction == "AH" or faction == "A" end
 
         local QuestieMap = QuestieLoader:ImportModule("QuestieMap")
         QuestieMap.manualFrames = {any = notes}
@@ -79,6 +80,7 @@ describe("JourneyItemDetails", function()
         QuestieLoader:ImportModule("QuestieLib").GetColoredQuestName = function(_, id) return "Quest " .. id end
         dofile("Modules/Journey/Data/JourneyThread.lua")
         dofile("Modules/Journey/Window/JourneyIcon.lua")
+        dofile("Modules/Journey/Details/JourneyDetails.lua")
         dofile("Modules/Journey/Details/JourneyLinks.lua")
         dofile("Modules/Journey/Details/ManualNotes.lua")
         dofile("Modules/Journey/Details/QuestieJourneyUtils.lua")
@@ -193,12 +195,40 @@ describe("JourneyItemDetails", function()
         assert.are_same({"Young Wolf | Elwynn Forest"}, Section(rows, "Vendors"))
     end)
 
+    it("should list vendors without a faction, who sell to everyone", function()
+        items[725].vendors = {300}
+
+        assert.are_same({"Gnoll Runt | Westfall"}, Section(GetRows(725), "Vendors"))
+    end)
+
     it("should list those without a drop rate by name", function()
         npcs[304] = {name = "Abe", friendlyToFaction = "A", spawns = {[ELWYNN] = {{3, 4}}}}
         npcs[305] = {name = "Zed", friendlyToFaction = "A", spawns = {[ELWYNN] = {{5, 6}}}}
         items[725].vendors = {305, 299, 304}
 
-        assert.are_same({"Abe", "Young Wolf | Elwynn Forest", "Zed"}, Section(GetRows(725), "Vendors"))
+        assert.are_same({"Abe | Elwynn Forest", "Young Wolf | Elwynn Forest", "Zed | Elwynn Forest"}, Section(GetRows(725), "Vendors"))
+    end)
+
+    it("should name the zone of each the way its own page does: where it spawns the most", function()
+        npcs[300].zoneID = ELWYNN
+        npcs[300].spawns = {[ELWYNN] = {{1, 1}}, [WESTFALL] = {{2, 2}, {3, 3}}}
+
+        assert.are.equal("Gnoll Runt | Westfall   4.5%", Section(GetRows(725), "NPCs")[2])
+    end)
+
+    it("should say so when none of those it comes from is known to spawn anywhere", function()
+        items[5].npcDrops = {302}
+
+        local rows = GetRows(5)
+
+        assert.is_not_nil(Find(rows, "No spawn data available."))
+        assert.are_same({}, Section(rows, "NPCs"))
+    end)
+
+    it("should not say so when it only comes from NPCs of the other faction", function()
+        items[5].vendors = {303}
+
+        assert.is_nil(Find(GetRows(5), "No spawn data available."))
     end)
 
     it("should only say how likely NPCs drop it, not how likely an object has it or a vendor sells it", function()
@@ -309,8 +339,23 @@ describe("JourneyItemDetails", function()
 
             Footer(rows).buttons[1].onClick()
             ui.RunUntilIdle()
-
             assert.are.equal(4, notesWhenChanged[#notesWhenChanged])
+        end)
+
+        it("should tell the page once all of them are gone again", function()
+            Footer(GetRows(725)).buttons[1].onClick()
+            ui.RunUntilIdle()
+            local notesWhenChanged = {}
+
+            Footer(JourneyItemDetails.GetRows(725, function()
+                local count = 0
+                for _ in pairs(notes) do count = count + 1 end
+                table.insert(notesWhenChanged, count)
+            end)).buttons[1].onClick()
+            ui.RunUntilIdle()
+
+            assert.are.equal(0, notesWhenChanged[#notesWhenChanged])
+            assert.is_true(#notesWhenChanged > 1, "Only told at once, not when all were gone")
         end)
     end)
 

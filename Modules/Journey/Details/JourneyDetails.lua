@@ -54,6 +54,12 @@ local BAR_TEXTURE = "Interface\\TargetingFrame\\UI-StatusBar"
 local STANDING_BAR_HEIGHT = 18
 local FOOTER_HEIGHT, FOOTER_BUTTON_HEIGHT, FOOTER_GAP, FOOTER_ICON_WIDTH, FOOTER_PADDING = 30, 22, 16, 20, 10
 
+---A small map at the right edge of a row, which puts something on the map or removes it again.
+---@class JourneyDetails.Action
+---@field tooltip string
+---@field isOn boolean? Whether it is on the map
+---@field onClick fun()
+
 ---@class JourneyDetails.Row
 ---@field type string One of those below, or of those that were added with AddRowType: "heading"|"text"|"checkbox"|"button"|"entity"|"itemTooltip"|"gap"|"page"|"caption"|"status"|"step"|"footer"|"standing"
 ---@field text string? Finished text. It is never translated or formatted, because it can contain names and notes.
@@ -61,7 +67,7 @@ local FOOTER_HEIGHT, FOOTER_BUTTON_HEIGHT, FOOTER_GAP, FOOTER_ICON_WIDTH, FOOTER
 ---@field tag string? For the types page and step, at its right edge while all of the text fits next to it
 ---@field buttons {text: string, icon: JourneyIcon.Icon, onClick: fun()}[]? For the type footer
 ---@field onShowMap fun()? For the types status and entity, a button with a text at the right edge
----@field action {tooltip: string, isOn: boolean?, onClick: fun()}? For the types step and entity, a small map at the right edge
+---@field action JourneyDetails.Action? For the types step and entity, a small map at the right edge
 ---@field font string? For the type text, a font object
 ---@field height number? For the type gap
 ---@field standing JourneyFactions.Standing? For the type standing
@@ -70,7 +76,7 @@ local FOOTER_HEIGHT, FOOTER_BUTTON_HEIGHT, FOOTER_GAP, FOOTER_ICON_WIDTH, FOOTER
 ---@field showTooltip fun()? For the types step, checkbox and entity. Fills the tooltip that was opened at the row.
 ---@field npcId NpcId? For the type entity, shows a portrait of the NPC
 ---@field badges JourneyIcon.Icon[]? For the type entity, up to two icons at the lower right corner of the picture, or instead of one
----@field trailingIcon JourneyIcon.Icon? For the type text, behind it
+---@field trailingIcon JourneyIcon.Icon? For the type text behind it, and for the type step in front of it
 ---@field icon number|string|nil For the types entity and itemTooltip, in front of what it shows
 ---@field itemId ItemId? For the type itemTooltip
 ---@field get fun(): boolean For the type checkbox
@@ -212,6 +218,17 @@ local itemTooltipTicker
 ---@type table<ItemId, number>
 local itemTooltipHeights = {}
 
+---The icon of an item goes in front of its tooltip while both fit next to each other. Otherwise the tooltip gets the whole row,
+---as the details cut off what reaches over their edge.
+---@param part Frame
+local function _PlaceItemTooltip(part)
+    local x = _GetEntityTextX(part.data)
+    local isBesideIcon = x > 0 and x + (itemTooltip:GetWidth() or 0) <= part.width
+    part.IconButton:SetShown(isBesideIcon)
+    itemTooltip:ClearAllPoints()
+    itemTooltip:SetPoint("TOPLEFT", part, "TOPLEFT", isBesideIcon and x or 0, -ITEM_TOOLTIP_PADDING)
+end
+
 ---Shows the tooltip of an item inside its row, which becomes as high as it.
 ---@param part Frame
 local function _ShowItemTooltip(part)
@@ -223,10 +240,9 @@ local function _ShowItemTooltip(part)
     end
     itemTooltip:SetParent(part)
     itemTooltip:SetOwner(part, "ANCHOR_NONE")
-    itemTooltip:ClearAllPoints()
-    itemTooltip:SetPoint("TOPLEFT", part, "TOPLEFT", _GetEntityTextX(part.data), -ITEM_TOOLTIP_PADDING)
 
     local function UpdateHeight()
+        _PlaceItemTooltip(part) -- It is as wide as its text, which the client can still be loading
         local height = math.ceil(itemTooltip:GetHeight()) + 2 * ITEM_TOOLTIP_PADDING
         if itemTooltip:IsShown() and itemTooltipHeights[itemId] ~= height then
             itemTooltipHeights[itemId] = height
@@ -635,7 +651,7 @@ local ROW_TYPES = {
         end,
     },
 
-    -- The game's tooltip of an item, with its icon in front of it like a button in the bags
+    -- The game's tooltip of an item, with its icon in front of it like a button in the bags where there is room
     itemTooltip = {
         Create = function(part)
             local button = CreateFrame("Button", nil, part)
@@ -650,8 +666,8 @@ local ROW_TYPES = {
             highlight:SetAllPoints(button)
             part.IconButton = button
         end,
-        Update = function(part, data)
-            part.IconButton:SetShown(data.icon ~= nil)
+        Update = function(part, data, width)
+            part.width = width
             part.IconButton:EnableMouse(data.onClick ~= nil)
             part.Icon:SetTexture(data.icon)
             _ShowItemTooltip(part)
@@ -972,6 +988,17 @@ function JourneyDetails.SetRows(details, rows, keepsScrollPosition)
     end
     details.rows = rows
     _ShowRows(details, keepsScrollPosition == true)
+end
+
+---Adds a caption and the rows of its section below it. Nothing is added without any rows.
+---@param rows JourneyDetails.Row[]
+---@param caption string Is translated
+---@param section JourneyDetails.Row[]
+function JourneyDetails.AddSection(rows, caption, section)
+    if #section > 0 then
+        table.insert(rows, {type = "caption", text = caption})
+        for _, row in ipairs(section) do table.insert(rows, row) end
+    end
 end
 
 ---@param label string Is translated

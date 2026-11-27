@@ -1,4 +1,5 @@
----The links between quests, NPCs, objects and items in the details of My Journey.
+---The links between quests, NPCs, objects and items in the details of the Journey: the rows that lead to them, and the
+---tooltips of those rows.
 ---@class JourneyLinks
 local JourneyLinks = QuestieLoader:CreateModule("JourneyLinks")
 
@@ -8,8 +9,6 @@ local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 ---@type JourneyQuestCategories
 local JourneyQuestCategories = QuestieLoader:ImportModule("JourneyQuestCategories")
----@type JourneyQuestDetails
-local JourneyQuestDetails = QuestieLoader:ImportModule("JourneyQuestDetails")
 ---@type JourneyNameColors
 local JourneyNameColors = QuestieLoader:ImportModule("JourneyNameColors")
 ---@type JourneyWindow
@@ -26,9 +25,9 @@ local l10n = QuestieLoader:ImportModule("l10n")
 -- The settings that show IDs in tooltips. Quest names come with theirs, from QuestieLib:GetColoredQuestName.
 local ID_SETTINGS = {npc = "enableTooltipsNPCID", object = "enableTooltipsObjectID", item = "enableTooltipsItemID"}
 
----@param kind "npc"|"object"|"item"
+---@param kind JourneyKind
 ---@param id number
----@return string text Like " (299)" while the settings show the IDs of its kind, otherwise empty
+---@return string text Like " (299)" while the settings show the IDs of its kind, otherwise empty. Quests have their own.
 function JourneyLinks.GetIdText(kind, id)
     return Questie.db.profile[ID_SETTINGS[kind]] and " " .. l10n("(") .. id .. l10n(")") or ""
 end
@@ -37,7 +36,7 @@ end
 local function _FillQuestTooltip(questId)
     local quest = QuestieDB.GetQuest(questId)
     GameTooltip:AddLine(QuestieLib:GetColoredQuestName(questId, true, false))
-    GameTooltip:AddLine(JourneyQuestDetails.GetStatus(questId), 1, 1, 1)
+    GameTooltip:AddLine(JourneyQuestCategories.GetStatus(questId), 1, 1, 1)
     for _, line in pairs(quest.Description or {}) do
         for _, text in pairs(WrappedText:TextWrap(line, "    ", false, 360)) do
             GameTooltip:AddLine(text, 1, 1, 1)
@@ -57,6 +56,8 @@ local function _FillNpcTooltip(npcId)
     if npc.minLevel then
         local level = (npc.maxLevel or npc.minLevel) == npc.minLevel and npc.minLevel or (npc.minLevel .. " - " .. npc.maxLevel)
         local rank = QuestieLib.GetRankMarkup(npc.rank)
+        -- Blizzard's own "Level %s", which every supported client has in each language (its GlobalStrings, checked in
+        -- Ketho/BlizzardInterfaceResources for Era, TBC, Mists and Forever, and in the Forever client)
         GameTooltip:AddLine(TOOLTIP_UNIT_LEVEL:format(level) .. (rank and " " .. rank or ""), 1, 1, 1)
     end
 end
