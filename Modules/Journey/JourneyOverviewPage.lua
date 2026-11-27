@@ -379,11 +379,12 @@ local function _GetGroupRows(page, groupId)
         _GetPicture(groupId)
     )}
     local brackets, cities, others = _SplitByLevel(groupId, zones)
+    -- The capitals first, where a continent has them
+    _AddZones(rows, page, JourneyOverviewRows.GetSection(CITIES, nil, _GetSuitedNote(cities)), cities)
     for _, bracket in ipairs(brackets) do
         local title, color = JourneyZoneLevels.GetBracketTitle(bracket.levels), JourneyZoneLevels.GetColor(bracket.levels)
         _AddZones(rows, page, JourneyOverviewRows.GetSection(title, color, _GetSuitedNote(bracket.zones)), bracket.zones)
     end
-    _AddZones(rows, page, JourneyOverviewRows.GetSection(CITIES, nil, _GetSuitedNote(cities)), cities)
 
     -- What isn't a zone, like a profession, has no levels. What there is something to do for comes first.
     local withQuests, rest = {}, {}
