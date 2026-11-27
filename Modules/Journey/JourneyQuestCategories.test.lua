@@ -176,6 +176,7 @@ describe("JourneyQuestCategories", function()
 
         dofile("Modules/Journey/JourneyIcon.lua")
         dofile("Modules/Journey/JourneyPrerequisites.lua")
+        dofile("Modules/Libs/utf8.lua")
         dofile("Modules/Journey/JourneyQuestCategories.lua")
         JourneyQuestCategories = QuestieLoader:ImportModule("JourneyQuestCategories")
         JourneyIcon = QuestieLoader:ImportModule("JourneyIcon")
@@ -484,6 +485,14 @@ describe("JourneyQuestCategories", function()
         it("should have the first letters of the month and the day without a leading zero", function()
             assert.are.equal("Nov 7", JourneyQuestCategories.GetShortDate(Day(11, 7)))
             assert.are.equal("Feb 21", JourneyQuestCategories.GetShortDate(Day(2, 21)))
+        end)
+
+        it("should cut the month after three characters, not bytes, which some languages have several of each", function()
+            CALENDAR_FULLDATE_MONTH_NAMES[11] = "ноябрь" -- Two bytes each
+            assert.are.equal("ноя 7", JourneyQuestCategories.GetShortDate(Day(11, 7)))
+
+            CALENDAR_FULLDATE_MONTH_NAMES[11] = "十一月" -- Three bytes each
+            assert.are.equal("十一月 7", JourneyQuestCategories.GetShortDate(Day(11, 7)))
         end)
     end)
 

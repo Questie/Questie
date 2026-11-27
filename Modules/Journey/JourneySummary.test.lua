@@ -14,6 +14,8 @@ describe("JourneySummary", function()
         categories, unlisted, completeQuests, levels = {}, {}, {}, {}
 
         QuestieLoader:ImportModule("JourneyThread").YieldIfNeeded = function() end
+        -- Its rule of which categories count towards the total is used as it is
+        dofile("Modules/Journey/JourneyQuestCategories.lua")
         local JourneyQuestCategories = QuestieLoader:ImportModule("JourneyQuestCategories")
         JourneyQuestCategories.IsListed = function(questId) return not unlisted[questId] end
         JourneyQuestCategories.Get = function(questId) return categories[questId] end

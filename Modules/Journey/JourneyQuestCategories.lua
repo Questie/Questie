@@ -22,6 +22,8 @@ local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 local QuestieQuestBlacklist = QuestieLoader:ImportModule("QuestieQuestBlacklist")
 ---@type QuestXP
 local QuestXP = QuestieLoader:ImportModule("QuestXP")
+---@type utf8
+local utf8 = QuestieLoader:ImportModule("utf8")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
@@ -147,7 +149,8 @@ end
 ---@return string
 function JourneyQuestCategories.GetShortDate(timestamp)
     local month = CALENDAR_FULLDATE_MONTH_NAMES[tonumber(date("%m", timestamp))]
-    return (month or ""):sub(1, 3) .. " " .. tonumber(date("%d", timestamp))
+    -- Three characters, not bytes: those of Russian, Korean and Chinese take several bytes each
+    return utf8.sub(month or "", 1, 3) .. " " .. tonumber(date("%d", timestamp))
 end
 
 ---@return table<QuestId, number> timestamps When the quests were completed last, as far as the journey knows
@@ -265,6 +268,15 @@ end
 
 ---Yields, so it runs in a thread.
 ---@async
+-- The quests that can be done once, done or not yet: what "of how many" counts
+local COUNTED = {log = true, available = true, later = true, completed = true}
+
+---@param category string
+---@return boolean isCounted Whether the quests of the category count towards how many quests there are
+function JourneyQuestCategories.IsCounted(category)
+    return COUNTED[category] == true
+end
+
 ---@param questIds table<QuestId, any>
 ---@return JourneyTreeNode[] nodes The categories with their quests
 ---@return number completed
@@ -298,11 +310,14 @@ function JourneyQuestCategories.Collect(questIds)
         end
     end
 
+    local total = 0
     for _, node in ipairs(nodes) do
         node.note = tostring(#node.children)
+        if JourneyQuestCategories.IsCounted(node.value) then
+            total = total + #node.children
+        end
     end
-    local completed = #nodesByKey.completed.children
-    return nodes, completed, completed + #nodesByKey.log.children + #nodesByKey.available.children + #nodesByKey.later.children
+    return nodes, #nodesByKey.completed.children, total
 end
 
 return JourneyQuestCategories

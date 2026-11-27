@@ -67,7 +67,13 @@ function JourneySummary.Count(source, questIds)
             end
         end
     end
-    summary.total = summary.log + summary.available + summary.later + summary.completed
+    local total = 0
+    for category, count in pairs(summary) do
+        if JourneyQuestCategories.IsCounted(category) then
+            total = total + count
+        end
+    end
+    summary.total = total
     summaries[source] = summary
     return summary
 end
