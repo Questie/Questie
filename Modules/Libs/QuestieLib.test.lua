@@ -1269,6 +1269,16 @@ describe("QuestieLib", function()
         end)
     end)
 
+    describe("FormatDropRate", function()
+        it("should show fewer decimals the more common a drop is, and never round a rare one to 0", function()
+            assert.are_same({"47", "10", "9.5", "2.0", "1.25", "0.01", "0.005"}, {
+                QuestieLib.FormatDropRate(47.254), QuestieLib.FormatDropRate(10), QuestieLib.FormatDropRate(9.54),
+                QuestieLib.FormatDropRate(2), QuestieLib.FormatDropRate(1.254), QuestieLib.FormatDropRate(0.01),
+                QuestieLib.FormatDropRate(0.005),
+            })
+        end)
+    end)
+
     describe("FormatDate", function()
         local originalDate, utcOffset
 

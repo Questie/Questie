@@ -9,6 +9,8 @@ local JourneyPage = QuestieLoader:CreateModule("JourneyPage")
 local JourneyDetails = QuestieLoader:ImportModule("JourneyDetails")
 ---@type JourneyEntityDetails
 local JourneyEntityDetails = QuestieLoader:ImportModule("JourneyEntityDetails")
+---@type JourneyItemDetails
+local JourneyItemDetails = QuestieLoader:ImportModule("JourneyItemDetails")
 ---@type JourneyLinks
 local JourneyLinks = QuestieLoader:ImportModule("JourneyLinks")
 ---@type JourneyQuestDetails
@@ -68,6 +70,8 @@ local function _GetRows(page, selection)
     if selection.kind == "quest" then
         local quest = QuestieDB.GetQuest(selection.id)
         return quest and JourneyQuestDetails.GetRows(quest, Update) or {}
+    elseif selection.kind == "item" then
+        return JourneyItemDetails.GetRows(selection.id, Update)
     end
     return JourneyEntityDetails.GetRows(selection.kind, selection.id, Update)
 end

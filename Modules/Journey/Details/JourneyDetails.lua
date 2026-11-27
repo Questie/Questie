@@ -45,7 +45,6 @@ local PORTRAIT_RETRY_SECONDS = 0.1
 -- log doesn't have the button (checked in the files of each).
 local MAP_TEXTURE = 316593 -- Interface\QuestFrame\UI-QuestMap_Button
 local MAP_WIDTH, MAP_HEIGHT = 48, 32
-local ACTION_ICON = "Interface\\AddOns\\Questie\\Icons\\map_scroll.png"
 local ACTION_SIZE = 20
 local STATUS_HEIGHT = 24
 local PAGE_FONT, PAGE_TAG_FONT = "GameFontNormalLarge", "GameFontDisableSmall"
@@ -71,12 +70,12 @@ local FOOTER_HEIGHT, FOOTER_BUTTON_HEIGHT, FOOTER_GAP, FOOTER_ICON_WIDTH, FOOTER
 ---@field height number? For the type gap
 ---@field standing JourneyFactions.Standing? For the type standing
 ---@field gain number? For the type standing, reputation that would be added to it
----@field onClick fun()? For the types link, button and entity
+---@field onClick fun()? For the types link, button and entity, and the icon of the type itemTooltip
 ---@field showTooltip fun()? For the types link, checkbox and entity. Fills the tooltip that was opened at the row.
 ---@field npcId NpcId? For the type entity, shows a portrait of the NPC
 ---@field badges JourneyIcon.Icon[]? For the type entity, up to two icons at the lower right corner of the picture, or instead of one
 ---@field trailingIcon JourneyIcon.Icon? For the type text, behind it
----@field icon number|string|nil For the type entity
+---@field icon number|string|nil For the types entity and itemTooltip, in front of what it shows
 ---@field itemId ItemId? For the type itemTooltip
 ---@field get fun(): boolean For the type checkbox
 ---@field set fun()? For the type checkbox
@@ -232,7 +231,7 @@ local function _ShowItemTooltip(part)
     itemTooltip:SetParent(part)
     itemTooltip:SetOwner(part, "ANCHOR_NONE")
     itemTooltip:ClearAllPoints()
-    itemTooltip:SetPoint("TOPLEFT", part, "TOPLEFT", 0, -ITEM_TOOLTIP_PADDING)
+    itemTooltip:SetPoint("TOPLEFT", part, "TOPLEFT", _GetEntityTextX(part.data), -ITEM_TOOLTIP_PADDING)
 
     local function UpdateHeight()
         local height = math.ceil(itemTooltip:GetHeight()) + 2 * ITEM_TOOLTIP_PADDING
@@ -309,7 +308,7 @@ local function _CreateAction(part, owner)
     action.Icon = action:CreateTexture(nil, "ARTWORK")
     action.Icon:SetPoint("CENTER")
     action.Icon:SetSize(ACTION_SIZE, ACTION_SIZE)
-    action.Icon:SetTexture(ACTION_ICON)
+    action.Icon:SetTexture(JourneyIcon.MAP)
     action:SetHighlightAtlas("Options_List_Hover")
     action:SetScript("OnClick", function()
         GameTooltip:Hide()
@@ -475,7 +474,6 @@ local ROW_TYPES = {
             part.Text:SetJustifyH("LEFT")
             part.Text:SetWordWrap(false)
             part.Note = button:CreateFontString(nil, "ARTWORK", "GameFontDisableSmall")
-            part.Note:SetPoint("RIGHT", button, "RIGHT", -6, 0)
             button:SetScript("OnClick", function()
                 GameTooltip:Hide()
                 if part.data.onClick then part.data.onClick() end
@@ -494,6 +492,7 @@ local ROW_TYPES = {
             local tagSpace = data.tag and part.Note:GetUnboundedStringWidth() + 8 or 0
             local showsTag = tagSpace > 0 and part.Text:GetUnboundedStringWidth() + tagSpace <= width - STEP_TEXT_X - right
             part.Note:SetShown(showsTag)
+            part.Note:SetPoint("RIGHT", part.Button, "RIGHT", 2 - right, 0) -- Left of the small map, if there is one
             part.Text:SetPoint("RIGHT", part.Button, "RIGHT", -right - (showsTag and tagSpace or 0), 0)
             part.Button:EnableMouse(data.onClick ~= nil)
             _UpdateAction(part, data)
@@ -677,10 +676,31 @@ local ROW_TYPES = {
         end,
     },
 
+    -- The game's tooltip of an item, with its icon in front of it like a button in the bags
     itemTooltip = {
-        Create = function() end,
-        Update = _ShowItemTooltip,
-        GetHeight = function(data) return itemTooltipHeights[data.itemId] or UNKNOWN_ITEM_TOOLTIP_HEIGHT end,
+        Create = function(part)
+            local button = CreateFrame("Button", nil, part)
+            button:SetPoint("TOPLEFT", part, "TOPLEFT", 0, -ITEM_TOOLTIP_PADDING)
+            button:SetSize(PICTURE_SIZE, PICTURE_SIZE)
+            button:SetScript("OnClick", function() part.data.onClick() end)
+            part.Icon = button:CreateTexture(nil, "ARTWORK")
+            part.Icon:SetAllPoints(button)
+            local highlight = button:CreateTexture(nil, "HIGHLIGHT")
+            highlight:SetTexture("Interface\\Buttons\\ButtonHilight-Square")
+            highlight:SetBlendMode("ADD")
+            highlight:SetAllPoints(button)
+            part.IconButton = button
+        end,
+        Update = function(part, data)
+            part.IconButton:SetShown(data.icon ~= nil)
+            part.IconButton:EnableMouse(data.onClick ~= nil)
+            part.Icon:SetTexture(data.icon)
+            _ShowItemTooltip(part)
+        end,
+        GetHeight = function(data)
+            local height = itemTooltipHeights[data.itemId] or UNKNOWN_ITEM_TOOLTIP_HEIGHT
+            return data.icon and math.max(height, PICTURE_SIZE + 2 * ITEM_TOOLTIP_PADDING) or height
+        end,
     },
 
     -- A bar like the ones in Blizzard's list of factions, below a name if there is one

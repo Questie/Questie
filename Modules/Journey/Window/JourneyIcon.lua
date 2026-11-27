@@ -16,7 +16,7 @@ local LOW_LEVEL_BRIGHTNESS = 0.6
 ---@field name string In Questie.icons
 ---@field brightness number 1 is as bright as it is
 
----@alias JourneyIcon.Icon string|JourneyIcon.GrayAtlas|JourneyIcon.DarkIcon A string is the path of a texture
+---@alias JourneyIcon.Icon string|number|JourneyIcon.GrayAtlas|JourneyIcon.DarkIcon A string is the path of a texture, a number its file ID
 
 ---A crossed-out eye, for a quest that is hidden. Every supported client has it, in two versions that only look the same in
 ---gray (checked in UiTextureAtlasMember).
@@ -28,6 +28,8 @@ local lowLevelIcons = {}
 
 -- The arrow of the player on the minimap
 JourneyIcon.ARROW = "Interface\\Minimap\\MinimapArrow"
+-- A small map, for what puts something on the map
+JourneyIcon.MAP = "Interface\\AddOns\\Questie\\Icons\\map_scroll.png"
 -- Forever's gold player icon of group frames, which QuestieWorldMap marks the zone of the player with. Saved, because Era and Cata
 -- don't have it.
 JourneyIcon.HERE = "Interface\\AddOns\\Questie\\Icons\\Journey\\here.png"

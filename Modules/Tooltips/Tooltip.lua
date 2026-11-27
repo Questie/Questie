@@ -151,21 +151,6 @@ function QuestieTooltips:RemoveQuest(questId)
     QuestieTooltips.lookupKeysByQuestId[questId] = nil
 end
 
--- This function contains the rules for formatting text for drop rate tooltips.
----@param rate number
----@return string
-local function FormatDropText(rate)
-    if rate >= 10 then
-        return string.format("%.0f", rate)
-    elseif rate >= 2 then
-        return string.format("%.1f", rate)
-    elseif rate >= 0.01 then
-        return string.format("%.2f", rate)
-    else
-        return string.format("%.3f", rate)
-    end
-end
-
 -- This code is related to QuestieComms, here we fetch all the tooltip data that exist in QuestieCommsData
 -- It uses a similar system like here with i_ID etc as keys.
 local function _FetchTooltipsForGroupMembers(key, tooltipData)
@@ -452,7 +437,7 @@ function QuestieTooltips.GetTooltip(key, playerZone)
                                     dropIcon = "|TInterface\\Addons\\Questie\\Icons\\questie_flat.png:12|t "
                                 end
                             end
-                            dropRateText = "  |cFF999999" .. dropIcon .. "[" .. FormatDropText(dropRateData[1]) .. "%]|r";
+                            dropRateText = "  |cFF999999" .. dropIcon .. "[" .. QuestieLib.FormatDropRate(dropRateData[1]) .. "%]|r";
                         end
                         if native then
                             text = "   " .. color .. native.text .. dropRateText

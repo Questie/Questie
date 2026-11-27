@@ -355,6 +355,18 @@ describe("JourneyDetails", function()
             assert.is_false(Part(1).Note:IsShown())
             assert.are.equal(-8, NameRight())
         end)
+
+        it("should show its tag left of its small map, also in a row that had none before", function()
+            details.scrollBox:SetWidth(500)
+            JourneyDetails.SetRows(details, {{type = "step", text = "Wolf", tag = TAG}})
+            JourneyDetails.SetRows(details, {{type = "step", text = "Wolf", tag = TAG, action = {tooltip = "Show on Map", onClick = function() end}}})
+
+            local _, _, _, noteRight = Part(1).Note:GetPoint(1)
+            local _, _, _, actionRight = Part(1).Action:GetPoint(1)
+            assert.is_true(Part(1).Note:IsShown())
+            assert.is_true(noteRight <= actionRight - Part(1).Action:GetWidth(), "The tag is under the small map")
+            assert.is_true(NameRight() < noteRight - Part(1).Note:GetUnboundedStringWidth(), "The name reaches into the tag")
+        end)
     end)
 
     describe("a page", function()
@@ -775,6 +787,35 @@ describe("JourneyDetails", function()
             ui.RunUntilIdle()
 
             assert.are.equal(0, #ui.tickers)
+        end)
+
+        it("should have the icon of the item in front of it, which does what the row says when it is clicked", function()
+            local clicks = 0
+            JourneyDetails.SetRows(details, {{type = "itemTooltip", itemId = 725, icon = 134400, onClick = function() clicks = clicks + 1 end}})
+
+            assert.is_true(Part(1).IconButton:IsShown())
+            assert.are.equal(134400, Part(1).Icon:GetTexture())
+            local _, _, _, tooltipX = Tooltip():GetPoint(1)
+            assert.is_true(tooltipX > Part(1).IconButton:GetWidth(), "The tooltip covers the icon")
+            Part(1).IconButton:Click()
+            assert.are.equal(1, clicks)
+        end)
+
+        it("should be as high as its icon, while the tooltip is lower", function()
+            JourneyDetails.SetRows(details, {{type = "itemTooltip", itemId = 725, icon = 134400}})
+            Tooltip():SetSize(200, 10)
+            ui.RunUntilIdle()
+
+            assert.are.equal(Part(1).IconButton:GetHeight() + 8, RowHeight(1))
+        end)
+
+        it("should start at the edge without an icon", function()
+            JourneyDetails.SetRows(details, {{type = "itemTooltip", itemId = 725, icon = 134400}})
+            JourneyDetails.SetRows(details, {{type = "itemTooltip", itemId = 2589}})
+
+            assert.is_false(Part(1).IconButton:IsShown())
+            local _, _, _, tooltipX = Tooltip():GetPoint(1)
+            assert.are.equal(0, tooltipX)
         end)
     end)
 

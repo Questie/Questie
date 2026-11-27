@@ -26,13 +26,16 @@ describe("JourneyPage", function()
         dofile("Localization/l10n.lua")
         quests = {[WOLVES] = {Id = WOLVES, state = "available"}, [KOBOLDS] = {Id = KOBOLDS, state = "available"}}
         QuestieLoader:ImportModule("QuestieDB").GetQuest = function(id) return quests[id] end
-        -- The details themselves are tested with JourneyQuestDetails and JourneyEntityDetails
+        -- The details themselves are tested with JourneyQuestDetails, JourneyEntityDetails and JourneyItemDetails
         QuestieLoader:ImportModule("JourneyQuestDetails").GetRows = function(quest, update)
             updateQuestDetails = update
             return {{type = "text", text = "Quest " .. quest.Id .. " is " .. quest.state}}
         end
         QuestieLoader:ImportModule("JourneyEntityDetails").GetRows = function(kind, id)
             return {{type = "text", text = kind .. " " .. id}}
+        end
+        QuestieLoader:ImportModule("JourneyItemDetails").GetRows = function(id)
+            return {{type = "text", text = "The item page of " .. id}}
         end
         linkedQuests = {}
         QuestieLoader:ImportModule("JourneyLinks").TryInsertIntoChat = function(questId) table.insert(linkedQuests, questId) end
@@ -242,6 +245,12 @@ describe("JourneyPage", function()
             JourneyPage.Select(page, {kind = "npc", id = 299})
             assert.are_same({}, SelectedTexts())
             assert.are_same({"npc 299"}, Details())
+        end)
+
+        it("should show the page of an item", function()
+            JourneyPage.Select(page, {kind = "item", id = 2589})
+
+            assert.are_same({"The item page of 2589"}, Details())
         end)
 
         -- A quest and an NPC can have the same ID

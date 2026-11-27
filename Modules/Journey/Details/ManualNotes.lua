@@ -61,7 +61,8 @@ end
 ---@param change fun(kind: ManualNoteKind, id: number)
 ---@param kind ManualNoteKind
 ---@param ids number[]
-local function _ChangeGroup(group, change, kind, ids)
+---@param onDone fun()?
+local function _ChangeGroup(group, change, kind, ids, onDone)
     -- Both cover the whole group, so what the one before didn't get to doesn't matter
     if groupTimers[group] then
         groupTimers[group]:Cancel()
@@ -71,6 +72,9 @@ local function _ChangeGroup(group, change, kind, ids)
             change(kind, id)
             JourneyThread.YieldIfNeeded()
         end
+        if onDone then
+            onDone()
+        end
     end)
 end
 
@@ -78,17 +82,19 @@ end
 ---@param group string Anything that tells it apart from other groups
 ---@param kind ManualNoteKind
 ---@param ids number[]
-function ManualNotes.ShowGroup(group, kind, ids)
+---@param onDone fun()? Called once all of them are on the map. Not when the group is changed again before.
+function ManualNotes.ShowGroup(group, kind, ids, onDone)
     shownGroups[group] = true
-    _ChangeGroup(group, ManualNotes.Show, kind, ids)
+    _ChangeGroup(group, ManualNotes.Show, kind, ids, onDone)
 end
 
 ---@param group string
 ---@param kind ManualNoteKind
 ---@param ids number[]
-function ManualNotes.HideGroup(group, kind, ids)
+---@param onDone fun()? Called once all of them are gone. Not when the group is changed again before.
+function ManualNotes.HideGroup(group, kind, ids, onDone)
     shownGroups[group] = nil
-    _ChangeGroup(group, ManualNotes.Hide, kind, ids)
+    _ChangeGroup(group, ManualNotes.Hide, kind, ids, onDone)
 end
 
 ---@param group string

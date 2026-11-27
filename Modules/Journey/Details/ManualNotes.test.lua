@@ -121,6 +121,33 @@ describe("ManualNotes", function()
             assert.is_false(ManualNotes.IsGroupShown("item 725"))
         end)
 
+        it("should say when all of it is on the map, and when all of it is gone", function()
+            ui.clockStep = 0.003
+            local shownWhenDone, hiddenWhenDone
+            ManualNotes.ShowGroup("item 725", "npc", CreateIds(50), function() shownWhenDone = #ShownNotes() end)
+            ui.RunFrame()
+            assert.is_nil(shownWhenDone)
+
+            ui.RunUntilIdle()
+            assert.are.equal(50, shownWhenDone)
+
+            ManualNotes.HideGroup("item 725", "npc", CreateIds(50), function() hiddenWhenDone = #ShownNotes() end)
+            ui.RunUntilIdle()
+            assert.are.equal(0, hiddenWhenDone)
+        end)
+
+        it("should not say it is done when it was changed again before", function()
+            ui.clockStep = 0.003
+            local isDone = false
+            ManualNotes.ShowGroup("item 725", "npc", CreateIds(50), function() isDone = true end)
+            ui.RunFrame()
+
+            ManualNotes.HideGroup("item 725", "npc", CreateIds(50))
+            ui.RunUntilIdle()
+
+            assert.is_false(isDone)
+        end)
+
         it("should be told apart from other groups", function()
             ManualNotes.ShowGroup("item 725", "npc", {98})
 

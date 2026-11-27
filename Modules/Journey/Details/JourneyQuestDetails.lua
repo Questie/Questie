@@ -29,8 +29,6 @@ local ActiveQuests = QuestieLoader:ImportModule("ActiveQuests")
 local QuestXP = QuestieLoader:ImportModule("QuestXP")
 ---@type JourneyQuestCategories
 local JourneyQuestCategories = QuestieLoader:ImportModule("JourneyQuestCategories")
----@type ManualNotes
-local ManualNotes = QuestieLoader:ImportModule("ManualNotes")
 ---@type QuestieCompat
 local QuestieCompat = QuestieLoader:ImportModule("QuestieCompat")
 ---@type JourneyDetails
@@ -480,16 +478,7 @@ local function _AddObjectives(rows, quest, category, onChanged)
             if live and (live.Needed or 0) > 0 then
                 row.tag = live.Collected .. "/" .. live.Needed
             elseif kind ~= "item" and category ~= "log" then
-                local isShown = ManualNotes.IsShown(kind, id)
-                row.state = isShown and "shown" or "not shown"
-                row.action = {
-                    isOn = isShown,
-                    tooltip = isShown and l10n("Remove from Map") or l10n("Show on Map"),
-                    onClick = function()
-                        if ManualNotes.IsShown(kind, id) then ManualNotes.Hide(kind, id) else ManualNotes.Show(kind, id) end
-                        onChanged()
-                    end,
-                }
+                row.action, row.state = JourneyEntityDetails.GetMapAction(kind, id, onChanged)
             end
             table.insert(added, JourneyLinks.Link(row, kind, id))
         end

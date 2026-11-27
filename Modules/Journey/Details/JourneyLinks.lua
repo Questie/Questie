@@ -6,6 +6,8 @@ local JourneyLinks = QuestieLoader:CreateModule("JourneyLinks")
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 ---@type QuestieLib
 local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
+---@type JourneyQuestCategories
+local JourneyQuestCategories = QuestieLoader:ImportModule("JourneyQuestCategories")
 ---@type JourneyWindow
 local JourneyWindow = QuestieLoader:ImportModule("JourneyWindow")
 ---@type QuestieLink
@@ -17,10 +19,20 @@ local WrappedText = QuestieLoader:ImportModule("WrappedText")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
+-- The settings that show IDs in tooltips. Quest names come with theirs, from QuestieLib:GetColoredQuestName.
+local ID_SETTINGS = {npc = "enableTooltipsNPCID", object = "enableTooltipsObjectID", item = "enableTooltipsItemID"}
+
+---@param kind "npc"|"object"|"item"
+---@param id number
+---@return string text Like " (299)" while the settings show the IDs of its kind, otherwise empty
+function JourneyLinks.GetIdText(kind, id)
+    return Questie.db.profile[ID_SETTINGS[kind]] and " " .. l10n("(") .. id .. l10n(")") or ""
+end
+
 ---@param questId QuestId
 local function _FillQuestTooltip(questId)
     local quest = QuestieDB.GetQuest(questId)
-    GameTooltip:AddLine("[" .. quest.level .. "] " .. quest.name .. " (" .. questId .. ")")
+    GameTooltip:AddLine(QuestieLib:GetColoredQuestName(questId, true, false))
     for _, line in pairs(quest.Description or {}) do
         for _, text in pairs(WrappedText:TextWrap(line, "    ", false, 360)) do
             GameTooltip:AddLine(text, 1, 1, 1)
@@ -33,31 +45,19 @@ end
 local function _FillTooltip(kind, id)
     if kind == "quest" then
         _FillQuestTooltip(id)
+    elseif kind == "item" then
+        -- The game's own, which also gets Questie's lines, and the ID while the settings show it
+        GameTooltip:SetItemByID(id)
     elseif kind == "npc" then
         local npc = QuestieDB:GetNPC(id)
-        GameTooltip:AddLine("[" .. npc.minLevel .. "] " .. npc.name .. " (" .. id .. ")")
+        GameTooltip:AddLine("[" .. (npc.minLevel or 0) .. "] " .. npc.name .. JourneyLinks.GetIdText(kind, id))
         if npc.subName then
             GameTooltip:AddLine("    " .. npc.subName, 1, 1, 1)
         end
     else
-        GameTooltip:AddLine(QuestieSearch.GetName(kind, id) .. " (" .. id .. ")")
+        GameTooltip:AddLine(QuestieSearch.GetName(kind, id) .. JourneyLinks.GetIdText(kind, id))
     end
     GameTooltip:AddLine("\n" .. l10n("Click to show"))
-end
-
----@param kind JourneyKind
----@param id number
----@return string? text Nil when it isn't in the database
-local function _GetText(kind, id)
-    if kind == "quest" then
-        return QuestieDB.QuestPointers[id] and QuestieLib:GetColoredQuestName(id, true, true)
-    end
-    local name = QuestieSearch.GetName(kind, id)
-    local text = name and name .. " (" .. id .. ")"
-    if text and kind == "npc" then
-        text = "[" .. (QuestieDB.QueryNPCSingle(id, "maxLevel") or 0) .. "] " .. text
-    end
-    return text
 end
 
 ---Makes a row lead to something.
@@ -71,20 +71,23 @@ function JourneyLinks.Link(row, kind, id)
     return row
 end
 
----@param kind JourneyKind
----@param ids number[] Those that aren't in the database are left out. Some prerequisites are negative.
----@param excludedId number?
----@return JourneyDetails.Row[] rows
-function JourneyLinks.GetRows(kind, ids, excludedId)
-    local rows = {}
-    for _, id in pairs(ids) do
-        id = math.abs(id)
-        local text = id ~= excludedId and _GetText(kind, id)
-        if text then
-            table.insert(rows, JourneyLinks.Link({type = "link", text = text}, kind, id))
+---Rows that lead to quests, each with what the player can do with it.
+---@param questIds QuestId[]? Those that aren't in the database are left out
+---@return JourneyDetails.Row[] steps In the given order
+function JourneyLinks.GetQuestSteps(questIds)
+    local steps = {}
+    for _, questId in ipairs(questIds or {}) do
+        if QuestieDB.QuestPointers[questId] then
+            local category, reason = JourneyQuestCategories.Get(questId)
+            table.insert(steps, JourneyLinks.Link({
+                type = "step",
+                text = QuestieLib:GetColoredQuestName(questId, true, false),
+                trailingIcon = JourneyQuestCategories.GetIcon(questId, category),
+                tag = category == "log" and JourneyQuestCategories.GetProgress(questId) or reason,
+            }, "quest", questId))
         end
     end
-    return rows
+    return steps
 end
 
 ---Puts a link to a quest into the chat if the user is typing there and clicked with the keys for links.

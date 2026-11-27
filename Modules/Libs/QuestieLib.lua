@@ -927,6 +927,21 @@ function QuestieLib.UpdateLastKnownDailyReset()
     Questie.db.global.lastKnownDailyReset[realmName] = GetServerTime() + QuestieCompat.GetQuestResetTime()
 end
 
+---A drop rate with as many decimals as a rare drop needs to not show as 0.
+---@param rate number In percent
+---@return string text Without the percent sign
+function QuestieLib.FormatDropRate(rate)
+    if rate >= 10 then
+        return string.format("%.0f", rate)
+    elseif rate >= 2 then
+        return string.format("%.1f", rate)
+    elseif rate >= 0.01 then
+        return string.format("%.2f", rate)
+    else
+        return string.format("%.3f", rate)
+    end
+end
+
 ---@param timeStamp number
 ---@return string|osdate formattedDate The date formatted based on the player's locale
 function QuestieLib.FormatDate(timeStamp)
