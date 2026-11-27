@@ -1,6 +1,8 @@
 ---@class QuestieOptionsDefaults
 local QuestieOptionsDefaults = QuestieLoader:CreateModule("QuestieOptionsDefaults");
 
+local Expansions = QuestieLoader:ImportModule("Expansions")
+
 function QuestieOptionsDefaults:Load()
     return {
         profile = {
@@ -257,6 +259,11 @@ function QuestieOptionsDefaults:Load()
             questieLocale = "enUS",
             questieLocaleDiff = false,
             journeyKeybindDefaultApplied = false,
+            tutorialObjectiveTypeChosen = false,
+            unavailableQuestsDeterminedByTalking = {},
+            unavailableDailyQuestsByNpc = {},
+            lastKnownDailyReset = {},
+            isleOfQuelDanasPhase = (Expansions.Current > Expansions.Tbc) and 9 or 1,
         }
     }
 end
