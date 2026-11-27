@@ -14,10 +14,10 @@ local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
 local QuestieTracker = QuestieLoader:ImportModule("QuestieTracker")
 ---@type QuestieSearch
 local QuestieSearch = QuestieLoader:ImportModule("QuestieSearch")
----@type QuestieSearchResults
-local QuestieSearchResults = QuestieLoader:ImportModule("QuestieSearchResults")
----@type QuestieMap
-local QuestieMap = QuestieLoader:ImportModule("QuestieMap")
+---@type ManualNotes
+local ManualNotes = QuestieLoader:ImportModule("ManualNotes")
+---@type JourneyThread
+local JourneyThread = QuestieLoader:ImportModule("JourneyThread")
 ---@type QuestieLib
 local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 ---@type QuestieDB
@@ -30,6 +30,10 @@ local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
 local MinimapIcon = QuestieLoader:ImportModule("MinimapIcon")
 
 local stringtrim, stringgmatch, stringmatch = string.trim, string.gmatch, string.match
+
+---The search of `/questie tomap` that is running
+---@type Ticker?
+local tomapSearch
 
 function QuestieSlash.RegisterSlashCommands()
     Questie:RegisterChatCommand("questieclassic", QuestieSlash.HandleCommands)
@@ -129,7 +133,6 @@ function QuestieSlash.HandleCommands(input)
     end
 
     if mainCommand == "tomap" or mainCommand == "search" then
-        -- TODO using this command can affect search history for the UI window through the QuestieSearch:Search calls, that should be prevented
         local searchType
         local numCommands = #commands
         -- no subcommand received, try to search for current target by name
@@ -156,8 +159,10 @@ function QuestieSlash.HandleCommands(input)
         if searchType then
             -- reset command
             if searchType == "reset" then
-                QuestieMap:ResetManualFrames()
-                QuestieSearchResults.ClearShownItemIds()
+                if tomapSearch then
+                    tomapSearch:Cancel()
+                end
+                ManualNotes.HideAll()
                 print(Questie:Colorize("/questie " .. input .. ":"), l10n("All map markers cleared."))
                 return
             end
@@ -171,53 +176,33 @@ function QuestieSlash.HandleCommands(input)
                 print(Questie:Colorize("/questie "..input..":"), "TODO: Implement ShowItem and ShowQuest functions.")
                 return
             end
-            local isid = tonumber(commands[3])
-            local result
+            local prefix = Questie:Colorize("/questie " .. input .. ":")
+            local id = tonumber(commands[3])
             -- Search term is an ID
-            if isid and numCommands == 3 then
-                -- Look for an exact match and fake the result table if found
-                local name
-                if searchType == "npc" then
-                    name = QuestieDB.QueryNPCSingle(isid, "name")
-                elseif searchType == "object" then
-                    name = QuestieDB.QueryObjectSingle(isid, "name")
-                end
+            if id and numCommands == 3 then
+                local name = QuestieSearch.GetName(searchType, id)
                 if name then
-                    result = {[isid]=true}
-                    print(Questie:Colorize("/questie "..input..":"), l10n("Exact match found, added %s to map.", name))
-                end
-            -- Search term is not an ID
-            else
-                -- glue search terms back together if needed
-                local search = ""
-                for i=3, numCommands do
-                    search = search .. commands[i]
-                    if i < numCommands then
-                        search = search .. " "
-                    end
-                end
-                -- perform search
-                result = QuestieSearch:Search(search, searchType)
-                local results = QuestieLib:Count(result)
-                if results ~= 0 then
-                    print(Questie:Colorize("/questie "..input..":"), l10n("%d matches found and added to map.", results))
+                    ManualNotes.Show(searchType, id)
+                    print(prefix, l10n("Exact match found, added %s to map.", name))
                 else
-                    result = nil
+                    print(prefix, l10n("No match found, nothing added to map."))
                 end
+                return
             end
-            -- if either of the searches above found something then add it to the map
-            if result then
-                for resultid, _ in pairs(result) do
-                    if searchType == "npc" then
-                        QuestieMap:ShowNPC(resultid)
-                    elseif searchType == "object" then
-                        QuestieMap:ShowObject(resultid)
-                    end
+            -- Search term is not an ID
+            local query = table.concat(commands, " ", 3, numCommands)
+            if tomapSearch then
+                tomapSearch:Cancel()
+            end
+            tomapSearch = JourneyThread.Start("QuestieSlash", function()
+                local ids = QuestieSearch.Search(searchType, query)
+                if #ids == 0 then
+                    print(prefix, l10n("No match found, nothing added to map."))
+                    return
                 end
-            -- if nothing was found inform the user
-            else
-                print(Questie:Colorize("/questie "..input..":"), l10n("No match found, nothing added to map."))
-            end
+                print(prefix, l10n("%d matches found and added to map.", #ids))
+                ManualNotes.ShowGroup("tomap " .. searchType .. " " .. query, searchType, ids)
+            end)
             return
         end
     end

@@ -242,18 +242,6 @@ local myJourneyLocales = {
         ["zhCN"] = "未输入标题，在提交前你必须输入一个标题",
         ["zhTW"] = "沒有輸入標題，送出筆記前必須先輸入標題",
     },
-    ["New Note"] = {
-        ["enUS"] = true,
-        ["deDE"] = "Neue Notiz",
-        ["esES"] = "Nueva nota",
-        ["esMX"] = "Nueva nota",
-        ["frFR"] = "Nouvelle note",
-        ["koKR"] = "새 메모",
-        ["ptBR"] = "Nova anotação",
-        ["ruRU"] = "Новая заметка",
-        ["zhCN"] = "新笔记",
-        ["zhTW"] = "新筆記",
-    },
     ["Note: %s"] = {
         ["enUS"] = true,
         ["deDE"] = "Notiz: %s",
@@ -818,6 +806,18 @@ local myJourneyLocales = {
         ["zhCN"] = "导入",
         ["zhTW"] = "匯入",
     },
+    ["Invalid journey data - paste the full exported text."] = {
+        ["enUS"] = true,
+        ["deDE"] = "Ungültige Reisedaten – füge den vollständigen exportierten Text ein.", -- AI 🤖
+        ["esES"] = "Datos del viaje no válidos: pega el texto exportado completo.", -- AI 🤖
+        ["esMX"] = "Datos del viaje no válidos: pega el texto exportado completo.", -- AI 🤖
+        ["frFR"] = "Données de voyage invalides : collez le texte exporté en entier.", -- AI 🤖
+        ["koKR"] = "잘못된 여정 데이터입니다. 내보낸 텍스트 전체를 붙여 넣으세요.", -- AI 🤖
+        ["ptBR"] = "Dados da viagem inválidos: cole o texto exportado completo.", -- AI 🤖
+        ["ruRU"] = "Неверные данные путешествия — вставьте весь экспортированный текст.", -- AI 🤖
+        ["zhCN"] = "旅程数据无效——请粘贴完整的导出文本。", -- AI 🤖
+        ["zhTW"] = "冒險日記資料無效——請貼上完整的匯出文字。", -- AI 🤖
+    },
     ["Import Journey data"] = {
         ["enUS"] = true,
         ["deDE"] = "Reisedaten importieren",
@@ -913,6 +913,90 @@ local myJourneyLocales = {
         ["ruRU"] = "Недостаточный рейтинг арены",
         ["zhCN"] = "缺少竞技场等级",
         ["zhTW"] = false,
+    },
+    ["Everything"] = {
+        ["enUS"] = true,
+        ["deDE"] = "Alles", -- AI 🤖
+        ["esES"] = "Todo", -- AI 🤖
+        ["esMX"] = "Todo", -- AI 🤖
+        ["frFR"] = "Tout", -- AI 🤖
+        ["koKR"] = "전체", -- AI 🤖
+        ["ptBR"] = "Tudo", -- AI 🤖
+        ["ruRU"] = "Всё", -- AI 🤖
+        ["zhCN"] = "全部", -- AI 🤖
+        ["zhTW"] = "全部", -- AI 🤖
+    },
+    ["Level ups"] = {
+        ["enUS"] = true,
+        ["deDE"] = "Stufenaufstiege", -- AI 🤖
+        ["esES"] = "Subidas de nivel", -- AI 🤖
+        ["esMX"] = "Subidas de nivel", -- AI 🤖
+        ["frFR"] = "Niveaux gagnés", -- AI 🤖
+        ["koKR"] = "레벨 업", -- AI 🤖
+        ["ptBR"] = "Subidas de nível", -- AI 🤖
+        ["ruRU"] = "Новые уровни", -- AI 🤖
+        ["zhCN"] = "升级", -- AI 🤖
+        ["zhTW"] = "升級", -- AI 🤖
+    },
+    ["Notes"] = {
+        ["enUS"] = true,
+        ["deDE"] = "Notizen", -- AI 🤖
+        ["esES"] = "Notas", -- AI 🤖
+        ["esMX"] = "Notas", -- AI 🤖
+        ["frFR"] = "Notes", -- AI 🤖
+        ["koKR"] = "메모", -- AI 🤖
+        ["ptBR"] = "Notas", -- AI 🤖
+        ["ruRU"] = "Заметки", -- AI 🤖
+        ["zhCN"] = "笔记", -- AI 🤖
+        ["zhTW"] = "筆記", -- AI 🤖
+    },
+    ["%s days after level %s"] = {
+        ["enUS"] = true,
+        ["deDE"] = "%s Tage nach Stufe %s", -- AI 🤖
+        ["esES"] = "%s días después del nivel %s", -- AI 🤖
+        ["esMX"] = "%s días después del nivel %s", -- AI 🤖
+        ["frFR"] = "%s jours après le niveau %s", -- AI 🤖
+        ["koKR"] = "%s일 경과 (레벨 %s 이후)", -- AI 🤖
+        ["ptBR"] = "%s dias após o nível %s", -- AI 🤖
+        ["ruRU"] = "%s дн. после уровня %s", -- AI 🤖
+        ["zhCN"] = "%s天后（自%s级起）", -- AI 🤖
+        ["zhTW"] = "%s天後（自%s級起）", -- AI 🤖
+    },
+    ["%s hours after level %s"] = {
+        ["enUS"] = true,
+        ["deDE"] = "%s Stunden nach Stufe %s", -- AI 🤖
+        ["esES"] = "%s horas después del nivel %s", -- AI 🤖
+        ["esMX"] = "%s horas después del nivel %s", -- AI 🤖
+        ["frFR"] = "%s heures après le niveau %s", -- AI 🤖
+        ["koKR"] = "%s시간 경과 (레벨 %s 이후)", -- AI 🤖
+        ["ptBR"] = "%s horas após o nível %s", -- AI 🤖
+        ["ruRU"] = "%s ч. после уровня %s", -- AI 🤖
+        ["zhCN"] = "%s小时后（自%s级起）", -- AI 🤖
+        ["zhTW"] = "%s小時後（自%s級起）", -- AI 🤖
+    },
+    ["Quests completed on the way"] = {
+        ["enUS"] = true,
+        ["deDE"] = "Unterwegs abgeschlossene Quests", -- AI 🤖
+        ["esES"] = "Misiones completadas por el camino", -- AI 🤖
+        ["esMX"] = "Misiones completadas en el camino", -- AI 🤖
+        ["frFR"] = "Quêtes terminées en chemin", -- AI 🤖
+        ["koKR"] = "그동안 완료한 퀘스트", -- AI 🤖
+        ["ptBR"] = "Missões concluídas pelo caminho", -- AI 🤖
+        ["ruRU"] = "Задания, выполненные по пути", -- AI 🤖
+        ["zhCN"] = "途中完成的任务", -- AI 🤖
+        ["zhTW"] = "途中完成的任務", -- AI 🤖
+    },
+    ["%s quests completed, level %s, since %s"] = {
+        ["enUS"] = true,
+        ["deDE"] = "%s Quests abgeschlossen, Stufe %s, seit %s", -- AI 🤖
+        ["esES"] = "%s misiones completadas, nivel %s, desde %s", -- AI 🤖
+        ["esMX"] = "%s misiones completadas, nivel %s, desde %s", -- AI 🤖
+        ["frFR"] = "%s quêtes terminées, niveau %s, depuis %s", -- AI 🤖
+        ["koKR"] = "퀘스트 %s개 완료, 레벨 %s, %s부터", -- AI 🤖
+        ["ptBR"] = "%s missões concluídas, nível %s, desde %s", -- AI 🤖
+        ["ruRU"] = "Выполнено заданий: %s, уровень %s, с %s", -- AI 🤖
+        ["zhCN"] = "已完成%s个任务，等级%s，自%s起", -- AI 🤖
+        ["zhTW"] = "已完成%s個任務，等級%s，自%s起", -- AI 🤖
     },
 }
 

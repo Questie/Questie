@@ -396,6 +396,56 @@ describe("EventHandler event dispatch", function()
         end)
     end)
 
+    describe("combat", function()
+        local isJourneyShown, QuestieTracker, savedTracker, savedTimer
+
+        before_each(function()
+            isJourneyShown = true
+            local JourneyWindow = QuestieLoader:ImportModule("JourneyWindow")
+            JourneyWindow.IsShown = function() return isJourneyShown end
+            JourneyWindow.Hide = function() isJourneyShown = false end
+            JourneyWindow.ShowAgain = function() isJourneyShown = true end
+            QuestieTracker = QuestieLoader:ImportModule("QuestieTracker")
+            savedTracker = {HandleCombatStarted = QuestieTracker.HandleCombatStarted, HandleCombatEnded = QuestieTracker.HandleCombatEnded}
+            QuestieTracker.HandleCombatStarted, QuestieTracker.HandleCombatEnded = function() end, function() end
+            savedTimer = _G.C_Timer
+            _G.C_Timer = {After = function() end}
+        end)
+
+        after_each(function()
+            QuestieTracker.HandleCombatStarted, QuestieTracker.HandleCombatEnded = savedTracker.HandleCombatStarted, savedTracker.HandleCombatEnded
+            _G.C_Timer = savedTimer
+        end)
+
+        it("hides the Journey until it is over", function()
+            callbacks.PLAYER_REGEN_DISABLED()
+            assert.is_false(isJourneyShown)
+
+            callbacks.PLAYER_REGEN_ENABLED()
+            assert.is_true(isJourneyShown)
+        end)
+
+        it("leaves a Journey alone that was closed", function()
+            isJourneyShown = false
+
+            callbacks.PLAYER_REGEN_DISABLED()
+            callbacks.PLAYER_REGEN_ENABLED()
+
+            assert.is_false(isJourneyShown)
+        end)
+
+        it("doesn't open the Journey after a later fight, once it was closed", function()
+            callbacks.PLAYER_REGEN_DISABLED()
+            callbacks.PLAYER_REGEN_ENABLED()
+            isJourneyShown = false
+
+            callbacks.PLAYER_REGEN_DISABLED()
+            callbacks.PLAYER_REGEN_ENABLED()
+
+            assert.is_false(isJourneyShown)
+        end)
+    end)
+
     describe("loading screens", function()
         local savedGetCVar, savedQueue, savedUpdate
         local QuestieCombatQueue, QuestieTracker

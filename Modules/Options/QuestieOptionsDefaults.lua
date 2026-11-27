@@ -247,6 +247,7 @@ function QuestieOptionsDefaults:Load()
                 pvp = {},
             },
             journey = {},
+            journeyWindow = {quests = {}, history = {}}, -- JourneyWindow.Sizes
             isTrackerExpanded = true,
             TrackerHiddenQuests = {},
             TrackerHiddenObjectives = {},

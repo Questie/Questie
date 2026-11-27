@@ -26,6 +26,8 @@ local QuestieQuestBlacklist = QuestieLoader:ImportModule("QuestieQuestBlacklist"
 local IsleOfQuelDanas = QuestieLoader:ImportModule("IsleOfQuelDanas")
 ---@type QuestieLib
 local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
+---@type JourneyWindow
+local JourneyWindow = QuestieLoader:ImportModule("JourneyWindow")
 ---@type DailyQuestComms
 local DailyQuestComms = QuestieLoader:ImportModule("DailyQuestComms")
 ---@type DailyQuestCommsBlacklist
@@ -184,6 +186,8 @@ local function _StartPass()
         -- If another CalculateAndDrawAll arrived while this pass was running, start it now.
         if passQueued then
             _StartPass()
+        elseif not passRunning then -- A callback can have started the next pass already
+            JourneyWindow.Refresh()
         end
     end, function()
         -- The coroutine errored: reset state and start any queued pass.
@@ -682,8 +686,6 @@ _CalculateAndDrawAvailableQuests = function()
 end
 
 --- Mark all child quests as active when the parent quest is in the quest log
---- Reused this logic in QuestsByZone.lua/QuestsByFaction.lua -- TO DO: copy logic to QBF
---- if this is modified, also make sure the changes are reflected in the other file
 ---@param questId number
 ---@param activeQuests table<QuestId, Acceptance>
 ---@param completedQuests table<number, boolean>

@@ -50,18 +50,6 @@ local searchLocales = {
         ["zhCN"] = "根据任务ID搜索",
         ["zhTW"] = "搜尋 ID",
     },
-    ["Enter in your Search"] = {
-        ["enUS"] = true,
-        ["deDE"] = "Suche",
-        ["esES"] = "Escribe tu búsqueda",
-        ["esMX"] = "Escribe tu búsqueda",
-        ["frFR"] = "Recherche",
-        ["koKR"] = "검색을 입력해주세요",
-        ["ptBR"] = "Digite sua procura",
-        ["ruRU"] = "Введите данные для поиска",
-        ["zhCN"] = "输入搜索",
-        ["zhTW"] = "輸入關鍵字搜尋",
-    },
     ["Quest Information"] = {
         ["enUS"] = true,
         ["deDE"] = "Quest-Informationen",
@@ -326,29 +314,17 @@ local searchLocales = {
         ["zhCN"] = "难度级距：%s",
         ["zhTW"] = "難度範圍：%s",
     },
-    ["Hidden"] = {
+    ["Hide from map"] = {
         ["enUS"] = true,
-        ["deDE"] = "Versteckt",
-        ["esES"] = "Oculto",
-        ["esMX"] = "Oculto",
-        ["frFR"] = "Cachée",
-        ["koKR"] = "숨김",
-        ["ptBR"] = "Oculto",
-        ["ruRU"] = "Скрыто",
-        ["zhCN"] = "隐藏",
-        ["zhTW"] = "隱藏",
-    },
-    ["Quest is hidden"] = {
-        ["enUS"] = true,
-        ["deDE"] = "Quest ist versteckt",
-        ["esES"] = "La misión está oculta",
-        ["esMX"] = "La misión está oculta",
-        ["frFR"] = "La quête est cachée",
-        ["koKR"] = "퀘스트가 숨겨졌습니다.",
-        ["ptBR"] = "Missão oculta",
-        ["ruRU"] = "Задание скрыто",
-        ["zhCN"] = "任务被隐藏",
-        ["zhTW"] = "任務被隱藏",
+        ["deDE"] = "Auf der Karte verstecken",
+        ["esES"] = "Ocultar del mapa",
+        ["esMX"] = "Ocultar del mapa",
+        ["frFR"] = "Cacher de la carte",
+        ["koKR"] = "지도에서 숨기기",
+        ["ptBR"] = "Ocultar do mapa",
+        ["ruRU"] = "Скрыть с карты",
+        ["zhCN"] = "在地图中隐藏",
+        ["zhTW"] = "在地圖上隱藏",
     },
     ["\nIf checked, hides the quest from the map, even if it is active.\n\nHiding a quest is also possible by Shift-clicking it on the map."] = {
         ["enUS"] = true,
@@ -589,6 +565,18 @@ local searchLocales = {
         ["ruRU"] = "Предмет добывается с:",
         ["zhCN"] = "掉落该物品的 NPC:",
         ["zhTW"] = "掉落此物品的 NPC:",
+    },
+    ["Can't open the map while in combat. Open it manually."] = {
+        ["enUS"] = true,
+        ["deDE"] = "Die Karte kann im Kampf nicht geöffnet werden. Öffne sie manuell.", -- AI 🤖
+        ["esES"] = "No se puede abrir el mapa en combate. Ábrelo manualmente.", -- AI 🤖
+        ["esMX"] = "No se puede abrir el mapa en combate. Ábrelo manualmente.", -- AI 🤖
+        ["frFR"] = "Impossible d'ouvrir la carte en combat. Ouvrez-la manuellement.", -- AI 🤖
+        ["koKR"] = "전투 중에는 지도를 열 수 없습니다. 직접 여세요.", -- AI 🤖
+        ["ptBR"] = "Não é possível abrir o mapa em combate. Abra-o manualmente.", -- AI 🤖
+        ["ruRU"] = "Нельзя открыть карту в бою. Откройте её вручную.", -- AI 🤖
+        ["zhCN"] = "战斗中无法打开地图。请手动打开。", -- AI 🤖
+        ["zhTW"] = "戰鬥中無法開啟地圖。請手動開啟。", -- AI 🤖
     },
 }
 

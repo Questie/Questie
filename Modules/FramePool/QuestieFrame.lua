@@ -499,6 +499,7 @@ function _QuestieFrame.ShouldBeHidden(self)
     local itemStart = (data.StarterType ~= nil)
 
     if (not profile.enabled) -- all quest icons disabled
+        or Questie.db.char.hidden[questId] -- Hidden by the player, whether it is in the quest log or not
         or ((not profile.enableMapIcons) and (not self.miniMapIcon))
         or ((not profile.enableMiniMapIcons) and (self.miniMapIcon))
         or ((not profile.enableTurnins) and iconType == "complete")

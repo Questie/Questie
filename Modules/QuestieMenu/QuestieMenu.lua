@@ -528,26 +528,17 @@ function QuestieMenu:Show(anchorFrame)
 
     tinsert(menuTable, { text= l10n('Advanced Search'), func=function()
         QuestieOptionsEngine:HideFrame();
-        QuestieJourney.tabGroup:SelectTab("search");
-        if not QuestieJourney:IsShown() then
-            QuestieJourney:ToggleJourneyWindow()
-        end
+        QuestieJourney.OpenTab("search")
     end})
 
     tinsert(menuTable, { text= l10n('Quests by Zone'), func=function()
         QuestieOptionsEngine:HideFrame();
-        QuestieJourney.tabGroup:SelectTab("zone");
-        if not QuestieJourney:IsShown() then
-            QuestieJourney:ToggleJourneyWindow()
-        end
+        QuestieJourney.OpenTab("zone")
     end})
 
     tinsert(menuTable, { text= l10n('Quests by Faction'), func=function()
         QuestieOptionsEngine:HideFrame();
-        QuestieJourney.tabGroup:SelectTab("faction");
-        if not QuestieJourney:IsShown() then
-            QuestieJourney:ToggleJourneyWindow()
-        end
+        QuestieJourney.OpenTab("faction")
     end})
 
     tinsert(menuTable, { text= l10n("Questie Options"), func=function()
@@ -559,10 +550,7 @@ function QuestieMenu:Show(anchorFrame)
 
     tinsert(menuTable, { text= l10n('My Journey'), func=function()
         QuestieOptionsEngine:HideFrame();
-        QuestieJourney.tabGroup:SelectTab("journey");
-        if not QuestieJourney:IsShown() then
-            QuestieJourney:ToggleJourneyWindow()
-        end
+        QuestieJourney.OpenTab("journey")
     end})
 
     if Questie.db.profile.debugEnabled then

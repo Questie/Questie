@@ -512,6 +512,43 @@ describe("QuestieOptionsControls", function()
             assert.spy(QuestieOptionsEngine.RefreshStates).was.called(1)
         end)
 
+        it("should put a line between options where the order says so", function()
+            local control = Create({
+                type = "dropdown",
+                options = {a = "A", b = "B"},
+                sortOrder = {"a", QuestieOptionsControls.MENU_DIVIDER, "b"},
+            })
+
+            local entries = FillMenu(control)
+
+            assert.are.equal(3, #entries)
+            assert.are_same({"A", true, "B"}, {entries[1].text, entries[2].isDivider, entries[3].text})
+        end)
+
+        describe("placeholder", function()
+            it("should be shown while nothing is selected", function()
+                local stored
+                local control = Create({
+                    type = "dropdown", options = {a = "A"}, placeholder = "Select Zone", get = function() return stored end,
+                })
+                assert.are.equal("Select Zone", control.widget:GetText())
+
+                stored = "a"
+                QuestieOptionsControls.Refresh(control)
+                assert.are.equal("A", control.widget:GetText())
+            end)
+
+            it("should be able to change", function()
+                local placeholder = "Select Zone"
+                local control = Create({type = "dropdown", options = {}, placeholder = function() return placeholder end, get = function() end})
+
+                placeholder = "Select Dungeon"
+                QuestieOptionsControls.Refresh(control)
+
+                assert.are.equal("Select Dungeon", control.widget:GetText())
+            end)
+        end)
+
         -- Otherwise the text on the closed dropdown stays on the old selection, like after switching profile.
         it("should update its menu when the value changed elsewhere, but not on every refresh", function()
             local stored = "a"
@@ -1063,7 +1100,7 @@ describe("QuestieOptionsControls", function()
         end)
 
         it("should not overwrite text the user is still typing during a refresh", function()
-            control.widget.hasFocus = true
+            control.widget:SetFocus()
             control.widget:SetText("still typing")
 
             QuestieOptionsControls.Refresh(control)
@@ -1074,7 +1111,7 @@ describe("QuestieOptionsControls", function()
         it("should drop the focus when it becomes disabled", function()
             local isEnabled = true
             local disableable = Create({type = "textbox", enabled = function() return isEnabled end, get = function() return "x" end})
-            disableable.widget.hasFocus = true
+            disableable.widget:SetFocus()
 
             isEnabled = false
             QuestieOptionsControls.Refresh(disableable)

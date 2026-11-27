@@ -1,10 +1,6 @@
----@type QuestieCompat
-local QuestieCompat = QuestieLoader:ImportModule("QuestieCompat")
-
 ---@class QuestieJourney
 local QuestieJourney = QuestieLoader:ImportModule("QuestieJourney")
 local _QuestieJourney = QuestieJourney.private
-QuestieJourneyFrame = nil
 -------------------------
 --Import modules.
 -------------------------
@@ -14,33 +10,19 @@ local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
 local JourneyData = QuestieLoader:ImportModule("JourneyData")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
----@type QuestieCombatQueue
-local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
 ---@type Expansions
 local Expansions = QuestieLoader:ImportModule("Expansions")
----@type QuestieOptionsEngine
-local QuestieOptionsEngine = QuestieLoader:ImportModule("QuestieOptionsEngine")
+---@type JourneyWindow
+local JourneyWindow = QuestieLoader:ImportModule("JourneyWindow")
 ---@type CompletedQuests
 local CompletedQuests = QuestieLoader:ImportModule("CompletedQuests")
-
--- Useful doc about the AceGUI TreeGroup: https://github.com/hurricup/WoW-Ace3/blob/master/AceGUI-3.0/widgets/AceGUIContainer-TreeGroup.lua
+---@type QuestieJourneyFactions
+local QuestieJourneyFactions = QuestieLoader:ImportModule("QuestieJourneyFactions")
 
 local tinsert = table.insert
 
 QuestieJourney.continents = {}
 QuestieJourney.zones = {}
-QuestieJourney.tabGroup = nil
-
-local AceGUI = LibStub("AceGUI-3.0")
-
-local isWindowShown = false
-_QuestieJourney.lastOpenWindow = "journey"
-_QuestieJourney.lastZoneSelection = {}
-_QuestieJourney.lastFactionSelection = {}
-_QuestieJourney.questsByZone = {}
-
-local notesPopupWin
-local notesPopupWinIsOpen = false
 
 -- These need to match with l10n.continentLookup
 local questCategoryKeys = {
@@ -92,131 +74,75 @@ function QuestieJourney:Initialize()
         end
     end
     coroutine.yield()
-    continents[questCategoryKeys.CLASS] = QuestiePlayer:GetLocalizedClassName()
+    -- Like the professions, not the player's class. Blizzard's text, which every supported client has (checked in GlobalStrings).
+    continents[questCategoryKeys.CLASS] = CLASS
 
     checkForCharacterRecreation()
 
     coroutine.yield()
     self.continents = continents
-    -- Generate once here; tabs reuse these quest groups and dropdown choices instead of rescanning the database.
+    -- Generate once here; JourneyPlaces reads these quest groups and zone names instead of rescanning the database.
     self.zoneMap, self.zones = JourneyData.Build(true)
     coroutine.yield()
-
-    -- Pre-initialize faction data used by the "Quests by Faction" tab so it is ready on first open.
-    if _QuestieJourney.questsByFaction then
-        if _QuestieJourney.questsByFaction.InitializeFactionData then
-            _QuestieJourney.questsByFaction:InitializeFactionData()
-        end
-        if _QuestieJourney.questsByFaction.InitializeFactionQuestData then
-            _QuestieJourney.questsByFaction:InitializeFactionQuestData()
-        end
-    end
-
-    coroutine.yield()
-    self:BuildMainFrame()
+    QuestieJourneyFactions.Initialize()
 
     -- Set up default keybinding for Journey window
     self:SetupKeybinding()
 end
 
-function QuestieJourney:BuildMainFrame()
-    if (not QuestieJourneyFrame) then
-        local journeyFrame = AceGUI:Create("Frame")
-        journeyFrame:SetCallback("OnClose", function()
-            isWindowShown = false
-            if notesPopupWinIsOpen then
-                notesPopupWin:Hide()
-                notesPopupWin = nil
-                notesPopupWinIsOpen = false
-            end
-        end)
-        journeyFrame:SetTitle(l10n("%s's Journey", GetUnitName("player", true)))
-        journeyFrame:SetLayout("Fill")
-        journeyFrame:EnableResize(true)
-        journeyFrame:SetWidth(1000)
-        journeyFrame:SetHeight(650)
-        QuestieCompat.SetResizeBounds(journeyFrame.frame, 550, 400, 0, 0)
-
-        local tabGroup = AceGUI:Create("TabGroup")
-        tabGroup:SetLayout("Flow")
-        tabGroup:SetTabs({
-            {
-                text = l10n("My Journey"),
-                value = "journey"
-            },
-            {
-                text = l10n("Quests by Zone"),
-                value = "zone"
-            },
-            {
-                text = l10n("Quests by Faction"),
-                value = "faction"
-            },
-            {
-                text = l10n("Advanced Search"),
-                value = "search"
-            }
-        })
-        tabGroup:SetCallback("OnGroupSelected", function(widget, _, group) _QuestieJourney:HandleTabChange(widget, group) end)
-        tabGroup:SelectTab("journey")
-
-        QuestieJourney.tabGroup = tabGroup
-        journeyFrame:AddChild(QuestieJourney.tabGroup)
-
-        local settingsButton = AceGUI:Create("Button")
-        settingsButton:SetWidth(160)
-        settingsButton:SetPoint("TOPRIGHT", journeyFrame.frame, "TOPRIGHT", -50, -13)
-        settingsButton:SetText(l10n("Questie Options"))
-        settingsButton:SetCallback("OnClick", function()
-            QuestieCombatQueue:Queue(function()
-                QuestieJourney:ToggleJourneyWindow()
-                QuestieOptionsEngine:ToggleConfigWindow()
-            end)
-        end)
-        journeyFrame:AddChild(settingsButton)
-
-        journeyFrame:Hide()
-        QuestieJourneyFrame = journeyFrame
-        table.insert(UISpecialFrames, "QuestieJourneyFrame")
-    end
-end
-
+---@return boolean
 function QuestieJourney:IsShown()
-    return isWindowShown
+    return JourneyWindow.IsShown()
 end
 
--- There are ways to toggle this function before the frame has been created
-function QuestieJourney:ToggleJourneyWindow()
+---Nothing of the Journey happens in combat. The player's own combat state counts too: in a combat the player logged in
+---to, the lockdown only starts after the login.
+---@return boolean
+local function _IsInCombat()
+    return InCombatLockdown() or UnitAffectingCombat("player")
+end
+
+---Opens the window on a tab. Every way to open the Journey comes here.
+---@param tabKey string? One of "journey", "zone", "faction" and "search". The tab that was shown last when nil.
+function QuestieJourney.OpenTab(tabKey)
+    -- Reachable while Questie is loading, before the data for the tabs is ready
     if (not Questie.started) then
         print(Questie:Colorize(l10n("Please wait a moment for Questie to finish loading")))
         return
     end
+    -- The window never opens in combat, and combat closes it (EventHandler). The error is Blizzard's own, as its
+    -- queue status shows it on every supported client.
+    if _IsInCombat() then
+        UIErrorsFrame:AddMessage(ERR_NOT_IN_COMBAT, 1.0, 0.1, 0.1, 1.0)
+        return
+    end
 
-    if (not isWindowShown) then
-        PlaySound(882)
-
+    if not JourneyWindow.IsShown() then
         -- Some quests are completed without any quest event
         CompletedQuests.Update()
-        local treeGroup = _QuestieJourney:HandleTabChange(_QuestieJourney.containerCache, _QuestieJourney.lastOpenWindow)
-        if treeGroup then
-            _QuestieJourney.treeCache = treeGroup
-        end
+    end
+    JourneyWindow.Show(tabKey)
+end
 
-        QuestieJourneyFrame:Show()
-        isWindowShown = true
-    else
-        QuestieJourneyFrame:Hide()
-        isWindowShown = false
+---Opens the window on the quests of a zone, a faction, and so on.
+---@param source string? What is listed, like "zone:40". What was shown last when nil.
+function QuestieJourney.OpenSource(source)
+    QuestieJourney.OpenTab("quests")
+    if source and JourneyWindow.IsShown() then
+        _QuestieJourney.quests.OpenSource(source)
     end
 end
 
-function QuestieJourney:SetupKeybinding()
-    _G.BINDING_NAME_QUESTIE_TOGGLE_JOURNEY = l10n("Toggle My Journey")
-
-    -- Only ever attempt to set the default keybind once, so we never fight a user who later changes or removes their bindings
-    if Questie.db.global.journeyKeybindDefaultApplied then
-        return
+function QuestieJourney:ToggleJourneyWindow()
+    if JourneyWindow.IsShown() then
+        JourneyWindow.Hide()
+    else
+        QuestieJourney.OpenTab()
     end
+end
+
+local function _ApplyDefaultKeybinding()
+    -- Only ever attempt to set the default keybind once, so we never fight a user who later changes or removes their bindings
     Questie.db.global.journeyKeybindDefaultApplied = true
 
     local currentBinding = GetBindingKey("QUESTIE_TOGGLE_JOURNEY")
@@ -224,6 +150,32 @@ function QuestieJourney:SetupKeybinding()
         SetBinding("SEMICOLON", "QUESTIE_TOGGLE_JOURNEY")
         Questie.Debug(Questie.DEBUG_INFO, "Set default keybind ';' for Questie Journey")
     end
+end
+
+function QuestieJourney:SetupKeybinding()
+    _G.BINDING_NAME_QUESTIE_TOGGLE_JOURNEY = l10n("Toggle My Journey")
+
+    if Questie.db.global.journeyKeybindDefaultApplied then
+        return
+    end
+    -- SetBinding is blocked in combat, and the startup can run during a combat the player logged in to. The key then
+    -- waits until that combat is over. QuestieCombatQueue doesn't run yet at this point of the startup.
+    if _IsInCombat() then
+        local waiter = CreateFrame("Frame")
+        waiter:RegisterEvent("PLAYER_REGEN_ENABLED")
+        waiter:SetScript("OnEvent", function()
+            waiter:UnregisterEvent("PLAYER_REGEN_ENABLED")
+            _ApplyDefaultKeybinding()
+        end)
+        return
+    end
+    _ApplyDefaultKeybinding()
+end
+
+---@param entry JourneyEntry
+local function _AddEntry(entry)
+    tinsert(Questie.db.char.journey, entry)
+    JourneyWindow.Refresh()
 end
 
 function QuestieJourney:PlayerLevelUp(level)
@@ -241,7 +193,7 @@ function QuestieJourney:PlayerLevelUp(level)
         Timestamp = time()
     }
 
-    tinsert(Questie.db.char.journey, entry)
+    _AddEntry(entry)
 end
 
 function QuestieJourney:AcceptQuest(questId)
@@ -255,7 +207,7 @@ function QuestieJourney:AcceptQuest(questId)
         Timestamp = time()
     }
 
-    tinsert(Questie.db.char.journey, entry)
+    _AddEntry(entry)
 end
 
 function QuestieJourney:AbandonQuest(questId)
@@ -283,7 +235,7 @@ function QuestieJourney:AbandonQuest(questId)
             Timestamp = time()
         }
 
-        tinsert(Questie.db.char.journey, entry)
+        _AddEntry(entry)
     end
 end
 
@@ -298,5 +250,5 @@ function QuestieJourney:CompleteQuest(questId)
         Timestamp = time()
     }
 
-    tinsert(Questie.db.char.journey, entry)
+    _AddEntry(entry)
 end

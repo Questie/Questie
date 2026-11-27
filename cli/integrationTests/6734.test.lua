@@ -139,6 +139,7 @@ describe("Issue 6734 - The quest does not exist in QuestLogCache", function()
         QuestieDB.QueryQuestSingle = function() return nil end
         QuestieDB.QueryQuest = function() return nil end
 
+        QuestieLoader:ImportModule("JourneyWindow").Refresh = function() end
         dofile("Modules/EventHandler/QuestEventHandler.lua")
         QuestEventHandler = QuestieLoader:ImportModule("QuestEventHandler")
 

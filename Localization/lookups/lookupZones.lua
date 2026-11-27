@@ -3110,6 +3110,7 @@ l10n.zoneCategoryLookup = {
         [-500] = "Skinning", -- Dummy ID
         [-501] = "Mining", -- Dummy ID
         [-502] = "Enchanting", -- Dummy ID
+        [16941] = "Crafting",
     },
     [13] = {
         [-1] = "Epic",
@@ -3146,7 +3147,6 @@ l10n.zoneCategoryLookup = {
         [-402] = "Harvest Festival",
         [-404] = "Winter Veil",
         [-1000] = "Special", -- for actual "Special" quests that are not part of events
-        [16941] = "Crafting",
     },
     [14] = {
         [-394] = "Battle Pets",

@@ -44,8 +44,6 @@
         "------------------ Questie globals --------------------",
         "QuestieCompat",
         "QuestieConfig",
-        "QuestieImportJourneyFrame",
-        "QuestieJourneyFrame",
         "QuestieLoader",
         "QuestieWorldMapButtonMixin",
         "Questie_BaseFrame",

@@ -753,6 +753,7 @@ describe("TrackerData", function()
             local tracker = QuestieLoader:ImportModule("QuestieTracker")
             tracker.Update = function() TrackerData.Refresh() end
             tracker.UpdateQuestLines = function(id) TrackerData.RefreshQuest(id) end
+            QuestieLoader:ImportModule("JourneyWindow").Refresh = function() end
             dofile("Modules/EventHandler/QuestEventHandler.lua")
             QuestEventHandler = QuestieLoader:ImportModule("QuestEventHandler")
         end)

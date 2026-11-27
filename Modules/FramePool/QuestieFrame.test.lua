@@ -34,6 +34,8 @@ describe("QuestieFrame", function()
             hideUntrackedQuestsMapIcons = false,
         }
 
+        Questie.db.char = {hidden = {}}
+
         QuestieDB = QuestieLoader:ImportModule("QuestieDB")
         QuestieDB.IsRepeatable = function() return false end
         QuestieDB.IsActiveEventQuest = function() return false end
@@ -526,6 +528,25 @@ describe("QuestieFrame", function()
 
             assert.is_false(result)
             assert.spy(QuestieQuest.ShouldShowQuestNotes).was.not_called()
+        end)
+
+        for _, iconType in ipairs({"available", "complete", "monster", "object", "event", "item"}) do
+            it("should return true for " .. iconType .. " icons of a quest the player hid, and only of that one", function()
+                QuestieFrameInstance.data.Type = iconType
+                Questie.db.char.hidden[456] = true
+                assert.is_false(QuestieFrame.private.ShouldBeHidden(QuestieFrameInstance))
+
+                Questie.db.char.hidden[123] = true
+                assert.is_true(QuestieFrame.private.ShouldBeHidden(QuestieFrameInstance))
+            end)
+        end
+
+        it("should return true for a party member's icons of a quest the player hid", function()
+            QuestieFrameInstance.data.ObjectiveData = {IsPartyObjective = true}
+            assert.is_false(QuestieFrame.private.ShouldBeHidden(QuestieFrameInstance))
+
+            Questie.db.char.hidden[123] = true
+            assert.is_true(QuestieFrame.private.ShouldBeHidden(QuestieFrameInstance))
         end)
 
         it("should return true when ObjectiveData is set and icons should be hidden", function()

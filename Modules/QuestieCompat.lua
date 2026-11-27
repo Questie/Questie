@@ -1389,23 +1389,6 @@ function QuestieCompat.IsQuestWatched(questLogIndex)
     return false
 end
 
-
-------------------------------------------
--- Early library bridge
-------------------------------------------
-
----Makes a texture grayscale, or restores its original colors.
----@param texture Texture
----@param desaturated boolean
-function QuestieCompat.SetDesaturation(texture, desaturated)
-    texture:SetDesaturated(desaturated)
-end
-
-if isForever then
-    -- AceGUI checkboxes still call this global. Install before embedded libraries without replacing a native helper.
-    SetDesaturation = SetDesaturation or QuestieCompat.SetDesaturation
-end
-
 ---Returns whether an addon is loaded or loading, and whether loading has finished.
 ---@param addon string|number Addon folder name or 1-based addon-list index; use names for Blizzard addons.
 ---@return boolean loadedOrLoading

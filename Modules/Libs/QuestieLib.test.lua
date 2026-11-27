@@ -189,6 +189,25 @@ describe("QuestieLib", function()
             assert.are_same({4}, QuestieLib:SortQuestIDsByLevel({[4] = true}, true))
             assert.spy(QuestieLib.GetEffectiveQuestLevel).was.not_called()
         end)
+
+        it("should let the caller pause after each quest", function()
+            local lookups = 0
+            local thread = coroutine.create(function()
+                return QuestieLib:SortQuestIDsByLevel({[1] = true, [2] = true, [3] = true, [4] = true}, false, function()
+                    lookups = lookups + 1
+                    coroutine.yield()
+                end)
+            end)
+
+            local sorted
+            repeat
+                local _, result = coroutine.resume(thread)
+                sorted = result
+            until coroutine.status(thread) == "dead"
+
+            assert.are.equal(4, lookups)
+            assert.are_same(QuestieLib:SortQuestIDsByLevel({[1] = true, [2] = true, [3] = true, [4] = true}), sorted)
+        end)
     end)
 
     describe("GetLevelString", function()

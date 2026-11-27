@@ -57,6 +57,8 @@ local DistanceUtils = QuestieLoader:ImportModule("DistanceUtils")
 local ThreadLib = QuestieLoader:ImportModule("ThreadLib")
 ---@type CommsVisibility
 local CommsVisibility = QuestieLoader:ImportModule("CommsVisibility")
+---@type JourneyWindow
+local JourneyWindow = QuestieLoader:ImportModule("JourneyWindow")
 
 --We should really try and squeeze out all the performance we can, especially in this.
 local tostring = tostring;
@@ -413,11 +415,29 @@ function QuestieQuest:ShouldShowQuestNotes(questId)
     return QuestieQuest:IsQuestTracked(questId)
 end
 
+---Hides or shows the icons of a quest, also those of party members who have it when the player doesn't.
+---@param questId QuestId
+local function _UpdateIconVisibility(questId)
+    for _, icon in pairs(QuestieMap:GetFramesForQuest(questId)) do
+        if icon:ShouldBeHidden() then
+            icon:FakeHide()
+        else
+            icon:FakeShow()
+        end
+    end
+end
+
+---Hides a quest from the map until the player shows it again, whatever happens to it.
 ---@param questId QuestId
 function QuestieQuest:HideQuest(questId)
     Questie.db.char.hidden[questId] = true
-    AvailableQuests.RemoveQuest(questId)
+    if ActiveQuests.Get(questId) then
+        _UpdateIconVisibility(questId)
+    else
+        AvailableQuests.RemoveQuest(questId)
+    end
     CommsVisibility:ScheduleSnapshot("HIDE_QUEST")
+    JourneyWindow.Refresh()
 end
 
 ---@param questId QuestId
@@ -425,12 +445,11 @@ function QuestieQuest:UnhideQuest(questId)
     Questie.db.char.hidden[questId] = nil
     CommsVisibility:ScheduleSnapshot("UNHIDE_QUEST")
 
-    if ActiveQuests.Get(questId) then
-        local quest = QuestieDB.GetQuest(questId)
-        QuestieQuest:PopulateObjectiveNotes(quest)
-    else
+    _UpdateIconVisibility(questId)
+    if (not ActiveQuests.Get(questId)) then
         AvailableQuests.CalculateAndDrawAll()
     end
+    JourneyWindow.Refresh()
 end
 
 ---Whether the client still lists an unfinished objective, including rows the database does not map.

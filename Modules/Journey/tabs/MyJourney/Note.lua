@@ -1,167 +1,169 @@
----@type QuestiePopup
-local Popup = QuestieLoader:ImportModule("QuestiePopup")
-
 ---@type QuestieJourney
 local QuestieJourney = QuestieLoader:ImportModule("QuestieJourney")
 local _QuestieJourney = QuestieJourney.private
-_QuestieJourney.notePopup = nil
 -------------------------
 --Import modules
 -------------------------
----@type QuestieJourneyUtils
-local QuestieJourneyUtils = QuestieLoader:ImportModule("QuestieJourneyUtils")
+---@type JourneyLinkInput
+local JourneyLinkInput = QuestieLoader:ImportModule("JourneyLinkInput")
+---@type JourneyWindow
+local JourneyWindow = QuestieLoader:ImportModule("JourneyWindow")
+---@type QuestieOptionsControls
+local QuestieOptionsControls = QuestieLoader:ImportModule("QuestieOptionsControls")
+---@type QuestieOptionsWindow
+local QuestieOptionsWindow = QuestieLoader:ImportModule("QuestieOptionsWindow")
+---@type QuestiePopup
+local Popup = QuestieLoader:ImportModule("QuestiePopup")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
-local AceGUI = LibStub("AceGUI-3.0")
-local titleBox, messageBox
+local WINDOW_WIDTH, WINDOW_HEIGHT = 420, 440
 
-local _CreateNoteWindow, _CreateContainer, _CreateDescription, _CreateTitleBox, _CreateMessageBox
-local _CreateNoteAddButton, _HandleNoteEntry, _DeleteNote
+---Nil until the window is first opened.
+---@type Frame?
+local window
 
+---@type EditBox
+local titleBox
 
-function _QuestieJourney:ShowNotePopup()
-    if (not _QuestieJourney.notePopup) then
-        _QuestieJourney.notePopup = _CreateNoteWindow()
-    elseif (not _QuestieJourney.notePopup:IsShown()) then
-        _QuestieJourney.notePopup:Show()
-    else
-        _QuestieJourney.notePopup:Hide()
-    end
+---@type Frame A ScrollingEditBoxTemplate
+local messageBox
+
+---@param text string
+local function _PrintError(text)
+    print(Questie:Colorize("[Questie] ", "lightBlue") .. text)
 end
 
-_CreateNoteWindow = function ()
-    local notePopup = AceGUI:Create("Window")
-    notePopup:Show()
-    notePopup:SetTitle(l10n('Add New Adventure Note'))
-    notePopup:SetWidth(400)
-    notePopup:SetHeight(400)
-    notePopup:EnableResize(false)
-    notePopup.frame:SetFrameStrata(_QuestieJourney.containerCache.frame:GetFrameStrata())
-    notePopup.frame:SetFrameLevel(_QuestieJourney.containerCache.frame:GetFrameLevel())
-    notePopup.frame:Raise()
-    notePopup:SetCallback("OnClose", function()
-        notePopup:Hide()
-    end)
-
-    local container = _CreateContainer()
-    notePopup:AddChild(container)
-
-    local desc = _CreateDescription()
-    container:AddChild(desc)
-
-    QuestieJourneyUtils:Spacer(container)
-
-    titleBox = _CreateTitleBox()
-    container:AddChild(titleBox)
-
-    messageBox = _CreateMessageBox()
-    container:AddChild(messageBox)
-
-    local addEntryBtn = _CreateNoteAddButton()
-    container:AddChild(addEntryBtn)
-
-    return notePopup
-end
-
-_CreateContainer = function ()
-    local container = AceGUI:Create("InlineGroup")
-    container:SetFullHeight(true)
-    container:SetFullWidth(true)
-    container:SetLayout('flow')
-    container:SetTitle(l10n('New Note'))
-    return container
-end
-
-_CreateDescription  =function ()
-    local desc = AceGUI:Create("Label")
-    desc:SetText(Questie:Colorize(l10n('Create an entry in your journal to remember a specific moment. Simply supply a title and description and Questie will remember it for you!'), 'yellow'))
-    desc:SetFullWidth(true)
-    return desc
-end
-
-_CreateTitleBox = function ()
-    local box = AceGUI:Create("EditBox")
-    box:SetFullWidth(true)
-    box:SetLabel(l10n('Entry Title'))
-    box:DisableButton(true)
-    box:SetFocus()
-    return box
-end
-
-_CreateMessageBox = function ()
-    local box = AceGUI:Create("MultiLineEditBox")
-    box:SetFullWidth(true)
-    box:SetNumLines(12)
-    box:SetLabel(l10n('Journal Entry'))
-    box:DisableButton(true)
-    return box
-end
-
-_CreateNoteAddButton = function ()
-    local addEntryBtn = AceGUI:Create("Button")
-    addEntryBtn:SetText(l10n('Add Entry'))
-    addEntryBtn:SetCallback("OnClick", _HandleNoteEntry)
-    return addEntryBtn
-end
-
-_HandleNoteEntry = function ()
-    local error = Questie:Colorize('[Questie] ', 'lightBlue')
-    if titleBox:GetText() == '' then
-        print (error .. l10n('No Title was entered. You must enter a title before submitting your note.'))
+local function _AddNote()
+    if titleBox:GetText() == "" then
+        _PrintError(l10n("No Title was entered. You must enter a title before submitting your note."))
         return
-    elseif messageBox:GetText() == '' then
-        print (error .. l10n('No Note was entered. You must enter a note before submitting.'))
+    elseif messageBox:GetInputText() == "" then
+        _PrintError(l10n("No Note was entered. You must enter a note before submitting."))
         return
     end
-    local data = {}
-    data.Event = "Note"
-    data.Note = messageBox:GetText()
-    data.Title = titleBox:GetText()
-    data.Timestamp = time()
 
-    tinsert(Questie.db.char.journey, data)
+    table.insert(Questie.db.char.journey, {
+        Event = "Note",
+        Note = messageBox:GetInputText(),
+        Title = titleBox:GetText(),
+        Timestamp = time(),
+    })
 
-    _QuestieJourney.myJourney:ManageTree(_QuestieJourney.treeCache)
-    _QuestieJourney.notePopup:Hide()
+    titleBox:SetText("")
+    messageBox:ClearText()
+    window:Hide()
+    JourneyWindow.Refresh()
 end
 
-_DeleteNote = function(noteIndex)
-    local success = false
-    if noteIndex and noteIndex > 0 and noteIndex <= #Questie.db.char.journey then
-        local entry = Questie.db.char.journey[noteIndex]
-        if entry and entry.Event == "Note" then
-            table.remove(Questie.db.char.journey, noteIndex)
-            success = true
-            Questie:Print(l10n('Note deleted successfully'))
-            if _QuestieJourney.myJourney and _QuestieJourney.treeCache then
-                _QuestieJourney.myJourney:ManageTree(_QuestieJourney.treeCache)
-            end
+---@param canvas Frame
+---@return EditBox
+local function _CreateTitleBox(canvas)
+    local label = canvas:CreateFontString(nil, "ARTWORK", "GameFontNormal")
+    label:SetPoint("TOPLEFT", canvas, "TOPLEFT", 14, -64)
+    label:SetText(l10n("Entry Title"))
+
+    local editBox = CreateFrame("EditBox", nil, canvas, "InputBoxTemplate")
+    editBox:SetPoint("TOPLEFT", canvas, "TOPLEFT", 18, -80)
+    editBox:SetPoint("TOPRIGHT", canvas, "TOPRIGHT", -12, -80)
+    editBox:SetHeight(22)
+    editBox:SetAutoFocus(false)
+    editBox:SetFontObject("ChatFontNormal")
+    JourneyLinkInput.Enable(editBox)
+    return editBox
+end
+
+---@param canvas Frame
+---@return Frame
+local function _CreateMessageBox(canvas)
+    local box = QuestieOptionsControls.Create(canvas, {type = "container", title = l10n("Journal Entry")}, 200, 3)
+    box:SetPoint("TOPLEFT", canvas, "TOPLEFT", 14, -132)
+    box:SetPoint("BOTTOMRIGHT", canvas, "BOTTOMRIGHT", -12, 54)
+
+    local scrollBar = CreateFrame("EventFrame", nil, box.contentArea, "MinimalScrollBar")
+    scrollBar:SetPoint("TOPRIGHT", box.contentArea, "TOPRIGHT", -10, -8)
+    scrollBar:SetPoint("BOTTOMRIGHT", box.contentArea, "BOTTOMRIGHT", -10, 4)
+
+    local message = CreateFrame("Frame", nil, box.contentArea, "ScrollingEditBoxTemplate")
+    message:SetPoint("TOPLEFT", box.contentArea, "TOPLEFT", 10, -8)
+    message:SetPoint("BOTTOMRIGHT", box.contentArea, "BOTTOMRIGHT", -26, 2)
+    ScrollUtil.RegisterScrollBoxWithScrollBar(message:GetScrollBox(), scrollBar)
+    ScrollUtil.AddManagedScrollBarVisibilityBehavior(message:GetScrollBox(), scrollBar)
+
+    box:SetScript("OnClick", function() message:SetFocus() end)
+    JourneyLinkInput.Enable(message:GetEditBox())
+    return message
+end
+
+local function _CreateWindow()
+    window = QuestieOptionsWindow.Create({
+        name = "QuestieJourneyNoteFrame",
+        title = l10n("Add New Adventure Note"),
+        strata = "FULLSCREEN_DIALOG", -- Like My Journey
+        isPopup = true,
+        width = WINDOW_WIDTH,
+        height = WINDOW_HEIGHT,
+    })
+
+    local canvas = window.canvasContainer
+    local description = canvas:CreateFontString(nil, "ARTWORK", "GameFontHighlight")
+    description:SetPoint("TOPLEFT", canvas, "TOPLEFT", QuestieOptionsWindow.HEADER_INSET, -8)
+    description:SetPoint("TOPRIGHT", canvas, "TOPRIGHT", -12, -8)
+    description:SetJustifyH("LEFT")
+    description:SetText(l10n("Create an entry in your journal to remember a specific moment. Simply supply a title and description and Questie will remember it for you!"))
+
+    titleBox = _CreateTitleBox(canvas)
+    messageBox = _CreateMessageBox(canvas)
+    titleBox:SetScript("OnTabPressed", function() messageBox:SetFocus() end)
+    titleBox:SetScript("OnEnterPressed", function() messageBox:SetFocus() end)
+    messageBox:GetEditBox():HookScript("OnTabPressed", function() titleBox:SetFocus() end)
+
+    local addButton = QuestieOptionsControls.Create(canvas, {
+        type = "button",
+        title = "",
+        btnLabel = l10n("Add Entry"),
+        align = "RIGHT",
+        func = _AddNote,
+    }, 200, 1)
+    addButton:SetPoint("BOTTOMRIGHT", canvas, "BOTTOMRIGHT", -8, 4)
+end
+
+---Opens the window for writing a note, or closes it. What was typed is kept until the note is added.
+function _QuestieJourney.ToggleNoteWindow()
+    if not window then
+        _CreateWindow()
+    end
+    if window:IsShown() then
+        window:Hide()
+        return
+    end
+
+    window:Show()
+    titleBox:SetFocus()
+end
+
+---@param note JourneyEntry
+local function _DeleteNote(note)
+    for index, entry in ipairs(Questie.db.char.journey) do
+        if entry == note then
+            table.remove(Questie.db.char.journey, index)
+            Questie:Print(l10n("Note deleted successfully"))
+            JourneyWindow.Refresh()
+            return
         end
     end
-
-    return success
 end
-
 
 Popup.Dialogs["QUESTIE_DELETE_NOTE_CONFIRM"] = {
     text = "",
     button1 = YES,
     button2 = NO,
     OnAccept = function(self)
-        local noteIndex = self.data
-        _DeleteNote(noteIndex)
+        _DeleteNote(self.data)
     end,
     OnShow = function(self)
-        local noteIndex = self.data
         local confirmText = l10n("Are you sure you want to delete this note?")
-        if noteIndex then
-            local entry = Questie.db.char.journey[noteIndex]
-            if entry and entry.Event == "Note" then
-                confirmText = confirmText .. "\n\n" .. Questie:Colorize(entry.Title, 'yellow')
-            end
-        end
-        self.Text:SetText(confirmText)
+        self.Text:SetText(confirmText .. "\n\n" .. Questie:Colorize(self.data.Title, "yellow"))
         self:SetFrameStrata("FULLSCREEN_DIALOG")
         self:Raise()
     end,

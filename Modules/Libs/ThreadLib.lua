@@ -2,7 +2,7 @@
 local ThreadLib = QuestieLoader:CreateModule("ThreadLib")
 
 --Coroutine functions
-local coStatus, coResume, coCreate = coroutine.status, coroutine.resume, coroutine.create
+local coStatus, coResume, coCreate, coYield = coroutine.status, coroutine.resume, coroutine.create, coroutine.yield
 local lType = type
 -- local cTimer = C_Timer
 local newTicker = C_Timer.NewTicker
@@ -185,6 +185,47 @@ end
 ---@return thread Thread @The coroutine thread
 function ThreadLib.ThreadCallbackInstant(threadFunction, callbackFunction)
   return ThreadLib.Thread(threadFunction, 0, nil, callbackFunction)
+end
+
+---Limits how long some work can run per frame, however many threads do it. Keeps a slow client far from the script time
+---limit, which is much stricter in Hardcore.
+---@class FrameBudget
+---@field YieldIfSpent async fun() Continues in a later frame once the budget of this one is spent.
+---@field YieldForFrameOfItsOwn async fun() Continues in a later frame that isn't used by the budget's other threads.
+
+---@param seconds number
+---@return FrameBudget
+function ThreadLib.CreateFrameBudget(seconds)
+    local frameTime, startedAt
+
+    ---Starts the budget of this frame, unless another thread already did earlier in the frame.
+    local function Start()
+        -- GetTime only changes between frames, which tells this apart from other threads earlier in the same frame
+        local now = GetTime()
+        if now ~= frameTime then
+            frameTime = now
+            startedAt = GetTimePreciseSec()
+        end
+    end
+
+    return {
+        -- A resumed thread starts the budget before it does anything, so its first step counts as well, and it waits for
+        -- another frame if other threads already spent it.
+        YieldIfSpent = function()
+            Start()
+            while GetTimePreciseSec() - startedAt >= seconds do
+                coYield()
+                Start()
+            end
+        end,
+        YieldForFrameOfItsOwn = function()
+            repeat
+                coYield()
+            until GetTime() ~= frameTime
+            frameTime = GetTime()
+            startedAt = GetTimePreciseSec() - seconds
+        end,
+    }
 end
 
 

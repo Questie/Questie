@@ -11,7 +11,7 @@ describe("WorldMapButton", function()
     ---@type QuestieOptionsEngine
     local QuestieOptionsEngine
 
-    local mapButton
+    local mapButton, journeyButton
     local KButtonsMock
     local AceConfigDialogMock
     local tooltipLines
@@ -28,8 +28,12 @@ describe("WorldMapButton", function()
             Show = spy.new(function() end),
             Hide = spy.new(function() end),
         }
+        journeyButton = {
+            Show = spy.new(function() end),
+            Hide = spy.new(function() end),
+        }
         KButtonsMock = {
-            Add = spy.new(function() return mapButton end),
+            Add = spy.new(function(_, template) return template == "QuestieJourneyMapButtonTemplate" and journeyButton or mapButton end),
         }
         AceConfigDialogMock = {
             Open = spy.new(function() end),
@@ -117,6 +121,16 @@ describe("WorldMapButton", function()
 
         assert.spy(mapButton.Hide).was.called_with(mapButton)
         assert.spy(mapButton.Show).was.not_called()
+    end)
+
+    it("should show and hide the button of the Journey with Questie's", function()
+        assert.spy(KButtonsMock.Add).was.called_with(KButtonsMock, "QuestieJourneyMapButtonTemplate", "BUTTON")
+        assert.spy(journeyButton.Show).was.called_with(journeyButton)
+
+        WorldMapButton.Toggle(false)
+
+        assert.spy(journeyButton.Hide).was.called_with(journeyButton)
+        assert.spy(mapButton.Hide).was.called_with(mapButton)
     end)
 
     it("should open the menu on right click", function()
