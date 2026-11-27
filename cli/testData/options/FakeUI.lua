@@ -381,6 +381,8 @@ function FakeUI.Install()
     end
     function methods:GetText() return self.text end
     function methods:AddLine(text) self.lines = self.lines or {}; table.insert(self.lines, text) end
+    -- A line with a text at the left and one at the right, which can be numbers like in the real one
+    function methods:AddDoubleLine(left, right) self:AddLine({tostring(left), tostring(right)}) end
     -- Like the real one, which is empty until something is added and hidden until it is shown
     function methods:SetOwner(owner)
         self.owner, self.text, self.lines = owner, nil, nil
