@@ -6,6 +6,8 @@ local _MinimapIcon = MinimapIcon.private
 -------------------------
 ---@type QuestieQuest
 local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
+---@type MapIconVisibility
+local MapIconVisibility = QuestieLoader:ImportModule("MapIconVisibility")
 ---@type QuestieJourney
 local QuestieJourney = QuestieLoader:ImportModule("QuestieJourney")
 ---@type QuestieLib
@@ -118,6 +120,16 @@ local function _AddStatusLines(tooltip)
     end
 end
 
+local function _RefreshTooltip()
+    if minimapButton and minimapButton:IsMouseOver() then
+        local onEnter = minimapButton:GetScript("OnEnter")
+        if onEnter then
+            GameTooltip:Hide()
+            onEnter(minimapButton)
+        end
+    end
+end
+
 ---@return boolean statusUIReady Whether a status badge was installed and its initial state rendered.
 function MinimapIcon:Init()
     _LibDBIcon:Register("Questie", _MinimapIcon:CreateDataBrokerObject(), Questie.db.profile.minimap)
@@ -160,7 +172,8 @@ function _MinimapIcon:CreateDataBrokerObject()
             tooltip:AddDoubleLine(Questie:Colorize(l10n('Shift + Left Click'), 'lightBlue'), Questie:Colorize(l10n('Questie Options'), 'white'))
             tooltip:AddLine(" ")
             tooltip:AddDoubleLine(Questie:Colorize(l10n('Ctrl + Left Click'), 'lightBlue'), Questie:Colorize(l10n('Reload Questie'), 'white'))
-            tooltip:AddDoubleLine(Questie:Colorize(l10n('Ctrl + Right Click'), 'lightBlue'), Questie:Colorize(l10n('Hide Minimap Button'), 'white'))
+            local minimapToggleLabel = MapIconVisibility.IsMinimapShown() and l10n("Hide Minimap Icons") or l10n("Show Minimap Icons")
+            tooltip:AddDoubleLine(Questie:Colorize(l10n('Ctrl + Right Click'), 'lightBlue'), Questie:Colorize(minimapToggleLabel, 'white'))
             tooltip:AddLine(" ")
             local toggleLabel = Questie.db.profile.enabled and l10n('Hide Questie') or l10n('Show Questie')
             tooltip:AddDoubleLine(Questie:Colorize(l10n('Ctrl + Shift + Left Click'), 'lightBlue'), Questie:Colorize(toggleLabel, 'white'))
@@ -192,13 +205,7 @@ function _MinimapIcon.OnClick(clickedFrame, button)
             Questie.db.profile.enabled = (not Questie.db.profile.enabled)
             QuestieQuest:ToggleNotes(Questie.db.profile.enabled)
 
-            if minimapButton and minimapButton:IsMouseOver() then
-                local onEnter = minimapButton:GetScript("OnEnter")
-                if onEnter then
-                    GameTooltip:Hide()
-                    onEnter(minimapButton)
-                end
-            end
+            _RefreshTooltip()
 
             -- Refresh config window if it's open to avoid desyncing the Checkbox
             QuestieOptionsEngine:RefreshStates()
@@ -224,8 +231,11 @@ function _MinimapIcon.OnClick(clickedFrame, button)
         QuestieJourney:ToggleJourneyWindow()
     elseif button == "RightButton" then
         if IsControlKeyDown() then
-            Questie.db.profile.minimap.hide = true
-            _LibDBIcon:Hide("Questie")
+            MapIconVisibility.ToggleMinimap()
+            _RefreshTooltip()
+
+            -- Refresh config window if it's open to avoid desyncing the Checkbox
+            QuestieOptionsEngine:RefreshStates()
             return
         end
 

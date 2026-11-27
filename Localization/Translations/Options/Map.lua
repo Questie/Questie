@@ -38,6 +38,30 @@ local mapOptionsLocales = {
         ["zhCN"] = "大地图显示Questie按钮",
         ["zhTW"] = "顯示大地圖的任務圖示按鈕",
     },
+    ["Hide Map Icons"] = {
+        ["enUS"] = true,
+        ["deDE"] = "Kartensymbole verstecken", -- AI 🤖
+        ["esES"] = "Ocultar iconos del mapa", -- AI 🤖
+        ["esMX"] = "Ocultar iconos del mapa", -- AI 🤖
+        ["frFR"] = "Cacher les icônes de la carte", -- AI 🤖
+        ["koKR"] = "지도 아이콘 숨기기", -- AI 🤖
+        ["ptBR"] = "Ocultar ícones do mapa", -- AI 🤖
+        ["ruRU"] = "Скрыть значки на карте", -- AI 🤖
+        ["zhCN"] = "隐藏地图图标", -- AI 🤖
+        ["zhTW"] = "隱藏地圖圖示", -- AI 🤖
+    },
+    ["Show Map Icons"] = {
+        ["enUS"] = true,
+        ["deDE"] = "Kartensymbole anzeigen", -- AI 🤖
+        ["esES"] = "Mostrar iconos del mapa", -- AI 🤖
+        ["esMX"] = "Mostrar iconos del mapa", -- AI 🤖
+        ["frFR"] = "Afficher les icônes de la carte", -- AI 🤖
+        ["koKR"] = "지도 아이콘 표시", -- AI 🤖
+        ["ptBR"] = "Mostrar ícones do mapa", -- AI 🤖
+        ["ruRU"] = "Показать значки на карте", -- AI 🤖
+        ["zhCN"] = "显示地图图标", -- AI 🤖
+        ["zhTW"] = "顯示地圖圖示", -- AI 🤖
+    },
     ["Enable or disable the Show/Hide Questie Button on Map (May fix some Map Addon interactions)."] = {
         ["enUS"] = true,
         ["deDE"] = "Aktiviert/Deaktiviert den Zeigen/Verstecken-Button an der Weltkarte (repariert möglicherweise Karten-Addon Interaktionen).",

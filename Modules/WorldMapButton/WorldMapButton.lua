@@ -6,8 +6,8 @@ local WorldMapButton = QuestieLoader:CreateModule("WorldMapButton")
 local l10n = QuestieLoader:ImportModule("l10n")
 ---@type QuestieLib
 local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
----@type QuestieQuest
-local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
+---@type MapIconVisibility
+local MapIconVisibility = QuestieLoader:ImportModule("MapIconVisibility")
 ---@type QuestieMenu
 local QuestieMenu = QuestieLoader:ImportModule("QuestieMenu")
 ---@type QuestieOptionsEngine
@@ -50,7 +50,7 @@ local function UpdateTooltip(self)
     tooltip:SetPoint("TOPRIGHT", self, "BOTTOMRIGHT", 0, 0);
     tooltip:AddDoubleLine(Questie:Colorize("Questie", 'gold'), Questie:Colorize(QuestieLib:GetAddonVersionString(), 'gray'))
     tooltip:AddLine(" ")
-    local toggleLabel = Questie.db.profile.enabled and l10n('Hide Questie') or l10n('Show Questie')
+    local toggleLabel = MapIconVisibility.IsWorldMapShown() and l10n("Hide Map Icons") or l10n("Show Map Icons")
     tooltip:AddDoubleLine(Questie:Colorize(l10n('Left Click'), 'lightBlue'), Questie:Colorize(toggleLabel, 'white'))
     tooltip:AddDoubleLine(Questie:Colorize(l10n('Right Click'), 'lightBlue'), Questie:Colorize(l10n('Toggle Menu'), 'white'))
     tooltip:Show()
@@ -61,8 +61,7 @@ QuestieWorldMapButtonMixin = {
     OnHide = function() end,
     OnMouseDown = function(_, button)
         if button == "LeftButton" then
-            Questie.db.profile.enabled = (not Questie.db.profile.enabled)
-            QuestieQuest:ToggleNotes(Questie.db.profile.enabled)
+            MapIconVisibility.ToggleWorldMap()
             if GameTooltip:IsShown() and GameTooltip:GetOwner() == mapButton then
                 UpdateTooltip(mapButton)
             end
