@@ -23,7 +23,7 @@ local hoveredData
 
 function GamepadMapHover.Initialize()
     -- Showing the tooltip on GameTooltip from here taints the gamepad UI
-    _GamepadMapHover.tooltip = CreateFrame("GameTooltip", "QuestieGamepadMapTooltip", UIParent, "GameTooltipTemplate")
+    -- Create the tooltip only when a gamepad pin is actually hovered.
     _GamepadMapHover.updateFrame = CreateFrame("Frame")
     _GamepadMapHover.updateFrame:SetScript("OnUpdate", _GamepadMapHover.OnUpdate)
 end
@@ -116,6 +116,10 @@ function _GamepadMapHover.Enter(icon)
     hoveredIcon = icon
     hoveredData = icon.data
     local tooltip = _GamepadMapHover.tooltip
+    if not tooltip then
+        tooltip = CreateFrame("GameTooltip", "QuestieGamepadMapTooltip", UIParent, "GameTooltipTemplate")
+        _GamepadMapHover.tooltip = tooltip
+    end
     MapIconTooltip.ShowOnTooltip(icon, tooltip)
     if tooltip:IsShown() then
         -- There is no mouse cursor to anchor to in gamepad mode
