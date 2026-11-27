@@ -32,6 +32,8 @@ describe("QuestieFrame", function()
             enableAvailableItems = true,
             hideUnexploredMapIcons = false,
             hideUntrackedQuestsMapIcons = false,
+            alwaysGlowMap = true,
+            alwaysGlowMinimap = true,
         }
 
         QuestieDB = QuestieLoader:ImportModule("QuestieDB")
@@ -714,6 +716,187 @@ describe("QuestieFrame", function()
             local result = QuestieFrame.private.ShouldBeHidden(QuestieFrameInstance)
 
             assert.is_false(result)
+        end)
+    end)
+
+    describe("SetHoverHighlight", function()
+        ---@return Texture
+        local function CreateIconTexture()
+            return {
+                width = 16,
+                height = 16,
+                fillsFrame = true,
+                ClearAllPoints = function(self) self.fillsFrame = false end,
+                SetPoint = function() end,
+                SetSize = function(self, width, height) self.width, self.height = width, height end,
+                SetAllPoints = function(self) self.fillsFrame = true; self.width, self.height = 16, 16 end,
+                GetWidth = function(self) return self.width end,
+                GetHeight = function(self) return self.height end,
+                SetVertexColor = function() end,
+                GetVertexColor = function() return 1, 1, 1, 1 end,
+            }
+        end
+
+        ---@return IconFrame
+        local function CreateHoverIcon()
+            return {
+                data = {Type = "monster", ObjectiveData = {Color = {0.5, 0.25, 0.75}}},
+                texture = CreateIconTexture(),
+                overlayTexture = CreateIconTexture(),
+                glowTexture = {
+                    shown = false,
+                    width = 16,
+                    height = 16,
+                    SetSize = function(self, width, height) self.width, self.height = width, height end,
+                    GetWidth = function(self) return self.width end,
+                    GetHeight = function(self) return self.height end,
+                    SetVertexColor = function(self, r, g, b, a) self.r, self.g, self.b, self.a = r, g, b, a end,
+                    Show = function(self) self.shown = true end,
+                    Hide = function(self) self.shown = false end,
+                    IsShown = function(self) return self.shown end,
+                },
+                GetWidth = function() return 16 end,
+                GetHeight = function() return 16 end,
+                miniMapIcon = false,
+            }
+        end
+
+        it("should grow the icon textures and show a white glow while highlighted", function()
+            local icon = CreateHoverIcon()
+
+            QuestieFrame.private.SetHoverHighlight(icon, true)
+
+            assert.are.equal(16 * 1.2, icon.texture:GetWidth())
+            assert.are.equal(16 * 1.2, icon.overlayTexture:GetWidth())
+            assert.is_false(icon.texture.fillsFrame)
+            assert.is_true(icon.glowTexture:IsShown())
+            assert.are.equal(16 * 1.2 * 1.5, icon.glowTexture:GetWidth())
+            assert.are.equal(1, icon.glowTexture.r)
+            assert.are.equal(1, icon.glowTexture.g)
+            assert.are.equal(1, icon.glowTexture.b)
+        end)
+
+        it("should fill the frame again and hide the glow when the highlight ends", function()
+            Questie.db.profile.alwaysGlowMap = false
+            local icon = CreateHoverIcon()
+
+            QuestieFrame.private.SetHoverHighlight(icon, true)
+            QuestieFrame.private.SetHoverHighlight(icon, false)
+
+            assert.are.equal(16, icon.texture:GetWidth())
+            assert.are.equal(16, icon.overlayTexture:GetWidth())
+            assert.is_true(icon.texture.fillsFrame)
+            assert.is_false(icon.glowTexture:IsShown())
+        end)
+
+        it("should restore the colored always-glow behind the icon", function()
+            local icon = CreateHoverIcon()
+
+            QuestieFrame.private.SetHoverHighlight(icon, true)
+            QuestieFrame.private.SetHoverHighlight(icon, false)
+
+            assert.are.equal(16 * 1.13, icon.glowTexture:GetWidth())
+            assert.are.equal(0.5, icon.glowTexture.r)
+            assert.are.equal(0.25, icon.glowTexture.g)
+            assert.are.equal(0.75, icon.glowTexture.b)
+        end)
+
+        it("should highlight minimap icons without scaling the frame", function()
+            local icon = CreateHoverIcon()
+            icon.miniMapIcon = true
+            icon.SetScale = spy.new(function() end)
+
+            QuestieFrame.private.SetHoverHighlight(icon, true)
+
+            assert.are.equal(16 * 1.2, icon.texture:GetWidth())
+            assert.is_true(icon.glowTexture:IsShown())
+            assert.spy(icon.SetScale).was.not_called()
+        end)
+
+        it("should restore the minimap always-glow behind a minimap icon", function()
+            local icon = CreateHoverIcon()
+            icon.miniMapIcon = true
+            Questie.db.profile.alwaysGlowMap = false
+
+            QuestieFrame.private.SetHoverHighlight(icon, true)
+            QuestieFrame.private.SetHoverHighlight(icon, false)
+
+            assert.are.equal(16, icon.texture:GetWidth())
+            assert.is_true(icon.glowTexture:IsShown())
+            assert.are.equal(0.5, icon.glowTexture.r)
+        end)
+
+        it("should follow a frame resize while highlighted", function()
+            local icon = CreateHoverIcon()
+            QuestieFrame.private.SetHoverHighlight(icon, true)
+            icon.GetWidth = function() return 20 end
+            icon.GetHeight = function() return 20 end
+
+            QuestieFrame.private.OnSizeChanged(icon)
+
+            assert.are.equal(20 * 1.2, icon.texture:GetWidth())
+            assert.are.equal(20 * 1.2 * 1.5, icon.glowTexture:GetWidth())
+        end)
+
+        it("should ignore size changes while not highlighted", function()
+            local icon = CreateHoverIcon()
+
+            QuestieFrame.private.OnSizeChanged(icon)
+
+            assert.is_true(icon.texture.fillsFrame)
+            assert.are.equal(16, icon.texture:GetWidth())
+        end)
+
+        it("should keep the hover textures in step when the icon is rescaled", function()
+            local icon = CreateHoverIcon()
+            QuestieFrame.private.SetHoverHighlight(icon, true)
+            icon.GetWidth = function() return 20 end
+            icon.GetHeight = function() return 20 end
+
+            QuestieFrame.private.GlowUpdate(icon)
+
+            assert.are.equal(20 * 1.2, icon.texture:GetWidth())
+            assert.are.equal(20 * 1.2 * 1.5, icon.glowTexture:GetWidth())
+            assert.are.equal(1, icon.glowTexture.r)
+        end)
+
+        it("should apply the hover glow when the icon is shown while highlighted", function()
+            local icon = CreateHoverIcon()
+            QuestieFrame.private.SetHoverHighlight(icon, true)
+            icon.glowTexture:Hide()
+
+            QuestieFrame.private.BaseOnShow(icon)
+
+            assert.is_true(icon.glowTexture:IsShown())
+            assert.are.equal(16 * 1.2, icon.texture:GetWidth())
+            assert.are.equal(16 * 1.2 * 1.5, icon.glowTexture:GetWidth())
+        end)
+
+        it("should forget the highlight and restore the textures when the icon unloads", function()
+            local HBDPins = QuestieLoader:ImportModule("HBDPins")
+            HBDPins.RemoveMinimapIcon = function() end
+            HBDPins.RemoveWorldMapIcon = function() end
+            dofile("Modules/FramePool/QuestieFrame.lua")
+            QuestieLoader:ImportModule("QuestieDBMIntegration").UnregisterHudQuestIcon = function() end
+            QuestieMap.questIdFrames = {}
+            QuestieWaypoints.RemoveOwner = function() end
+            local function Texture()
+                return {
+                    Hide = function() end,
+                    SetVertexColor = function() end,
+                    ClearAllPoints = function() end,
+                    SetAllPoints = function(self) self.fillsFrame = true end,
+                }
+            end
+            local icon = {_loaded = true, data = {Id = 123}, texture = Texture(), glowTexture = Texture(),
+                overlayTexture = Texture(), SetScript = function() end, GetName = function() return "QuestieFrame1" end,
+                Hide = function() end, questLogHovered = true}
+
+            QuestieFrame.private.Unload(icon)
+
+            assert.is_nil(icon.questLogHovered)
+            assert.is_true(icon.texture.fillsFrame)
+            assert.is_true(icon.overlayTexture.fillsFrame)
         end)
     end)
 end)

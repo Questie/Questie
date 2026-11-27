@@ -372,6 +372,7 @@ function QuestieMap.ProcessQueue()
             local scaleProfile = frame.isManualIcon and Questie.db.profile.globalTownsfolkScale or Questie.db.profile.globalScale
             local size = (16 * (frame.data.IconScale or 1) * (scaleProfile or 0.7)) * scaleValue;
             frame:SetSize(size, size)
+            frame:GlowUpdate()
 
             QuestieMap.utils.SetDrawOrder(frame)
 

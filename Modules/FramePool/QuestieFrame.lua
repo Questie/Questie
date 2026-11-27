@@ -118,11 +118,13 @@ function QuestieFrame.CreateIconFrame(frameId, OnEnter)
 
     newFrame:SetScript("OnEnter", OnEnter); --Script Toolip
     newFrame:SetScript("OnLeave", _QuestieFrame.OnLeave) --Script Exit Tooltip
+    newFrame:SetScript("OnSizeChanged", _QuestieFrame.OnSizeChanged) --Keeps hover textures sized to the icon
     newFrame:RegisterForClicks("LeftButtonUp")
     QuestieFrame.EnsureRightClickPassThrough(newFrame)
     newFrame:SetScript("OnClick", _QuestieFrame.OnClick);
 
     newFrame.GlowUpdate = _QuestieFrame.GlowUpdate
+    newFrame.SetHoverHighlight = _QuestieFrame.SetHoverHighlight
     newFrame.BaseOnShow = _QuestieFrame.BaseOnShow
     newFrame.BaseOnHide = _QuestieFrame.BaseOnHide
 
@@ -257,8 +259,76 @@ function _QuestieFrame.OnClick(self, button)
     end
 end
 
+-- A quest log hover grows its map icons and shows a larger white glow than the always-glow one.
+local HOVER_ICON_SCALE = 1.2
+local HOVER_GLOW_SCALE = 1.5
+
+---Shows the glow an icon has when no quest log hover highlights it.
+---@param self IconFrame
+local function _ApplyBaseGlow(self)
+    local profile = Questie.db.profile
+    local data = self.data
+
+    if ((self.miniMapIcon and profile.alwaysGlowMinimap) or ((not self.miniMapIcon) and profile.alwaysGlowMap)) and
+        data and data.ObjectiveData and
+        data.ObjectiveData.Color and
+        (data.Type and (data.Type ~= "available" and data.Type ~= "complete")
+        ) then
+        self.glowTexture:SetSize(self:GetWidth() * 1.13, self:GetHeight() * 1.13)
+        local _, _, _, alpha = self.texture:GetVertexColor()
+        self.glowTexture:SetVertexColor(data.ObjectiveData.Color[1], data.ObjectiveData.Color[2], data.ObjectiveData.Color[3], alpha or 1)
+        self.glowTexture:Show()
+    else
+        self.glowTexture:Hide()
+    end
+end
+
+---Grows the icon's textures and shows a larger white glow.
+---
+---The frame itself keeps its size: an anchor's offset is scaled by the frame's scale, so scaling a
+---minimap icon would also push it away from the minimap's center.
+---@param self IconFrame
+local function _ShowHoverGlow(self)
+    local width, height = self:GetWidth(), self:GetHeight()
+
+    for _, iconTexture in ipairs({self.texture, self.overlayTexture}) do
+        iconTexture:ClearAllPoints()
+        iconTexture:SetPoint("CENTER", self, "CENTER")
+        iconTexture:SetSize(width * HOVER_ICON_SCALE, height * HOVER_ICON_SCALE)
+    end
+
+    self.glowTexture:SetSize(width * HOVER_ICON_SCALE * HOVER_GLOW_SCALE, height * HOVER_ICON_SCALE * HOVER_GLOW_SCALE)
+    local _, _, _, alpha = self.texture:GetVertexColor()
+    self.glowTexture:SetVertexColor(1, 1, 1, alpha or 1)
+    self.glowTexture:Show()
+end
+
+---Lets the icon textures fill the frame again after a quest log hover.
+---@param self IconFrame
+local function _RestoreIconTextures(self)
+    self.texture:ClearAllPoints()
+    self.texture:SetAllPoints(self)
+    self.overlayTexture:ClearAllPoints()
+    self.overlayTexture:SetAllPoints(self)
+end
+
+---Keeps the hover textures sized to the frame when it is resized, such as when a queued icon is drawn.
+---@param self IconFrame
+function _QuestieFrame.OnSizeChanged(self)
+    if self.questLogHovered then
+        _ShowHoverGlow(self)
+    end
+end
+
 ---@param self IconFrame
 function _QuestieFrame.GlowUpdate(self)
+    if self.questLogHovered then
+        -- The hover glow keeps its own size and color, but must follow the icon when it is rescaled.
+        if (self.glowTexture:GetWidth() ~= self:GetWidth() * HOVER_ICON_SCALE * HOVER_GLOW_SCALE) then
+            _ShowHoverGlow(self)
+        end
+        return
+    end
     if self.glowTexture:IsShown() then
         --Due to this always being 1:1 we can assume that if one isn't correct, the other isn't either
         --We can also assume that both change at the same time so we only check one.
@@ -278,23 +348,34 @@ end
 
 ---@param self IconFrame
 function _QuestieFrame.BaseOnShow(self)
-    local data = self.data
-
-    if ((self.miniMapIcon and Questie.db.profile.alwaysGlowMinimap) or ((not self.miniMapIcon) and Questie.db.profile.alwaysGlowMap)) and
-        data and data.ObjectiveData and
-        data.ObjectiveData.Color and
-        (data.Type and (data.Type ~= "available" and data.Type ~= "complete")
-        ) then
-        self.glowTexture:SetSize(self:GetWidth() * 1.13, self:GetHeight() * 1.13)
-        local _, _, _, alpha = self.texture:GetVertexColor()
-        self.glowTexture:SetVertexColor(data.ObjectiveData.Color[1], data.ObjectiveData.Color[2], data.ObjectiveData.Color[3], alpha or 1)
-        self.glowTexture:Show()
+    if self.questLogHovered then
+        _ShowHoverGlow(self)
+    else
+        _ApplyBaseGlow(self)
     end
 end
 
 ---@param self IconFrame
 function _QuestieFrame.BaseOnHide(self)
     self.glowTexture:Hide()
+end
+
+---Highlights the icon while its quest is hovered in the map's quest log or the tracker, or restores it.
+---Both the world map icon and its minimap twin are highlighted.
+---@param self IconFrame
+---@param highlighted boolean
+function _QuestieFrame.SetHoverHighlight(self, highlighted)
+    if highlighted then
+        if self.questLogHovered then
+            return
+        end
+        self.questLogHovered = true
+        _ShowHoverGlow(self)
+    elseif self.questLogHovered then
+        self.questLogHovered = nil
+        _RestoreIconTextures(self)
+        _ApplyBaseGlow(self)
+    end
 end
 
 ---@param self IconFrame
@@ -394,6 +475,10 @@ function _QuestieFrame.Unload(self)
     self.shouldBeShowing = nil
     self.faded = nil
     self._hidden_by_flash = nil
+    if self.questLogHovered then
+        self.questLogHovered = nil
+        _RestoreIconTextures(self)
+    end
     HBDPins:RemoveMinimapIcon(Questie, self)
     HBDPins:RemoveWorldMapIcon(Questie, self)
     QuestieDBMIntegration:UnregisterHudQuestIcon(tostring(self))

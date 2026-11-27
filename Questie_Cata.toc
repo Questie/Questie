@@ -196,6 +196,7 @@ Modules\Map\QuestieMap.lua
 Modules\Map\QuestieMapUtils.lua
 Modules\Map\MapIconVisibility.lua
 Modules\Map\HBDHooks.lua
+Modules\Map\QuestMapHover.lua
 Modules\Map\WeaponMasterSkills.lua
 Modules\Map\ProfessionStations.lua
 

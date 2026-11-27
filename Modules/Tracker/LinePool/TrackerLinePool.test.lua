@@ -4,6 +4,7 @@ describe("TrackerLinePool", function()
     local TrackerLinePool
     local TrackerData
     local TrackerQuestTooltip
+    local QuestMapHover
     local originalObjectiveColor
 
     before_each(function()
@@ -12,6 +13,10 @@ describe("TrackerLinePool", function()
         TrackerData.GetObjectiveText = spy.new(function() return "Updated objective text" end)
         TrackerQuestTooltip = QuestieLoader:ImportModule("TrackerQuestTooltip")
         TrackerQuestTooltip.Show, TrackerQuestTooltip.Hide = spy.new(function() end), spy.new(function() end)
+        QuestMapHover = QuestieLoader:ImportModule("QuestMapHover")
+        QuestMapHover.HighlightQuest, QuestMapHover.ClearQuest = spy.new(function() end), spy.new(function() end)
+        QuestMapHover.SOURCE_TRACKER, QuestMapHover.SOURCE_MAP_QUEST_LOG = "Tracker", "MapQuestLog"
+        Questie.db.profile.trackerDisableHoverFade = false
         dofile("Modules/Tracker/LinePool/TrackerQuestLogButton.lua")
         dofile("Modules/Tracker/LinePool/TrackerLinePool.lua")
         TrackerLinePool = QuestieLoader:ImportModule("TrackerLinePool")
@@ -102,6 +107,7 @@ describe("TrackerLinePool", function()
         local function _Line()
             local line = _Hoverable({alpha = 1})
             function line:SetAlpha(alpha) self.alpha = alpha end
+            function line:HookScript(_, OnHide) line.onHide = OnHide end
             line.questFocus = _Hoverable({})
             line.playButton = _Hoverable({})
             line.expandQuest = _Hoverable({})
@@ -176,6 +182,21 @@ describe("TrackerLinePool", function()
             questLogButton.Attach = originalAttach
         end)
 
+        it("should clear the icon highlight when the tracker hides under the mouse", function()
+            lines[1].onHide()
+
+            assert.spy(QuestMapHover.ClearQuest).was.called_with("Tracker")
+        end)
+
+        it("should highlight the icons of the quest under the mouse after a redraw", function()
+            lines[1].Quest = {Id = 123}
+            lines[1].mouseOver = true
+
+            TrackerLinePool.RefreshHighlight()
+
+            assert.spy(QuestMapHover.HighlightQuest).was.called_with(123, "Tracker")
+        end)
+
         it("should highlight the quest of a line whose button is hovered outside the line frame", function()
             local quest, otherQuest = {Id = 1}, {Id = 2}
             lines[1].Quest, lines[2].Quest, lines[3].Quest = otherQuest, quest, otherQuest
@@ -235,6 +256,29 @@ describe("TrackerLinePool", function()
             assert.are_same({1, 1, 1}, {lines[1].alpha, lines[2].alpha, lines[3].alpha})
             assert.spy(TrackerQuestTooltip.Hide).was.called(1)
             assert.spy(TrackerQuestTooltip.Show).was.not_called()
+        end)
+    end)
+
+    describe("quest hover highlight", function()
+        it("should highlight the hovered quest's icons even when hover fading is disabled", function()
+            Questie.db.profile.trackerDisableHoverFade = true
+
+            TrackerLinePool.OnHighlightEnter({Quest = {Id = 7}})
+
+            assert.spy(QuestMapHover.HighlightQuest).was.called_with(7, "Tracker")
+        end)
+
+        it("should clear the icon highlight for a line without a quest", function()
+            TrackerLinePool.OnHighlightEnter({Recipe = {}})
+
+            assert.spy(QuestMapHover.HighlightQuest).was.not_called()
+            assert.spy(QuestMapHover.ClearQuest).was.called_with("Tracker")
+        end)
+
+        it("should clear the icon highlight when the pointer leaves the line", function()
+            TrackerLinePool.OnHighlightLeave()
+
+            assert.spy(QuestMapHover.ClearQuest).was.called_with("Tracker")
         end)
     end)
 
