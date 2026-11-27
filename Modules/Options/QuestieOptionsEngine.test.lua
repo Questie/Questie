@@ -924,6 +924,7 @@ describe("QuestieOptionsEngine", function()
 
         local function LoadRealTabs()
             QuestieOptionsEngine.tabs = {}
+            dofile("Modules/Expansions.lua")
             dofile("Modules/Options/QuestieOptionsDefaults.lua")
             local defaults = QuestieLoader:ImportModule("QuestieOptionsDefaults"):Load()
             Questie.db = {
