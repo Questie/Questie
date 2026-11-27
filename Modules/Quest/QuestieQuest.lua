@@ -531,6 +531,26 @@ function QuestieQuest:ShouldShowQuestNotes(questId)
     return QuestieQuest:IsQuestTracked(questId)
 end
 
+---Whether a quest is ready to turn in, as UpdateQuest draws its finisher: the game flags it complete, or all its
+---objectives are done while the flag is still 0. A failed quest is not, even with a stale completion flag.
+---@param quest Quest
+---@return boolean
+function QuestieQuest.IsReadyToTurnIn(quest)
+    local complete = quest:IsComplete()
+    return complete == 1 or (complete == 0 and quest.isComplete == true)
+end
+
+---Whether a completed quest keeps its turn-in pin and tooltip while untracked quests are hidden.
+---@param questId QuestId
+---@return boolean
+function QuestieQuest.KeepsUntrackedTurnIn(questId)
+    if not Questie.db.profile.showUntrackedTurnInIcons then
+        return false
+    end
+    local quest = QuestieDB.GetQuest(questId)
+    return quest ~= nil and QuestieQuest.IsReadyToTurnIn(quest)
+end
+
 ---@param questId QuestId
 function QuestieQuest:HideQuest(questId)
     Questie.db.char.hidden[questId] = true
@@ -632,6 +652,10 @@ function QuestieQuest:UpdateQuest(questId)
 
                     quest.WasComplete = true
                     quest.isComplete = true
+                    -- An untracked quest had its tooltips removed. Its finisher stays visible, so restore them as above.
+                    if QuestieQuest.KeepsUntrackedTurnIn(questId) then
+                        QuestieQuest.RegisterObjectiveTooltips(quest)
+                    end
                     -- Sent before the unload, as for a complete quest above
                     Questie:SendMessage("QC_ID_BROADCAST_QUEST_UPDATE", questId)
 
@@ -706,7 +730,9 @@ function QuestieQuest:AddToQuestLog(quest)
         end
     end
 
-    if QuestieQuest:ShouldShowQuestNotes(questId) then
+    -- An untracked quest ready to turn in keeps its finisher and tooltips. Its objective icons stay hidden,
+    -- see _QuestieFrame.ShouldBeHidden.
+    if QuestieQuest:ShouldShowQuestNotes(questId) or QuestieQuest.KeepsUntrackedTurnIn(questId) then
         QuestieQuest:PopulateObjectiveNotes(quest)
     else
         QuestieTooltips:RemoveQuest(questId)

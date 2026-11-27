@@ -182,6 +182,30 @@ local iconOptionsLocales = {
         ["zhCN"] = "隐藏未追踪的任务图标",
         ["zhTW"] = "隱藏未追蹤任務的圖示",
     },
+    ["Show completed turn-in icons"] = {
+        ["enUS"] = true,
+        ["deDE"] = "Icons zum Abgeben abgeschlossener Quests anzeigen", -- AI 🤖
+        ["esES"] = "Mostrar iconos de entrega de misiones completadas", -- AI 🤖
+        ["esMX"] = "Mostrar iconos de entrega de misiones completadas", -- AI 🤖
+        ["frFR"] = "Afficher les icônes de remise des quêtes terminées", -- AI 🤖
+        ["koKR"] = "완료된 퀘스트 제출 아이콘 표시", -- AI 🤖
+        ["ptBR"] = "Mostrar ícones de entrega de missões concluídas", -- AI 🤖
+        ["ruRU"] = "Значки сдачи выполненных заданий", -- AI 🤖
+        ["zhCN"] = "显示可交回的已完成任务图标", -- AI 🤖
+        ["zhTW"] = "顯示可交回的已完成任務圖示", -- AI 🤖
+    },
+    ["Keep turn-in pins visible for completed quests that are not tracked."] = {
+        ["enUS"] = true,
+        ["deDE"] = "Lässt die Icons zum Abgeben abgeschlossener Quests sichtbar, auch wenn sie nicht getrackt werden.", -- AI 🤖
+        ["esES"] = "Mantiene visibles los iconos de entrega de las misiones completadas que no se rastrean.", -- AI 🤖
+        ["esMX"] = "Mantiene visibles los iconos de entrega de las misiones completadas que no se rastrean.", -- AI 🤖
+        ["frFR"] = "Conserve les icônes de remise des quêtes terminées qui ne sont pas suivies.", -- AI 🤖
+        ["koKR"] = "추적되지 않은 완료된 퀘스트의 제출 아이콘을 계속 표시합니다.", -- AI 🤖
+        ["ptBR"] = "Mantém visíveis os ícones de entrega das missões concluídas que não são rastreadas.", -- AI 🤖
+        ["ruRU"] = "Оставлять видимыми значки сдачи выполненных заданий, которые не отслеживаются в трекере", -- AI 🤖
+        ["zhCN"] = "保持未追踪的可交回已完成任务图标可见", -- AI 🤖
+        ["zhTW"] = "保持未追蹤的可交回已完成任務圖示可見", -- AI 🤖
+    },
     ["Hide icons for quests that are not tracked."] = {
         ["enUS"] = true,
         ["deDE"] = "Verbirgt die Icons aller Quests die nicht vom Tracker getrackt werden.",

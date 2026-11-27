@@ -341,6 +341,11 @@ local migrationFunctions = {
         -- The Isle of Quel'Danas phase lives in the global scope; this profile copy was never read by the phase logic
         Questie.db.profile.isleOfQuelDanasPhase = nil
     end,
+    [56] = function()
+        -- Hide untracked quests no longer hides completed turn-in pins. Players who want those pins
+        -- hidden again can turn this off.
+        Questie.db.profile.showUntrackedTurnInIcons = true
+    end,
 }
 
 function Migration:Migrate()
