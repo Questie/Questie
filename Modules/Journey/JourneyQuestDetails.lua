@@ -37,6 +37,8 @@ local QuestieCompat = QuestieLoader:ImportModule("QuestieCompat")
 local JourneyDetails = QuestieLoader:ImportModule("JourneyDetails")
 ---@type JourneyEntityDetails
 local JourneyEntityDetails = QuestieLoader:ImportModule("JourneyEntityDetails")
+---@type JourneyNameColors
+local JourneyNameColors = QuestieLoader:ImportModule("JourneyNameColors")
 ---@type JourneyIcon
 local JourneyIcon = QuestieLoader:ImportModule("JourneyIcon")
 ---@type JourneyLinks
@@ -348,7 +350,7 @@ local function _AddPerson(rows, person, quest)
     local row = {
         type = "entity",
         npcId = person.kind == "npc" and person.entity.id or nil,
-        title = person.entity.name,
+        title = person.kind == "npc" and JourneyNameColors.Npc(person.entity.id, person.entity.name) or JourneyNameColors.Object(person.entity.name),
         text = Questie:Colorize(_GetRole(person), "gray") .. (place and "\n" .. place or ""),
     }
     row.badges, row.state = _GetBadges(quest, person.starts, person.ends)
@@ -382,13 +384,13 @@ local function _GetStatus(quest, category, reason, stateName)
     if category == "log" then
         local isComplete = QuestieDB.IsComplete(quest.Id)
         if isComplete == 1 then
-            return JourneyIcon.GetMarkup(JourneyQuestCategories.GetCompleteIcon(quest.Id)) .. QUEST_WATCH_QUEST_READY
+            return JourneyIcon.GetMarkup(JourneyQuestCategories.GetCompleteIcon(quest.Id)) .. Questie:Colorize(QUEST_WATCH_QUEST_READY, "green")
         elseif isComplete == -1 then
             return JourneyIcon.GetMarkup(Questie.icons["cross"]) .. Questie:Colorize(l10n("Failed"), "red")
         end
-        return Questie:Colorize(QUEST_TOOLTIP_ACTIVE, "green")
+        return Questie:Colorize(QUEST_TOOLTIP_ACTIVE, "lightBlue") -- Like the timers of quests in the tracker
     elseif category == "available" or category == "repeatable" then
-        return JourneyIcon.GetMarkup(JourneyQuestCategories.GetKindIcon(quest.Id)) .. Questie:Colorize(l10n("Available"), "green")
+        return JourneyIcon.GetMarkup(JourneyQuestCategories.GetKindIcon(quest.Id)) .. Questie:Colorize(l10n("Available"), "gold") -- Like the headings
     elseif category == "completed" then
         return JourneyIcon.GetMarkup(Questie.icons["checkmark"]) .. l10n("Completed")
     elseif category == "later" then
@@ -399,9 +401,10 @@ local function _GetStatus(quest, category, reason, stateName)
         elseif stateName == "LEVEL_TOO_LOW" then
             reason = ITEM_MIN_LEVEL:format(QuestieDB.QueryQuestSingle(quest.Id, "requiredLevel"))
         end
-        return JourneyIcon.GetMarkup(Questie.icons["cross"]) .. l10n("Unavailable") .. l10n(": ") .. (reason or "")
+        return JourneyIcon.GetMarkup(Questie.icons["cross"]) .. Questie:Colorize(l10n("Unavailable") .. l10n(": "), "red") .. (reason or "")
     elseif category == "unobtainable" then
-        return JourneyIcon.GetMarkup(Questie.icons["cross"]) .. l10n("Unavailable") .. l10n(": ") .. (reason or l10n("Exclusive quest completed"))
+        return JourneyIcon.GetMarkup(Questie.icons["cross"]) .. Questie:Colorize(l10n("Unavailable") .. l10n(": "), "red")
+            .. (reason or l10n("Exclusive quest completed"))
     end
     return JourneyIcon.GetMarkup(Questie.icons["cross"]) .. (QuestieDB.IsDoableVerbose(quest.Id, false, true, true) or "")
 end
@@ -459,10 +462,13 @@ local function _AddObjectives(rows, quest, category, onChanged)
         local name
         if kind == "npc" then
             name = QuestieDB.QueryNPCSingle(id, "name")
+            name = name and JourneyNameColors.Npc(id, name)
         elseif kind == "object" then
             name = QuestieDB.QueryObjectSingle(id, "name")
+            name = name and JourneyNameColors.Object(name)
         elseif kind == "item" then
             name = QuestieDB.QueryItemSingle(id, "name")
+            name = name and JourneyNameColors.Item(id, name)
         end
         if name then
             local row = {
@@ -634,7 +640,7 @@ function JourneyQuestDetails.GetRows(quest, onChanged)
             icon = QuestieCompat.GetItemIcon(startItem.Id),
             badges = badges,
             state = state,
-            title = startItem.name,
+            title = JourneyNameColors.Item(startItem.Id, startItem.name),
             text = Questie:Colorize(l10n("Starts this quest"), "gray"),
             onClick = function() JourneyWindow.OpenLink("item", startItem.Id) end,
             showTooltip = function() GameTooltip:SetItemByID(startItem.Id) end,

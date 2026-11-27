@@ -130,7 +130,7 @@ function JourneyQuestCategories.GetProgress(questId)
     local quest = QuestieDB.GetQuest(questId)
     local objectives = quest and quest.Objectives or {}
     if QuestieDB.IsComplete(questId) == 1 then
-        return Questie:Colorize(l10n("Complete"):lower(), "yellow")
+        return Questie:Colorize(l10n("Complete"):lower(), "green") -- Like Ready to turn-in in the details
     elseif QuestieDB.IsComplete(questId) == -1 then
         return Questie:Colorize(l10n("Failed"):lower(), "red")
     end

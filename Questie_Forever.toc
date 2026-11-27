@@ -244,6 +244,7 @@ Modules\Journey\JourneyWindow.lua
 Modules\Journey\JourneyPanes.lua
 Modules\Journey\JourneyScrollBox.lua
 Modules\Journey\JourneyIcon.lua
+Modules\Journey\JourneyNameColors.lua
 Modules\Journey\JourneyList.lua
 Modules\Journey\JourneyTree.lua
 Modules\Journey\JourneyResultList.lua

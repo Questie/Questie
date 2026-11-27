@@ -91,6 +91,11 @@ describe("JourneyEntityDetails", function()
         dofile("Modules/Journey/QuestieJourneyUtils.lua")
         dofile("Modules/Journey/QuestieSearch.lua")
         dofile("Modules/Journey/JourneyRawData.lua")
+        -- The colors of names are tested with JourneyNameColors
+        local JourneyNameColors = QuestieLoader:ImportModule("JourneyNameColors")
+        JourneyNameColors.Npc = function(_, name) return name end
+        JourneyNameColors.Object = function(name) return name end
+        JourneyNameColors.Item = function(_, name) return name end
         dofile("Modules/Journey/JourneyEntityDetails.lua")
         JourneyEntityDetails = QuestieLoader:ImportModule("JourneyEntityDetails")
     end)

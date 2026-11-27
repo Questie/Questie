@@ -22,6 +22,8 @@ local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 ---@type JourneyQuestCategories
 local JourneyQuestCategories = QuestieLoader:ImportModule("JourneyQuestCategories")
+---@type JourneyNameColors
+local JourneyNameColors = QuestieLoader:ImportModule("JourneyNameColors")
 ---@type QuestieLib
 local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 ---@type QuestieJourneyUtils
@@ -210,7 +212,11 @@ local function _GetSpawnRows(kind, id, onChanged)
     end
     ---@type JourneyDetails.Row[]
     local rows = {
-        {type = "page", text = entity.name, tag = l10n(isNpc and "NPC ID" or "Object ID") .. l10n(": ") .. id},
+        {
+            type = "page",
+            text = isNpc and JourneyNameColors.Npc(id, entity.name) or JourneyNameColors.Object(entity.name),
+            tag = l10n(isNpc and "NPC ID" or "Object ID") .. l10n(": ") .. id,
+        },
         {type = "gap", height = 6},
         {type = "entity", npcId = isNpc and id or nil, text = table.concat(lines, "\n")},
     }
@@ -315,7 +321,7 @@ local function _GetItemRows(itemId, onChanged)
 
     ---@type JourneyDetails.Row[]
     local rows = {
-        {type = "page", text = name, tag = l10n("Item ID") .. l10n(": ") .. itemId},
+        {type = "page", text = JourneyNameColors.Item(itemId, name), tag = l10n("Item ID") .. l10n(": ") .. itemId},
         {type = "gap", height = 6},
         _GetItemRow(itemId),
         {type = "itemTooltip", itemId = itemId},
