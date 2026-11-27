@@ -927,6 +927,25 @@ function QuestieLib.UpdateLastKnownDailyReset()
     Questie.db.global.lastKnownDailyReset[realmName] = GetServerTime() + QuestieCompat.GetQuestResetTime()
 end
 
+-- The dragons of Blizzard's nameplates. Silver marks a rare or a rare elite: it might not be there. Gold marks an elite or a
+-- boss: bring friends. The nameplates of every supported client use both, except those of Cata (4.4.2), whose UI doesn't
+-- name them (checked in Blizzard_NamePlateClassificationFrame.lua of each).
+local SILVER_DRAGON = "|A:nameplates-icon-elite-silver:14:14:0:0|a"
+local GOLD_DRAGON = "|A:nameplates-icon-elite-gold:14:14:0:0|a"
+---@type table<number, string> By the rank of the NPC
+local RANK_MARKUPS = {
+    [1] = GOLD_DRAGON, -- elite
+    [2] = SILVER_DRAGON, -- rare elite
+    [3] = GOLD_DRAGON, -- boss
+    [4] = SILVER_DRAGON, -- rare
+}
+
+---@param rank number? Of an NPC, see https://github.com/cmangos/issues/wiki/creature_template#rank
+---@return string? markup The dragon of Blizzard's nameplates for it, to follow its name or level. Nil for a normal NPC.
+function QuestieLib.GetRankMarkup(rank)
+    return RANK_MARKUPS[rank]
+end
+
 ---A drop rate with as many decimals as a rare drop needs to not show as 0.
 ---@param rate number In percent
 ---@return string text Without the percent sign

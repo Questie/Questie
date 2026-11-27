@@ -33,11 +33,18 @@ describe("JourneyLinks", function()
         QuestieLoader:ImportModule("QuestieLink").GetQuestLinkStringById = function(id) return "link to " .. id end
         QuestieLoader:ImportModule("WrappedText").TextWrap = function(_, line) return {line} end
         QuestieLoader:ImportModule("JourneyWindow").OpenLink = function(kind, id) table.insert(opened, {kind, id}) end
-        -- What the quests are, and their icons, are tested with JourneyQuestCategories
+        -- Which quests are listed, in what order and with what note, and their icons, are tested with JourneyQuestCategories
         JourneyQuestCategories = QuestieLoader:ImportModule("JourneyQuestCategories")
-        JourneyQuestCategories.Get = function() return "available" end
+        JourneyQuestCategories.Arrange = function(questIds)
+            local entries = {}
+            for index = #questIds, 1, -1 do
+                if questIds[index] ~= 404 then
+                    table.insert(entries, {questId = questIds[index], category = "available", note = "note of " .. questIds[index]})
+                end
+            end
+            return entries
+        end
         JourneyQuestCategories.GetIcon = function(_, category) return "icon of " .. category end
-        JourneyQuestCategories.GetProgress = function(id) return "progress of " .. id end
 
         dofile("Modules/Journey/Data/QuestieSearch.lua")
         dofile("Modules/Journey/Details/JourneyLinks.lua")
@@ -112,25 +119,26 @@ describe("JourneyLinks", function()
     end)
 
     describe("GetQuestSteps", function()
-        it("should lead to the quests, in their order, leaving out those that aren't in the database", function()
-            local steps = JourneyLinks.GetQuestSteps({8, 404, 7})
+        it("should lead to the quests the list has, in its order, with what it says about them", function()
+            local steps, entries = JourneyLinks.GetQuestSteps({7, 404, 8})
 
             assert.are_same({"[5] Quest 8 without its state", "[5] Quest 7 without its state"}, {steps[1].text, steps[2].text})
+            assert.are_same({"note of 8", "icon of available"}, {steps[1].tag, steps[1].trailingIcon})
+            assert.are_same({8, 7}, {entries[1].questId, entries[2].questId})
             steps[2].onClick()
             assert.are_same({{"quest", 7}}, opened)
         end)
 
-        it("should say how far a quest in the log is, and why another can't be done", function()
-            JourneyQuestCategories.Get = function(id) if id == 7 then return "log" end return "later", "Level 5" end
+        it("should give the icon of the category of each quest", function()
+            JourneyQuestCategories.Arrange = function() return {{questId = 7, category = "log"}, {questId = 8, category = "later"}} end
 
             local steps = JourneyLinks.GetQuestSteps({7, 8})
 
-            assert.are_same({"progress of 7", "icon of log"}, {steps[1].tag, steps[1].trailingIcon})
-            assert.are_same({"Level 5", "icon of later"}, {steps[2].tag, steps[2].trailingIcon})
+            assert.are_same({"icon of log", "icon of later"}, {steps[1].trailingIcon, steps[2].trailingIcon})
         end)
 
         it("should give nothing without quests", function()
-            assert.are_same({}, JourneyLinks.GetQuestSteps(nil))
+            assert.are_same({}, (JourneyLinks.GetQuestSteps(nil)))
         end)
     end)
 

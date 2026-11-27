@@ -463,6 +463,48 @@ describe("JourneyQuestCategories", function()
         end)
     end)
 
+    describe("Arrange", function()
+        ---@param questIds QuestId[]
+        ---@return string[] entries Each as its quest, category and note
+        local function Arrange(questIds)
+            local entries = {}
+            for _, entry in ipairs(JourneyQuestCategories.Arrange(questIds)) do
+                table.insert(entries, entry.questId .. " " .. entry.category .. " " .. tostring(entry.note))
+            end
+            return entries
+        end
+
+        it("should give the quests in the order of the list: by category, and by level in each", function()
+            SetStates({[WOLVES] = "AVAILABLE", [KOBOLDS] = "QUEST_LOG", [ORDINARY_QUEST] = "AVAILABLE", [FOLLOW_UP] = "COMPLETED"})
+            levels[WOLVES], levels[ORDINARY_QUEST] = 20, 5
+
+            assert.are_same({
+                KOBOLDS .. " log nil", ORDINARY_QUEST .. " available nil", WOLVES .. " available nil", FOLLOW_UP .. " completed nil",
+            }, Arrange({FOLLOW_UP, WOLVES, KOBOLDS, ORDINARY_QUEST}))
+        end)
+
+        it("should leave out what the list leaves out", function()
+            local NOT_IN_DATABASE = 1000
+            SetStates({[WOLVES] = "AVAILABLE", [KOBOLDS] = "WRONG_RACE", [ORDINARY_QUEST] = "AVAILABLE"})
+            hiddenQuests[ORDINARY_QUEST] = true
+
+            assert.are_same({WOLVES .. " available nil"}, Arrange({NOT_IN_DATABASE, WOLVES, KOBOLDS, ORDINARY_QUEST}))
+        end)
+
+        it("should say at the right edge what the list says", function()
+            SetStates({[WOLVES] = "AVAILABLE", [KOBOLDS] = "QUEST_LOG", [ORDINARY_QUEST] = "SPELL_MISSING"})
+            xp[WOLVES] = 1250
+            objectives[KOBOLDS] = {{Collected = 2, Needed = 5}}
+
+            assert.are_same({KOBOLDS .. " log 2/5", WOLVES .. " available 1,250 xp", ORDINARY_QUEST .. " later SPELL_MISSING"},
+                Arrange({WOLVES, KOBOLDS, ORDINARY_QUEST}))
+        end)
+
+        it("should give nothing without quests", function()
+            assert.are_same({}, Arrange({}))
+        end)
+    end)
+
     describe("GetProgress", function()
         it("should show nothing to count for a quest with one thing to do, or none", function()
             objectives[WOLVES] = {{Collected = 0, Needed = 1}}

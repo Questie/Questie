@@ -71,23 +71,22 @@ function JourneyLinks.Link(row, kind, id)
     return row
 end
 
----Rows that lead to quests, each with what the player can do with it.
----@param questIds QuestId[]? Those that aren't in the database are left out
----@return JourneyDetails.Row[] steps In the given order
+---Rows that lead to a few quests, like those of an NPC. They are like the entries of the list of quests, and in its order.
+---@param questIds QuestId[]? Those the list leaves out are left out
+---@return JourneyDetails.Row[] steps
+---@return JourneyQuestCategories.Entry[] entries What the player can do with the quests of the steps, in the same order
 function JourneyLinks.GetQuestSteps(questIds)
+    local entries = JourneyQuestCategories.Arrange(questIds or {})
     local steps = {}
-    for _, questId in ipairs(questIds or {}) do
-        if QuestieDB.QuestPointers[questId] then
-            local category, reason = JourneyQuestCategories.Get(questId)
-            table.insert(steps, JourneyLinks.Link({
-                type = "step",
-                text = QuestieLib:GetColoredQuestName(questId, true, false),
-                trailingIcon = JourneyQuestCategories.GetIcon(questId, category),
-                tag = category == "log" and JourneyQuestCategories.GetProgress(questId) or reason,
-            }, "quest", questId))
-        end
+    for index, entry in ipairs(entries) do
+        steps[index] = JourneyLinks.Link({
+            type = "step",
+            text = QuestieLib:GetColoredQuestName(entry.questId, true, false),
+            trailingIcon = JourneyQuestCategories.GetIcon(entry.questId, entry.category),
+            tag = entry.note,
+        }, "quest", entry.questId)
     end
-    return steps
+    return steps, entries
 end
 
 ---Puts a link to a quest into the chat if the user is typing there and clicked with the keys for links.

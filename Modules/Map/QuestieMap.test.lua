@@ -152,7 +152,8 @@ describe("QuestieMap", function()
             Questie.db.profile = {}
             dofile("Localization/l10n.lua")
             getNPC = stub(QuestieLoader:ImportModule("QuestieDB"), "GetNPC", function(_, id)
-                return {id = id, name = "Innkeeper", minLevel = 30, maxLevel = 30, minLevelHealth = 1200, maxLevelHealth = 1200,
+                -- Health is no longer in the database, which gives these instead
+                return {id = id, name = "Innkeeper", minLevel = 30, maxLevel = 30, minLevelHealth = 0, maxLevelHealth = 1,
                     spawns = {[1519] = {{61, 76}}}}
             end)
             getDungeonLocation = stub(QuestieLoader:ImportModule("ZoneDB"), "GetDungeonLocation", function() return nil end)
@@ -173,8 +174,8 @@ describe("QuestieMap", function()
             Questie.db.profile.enableTooltipsNPCID = true
             QuestieMap:ShowNPC(6740)
 
-            assert.are_same({{"Level: ", "30"}, {"Health: ", "1200"}}, bodyWithoutId)
-            assert.are_same({{"ID: ", "6740"}, {"Level: ", "30"}, {"Health: ", "1200"}}, body)
+            assert.are_same({{"Level: ", "30"}}, bodyWithoutId)
+            assert.are_same({{"ID: ", "6740"}, {"Level: ", "30"}}, body)
         end)
 
         it("should keep the tooltip it is given as it is", function()

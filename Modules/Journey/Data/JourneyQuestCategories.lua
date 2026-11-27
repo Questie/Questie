@@ -165,6 +165,9 @@ local function _GetCompletionTimes()
 end
 
 ---@param questId QuestId
+---@param category JourneyQuestCategory
+---@param reason string?
+---@param completionTimes table<QuestId, number>
 ---@return string? note
 local function _GetNote(questId, category, reason, completionTimes)
     if category == "log" then
@@ -266,8 +269,50 @@ function JourneyQuestCategories.IsListed(questId)
         and (not hidden or hidden == QuestieQuestBlacklist.HIDE_ON_MAP or QuestieEvent.IsEventQuest(questId))
 end
 
----Yields, so it runs in a thread.
----@async
+---What the player can do with a quest, and what its entry in the list says at the right edge.
+---@param questId QuestId
+---@param completionTimes table<QuestId, number>
+---@return JourneyQuestCategory? category Nil for a quest that isn't listed at all
+---@return string? note
+local function _Categorize(questId, completionTimes)
+    if not JourneyQuestCategories.IsListed(questId) then
+        return nil
+    end
+    local category, reason = JourneyQuestCategories.Get(questId)
+    return category, category and _GetNote(questId, category, reason, completionTimes) or nil
+end
+
+---@class JourneyQuestCategories.Entry
+---@field questId QuestId
+---@field category JourneyQuestCategory
+---@field note string? What the list says at the right edge
+
+---A few quests, like those of an NPC, in the order of the list: by category, and by level in each. Those the list leaves out are
+---left out. It doesn't yield, so it isn't for many.
+---@param questIds QuestId[]
+---@return JourneyQuestCategories.Entry[]
+function JourneyQuestCategories.Arrange(questIds)
+    local completionTimes = _GetCompletionTimes()
+    local questIdSet = {}
+    for _, questId in ipairs(questIds) do questIdSet[questId] = true end
+
+    local entriesByCategory = {}
+    for _, levelAndQuest in ipairs(QuestieLib:SortQuestIDsByLevel(questIdSet, false)) do
+        local questId = levelAndQuest[2]
+        local category, note = _Categorize(questId, completionTimes)
+        if category then
+            entriesByCategory[category] = entriesByCategory[category] or {}
+            table.insert(entriesByCategory[category], {questId = questId, category = category, note = note})
+        end
+    end
+
+    local entries = {}
+    for _, category in ipairs(CATEGORIES) do
+        for _, entry in ipairs(entriesByCategory[category.key] or {}) do table.insert(entries, entry) end
+    end
+    return entries
+end
+
 -- The quests that can be done once, done or not yet: what "of how many" counts
 local COUNTED = {log = true, available = true, later = true, completed = true}
 
@@ -277,6 +322,8 @@ function JourneyQuestCategories.IsCounted(category)
     return COUNTED[category] == true
 end
 
+---Yields, so it runs in a thread.
+---@async
 ---@param questIds table<QuestId, any>
 ---@return JourneyTreeNode[] nodes The categories with their quests
 ---@return number completed
@@ -292,15 +339,12 @@ function JourneyQuestCategories.Collect(questIds)
     for _, levelAndQuest in ipairs(QuestieLib:SortQuestIDsByLevel(questIds, false, JourneyThread.YieldIfNeeded)) do
         JourneyThread.YieldIfNeeded()
         local questId = levelAndQuest[2]
-        local category, reason
-        if JourneyQuestCategories.IsListed(questId) then
-            category, reason = JourneyQuestCategories.Get(questId)
-        end
+        local category, note = _Categorize(questId, completionTimes)
         if category then
             local node = {
                 value = questId,
                 text = QuestieLib:GetColoredQuestName(questId, Questie.db.profile.enableTooltipsQuestLevel, false),
-                note = _GetNote(questId, category, reason, completionTimes),
+                note = note,
                 icon = JourneyQuestCategories.GetIcon(questId, category),
             }
             table.insert(nodesByKey[category].children, node)

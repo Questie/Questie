@@ -90,9 +90,17 @@ describe("JourneyItemDetails", function()
         JourneyNameColors.Npc = function(_, name) return name end
         JourneyNameColors.Object = function(name) return name end
         JourneyNameColors.Item = function(_, name) return name end
-        -- What the quests are, and their icons, are tested with JourneyQuestCategories
+        -- Which quests are listed, in what order and with what note, and their icons, are tested with JourneyQuestCategories
         local JourneyQuestCategories = QuestieLoader:ImportModule("JourneyQuestCategories")
-        JourneyQuestCategories.Get = function() return "available" end
+        JourneyQuestCategories.Arrange = function(questIds)
+            local entries = {}
+            for _, questId in ipairs(questIds) do
+                if QuestieDB.QuestPointers[questId] then
+                    table.insert(entries, {questId = questId, category = "available"})
+                end
+            end
+            return entries
+        end
         JourneyQuestCategories.GetIcon = function(_, category) return "icon of " .. category end
         dofile("Modules/Journey/Details/JourneyItemDetails.lua")
         JourneyItemDetails = QuestieLoader:ImportModule("JourneyItemDetails")
