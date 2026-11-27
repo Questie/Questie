@@ -5,8 +5,8 @@ local TrackerSuperTrack = QuestieLoader:CreateModule("TrackerSuperTrack")
 local QuestieCompat = QuestieLoader:ImportModule("QuestieCompat")
 ---@type TrackerUtils
 local TrackerUtils = QuestieLoader:ImportModule("TrackerUtils")
----@type QuestieQuest
-local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
+---@type MapIconVisibility
+local MapIconVisibility = QuestieLoader:ImportModule("MapIconVisibility")
 ---@type QuestieTracker
 local QuestieTracker = QuestieLoader:ImportModule("QuestieTracker")
 ---@type QuestieCombatQueue
@@ -39,16 +39,16 @@ function TrackerSuperTrack.OnSuperTrackingChanged()
     if questId then
         if focus ~= questId then
             if TrackerUtils:FocusQuest(questId) then
-                QuestieQuest.ToggleQuestNotes(false)
+                MapIconVisibility.ToggleQuestNotes(false)
             elseif focus then
                 -- Questie can not focus the new quest, so drop the old quest focus instead of showing it as focused.
                 TrackerUtils:UnFocus()
-                QuestieQuest.ToggleQuestNotes(true)
+                MapIconVisibility.ToggleQuestNotes(true)
             end
         end
     elseif focus then
         TrackerUtils:UnFocus()
-        QuestieQuest.ToggleQuestNotes(true)
+        MapIconVisibility.ToggleQuestNotes(true)
     end
 
     -- The focus buttons also show Blizzard's super tracked quest, so every change needs a redraw.

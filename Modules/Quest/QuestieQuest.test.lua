@@ -42,6 +42,7 @@ describe("QuestieQuest", function()
         l10n = QuestieLoader:ImportModule("l10n")
         setmetatable(l10n, {__call = function(_, key, ...) return key end})
 
+        dofile("Modules/Map/MapIconVisibility.lua")
         dofile("Modules/Quest/QuestieQuest.lua")
         QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
     end)
@@ -594,70 +595,6 @@ describe("QuestieQuest", function()
         end)
     end)
 
-    describe("ShowQuestIcons", function()
-        it("should hide icons that should be hidden and show the others", function()
-            local function newIcon(hidden, shouldHide)
-                return {
-                    data = {Type = "monster", QuestData = {}},
-                    hidden = hidden,
-                    ShouldBeHidden = function() return shouldHide end,
-                    FakeShow = spy.new(function(self) self.hidden = false end),
-                    FakeHide = spy.new(function(self) self.hidden = true end),
-                    FadeIn = function() end,
-                    FadeOut = function() end,
-                }
-            end
-            local toHide, toShow = newIcon(false, true), newIcon(true, false)
-            _G.FocusTestHide, _G.FocusTestShow = toHide, toShow
-            QuestieMap.questIdFrames = {[1] = {"FocusTestHide"}, [2] = {"FocusTestShow"}}
-            Questie.db.char.TrackerHiddenQuests = nil
-            Questie.db.char.TrackerHiddenObjectives = nil
-
-            for _, fn in ipairs({"ShowQuestIcons", "HideQuestIcons"}) do
-                toHide.hidden, toShow.hidden = false, true
-                local co = coroutine.create(function() QuestieQuest[fn](QuestieQuest) end)
-                assert.is_true(coroutine.resume(co))
-                assert.is_true(toHide.hidden)
-                assert.is_false(toShow.hidden)
-            end
-            _G.FocusTestHide, _G.FocusTestShow = nil, nil
-        end)
-
-        it("should not throw an error when called from a coroutine", function()
-            QuestieMap.questIdFrames = {}
-
-            local co = coroutine.create(function()
-                QuestieQuest:ShowQuestIcons()
-            end)
-
-            assert.is_true(coroutine.resume(co))
-        end)
-
-        it("should throw an error when not called from a coroutine", function()
-            assert.has_error(function()
-                QuestieQuest:ShowQuestIcons()
-            end, "ShowQuestIcons must be called from a coroutine")
-        end)
-    end)
-
-    describe("HideQuestIcons", function()
-        it("should not throw an error when called from a coroutine", function()
-            QuestieMap.questIdFrames = {}
-
-            local co = coroutine.create(function()
-                QuestieQuest:HideQuestIcons()
-            end)
-
-            assert.is_true(coroutine.resume(co))
-        end)
-
-        it("should throw an error when not called from a coroutine", function()
-            assert.has_error(function()
-                QuestieQuest:HideQuestIcons()
-            end, "HideQuestIcons must be called from a coroutine")
-        end)
-    end)
-
     describe("ToggleNotes manual icons", function()
         local mapIcon
         local minimapIcon
@@ -884,48 +821,6 @@ describe("QuestieQuest", function()
             QuestieQuest:ToggleNotes(true)
             assert.spy(mapIcon.FakeShow).was.not_called()
             assert.spy(minimapIcon.FakeShow).was.called(1)
-        end)
-    end)
-
-    describe("ToggleQuestNotes", function()
-        local ThreadLib, originalThreadInstant, originalThreadCallback
-
-        before_each(function()
-            ThreadLib = QuestieLoader:ImportModule("ThreadLib")
-            originalThreadInstant, originalThreadCallback = ThreadLib.ThreadInstant, ThreadLib.ThreadCallbackInstant
-            ThreadLib.ThreadInstant = function(work) coroutine.wrap(work)() end
-            ThreadLib.ThreadCallbackInstant = spy.new(function() end)
-            QuestieQuest.ShowQuestIcons = spy.new(function() end)
-            QuestieQuest.HideQuestIcons = spy.new(function() end)
-        end)
-
-        after_each(function()
-            ThreadLib.ThreadInstant, ThreadLib.ThreadCallbackInstant = originalThreadInstant, originalThreadCallback
-        end)
-
-        it("should show the quest icons without rebuilding the quest log", function()
-            QuestieQuest.ToggleQuestNotes(true)
-
-            assert.spy(QuestieQuest.ShowQuestIcons).was.called()
-            assert.spy(ThreadLib.ThreadCallbackInstant).was.not_called()
-        end)
-
-        it("should hide the quest icons without rebuilding the quest log", function()
-            QuestieQuest.ToggleQuestNotes(false)
-
-            assert.spy(QuestieQuest.HideQuestIcons).was.called()
-            assert.spy(ThreadLib.ThreadCallbackInstant).was.not_called()
-        end)
-
-        it("should keep townsfolk icons visible when hiding quest icons", function()
-            local townsfolkIcon = {FakeHide = spy.new(function() end)}
-            _G.QuestieTownsfolkTestIcon = townsfolkIcon
-            QuestieMap.manualFrames = {Vendor = {[1] = {"QuestieTownsfolkTestIcon"}}}
-
-            QuestieQuest.ToggleQuestNotes(false)
-            _G.QuestieTownsfolkTestIcon = nil
-
-            assert.spy(townsfolkIcon.FakeHide).was.not_called()
         end)
     end)
 

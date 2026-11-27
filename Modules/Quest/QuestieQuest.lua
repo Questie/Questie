@@ -21,6 +21,8 @@ local QuestieTracker = QuestieLoader:ImportModule("QuestieTracker")
 local QuestieDBMIntegration = QuestieLoader:ImportModule("QuestieDBMIntegration")
 ---@type QuestieMap
 local QuestieMap = QuestieLoader:ImportModule("QuestieMap")
+---@type MapIconVisibility
+local MapIconVisibility = QuestieLoader:ImportModule("MapIconVisibility")
 ---@type QuestiePartyObjectives
 local QuestiePartyObjectives = QuestieLoader:ImportModule("QuestiePartyObjectives")
 ---@type QuestieFramePool
@@ -121,9 +123,9 @@ function QuestieQuest.ToggleAvailableQuests(showIcons)
             AvailableQuests.CalculateAndDrawAll(function()
                 ThreadLib.ThreadInstant(function()
                     if showIcons then
-                        QuestieQuest:ShowQuestIcons()
+                        MapIconVisibility.ShowQuestIcons()
                     else
-                        QuestieQuest:HideQuestIcons()
+                        MapIconVisibility.HideQuestIcons()
                     end
                 end)
             end)
@@ -141,71 +143,15 @@ function QuestieQuest:ToggleNotes(showIcons)
         function()
             ThreadLib.ThreadInstant(function()
                 if showIcons then
-                    QuestieQuest:ShowQuestIcons()
+                    MapIconVisibility.ShowQuestIcons()
                     _QuestieQuest:ShowManualIcons()
                 else
-                    QuestieQuest:HideQuestIcons()
+                    MapIconVisibility.HideQuestIcons()
                     _QuestieQuest:HideManualIcons()
                 end
             end)
         end
     )
-end
-
----Updates all quest icons to ensure they are correctly shown/hidden, e.g. after a focus change. Manual icons stay as they are.
----Icons of hidden quests already exist, so the quest log is not rebuilt; that would redraw the finishers of complete quests.
----@param showIcons boolean @ Whether to show or hide the icons
-function QuestieQuest.ToggleQuestNotes(showIcons)
-    Questie.Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest.ToggleQuestNotes] showIcons:", showIcons)
-
-    ThreadLib.ThreadInstant(function()
-        if showIcons then
-            QuestieQuest:ShowQuestIcons()
-        else
-            QuestieQuest:HideQuestIcons()
-        end
-    end)
-end
-
----Hides or shows the icon according to ShouldBeHidden (evaluated once) and applies the quest's fade state.
----@param icon IconFrame
-local function _ApplyIconVisibility(icon)
-    if icon:ShouldBeHidden() then
-        icon:FakeHide()
-    else
-        icon:FakeShow()
-    end
-    if icon.data.QuestData.FadeIcons and icon.data.Type ~= "complete" then
-        icon:FadeOut()
-    else
-        icon:FadeIn()
-    end
-end
-
---- Shows all quest icons. Needs to be called from a coroutine.
-function QuestieQuest:ShowQuestIcons()
-    assert(coroutine.running(), "ShowQuestIcons must be called from a coroutine")
-
-    local trackerHiddenQuests = Questie.db.char.TrackerHiddenQuests
-    local questCount = 0
-    for questId, frameList in pairs(QuestieMap.questIdFrames) do
-        if (not trackerHiddenQuests) or (not trackerHiddenQuests[questId]) then -- Skip quests which are completely hidden from the Tracker menu
-            for _, frameName in pairs(frameList) do -- this may seem a bit expensive, but its actually really fast due to the order things are checked
-                ---@type IconFrame
-                local icon = _G[frameName];
-                local objectiveString = tostring(questId) .. " " .. tostring(icon.data.ObjectiveIndex)
-                if (not Questie.db.char.TrackerHiddenObjectives) or (not Questie.db.char.TrackerHiddenObjectives[objectiveString]) then
-                    _ApplyIconVisibility(icon)
-                end
-            end
-        end
-
-        questCount = questCount + 1
-        if questCount >= TICKS_PER_YIELD then
-            questCount = 0
-            coYield()
-        end
-    end
 end
 
 -- Manual notes follow map visibility and exploration without quest-specific filters.
@@ -236,25 +182,6 @@ function _QuestieQuest:ShowManualIcons()
                     icon:FakeShow()
                 end
             end
-        end
-    end
-end
-
---- Hides all quest icons. Needs to be called from a coroutine
-function QuestieQuest:HideQuestIcons()
-    assert(coroutine.running(), "HideQuestIcons must be called from a coroutine")
-
-    local questCount = 0
-    for _, frameList in pairs(QuestieMap.questIdFrames) do
-        for _, frameName in pairs(frameList) do -- this may seem a bit expensive, but its actually really fast due to the order things are checked
-            local icon = _G[frameName];
-            _ApplyIconVisibility(icon)
-        end
-
-        questCount = questCount + 1
-        if questCount >= TICKS_PER_YIELD then
-            questCount = 0
-            coYield()
         end
     end
 end

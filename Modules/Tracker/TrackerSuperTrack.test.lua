@@ -4,7 +4,7 @@ describe("TrackerSuperTrack", function()
     ---@type TrackerSuperTrack
     local TrackerSuperTrack
     local TrackerUtils
-    local QuestieQuest
+    local MapIconVisibility
     local QuestieTracker
     local superTrackedQuestId
     local QuestieCompat
@@ -19,8 +19,8 @@ describe("TrackerSuperTrack", function()
         TrackerUtils = QuestieLoader:ImportModule("TrackerUtils")
         TrackerUtils.FocusQuest = spy.new(function() return true end)
         TrackerUtils.UnFocus = spy.new(function() end)
-        QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
-        QuestieQuest.ToggleQuestNotes = spy.new(function() end)
+        MapIconVisibility = QuestieLoader:ImportModule("MapIconVisibility")
+        MapIconVisibility.ToggleQuestNotes = spy.new(function() end)
         QuestieTracker = QuestieLoader:ImportModule("QuestieTracker")
         QuestieTracker.Update = spy.new(function() end)
         QuestieLoader:ImportModule("QuestieCombatQueue").Queue = function(_, callback) callback() end
@@ -66,7 +66,7 @@ describe("TrackerSuperTrack", function()
 
             assert.spy(TrackerUtils.FocusQuest).was.not_called()
             assert.spy(TrackerUtils.UnFocus).was.not_called()
-            assert.spy(QuestieQuest.ToggleQuestNotes).was.not_called()
+            assert.spy(MapIconVisibility.ToggleQuestNotes).was.not_called()
             assert.spy(QuestieTracker.Update).was.not_called()
         end)
 
@@ -76,7 +76,7 @@ describe("TrackerSuperTrack", function()
             TrackerSuperTrack.OnSuperTrackingChanged()
 
             assert.spy(TrackerUtils.FocusQuest).was.called_with(TrackerUtils, 123)
-            assert.spy(QuestieQuest.ToggleQuestNotes).was.called_with(false)
+            assert.spy(MapIconVisibility.ToggleQuestNotes).was.called_with(false)
             assert.spy(QuestieTracker.Update).was.called()
         end)
 
@@ -87,7 +87,7 @@ describe("TrackerSuperTrack", function()
             TrackerSuperTrack.OnSuperTrackingChanged()
 
             assert.spy(TrackerUtils.FocusQuest).was.not_called()
-            assert.spy(QuestieQuest.ToggleQuestNotes).was.not_called()
+            assert.spy(MapIconVisibility.ToggleQuestNotes).was.not_called()
             assert.spy(QuestieTracker.Update).was.called()
         end)
 
@@ -99,7 +99,7 @@ describe("TrackerSuperTrack", function()
             TrackerSuperTrack.OnSuperTrackingChanged()
 
             assert.spy(TrackerUtils.UnFocus).was.called()
-            assert.spy(QuestieQuest.ToggleQuestNotes).was.called_with(true)
+            assert.spy(MapIconVisibility.ToggleQuestNotes).was.called_with(true)
             assert.spy(QuestieTracker.Update).was.called()
         end)
 
@@ -119,7 +119,7 @@ describe("TrackerSuperTrack", function()
             TrackerSuperTrack.OnSuperTrackingChanged()
 
             assert.spy(TrackerUtils.UnFocus).was.called()
-            assert.spy(QuestieQuest.ToggleQuestNotes).was.called_with(true)
+            assert.spy(MapIconVisibility.ToggleQuestNotes).was.called_with(true)
             assert.spy(QuestieTracker.Update).was.called()
         end)
 

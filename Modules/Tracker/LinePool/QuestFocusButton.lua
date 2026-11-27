@@ -9,8 +9,8 @@ local TrackerUtils = QuestieLoader:ImportModule("TrackerUtils")
 local TrackerMapEligibility = QuestieLoader:ImportModule("TrackerMapEligibility")
 ---@type TrackerFadeTicker
 local TrackerFadeTicker = QuestieLoader:ImportModule("TrackerFadeTicker")
----@type QuestieQuest
-local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
+---@type MapIconVisibility
+local MapIconVisibility = QuestieLoader:ImportModule("MapIconVisibility")
 ---@type QuestieCombatQueue
 local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
 ---@type QuestieCompat
@@ -60,12 +60,12 @@ end
 local function _OnClick(self)
     if Questie.db.char.TrackerFocus == self.questId then
         TrackerUtils:UnFocus()
-        QuestieQuest.ToggleQuestNotes(true)
+        MapIconVisibility.ToggleQuestNotes(true)
     elseif _IsSuperTracked(self.questId) then
         buttonSuperTrackedQuestId = nil
         QuestieCompat.ClearSuperTrackedQuest()
     elseif TrackerUtils:FocusQuest(self.questId, self.expectedQuest) then
-        QuestieQuest.ToggleQuestNotes(false)
+        MapIconVisibility.ToggleQuestNotes(false)
         if WorldMapFrame and WorldMapFrame:IsShown() then
             TrackerUtils.ShowQuestOnMap(self.questId, self.expectedQuest)
         end
