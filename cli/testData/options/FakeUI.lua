@@ -28,7 +28,7 @@ local GLOBALS = {
 
 -- Art and setup calls that have no behavior worth simulating
 local NO_OP_METHODS = {
-    "AddMaskTexture", "ClearAllPoints", "RegisterForClicks", "SetAllPoints", "SetAutoFocus",
+    "AddMaskTexture", "ClearAllPoints", "RegisterForClicks", "SetAutoFocus",
     "SetBlendMode", "SetCheckedTexture", "SetClampedToScreen", "SetColorTexture", "SetDisabledCheckedTexture",
     "SetDisabledTexture", "SetDrawLayer", "SetFixedWidth", "SetFontHeight", "SetFontString",
     "SetHighlightAtlas", "SetHighlightTexture", "SetHorizTile", "SetJustifyH", "SetJustifyV",
@@ -279,8 +279,9 @@ function FakeUI.Install()
             hook(...)
         end
     end
-    function methods:Click()
-        if self.enabled then FireScript(self, "OnClick") end
+    -- Like Blizzard's, a click without a mouse button is one of the left button
+    function methods:Click(mouseButton)
+        if self.enabled then FireScript(self, "OnClick", mouseButton or "LeftButton") end
     end
 
     -- Size and position
@@ -309,6 +310,12 @@ function FakeUI.Install()
             end
         end
         table.insert(self.points, point)
+    end
+    -- Covers the frame it is set to, or its parent
+    function methods:SetAllPoints(relativeTo)
+        relativeTo = relativeTo or self.parent
+        self:SetPoint("TOPLEFT", relativeTo, "TOPLEFT", 0, 0)
+        self:SetPoint("BOTTOMRIGHT", relativeTo, "BOTTOMRIGHT", 0, 0)
     end
     function methods:GetPoint(index)
         local point = self.points[index] or {}
