@@ -309,4 +309,48 @@ describe("QuestieMap", function()
         end)
     end)
 
+    describe("ProcessQueue", function()
+        local originalProfile, originalGetScaleValue, originalSetDrawOrder, originalAddWorldMapIconMap
+        local HBDPins
+
+        before_each(function()
+            originalProfile = Questie.db.profile
+            Questie.db.profile = {globalScale = 0.7, globalTownsfolkScale = 0.6}
+            originalGetScaleValue = QuestieMap.GetScaleValue
+            QuestieMap.GetScaleValue = function() return 1 end
+            originalSetDrawOrder = QuestieMap.utils.SetDrawOrder
+            QuestieMap.utils.SetDrawOrder = function() end
+            HBDPins = QuestieLoader:ImportModule("HBDPins")
+            originalAddWorldMapIconMap = HBDPins.AddWorldMapIconMap
+            HBDPins.AddWorldMapIconMap = function() end
+            _G.tremove = table.remove
+            _G.tinsert = table.insert
+        end)
+
+        after_each(function()
+            Questie.db.profile = originalProfile
+            QuestieMap.GetScaleValue = originalGetScaleValue
+            QuestieMap.utils.SetDrawOrder = originalSetDrawOrder
+            HBDPins.AddWorldMapIconMap = originalAddWorldMapIconMap
+        end)
+
+        it("should rebuild the glow after applying a queued icon's final size", function()
+            local calls = {}
+            local frame = {
+                data = {IconScale = 1},
+                isManualIcon = false,
+                SetSize = function(_, width) calls[#calls + 1] = {kind = "size", width = width} end,
+                GlowUpdate = function() calls[#calls + 1] = {kind = "glow"} end,
+            }
+
+            QuestieMap:QueueDraw(QuestieMap.ICON_MAP_TYPE, Questie, frame, 1, 0.5, 0.5, 1)
+            QuestieMap.ProcessQueue()
+
+            assert.are.equal(2, #calls)
+            assert.are.equal("size", calls[1].kind)
+            assert.are.equal(16 * 0.7, calls[1].width)
+            assert.are.equal("glow", calls[2].kind)
+        end)
+    end)
+
 end)

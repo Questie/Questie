@@ -150,6 +150,7 @@ _ReinitFrame = function(frame)
 
     frame.texture:SetVertexColor(1, 1, 1, 1)
     frame:SetAlpha(1) -- party objective icons dim the frame to 0.5; reset so recycled frames (e.g. townsfolk) don't inherit it
+    frame.questLogHovered = nil
     frame.shouldBeShowing = nil
     frame.hidden = nil
 

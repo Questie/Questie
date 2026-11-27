@@ -920,6 +920,7 @@ globals = {
     "EquipCursorItem",
     "EquipItemByName",
     "EquipPendingItem",
+    "EventRegistry",
     "ExpandAllFactionHeaders",
     "ExpandCraftSkillLine",
     "ExpandFactionHeader",

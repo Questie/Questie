@@ -21,6 +21,8 @@ local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 local TrackerData = QuestieLoader:ImportModule("TrackerData")
 ---@type TrackerQuestTooltip
 local TrackerQuestTooltip = QuestieLoader:ImportModule("TrackerQuestTooltip")
+---@type QuestMapHover
+local QuestMapHover = QuestieLoader:ImportModule("QuestMapHover")
 
 local coYield = coroutine.yield
 
@@ -53,6 +55,10 @@ function TrackerLinePool.Initialize(questFrame)
     local yieldCount = 0
     for i = 1, linePoolSize do
         local line = TrackerLine.New(i, trackerQuestFrame.ScrollChildFrame, previousLine, TrackerLinePool.OnHighlightEnter, TrackerLinePool.OnHighlightLeave, TrackerLinePool.AddQuestLine, TrackerLinePool.AddScenarioLine)
+        -- The tracker can hide under the mouse without the line sending OnLeave.
+        line:HookScript("OnHide", function()
+            QuestMapHover.ClearQuest(QuestMapHover.SOURCE_TRACKER)
+        end)
         linePool[i] = line
         previousLine = line
 
@@ -324,6 +330,13 @@ function TrackerLinePool.SetAllItemButtonAlpha(alpha)
 end
 
 TrackerLinePool.OnHighlightEnter = function(self)
+    local quest = self.Quest
+    if quest then
+        QuestMapHover.HighlightQuest(quest.Id, QuestMapHover.SOURCE_TRACKER)
+    else
+        QuestMapHover.ClearQuest(QuestMapHover.SOURCE_TRACKER)
+    end
+
     if Questie.db.profile.trackerDisableHoverFade then
         return
     end
@@ -341,6 +354,8 @@ TrackerLinePool.OnHighlightEnter = function(self)
 end
 
 TrackerLinePool.OnHighlightLeave = function()
+    QuestMapHover.ClearQuest(QuestMapHover.SOURCE_TRACKER)
+
     local highestIndex = TrackerLinePool.GetHighestIndex()
     for i = 1, highestIndex do
         linePool[i]:SetAlpha(1)
