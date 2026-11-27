@@ -1,9 +1,7 @@
----What a search found. The source of the page is what was searched for.
+---What the search of the overview finds, and how it is described.
 ---@class JourneyResultsPage
 local JourneyResultsPage = QuestieLoader:CreateModule("JourneyResultsPage")
 
----@type JourneyPage
-local JourneyPage = QuestieLoader:ImportModule("JourneyPage")
 ---@type JourneyPlaces
 local JourneyPlaces = QuestieLoader:ImportModule("JourneyPlaces")
 ---@type JourneyQuestCategories
@@ -19,8 +17,6 @@ local QuestieSearch = QuestieLoader:ImportModule("QuestieSearch")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
--- Kinds with more results than this start collapsed
-local MAX_EXPANDED_RESULTS = 30
 local KIND_TITLES = {quest = "Quests", npc = "NPCs", object = "Objects", item = "Items"}
 local PLACE_ICONS = {zone = "Interface\\AddOns\\Questie\\Icons\\map_scroll.png", faction = "Interface\\Icons\\INV_Shirt_GuildTabard_01"}
 
@@ -37,32 +33,25 @@ local function _GetPlacesNode(title, kind, places)
     return {value = "result " .. kind, text = title, note = tostring(#places), children = children}
 end
 
----@param page JourneyPage.Instance
-function JourneyResultsPage.Load(page)
-    local query, expandedPaths = page.source, page.tree.expandedPaths
+---What a search finds, by what it is. Zones and factions come first.
+---Goes through whole databases, so it has to run in a thread.
+---@param query string
+---@return JourneyTreeNode[] groups What was found are their children. A child that has a source leads to its own tab.
+function JourneyResultsPage.Find(query)
     local zones, factions = JourneyPlaces.Search(query)
-    local nodes = {
+    local groups = {
         _GetPlacesNode(l10n("Quests by Zone"), "zone", zones),
         _GetPlacesNode(l10n("Quests by Faction"), "faction", factions),
     }
-    expandedPaths["result zone"], expandedPaths["result faction"] = true, true
-
-    local count = #zones + #factions
     for _, kind in ipairs(QuestieSearch.KINDS) do
         local ids = QuestieSearch.Search(kind, query)
-        count = count + #ids
         local children = {}
         for index, id in ipairs(ids) do
             children[index] = {value = id, kind = kind}
         end
-        table.insert(nodes, {value = "result " .. kind, text = l10n(KIND_TITLES[kind]), note = tostring(#ids), children = children})
-        if not page.isLoaded then
-            expandedPaths["result " .. kind] = #ids <= MAX_EXPANDED_RESULTS or nil
-        end
+        table.insert(groups, {value = "result " .. kind, text = l10n(KIND_TITLES[kind]), note = tostring(#ids), children = children})
     end
-    JourneyPage.SetNodes(page, nodes, l10n("No Match for Search Results: %s", query))
-    JourneyPage.SetProgress(page, l10n("Results for %s: %s", Questie:Colorize(query, "yellow"), count))
-    JourneyPage.ShowDetails(page, page.isLoaded)
+    return groups
 end
 
 ---@param node JourneyTreeNode

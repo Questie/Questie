@@ -131,6 +131,12 @@ function JourneyPage.Open(page, kind, id)
     JourneyPage.Select(page, selection)
 end
 
+---Forgets what was shown before, and what was gone back from.
+---@param page JourneyPage.Instance
+function JourneyPage.ForgetHistory(page)
+    page.backSelections, page.forwardSelections = {}, {}
+end
+
 ---@param page JourneyPage.Instance
 ---@return boolean
 function JourneyPage.CanGoBack(page)

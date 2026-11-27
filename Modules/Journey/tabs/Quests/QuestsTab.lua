@@ -1,5 +1,5 @@
 ---The quests of the Journey, in tabs like those of a browser. The first one is always the zone the player is in. The plus leads
----to all the other zones and factions, and what is searched for gets a tab of its own.
+---to the search and to all the other zones and factions, which get a tab of their own.
 ---@type QuestieJourney
 local QuestieJourney = QuestieLoader:CreateModule("QuestieJourney")
 local _QuestieJourney = QuestieJourney.private
@@ -9,8 +9,6 @@ _QuestieJourney.quests = {}
 -------------------------
 ---@type JourneyIcon
 local JourneyIcon = QuestieLoader:ImportModule("JourneyIcon")
----@type JourneyLinkInput
-local JourneyLinkInput = QuestieLoader:ImportModule("JourneyLinkInput")
 ---@type JourneyOverviewPage
 local JourneyOverviewPage = QuestieLoader:ImportModule("JourneyOverviewPage")
 ---@type JourneyPage
@@ -21,8 +19,6 @@ local JourneyPanes = QuestieLoader:ImportModule("JourneyPanes")
 local JourneyPlaces = QuestieLoader:ImportModule("JourneyPlaces")
 ---@type JourneyQuestsPage
 local JourneyQuestsPage = QuestieLoader:ImportModule("JourneyQuestsPage")
----@type JourneyResultsPage
-local JourneyResultsPage = QuestieLoader:ImportModule("JourneyResultsPage")
 ---@type JourneyTabBar
 local JourneyTabBar = QuestieLoader:ImportModule("JourneyTabBar")
 ---@type JourneyWindow
@@ -31,42 +27,29 @@ local JourneyWindow = QuestieLoader:ImportModule("JourneyWindow")
 local QuestieCompat = QuestieLoader:ImportModule("QuestieCompat")
 ---@type QuestieOptionsWindow
 local QuestieOptionsWindow = QuestieLoader:ImportModule("QuestieOptionsWindow")
----@type l10n
-local l10n = QuestieLoader:ImportModule("l10n")
----@type utf8
-local utf8 = QuestieLoader:ImportModule("utf8")
 
 local TOOLBAR_HEIGHT = 40
 local BAR_HEIGHT = 18
 local HISTORY_BUTTON_SIZE = 24
-local TITLE_GAP, SEARCH_GAP, SEARCH_INSET = 18, 12, 16
+local TITLE_GAP, TAB_BAR_RIGHT_INSET = 18, 16
 local HERE_ICON_SIZE = 10
-local SEARCH_ICON = "|TInterface\\Common\\UI-Searchbox-Icon:10:10:0:-2|t "
-local SEARCH_DELAY_SECONDS = 0.15
-local MIN_SEARCH_LENGTH = 3
-local MIN_SEARCH_LENGTHS = {koKR = 2, zhCN = 2, zhTW = 2}
 
 ---@class JourneyQuestsTab
----@field source string? What is listed. For the search, what was searched for. Nil for the overview.
+---@field source string? What is listed. Nil for the overview.
 ---@field content JourneyPage.Content
 ---@field page JourneyPage.Instance? Nil until the tab is shown
----@field openedFrom string? When the overview created the tab: the overview, with the category it showed. After the tab's own history,
----back leads there and closes the tab, like it was never opened.
+---@field openedFrom JourneyPage.Selection? When the overview created the tab: what the overview showed. After the tab's own
+---history, back leads there and closes the tab, like it was never opened.
 
 ---Where the player is. It only changes when the window is opened, so the list doesn't change while the player is using it.
 ---@type JourneyQuestsTab
 local hereTab = {content = JourneyQuestsPage}
----In the order they are shown in. The search and the overview aren't in it.
+---In the order they are shown in. The overview isn't in it.
 ---@type JourneyQuestsTab[]
 local tabs = {hereTab}
 ---@type JourneyQuestsTab
 local overviewTab = {content = JourneyOverviewPage}
----Nil while nothing is searched for.
----@type JourneyQuestsTab?
-local searchTab
 local selectedTab = hereTab
----@type JourneyQuestsTab
-local tabBeforeSearch
 
 ---Of closed tabs, for the next ones.
 ---@type JourneyPage.Instance[]
@@ -82,8 +65,6 @@ local progressBar
 local backButton
 ---@type Button
 local forwardButton
----@type EditBox
-local searchBox
 ---@type FontString
 local title
 
@@ -91,7 +72,7 @@ local title
 -- Tabs
 -------------------------
 
-local _Select, _Close, _EndSearch
+local _Select, _Close
 
 local function _ShowToolbar()
     local page = selectedTab.page
@@ -115,15 +96,14 @@ local function _ShowTabs()
             onClose = tab ~= hereTab and function() _Close(tab) end or nil,
         }
     end
-    if searchTab then
-        table.insert(shownTabs, {
-            name = SEARCH_ICON .. searchTab.source,
-            isSelected = searchTab == selectedTab,
-            onSelect = function() _Select(searchTab) end,
-            onClose = function() searchBox:SetText("") _EndSearch() end,
-        })
-    end
-    JourneyTabBar.SetTabs(tabBar, shownTabs, selectedTab == overviewTab)
+    local shownFind = selectedTab == overviewTab and (JourneyOverviewPage.IsSearchShown(overviewTab.page) and "search" or "overview") or nil
+    JourneyTabBar.SetTabs(tabBar, shownTabs, shownFind)
+end
+
+-- The overview can switch between its search and its categories
+local function _OnPageChanged()
+    _ShowTabs()
+    _ShowToolbar()
 end
 
 local _OpenSource, _OpenFromOverview
@@ -133,9 +113,9 @@ local function _EnsurePage(tab)
     if not tab.page then
         if tab == overviewTab then
             -- The overview has its own list, so its page is never for anything else
-            tab.page = JourneyPage.Create(panes, _OpenFromOverview, _ShowToolbar)
+            tab.page = JourneyPage.Create(panes, _OpenFromOverview, _OnPageChanged)
         else
-            tab.page = table.remove(freePages) or JourneyPage.Create(panes, function(source) _OpenSource(source) end, _ShowToolbar)
+            tab.page = table.remove(freePages) or JourneyPage.Create(panes, function(source) _OpenSource(source) end, _OnPageChanged)
         end
         JourneyPage.SetContent(tab.page, tab.content, tab.source)
     end
@@ -196,14 +176,26 @@ local function _FindTab(source)
     end
 end
 
+---@param selection JourneyPage.Selection
+local function _ShowOverview(selection)
+    _EnsurePage(overviewTab)
+    _Select(overviewTab)
+    JourneyPage.Select(overviewTab.page, selection)
+end
+
+---The plus always starts at the overview, like a new tab of a browser.
+local function _ResetOverview()
+    _EnsurePage(overviewTab)
+    JourneyPage.ForgetHistory(overviewTab.page)
+    _ShowOverview({kind = "category", id = JourneyOverviewPage.GOOD})
+end
+
 ---Shows a zone, a faction and so on, in the tab it already has or in a new one.
 ---@param source string Of quests, or a category of the overview, like "overview:1"
 _OpenSource = function(source)
     local kind, category = source:match("^(overview):(.+)$")
     if kind then
-        _EnsurePage(overviewTab)
-        _Select(overviewTab)
-        JourneyPage.Select(overviewTab.page, {kind = "category", id = tonumber(category) or category})
+        _ShowOverview({kind = "category", id = tonumber(category) or category})
         return
     end
 
@@ -221,11 +213,11 @@ end
 ---A tab that is already open is only shown, so it doesn't lead back to the overview.
 ---@param source string
 _OpenFromOverview = function(source)
-    local category = overviewTab.page.selection.id
+    local shown = overviewTab.page.selection
     local isNew = _FindTab(source) == nil
     _OpenSource(source)
     if isNew then
-        selectedTab.openedFrom = "overview:" .. category
+        selectedTab.openedFrom = shown
         _ShowToolbar()
     end
 end
@@ -246,99 +238,17 @@ end
 -- Search
 -------------------------
 
-local searchTimer
-
----@return string
-local function _GetTypedQuery()
-    return strtrim(searchBox:GetText(), " \n\r\t[]")
+---Shows the search, which is in the overview, with the cursor in its box.
+---@param text string? Searched for instead of what was typed
+function _QuestieJourney.quests.ShowSearch(text)
+    _OpenSource("overview:" .. JourneyOverviewPage.SEARCH)
+    JourneyOverviewPage.FocusSearch(overviewTab.page, text)
 end
 
-_EndSearch = function()
-    if searchTimer then
-        searchTimer:Cancel()
-    end
-    if searchTab then
-        local tab, isSelected = searchTab, searchTab == selectedTab
-        searchTab = nil
-        _ReleasePage(tab)
-        if isSelected then
-            _Select(_GetIndex(tabBeforeSearch) and tabBeforeSearch or tabBeforeSearch == overviewTab and overviewTab or hereTab)
-        else
-            _ShowTabs()
-        end
-    end
-end
-
----@param query string
-local function _Search(query)
-    JourneyWindow.ShowQuests()
-    if selectedTab ~= searchTab then
-        tabBeforeSearch = selectedTab
-    end
-    if searchTab then
-        -- What was found before stays until there is something new
-        searchTab.source, searchTab.page.source, searchTab.page.isLoaded = query, query, false
-    else
-        searchTab = {source = query, content = JourneyResultsPage}
-    end
-    _Select(searchTab)
-end
-
-local function _OnTextChanged()
-    local linkText = searchBox:GetText():match("|h%[(.-)%]|h")
-    if linkText then
-        searchBox:SetText(linkText)
-        return
-    end
-    if searchTimer then
-        searchTimer:Cancel()
-    end
-    local query = _GetTypedQuery()
-    if searchTab and searchTab.source == query then
-        return
-    end
-    local minLength = MIN_SEARCH_LENGTHS[l10n:GetUILocale()] or MIN_SEARCH_LENGTH
-    if utf8.strlen(query) >= minLength then
-        searchTimer = C_Timer.NewTimer(SEARCH_DELAY_SECONDS, function() _Search(query) end)
-    elseif query == "" then
-        _EndSearch()
-    end
-end
-
-local function _OnEnterPressed()
-    searchBox:ClearFocus()
-    local query = _GetTypedQuery()
-    if query == "" then
-        return
-    end
-    local place = JourneyResultsPage.GetTypedPlace(query)
-    if place then
-        JourneyWindow.ShowQuests()
-        searchBox:SetText("")
-        _EndSearch()
-        _OpenSource(place)
-    else
-        _Search(query)
-    end
-end
-
----The title and the search box belong to the window, because they are there whichever of its tabs is shown.
----@param newSearchBox EditBox
+---The title belongs to the window, because it is there whichever of its tabs is shown.
 ---@param newTitle FontString
-function _QuestieJourney.quests.UseHeader(newSearchBox, newTitle)
-    searchBox, title = newSearchBox, newTitle
-    searchBox:HookScript("OnTextChanged", _OnTextChanged)
-    searchBox:SetScript("OnEnterPressed", _OnEnterPressed)
-    local function TakeItem()
-        local cursorType, _, itemLink = GetCursorInfo()
-        if cursorType == "item" then
-            ClearCursor()
-            searchBox:SetText(itemLink)
-        end
-    end
-    searchBox:SetScript("OnReceiveDrag", TakeItem)
-    searchBox:HookScript("OnMouseDown", TakeItem)
-    JourneyLinkInput.Enable(searchBox)
+function _QuestieJourney.quests.UseHeader(newTitle)
+    title = newTitle
 end
 
 -------------------------
@@ -350,7 +260,7 @@ local function _GoBack()
     if JourneyPage.CanGoBack(tab.page) then
         JourneyPage.GoBack(tab.page)
     else
-        _OpenSource(tab.openedFrom)
+        _ShowOverview(tab.openedFrom)
         _Close(tab)
     end
 end
@@ -410,9 +320,9 @@ end
 
 ---@param canvas Frame
 function _QuestieJourney.quests.Build(canvas)
-    tabBar = JourneyTabBar.Create(canvas, function() _Select(overviewTab) end)
+    tabBar = JourneyTabBar.Create(canvas, _QuestieJourney.quests.ShowSearch, _ResetOverview)
     tabBar:SetPoint("BOTTOMLEFT", canvas, "TOPLEFT", QuestieOptionsWindow.HEADER_INSET + title:GetStringWidth() + TITLE_GAP, 1)
-    tabBar:SetPoint("BOTTOMRIGHT", canvas, "TOPRIGHT", -SEARCH_INSET - searchBox:GetWidth() - SEARCH_GAP, 1)
+    tabBar:SetPoint("BOTTOMRIGHT", canvas, "TOPRIGHT", -TAB_BAR_RIGHT_INSET, 1)
     _CreateHistoryButtons(canvas)
     _CreateProgressBar(canvas)
     panes = JourneyPanes.Create(canvas, "", TOOLBAR_HEIGHT)

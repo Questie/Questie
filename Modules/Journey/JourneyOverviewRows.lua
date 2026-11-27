@@ -24,7 +24,8 @@ local ROUND_MASK = "Interface\\CharacterFrame\\TempPortraitAlphaMask"
 
 ---@class JourneyOverviewRows.Tile
 ---@field text string
----@field picture JourneyOverviewRows.Picture
+---@field picture JourneyOverviewRows.Picture? Without it, the text starts at the left
+---@field width number? Without it, the tile shares what the others leave of the row
 ---@field note string? Instead of the bar
 ---@field value number? For the bar
 ---@field maximum number?
@@ -158,7 +159,7 @@ end
 -- Tiles
 -------------------------
 
-local TILE_HEIGHT, WIDE_TILE_HEIGHT, TILE_GAP = 48, 46, 6
+local TILE_HEIGHT, TOP_TILE_HEIGHT, TILE_GAP = 48, 46, 6
 local TILE_PICTURE_SIZE = 34
 
 ---@param row Frame
@@ -180,16 +181,17 @@ local function _CreateTile(row)
     tile.Picture = tile:CreateTexture(nil, "ARTWORK")
     tile.Picture:SetPoint("CENTER", frame, "CENTER", 0, 0)
 
+    -- Where the text starts, right of the picture or at the left without one
+    tile.TextStart = tile:CreateTexture(nil, "BORDER")
+    tile.TextStart:SetSize(1, TILE_PICTURE_SIZE + 2)
     tile.Title = tile:CreateFontString(nil, "ARTWORK", "GameFontNormal")
     tile.Title:SetJustifyH("LEFT")
     tile.Title:SetWordWrap(false)
-    tile.Title:SetPoint("TOPLEFT", frame, "TOPRIGHT", 9, -2)
-    tile.Title:SetPoint("RIGHT", tile, "RIGHT", -6, 0)
     tile.Note = tile:CreateFontString(nil, "ARTWORK", "GameFontDisableSmall")
     tile.Note:SetJustifyH("LEFT")
-    tile.Note:SetPoint("BOTTOMLEFT", frame, "BOTTOMRIGHT", 9, 3)
+    tile.Note:SetPoint("BOTTOMLEFT", tile.TextStart, "BOTTOMLEFT", 0, 3)
     tile.Bar = _CreateBar(tile, 12)
-    tile.Bar:SetPoint("BOTTOMLEFT", frame, "BOTTOMRIGHT", 9, 2)
+    tile.Bar:SetPoint("BOTTOMLEFT", tile.TextStart, "BOTTOMLEFT", 0, 2)
     tile.Bar:SetPoint("RIGHT", tile, "RIGHT", -8, 0)
 
     local function UpdateColors()
@@ -212,8 +214,20 @@ end
 ---@param data JourneyOverviewRows.Tile
 local function _UpdateTile(tile, data)
     tile.data = data
-    _SetPicture(tile.Picture, data.picture, TILE_PICTURE_SIZE)
-    tile.Frame:SetShown(type(data.picture) ~= "table")
+    tile.Picture:SetShown(data.picture ~= nil)
+    tile.Frame:SetShown(data.picture ~= nil and type(data.picture) ~= "table")
+    if data.picture then
+        _SetPicture(tile.Picture, data.picture, TILE_PICTURE_SIZE)
+    end
+    tile.TextStart:SetPoint("LEFT", tile, "LEFT", data.picture and 6 + TILE_PICTURE_SIZE + 2 + 9 or 10, 0)
+    -- In the middle when there is nothing below it
+    tile.Title:ClearAllPoints()
+    if data.note or data.maximum then
+        tile.Title:SetPoint("TOPLEFT", tile.TextStart, "TOPLEFT", 0, -2)
+    else
+        tile.Title:SetPoint("LEFT", tile.TextStart, "LEFT", 0, 0)
+    end
+    tile.Title:SetPoint("RIGHT", tile, "RIGHT", -6, 0)
     tile.Title:SetText(data.text)
     tile.Note:SetText(data.note or "")
     tile.Bar:SetShown(data.maximum ~= nil)
@@ -223,16 +237,18 @@ local function _UpdateTile(tile, data)
     tile.UpdateColors()
 end
 
----One tile over the whole width, or two next to each other.
+---One or two tiles next to each other.
 ---@param tiles JourneyOverviewRows.Tile[]
----@param isWide boolean?
+---@param isTop boolean? For the tiles at the top, which are a bit lower
 ---@return JourneyDetails.Row
-function JourneyOverviewRows.GetTiles(tiles, isWide)
+function JourneyOverviewRows.GetTiles(tiles, isTop)
     local state = {}
     for _, tile in ipairs(tiles) do
-        table.insert(state, table.concat({tile.text, tile.note or "", tile.value or "", tile.maximum or "", tostring(tile.isSelected)}, "\001"))
+        table.insert(state, table.concat({
+            tile.text, tile.note or "", tile.value or "", tile.maximum or "", tostring(tile.isSelected), tile.width or "",
+        }, "\001"))
     end
-    return {type = "tiles", tiles = tiles, isWide = isWide, state = table.concat(state, "\002")}
+    return {type = "tiles", tiles = tiles, isTop = isTop, state = table.concat(state, "\002")}
 end
 
 JourneyDetails.AddRowType("tiles", {
@@ -240,17 +256,29 @@ JourneyDetails.AddRowType("tiles", {
         part.Tiles = {_CreateTile(part), _CreateTile(part)}
     end,
     Update = function(part, data, width)
-        local tileWidth = data.isWide and width or (width - TILE_GAP) / 2
+        -- There is room for two. A tile with a width takes that much of it.
+        local fixedWidth, fixedCount = 0, 0
+        for _, tile in ipairs(data.tiles) do
+            if tile.width then
+                fixedWidth, fixedCount = fixedWidth + tile.width, fixedCount + 1
+            end
+        end
+        local sharedWidth = (width - TILE_GAP - fixedWidth) / math.max(1, 2 - fixedCount)
+
+        local x = 0
         for index, tile in ipairs(part.Tiles) do
-            tile:SetShown(data.tiles[index] ~= nil)
-            if data.tiles[index] then
-                tile:SetPoint("TOPLEFT", part, "TOPLEFT", (index - 1) * (tileWidth + TILE_GAP), 0)
-                tile:SetSize(tileWidth, data.isWide and WIDE_TILE_HEIGHT or TILE_HEIGHT)
-                _UpdateTile(tile, data.tiles[index])
+            local tileData = data.tiles[index]
+            tile:SetShown(tileData ~= nil)
+            if tileData then
+                local tileWidth = tileData.width or sharedWidth
+                tile:SetPoint("TOPLEFT", part, "TOPLEFT", x, 0)
+                tile:SetSize(tileWidth, data.isTop and TOP_TILE_HEIGHT or TILE_HEIGHT)
+                _UpdateTile(tile, tileData)
+                x = x + tileWidth + TILE_GAP
             end
         end
     end,
-    GetHeight = function(data) return (data.isWide and WIDE_TILE_HEIGHT or TILE_HEIGHT) + TILE_GAP end,
+    GetHeight = function(data) return (data.isTop and TOP_TILE_HEIGHT or TILE_HEIGHT) + TILE_GAP end,
 })
 
 -------------------------
@@ -264,7 +292,7 @@ local INSET = JourneyDetails.ROW_INSET
 ---The top of a page.
 ---@param text string
 ---@param note string
----@param picture JourneyOverviewRows.Picture
+---@param picture JourneyOverviewRows.Picture? Without it, the text starts at the left
 ---@return JourneyDetails.Row
 function JourneyOverviewRows.GetBanner(text, note, picture)
     return {type = "banner", text = text, tag = note, picture = picture}
@@ -284,15 +312,22 @@ JourneyDetails.AddRowType("banner", {
         part.Frame:SetPoint("LEFT", part, "LEFT", INSET + 6, 3)
         part.Picture = part:CreateTexture(nil, "ARTWORK")
         part.Picture:SetPoint("CENTER", part.Frame, "CENTER", 0, 0)
+        -- Where the text starts, right of the picture or at the left without one
+        part.TextStart = part:CreateTexture(nil, "BORDER")
+        part.TextStart:SetSize(1, BANNER_PICTURE_SIZE + 2)
         part.Title = part:CreateFontString(nil, "ARTWORK", "GameFontNormalLarge")
-        part.Title:SetPoint("TOPLEFT", part.Frame, "TOPRIGHT", 11, -3)
+        part.Title:SetPoint("TOPLEFT", part.TextStart, "TOPLEFT", 0, -3)
         part.Note = part:CreateFontString(nil, "ARTWORK", "GameFontHighlightSmall")
-        part.Note:SetPoint("BOTTOMLEFT", part.Frame, "BOTTOMRIGHT", 11, 5)
+        part.Note:SetPoint("BOTTOMLEFT", part.TextStart, "BOTTOMLEFT", 0, 5)
         part.Note:SetTextColor(0.85, 0.79, 0.66)
     end,
     Update = function(part, data)
-        _SetPicture(part.Picture, data.picture, BANNER_PICTURE_SIZE)
-        part.Frame:SetAlpha(type(data.picture) == "table" and 0 or 1)
+        part.Picture:SetShown(data.picture ~= nil)
+        if data.picture then
+            _SetPicture(part.Picture, data.picture, BANNER_PICTURE_SIZE)
+        end
+        part.Frame:SetAlpha((data.picture == nil or type(data.picture) == "table") and 0 or 1)
+        part.TextStart:SetPoint("LEFT", part, "LEFT", INSET + (data.picture and 6 + BANNER_PICTURE_SIZE + 2 + 11 or 6), 3)
         part.Title:SetText(data.text)
         part.Note:SetText(data.tag)
     end,

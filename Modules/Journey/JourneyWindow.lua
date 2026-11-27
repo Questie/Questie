@@ -52,7 +52,6 @@ local SETTINGS_ICON = 134063 -- Interface\Icons\INV_Misc_Gear_01
 ---@field icon number
 ---@field iconCrop number?
 
-local SEARCH_WIDTH = 270
 
 ---In display order
 ---@type JourneyTabInfo[]
@@ -65,7 +64,7 @@ local TABS = {
 local REQUESTS = {
     zone = {tab = "quests", show = function() _QuestieJourney.quests.ShowCurrentZone() end},
     faction = {tab = "quests", show = function() _QuestieJourney.quests.ShowWatchedFaction() end},
-    search = {tab = "quests", focusesSearch = true},
+    search = {tab = "quests", show = function() _QuestieJourney.quests.ShowSearch() end},
     journey = {tab = "history"},
 }
 
@@ -137,6 +136,19 @@ local function _OnSideTabClicked(tabKey)
     end
 end
 
+---Typing stops when the window is clicked, like when the world is clicked.
+local function _ClearFocusInWindow()
+    local focus = GetCurrentKeyBoardFocus()
+    local frame = focus
+    while frame do
+        if frame == window then
+            focus:ClearFocus()
+            return
+        end
+        frame = frame:GetParent()
+    end
+end
+
 local function _CreateWindow()
     window = QuestieOptionsWindow.Create({
         name = "QuestieJourneyFrame",
@@ -157,11 +169,9 @@ local function _CreateWindow()
     QuestieOptionsUtils.DisableSnapping(headerLine)
 
     for _, frame in ipairs({window, window.dragBar, window.resizeGrip}) do
-        frame:HookScript("OnMouseDown", function() window.searchBox:ClearFocus() end)
+        frame:HookScript("OnMouseDown", _ClearFocusInWindow)
     end
-    QuestieOptionsWindow.AddSearchBox(window, function() end, SEARCH_WIDTH, table.concat({l10n("Quests"), l10n("NPCs"), l10n("Objects"), l10n("Items")}, ", "))
-    window.searchBox:SetPoint("RIGHT", window.canvasContainer, "TOPRIGHT", -16, -17)
-    _QuestieJourney.quests.UseHeader(window.searchBox, canvasTitle)
+    _QuestieJourney.quests.UseHeader(canvasTitle)
 
     local previousSideTab
     for _, tab in ipairs(TABS) do
@@ -189,8 +199,6 @@ function JourneyWindow.Show(tabKey)
     _SelectTab(request and request.tab or tabKey or selectedKey)
     if request and request.show then
         request.show()
-    elseif request and request.focusesSearch then
-        window.searchBox:SetFocus()
     end
 end
 
