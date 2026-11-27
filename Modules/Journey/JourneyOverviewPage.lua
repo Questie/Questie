@@ -697,6 +697,11 @@ end
 local function _Show(page)
     _ShowCategories(page)
     JourneyPage.ShowDetails(page, true)
+    -- What was found can have changed since, like a quest that was completed. Searching again would go through whole
+    -- databases.
+    if page.search.frame:IsShown() then
+        JourneyTree.Update(page.search.tree)
+    end
     local completed, total = _CountAll()
     JourneyPage.SetProgress(page, total > 0 and l10n("%s of %s completed", completed, total) or "", total > 0 and completed / total or nil)
 end

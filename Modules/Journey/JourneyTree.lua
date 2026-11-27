@@ -110,6 +110,12 @@ function JourneyTree.SetNodes(tree, nodes)
     _ShowRows(tree)
 end
 
+---Brings the rows on screen up to date with their entries, like the icon of a quest that was completed since.
+---@param tree JourneyTree.Instance
+function JourneyTree.Update(tree)
+    JourneyList.Update(tree.list)
+end
+
 ---Expands headers, also ones that only come with the next entries.
 ---@param tree JourneyTree.Instance
 ---@param ... string|number The value of a header, of the one below it, and so on
