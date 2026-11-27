@@ -25,7 +25,7 @@ local TEXT_X = PICTURE_X + PICTURE_SIZE + PICTURE_GAP
 local RIGHT_INSET, CLOSE_WIDTH = 9, 15
 -- The name is above the middle and the label under it, this far apart
 local LINE_GAP = 3
-local SEARCH_SIZE, PLUS_SIZE, CLOSE_SIZE, HERE_SIZE = 20, 16, 11, 14
+local SEARCH_SIZE, PLUS_SIZE, CLOSE_SIZE, HERE_SIZE = 20, 16, 15, 14
 -- The glass of the magnifier is above the middle of its picture. The plus is as high, so they are on one line.
 local GLASS_ABOVE_MIDDLE = 2
 -- An icon of the find tab is bright while what it leads to is shown, and dim otherwise
@@ -90,10 +90,9 @@ end
 ---@param button Button
 local function _CreateClose(button)
     local close = CreateFrame("Button", nil, button)
-    close:SetSize(CLOSE_SIZE + 4, CLOSE_SIZE + 4)
+    close:SetSize(CLOSE_SIZE, CLOSE_SIZE)
     local texture = close:CreateTexture(nil, "OVERLAY")
-    texture:SetPoint("CENTER")
-    texture:SetSize(CLOSE_SIZE, CLOSE_SIZE)
+    texture:SetAllPoints(close) -- The X is as big as the button
     texture:SetTexture(CLOSE_TEXTURE)
     texture:SetAlpha(0.5)
     close:SetScript("OnEnter", function() texture:SetAlpha(1) end)
@@ -123,8 +122,7 @@ local function _CreateButton(bar)
     button.Picture = button:CreateTexture(nil, "ARTWORK")
     button.Picture:SetPoint("CENTER", button.Frame, "CENTER")
     button.Here = button:CreateTexture(nil, "OVERLAY")
-    button.Here:SetTexture(JourneyIcon.ARROW)
-    button.Here:SetTexCoord(9 / 32, 23 / 32, 9 / 32, 23 / 32)
+    button.Here:SetTexture(JourneyIcon.HERE)
     button.Here:SetSize(HERE_SIZE, HERE_SIZE)
     button.Here:SetPoint("CENTER", button.Frame, "BOTTOMRIGHT", -2, 2)
 

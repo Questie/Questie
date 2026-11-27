@@ -22,8 +22,9 @@ local GUTTER_WIDTH = 22
 -- The same on every supported client. Checked in Blizzard's source (see AGENTS.md).
 local SELECTED_ATLAS = "Options_List_Active"
 local HOVER_ATLAS = "Options_List_Hover"
--- Like the tracker's. Every supported client has them, checked in the files of each build. The atlases of Blizzard's settings for
--- this, common-button-dropdown-open and -closed, are only in Forever.
+-- Those of Blizzard's settings, which only Forever has (checked in UiTextureAtlasMember of every client's build)
+local EXPANDED_ATLAS, COLLAPSED_ATLAS = "common-button-dropdown-open", "common-button-dropdown-closed"
+-- Those of the tracker, which every supported client has (checked in the files of each build)
 local EXPANDED_TEXTURE = "Interface\\Buttons\\UI-MinusButton-Up"
 local COLLAPSED_TEXTURE = "Interface\\Buttons\\UI-PlusButton-Up"
 
@@ -90,6 +91,16 @@ local function _CreateRow(row, onClick)
     QuestieOptionsUtils.HideTooltipOnHide(row)
 end
 
+---@param toggle Texture
+---@param isCollapsed boolean
+local function _SetToggle(toggle, isCollapsed)
+    if C_Texture.GetAtlasInfo(EXPANDED_ATLAS) then
+        toggle:SetAtlas(isCollapsed and COLLAPSED_ATLAS or EXPANDED_ATLAS)
+    else
+        toggle:SetTexture(isCollapsed and COLLAPSED_TEXTURE or EXPANDED_TEXTURE)
+    end
+end
+
 ---@param row Button It may have shown something else before
 ---@param content JourneyList.Content
 ---@param width number Of the row
@@ -101,7 +112,7 @@ local function _UpdateRow(row, content, width)
 
     row.Toggle:SetPoint("LEFT", row, "LEFT", indent + 1, 0)
     row.Toggle:SetShown(canBeCollapsed)
-    row.Toggle:SetTexture(content.isCollapsed and COLLAPSED_TEXTURE or EXPANDED_TEXTURE)
+    _SetToggle(row.Toggle, content.isCollapsed == true)
 
     row.Icon:SetPoint("CENTER", row, "LEFT", indent + ICON_CENTER, 0)
     JourneyIcon.Set(row.Icon, content.icon)

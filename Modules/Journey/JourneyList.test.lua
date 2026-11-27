@@ -228,6 +228,16 @@ describe("JourneyList", function()
             assert.are.equal("Interface\\Buttons\\UI-MinusButton-Up", row.Toggle.texture)
         end)
 
+        it("should show that it can be collapsed like Blizzard's settings, on the client that has their art", function()
+            ui.atlases = {["common-button-dropdown-open"] = {}, ["common-button-dropdown-closed"] = {}}
+
+            local row = ShowRow({text = "Available", isSelected = false, isCollapsed = true})
+            assert.are.equal("common-button-dropdown-closed", row.Toggle.atlas)
+
+            ShowRow({text = "Available", isSelected = false, isCollapsed = false})
+            assert.are.equal("common-button-dropdown-open", row.Toggle.atlas)
+        end)
+
         it("should tell headers apart by their font", function()
             assert.are.equal("GameFontNormal", ShowRow({text = "Available", isSelected = false, isCollapsed = false}).Label.fontObject)
             assert.are.equal("GameFontHighlight", ShowRow({text = "Wolves", isSelected = false}).Label.fontObject)

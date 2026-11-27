@@ -28,6 +28,9 @@ local lowLevelIcons = {}
 
 -- The arrow of the player on the minimap
 JourneyIcon.ARROW = "Interface\\Minimap\\MinimapArrow"
+-- Forever's gold player icon of group frames, which QuestieWorldMap marks the zone of the player with. Saved, because Era and Cata
+-- don't have it.
+JourneyIcon.HERE = "Interface\\AddOns\\Questie\\Icons\\Journey\\here.png"
 
 ---The icon of a quest that is too low level to be worth it. Like Blizzard's for those, TrivialQuests, but a bit brighter.
 ---@param name string In Questie.icons
@@ -64,9 +67,9 @@ function JourneyIcon.Set(texture, icon)
 end
 
 ---@param size number
----@return string text The arrow of the player, for where the player is. Without the space around it.
+---@return string text The icon of the player, for where the player is. Without the space around it.
 function JourneyIcon.GetHereMarkup(size)
-    return "|T" .. JourneyIcon.ARROW .. ":" .. size .. ":" .. size .. ":0:0:32:32:9:23:9:23|t"
+    return "|T" .. JourneyIcon.HERE .. ":" .. size .. ":" .. size .. "|t"
 end
 
 ---@param icon string|JourneyIcon.DarkIcon

@@ -22,7 +22,7 @@ local GLOBALS = {
     "CreateFont",
     "GameFontHighlightSmall", "C_Timer", "GetTime", "GetTimePreciseSec", "PlaySound", "SOUNDKIT", "IsMouseButtonDown",
     "strtrim", "print", "LibStub", "debugstack", "wipe", "OKAY", "Menu", "strsplit", "CreateScrollBoxListLinearView",
-    "CreateDataProvider", "CreateIndexRangeDataProvider", "ScrollBoxConstants", "GetCursorPosition", "SetCursor",
+    "CreateDataProvider", "CreateIndexRangeDataProvider", "ScrollBoxConstants", "GetCursorPosition", "SetCursor", "C_Texture",
 }
 
 -- Art and setup calls that have no behavior worth simulating
@@ -602,6 +602,8 @@ function FakeUI.Install()
     end
     _G.GetCursorPosition = function() return ui.cursorX or 0, 0 end
     _G.SetCursor = function(cursor) ui.cursor = cursor end
+    -- Only the atlases in ui.atlases exist, like on a client without Forever's
+    _G.C_Texture = {GetAtlasInfo = function(atlas) return ui.atlases and ui.atlases[atlas] or nil end}
     ui.knownNpcs = {}
     ui.modelLoadSeconds = 0
     _G.NineSliceUtil = {ApplyLayoutByName = function() end}
