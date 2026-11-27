@@ -233,7 +233,8 @@ function _QuestieJourney.myJourney.Build(canvas)
         JourneyPicker.SetText(picker, texts[value])
         _QuestieJourney.myJourney.Refresh()
     end)
-    picker:SetPoint("TOPLEFT", canvas, "TOPLEFT", 14, -10)
+    -- Lines up with the border of the list below, which reaches the side
+    picker:SetPoint("TOPLEFT", canvas, "TOPLEFT", 2, -10)
     JourneyPicker.SetText(picker, texts[filter])
 
     local noteButton = QuestieOptionsControls.Create(canvas, {

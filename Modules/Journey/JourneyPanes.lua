@@ -9,11 +9,11 @@ local QuestieOptionsControls = QuestieLoader:ImportModule("QuestieOptionsControl
 local DEFAULT_LIST_WIDTH = 415
 local MIN_LIST_WIDTH = 200
 local MIN_DETAILS_WIDTH = 240
-local DIVIDER_WIDTH = 14
+local DIVIDER_WIDTH = 2
+-- Wider than the gap between the boxes, so that it is easy to grab
+local DIVIDER_GRAB_WIDTH = 10
 -- Space for the title of a box, which is drawn above it
 local TITLE_HEIGHT = 22
--- The border of a box is drawn this far outside of it
-local BORDER = 5
 
 ---@class JourneyPanes.Instance
 ---@field list Frame
@@ -40,8 +40,9 @@ end
 ---@param canvas Frame
 local function _CreateDivider(panes, canvas)
     local divider = CreateFrame("Button", nil, canvas)
-    divider:SetPoint("TOPLEFT", panes.list, "TOPRIGHT", BORDER / 2, 0)
-    divider:SetPoint("BOTTOMRIGHT", panes.details, "BOTTOMLEFT", -BORDER / 2, 0)
+    divider:SetPoint("TOP", panes.list, "TOPRIGHT", DIVIDER_WIDTH / 2, 0)
+    divider:SetPoint("BOTTOM", panes.list, "BOTTOMRIGHT", DIVIDER_WIDTH / 2, 0)
+    divider:SetWidth(DIVIDER_GRAB_WIDTH)
     divider:SetFrameLevel(canvas:GetFrameLevel() + 10)
 
     local line = divider:CreateTexture(nil, "HIGHLIGHT")
@@ -90,14 +91,15 @@ function JourneyPanes.Create(canvas, listTitle, topInset)
     local panes = {listWidth = DEFAULT_LIST_WIDTH}
 
     local top = -topInset - (listTitle ~= "" and TITLE_HEIGHT or 0)
+    -- At the sides, like the boxes in the settings. Their border is drawn a bit outside of them.
     local list = _CreateBox(canvas, listTitle)
-    list:SetPoint("TOPLEFT", canvas, "TOPLEFT", 12, top)
-    list:SetPoint("BOTTOMLEFT", canvas, "BOTTOMLEFT", 12, 12)
+    list:SetPoint("TOPLEFT", canvas, "TOPLEFT", 0, top)
+    list:SetPoint("BOTTOMLEFT", canvas, "BOTTOMLEFT", 0, 12)
     panes.list = list
 
     local details = _CreateBox(canvas, "")
     details:SetPoint("TOPLEFT", list, "TOPRIGHT", DIVIDER_WIDTH, 0)
-    details:SetPoint("BOTTOMRIGHT", canvas, "BOTTOMRIGHT", -12, 12)
+    details:SetPoint("BOTTOMRIGHT", canvas, "BOTTOMRIGHT", 0, 12)
     panes.details = details
 
     _CreateDivider(panes, canvas)

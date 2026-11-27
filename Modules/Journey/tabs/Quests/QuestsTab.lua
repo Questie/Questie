@@ -324,8 +324,9 @@ end
 ---@param canvas Frame
 local function _CreateProgressBar(canvas)
     progressBar = CreateFrame("StatusBar", nil, canvas)
-    progressBar:SetPoint("TOPLEFT", canvas, "TOPLEFT", 14, -11)
-    progressBar:SetPoint("TOPRIGHT", canvas, "TOPRIGHT", -14, -11)
+    -- Lines up with the borders of the boxes below, which reach the sides
+    progressBar:SetPoint("TOPLEFT", canvas, "TOPLEFT", 2, -11)
+    progressBar:SetPoint("TOPRIGHT", canvas, "TOPRIGHT", -2, -11)
     progressBar:SetHeight(BAR_HEIGHT)
     progressBar:SetStatusBarTexture("Interface\\TargetingFrame\\UI-StatusBar")
     progressBar:SetStatusBarColor(0.20, 0.45, 0.13)
