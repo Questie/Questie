@@ -14,6 +14,8 @@ local QuestieMap = QuestieLoader:ImportModule("QuestieMap")
 local l10n = QuestieLoader:ImportModule("l10n")
 ---@type QuestieQuest
 local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
+---@type MapIconVisibility
+local MapIconVisibility = QuestieLoader:ImportModule("MapIconVisibility")
 ---@type QuestiePartyObjectives
 local QuestiePartyObjectives = QuestieLoader:ImportModule("QuestiePartyObjectives")
 ---@type ActiveQuests
@@ -98,9 +100,9 @@ function QuestieOptionsEngine.tabs.icons:Initialize()
                             Questie.db.profile.hideUntrackedQuestsMapIcons = value
                             ThreadLib.ThreadInstant(function()
                                 if value then
-                                    QuestieQuest:HideQuestIcons()
+                                    MapIconVisibility.HideQuestIcons()
                                 else
-                                    QuestieQuest:ShowQuestIcons()
+                                    MapIconVisibility.ShowQuestIcons()
                                 end
                                 if value == true then
                                     for questId, acceptance in ActiveQuests.Iterate() do
@@ -128,7 +130,7 @@ function QuestieOptionsEngine.tabs.icons:Initialize()
                         get = function() return Questie.db.profile.hideUnfocusedQuestObjectiveIcons end,
                         set = function(_, value)
                             Questie.db.profile.hideUnfocusedQuestObjectiveIcons = value
-                            QuestieQuest.ToggleQuestNotes(true)
+                            MapIconVisibility.ToggleQuestNotes(true)
                         end,
                     },
                 },

@@ -7,8 +7,8 @@ describe("QuestFocusButton", function()
     local TrackerUtils
     ---@type TrackerMapEligibility
     local TrackerMapEligibility
-    ---@type QuestieQuest
-    local QuestieQuest
+    ---@type MapIconVisibility
+    local MapIconVisibility
     ---@type QuestieTracker
     local QuestieTracker
     ---@type QuestieCombatQueue
@@ -38,8 +38,8 @@ describe("QuestFocusButton", function()
         _G.WorldMapFrame = nil
         TrackerMapEligibility = QuestieLoader:ImportModule("TrackerMapEligibility")
         TrackerMapEligibility.GetCapabilities = function() return {canFocusQuest = canFocusQuest} end
-        QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
-        QuestieQuest.ToggleQuestNotes = spy.new(function() end)
+        MapIconVisibility = QuestieLoader:ImportModule("MapIconVisibility")
+        MapIconVisibility.ToggleQuestNotes = spy.new(function() end)
         QuestieTracker = QuestieLoader:ImportModule("QuestieTracker")
         QuestieTracker.Update = spy.new(function() end)
         QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
@@ -228,7 +228,7 @@ describe("QuestFocusButton", function()
             button.scripts.OnClick(button)
 
             assert.spy(QuestieCompat.SetSuperTrackedQuestID).was.called_with(123)
-            assert.spy(QuestieQuest.ToggleQuestNotes).was.not_called()
+            assert.spy(MapIconVisibility.ToggleQuestNotes).was.not_called()
             assert.spy(QuestieTracker.Update).was.called()
         end)
 
@@ -350,7 +350,7 @@ describe("QuestFocusButton", function()
             button.scripts.OnClick(button)
 
             assert.spy(TrackerUtils.FocusQuest).was.called_with(TrackerUtils, 123, enrichedQuest)
-            assert.spy(QuestieQuest.ToggleQuestNotes).was.called_with(false)
+            assert.spy(MapIconVisibility.ToggleQuestNotes).was.called_with(false)
             assert.spy(QuestieTracker.Update).was.called()
         end)
 
@@ -381,7 +381,7 @@ describe("QuestFocusButton", function()
 
             button.scripts.OnClick(button)
 
-            assert.spy(QuestieQuest.ToggleQuestNotes).was.not_called()
+            assert.spy(MapIconVisibility.ToggleQuestNotes).was.not_called()
         end)
 
         it("should unfocus a focused quest", function()
@@ -393,7 +393,7 @@ describe("QuestFocusButton", function()
 
             assert.spy(TrackerUtils.UnFocus).was.called()
             assert.spy(TrackerUtils.FocusQuest).was.not_called()
-            assert.spy(QuestieQuest.ToggleQuestNotes).was.called_with(true)
+            assert.spy(MapIconVisibility.ToggleQuestNotes).was.called_with(true)
             assert.spy(QuestieTracker.Update).was.called()
         end)
     end)

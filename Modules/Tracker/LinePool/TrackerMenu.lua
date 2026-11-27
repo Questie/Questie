@@ -17,8 +17,8 @@ local TrackerUtils = QuestieLoader:ImportModule("TrackerUtils")
 -------------------------
 --Import Questie modules.
 -------------------------
----@type QuestieQuest
-local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
+---@type MapIconVisibility
+local MapIconVisibility = QuestieLoader:ImportModule("MapIconVisibility")
 ---@type TrackerData
 local TrackerData = QuestieLoader:ImportModule("TrackerData")
 ---@type TrackerMapEligibility
@@ -64,7 +64,7 @@ local function _AddUnfocusEntry(menu, isStillFocused)
                 return
             end
             TrackerUtils:UnFocus()
-            QuestieQuest.ToggleQuestNotes(true)
+            MapIconVisibility.ToggleQuestNotes(true)
         end
     })
 end
@@ -139,7 +139,7 @@ TrackerMenu.addShowHideObjectivesOption = function(menu, quest, objective)
                 end
                 objective.HideIcons = nil
                 Questie.db.char.TrackerHiddenObjectives[tostring(quest.Id) .. " " .. tostring(objective.Index)] = nil
-                QuestieQuest.ToggleQuestNotes(true)
+                MapIconVisibility.ToggleQuestNotes(true)
             end
         })
     else
@@ -152,7 +152,7 @@ TrackerMenu.addShowHideObjectivesOption = function(menu, quest, objective)
                 end
                 objective.HideIcons = true
                 Questie.db.char.TrackerHiddenObjectives[tostring(quest.Id) .. " " .. tostring(objective.Index)] = true
-                QuestieQuest.ToggleQuestNotes(false)
+                MapIconVisibility.ToggleQuestNotes(false)
             end
         })
     end
@@ -166,7 +166,7 @@ TrackerMenu.addShowHideQuestsOption = function(menu, quest)
                 -- Recovery action: clearing hidden state needs no eligibility check.
                 quest.HideIcons = nil
                 Questie.db.char.TrackerHiddenQuests[quest.Id] = nil
-                QuestieQuest.ToggleQuestNotes(true)
+                MapIconVisibility.ToggleQuestNotes(true)
             end
         })
     else
@@ -179,7 +179,7 @@ TrackerMenu.addShowHideQuestsOption = function(menu, quest)
                 end
                 quest.HideIcons = true
                 Questie.db.char.TrackerHiddenQuests[quest.Id] = true
-                QuestieQuest.ToggleQuestNotes(false)
+                MapIconVisibility.ToggleQuestNotes(false)
             end
         })
     end
@@ -212,7 +212,7 @@ TrackerMenu.addShowObjectivesOnMapOption = function(menu, quest, objective)
             end
 
             if needHiddenUpdate then
-                QuestieQuest.ToggleQuestNotes(true)
+                MapIconVisibility.ToggleQuestNotes(true)
             end
 
             TrackerUtils:ShowObjectiveOnMap(objective)
@@ -253,7 +253,7 @@ TrackerMenu.addShowQuestObjectivesOnMapOption = function(menu, quest)
             end
 
             if needHiddenUpdate then
-                QuestieQuest.ToggleQuestNotes(true)
+                MapIconVisibility.ToggleQuestNotes(true)
             end
 
             TrackerUtils:ShowQuestObjectivesOnMap(objectives)
@@ -360,7 +360,7 @@ TrackerMenu.addFocusUnfocusOption = function(menu, quest)
             text = l10n('Focus Quest'),
             func = function()
                 if TrackerUtils:FocusQuest(quest.Id, quest) then
-                    QuestieQuest.ToggleQuestNotes(false)
+                    MapIconVisibility.ToggleQuestNotes(false)
                 end
             end
         })

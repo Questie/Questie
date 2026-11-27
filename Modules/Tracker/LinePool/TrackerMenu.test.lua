@@ -5,6 +5,8 @@ describe("TrackerMenu", function()
     local TrackerMenu
     ---@type QuestieQuest
     local QuestieQuest
+    ---@type MapIconVisibility
+    local MapIconVisibility
     ---@type TrackerUtils
     local TrackerUtils
     local originalDialogs
@@ -64,7 +66,8 @@ describe("TrackerMenu", function()
         QuestieLoader:ImportModule("DistanceUtils")
 
         QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
-        QuestieQuest.ToggleQuestNotes = function() end
+        MapIconVisibility = QuestieLoader:ImportModule("MapIconVisibility")
+        MapIconVisibility.ToggleQuestNotes = function() end
 
         _G.StaticPopupDialogs = {}
         Questie.db = {
@@ -213,7 +216,7 @@ describe("TrackerMenu", function()
             local shown
             TrackerUtils.ShowQuestObjectivesOnMap = function(_, objectives) shown = objectives end
             TrackerUtils.UnFocus = spy.new(function() end)
-            QuestieQuest.ToggleQuestNotes = spy.new(function() end)
+            MapIconVisibility.ToggleQuestNotes = spy.new(function() end)
             Questie.db.char.TrackerFocus = "100 1"
             local wolves = {Index = 1, HideIcons = true, spawnList = {{Spawns = {}}}}
             local bears = {Index = 2, spawnList = {{Spawns = {}}}}
@@ -250,7 +253,7 @@ describe("TrackerMenu", function()
             assert.is_nil(wolves.HideIcons)
             assert.is_nil(originalQuest.HideIcons)
             assert.spy(TrackerUtils.UnFocus).was.called(1)
-            assert.spy(QuestieQuest.ToggleQuestNotes).was.called_with(true)
+            assert.spy(MapIconVisibility.ToggleQuestNotes).was.called_with(true)
         end)
 
         it("keeps showing the finisher from the root menu of a complete quest", function()
@@ -306,7 +309,7 @@ describe("TrackerMenu", function()
             }
             displayQuests[100] = display
             Questie.db.char.TrackerFocus = 11
-            QuestieQuest.ToggleQuestNotes = spy.new(function() end)
+            MapIconVisibility.ToggleQuestNotes = spy.new(function() end)
             TrackerUtils.UnFocus = spy.new(function() end)
             TrackerUtils.ShowObjectiveOnMap = spy.new(function() end)
             TrackerUtils.ShowFinisherOnMap = spy.new(function() end)
@@ -331,7 +334,7 @@ describe("TrackerMenu", function()
             assert.is_true(originalObjective.HideIcons)
             assert.is_nil(replacement.HideIcons)
             assert.are.equal(11, Questie.db.char.TrackerFocus)
-            assert.spy(QuestieQuest.ToggleQuestNotes).was.not_called()
+            assert.spy(MapIconVisibility.ToggleQuestNotes).was.not_called()
             assert.spy(TrackerUtils.UnFocus).was.not_called()
             assert.spy(TrackerUtils.ShowObjectiveOnMap).was.not_called()
             assert.spy(distance.GetNearestObjective).was.not_called()
@@ -350,7 +353,7 @@ describe("TrackerMenu", function()
 
             assert.is_true(originalObjective.HideIcons)
             assert.are.equal(11, Questie.db.char.TrackerFocus)
-            assert.spy(QuestieQuest.ToggleQuestNotes).was.not_called()
+            assert.spy(MapIconVisibility.ToggleQuestNotes).was.not_called()
             assert.spy(TrackerUtils.UnFocus).was.not_called()
             assert.spy(TrackerUtils.ShowObjectiveOnMap).was.not_called()
             assert.spy(distance.GetNearestObjective).was.not_called()
@@ -367,7 +370,7 @@ describe("TrackerMenu", function()
             menu[2].func()
 
             assert.is_nil(originalQuest.HideIcons)
-            assert.spy(QuestieQuest.ToggleQuestNotes).was.not_called()
+            assert.spy(MapIconVisibility.ToggleQuestNotes).was.not_called()
             assert.spy(TrackerUtils.ShowFinisherOnMap).was.not_called()
         end)
 
@@ -387,7 +390,7 @@ describe("TrackerMenu", function()
             assert.is_true(originalObjective.HideIcons)
             assert.are.equal(11, Questie.db.char.TrackerFocus)
             assert.spy(TrackerUtils.UnFocus).was.not_called()
-            assert.spy(QuestieQuest.ToggleQuestNotes).was.not_called()
+            assert.spy(MapIconVisibility.ToggleQuestNotes).was.not_called()
             assert.spy(TrackerUtils.ShowQuestObjectivesOnMap).was.not_called()
         end)
 
@@ -402,7 +405,7 @@ describe("TrackerMenu", function()
 
             assert.are.equal(100, Questie.db.char.TrackerFocus)
             assert.spy(TrackerUtils.UnFocus).was.not_called()
-            assert.spy(QuestieQuest.ToggleQuestNotes).was.not_called()
+            assert.spy(MapIconVisibility.ToggleQuestNotes).was.not_called()
             assert.spy(TrackerUtils.ShowQuestObjectivesOnMap).was.called(1)
         end)
 
@@ -414,7 +417,7 @@ describe("TrackerMenu", function()
             menu[1].func()
 
             assert.is_nil(originalQuest.HideIcons)
-            assert.spy(QuestieQuest.ToggleQuestNotes).was.not_called()
+            assert.spy(MapIconVisibility.ToggleQuestNotes).was.not_called()
         end)
 
         describe("recovery after losing eligibility", function()
@@ -437,14 +440,14 @@ describe("TrackerMenu", function()
 
             it("unfocuses the quest from an open menu and offers Unfocus in a rebuilt one", function()
                 Questie.db.char.TrackerFocus = 100
-                QuestieQuest.ToggleQuestNotes = spy.new(function() end)
+                MapIconVisibility.ToggleQuestNotes = spy.new(function() end)
                 local openMenu = {}
                 TrackerMenu.addFocusUnfocusOption(openMenu, originalQuest)
 
                 openMenu[1].func()
 
                 assert.spy(TrackerUtils.UnFocus).was.called(1)
-                assert.spy(QuestieQuest.ToggleQuestNotes).was.called_with(true)
+                assert.spy(MapIconVisibility.ToggleQuestNotes).was.called_with(true)
                 assert.is_not_nil(_Labels(TrackerMenu:GetMenuForQuest(display))["Unfocus"])
             end)
 
@@ -468,7 +471,7 @@ describe("TrackerMenu", function()
 
                 assert.is_nil(originalQuest.HideIcons)
                 assert.is_nil(Questie.db.char.TrackerHiddenQuests[100])
-                assert.spy(QuestieQuest.ToggleQuestNotes).was.called_with(true)
+                assert.spy(MapIconVisibility.ToggleQuestNotes).was.called_with(true)
                 assert.is_nil(_Labels(TrackerMenu:GetMenuForQuest(display))["Hide Icons"])
             end)
         end)
@@ -488,26 +491,26 @@ describe("TrackerMenu", function()
     it("does not hide map notes if the quest loses focus eligibility while its menu is open", function()
         TrackerUtils.FocusQuest = function() return false end
         QuestieQuest.ToggleNotes = spy.new(function() end)
-        QuestieQuest.ToggleQuestNotes = spy.new(function() end)
+        MapIconVisibility.ToggleQuestNotes = spy.new(function() end)
         local menu = {}
         TrackerMenu.addFocusUnfocusOption(menu, {Id = 54})
 
         menu[1].func()
 
         assert.spy(QuestieQuest.ToggleNotes).was.not_called()
-        assert.spy(QuestieQuest.ToggleQuestNotes).was.not_called()
+        assert.spy(MapIconVisibility.ToggleQuestNotes).was.not_called()
     end)
 
     it("should refresh the quest icons without rebuilding the quest log when focusing", function()
         TrackerUtils.FocusQuest = function() return true end
         QuestieQuest.ToggleNotes = spy.new(function() end)
-        QuestieQuest.ToggleQuestNotes = spy.new(function() end)
+        MapIconVisibility.ToggleQuestNotes = spy.new(function() end)
         local menu = {}
         TrackerMenu.addFocusUnfocusOption(menu, {Id = 54})
 
         menu[1].func()
 
-        assert.spy(QuestieQuest.ToggleQuestNotes).was.called_with(false)
+        assert.spy(MapIconVisibility.ToggleQuestNotes).was.called_with(false)
         assert.spy(QuestieQuest.ToggleNotes).was.not_called()
     end)
 
@@ -601,7 +604,7 @@ describe("TrackerMenu", function()
             local menu = {}
 
             local toggleSpy = spy.new(function() end)
-            QuestieQuest.ToggleQuestNotes = toggleSpy
+            MapIconVisibility.ToggleQuestNotes = toggleSpy
 
             TrackerMenu.addShowHideObjectivesOption(menu, quest, objective)
 
@@ -625,7 +628,7 @@ describe("TrackerMenu", function()
             local menu = {}
 
             local toggleSpy = spy.new(function() end)
-            QuestieQuest.ToggleQuestNotes = toggleSpy
+            MapIconVisibility.ToggleQuestNotes = toggleSpy
 
             TrackerMenu.addShowHideObjectivesOption(menu, quest, objective)
 
@@ -650,7 +653,7 @@ describe("TrackerMenu", function()
             local menu = {}
 
             local toggleSpy = spy.new(function() end)
-            QuestieQuest.ToggleQuestNotes = toggleSpy
+            MapIconVisibility.ToggleQuestNotes = toggleSpy
 
             TrackerMenu.addShowHideQuestsOption(menu, quest)
 
@@ -673,7 +676,7 @@ describe("TrackerMenu", function()
             local menu = {}
 
             local toggleSpy = spy.new(function() end)
-            QuestieQuest.ToggleQuestNotes = toggleSpy
+            MapIconVisibility.ToggleQuestNotes = toggleSpy
 
             TrackerMenu.addShowHideQuestsOption(menu, quest)
 
@@ -699,7 +702,7 @@ describe("TrackerMenu", function()
             local menu = {}
 
             local toggleSpy = spy.new(function() end)
-            QuestieQuest.ToggleQuestNotes = toggleSpy
+            MapIconVisibility.ToggleQuestNotes = toggleSpy
             Questie.db.char.TrackerHiddenObjectives["300 1"] = true
 
             TrackerMenu.addShowObjectivesOnMapOption(menu, quest, objective)
@@ -720,7 +723,7 @@ describe("TrackerMenu", function()
             local menu = {}
 
             local toggleSpy = spy.new(function() end)
-            QuestieQuest.ToggleQuestNotes = toggleSpy
+            MapIconVisibility.ToggleQuestNotes = toggleSpy
 
             Questie.db.char.TrackerHiddenQuests[300] = true
 
@@ -742,7 +745,7 @@ describe("TrackerMenu", function()
             local menu = {}
 
             local toggleSpy = spy.new(function() end)
-            QuestieQuest.ToggleQuestNotes = toggleSpy
+            MapIconVisibility.ToggleQuestNotes = toggleSpy
 
             TrackerMenu.addShowObjectivesOnMapOption(menu, quest, objective)
             menu[1].func()

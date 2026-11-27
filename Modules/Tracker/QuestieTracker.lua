@@ -43,6 +43,8 @@ local ChallengeModeTimer = QuestieLoader:ImportModule("ChallengeModeTimer")
 -------------------------
 ---@type QuestieQuest
 local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
+---@type MapIconVisibility
+local MapIconVisibility = QuestieLoader:ImportModule("MapIconVisibility")
 ---@type QuestieTooltips
 local QuestieTooltips = QuestieLoader:ImportModule("QuestieTooltips")
 ---@type QuestieLib
@@ -105,9 +107,9 @@ local GetItemCount = QuestieCompat.GetItemCount
 -- redraw. IsQuestTracked already defers to the Blizzard watch list in this mode; this keeps the
 -- map in sync live by re-applying the filter whenever the watch list changes. Mirrors the
 -- enabled path's refresh (UntrackQuestId): repopulate so a newly watched quest's icons get
--- created (Show/HideQuestIcons only toggle existing frames), apply visibility, prune tooltips.
+-- created (MapIconVisibility.Show/HideQuestIcons only toggle existing frames), apply visibility, prune tooltips.
 -- Coalescing: a refresh may be queued (combat queue) or running. The refresh is threaded and
--- Show/HideQuestIcons + PopulateObjectiveNotes yield across frames, so we keep the guard set for
+-- MapIconVisibility.Show/HideQuestIcons + PopulateObjectiveNotes yield across frames, so we keep the guard set for
 -- that whole window -- otherwise a burst of watch events (bulk accept/abandon, login population)
 -- would enqueue overlapping full refreshes. If the watch list changes while a refresh runs, we
 -- record it and run exactly one more pass on completion.
@@ -158,8 +160,8 @@ DisabledWatchRefresh = function()
                     QuestieQuest:PopulateObjectiveNotes(acceptance.quest)
                 end
             end
-            QuestieQuest:ShowQuestIcons()
-            QuestieQuest:HideQuestIcons()
+            MapIconVisibility.ShowQuestIcons()
+            MapIconVisibility.HideQuestIcons()
             for questId, acceptance in ActiveQuests.Iterate() do
                 if acceptance.quest and (not QuestieQuest:ShouldShowQuestNotes(questId)) then
                     QuestieTooltips:RemoveQuest(questId)
@@ -213,7 +215,7 @@ local function _RestoreSavedFocus(canWait)
 
     -- Use the same eligibility checks as menu focus. They fail while spawns or objectives are still loading.
     if TrackerUtils:FocusQuest(questId) then
-        QuestieQuest.ToggleQuestNotes(false)
+        MapIconVisibility.ToggleQuestNotes(false)
         return true
     end
     -- Unavailable data is not an invalid target until the wait ends. A quest that left the log never returns.
@@ -1331,7 +1333,7 @@ function QuestieTracker:RemoveQuest(questId)
 
     if Questie.db.char.TrackerFocus == questId then
         TrackerUtils:UnFocus()
-        QuestieQuest.ToggleQuestNotes(true)
+        MapIconVisibility.ToggleQuestNotes(true)
     end
 end
 
@@ -1376,7 +1378,7 @@ function QuestieTracker:UntrackQuestId(questId)
     if Questie.db.profile.hideUntrackedQuestsMapIcons then
         ThreadLib.ThreadInstant(function()
             -- Hides objective icons for untracked quests. We don't want to hide townsfolk icons.
-            QuestieQuest:HideQuestIcons()
+            MapIconVisibility.HideQuestIcons()
 
             -- Removes objective tooltips for untracked quests.
             QuestieTooltips:RemoveQuest(questId)
@@ -1467,7 +1469,7 @@ function QuestieTracker:AQW_Insert(index, _expire, keepCollapsed)
             -- Unhide quest icons when retracking quests.
             if Questie.db.profile.hideUntrackedQuestsMapIcons and quest.enrichment then
                 ThreadLib.ThreadInstant(function()
-                    QuestieQuest:ShowQuestIcons()
+                    MapIconVisibility.ShowQuestIcons()
                     QuestieQuest:PopulateObjectiveNotes(quest.enrichment)
                 end)
             end
