@@ -119,6 +119,15 @@ function QuestieJourney.OpenTab(tabKey)
     JourneyWindow.Show(tabKey)
 end
 
+---Opens the window on the quests of a zone, a faction, and so on.
+---@param source string? What is listed, like "zone:40". What was shown last when nil.
+function QuestieJourney.OpenSource(source)
+    QuestieJourney.OpenTab("quests")
+    if source and JourneyWindow.IsShown() then
+        _QuestieJourney.quests.OpenSource(source)
+    end
+end
+
 function QuestieJourney:ToggleJourneyWindow()
     if JourneyWindow.IsShown() then
         JourneyWindow.Hide()

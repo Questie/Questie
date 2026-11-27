@@ -107,6 +107,68 @@ function JourneyPlaces.IsDungeons(groupId)
 end
 
 -------------------------
+-- Maps
+-------------------------
+
+---@type table<UiMapId, JourneyPlace> Nil until they are asked for
+local zonesByMap
+---@type table<number, UiMapId> By group, for the continents
+local mapsByGroup
+
+---The map most of the zones of a group are on. Only continents have one.
+---@param zones JourneyPlace[]
+---@return UiMapId?
+local function _GetCommonMap(zones)
+    local counts, best = {}, nil
+    for _, zone in ipairs(zones) do
+        local info = zone.id > 0 and C_Map.GetMapInfo(ZoneDB:GetUiMapIdByAreaId(zone.id) or 0)
+        local parent = info and C_Map.GetMapInfo(info.parentMapID)
+        if parent and parent.mapType == Enum.UIMapType.Continent then
+            counts[parent.mapID] = (counts[parent.mapID] or 0) + 1
+            if not best or counts[parent.mapID] > counts[best] then
+                best = parent.mapID
+            end
+        end
+    end
+    return best and counts[best] > 1 and best or nil
+end
+
+local function _ReadMaps()
+    if zonesByMap then
+        return
+    end
+    zonesByMap, mapsByGroup = {}, {}
+    for _, group in ipairs(JourneyPlaces.GetGroups()) do
+        local zones = JourneyPlaces.GetZones(group.id)
+        mapsByGroup[group.id] = _GetCommonMap(zones)
+        for _, zone in ipairs(zones) do
+            local uiMapId = zone.id > 0 and ZoneDB:GetUiMapIdByAreaId(zone.id)
+            if uiMapId and not zonesByMap[uiMapId] then
+                zonesByMap[uiMapId] = zone
+            end
+        end
+    end
+end
+
+---@param uiMapId UiMapId
+---@return JourneyPlace? zone
+function JourneyPlaces.GetZoneOfMap(uiMapId)
+    _ReadMaps()
+    return zonesByMap[uiMapId]
+end
+
+---@param uiMapId UiMapId
+---@return JourneyPlace? continent
+function JourneyPlaces.GetContinentOfMap(uiMapId)
+    _ReadMaps()
+    for groupId, groupMap in pairs(mapsByGroup) do
+        if groupMap == uiMapId then
+            return {id = groupId, name = JourneyPlaces.GetGroupName(groupId)}
+        end
+    end
+end
+
+-------------------------
 -- Factions
 -------------------------
 

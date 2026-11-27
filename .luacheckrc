@@ -3027,6 +3027,7 @@ globals = {
     "ReloadUI",
     "SLASH_QUESTIEPROFILER1",
     "SlashCmdList",
+    "QuestieJourneyMapButtonMixin",
     "QuestieWorldMapButtonMixin",
     "Validators",
     -----------------------------------------------------> busted unit testing
