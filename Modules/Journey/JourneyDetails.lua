@@ -20,6 +20,8 @@ local l10n = QuestieLoader:ImportModule("l10n")
 JourneyDetails.LABEL_COLOR = "E0D2B0"
 
 local ROW_INSET = 8
+-- For a row type that fills the whole row
+JourneyDetails.ROW_INSET = ROW_INSET
 local END_SPACE = 14 -- Below the last row, so it doesn't look cut off
 -- Space between the border of a box and what is in it
 local BOX_INSET = 14
@@ -46,10 +48,12 @@ local MAP_WIDTH, MAP_HEIGHT = 48, 32
 local ACTION_ICON = "Interface\\AddOns\\Questie\\Icons\\map_scroll.png"
 local ACTION_SIZE = 20
 local STATUS_HEIGHT = 24
+local BAR_TEXTURE = "Interface\\TargetingFrame\\UI-StatusBar"
+local STANDING_BAR_HEIGHT = 18
 local FOOTER_HEIGHT, FOOTER_BUTTON_HEIGHT, FOOTER_GAP, FOOTER_ICON_WIDTH, FOOTER_PADDING = 30, 22, 16, 20, 10
 
 ---@class JourneyDetails.Row
----@field type "heading"|"title"|"text"|"link"|"checkbox"|"button"|"entity"|"itemTooltip"|"gap"|"page"|"caption"|"status"|"step"|"footer"
+---@field type string One of those below, or of those that were added with AddRowType: "heading"|"title"|"text"|"link"|"checkbox"|"button"|"entity"|"itemTooltip"|"gap"|"page"|"caption"|"status"|"step"|"footer"|"standing"
 ---@field text string? Finished text. It is never translated or formatted, because it can contain names and notes.
 ---@field title string? For the type entity, above the text
 ---@field onBack fun()? For the type page
@@ -59,6 +63,8 @@ local FOOTER_HEIGHT, FOOTER_BUTTON_HEIGHT, FOOTER_GAP, FOOTER_ICON_WIDTH, FOOTER
 ---@field action {tooltip: string, isOn: boolean?, onClick: fun()}? For the types step and entity, a small map at the right edge
 ---@field font string? For the type text, a font object
 ---@field height number? For the type gap
+---@field standing JourneyFactions.Standing? For the type standing
+---@field gain number? For the type standing, reputation that would be added to it
 ---@field onClick fun()? For the types link, button and entity
 ---@field showTooltip fun()? For the types link, checkbox and entity. Fills the tooltip that was opened at the row.
 ---@field npcId NpcId? For the type entity, shows a portrait of the NPC
@@ -88,13 +94,6 @@ local function _MeasureText(text, font, width)
     measuringText:SetWordWrap(true)
     measuringText:SetText(text)
     return math.ceil(measuringText:GetStringHeight())
-end
-
----@param data JourneyDetails.Row
----@param rowWidth number
----@return number
-local function _GetContentWidth(data, rowWidth)
-    return math.max(1, rowWidth - 2 * (data.isInBox and BOX_INSET or ROW_INSET))
 end
 
 ---@param row Frame
@@ -335,6 +334,7 @@ local function _ShowBadges(part, data)
 end
 
 ---@class JourneyDetails.RowType
+---@field isFullWidth boolean? Its part fills the whole row, so that a background can reach the edges. It keeps ROW_INSET free for the rest.
 ---@field Create fun(part: Frame)
 ---@field Update fun(part: Frame, data: JourneyDetails.Row, width: number)
 ---@field GetHeight fun(data: JourneyDetails.Row, width: number): number
@@ -662,6 +662,57 @@ local ROW_TYPES = {
         GetHeight = function(data) return itemTooltipHeights[data.itemId] or UNKNOWN_ITEM_TOOLTIP_HEIGHT end,
     },
 
+    -- A bar like the ones in Blizzard's list of factions, below a name if there is one
+    standing = {
+        Create = function(part)
+            local button = CreateFrame("Button", nil, part)
+            button:SetAllPoints(part)
+            button:SetHighlightAtlas("Options_List_Hover")
+            button:SetScript("OnClick", function() part.data.onClick() end)
+            part.Button = button
+            part.Title = button:CreateFontString(nil, "ARTWORK", "GameFontHighlight")
+            part.Title:SetPoint("TOPLEFT", button, "TOPLEFT", 2, -3)
+
+            local bar = CreateFrame("StatusBar", nil, button)
+            bar:SetPoint("BOTTOMLEFT", button, "BOTTOMLEFT", 2, 3)
+            bar:SetPoint("BOTTOMRIGHT", button, "BOTTOMRIGHT", -2, 3)
+            bar:SetHeight(STANDING_BAR_HEIGHT)
+            bar:SetStatusBarTexture(BAR_TEXTURE)
+            part.Bar = bar
+            local background = bar:CreateTexture(nil, "BACKGROUND")
+            background:SetAllPoints(bar)
+            background:SetColorTexture(0, 0, 0, 0.45)
+            part.Gain = bar:CreateTexture(nil, "BORDER")
+            part.Gain:SetTexture(BAR_TEXTURE)
+            part.Gain:SetPoint("TOPLEFT", bar:GetStatusBarTexture(), "TOPRIGHT", 0, 0)
+            part.Gain:SetPoint("BOTTOMLEFT", bar:GetStatusBarTexture(), "BOTTOMRIGHT", 0, 0)
+            for _, edge in ipairs({{"TOPLEFT", "TOPRIGHT"}, {"BOTTOMLEFT", "BOTTOMRIGHT"}, {"TOPLEFT", "BOTTOMLEFT"}, {"TOPRIGHT", "BOTTOMRIGHT"}}) do
+                local texture = bar:CreateTexture(nil, "OVERLAY")
+                texture:SetColorTexture(0.45, 0.36, 0.22, 0.9)
+                texture:SetPoint(edge[1], bar, edge[1])
+                texture:SetPoint(edge[2], bar, edge[2])
+                texture:SetSize(1.2, 1.2)
+            end
+            part.Text = bar:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
+            part.Text:SetPoint("CENTER")
+        end,
+        Update = function(part, data, width)
+            local standing = data.standing
+            local r, g, b = standing.color:GetRGB()
+            part.Button:EnableMouse(data.onClick ~= nil)
+            part.Title:SetText(data.text or "")
+            part.Bar:SetMinMaxValues(0, standing.size)
+            part.Bar:SetValue(standing.value)
+            part.Bar:SetStatusBarColor(r, g, b)
+            local share = math.min(data.gain or 0, standing.size - standing.value) / standing.size
+            part.Gain:SetShown(share > 0)
+            part.Gain:SetWidth(math.max(1, share * (width - 4)))
+            part.Gain:SetVertexColor(r, g, b, 0.35)
+            part.Text:SetText(standing.name .. "   " .. BreakUpLargeNumbers(standing.value) .. " / " .. BreakUpLargeNumbers(standing.size))
+        end,
+        GetHeight = function(data) return STANDING_BAR_HEIGHT + 6 + (data.text and 18 or 0) end,
+    },
+
     gap = {
         Create = function() end,
         Update = function() end,
@@ -750,6 +801,22 @@ end
 -------------------------
 
 ---@param data JourneyDetails.Row
+---@return number inset Between the row and its part, on both sides
+local function _GetInset(data)
+    if ROW_TYPES[data.type].isFullWidth then
+        return 0
+    end
+    return data.isInBox and BOX_INSET or ROW_INSET
+end
+
+---@param data JourneyDetails.Row
+---@param rowWidth number
+---@return number
+local function _GetContentWidth(data, rowWidth)
+    return math.max(1, rowWidth - 2 * _GetInset(data))
+end
+
+---@param data JourneyDetails.Row
 ---@param rowWidth number
 ---@return number
 local function _GetRowHeight(data, rowWidth)
@@ -779,7 +846,7 @@ local function _InitializeRow(row, data, rowWidth, onHeightChanged)
         ROW_TYPES[data.type].Create(part)
     end
 
-    local inset = data.isInBox and BOX_INSET or ROW_INSET
+    local inset = _GetInset(data)
     part:SetPoint("TOPLEFT", row, "TOPLEFT", inset, data.isFirstInBox and -BOX_PADDING or 0)
     part:SetPoint("BOTTOMRIGHT", row, "BOTTOMRIGHT", -inset, data.isLastInBox and BOX_PADDING or 0)
     part.data = data
@@ -885,9 +952,17 @@ local function _ShowRows(details, keepsScrollPosition)
     )
 end
 
+---Adds a type of row, for what is only shown in one place.
+---@param name string
+---@param rowType JourneyDetails.RowType
+function JourneyDetails.AddRowType(name, rowType)
+    ROW_TYPES[name] = rowType
+end
+
 ---@param parent Frame The details fill it
+---@param isWiderWithoutBar boolean? See JourneyScrollBox
 ---@return JourneyDetails.Instance
-function JourneyDetails.Create(parent)
+function JourneyDetails.Create(parent, isWiderWithoutBar)
     ---@type JourneyDetails.Instance
     local details = {parent = parent, rows = {}, heights = {}}
 
@@ -920,7 +995,7 @@ function JourneyDetails.Create(parent)
     scrollArea:SetPoint("BOTTOMRIGHT", parent, "BOTTOMRIGHT", 0, 0)
     details.scrollArea = scrollArea
     details.footer = _CreateFooter(parent)
-    scrollBox = JourneyScrollBox.Create(scrollArea, view)
+    scrollBox = JourneyScrollBox.Create(scrollArea, view, isWiderWithoutBar)
     details.scrollBox = scrollBox
 
     -- Text wraps differently, so every height has to be measured again

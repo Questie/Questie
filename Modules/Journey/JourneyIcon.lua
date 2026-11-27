@@ -63,6 +63,12 @@ function JourneyIcon.Set(texture, icon)
     end
 end
 
+---@param size number
+---@return string text The arrow of the player, for where the player is. Without the space around it.
+function JourneyIcon.GetHereMarkup(size)
+    return "|T" .. JourneyIcon.ARROW .. ":" .. size .. ":" .. size .. ":0:0:32:32:9:23:9:23|t"
+end
+
 ---@param icon string|JourneyIcon.DarkIcon
 ---@return string text The icon, for the start of a text
 function JourneyIcon.GetMarkup(icon)

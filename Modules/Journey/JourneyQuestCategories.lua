@@ -254,6 +254,14 @@ function JourneyQuestCategories.GetIcon(questId, category)
     end
 end
 
+---@param questId QuestId
+---@return boolean
+function JourneyQuestCategories.IsListed(questId)
+    local hidden = QuestieCorrections.hiddenQuests[questId]
+    return QuestieDB.QuestPointers[questId] ~= nil
+        and (not hidden or hidden == QuestieQuestBlacklist.HIDE_ON_MAP or QuestieEvent.IsEventQuest(questId))
+end
+
 ---Yields, so it runs in a thread.
 ---@async
 ---@param questIds table<QuestId, any>
@@ -261,7 +269,6 @@ end
 ---@return number completed
 ---@return number total Of those that can be done once
 function JourneyQuestCategories.Collect(questIds)
-    local HIDE_ON_MAP, hiddenQuests = QuestieQuestBlacklist.HIDE_ON_MAP, QuestieCorrections.hiddenQuests
     local completionTimes = _GetCompletionTimes()
     local nodes, nodesByKey = {}, {}
     for index, category in ipairs(CATEGORIES) do
@@ -272,10 +279,8 @@ function JourneyQuestCategories.Collect(questIds)
     for _, levelAndQuest in ipairs(QuestieLib:SortQuestIDsByLevel(questIds, false, JourneyThread.YieldIfNeeded)) do
         JourneyThread.YieldIfNeeded()
         local questId = levelAndQuest[2]
-        local hidden = hiddenQuests[questId]
-        local isListed = QuestieDB.QuestPointers[questId] and (not hidden or hidden == HIDE_ON_MAP or QuestieEvent.IsEventQuest(questId))
         local category, reason
-        if isListed then
+        if JourneyQuestCategories.IsListed(questId) then
             category, reason = JourneyQuestCategories.Get(questId)
         end
         if category then

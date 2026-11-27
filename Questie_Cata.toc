@@ -256,6 +256,16 @@ Modules\Journey\JourneyRawData.lua
 Modules\Journey\JourneyEntityDetails.lua
 Modules\Journey\JourneyQuestCategories.lua
 Modules\Journey\JourneyPicker.lua
+Modules\Journey\JourneyPlaces.lua
+Modules\Journey\JourneySummary.lua
+Modules\Journey\JourneyZoneLevels.lua
+Modules\Journey\JourneyFactions.lua
+Modules\Journey\JourneyPage.lua
+Modules\Journey\JourneyQuestsPage.lua
+Modules\Journey\JourneyResultsPage.lua
+Modules\Journey\JourneyOverviewRows.lua
+Modules\Journey\JourneyOverviewPage.lua
+Modules\Journey\JourneyTabBar.lua
 Modules\Journey\JourneyQuestList.lua
 Modules\Journey\QuestieJourneyUtils.lua
 Modules\Journey\QuestieJourneyFactions.lua

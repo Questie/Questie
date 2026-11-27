@@ -161,7 +161,7 @@ local function _CreateWindow()
     end
     QuestieOptionsWindow.AddSearchBox(window, function() end, SEARCH_WIDTH, table.concat({l10n("Quests"), l10n("NPCs"), l10n("Objects"), l10n("Items")}, ", "))
     window.searchBox:SetPoint("RIGHT", window.canvasContainer, "TOPRIGHT", -16, -17)
-    _QuestieJourney.quests.UseSearchBox(window.searchBox)
+    _QuestieJourney.quests.UseHeader(window.searchBox, canvasTitle)
 
     local previousSideTab
     for _, tab in ipairs(TABS) do

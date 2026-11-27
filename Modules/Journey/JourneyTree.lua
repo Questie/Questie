@@ -207,4 +207,29 @@ function JourneyTree.Select(tree, path)
     end
 end
 
+---Forgets what was expanded and selected, and shows nothing.
+---@param tree JourneyTree.Instance
+function JourneyTree.Clear(tree)
+    tree.expandedPaths, tree.selectedPath = {}, nil
+    JourneyTree.SetNodes(tree, {})
+end
+
+---Expands a header and those above it, and brings it into view.
+---@param tree JourneyTree.Instance
+---@param ... string|number The value of the highest header, of the one below it, and so on
+function JourneyTree.Reveal(tree, ...)
+    JourneyTree.Expand(tree, ...)
+    _ShowRows(tree)
+    local path
+    for _, value in ipairs({...}) do
+        path = _GetPath(path, value)
+    end
+    for index, row in ipairs(tree.rows) do
+        if row.path == path then
+            JourneyList.ScrollTo(tree.list, index)
+            return
+        end
+    end
+end
+
 return JourneyTree
