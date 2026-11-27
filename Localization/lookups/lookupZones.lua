@@ -2890,14 +2890,32 @@ l10n.zoneLookup = {
     [1135]={
         [6716]="Thunder King's Citadel",
     },
+    [1136]={
+        [6738]="Siege of Orgrimmar",
+    },
     [2959]={
         [16544]="City of Dalaran",
+    },
+    [2970]={
+        [16550]="The Drowned City",
+    },
+    [2974]={
+        [16554]="Blackmaw Hold",
+    },
+    [2994]={
+        [16620]="Alcaz Prison",
     },
     [2998]={
         [16732]="Excavation Site: Wetlands",
     },
     [2999]={
         [16611]="Ruins of Lordaeron",
+    },
+    [3001]={
+        [16667]="The Shaper's Terrace",
+    },
+    [3039]={
+        [16842]="Krol'dok Stronghold",
     },
     [3065]={
         [16919]="The Hall of Thanes",
@@ -3044,8 +3062,13 @@ l10n.zoneCategoryLookup = {
         [6622] = "Throne of Thunder",
         [6738] = "Siege of Orgrimmar",
         [16544] = "City of Dalaran",
+        [16550] = "The Drowned City",
+        [16554] = "Blackmaw Hold",
         [16611] = "Ruins of Lordaeron",
+        [16620] = "Alcaz Prison",
+        [16667] = "The Shaper's Terrace",
         [16732] = "Excavation Site: Wetlands",
+        [16842] = "Krol'dok Stronghold",
         [16919] = "The Hall of Thanes",
     },
     [10] = {
