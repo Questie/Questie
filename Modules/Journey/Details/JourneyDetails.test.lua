@@ -51,7 +51,7 @@ describe("JourneyDetails", function()
     it("should show each type of row", function()
         JourneyDetails.SetRows(details, {
             {type = "heading", text = "Wolves"},
-            {type = "title", text = "Starts"},
+            {type = "caption", text = "Starts"},
             {type = "text", text = "Kill ten wolves."},
             {type = "gap", height = 10},
         })
@@ -68,34 +68,27 @@ describe("JourneyDetails", function()
             {type = "heading", text = long},
             {type = "text", text = long},
             {type = "text", text = long, font = "GameFontNormalMed1"},
-            {type = "link", text = long, onClick = function() end},
             {type = "entity", text = long, title = long, icon = 1},
             {type = "entity", text = long},
         })
 
         assert.is_true(RowHeight(1) >= Part(1).Title:GetStringHeight())
-        for index = 2, 4 do
+        for index = 2, 3 do
             assert.is_true(RowHeight(index) >= Part(index).Text:GetStringHeight())
         end
         assert.is_true(RowHeight(3) > RowHeight(2))
-        assert.is_true(RowHeight(5) >= Part(5).Title:GetStringHeight() + Part(5).Text:GetStringHeight())
-        assert.is_true(RowHeight(6) >= Part(6).Text:GetStringHeight())
+        assert.is_true(RowHeight(4) >= Part(4).Title:GetStringHeight() + Part(4).Text:GetStringHeight())
+        assert.is_true(RowHeight(5) >= Part(5).Text:GetStringHeight())
         -- But not much higher
         assert.is_true(RowHeight(2) < Part(2).Text:GetStringHeight() + 14)
     end)
 
     it("should not let text reach over the right edge", function()
-        local rows = {{type = "text", text = "Outside"}}
-        JourneyDetails.AddBox(rows, "", {{type = "text", text = "Inside"}})
-        JourneyDetails.SetRows(details, rows)
+        JourneyDetails.SetRows(details, {{type = "text", text = "Kill ten wolves."}})
 
-        for index = 1, 2 do
-            local part = Part(index)
-            local left = part.points[1][4]
-            assert.is_true(left > 0)
-            assert.is_true(left + part.Text:GetWidth() <= details.scrollBox:GetWidth() - left)
-        end
-        assert.is_true(Part(2).points[1][4] > Part(1).points[1][4])
+        local left = Part(1).points[1][4]
+        assert.is_true(left > 0)
+        assert.is_true(left + Part(1).Text:GetWidth() <= details.scrollBox:GetWidth() - left)
     end)
 
     it("should only measure a row once, because scrolling asks for its height again and again", function()
@@ -129,7 +122,7 @@ describe("JourneyDetails", function()
         local rows = {
             {type = "heading", text = "Wolves"},
             {type = "text", text = "Kill ten wolves."},
-            {type = "link", text = "Wolf", onClick = function() end},
+            {type = "step", text = "Wolf", onClick = function() end},
             {type = "checkbox", text = "Complete", get = function() return true end},
             {type = "button", text = "Show", onClick = function() end},
             {type = "entity", text = "NPC ID: 299", npcId = 299},
@@ -173,8 +166,8 @@ describe("JourneyDetails", function()
                 {type = "text", text = "Complete: ", trailingIcon = "cross"},
                 {type = "gap", height = 10},
                 {type = "itemTooltip", itemId = 725},
+                {type = "entity", title = "Young Wolf", text = "NPC ID: 299", npcId = 299, icon = 1},
             }
-            JourneyDetails.AddBox(rows, "Starts", {{type = "entity", title = "Young Wolf", text = "NPC ID: 299", npcId = 299, icon = 1}})
             return rows
         end
 
@@ -187,12 +180,12 @@ describe("JourneyDetails", function()
 
         -- Otherwise portraits are loaded again, and a click that is being made is lost
         it("should stay as they are when nothing about them changed", function()
-            local modelSets = Part(7).Model.modelSets
+            local modelSets = Part(6).Model.modelSets
 
             JourneyDetails.SetRows(details, CreateRows(), true)
 
             assert.are.equal(0, ui.rowsReleased)
-            assert.are.equal(modelSets, Part(7).Model.modelSets)
+            assert.are.equal(modelSets, Part(6).Model.modelSets)
         end)
 
         it("should show whether a checkbox is checked now", function()
@@ -209,7 +202,7 @@ describe("JourneyDetails", function()
 
             JourneyDetails.SetRows(details, rows, true)
 
-            assert.are.equal("Doable: yes", Part(8).Text.text)
+            assert.are.equal("Doable: yes", Part(7).Text.text)
         end)
 
         for name, change in pairs({
@@ -218,11 +211,10 @@ describe("JourneyDetails", function()
             ["a font"] = {row = 3, field = "font", value = "GameFontNormalMed1"},
             ["a gap"] = {row = 4, field = "height", value = 20},
             ["an item"] = {row = 5, field = "itemId", value = 726},
-            ["a title"] = {row = 7, field = "title", value = "Wolf"},
-            ["an NPC"] = {row = 7, field = "npcId", value = 300},
-            ["a picture"] = {row = 7, field = "icon", value = 2},
-            ["a type"] = {row = 6, field = "type", value = "text"},
-            ["a box"] = {row = 7, field = "isLastInBox", value = false},
+            ["a title"] = {row = 6, field = "title", value = "Wolf"},
+            ["an NPC"] = {row = 6, field = "npcId", value = 300},
+            ["a picture"] = {row = 6, field = "icon", value = 2},
+            ["a type"] = {row = 1, field = "type", value = "text"},
         }) do
             it("should be shown again when " .. name .. " changed", function()
                 local rows = CreateRows()
@@ -355,6 +347,18 @@ describe("JourneyDetails", function()
             assert.is_false(Part(1).Note:IsShown())
             assert.are.equal(-8, NameRight())
         end)
+
+        it("should show its tag left of its small map, also in a row that had none before", function()
+            details.scrollBox:SetWidth(500)
+            JourneyDetails.SetRows(details, {{type = "step", text = "Wolf", tag = TAG}})
+            JourneyDetails.SetRows(details, {{type = "step", text = "Wolf", tag = TAG, action = {tooltip = "Show on Map", onClick = function() end}}})
+
+            local _, _, _, noteRight = Part(1).Note:GetPoint(1)
+            local _, _, _, actionRight = Part(1).Action:GetPoint(1)
+            assert.is_true(Part(1).Note:IsShown())
+            assert.is_true(noteRight <= actionRight - Part(1).Action:GetWidth(), "The tag is under the small map")
+            assert.is_true(NameRight() < noteRight - Part(1).Note:GetUnboundedStringWidth(), "The name reaches into the tag")
+        end)
     end)
 
     describe("a page", function()
@@ -390,23 +394,23 @@ describe("JourneyDetails", function()
         end)
     end)
 
-    describe("a link", function()
+    describe("a step that leads somewhere", function()
         it("should do what its row says, also after the row was reused", function()
             local clicked = {}
-            JourneyDetails.SetRows(details, {{type = "link", text = "Wolf", onClick = function() table.insert(clicked, "wolf") end}})
-            JourneyDetails.SetRows(details, {{type = "link", text = "Boar", onClick = function() table.insert(clicked, "boar") end}})
+            JourneyDetails.SetRows(details, {{type = "step", text = "Wolf", onClick = function() table.insert(clicked, "wolf") end}})
+            JourneyDetails.SetRows(details, {{type = "step", text = "Boar", onClick = function() table.insert(clicked, "boar") end}})
 
-            Part(1).children[1]:Click()
+            Part(1).Button:Click()
 
             assert.are_same({"boar"}, clicked)
         end)
 
         it("should show a tooltip, and hide it when it is clicked", function()
             JourneyDetails.SetRows(details, {{
-                type = "link", text = "Wolf", onClick = function() end,
+                type = "step", text = "Wolf", onClick = function() end,
                 showTooltip = function() GameTooltip:AddLine("Young Wolf") end,
             }})
-            local button = Part(1).children[1]
+            local button = Part(1).Button
 
             button.scripts.OnEnter(button)
             assert.are_same({"Young Wolf"}, GameTooltip.lines)
@@ -776,61 +780,53 @@ describe("JourneyDetails", function()
 
             assert.are.equal(0, #ui.tickers)
         end)
-    end)
 
-    describe("AddBox", function()
-        it("should put a title above the box and mark the first and last row in it", function()
-            local rows = {{type = "text", text = "Before"}}
+        it("should have the icon of the item in front of it, which does what the row says when it is clicked", function()
+            local clicks = 0
+            details.scrollBox:SetWidth(500)
+            JourneyDetails.SetRows(details, {{type = "itemTooltip", itemId = 725, icon = 134400, onClick = function() clicks = clicks + 1 end}})
 
-            JourneyDetails.AddBox(rows, "Starts", {{type = "text", text = "First"}, {type = "text", text = "Last"}})
-
-            assert.are.equal("title", rows[2].type)
-            assert.are.equal("Starts", rows[2].text)
-            assert.are_same({true, true, false}, {rows[3].isInBox, rows[3].isFirstInBox, rows[3].isLastInBox})
-            assert.are_same({true, false, true}, {rows[4].isInBox, rows[4].isFirstInBox, rows[4].isLastInBox})
+            assert.is_true(Part(1).IconButton:IsShown())
+            assert.are.equal(134400, Part(1).Icon:GetTexture())
+            local _, _, _, tooltipX = Tooltip():GetPoint(1)
+            assert.is_true(tooltipX > Part(1).IconButton:GetWidth(), "The tooltip covers the icon")
+            Part(1).IconButton:Click()
+            assert.are.equal(1, clicks)
         end)
 
-        it("should add nothing without rows", function()
-            local rows = {}
+        it("should be as high as its icon, while the tooltip is lower", function()
+            details.scrollBox:SetWidth(500)
+            JourneyDetails.SetRows(details, {{type = "itemTooltip", itemId = 725, icon = 134400}})
+            Tooltip():SetSize(200, 10)
+            ui.RunUntilIdle()
 
-            JourneyDetails.AddBox(rows, "Starts", {})
-
-            assert.are_same({}, rows)
+            assert.are.equal(Part(1).IconButton:GetHeight() + 8, RowHeight(1))
         end)
 
-        it("should leave space between the border and what is in it", function()
-            local text = {type = "text", text = "Alone"}
-            JourneyDetails.SetRows(details, {text})
-            local height = RowHeight(1)
+        it("should give the tooltip the whole row where the icon and it don't fit next to each other, and the icon where they do", function()
+            details.scrollBox:SetWidth(200)
+            JourneyDetails.SetRows(details, {{type = "itemTooltip", itemId = 725, icon = 134400}})
+            Tooltip():SetSize(180, 100)
+            ui.RunUntilIdle()
 
-            local rows = {}
-            JourneyDetails.AddBox(rows, "", {{type = "text", text = "1"}, {type = "text", text = "2"}, {type = "text", text = "3"}})
-            JourneyDetails.SetRows(details, rows)
+            local _, _, _, tooltipX = Tooltip():GetPoint(1)
+            assert.are_same({false, 0}, {Part(1).IconButton:IsShown(), tooltipX})
 
-            assert.is_true(RowHeight(1) > height)
-            assert.are.equal(height, RowHeight(2))
-            assert.is_true(RowHeight(3) > height)
+            details.scrollBox:SetWidth(500)
+            ui.RunUntilIdle()
+
+            _, _, _, tooltipX = Tooltip():GetPoint(1)
+            assert.is_true(Part(1).IconButton:IsShown())
+            assert.is_true(tooltipX >= Part(1).IconButton:GetWidth())
         end)
 
-        it("should only draw a border around the rows in the box", function()
-            local rows = {{type = "text", text = "Before"}}
-            JourneyDetails.AddBox(rows, "", {{type = "text", text = "First"}, {type = "text", text = "Last"}})
-            JourneyDetails.SetRows(details, rows)
+        it("should start at the edge without an icon", function()
+            JourneyDetails.SetRows(details, {{type = "itemTooltip", itemId = 725, icon = 134400}})
+            JourneyDetails.SetRows(details, {{type = "itemTooltip", itemId = 2589}})
 
-            local shownRows = ui.Rows(parent, 1)
-            assert.is_nil(shownRows[1].box)
-            assert.is_true(shownRows[2].box.top:IsShown())
-            assert.is_false(shownRows[2].box.bottom:IsShown())
-            assert.is_false(shownRows[3].box.top:IsShown())
-            assert.is_true(shownRows[3].box.bottom:IsShown())
-            assert.is_true(shownRows[3].box.left:IsShown())
-
-            JourneyDetails.SetRows(details, {{type = "text", text = "1"}, {type = "text", text = "2"}, {type = "text", text = "3"}})
-            for _, row in ipairs(ui.Rows(parent, 1)) do
-                for _, piece in pairs(row.box or {}) do
-                    assert.is_false(piece:IsShown())
-                end
-            end
+            assert.is_false(Part(1).IconButton:IsShown())
+            local _, _, _, tooltipX = Tooltip():GetPoint(1)
+            assert.are.equal(0, tooltipX)
         end)
     end)
 

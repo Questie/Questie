@@ -425,16 +425,17 @@ function QuestieMap:ShowNPC(npcID, icon, scale, title, body, disableShiftToRemov
     local baseTitle = title or (npc.name .. " " .. l10n("(") .. l10n("NPC") .. l10n(")"))
     data.ManualTooltipData.Title = WeaponMasterSkills.AppendSkillsToTitle(baseTitle, data.id)
     local level = tostring(npc.minLevel)
-    local health = tostring(npc.minLevelHealth)
     if npc.minLevel ~= npc.maxLevel then
         level = level .. "-" .. tostring(npc.maxLevel)
-        health = health .. "-" .. tostring(npc.maxLevelHealth)
     end
-    data.ManualTooltipData.Body = body or {
-        {l10n("ID") .. l10n(": "), tostring(npc.id)},
-        {l10n("Level") .. l10n(": "), level},
-        {l10n("Health") .. l10n(": "), health},
-    }
+    if not body then
+        -- Without health, which the database no longer has
+        body = {{l10n("Level") .. l10n(": "), level}}
+        if Questie.db.profile.enableTooltipsNPCID then
+            table.insert(body, 1, {l10n("ID") .. l10n(": "), tostring(npc.id)})
+        end
+    end
+    data.ManualTooltipData.Body = body
     data.ManualTooltipData.disableShiftToRemove = disableShiftToRemove
 
     local manualIcons = {}
@@ -498,9 +499,13 @@ function QuestieMap:ShowObject(objectID, icon, scale, title, body, disableShiftT
     data.IsObjectiveNote = false
     data.ManualTooltipData = {}
     data.ManualTooltipData.Title = title or (object.name .. " " .. l10n("(") .. l10n("Object") .. l10n(")"))
-    data.ManualTooltipData.Body = body or {
-        {"ID:", tostring(object.id)},
-    }
+    if not body then
+        body = {}
+        if Questie.db.profile.enableTooltipsObjectID then
+            table.insert(body, {"ID:", tostring(object.id)})
+        end
+    end
+    data.ManualTooltipData.Body = body
     data.ManualTooltipData.disableShiftToRemove = disableShiftToRemove
 
     local manualIcons = {}

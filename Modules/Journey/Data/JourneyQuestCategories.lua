@@ -126,15 +126,31 @@ function JourneyQuestCategories.Get(questId)
     return category, reason, name
 end
 
+---@alias JourneyQuestLogState "ready"|"failed"|"active"
+
+---How far a quest in the log is: ready to be turned in, failed, or still to be done.
+---@param questId QuestId
+---@return JourneyQuestLogState
+function JourneyQuestCategories.GetLogState(questId)
+    local isComplete = QuestieDB.IsComplete(questId)
+    if isComplete == 1 then
+        return "ready"
+    elseif isComplete == -1 then
+        return "failed"
+    end
+    return "active"
+end
+
 ---How far a quest in the log is, added up over all its objectives.
 ---@param questId QuestId
 ---@return string? text
 function JourneyQuestCategories.GetProgress(questId)
     local quest = QuestieDB.GetQuest(questId)
     local objectives = quest and quest.Objectives or {}
-    if QuestieDB.IsComplete(questId) == 1 then
+    local state = JourneyQuestCategories.GetLogState(questId)
+    if state == "ready" then
         return Questie:Colorize(l10n("Complete"):lower(), "green") -- Like Ready to turn-in in the details
-    elseif QuestieDB.IsComplete(questId) == -1 then
+    elseif state == "failed" then
         return Questie:Colorize(l10n("Failed"):lower(), "red")
     end
     local collected, needed = 0, 0
@@ -165,6 +181,9 @@ local function _GetCompletionTimes()
 end
 
 ---@param questId QuestId
+---@param category JourneyQuestCategory
+---@param reason string?
+---@param completionTimes table<QuestId, number>
 ---@return string? note
 local function _GetNote(questId, category, reason, completionTimes)
     if category == "log" then
@@ -244,10 +263,10 @@ function JourneyQuestCategories.GetIcon(questId, category)
         end
         return SHOW_MISSING_REQUIREMENT_ICON and Questie.icons["available_gray"] or nil
     elseif category == "log" then
-        local isComplete = QuestieDB.IsComplete(questId)
-        if isComplete == 1 then
+        local state = JourneyQuestCategories.GetLogState(questId)
+        if state == "ready" then
             return JourneyQuestCategories.GetCompleteIcon(questId)
-        elseif isComplete == -1 then
+        elseif state == "failed" then
             return Questie.icons["cross"]
         end
         return Questie.icons["incomplete"]
@@ -258,6 +277,39 @@ function JourneyQuestCategories.GetIcon(questId, category)
     end
 end
 
+---What can be done with a quest, as the top of its details and its tooltip say it.
+---@param questId QuestId
+---@return string text With an icon in front
+function JourneyQuestCategories.GetStatus(questId)
+    local category, reason, stateName = JourneyQuestCategories.Get(questId)
+    if category == "log" then
+        local state = JourneyQuestCategories.GetLogState(questId)
+        if state == "ready" then
+            return JourneyIcon.GetMarkup(JourneyQuestCategories.GetCompleteIcon(questId)) .. Questie:Colorize(QUEST_WATCH_QUEST_READY, "green")
+        elseif state == "failed" then
+            return JourneyIcon.GetMarkup(Questie.icons["cross"]) .. Questie:Colorize(l10n("Failed"), "red")
+        end
+        return Questie:Colorize(QUEST_TOOLTIP_ACTIVE, "lightBlue") -- Like the timers of quests in the tracker
+    elseif category == "available" or category == "repeatable" then
+        return JourneyIcon.GetMarkup(JourneyQuestCategories.GetKindIcon(questId)) .. Questie:Colorize(l10n("Available"), "gold") -- Like the headings
+    elseif category == "completed" then
+        return JourneyIcon.GetMarkup(Questie.icons["checkmark"]) .. l10n("Completed")
+    elseif category == "later" then
+        if stateName == "NO_PREQUESTSINGLE" then
+            reason = l10n("Incomplete pre-quest")
+        elseif stateName == "NO_PREQUESTGROUP" then
+            reason = l10n("Incomplete pre-quest group")
+        elseif stateName == "LEVEL_TOO_LOW" then
+            reason = ITEM_MIN_LEVEL:format(QuestieDB.QueryQuestSingle(questId, "requiredLevel"))
+        end
+        return JourneyIcon.GetMarkup(Questie.icons["cross"]) .. Questie:Colorize(l10n("Unavailable") .. l10n(": "), "red") .. (reason or "")
+    elseif category == "unobtainable" then
+        return JourneyIcon.GetMarkup(Questie.icons["cross"]) .. Questie:Colorize(l10n("Unavailable") .. l10n(": "), "red")
+            .. (reason or l10n("Exclusive quest completed"))
+    end
+    return JourneyIcon.GetMarkup(Questie.icons["cross"]) .. (QuestieDB.IsDoableVerbose(questId, false, true, true) or "")
+end
+
 ---@param questId QuestId
 ---@return boolean
 function JourneyQuestCategories.IsListed(questId)
@@ -266,8 +318,50 @@ function JourneyQuestCategories.IsListed(questId)
         and (not hidden or hidden == QuestieQuestBlacklist.HIDE_ON_MAP or QuestieEvent.IsEventQuest(questId))
 end
 
----Yields, so it runs in a thread.
----@async
+---What the player can do with a quest, and what its entry in the list says at the right edge.
+---@param questId QuestId
+---@param completionTimes table<QuestId, number>
+---@return JourneyQuestCategory? category Nil for a quest that isn't listed at all
+---@return string? note
+local function _Categorize(questId, completionTimes)
+    if not JourneyQuestCategories.IsListed(questId) then
+        return nil
+    end
+    local category, reason = JourneyQuestCategories.Get(questId)
+    return category, category and _GetNote(questId, category, reason, completionTimes) or nil
+end
+
+---@class JourneyQuestCategories.Entry
+---@field questId QuestId
+---@field category JourneyQuestCategory
+---@field note string? What the list says at the right edge
+
+---A few quests, like those of an NPC, in the order of the list: by category, and by level in each. Those the list leaves out are
+---left out. It doesn't yield, so it isn't for many.
+---@param questIds QuestId[]
+---@return JourneyQuestCategories.Entry[]
+function JourneyQuestCategories.Arrange(questIds)
+    local completionTimes = _GetCompletionTimes()
+    local questIdSet = {}
+    for _, questId in ipairs(questIds) do questIdSet[questId] = true end
+
+    local entriesByCategory = {}
+    for _, levelAndQuest in ipairs(QuestieLib:SortQuestIDsByLevel(questIdSet, false)) do
+        local questId = levelAndQuest[2]
+        local category, note = _Categorize(questId, completionTimes)
+        if category then
+            entriesByCategory[category] = entriesByCategory[category] or {}
+            table.insert(entriesByCategory[category], {questId = questId, category = category, note = note})
+        end
+    end
+
+    local entries = {}
+    for _, category in ipairs(CATEGORIES) do
+        for _, entry in ipairs(entriesByCategory[category.key] or {}) do table.insert(entries, entry) end
+    end
+    return entries
+end
+
 -- The quests that can be done once, done or not yet: what "of how many" counts
 local COUNTED = {log = true, available = true, later = true, completed = true}
 
@@ -277,6 +371,8 @@ function JourneyQuestCategories.IsCounted(category)
     return COUNTED[category] == true
 end
 
+---Yields, so it runs in a thread.
+---@async
 ---@param questIds table<QuestId, any>
 ---@return JourneyTreeNode[] nodes The categories with their quests
 ---@return number completed
@@ -292,15 +388,12 @@ function JourneyQuestCategories.Collect(questIds)
     for _, levelAndQuest in ipairs(QuestieLib:SortQuestIDsByLevel(questIds, false, JourneyThread.YieldIfNeeded)) do
         JourneyThread.YieldIfNeeded()
         local questId = levelAndQuest[2]
-        local category, reason
-        if JourneyQuestCategories.IsListed(questId) then
-            category, reason = JourneyQuestCategories.Get(questId)
-        end
+        local category, note = _Categorize(questId, completionTimes)
         if category then
             local node = {
                 value = questId,
                 text = QuestieLib:GetColoredQuestName(questId, Questie.db.profile.enableTooltipsQuestLevel, false),
-                note = _GetNote(questId, category, reason, completionTimes),
+                note = note,
                 icon = JourneyQuestCategories.GetIcon(questId, category),
             }
             table.insert(nodesByKey[category].children, node)

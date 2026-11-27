@@ -23,10 +23,6 @@ local ROW_INSET = 8
 -- For a row type that fills the whole row
 JourneyDetails.ROW_INSET = ROW_INSET
 local END_SPACE = 14 -- Below the last row, so it doesn't look cut off
--- Space between the border of a box and what is in it
-local BOX_INSET = 14
-local BOX_PADDING = 8
-local BOX_ALPHA = 0.45 -- Like the boxes of the settings
 local HEADING_FONT = "GameFontNormalMed1"
 local HEADING_LINES_WIDTH = 80 -- Left for the lines on both sides of a long heading
 local PICTURE_SIZE = 46
@@ -45,7 +41,6 @@ local PORTRAIT_RETRY_SECONDS = 0.1
 -- log doesn't have the button (checked in the files of each).
 local MAP_TEXTURE = 316593 -- Interface\QuestFrame\UI-QuestMap_Button
 local MAP_WIDTH, MAP_HEIGHT = 48, 32
-local ACTION_ICON = "Interface\\AddOns\\Questie\\Icons\\map_scroll.png"
 local ACTION_SIZE = 20
 local STATUS_HEIGHT = 24
 local PAGE_FONT, PAGE_TAG_FONT = "GameFontNormalLarge", "GameFontDisableSmall"
@@ -59,30 +54,33 @@ local BAR_TEXTURE = "Interface\\TargetingFrame\\UI-StatusBar"
 local STANDING_BAR_HEIGHT = 18
 local FOOTER_HEIGHT, FOOTER_BUTTON_HEIGHT, FOOTER_GAP, FOOTER_ICON_WIDTH, FOOTER_PADDING = 30, 22, 16, 20, 10
 
+---A small map at the right edge of a row, which puts something on the map or removes it again.
+---@class JourneyDetails.Action
+---@field tooltip string
+---@field isOn boolean? Whether it is on the map
+---@field onClick fun()
+
 ---@class JourneyDetails.Row
----@field type string One of those below, or of those that were added with AddRowType: "heading"|"title"|"text"|"link"|"checkbox"|"button"|"entity"|"itemTooltip"|"gap"|"page"|"caption"|"status"|"step"|"footer"|"standing"
+---@field type string One of those below, or of those that were added with AddRowType: "heading"|"text"|"checkbox"|"button"|"entity"|"itemTooltip"|"gap"|"page"|"caption"|"status"|"step"|"footer"|"standing"
 ---@field text string? Finished text. It is never translated or formatted, because it can contain names and notes.
 ---@field title string? For the type entity, above the text
 ---@field tag string? For the types page and step, at its right edge while all of the text fits next to it
 ---@field buttons {text: string, icon: JourneyIcon.Icon, onClick: fun()}[]? For the type footer
 ---@field onShowMap fun()? For the types status and entity, a button with a text at the right edge
----@field action {tooltip: string, isOn: boolean?, onClick: fun()}? For the types step and entity, a small map at the right edge
+---@field action JourneyDetails.Action? For the types step and entity, a small map at the right edge
 ---@field font string? For the type text, a font object
 ---@field height number? For the type gap
 ---@field standing JourneyFactions.Standing? For the type standing
 ---@field gain number? For the type standing, reputation that would be added to it
----@field onClick fun()? For the types link, button and entity
----@field showTooltip fun()? For the types link, checkbox and entity. Fills the tooltip that was opened at the row.
+---@field onClick fun()? For the types step, button and entity, and the icon of the type itemTooltip
+---@field showTooltip fun()? For the types step, checkbox and entity. Fills the tooltip that was opened at the row.
 ---@field npcId NpcId? For the type entity, shows a portrait of the NPC
 ---@field badges JourneyIcon.Icon[]? For the type entity, up to two icons at the lower right corner of the picture, or instead of one
----@field trailingIcon JourneyIcon.Icon? For the type text, behind it
----@field icon number|string|nil For the type entity
+---@field trailingIcon JourneyIcon.Icon? For the type text behind it, and for the type step in front of it
+---@field icon number|string|nil For the types entity and itemTooltip, in front of what it shows
 ---@field itemId ItemId? For the type itemTooltip
 ---@field get fun(): boolean For the type checkbox
 ---@field set fun()? For the type checkbox
----@field isFirstInBox boolean?
----@field isLastInBox boolean?
----@field isInBox boolean?
 
 ---Measures text without showing it
 ---@type FontString
@@ -220,6 +218,17 @@ local itemTooltipTicker
 ---@type table<ItemId, number>
 local itemTooltipHeights = {}
 
+---The icon of an item goes in front of its tooltip while both fit next to each other. Otherwise the tooltip gets the whole row,
+---as the details cut off what reaches over their edge.
+---@param part Frame
+local function _PlaceItemTooltip(part)
+    local x = _GetEntityTextX(part.data)
+    local isBesideIcon = x > 0 and x + (itemTooltip:GetWidth() or 0) <= part.width
+    part.IconButton:SetShown(isBesideIcon)
+    itemTooltip:ClearAllPoints()
+    itemTooltip:SetPoint("TOPLEFT", part, "TOPLEFT", isBesideIcon and x or 0, -ITEM_TOOLTIP_PADDING)
+end
+
 ---Shows the tooltip of an item inside its row, which becomes as high as it.
 ---@param part Frame
 local function _ShowItemTooltip(part)
@@ -231,10 +240,9 @@ local function _ShowItemTooltip(part)
     end
     itemTooltip:SetParent(part)
     itemTooltip:SetOwner(part, "ANCHOR_NONE")
-    itemTooltip:ClearAllPoints()
-    itemTooltip:SetPoint("TOPLEFT", part, "TOPLEFT", 0, -ITEM_TOOLTIP_PADDING)
 
     local function UpdateHeight()
+        _PlaceItemTooltip(part) -- It is as wide as its text, which the client can still be loading
         local height = math.ceil(itemTooltip:GetHeight()) + 2 * ITEM_TOOLTIP_PADDING
         if itemTooltip:IsShown() and itemTooltipHeights[itemId] ~= height then
             itemTooltipHeights[itemId] = height
@@ -309,7 +317,7 @@ local function _CreateAction(part, owner)
     action.Icon = action:CreateTexture(nil, "ARTWORK")
     action.Icon:SetPoint("CENTER")
     action.Icon:SetSize(ACTION_SIZE, ACTION_SIZE)
-    action.Icon:SetTexture(ACTION_ICON)
+    action.Icon:SetTexture(JourneyIcon.MAP)
     action:SetHighlightAtlas("Options_List_Hover")
     action:SetScript("OnClick", function()
         GameTooltip:Hide()
@@ -475,7 +483,6 @@ local ROW_TYPES = {
             part.Text:SetJustifyH("LEFT")
             part.Text:SetWordWrap(false)
             part.Note = button:CreateFontString(nil, "ARTWORK", "GameFontDisableSmall")
-            part.Note:SetPoint("RIGHT", button, "RIGHT", -6, 0)
             button:SetScript("OnClick", function()
                 GameTooltip:Hide()
                 if part.data.onClick then part.data.onClick() end
@@ -494,23 +501,12 @@ local ROW_TYPES = {
             local tagSpace = data.tag and part.Note:GetUnboundedStringWidth() + 8 or 0
             local showsTag = tagSpace > 0 and part.Text:GetUnboundedStringWidth() + tagSpace <= width - STEP_TEXT_X - right
             part.Note:SetShown(showsTag)
+            part.Note:SetPoint("RIGHT", part.Button, "RIGHT", 2 - right, 0) -- Left of the small map, if there is one
             part.Text:SetPoint("RIGHT", part.Button, "RIGHT", -right - (showsTag and tagSpace or 0), 0)
             part.Button:EnableMouse(data.onClick ~= nil)
             _UpdateAction(part, data)
         end,
         GetHeight = function() return 21 end,
-    },
-
-    -- The title of a box, above it
-    title = {
-        Create = function(part)
-            part.Title = part:CreateFontString(nil, "OVERLAY", "GameFontNormal")
-            part.Title:SetPoint("BOTTOMLEFT", part, "BOTTOMLEFT", 10, 4)
-        end,
-        Update = function(part, data)
-            part.Title:SetText(data.text)
-        end,
-        GetHeight = function() return 26 end,
     },
 
     text = {
@@ -527,28 +523,6 @@ local ROW_TYPES = {
         end,
         GetHeight = function(data, width)
             return _MeasureText(data.text, data.font or "GameFontHighlight", width) + 4
-        end,
-    },
-
-    link = {
-        Create = function(part)
-            local button = CreateFrame("Button", nil, part)
-            button:SetAllPoints(part)
-            button:SetHighlightAtlas("Options_List_Hover")
-            part.Text = _CreateWrappingText(button, "GameFontHighlight")
-            part.Text:SetPoint("TOPLEFT", button, "TOPLEFT", 4, -2)
-            button:SetScript("OnClick", function()
-                GameTooltip:Hide()
-                part.data.onClick()
-            end)
-            _AddTooltip(button, part, "ANCHOR_CURSOR")
-        end,
-        Update = function(part, data, width)
-            part.Text:SetWidth(width - 8)
-            part.Text:SetText(data.text)
-        end,
-        GetHeight = function(data, width)
-            return _MeasureText(data.text, "GameFontHighlight", width - 8) + 6
         end,
     },
 
@@ -677,10 +651,31 @@ local ROW_TYPES = {
         end,
     },
 
+    -- The game's tooltip of an item, with its icon in front of it like a button in the bags where there is room
     itemTooltip = {
-        Create = function() end,
-        Update = _ShowItemTooltip,
-        GetHeight = function(data) return itemTooltipHeights[data.itemId] or UNKNOWN_ITEM_TOOLTIP_HEIGHT end,
+        Create = function(part)
+            local button = CreateFrame("Button", nil, part)
+            button:SetPoint("TOPLEFT", part, "TOPLEFT", 0, -ITEM_TOOLTIP_PADDING)
+            button:SetSize(PICTURE_SIZE, PICTURE_SIZE)
+            button:SetScript("OnClick", function() part.data.onClick() end)
+            part.Icon = button:CreateTexture(nil, "ARTWORK")
+            part.Icon:SetAllPoints(button)
+            local highlight = button:CreateTexture(nil, "HIGHLIGHT")
+            highlight:SetTexture("Interface\\Buttons\\ButtonHilight-Square")
+            highlight:SetBlendMode("ADD")
+            highlight:SetAllPoints(button)
+            part.IconButton = button
+        end,
+        Update = function(part, data, width)
+            part.width = width
+            part.IconButton:EnableMouse(data.onClick ~= nil)
+            part.Icon:SetTexture(data.icon)
+            _ShowItemTooltip(part)
+        end,
+        GetHeight = function(data)
+            local height = itemTooltipHeights[data.itemId] or UNKNOWN_ITEM_TOOLTIP_HEIGHT
+            return data.icon and math.max(height, PICTURE_SIZE + 2 * ITEM_TOOLTIP_PADDING) or height
+        end,
     },
 
     -- A bar like the ones in Blizzard's list of factions, below a name if there is one
@@ -742,82 +737,6 @@ local ROW_TYPES = {
 }
 
 -------------------------
--- Boxes
--------------------------
-
--- The pieces of the NineSlice layout the settings use for their boxes, TooltipGluesLayout. A box goes over several rows,
--- so each row draws its part of it.
-local BOX_PIECES = {
-    topLeft = "Tooltip-Glues-NineSlice-CornerTopLeft",
-    topRight = "Tooltip-Glues-NineSlice-CornerTopRight",
-    bottomLeft = "Tooltip-Glues-NineSlice-CornerBottomLeft",
-    bottomRight = "Tooltip-Glues-NineSlice-CornerBottomRight",
-    top = "_Tooltip-Glues-NineSlice-EdgeTop",
-    bottom = "_Tooltip-Glues-NineSlice-EdgeBottom",
-    left = "!Tooltip-Glues-NineSlice-EdgeLeft",
-    right = "!Tooltip-Glues-NineSlice-EdgeRight",
-}
-
----@param row Frame
----@return table box
-local function _CreateBox(row)
-    local box = {}
-    for name, atlas in pairs(BOX_PIECES) do
-        local piece = row:CreateTexture(nil, "BORDER")
-        piece:SetAtlas(atlas, true)
-        piece:SetAlpha(BOX_ALPHA)
-        QuestieOptionsUtils.DisableSnapping(piece)
-        box[name] = piece
-    end
-
-    box.topLeft:SetPoint("TOPLEFT", row, "TOPLEFT", 0, 0)
-    box.topRight:SetPoint("TOPRIGHT", row, "TOPRIGHT", 0, 0)
-    box.bottomLeft:SetPoint("BOTTOMLEFT", row, "BOTTOMLEFT", 0, 0)
-    box.bottomRight:SetPoint("BOTTOMRIGHT", row, "BOTTOMRIGHT", 0, 0)
-    box.top:SetPoint("TOPLEFT", box.topLeft, "TOPRIGHT", 0, 0)
-    box.top:SetPoint("TOPRIGHT", box.topRight, "TOPLEFT", 0, 0)
-    box.bottom:SetPoint("BOTTOMLEFT", box.bottomLeft, "BOTTOMRIGHT", 0, 0)
-    box.bottom:SetPoint("BOTTOMRIGHT", box.bottomRight, "BOTTOMLEFT", 0, 0)
-    return box
-end
-
----@param row Frame
----@param data JourneyDetails.Row
-local function _UpdateBox(row, data)
-    if not row.box then
-        if not data.isInBox then
-            return
-        end
-        row.box = _CreateBox(row)
-    end
-
-    local box = row.box
-    for _, name in ipairs({"topLeft", "top", "topRight"}) do
-        box[name]:SetShown(data.isFirstInBox == true)
-    end
-    for _, name in ipairs({"bottomLeft", "bottom", "bottomRight"}) do
-        box[name]:SetShown(data.isLastInBox == true)
-    end
-    for _, side in ipairs({"left", "right"}) do
-        local sidePoint = side:upper()
-        local topCorner = side == "left" and box.topLeft or box.topRight
-        local bottomCorner = side == "left" and box.bottomLeft or box.bottomRight
-        box[side]:ClearAllPoints()
-        if data.isFirstInBox then
-            box[side]:SetPoint("TOP" .. sidePoint, topCorner, "BOTTOM" .. sidePoint, 0, 0)
-        else
-            box[side]:SetPoint("TOP" .. sidePoint, row, "TOP" .. sidePoint, 0, 0)
-        end
-        if data.isLastInBox then
-            box[side]:SetPoint("BOTTOM" .. sidePoint, bottomCorner, "TOP" .. sidePoint, 0, 0)
-        else
-            box[side]:SetPoint("BOTTOM" .. sidePoint, row, "BOTTOM" .. sidePoint, 0, 0)
-        end
-        box[side]:SetShown(data.isInBox == true)
-    end
-end
-
--------------------------
 -- Rows
 -------------------------
 
@@ -827,7 +746,7 @@ local function _GetInset(data)
     if ROW_TYPES[data.type].isFullWidth then
         return 0
     end
-    return data.isInBox and BOX_INSET or ROW_INSET
+    return ROW_INSET
 end
 
 ---@param data JourneyDetails.Row
@@ -841,10 +760,7 @@ end
 ---@param rowWidth number
 ---@return number
 local function _GetRowHeight(data, rowWidth)
-    local height = ROW_TYPES[data.type].GetHeight(data, _GetContentWidth(data, rowWidth))
-    if data.isFirstInBox then height = height + BOX_PADDING end
-    if data.isLastInBox then height = height + BOX_PADDING end
-    return height
+    return ROW_TYPES[data.type].GetHeight(data, _GetContentWidth(data, rowWidth))
 end
 
 ---Fills a row, which may have shown something else before.
@@ -868,12 +784,10 @@ local function _InitializeRow(row, data, rowWidth, onHeightChanged)
     end
 
     local inset = _GetInset(data)
-    part:SetPoint("TOPLEFT", row, "TOPLEFT", inset, data.isFirstInBox and -BOX_PADDING or 0)
-    part:SetPoint("BOTTOMRIGHT", row, "BOTTOMRIGHT", -inset, data.isLastInBox and BOX_PADDING or 0)
+    part:SetPoint("TOPLEFT", row, "TOPLEFT", inset, 0)
+    part:SetPoint("BOTTOMRIGHT", row, "BOTTOMRIGHT", -inset, 0)
     part.data = data
     ROW_TYPES[data.type].Update(part, data, _GetContentWidth(data, rowWidth))
-
-    _UpdateBox(row, data)
 end
 
 -------------------------
@@ -1033,8 +947,7 @@ end
 
 -- All that can be different in details of the same thing, except for what a checkbox gets
 local SHOWN_FIELDS = {
-    "type", "text", "title", "font", "height", "npcId", "icon", "trailingIcon", "itemId", "isInBox", "isFirstInBox", "isLastInBox", "tag",
-    "isCurrent", "state",
+    "type", "text", "title", "font", "height", "npcId", "icon", "trailingIcon", "itemId", "tag", "isCurrent", "state",
 }
 
 ---@param rows JourneyDetails.Row[]
@@ -1077,31 +990,22 @@ function JourneyDetails.SetRows(details, rows, keepsScrollPosition)
     _ShowRows(details, keepsScrollPosition == true)
 end
 
+---Adds a caption and the rows of its section below it. Nothing is added without any rows.
+---@param rows JourneyDetails.Row[]
+---@param caption string Is translated
+---@param section JourneyDetails.Row[]
+function JourneyDetails.AddSection(rows, caption, section)
+    if #section > 0 then
+        table.insert(rows, {type = "caption", text = caption})
+        for _, row in ipairs(section) do table.insert(rows, row) end
+    end
+end
+
 ---@param label string Is translated
 ---@param value string|number
 ---@return string
 function JourneyDetails.GetFactText(label, value)
     return Questie:Colorize(l10n(label) .. l10n(": "), JourneyDetails.LABEL_COLOR) .. value
-end
-
----Adds a box with some rows in it. Nothing is added without any rows.
----@param rows JourneyDetails.Row[]
----@param title string Shown above the box
----@param boxRows JourneyDetails.Row[]
-function JourneyDetails.AddBox(rows, title, boxRows)
-    if #boxRows == 0 then
-        return
-    end
-
-    if title ~= "" then
-        table.insert(rows, {type = "title", text = title})
-    end
-    for index, row in ipairs(boxRows) do
-        row.isInBox = true
-        row.isFirstInBox = index == 1
-        row.isLastInBox = index == #boxRows
-        table.insert(rows, row)
-    end
 end
 
 return JourneyDetails

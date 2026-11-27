@@ -1269,6 +1269,27 @@ describe("QuestieLib", function()
         end)
     end)
 
+    describe("GetRankMarkup", function()
+        it("should give the silver dragon to rares, the gold one to elites and bosses, and nothing to others", function()
+            local SILVER, GOLD = "|A:nameplates-icon-elite-silver:14:14:0:0|a", "|A:nameplates-icon-elite-gold:14:14:0:0|a"
+
+            assert.are_same({GOLD, SILVER, GOLD, SILVER}, {
+                QuestieLib.GetRankMarkup(1), QuestieLib.GetRankMarkup(2), QuestieLib.GetRankMarkup(3), QuestieLib.GetRankMarkup(4),
+            })
+            assert.are_same({}, {QuestieLib.GetRankMarkup(0), QuestieLib.GetRankMarkup(5), QuestieLib.GetRankMarkup(6), QuestieLib.GetRankMarkup(nil)})
+        end)
+    end)
+
+    describe("FormatDropRate", function()
+        it("should show fewer decimals the more common a drop is, and never round a rare one to 0", function()
+            assert.are_same({"47", "10", "9.5", "2.0", "1.25", "0.01", "0.005"}, {
+                QuestieLib.FormatDropRate(47.254), QuestieLib.FormatDropRate(10), QuestieLib.FormatDropRate(9.54),
+                QuestieLib.FormatDropRate(2), QuestieLib.FormatDropRate(1.254), QuestieLib.FormatDropRate(0.01),
+                QuestieLib.FormatDropRate(0.005),
+            })
+        end)
+    end)
+
     describe("FormatDate", function()
         local originalDate, utcOffset
 

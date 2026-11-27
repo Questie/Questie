@@ -251,6 +251,7 @@ Modules\Journey\Details\JourneyLinkInput.lua
 Modules\Journey\Details\ManualNotes.lua
 Modules\Journey\Details\JourneyRawData.lua
 Modules\Journey\Details\JourneyEntityDetails.lua
+Modules\Journey\Details\JourneyItemDetails.lua
 Modules\Journey\Data\JourneyQuestCategories.lua
 Modules\Journey\Window\JourneyPicker.lua
 Modules\Journey\Data\JourneyPlaces.lua

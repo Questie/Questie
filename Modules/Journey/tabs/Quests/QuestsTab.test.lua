@@ -55,8 +55,8 @@ describe("The Quests tab", function()
         end
         return {
             {type = "text", text = "Category " .. selection.id},
-            {type = "link", text = "Westfall", onClick = function() page.onOpenSource("zone:" .. WESTFALL) end},
-            {type = "link", text = "The Deadmines", onClick = function() page.onOpenSource("zone:" .. DEADMINES) end},
+            {type = "step", text = "Westfall", onClick = function() page.onOpenSource("zone:" .. WESTFALL) end},
+            {type = "step", text = "The Deadmines", onClick = function() page.onOpenSource("zone:" .. DEADMINES) end},
         }
     end
 

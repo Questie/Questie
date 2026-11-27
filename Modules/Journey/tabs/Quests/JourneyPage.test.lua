@@ -10,7 +10,9 @@ describe("JourneyPage", function()
     local ui
     local originalQuestie
     local listArea, detailsArea, panes, page
-    local content, nodes, loads, quests, openedSources, linkedQuests, shownDetails, updateQuestDetails
+    local content, nodes, loads, quests, openedSources, linkedQuests, shownDetails, updateQuestDetails, updateOtherDetails
+    -- What the item and entity pages say, which can change like a quest's state
+    local otherPageText
 
     local WOLVES, KOBOLDS, HOGGER = 7, 8, 448
 
@@ -26,13 +28,19 @@ describe("JourneyPage", function()
         dofile("Localization/l10n.lua")
         quests = {[WOLVES] = {Id = WOLVES, state = "available"}, [KOBOLDS] = {Id = KOBOLDS, state = "available"}}
         QuestieLoader:ImportModule("QuestieDB").GetQuest = function(id) return quests[id] end
-        -- The details themselves are tested with JourneyQuestDetails and JourneyEntityDetails
+        -- The details themselves are tested with JourneyQuestDetails, JourneyEntityDetails and JourneyItemDetails
         QuestieLoader:ImportModule("JourneyQuestDetails").GetRows = function(quest, update)
             updateQuestDetails = update
             return {{type = "text", text = "Quest " .. quest.Id .. " is " .. quest.state}}
         end
-        QuestieLoader:ImportModule("JourneyEntityDetails").GetRows = function(kind, id)
-            return {{type = "text", text = kind .. " " .. id}}
+        otherPageText = ""
+        QuestieLoader:ImportModule("JourneyEntityDetails").GetRows = function(kind, id, update)
+            updateOtherDetails = update
+            return {{type = "text", text = otherPageText .. kind .. " " .. id}}
+        end
+        QuestieLoader:ImportModule("JourneyItemDetails").GetRows = function(id, update)
+            updateOtherDetails = update
+            return {{type = "text", text = otherPageText .. "The item page of " .. id}}
         end
         linkedQuests = {}
         QuestieLoader:ImportModule("JourneyLinks").TryInsertIntoChat = function(questId) table.insert(linkedQuests, questId) end
@@ -243,6 +251,18 @@ describe("JourneyPage", function()
             assert.are_same({}, SelectedTexts())
             assert.are_same({"npc 299"}, Details())
         end)
+
+        for kind, text in pairs({item = "The item page of 2589", npc = "npc 2589"}) do
+            it("should show the page of an " .. kind .. ", and show it again when what it shows changes", function()
+                JourneyPage.Select(page, {kind = kind, id = 2589})
+                assert.are_same({text}, Details())
+
+                otherPageText = "On the map now: "
+                updateOtherDetails()
+
+                assert.are_same({"On the map now: " .. text}, Details())
+            end)
+        end
 
         -- A quest and an NPC can have the same ID
         it("should mark only the entry of the same kind", function()

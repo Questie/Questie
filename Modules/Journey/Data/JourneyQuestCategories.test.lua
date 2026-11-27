@@ -36,7 +36,10 @@ describe("JourneyQuestCategories", function()
     local ActiveQuests
     ---@type QuestieDBMock
     local mock
-    local GLOBALS = {"Questie", "LibQuestieDB", "UnitLevel", "QUEST_LOG", "CALENDAR_FULLDATE_MONTH_NAMES", "BreakUpLargeNumbers"}
+    local GLOBALS = {
+        "Questie", "LibQuestieDB", "UnitLevel", "QUEST_LOG", "CALENDAR_FULLDATE_MONTH_NAMES", "BreakUpLargeNumbers",
+        "QUEST_WATCH_QUEST_READY", "QUEST_TOOLTIP_ACTIVE", "ITEM_MIN_LEVEL",
+    }
     local originals, originalIsOnQuest
     local hiddenQuests, eventQuests, levels, xp, questLog, objectives
     -- What QuestieDB says a quest is, for its icon
@@ -109,6 +112,8 @@ describe("JourneyQuestCategories", function()
         }
         _G.UnitLevel = function() return 11 end
         _G.QUEST_LOG = "Quest Log"
+        _G.QUEST_WATCH_QUEST_READY, _G.QUEST_TOOLTIP_ACTIVE = "Ready for turn-in", "You are on this quest"
+        _G.ITEM_MIN_LEVEL = "Requires Level %d"
         _G.CALENDAR_FULLDATE_MONTH_NAMES = {
             "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December",
         }
@@ -460,6 +465,92 @@ describe("JourneyQuestCategories", function()
                 assert.are.equal("SPELL_MISSING", nodes.later.children[1].note)
                 assert.are.equal("SPELL_KNOWN", nodes.unobtainable.children[1].note)
             end)
+        end)
+    end)
+
+    describe("Arrange", function()
+        ---@param questIds QuestId[]
+        ---@return string[] entries Each as its quest, category and note
+        local function Arrange(questIds)
+            local entries = {}
+            for _, entry in ipairs(JourneyQuestCategories.Arrange(questIds)) do
+                table.insert(entries, entry.questId .. " " .. entry.category .. " " .. tostring(entry.note))
+            end
+            return entries
+        end
+
+        it("should give the quests in the order of the list: by category, and by level in each", function()
+            SetStates({[WOLVES] = "AVAILABLE", [KOBOLDS] = "QUEST_LOG", [ORDINARY_QUEST] = "AVAILABLE", [FOLLOW_UP] = "COMPLETED"})
+            levels[WOLVES], levels[ORDINARY_QUEST] = 20, 5
+
+            assert.are_same({
+                KOBOLDS .. " log nil", ORDINARY_QUEST .. " available nil", WOLVES .. " available nil", FOLLOW_UP .. " completed nil",
+            }, Arrange({FOLLOW_UP, WOLVES, KOBOLDS, ORDINARY_QUEST}))
+        end)
+
+        it("should leave out what the list leaves out", function()
+            local NOT_IN_DATABASE = 1000
+            SetStates({[WOLVES] = "AVAILABLE", [KOBOLDS] = "WRONG_RACE", [ORDINARY_QUEST] = "AVAILABLE"})
+            hiddenQuests[ORDINARY_QUEST] = true
+
+            assert.are_same({WOLVES .. " available nil"}, Arrange({NOT_IN_DATABASE, WOLVES, KOBOLDS, ORDINARY_QUEST}))
+        end)
+
+        it("should say at the right edge what the list says", function()
+            SetStates({[WOLVES] = "AVAILABLE", [KOBOLDS] = "QUEST_LOG", [ORDINARY_QUEST] = "SPELL_MISSING"})
+            xp[WOLVES] = 1250
+            objectives[KOBOLDS] = {{Collected = 2, Needed = 5}}
+
+            assert.are_same({KOBOLDS .. " log 2/5", WOLVES .. " available 1,250 xp", ORDINARY_QUEST .. " later SPELL_MISSING"},
+                Arrange({WOLVES, KOBOLDS, ORDINARY_QUEST}))
+        end)
+
+        it("should give nothing without quests", function()
+            assert.are_same({}, Arrange({}))
+        end)
+    end)
+
+    describe("GetStatus", function()
+        for situation, case in pairs({
+            ["in the quest log"] = {state = "QUEST_LOG", text = "You are on this quest in lightBlue"},
+            ["ready to turn in"] = {state = "QUEST_LOG", isComplete = 1, text = "|Tcomplete:14|t Ready for turn-in in green"},
+            ["failed"] = {state = "QUEST_LOG", isComplete = -1, text = "|Tcross:14|t Failed in red"},
+            ["available"] = {state = "AVAILABLE", text = "|Tavailable:14|t Available in gold"},
+            ["repeatable"] = {state = "AVAILABLE", repeatable = true, text = "|Trepeatable:14|t Available in gold"},
+            ["completed"] = {state = "COMPLETED", text = "|Tcheckmark:14|t Completed"},
+            ["too low a level for"] = {state = "LEVEL_TOO_LOW", text = "|Tcross:14|t Unavailable:  in redRequires Level 5"},
+            ["after another quest"] = {state = "NO_PREQUESTSINGLE", text = "|Tcross:14|t Unavailable:  in redIncomplete pre-quest"},
+            ["after other quests"] = {state = "NO_PREQUESTGROUP", text = "|Tcross:14|t Unavailable:  in redIncomplete pre-quest group"},
+            ["for another reason"] = {
+                state = "MISSING_REPUTATION", reason = "Unavailable: Requires Honored with Stormwind",
+                text = "|Tcross:14|t Unavailable:  in redRequires Honored with Stormwind",
+            },
+            ["no longer obtainable"] = {
+                state = "EXCLUSIVE_COMPLETED", reason = "Unavailable: Exclusive quest completed",
+                text = "|Tcross:14|t Unavailable:  in redExclusive quest completed",
+            },
+            -- Then why the game says it can't be done
+            ["not listed"] = {state = "WRONG_RACE", reason = "Unavailable: Wrong race", text = "|Tcross:14|t Unavailable: Wrong race"},
+        }) do
+            it("should say what the player can do with a quest that is " .. situation, function()
+                SetQuest(WOLVES, {name = "Wolves", objectivesText = {"Kill wolves."}, requiredLevel = 5})
+                SetState(case.state, case.reason)
+                questLog[WOLVES] = case.isComplete
+                repeatableQuests[WOLVES] = case.repeatable
+
+                assert.are.equal(case.text, JourneyQuestCategories.GetStatus(WOLVES))
+            end)
+        end
+    end)
+
+    describe("GetLogState", function()
+        it("should say whether a quest in the log is ready to be turned in, failed, or still to be done", function()
+            questLog[WOLVES], questLog[KOBOLDS] = 1, -1
+
+            assert.are_same({"ready", "failed", "active"}, {
+                JourneyQuestCategories.GetLogState(WOLVES), JourneyQuestCategories.GetLogState(KOBOLDS),
+                JourneyQuestCategories.GetLogState(ORDINARY_QUEST),
+            })
         end)
     end)
 

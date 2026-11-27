@@ -46,6 +46,7 @@ describe("JourneyResultsPage", function()
         -- Like the zone names, which have a name for anything
         QuestieLoader:ImportModule("QuestieJourneyUtils").GetZoneName = function(_, zoneId) return ZONE_NAMES[zoneId] or "Unknown Zone" end
 
+        dofile("Modules/Journey/Details/JourneyLinks.lua")
         dofile("Modules/Journey/tabs/Quests/JourneyResultsPage.lua")
         JourneyResultsPage = QuestieLoader:ImportModule("JourneyResultsPage")
     end)
@@ -80,14 +81,25 @@ describe("JourneyResultsPage", function()
     end)
 
     describe("GetText", function()
-        it("should name an NPC, an object or an item, with its ID when tooltips show IDs", function()
-            assert.are.equal("Hogger", JourneyResultsPage.GetText({value = 448, kind = "npc"}))
+        ---@return string[] texts Of an NPC, an object and an item that were found
+        local function Texts()
+            return {
+                JourneyResultsPage.GetText({value = 448, kind = "npc"}),
+                JourneyResultsPage.GetText({value = 55, kind = "object"}),
+                JourneyResultsPage.GetText({value = 2589, kind = "item"}),
+            }
+        end
 
+        it("should name an NPC, an object or an item", function()
+            assert.are_same({"Hogger", "Half-eaten body", "Linen Cloth"}, Texts())
+        end)
+
+        it("should show the ID of each kind only while its tooltip setting does", function()
             Questie.db.profile.enableTooltipsQuestID = true
+            assert.are_same({"Hogger", "Half-eaten body", "Linen Cloth"}, Texts())
 
-            assert.are.equal("Hogger (448)", JourneyResultsPage.GetText({value = 448, kind = "npc"}))
-            assert.are.equal("Half-eaten body (55)", JourneyResultsPage.GetText({value = 55, kind = "object"}))
-            assert.are.equal("Linen Cloth (2589)", JourneyResultsPage.GetText({value = 2589, kind = "item"}))
+            Questie.db.profile.enableTooltipsNPCID, Questie.db.profile.enableTooltipsItemID = true, true
+            assert.are_same({"Hogger (448)", "Half-eaten body", "Linen Cloth (2589)"}, Texts())
         end)
     end)
 

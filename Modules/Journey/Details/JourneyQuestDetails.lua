@@ -29,8 +29,6 @@ local ActiveQuests = QuestieLoader:ImportModule("ActiveQuests")
 local QuestXP = QuestieLoader:ImportModule("QuestXP")
 ---@type JourneyQuestCategories
 local JourneyQuestCategories = QuestieLoader:ImportModule("JourneyQuestCategories")
----@type ManualNotes
-local ManualNotes = QuestieLoader:ImportModule("ManualNotes")
 ---@type QuestieCompat
 local QuestieCompat = QuestieLoader:ImportModule("QuestieCompat")
 ---@type JourneyDetails
@@ -375,39 +373,6 @@ local function _AddPerson(rows, person, quest)
     end
 end
 
----@param quest Quest
----@param category JourneyQuestCategory?
----@param reason string?
----@param stateName string?
----@return string
-local function _GetStatus(quest, category, reason, stateName)
-    if category == "log" then
-        local isComplete = QuestieDB.IsComplete(quest.Id)
-        if isComplete == 1 then
-            return JourneyIcon.GetMarkup(JourneyQuestCategories.GetCompleteIcon(quest.Id)) .. Questie:Colorize(QUEST_WATCH_QUEST_READY, "green")
-        elseif isComplete == -1 then
-            return JourneyIcon.GetMarkup(Questie.icons["cross"]) .. Questie:Colorize(l10n("Failed"), "red")
-        end
-        return Questie:Colorize(QUEST_TOOLTIP_ACTIVE, "lightBlue") -- Like the timers of quests in the tracker
-    elseif category == "available" or category == "repeatable" then
-        return JourneyIcon.GetMarkup(JourneyQuestCategories.GetKindIcon(quest.Id)) .. Questie:Colorize(l10n("Available"), "gold") -- Like the headings
-    elseif category == "completed" then
-        return JourneyIcon.GetMarkup(Questie.icons["checkmark"]) .. l10n("Completed")
-    elseif category == "later" then
-        if stateName == "NO_PREQUESTSINGLE" then
-            reason = l10n("Incomplete pre-quest")
-        elseif stateName == "NO_PREQUESTGROUP" then
-            reason = l10n("Incomplete pre-quest group")
-        elseif stateName == "LEVEL_TOO_LOW" then
-            reason = ITEM_MIN_LEVEL:format(QuestieDB.QueryQuestSingle(quest.Id, "requiredLevel"))
-        end
-        return JourneyIcon.GetMarkup(Questie.icons["cross"]) .. Questie:Colorize(l10n("Unavailable") .. l10n(": "), "red") .. (reason or "")
-    elseif category == "unobtainable" then
-        return JourneyIcon.GetMarkup(Questie.icons["cross"]) .. Questie:Colorize(l10n("Unavailable") .. l10n(": "), "red")
-            .. (reason or l10n("Exclusive quest completed"))
-    end
-    return JourneyIcon.GetMarkup(Questie.icons["cross"]) .. (QuestieDB.IsDoableVerbose(quest.Id, false, true, true) or "")
-end
 
 ---@param people JourneyPerson[]
 ---@param category JourneyQuestCategory?
@@ -480,16 +445,7 @@ local function _AddObjectives(rows, quest, category, onChanged)
             if live and (live.Needed or 0) > 0 then
                 row.tag = live.Collected .. "/" .. live.Needed
             elseif kind ~= "item" and category ~= "log" then
-                local isShown = ManualNotes.IsShown(kind, id)
-                row.state = isShown and "shown" or "not shown"
-                row.action = {
-                    isOn = isShown,
-                    tooltip = isShown and l10n("Remove from Map") or l10n("Show on Map"),
-                    onClick = function()
-                        if ManualNotes.IsShown(kind, id) then ManualNotes.Hide(kind, id) else ManualNotes.Show(kind, id) end
-                        onChanged()
-                    end,
-                }
+                row.action, row.state = JourneyEntityDetails.GetMapAction(kind, id, onChanged)
             end
             table.insert(added, JourneyLinks.Link(row, kind, id))
         end
@@ -542,16 +498,6 @@ local function _GetHistory(quest)
     return rows
 end
 
----@param rows JourneyDetails.Row[]
----@param caption string
----@param section JourneyDetails.Row[]
-local function _AddSection(rows, caption, section)
-    if #section > 0 then
-        table.insert(rows, {type = "caption", text = l10n(caption)})
-        for _, row in ipairs(section) do table.insert(rows, row) end
-    end
-end
-
 ---@param quest Quest
 ---@return string[] tags
 local function _GetTags(quest)
@@ -596,7 +542,7 @@ function JourneyQuestDetails.GetRows(quest, onChanged)
     local rows = {
         {type = "page", text = QuestieLib:GetColoredQuestName(quest.Id, true, false), tag = table.concat(_GetTags(quest), ", ")},
         {type = "gap", height = 6},
-        {type = "status", text = _GetStatus(quest, category, reason, stateName)},
+        {type = "status", text = JourneyQuestCategories.GetStatus(quest.Id)},
     }
     local target = _GetTarget(people, category)
     local showOnMap, setTomTomTarget
@@ -646,13 +592,13 @@ function JourneyQuestDetails.GetRows(quest, onChanged)
             showTooltip = function() GameTooltip:SetItemByID(startItem.Id) end,
         })
     end
-    _AddSection(rows, "Where", who)
+    JourneyDetails.AddSection(rows, l10n("Where"), who)
 
     local needed = {}
     for _, id in pairs(quest.preQuestGroup or {}) do
         if QuestieDB.QuestPointers[math.abs(id)] then table.insert(needed, _GetStep(math.abs(id))) end
     end
-    _AddSection(rows, "Requires all of these quests to be finished", needed)
+    JourneyDetails.AddSection(rows, l10n("Requires all of these quests to be finished"), needed)
 
     if #previous + #following > 0 then
         local chain = {}
@@ -663,9 +609,9 @@ function JourneyQuestDetails.GetRows(quest, onChanged)
         for _, row in ipairs(chain) do table.insert(rows, row) end
     end
 
-    _AddSection(rows, REWARDS, _GetRewards(quest))
-    _AddSection(rows, "Quest Information", _GetFacts(quest))
-    _AddSection(rows, "Your history", _GetHistory(quest)) -- Last, because it grows
+    JourneyDetails.AddSection(rows, REWARDS, _GetRewards(quest))
+    JourneyDetails.AddSection(rows, l10n("Quest Information"), _GetFacts(quest))
+    JourneyDetails.AddSection(rows, l10n("Your history"), _GetHistory(quest)) -- Last, because it grows
 
     JourneyRawData.AddRows(rows, quest, QuestieDB.questKeys)
     table.insert(rows, _GetFooter(quest, setTomTomTarget))

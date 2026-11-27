@@ -1,4 +1,4 @@
----What the Journey shows about an NPC, object or item.
+---What the Journey shows about an NPC or object. Items have JourneyItemDetails.
 ---@class JourneyEntityDetails
 local JourneyEntityDetails = QuestieLoader:CreateModule("JourneyEntityDetails")
 
@@ -14,18 +14,14 @@ local JourneyIcon = QuestieLoader:ImportModule("JourneyIcon")
 local JourneyWindow = QuestieLoader:ImportModule("JourneyWindow")
 ---@type ManualNotes
 local ManualNotes = QuestieLoader:ImportModule("ManualNotes")
----@type QuestieCompat
-local QuestieCompat = QuestieLoader:ImportModule("QuestieCompat")
----@type QuestieCorrections
-local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
----@type QuestieDB
-local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 ---@type JourneyQuestCategories
 local JourneyQuestCategories = QuestieLoader:ImportModule("JourneyQuestCategories")
----@type JourneyNameColors
-local JourneyNameColors = QuestieLoader:ImportModule("JourneyNameColors")
+---@type QuestieDB
+local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 ---@type QuestieLib
 local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
+---@type JourneyNameColors
+local JourneyNameColors = QuestieLoader:ImportModule("JourneyNameColors")
 ---@type QuestieJourneyUtils
 local QuestieJourneyUtils = QuestieLoader:ImportModule("QuestieJourneyUtils")
 ---@type TrackerUtils
@@ -40,21 +36,41 @@ local function _Range(low, high)
     return low == high and low or (low .. " - " .. high)
 end
 
----Where an NPC or object is. Prefers a place with coordinates, which something inside an instance doesn't have.
+---@class JourneyEntityZone
+---@field zoneId AreaId
+---@field count number Of the spawns there
+---@field hasCoordinates boolean Something inside an instance has none
+
+---Where an NPC or object spawns, the zones with coordinates first, and of those the one with the most spawns.
 ---@param spawns table<AreaId, CoordPair[]>?
----@return AreaId? zoneId
----@return number? x
----@return number? y
-local function _GetPlace(spawns)
-    local anyZoneId
+---@return JourneyEntityZone[]
+local function _GetZones(spawns)
+    local zones = {}
     for zoneId, coordinates in pairs(spawns or {}) do
-        anyZoneId = anyZoneId or zoneId
-        local x, y = coordinates[1] and coordinates[1][1], coordinates[1] and coordinates[1][2]
-        if x and y and (x ~= -1 or y ~= -1) then
-            return zoneId, x, y
-        end
+        local first = coordinates[1]
+        table.insert(zones, {
+            zoneId = zoneId,
+            count = #coordinates,
+            hasCoordinates = first ~= nil and first[1] ~= nil and first[2] ~= nil and (first[1] ~= -1 or first[2] ~= -1),
+        })
     end
-    return anyZoneId
+    table.sort(zones, function(a, b)
+        if a.hasCoordinates ~= b.hasCoordinates then
+            return a.hasCoordinates
+        elseif a.count ~= b.count then
+            return a.count > b.count
+        end
+        return a.zoneId < b.zoneId
+    end)
+    return zones
+end
+
+---Where an NPC or object is most of all: the zone with the most spawns, preferring those with coordinates.
+---@param spawns table<AreaId, CoordPair[]>?
+---@return AreaId? zoneId Nil without spawns
+function JourneyEntityDetails.GetZoneId(spawns)
+    local zone = _GetZones(spawns)[1]
+    return zone and zone.zoneId
 end
 
 ---@param coordinate number
@@ -65,84 +81,66 @@ local function _FormatCoordinate(coordinate)
 end
 
 ---@param kind ManualNoteKind
+---@param id number
+---@param zoneId AreaId
+---@return fun()? showOnMap Nil when there is no map of the zone
+local function _GetShowOnMap(kind, id, zoneId)
+    local uiMapId = ManualNotes.GetMap(zoneId)
+    return uiMapId and function()
+        if ManualNotes.OpenMap(kind, id, uiMapId) then
+            JourneyWindow.Hide() -- It would cover the map
+        end
+    end
+end
+
+---Where an NPC or object is: the zone with the most spawns. Its coordinates only with one spawn, which they lead to. TomTom
+---leads to the first spawn in the zone either way.
+---@param kind ManualNoteKind
 ---@param entity NPC|Object
 ---@return string? text
 ---@return fun()? showOnMap
 ---@return fun()? setTomTomTarget
 function JourneyEntityDetails.GetPlace(kind, entity)
-    local zoneId, x, y = _GetPlace(entity.spawns)
-    if not zoneId then
+    local zones = _GetZones(entity.spawns)
+    local zone = zones[1]
+    if not zone then
         return nil
     end
-    local text = QuestieJourneyUtils:GetZoneName(zoneId)
-    if x then
-        text = text .. "  " .. _FormatCoordinate(x) .. ", " .. _FormatCoordinate(y)
-    end
-    local uiMapId = ManualNotes.GetMap(zoneId)
-    local showOnMap = uiMapId and function()
-        if ManualNotes.OpenMap(kind, entity.id, uiMapId) then
-            JourneyWindow.Hide() -- It would cover the map
+    local text = QuestieJourneyUtils:GetZoneName(zone.zoneId)
+    local x, y
+    if zone.hasCoordinates then
+        x, y = entity.spawns[zone.zoneId][1][1], entity.spawns[zone.zoneId][1][2]
+        if zone.count == 1 and #zones == 1 then
+            text = text .. "  " .. _FormatCoordinate(x) .. ", " .. _FormatCoordinate(y)
         end
     end
     local setTomTomTarget = x and TomTom and TomTom.AddWaypoint and function()
-        TrackerUtils:SetTomTomTarget(entity.name, zoneId, x, y)
+        TrackerUtils:SetTomTomTarget(entity.name, zone.zoneId, x, y)
     end
-    return text, showOnMap, setTomTomTarget
+    return text, _GetShowOnMap(kind, entity.id, zone.zoneId), setTomTomTarget
 end
 
----Adds where something is, as a link that opens the map. Adds nothing when that isn't known.
----@param rows JourneyDetails.Row[]
+---A small map at the right edge of a row, which puts something on the map or removes it again.
 ---@param kind ManualNoteKind
----@param entity NPC|Object
-function JourneyEntityDetails.AddPlace(rows, kind, entity)
-    local zoneId, x, y = _GetPlace(entity.spawns)
-    if not zoneId then
-        return
-    end
-
-    local text = QuestieJourneyUtils:GetZoneName(zoneId)
-    if x then
-        text = text .. ("   X%s%.2f || Y%s%.2f"):format(l10n(": "), x, l10n(": "), y)
-    end
-
-    local uiMapId = ManualNotes.GetMap(zoneId)
-    if not uiMapId then
-        table.insert(rows, {type = "text", text = text})
-        return
-    end
-    table.insert(rows, {
-        type = "link",
-        text = "|T" .. JourneyWindow.MAP_ICON .. ":14|t " .. text,
+---@param id number
+---@param onChanged fun() Called after it was clicked
+---@return JourneyDetails.Action action
+---@return string state Differs when the action does
+function JourneyEntityDetails.GetMapAction(kind, id, onChanged)
+    local isShown = ManualNotes.IsShown(kind, id)
+    local action = {
+        isOn = isShown,
+        tooltip = isShown and l10n("Remove from Map") or l10n("Show on Map"),
         onClick = function()
-            if ManualNotes.OpenMap(kind, entity.id, uiMapId) then
-                JourneyWindow.Hide() -- It would cover the map
-            end
+            if ManualNotes.IsShown(kind, id) then ManualNotes.Hide(kind, id) else ManualNotes.Show(kind, id) end
+            onChanged()
         end,
-        showTooltip = function() GameTooltip:AddLine(l10n("Show on Map")) end,
-    })
+    }
+    return action, isShown and "shown" or "not shown"
 end
 
----Adds a button for TomTom. Adds nothing without it, or without coordinates.
----@param rows JourneyDetails.Row[]
----@param entity NPC|Object
-function JourneyEntityDetails.AddTomTom(rows, entity)
-    local zoneId, x, y = _GetPlace(entity.spawns)
-    if x and TomTom and TomTom.AddWaypoint then
-        table.insert(rows, {
-            type = "button",
-            text = l10n("Set |cFF54e33bTomTom|r Target"),
-            onClick = function() TrackerUtils:SetTomTomTarget(entity.name, zoneId, x, y) end,
-        })
-    end
-end
-
----@param isShown boolean
----@param onClick fun()
----@return JourneyDetails.Row
-local function _GetNoteButton(isShown, onClick)
-    return {type = "button", text = l10n(isShown and "Remove from Map" or "Show on Map"), onClick = onClick}
-end
-
+---What the game shows about an NPC: its title below the name, and its level with the dragon of its rank. Then whom it is
+---friendly to.
 ---@param npc NPC
 ---@return string[] lines
 local function _GetNpcLines(npc)
@@ -157,43 +155,98 @@ local function _GetNpcLines(npc)
 
     local lines = {}
     if npc.subName then
-        table.insert(lines, JourneyDetails.GetFactText("Title", npc.subName))
+        table.insert(lines, "<" .. npc.subName .. ">")
     end
-    table.insert(lines, JourneyDetails.GetFactText("Level", _Range(npc.minLevel, npc.maxLevel)))
-    if (npc.maxLevelHealth or 0) > 1 then
-        table.insert(lines, JourneyDetails.GetFactText("Health", _Range(npc.minLevelHealth, npc.maxLevelHealth)))
-    end
+    local level = JourneyDetails.GetFactText("Level", _Range(npc.minLevel, npc.maxLevel))
+    local rank = QuestieLib.GetRankMarkup(npc.rank)
+    table.insert(lines, rank and level .. " " .. rank or level)
     table.insert(lines, JourneyDetails.GetFactText("Friendly to", l10n(friendlyTo)))
     return lines
 end
 
----@param rows JourneyDetails.Row[]
----@param caption string
----@param questIds QuestId[]?
-local function _AddQuests(rows, caption, questIds)
-    local steps = {}
-    for _, questId in pairs(questIds or {}) do
-        if QuestieDB.QuestPointers[questId] then
-            local category, reason = JourneyQuestCategories.Get(questId)
-            table.insert(steps, JourneyLinks.Link({
-                type = "step",
-                text = QuestieLib:GetColoredQuestName(questId, true, false),
-                trailingIcon = JourneyQuestCategories.GetIcon(questId, category),
-                tag = category == "log" and JourneyQuestCategories.GetProgress(questId) or reason,
-            }, "quest", questId))
+---What the player can do here now, in the colors of the status of a quest. Nil when there is nothing.
+---@param starts JourneyQuestCategories.Entry[]
+---@param ends JourneyQuestCategories.Entry[]
+---@return string? text
+local function _GetStatus(starts, ends)
+    local ready, available, active = 0, 0, 0
+    for _, entry in ipairs(ends) do
+        if entry.category == "log" then
+            local state = JourneyQuestCategories.GetLogState(entry.questId)
+            if state == "ready" then
+                ready = ready + 1
+            elseif state == "active" then
+                active = active + 1
+            end
         end
     end
-    if #steps > 0 then
-        table.insert(rows, {type = "caption", text = l10n(caption)})
-        for _, step in ipairs(steps) do table.insert(rows, step) end
+    for _, entry in ipairs(starts) do
+        if entry.category == "available" or entry.category == "repeatable" then
+            available = available + 1
+        end
     end
+
+    -- Questie's words, not the sentences of a quest's status, which some languages end with a period, like
+    -- QUEST_WATCH_QUEST_READY in Russian: "Можно сдать."
+    local parts = {}
+    if ready > 0 then
+        table.insert(parts, JourneyIcon.GetMarkup(Questie.icons["complete"]) .. Questie:Colorize(l10n("Complete") .. l10n(": "), "green") .. ready)
+    end
+    if available > 0 then
+        table.insert(parts, JourneyIcon.GetMarkup(Questie.icons["available"]) .. Questie:Colorize(l10n("Available") .. l10n(": "), "gold") .. available)
+    end
+    if active > 0 then
+        table.insert(parts, JourneyIcon.GetMarkup(Questie.icons["incomplete"]) .. Questie:Colorize(l10n("Active") .. l10n(": "), "lightBlue") .. active)
+    end
+    return #parts > 0 and table.concat(parts, "     ") or nil
+end
+
+---Each zone it spawns in, when there are several, leading to the map there.
+---@param rows JourneyDetails.Row[]
+---@param kind ManualNoteKind
+---@param id number
+---@param zones JourneyEntityZone[]
+---@param onChanged fun()
+local function _AddZones(rows, kind, id, zones, onChanged)
+    if #zones < 2 then
+        return
+    end
+    table.insert(rows, {type = "caption", text = l10n("Where")})
+    for _, zone in ipairs(zones) do
+        local showOnMap = _GetShowOnMap(kind, id, zone.zoneId)
+        table.insert(rows, {
+            type = "step",
+            text = QuestieJourneyUtils:GetZoneName(zone.zoneId),
+            tag = zone.count > 1 and tostring(zone.count) or nil, -- How many spawns, like the zones of a faction say how many quests
+            onClick = showOnMap and function()
+                showOnMap()
+                onChanged() -- It is on the map now, also when the map can't be opened in combat
+            end,
+            showTooltip = showOnMap and function() GameTooltip:AddLine(l10n("Show on Map")) end,
+        })
+    end
+end
+
+---Puts it on the map or removes it again, and leads TomTom there.
+---@param kind ManualNoteKind
+---@param id number
+---@param setTomTomTarget fun()?
+---@param onChanged fun()
+---@return JourneyDetails.Row
+local function _GetFooter(kind, id, setTomTomTarget, onChanged)
+    local action, state = JourneyEntityDetails.GetMapAction(kind, id, onChanged)
+    local buttons = {{text = action.tooltip, icon = JourneyIcon.MAP, onClick = action.onClick}}
+    if setTomTomTarget then
+        table.insert(buttons, {text = "TomTom", icon = JourneyIcon.ARROW, onClick = setTomTomTarget})
+    end
+    return {type = "footer", buttons = buttons, state = state .. " " .. tostring(setTomTomTarget ~= nil)}
 end
 
 ---@param kind ManualNoteKind
 ---@param id number
 ---@param onChanged fun() Called after the user changed something the rows show
----@return JourneyDetails.Row[]
-local function _GetSpawnRows(kind, id, onChanged)
+---@return JourneyDetails.Row[] rows Empty when it isn't in the database
+function JourneyEntityDetails.GetRows(kind, id, onChanged)
     local isNpc = kind == "npc"
     local entity
     if isNpc then
@@ -218,154 +271,38 @@ local function _GetSpawnRows(kind, id, onChanged)
             tag = l10n(isNpc and "NPC ID" or "Object ID") .. l10n(": ") .. id,
         },
         {type = "gap", height = 6},
-        {type = "entity", npcId = isNpc and id or nil, text = table.concat(lines, "\n")},
+        {
+            type = "entity",
+            npcId = isNpc and id or nil,
+            -- Objects have no face, so they have the icon of their objectives
+            icon = not isNpc and Questie.icons["object"] or nil,
+            text = table.concat(lines, "\n"),
+            onShowMap = showOnMap and function()
+                showOnMap()
+                onChanged() -- It is on the map now, also when the map can't be opened in combat
+            end,
+        },
     }
-    local footer
-    if entity.spawns then
-        local isShown = ManualNotes.IsShown(kind, id)
-        local buttons = {}
-        rows[#rows].onShowMap = showOnMap
-        if isShown then
-            table.insert(buttons, {
-                text = l10n("Remove from Map"),
-                icon = JourneyIcon.HIDDEN,
-                onClick = function()
-                    ManualNotes.Hide(kind, id)
-                    onChanged()
-                end,
-            })
-        end
-        if setTomTomTarget then
-            table.insert(buttons, {text = "TomTom", icon = JourneyIcon.ARROW, onClick = setTomTomTarget})
-        end
-        footer = #buttons > 0 and {type = "footer", buttons = buttons, state = tostring(isShown)} or nil
-    else
+    if not entity.spawns then
         table.insert(rows, {type = "text", text = l10n("No spawn data available.")})
     end
 
-    _AddQuests(rows, "Starts the following quests", entity.questStarts)
-    _AddQuests(rows, "Ends the following quests", entity.questEnds)
+    local starts, startEntries = JourneyLinks.GetQuestSteps(entity.questStarts)
+    local ends, endEntries = JourneyLinks.GetQuestSteps(entity.questEnds)
+    local status = _GetStatus(startEntries, endEntries)
+    if status then
+        table.insert(rows, {type = "gap", height = 4})
+        table.insert(rows, {type = "status", text = status})
+    end
+
+    _AddZones(rows, kind, id, _GetZones(entity.spawns), onChanged)
+    JourneyDetails.AddSection(rows, l10n("Starts the following quests"), starts)
+    JourneyDetails.AddSection(rows, l10n("Ends the following quests"), ends)
     JourneyRawData.AddRows(rows, entity, isNpc and QuestieDB.npcKeys or QuestieDB.objectKeys)
-    table.insert(rows, footer)
+    if entity.spawns then
+        table.insert(rows, _GetFooter(kind, id, setTomTomTarget, onChanged))
+    end
     return rows
-end
-
----@class JourneyItemSource
----@field field string
----@field kind ManualNoteKind
----@field heading string
----@field countText string
----@field noneText string
-
----@type JourneyItemSource[]
-local ITEM_SOURCES = {
-    {field = "npcDrops", kind = "npc", heading = "NPCs", countText = "%d NPCs drop this item", noneText = "No NPC drops this item"},
-    {field = "objectDrops", kind = "object", heading = "Objects", countText = "%d Objects drop this item", noneText = "No Object drops this item"},
-    {field = "vendors", kind = "npc", heading = "Vendors", countText = "%d Vendors sell this item", noneText = "No Vendor sells this item"},
-}
-
----@param source JourneyItemSource
----@param ids number[]?
----@return number[] ids Those that can be found by the player
-local function _GetReachableIds(source, ids)
-    local reachableIds = {}
-    for _, id in pairs(ids or {}) do
-        local spawns
-        if source.kind == "npc" then
-            spawns = QuestieDB.QueryNPCSingle(id, "spawns")
-        else
-            spawns = QuestieDB.QueryObjectSingle(id, "spawns")
-        end
-        local isHostileVendor = source.field == "vendors"
-            and not QuestieDB.IsFriendlyToPlayer(QuestieDB.QueryNPCSingle(id, "friendlyToFaction"))
-        if spawns and not isHostileVendor then
-            table.insert(reachableIds, id)
-        end
-    end
-    return reachableIds
-end
-
----@param itemId ItemId
----@return JourneyDetails.Row
-local function _GetItemRow(itemId)
-    return {
-        type = "entity",
-        icon = QuestieCompat.GetItemIcon(itemId),
-        text = " ",
-        onClick = function()
-            local _, link = QuestieCompat.GetItemInfo(itemId)
-            if not link then
-                return -- The client doesn't know the item yet
-            end
-            if IsShiftKeyDown() then
-                if ChatEdit_GetActiveWindow() then
-                    ChatEdit_InsertLink(link)
-                else
-                    ChatFrame_OpenChat(link)
-                end
-            elseif IsControlKeyDown() then
-                DressUpItemLink(link)
-            end
-        end,
-    }
-end
-
----@param itemId ItemId
----@param onChanged fun()
----@return JourneyDetails.Row[]
-local function _GetItemRows(itemId, onChanged)
-    local name = QuestieDB.QueryItemSingle(itemId, "name")
-    if not name then
-        return {}
-    end
-
-    ---@type JourneyDetails.Row[]
-    local rows = {
-        {type = "page", text = JourneyNameColors.Item(itemId, name), tag = l10n("Item ID") .. l10n(": ") .. itemId},
-        {type = "gap", height = 6},
-        _GetItemRow(itemId),
-        {type = "itemTooltip", itemId = itemId},
-    }
-    if QuestieCorrections.questItemBlacklist[itemId] then
-        table.insert(rows, {type = "text", text = l10n("This item is blacklisted because it has too many sources")})
-        return rows
-    end
-
-    local idsBySource = QuestieDB.QueryItem(itemId, {"npcDrops", "objectDrops", "vendors"})
-    for index, source in ipairs(ITEM_SOURCES) do
-        local ids = _GetReachableIds(source, idsBySource[index])
-        local hasSources = idsBySource[index] and next(idsBySource[index]) ~= nil
-
-        table.insert(rows, {type = "caption", text = l10n(source.heading)})
-        table.insert(rows, {type = "text", text = hasSources and l10n(source.countText, #ids) or l10n(source.noneText)})
-        if #ids > 0 then
-            local group = "item " .. itemId .. " " .. source.field
-            local isShown = ManualNotes.IsGroupShown(group)
-            table.insert(rows, _GetNoteButton(isShown, function()
-                if isShown then
-                    ManualNotes.HideGroup(group, source.kind, ids)
-                else
-                    ManualNotes.ShowGroup(group, source.kind, ids)
-                end
-                onChanged()
-            end))
-            JourneyDetails.AddBox(rows, "", JourneyLinks.GetRows(source.kind, ids))
-        end
-    end
-
-    JourneyRawData.AddRows(rows, QuestieDB:GetItem(itemId), QuestieDB.itemKeys)
-    return rows
-end
-
----@param kind "npc"|"object"|"item"
----@param id number
----@param onChanged fun() Called after the user changed something the rows show
----@return JourneyDetails.Row[] rows Empty when it isn't in the database
-function JourneyEntityDetails.GetRows(kind, id, onChanged)
-    if kind == "item" then
-        return _GetItemRows(id, onChanged)
-    end
-    return _GetSpawnRows(kind, id, onChanged)
 end
 
 return JourneyEntityDetails

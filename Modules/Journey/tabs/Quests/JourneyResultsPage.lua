@@ -2,6 +2,8 @@
 ---@class JourneyResultsPage
 local JourneyResultsPage = QuestieLoader:CreateModule("JourneyResultsPage")
 
+---@type JourneyLinks
+local JourneyLinks = QuestieLoader:ImportModule("JourneyLinks")
 ---@type JourneyPlaces
 local JourneyPlaces = QuestieLoader:ImportModule("JourneyPlaces")
 ---@type JourneyQuestCategories
@@ -60,11 +62,7 @@ function JourneyResultsPage.GetText(node)
     if node.kind == "quest" then
         return QuestieLib:GetColoredQuestName(node.value, true, false)
     end
-    local text = QuestieSearch.GetName(node.kind, node.value) or ""
-    if Questie.db.profile.enableTooltipsQuestID then
-        text = text .. " (" .. node.value .. ")"
-    end
-    return text
+    return (QuestieSearch.GetName(node.kind, node.value) or "") .. JourneyLinks.GetIdText(node.kind, node.value)
 end
 
 ---@param node JourneyTreeNode
