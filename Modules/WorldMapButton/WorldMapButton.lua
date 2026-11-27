@@ -41,8 +41,13 @@ end
 
 ---@param shouldShow boolean
 function WorldMapButton.Toggle(shouldShow)
-    mapButton:SetShown(shouldShow)
-    journeyButton:SetShown(shouldShow)
+    for _, button in ipairs({mapButton, journeyButton}) do
+        if shouldShow then
+            button:Show()
+        else
+            button:Hide()
+        end
+    end
 end
 
 ---@param self Frame
