@@ -6,13 +6,12 @@ describe("JourneyWindow", function()
     ---@type JourneyWindow
     local JourneyWindow
     local ui
-    local originalQuestie, originalGetUnitName, originalPlaySound
-    local tabs, sounds, settingsOpened, focusCleared, opened
+    local originalQuestie, originalGetUnitName, originalPlaySound, originalHistory
+    local tabs, sounds, settingsOpened, opened, shownInQuests, sizes
 
     ---What the window needs of a tab. Counts how often it is refreshed and selected.
     ---@param key string
-    ---@param canShowQuests boolean
-    local function CreateTab(key, canShowQuests)
+    local function CreateTab(key)
         local tab = {refreshes = 0, selections = 0}
         tab.Build = function(canvas)
             assert(not tab.canvas, "the tab was built twice")
@@ -23,9 +22,6 @@ describe("JourneyWindow", function()
             tab.refreshes = tab.refreshes + 1
         end
         tab.OnSelected = function() tab.selections = tab.selections + 1 end
-        if canShowQuests then
-            tab.OpenQuest = function(questId) table.insert(opened, {key, questId}) end
-        end
         tabs[key] = tab
         return tab
     end
@@ -75,11 +71,14 @@ describe("JourneyWindow", function()
     before_each(function()
         ui = FakeUI.Install()
         originalQuestie, originalGetUnitName, originalPlaySound = _G.Questie, _G.GetUnitName, _G.PlaySound
-        _G.Questie = setmetatable({IsForever = true, db = {profile = {}}}, {__index = originalQuestie})
+        originalHistory = _G.HISTORY
+        _G.HISTORY = "History"
+        sizes = {quests = {}, history = {}}
+        _G.Questie = setmetatable({IsForever = true, db = {profile = {}, char = {journeyWindow = sizes}}}, {__index = originalQuestie})
         _G.GetUnitName = function() return "Thrall" end
         sounds = 0
         _G.PlaySound = function() sounds = sounds + 1 end
-        tabs, opened, settingsOpened, focusCleared = {}, {}, 0, 0
+        tabs, opened, settingsOpened, shownInQuests = {}, {}, 0, {}
 
         dofile("Modules/Libs/QuestieLoader.lua")
         dofile("Localization/l10n.lua")
@@ -87,12 +86,16 @@ describe("JourneyWindow", function()
         dofile("Modules/Options/QuestieOptionsWindow.lua")
 
         local _QuestieJourney = QuestieLoader:ImportModule("QuestieJourney").private
-        _QuestieJourney.myJourney = CreateTab("journey", false)
-        _QuestieJourney.questsByZone = CreateTab("zone", true)
-        _QuestieJourney.questsByFaction = CreateTab("faction", true)
-        _QuestieJourney.search = CreateTab("search", false)
-        _QuestieJourney.search.Open = function(kind, id) table.insert(opened, {kind, id}) end
-        _QuestieJourney.search.ClearFocus = function() focusCleared = focusCleared + 1 end
+        _QuestieJourney.myJourney = CreateTab("history")
+        _QuestieJourney.quests = CreateTab("quests")
+        _QuestieJourney.quests.UseHeader = function() end
+        _QuestieJourney.quests.Open = function(kind, id) table.insert(opened, {kind, id}) end
+        for name, shown in pairs({ShowCurrentZone = "zone", ShowWatchedFaction = "faction", ShowSearch = "search"}) do
+            _QuestieJourney.quests[name] = function()
+                assert(tabs.quests.canvas:IsVisible(), "something was shown in the quests while they aren't")
+                table.insert(shownInQuests, shown)
+            end
+        end
         QuestieLoader:ImportModule("QuestieOptionsEngine").ShowFrame = function() settingsOpened = settingsOpened + 1 end
 
         dofile("Modules/Journey/JourneyWindow.lua")
@@ -101,6 +104,7 @@ describe("JourneyWindow", function()
 
     after_each(function()
         _G.Questie, _G.GetUnitName, _G.PlaySound = originalQuestie, originalGetUnitName, originalPlaySound
+        _G.HISTORY = originalHistory
         ui.Restore()
     end)
 
@@ -119,27 +123,39 @@ describe("JourneyWindow", function()
     end)
 
     describe("opening", function()
-        it("should show My Journey the first time", function()
+        it("should show the quests the first time", function()
             JourneyWindow.Show()
 
             assert.is_true(JourneyWindow.IsShown())
-            assert.are_same({"journey"}, ShownTabs())
-            assert.are.equal(1, tabs.journey.refreshes)
+            assert.are_same({"quests"}, ShownTabs())
+            assert.are.equal(1, tabs.quests.refreshes)
         end)
 
-        it("should show the requested tab", function()
-            JourneyWindow.Show("search")
+        it("should show the history when the journey is asked for", function()
+            JourneyWindow.Show("journey")
 
-            assert.are_same({"search"}, ShownTabs())
+            assert.are_same({"history"}, ShownTabs())
         end)
+
+        for request, shown in pairs({zone = "zone", faction = "faction", search = "search"}) do
+            it("should show what is asked for in the quests: " .. request, function()
+                JourneyWindow.Show("journey")
+
+                JourneyWindow.Show(request)
+
+                assert.are_same({"quests"}, ShownTabs())
+                assert.are_same({shown}, shownInQuests)
+            end)
+        end
 
         it("should show the tab that was shown last", function()
-            JourneyWindow.Show("zone")
+            JourneyWindow.Show("journey")
             JourneyWindow.Hide()
 
             JourneyWindow.Show()
 
-            assert.are_same({"zone"}, ShownTabs())
+            assert.are_same({"history"}, ShownTabs())
+            assert.are_same({}, shownInQuests)
         end)
 
         it("should create nothing the second time", function()
@@ -153,28 +169,28 @@ describe("JourneyWindow", function()
         end)
 
         it("should keep the canvas of a tab instead of building it again", function()
-            JourneyWindow.Show("zone")
-            ClickTab("search")
+            JourneyWindow.Show()
+            ClickTab("history")
             local frameCount = #ui.frames
 
-            ClickTab("zone")
-            ClickTab("search")
+            ClickTab("quests")
+            ClickTab("history")
 
             assert.are.equal(frameCount, #ui.frames)
         end)
 
         it("should not create more and more when a tab can't be built", function()
-            tabs.zone.Build = function() error("no such template") end
-            pcall(JourneyWindow.Show, "zone")
+            tabs.history.Build = function() error("no such template") end
+            pcall(JourneyWindow.Show, "journey")
             local frameCount = #ui.frames
 
-            pcall(JourneyWindow.Show, "zone")
+            pcall(JourneyWindow.Show, "journey")
 
             assert.are.equal(frameCount, #ui.frames)
         end)
 
         it("should not build tabs that weren't shown yet", function()
-            JourneyWindow.Show("zone")
+            JourneyWindow.Show("journey")
 
             assert.are.equal(1, CountBuiltTabs())
         end)
@@ -185,8 +201,8 @@ describe("JourneyWindow", function()
 
             JourneyWindow.Show()
 
-            assert.are_same({"journey"}, ShownTabs())
-            assert.are.equal(2, tabs.journey.refreshes)
+            assert.are_same({"quests"}, ShownTabs())
+            assert.are.equal(2, tabs.quests.refreshes)
         end)
 
         it("should keep the canvas inside the window, below the header", function()
@@ -194,7 +210,7 @@ describe("JourneyWindow", function()
 
             local points = {}
             for index = 1, 2 do
-                local point, relativeTo, _, x, y = tabs.journey.canvas:GetPoint(index)
+                local point, relativeTo, _, x, y = tabs.quests.canvas:GetPoint(index)
                 points[point] = {x = x, y = y}
                 assert.are.equal(FindWindow().canvasContainer, relativeTo)
             end
@@ -228,12 +244,56 @@ describe("JourneyWindow", function()
 
         it("should only play a sound when it wasn't open", function()
             JourneyWindow.Show()
-            JourneyWindow.Show("zone")
+            JourneyWindow.Show("journey")
             assert.are.equal(1, sounds)
 
             JourneyWindow.Hide()
             JourneyWindow.Show()
             assert.are.equal(2, sounds)
+        end)
+    end)
+
+    describe("its size", function()
+        it("should be what the character resized it to", function()
+            sizes.width, sizes.height = 700, 500
+
+            JourneyWindow.Show()
+
+            assert.are_same({700, 500}, {FindWindow():GetSize()})
+        end)
+
+        it("should be saved for the character when the grip is let go", function()
+            JourneyWindow.Show()
+            local grip = ui.FindByTemplate(FindWindow(), "PanelResizeButtonTemplate")[1]
+
+            grip:OnMouseDown()
+            FindWindow():SetSize(720, 480)
+            grip:OnMouseUp()
+
+            assert.are_same({720, 480}, {sizes.width, sizes.height})
+        end)
+
+        it("should shrink to the screen, for a size saved at another UI scale, and keep what was saved", function()
+            sizes.width, sizes.height = 2000, 1500
+
+            JourneyWindow.Show()
+
+            assert.are_same({ui.screenWidth - 120, 1000}, {FindWindow():GetSize()})
+            assert.are_same({2000, 1500}, {sizes.width, sizes.height})
+        end)
+
+        it("should go back to the default, and forget the saved one, by double-clicking the grip", function()
+            JourneyWindow.Show()
+            local defaultWidth, defaultHeight = FindWindow():GetSize()
+            sizes.width, sizes.height = 700, 500
+            FindWindow():SetSize(700, 500)
+
+            local grip = ui.FindByTemplate(FindWindow(), "PanelResizeButtonTemplate")[1]
+            grip.scripts.OnDoubleClick(grip)
+
+            assert.are_same({defaultWidth, defaultHeight}, {FindWindow():GetSize()})
+            assert.is_nil(sizes.width)
+            assert.is_nil(sizes.height)
         end)
     end)
 
@@ -250,31 +310,44 @@ describe("JourneyWindow", function()
         end)
     end)
 
-    -- Otherwise movement keys keep being typed into the search box
-    for name, find in pairs({
-        ["the window"] = function(window) return window end,
-        ["the title bar"] = function(window) return window.dragBar end,
-        ["the resize grip"] = function(window) return window.resizeGrip end,
-    }) do
-        it("should end typing in the search when " .. name .. " is clicked", function()
+    -- Otherwise movement keys keep being typed into a search box
+    describe("clicking", function()
+        local box
+
+        before_each(function()
             JourneyWindow.Show()
-            local frame = find(FindWindow())
-
-            frame.scripts.OnMouseDown(frame, "LeftButton")
-
-            assert.are.equal(1, focusCleared)
+            box = CreateFrame("EditBox", nil, tabs.quests.canvas)
+            box:SetFocus()
         end)
-    end
+
+        for name, find in pairs({
+            ["the window"] = function(window) return window end,
+            ["the title bar"] = function(window) return window.dragBar end,
+            ["the resize grip"] = function(window) return window.resizeGrip end,
+        }) do
+            it("should end typing in the window when " .. name .. " is clicked", function()
+                local frame = find(FindWindow())
+
+                frame.scripts.OnMouseDown(frame, "LeftButton")
+
+                assert.is_false(box:HasFocus())
+            end)
+        end
+
+        it("should leave typing elsewhere alone", function()
+            local chat = CreateFrame("EditBox", nil, UIParent)
+            chat:SetFocus()
+
+            FindWindow().scripts.OnMouseDown(FindWindow(), "LeftButton")
+
+            assert.is_true(chat:HasFocus())
+        end)
+    end)
 
     describe("the side tabs", function()
-        for _, tab in ipairs({
-            {key = "journey", title = "My Journey"},
-            {key = "zone", title = "Quests by Zone"},
-            {key = "faction", title = "Quests by Faction"},
-            {key = "search", title = "Advanced Search"},
-        }) do
+        for _, tab in ipairs({{key = "quests", title = "Quests"}, {key = "history", title = "History"}}) do
             it("should show " .. tab.title .. " instead of the tab before it", function()
-                JourneyWindow.Show(tab.key == "zone" and "search" or "zone")
+                JourneyWindow.Show(tab.key == "quests" and "journey" or nil)
 
                 ClickTab(tab.key)
 
@@ -286,36 +359,36 @@ describe("JourneyWindow", function()
         end
 
         it("should say so when the user switched to it or opened the window on it, but not when it is only refreshed", function()
-            JourneyWindow.Show("search")
-            assert.are.equal(1, tabs.search.selections)
+            JourneyWindow.Show()
+            assert.are.equal(1, tabs.quests.selections)
 
             JourneyWindow.Refresh()
-            assert.are.equal(1, tabs.search.selections)
+            assert.are.equal(1, tabs.quests.selections)
 
-            ClickTab("zone")
-            ClickTab("search")
-            assert.are.equal(2, tabs.search.selections)
+            ClickTab("history")
+            ClickTab("quests")
+            assert.are.equal(2, tabs.quests.selections)
 
             JourneyWindow.Hide()
             JourneyWindow.Show()
-            assert.are.equal(3, tabs.search.selections)
+            assert.are.equal(3, tabs.quests.selections)
         end)
 
         it("should know that it was selected before it is refreshed, so it can show something else then", function()
             local refreshesWhenSelected
-            tabs.zone.OnSelected = function() refreshesWhenSelected = tabs.zone.refreshes end
+            tabs.history.OnSelected = function() refreshesWhenSelected = tabs.history.refreshes end
 
-            JourneyWindow.Show("zone")
+            JourneyWindow.Show("journey")
 
-            assert.are_same({0, 1}, {refreshesWhenSelected, tabs.zone.refreshes})
+            assert.are_same({0, 1}, {refreshesWhenSelected, tabs.history.refreshes})
         end)
 
         it("should leave the shown tab alone when it is clicked again", function()
-            JourneyWindow.Show("zone")
+            JourneyWindow.Show("journey")
 
-            ClickTab("zone")
+            ClickTab("history")
 
-            assert.are.equal(1, tabs.zone.refreshes)
+            assert.are.equal(1, tabs.history.refreshes)
         end)
 
         it("should lead to the settings", function()
@@ -330,22 +403,22 @@ describe("JourneyWindow", function()
 
     describe("opening it again", function()
         it("should show what was shown before, up to date, but not as if the user had gone there", function()
-            JourneyWindow.Show("search")
+            JourneyWindow.Show("journey")
             JourneyWindow.Hide()
 
             JourneyWindow.ShowAgain()
 
             assert.is_true(JourneyWindow.IsShown())
-            assert.are_same({"search"}, ShownTabs())
-            assert.are_same({2, 1}, {tabs.search.refreshes, tabs.search.selections})
+            assert.are_same({"history"}, ShownTabs())
+            assert.are_same({2, 1}, {tabs.history.refreshes, tabs.history.selections})
         end)
 
         it("should do nothing when the user did that already", function()
-            JourneyWindow.Show("search")
+            JourneyWindow.Show("journey")
 
             JourneyWindow.ShowAgain()
 
-            assert.are.equal(1, tabs.search.refreshes)
+            assert.are.equal(1, tabs.history.refreshes)
         end)
 
         it("should not create a window that never existed", function()
@@ -357,12 +430,12 @@ describe("JourneyWindow", function()
 
     describe("refreshing", function()
         it("should only refresh the tab that is shown", function()
-            JourneyWindow.Show("zone")
-            ClickTab("journey")
+            JourneyWindow.Show()
+            ClickTab("history")
 
             JourneyWindow.Refresh()
 
-            assert.are_same({1, 2}, {tabs.zone.refreshes, tabs.journey.refreshes})
+            assert.are_same({1, 2}, {tabs.quests.refreshes, tabs.history.refreshes})
         end)
 
         it("should do nothing while the window is closed, or doesn't exist", function()
@@ -372,51 +445,30 @@ describe("JourneyWindow", function()
             JourneyWindow.Show()
             JourneyWindow.Hide()
             JourneyWindow.Refresh()
-            assert.are.equal(1, tabs.journey.refreshes)
+            assert.are.equal(1, tabs.quests.refreshes)
         end)
     end)
 
     describe("a link", function()
-        for _, key in ipairs({"zone", "faction"}) do
-            it("should show a quest in the tab the link is in, " .. key, function()
-                JourneyWindow.Show(key)
-
-                JourneyWindow.OpenLink("quest", 54)
-
-                assert.are_same({{key, 54}}, opened)
-                assert.are_same({key}, ShownTabs())
-                assert.are.equal(1, tabs[key].refreshes)
-            end)
-        end
-
-        it("should show a quest in the search from a tab that can't show any", function()
-            JourneyWindow.Show("journey")
-
-            JourneyWindow.OpenLink("quest", 54)
-
-            assert.are_same({{"quest", 54}}, opened)
-            assert.are_same({"search"}, ShownTabs())
-        end)
-
-        for _, kind in ipairs({"npc", "object", "item"}) do
-            it("should show an " .. kind .. " in the search", function()
-                JourneyWindow.Show("zone")
+        for _, kind in ipairs({"quest", "npc", "object", "item"}) do
+            it("should show a " .. kind .. " in the quests, also from the history", function()
+                JourneyWindow.Show("journey")
 
                 JourneyWindow.OpenLink(kind, 299)
 
                 assert.are_same({{kind, 299}}, opened)
-                assert.are_same({"search"}, ShownTabs())
-                assert.are_same({"search"}, TabsMarkedAsSelected())
+                assert.are_same({"quests"}, ShownTabs())
+                assert.are_same({"quests"}, TabsMarkedAsSelected())
             end)
         end
 
-        it("should leave the search alone when the link is in it", function()
-            JourneyWindow.Show("search")
+        it("should leave the quests alone when the link is in them", function()
+            JourneyWindow.Show()
 
             JourneyWindow.OpenLink("npc", 299)
 
             assert.are_same({{"npc", 299}}, opened)
-            assert.are_same({1, 1}, {tabs.search.refreshes, tabs.search.selections})
+            assert.are_same({1, 1}, {tabs.quests.refreshes, tabs.quests.selections})
         end)
     end)
 end)

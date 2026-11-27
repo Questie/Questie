@@ -23,6 +23,7 @@ local GLOBALS = {
     "GameFontHighlightSmall", "C_Timer", "GetTime", "GetTimePreciseSec", "PlaySound", "SOUNDKIT", "IsMouseButtonDown",
     "strtrim", "print", "LibStub", "debugstack", "wipe", "OKAY", "Menu", "strsplit", "CreateScrollBoxListLinearView",
     "CreateDataProvider", "CreateIndexRangeDataProvider", "ScrollBoxConstants", "GetCursorPosition", "SetCursor", "C_Texture",
+    "GetCurrentKeyBoardFocus", "CreateColor", "BreakUpLargeNumbers",
 }
 
 -- Art and setup calls that have no behavior worth simulating
@@ -33,7 +34,7 @@ local NO_OP_METHODS = {
     "SetHighlightAtlas", "SetHighlightTexture", "SetHorizTile", "SetJustifyH", "SetJustifyV",
     "SetMaxLetters", "SetMovable", "SetNormalTexture", "SetPortraitTextureRaw", "SetPushedTexture",
     "SetSnapToPixelGrid", "SetTexelSnappingBias", "SetTitle", "SetWordWrap",
-    "StartMoving", "SetPortraitZoom",
+    "StartMoving", "SetPortraitZoom", "SetGradient",
 }
 
 -- Only these have scripts for clicks. Setting one on another frame is an error.
@@ -395,6 +396,13 @@ function FakeUI.Install()
     function methods:SetDesaturated(isDesaturated) self.isDesaturated = isDesaturated end
     function methods:SetVertexColor(...) self.vertexColor = {...} end
     function methods:SetTextColor(...) self.textColor = {...} end
+    -- Status bars
+    function methods:SetStatusBarTexture(texture) self.statusBarTexture = texture end
+    function methods:GetStatusBarTexture()
+        self.statusBarRegion = self.statusBarRegion or NewFrame("Texture", nil, self)
+        return self.statusBarRegion
+    end
+    function methods:SetStatusBarColor(...) self.statusBarColor = {...} end
     function methods:SetFont(path) self.fontPath = path end
     function methods:SetFontObject(font) self.fontObject = font end
 
@@ -418,6 +426,9 @@ function FakeUI.Install()
     -- Dropdowns follow DropdownButtonMixin: being set up while shown and every OnShow generate the menu, the text comes
     -- from the selected entry, and opening generates the menu before it counts as open.
     local function UpdateSelectionText(dropdown)
+        if dropdown.disableSelectionText then
+            return
+        end
         dropdown.text = dropdown.defaultText
         for _, entry in ipairs(dropdown.menuEntries or {}) do
             if entry.isSelected and entry.isSelected() then
@@ -428,24 +439,36 @@ function FakeUI.Install()
     end
     -- Like Blizzard's, this only shows once the text is updated
     function methods:SetDefaultText(text) self.defaultText = text end
+    -- Like DropdownSelectionTextMixin: the text stays, whatever is selected
+    function methods:OverrideText(text)
+        if not text then return end
+        self.disableSelectionText = true
+        self.text = text
+    end
     function methods:SetupMenu(generator)
         self.menuGenerator = generator
         self:HookScript("OnShow", function(dropdown) dropdown:GenerateMenu() end)
         if self:IsShown() then self:GenerateMenu() end
     end
+    -- Like Blizzard's element descriptions: a menu, and every entry, can have entries of its own
+    local function AddDescriptionMethods(description, entries)
+        function description.SetScrollMode(_, height) entries.scrollHeight = height end
+        function description.CreateDivider() table.insert(entries, {isDivider = true}) end
+        local function AddEntry(text, isSelected, select)
+            local entry = {text = text, isSelected = isSelected, select = select, entries = {}}
+            function entry:AddInitializer(initializer) self.initializer = initializer end
+            AddDescriptionMethods(entry, entry.entries)
+            table.insert(entries, entry)
+            return entry
+        end
+        function description.CreateRadio(_, text, isSelected, select) return AddEntry(text, isSelected, select) end
+        function description.CreateButton(_, text, select) return AddEntry(text, nil, select) end
+        return description
+    end
     function methods:GenerateMenu()
         self.generatedMenus = (self.generatedMenus or 0) + 1
         local entries = {}
-        self.menuGenerator(self, {
-            SetScrollMode = function(_, height) entries.scrollHeight = height end,
-            CreateDivider = function() table.insert(entries, {isDivider = true}) end,
-            CreateRadio = function(_, text, isSelected, select)
-                local entry = {text = text, isSelected = isSelected, select = select}
-                function entry:AddInitializer(initializer) self.initializer = initializer end
-                table.insert(entries, entry)
-                return entry
-            end,
-        })
+        self.menuGenerator(self, AddDescriptionMethods({}, entries))
         self.menuEntries = entries
         UpdateSelectionText(self)
     end
@@ -604,6 +627,16 @@ function FakeUI.Install()
     _G.SetCursor = function(cursor) ui.cursor = cursor end
     -- Only the atlases in ui.atlases exist, like on a client without Forever's
     _G.C_Texture = {GetAtlasInfo = function(atlas) return ui.atlases and ui.atlases[atlas] or nil end}
+    _G.GetCurrentKeyBoardFocus = function() return ui.focus end
+    -- With a comma between thousands, like Blizzard's in English
+    _G.BreakUpLargeNumbers = function(value)
+        local text = tostring(math.floor(value)):reverse():gsub("(%d%d%d)", "%1,"):reverse()
+        return (text:gsub("^(-?),", "%1"))
+    end
+    -- Like ColorMixin
+    _G.CreateColor = function(r, g, b, a)
+        return {r = r, g = g, b = b, a = a, GetRGB = function(color) return color.r, color.g, color.b end}
+    end
     ui.knownNpcs = {}
     ui.modelLoadSeconds = 0
     _G.NineSliceUtil = {ApplyLayoutByName = function() end}
