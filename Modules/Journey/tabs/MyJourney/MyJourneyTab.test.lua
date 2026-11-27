@@ -29,7 +29,7 @@ describe("My Journey", function()
             {Event = "Level", NewLevel = 3, Timestamp = FEBRUARY + 2},
         }
         _G.Questie = {
-            db = {char = {journey = journey}, profile = {}},
+            db = {char = {journey = journey, journeyWindow = {quests = {}, history = {}}}, profile = {}},
             Colorize = function(_, text) return text end,
         }
         popups, notesOpened = {}, 0

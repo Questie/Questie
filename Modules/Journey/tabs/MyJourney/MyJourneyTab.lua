@@ -252,7 +252,7 @@ function _QuestieJourney.myJourney.Build(canvas)
     summary:SetJustifyH("LEFT")
     summary:SetWordWrap(false)
 
-    local panes = JourneyPanes.Create(canvas, "", TOOLBAR_HEIGHT)
+    local panes = JourneyPanes.Create(canvas, "", TOOLBAR_HEIGHT, Questie.db.char.journeyWindow.history)
     tree = JourneyTree.Create(panes.list.contentArea, function(node)
         selectedEntry = Questie.db.char.journey[node.value]
         _ShowDetails()

@@ -45,6 +45,13 @@ local SETTINGS_ICON = 134063 -- Interface\Icons\INV_Misc_Gear_01
 ---@field Open fun(kind: JourneyKind, id: number)
 ---@field ClearFocus fun()
 
+---What the user resized, saved for the character
+---@class JourneyWindow.Sizes
+---@field width number? Nil until the window is resized
+---@field height number?
+---@field quests JourneyPanes.Sizes Each tab has its own divider
+---@field history JourneyPanes.Sizes
+
 ---@class JourneyTabInfo
 ---@field key string
 ---@field module string Where its JourneyTab is in the private table of QuestieJourney
@@ -149,17 +156,38 @@ local function _ClearFocusInWindow()
     end
 end
 
+---Shrinks a size of the window to what fits on the screen. A saved size can be too big after the UI scale was changed.
+---@param width number
+---@param height number
+---@return number width
+---@return number height
+local function _FitToScreen(width, height)
+    return math.min(width, GetScreenWidth() - 2 * SIDE_TAB_SPACE), math.min(height, GetScreenHeight())
+end
+
 local function _CreateWindow()
+    ---@type JourneyWindow.Sizes
+    local sizes = Questie.db.char.journeyWindow
+    local width, height = _FitToScreen(sizes.width or WINDOW_WIDTH, sizes.height or WINDOW_HEIGHT)
     window = QuestieOptionsWindow.Create({
         name = "QuestieJourneyFrame",
         title = l10n("%s's Journey", GetUnitName("player", true)),
         strata = "FULLSCREEN_DIALOG", -- Above the maximized world map
-        width = math.min(WINDOW_WIDTH, GetScreenWidth() - 2 * SIDE_TAB_SPACE),
-        height = WINDOW_HEIGHT,
+        width = width,
+        height = height,
         minWidth = MIN_WINDOW_WIDTH,
         minHeight = MIN_WINDOW_HEIGHT,
+        onResized = function(resizedWidth, resizedHeight)
+            sizes.width, sizes.height = resizedWidth, resizedHeight
+        end,
     })
     window:SetPoint("CENTER", 0, ABOVE_CENTER)
+    -- Double-clicking the grip resets the window to its default size, and forgets the saved one. The grip's mouse-up
+    -- comes before the click, so it has already let go of the window and saved the size it was dragged to.
+    window.resizeGrip:SetScript("OnDoubleClick", function()
+        sizes.width, sizes.height = nil, nil
+        window:SetSize(_FitToScreen(WINDOW_WIDTH, WINDOW_HEIGHT))
+    end)
     canvasTitle = QuestieOptionsWindow.CreatePageTitle(window.canvasContainer, window.canvasContainer, QuestieOptionsWindow.HEADER_INSET)
     -- In the middle of the header, like the tabs of the quests next to it
     canvasTitle:ClearAllPoints()

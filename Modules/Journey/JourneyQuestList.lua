@@ -71,7 +71,8 @@ end
 function JourneyQuestList.Create(canvas, topInset)
     ---@type JourneyQuestList.Instance
     local list = {}
-    local panes = JourneyPanes.Create(canvas, l10n("Quests"), topInset)
+    -- Not saved, because the window doesn't show the tabs with this list anymore
+    local panes = JourneyPanes.Create(canvas, l10n("Quests"), topInset, {})
     list.tree = JourneyTree.Create(panes.list.contentArea, function(node)
         JourneyLinks.TryInsertIntoChat(node.value)
         list.questId = node.value

@@ -22,7 +22,8 @@ local CLASSIC_SIDE_TAB_OVERLAP = 10
 ---@param window Frame
 ---@param minWidth number
 ---@param minHeight number
-local function _AddResizeGrip(window, minWidth, minHeight)
+---@param onResized fun(width: number, height: number)?
+local function _AddResizeGrip(window, minWidth, minHeight, onResized)
     window:SetResizable(true)
 
     -- Every supported client has this grip, and keeps the minimum size while it is dragged. Checked in Blizzard's source
@@ -32,6 +33,10 @@ local function _AddResizeGrip(window, minWidth, minHeight)
     grip:SetFrameLevel(window:GetFrameLevel() + 10) -- Above the pages, which reach into the corner
     grip:Init(window, minWidth, minHeight)
     window.resizeGrip = grip
+    -- Every supported client calls it when the grip is released, also by the code below. Checked in Blizzard's source.
+    if onResized then
+        grip:SetOnResizeStoppedCallback(function() onResized(window:GetWidth(), window:GetHeight()) end)
+    end
 
     -- The mouse-up never arrives when the window hides while it is being resized
     window:HookScript("OnHide", function()
@@ -50,6 +55,7 @@ end
 ---@field height number
 ---@field minWidth number? Together with minHeight. Without them the window keeps its size.
 ---@field minHeight number?
+---@field onResized fun(width: number, height: number)? After the user resized the window
 
 ---Creates the hidden window. Tab canvases go in its canvasContainer.
 ---@param settings QuestieWindowSettings
@@ -124,7 +130,7 @@ function QuestieOptionsWindow.Create(settings)
     window.canvasContainer:SetPoint("BOTTOMRIGHT", window, "BOTTOMRIGHT", -10, 10)
 
     if settings.minWidth then
-        _AddResizeGrip(window, settings.minWidth, settings.minHeight)
+        _AddResizeGrip(window, settings.minWidth, settings.minHeight, settings.onResized)
     end
 
     -- Lets the Escape key close the window

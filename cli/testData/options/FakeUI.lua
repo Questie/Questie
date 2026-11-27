@@ -65,8 +65,10 @@ local TEMPLATE_METHODS = {
         OnMouseUp = function(self)
             self.isActive = false
             self.target:StopMovingOrSizing()
+            if self.resizeStoppedCallback then self.resizeStoppedCallback(self.target) end
         end,
         IsActive = function(self) return self.isActive == true end,
+        SetOnResizeStoppedCallback = function(self, callback) self.resizeStoppedCallback = callback end,
     },
     MinimalTabTemplate = {
         SetSelected = function(self, isSelected) self.isSelected = isSelected end,

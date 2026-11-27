@@ -249,7 +249,8 @@ end
 function _QuestieJourney.search.Build(canvas)
     _CreateSearchBox(canvas)
 
-    local panes = JourneyPanes.Create(canvas, "", 56)
+    -- Not saved, because the window doesn't show this tab anymore
+    local panes = JourneyPanes.Create(canvas, "", 56, {})
     resultList = JourneyResultList.Create(panes.list.contentArea, _GetResultText, _GetResultIcon, function(id)
         searchBox:ClearFocus()
         selection = {kind = shownKind, id = id}

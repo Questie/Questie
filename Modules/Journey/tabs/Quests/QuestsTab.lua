@@ -408,7 +408,7 @@ function _QuestieJourney.quests.Build(canvas)
     tabBar:SetPoint("BOTTOMRIGHT", canvas, "TOPRIGHT", -TAB_BAR_RIGHT_INSET, 1)
     _CreateHistoryButtons(canvas)
     _CreateProgressBar(canvas)
-    panes = JourneyPanes.Create(canvas, "", TOOLBAR_HEIGHT)
+    panes = JourneyPanes.Create(canvas, "", TOOLBAR_HEIGHT, Questie.db.char.journeyWindow.quests)
 end
 
 function _QuestieJourney.quests.OnSelected()
