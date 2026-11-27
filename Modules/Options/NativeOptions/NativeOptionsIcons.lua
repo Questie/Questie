@@ -118,6 +118,18 @@ function QuestieOptionsEngine.tabs.icons:Initialize()
                             end)
                         end,
                     },
+                    askToHideAbandonedQuestsToggle = {
+                        type = "checkbox",
+                        order = 1.4,
+                        title = "Ask to hide abandoned quests",
+                        tooltip = "When you abandon a quest, ask whether its icon should be hidden.",
+                        width = "full",
+                        enabled = _IsEnabled,
+                        get = function() return Questie.db.profile.askToHideAbandonedQuests end,
+                        set = function(_, value)
+                            Questie.db.profile.askToHideAbandonedQuests = value
+                        end,
+                    },
                 },
             },
             icon_toggles_group = {

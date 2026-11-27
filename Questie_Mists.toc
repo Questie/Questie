@@ -222,6 +222,7 @@ Modules\Quest\IsleOfQuelDanas.lua
 Modules\Quest\QuestFinisher.lua
 Modules\Quest\QuestgiverFrame.lua
 Modules\Quest\QuestieQuest.lua
+Modules\Quest\AbandonHidePrompt.lua
 Modules\Quest\Lifecycle\QuestLifecycle.lua
 Modules\Quest\QuestieQuestPrivates.lua
 Modules\Quest\BreadcrumbQuests.lua

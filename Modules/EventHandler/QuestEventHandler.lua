@@ -54,6 +54,8 @@ local AvailableQuests = QuestieLoader:ImportModule("AvailableQuests")
 local BreadcrumbQuests = QuestieLoader:ImportModule("BreadcrumbQuests")
 ---@type CompletedQuests
 local CompletedQuests = QuestieLoader:ImportModule("CompletedQuests")
+---@type AbandonHidePrompt
+local AbandonHidePrompt = QuestieLoader:ImportModule("AbandonHidePrompt")
 
 local GetItemInfo = QuestieCompat.GetItemInfo
 
@@ -455,12 +457,16 @@ function QuestEventHandler.QuestRemoved(questId)
         -- CompletedQuests if the quest is unknown to QuestieDB, or from SmoothReset.
         wasCompletedBefore = Questie.db.char.complete[questId],
         timer = C_Timer.NewTicker(1, function()
-            _QuestEventHandler:MarkQuestAsAbandoned(questId)
+            -- Not asked when the quest is accepted again right away: its icon is not coming back then
+            if _QuestEventHandler:MarkQuestAsAbandoned(questId) then
+                AbandonHidePrompt.Show(questId)
+            end
         end, 1)
     }
 end
 
 ---@param questId number
+---@return boolean? wasAbandoned @true if the quest was abandoned, nil if it was turned in or is not waiting for this check
 function _QuestEventHandler:MarkQuestAsAbandoned(questId)
     Questie.Debug(Questie.DEBUG_DEVELOP, "QuestEventHandler:MarkQuestAsAbandoned")
     if questLog[questId] and questLog[questId].state == QUEST_LOG_STATES.QUEST_REMOVED then
@@ -492,6 +498,8 @@ function _QuestEventHandler:MarkQuestAsAbandoned(questId)
 
         -- The local player no longer has this quest; a party member may still need it.
         QuestiePartyObjectives:ScheduleUpdate(questId)
+
+        return true
     end
 end
 
