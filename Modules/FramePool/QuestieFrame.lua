@@ -30,6 +30,8 @@ local l10n = QuestieLoader:ImportModule("l10n")
 ---@type HBDPins
 local HBDPins = QuestieLoader:ImportModule("HBDPins")
 
+---@alias StarterType "itemFromMonster"|"itemFromObject"|"Object"
+
 ---@class IconData
 ---@field Id QuestId
 ---@field Type string
@@ -39,7 +41,7 @@ local HBDPins = QuestieLoader:ImportModule("HBDPins")
 ---@field QuestData Quest
 ---@field Name string
 ---@field IsObjectiveNote boolean
----@field StarterType string|nil
+---@field StarterType StarterType? What starts an available quest when it is not an NPC handing it out.
 ---@field waypointPaths WaypointPath[]? Patrol paths of the NPC, shared by all icons with this data.
 ---@field DropperRank number? The cmangos rank of a monster killed for the item starting the quest: 0 normal, 1 elite, 2 rare elite, 3 boss, 4 rare.
 ---@field StarterInDungeon true? The starter is inside a dungeon. On the world map, its icons stand at the dungeon's entrance.
@@ -49,6 +51,7 @@ local HBDPins = QuestieLoader:ImportModule("HBDPins")
 ---@field g number
 ---@field b number
 ---@field a number
+---@field overlay Texture? Drawn over this texture as part of the same picture, so it fades with it.
 ---@field OLDSetVertexColor function
 
 ---@param frameId number
@@ -77,7 +80,9 @@ function QuestieFrame.CreateIconFrame(frameId, OnEnter)
     --     .glowTexture behind the main one
     --   All these textures are always in the "OVERLAY" drawlayer and each texture has sublayer set to define ordering within the IconFrame.
     -- IconFrames itself are ordered behind/infront of each other by FrameLevel.
-    -- Frames having same FrameLevel (and Strata) show up inorder which is first :Show() (explicit or implicit).
+    -- Icons of one type share a FrameLevel (QuestieMap.utils.SetDrawOrder). The client draws the textures of frames on one
+    -- level sublayer by sublayer across all of them, so overlapping icons mix their layers. A quest starter draws as one
+    -- piece instead (UpdateTexture).
     --! Do not :SetDrawLayer() for these textures. Use parent frame FrameLevel for z-ordering as needed elsewhere in code.
 
     ---@type IconTexture
@@ -105,6 +110,7 @@ function QuestieFrame.CreateIconFrame(frameId, OnEnter)
     -- Replace SetVertexColor method
     texture.OLDSetVertexColor = texture.SetVertexColor
     texture.SetVertexColor = _QuestieFrame.SetVertexColor
+    texture.overlay = overlayTexture
     texture:SetVertexColor(1, 1, 1, 1)
 
     -- Replace SetVertexColor method
@@ -127,6 +133,7 @@ function QuestieFrame.CreateIconFrame(frameId, OnEnter)
     newFrame.BaseOnHide = _QuestieFrame.BaseOnHide
 
     newFrame.UpdateTexture = _QuestieFrame.UpdateTexture
+    newFrame.SetQuestIcon = _QuestieFrame.SetQuestIcon
     newFrame.Unload = _QuestieFrame.Unload
 
     -- functions for fake hide/unhide
@@ -188,6 +195,10 @@ function _QuestieFrame.SetVertexColor(self, r, g, b, a)
     self.g = g or 1
     self.b = b or 1
     self.a = a or 1
+    -- Icons fade through the alpha set here, such as on the minimap by distance
+    if self.overlay then
+        self.overlay:SetAlpha(self.a)
+    end
 end
 
 -- Right clicks fall through to the map, so Blizzard zooms out/pings securely without causing taints.
@@ -297,7 +308,53 @@ function _QuestieFrame.BaseOnHide(self)
     self.glowTexture:Hide()
 end
 
+-- A quest started by an item or an object shows what starts it, a loot bag or a cogwheel, with the quest's icon as
+-- a badge in the top-right corner.
+local STARTER_BADGE_SIZE = 0.62 -- of the icon
+
+---@param starterType StarterType
+---@return string picture The icon of what starts the quest. Questie's own art, as icon themes may make the objective
+---icons look alike, and the badge's inset is fitted to it.
+---@return number badgeInset How far the badge sits in from the corner, down and left, as a share of the icon.
+local function _GetStarterLook(starterType)
+    if starterType == "Object" then
+        return Questie.icons["object"], 0 -- the cogwheel fills its corner, so the badge sits in it
+    end
+    return Questie.icons["loot"], 0.07 -- the loot bag leaves its corner empty, about a pixel on the map
+end
+
+---Draws the quest's icon on the overlay as a badge in the icon's top-right corner. The texture coordinates shrink it
+---into place and the clamp mode leaves the rest of the overlay clear, so the badge follows the icon's size by itself.
+---Every supported client has the CLAMPTOBLACKADDITIVE wrap mode: Blizzard's own UI uses it in
+---Blizzard_Channels/VoiceActivityNotification.xml on classic_era, classic_anniversary, classic_titan, 4.4.2 and classic,
+---and in Blizzard_CommunitiesSecure/CommunitiesAddDialog.xml on forever.
+---@param overlay Texture
+---@param questIcon string
+---@param inset number
+local function _ShowStarterBadge(overlay, questIcon, inset)
+    local left = 1 - STARTER_BADGE_SIZE - inset -- the badge's edges, as shares of the icon
+    local top = inset
+    overlay:SetTexture(questIcon, "CLAMPTOBLACKADDITIVE", "CLAMPTOBLACKADDITIVE")
+    overlay:SetTexCoord(-left / STARTER_BADGE_SIZE, (1 - left) / STARTER_BADGE_SIZE, -top / STARTER_BADGE_SIZE, (1 - top) / STARTER_BADGE_SIZE)
+    overlay:Show()
+end
+
+---Shows the quest's icon on the frame: as the picture, or as the badge of a starter whose picture is what starts the
+---quest. Only the image changes, so a drawn icon keeps its size and the alpha its fade code gave it, such as when its
+---quest turns from gray to yellow.
 ---@param self IconFrame
+---@param questIcon string
+function _QuestieFrame.SetQuestIcon(self, questIcon)
+    if self.data.StarterType then
+        local _, badgeInset = _GetStarterLook(self.data.StarterType)
+        _ShowStarterBadge(self.overlayTexture, questIcon, badgeInset)
+    else
+        self.texture:SetTexture(questIcon)
+    end
+end
+
+---@param self IconFrame
+---@param texture string The quest's icon.
 function _QuestieFrame.UpdateTexture(self, texture)
     --Different settings depending on noteType
     local globalScale
@@ -314,31 +371,22 @@ function _QuestieFrame.UpdateTexture(self, texture)
         alpha = 1;
     end
 
-    self.texture:SetTexture(texture)
-    --self.data.Icon = texture;
     local colors = {1, 1, 1}
 
+    -- A quest starter's picture and badge are one icon: where starters overlap, the badge of the one below would otherwise
+    -- show on the picture above it, as frames on one level draw sublayer by sublayer across all of them. Other icons keep
+    -- drawing that way, so an objective's glow stays behind its neighbours' pictures.
+    -- Every supported client has SetFlattensRenderLayers: SimpleFrameAPIDocumentation.lua lists it on classic_era,
+    -- classic_anniversary, classic_titan, 4.4.2, classic and forever.
+    self:SetFlattensRenderLayers(self.data.StarterType ~= nil)
+
     if self.data.StarterType then
-        if self.data.StarterType == "itemFromMonster" or self.data.StarterType == "itemFromObject" then
-            self.overlayTexture:SetTexture("Interface/AddOns/Questie/Icons/loot_overlay.png")
-        elseif self.data.StarterType == "Object" then
-            self.overlayTexture:SetTexture("Interface/AddOns/Questie/Icons/object_overlay.png")
-        end
-        self.overlayTexture:Show()
+        self.texture:SetTexture((_GetStarterLook(self.data.StarterType)))
     else
         self.overlayTexture:Hide()
         self.overlayTexture:SetTexture() -- clear the texture
     end
-
-    --[[if self.data.FinisherType then
-        if self.data.FinisherType == "Object" then
-            self.overlayTexture:SetTexture("Interface/AddOns/Questie/Icons/object_overlay.png")
-        end
-        self.overlayTexture:Show()
-    else
-        self.overlayTexture:Hide()
-        self.overlayTexture:SetTexture()
-    end]] -- need to see why followup quest from object has no cogwheel anymore
+    _QuestieFrame.SetQuestIcon(self, texture)
 
     if self.data.IconColor ~= nil and objectiveColor then
         colors = self.data.IconColor
@@ -409,6 +457,7 @@ function _QuestieFrame.Unload(self)
     self:Hide()
     self.glowTexture:Hide()
     self.overlayTexture:Hide()
+    self:SetFlattensRenderLayers(false) -- a starter draws as one piece; townsfolk icons drawn on it next keep the default
     self.data = nil -- Just to be safe
     self.x = nil
     self.y = nil

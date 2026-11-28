@@ -541,8 +541,8 @@ local function _UpdateDrawnAvailableIcons(questId)
             if newIcon ~= frame.data.Icon then
                 -- Only the image follows the icon. UpdateTexture sets an icon up as if new, which would reset its
                 -- size and the alpha its fade code gave it. The minimap fade logic applies a fade only when it
-                -- changes, so a minimap icon would stay invisible.
-                frame.texture:SetTexture(Questie.usedIcons[newIcon])
+                -- changes, so a minimap icon would stay invisible. A starter keeps its picture and gets a new badge.
+                frame:SetQuestIcon(Questie.usedIcons[newIcon])
                 newIconByData = newIconByData or {}
                 newIconByData[frame.data] = newIcon
             end
