@@ -176,6 +176,19 @@ function QuestieOptionsEngine.tabs.tracker:Initialize()
                             QuestieTracker:Update()
                         end,
                     },
+                    showOnlyQuestsWithItems = {
+                        type = "checkbox",
+                        order = 3,
+                        title = "Only Show Quests With Usable Items",
+                        tooltip = "If checked, the Questie Tracker only shows Quests that currently have a usable Quest Item. Other Quests are hidden from the Tracker but still show on the map.",
+                        width = "half",
+                        enabled = function() return Questie.db.profile.trackerEnabled end,
+                        get = function() return Questie.db.profile.trackerShowOnlyQuestsWithItems end,
+                        set = function(_, value)
+                            Questie.db.profile.trackerShowOnlyQuestsWithItems = value
+                            QuestieTracker:Update()
+                        end,
+                    },
                     listAchievementsFirst = {
                         type = "checkbox",
                         order = 4,

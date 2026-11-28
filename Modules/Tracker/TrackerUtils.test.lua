@@ -665,6 +665,55 @@ describe("TrackerUtils", function()
         end)
     end)
 
+    describe("PassesQuestItemFilter", function()
+        local itemClasses
+
+        before_each(function()
+            itemClasses = {[5] = 12}
+            local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
+            QuestieDB.itemClasses = {QUEST = 12}
+            QuestieDB.QueryItemSingle = function(itemId, key) return key == "class" and itemClasses[itemId] or nil end
+        end)
+
+        it("rejects a quest whose first usable item gets no item button because it is not a quest item", function()
+            Questie.db.profile.trackerShowOnlyQuestsWithItems = true
+            itemClasses[7] = 0
+            TrackerUtils.GetQuestItemIds = function() return {7, 5} end
+
+            assert.is_false(TrackerUtils.PassesQuestItemFilter({Id = 1}, 0))
+        end)
+
+        it("passes a quest whose first usable item is the native quest item without a quest item class", function()
+            Questie.db.profile.trackerShowOnlyQuestsWithItems = true
+            TrackerUtils.GetQuestItemIds = function() return {7}, 7 end
+
+            assert.is_true(TrackerUtils.PassesQuestItemFilter({Id = 1}, 0))
+        end)
+
+        it("passes every quest without checking items when the filter is off", function()
+            TrackerUtils.GetQuestItemIds = spy.new(function() return {} end)
+
+            assert.is_true(TrackerUtils.PassesQuestItemFilter({Id = 1}, 0))
+            assert.spy(TrackerUtils.GetQuestItemIds).was.not_called()
+        end)
+
+        it("passes a quest with a usable item when the filter is on", function()
+            Questie.db.profile.trackerShowOnlyQuestsWithItems = true
+            TrackerUtils.GetQuestItemIds = spy.new(function() return {5} end)
+            local quest = {Id = 1}
+
+            assert.is_true(TrackerUtils.PassesQuestItemFilter(quest, 0))
+            assert.spy(TrackerUtils.GetQuestItemIds).was.called_with(quest, 0)
+        end)
+
+        it("rejects a quest without a usable item when the filter is on", function()
+            Questie.db.profile.trackerShowOnlyQuestsWithItems = true
+            TrackerUtils.GetQuestItemIds = function() return {} end
+
+            assert.is_false(TrackerUtils.PassesQuestItemFilter({Id = 1}, 0))
+        end)
+    end)
+
     describe("AddQuestItemButtons", function()
         it("should add sourceItemId as primary button", function()
             getItemSpellMock.returns("Use Quest Item", 111)
@@ -1333,6 +1382,43 @@ describe("TrackerUtils", function()
 
             assert.is_false(hasQuest)
         end)
+
+        describe("with the item filter", function()
+            local function _IncompleteQuest(id)
+                return {Id = id, IsComplete = function() return 0 end}
+            end
+
+            before_each(function()
+                local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
+                QuestieDB.itemClasses = {QUEST = 12}
+                QuestieDB.QueryItemSingle = function() return 12 end
+                Questie.db.profile.trackerShowOnlyQuestsWithItems = true
+                QuestieTracker.GetNumTrackedQuests = function() return 2 end
+                QuestieTracker.IsTrackedByQuestie = function() return true end
+                TrackerUtils.GetQuestItemIds = function(quest) return quest.Id == 1 and {5} or {} end
+            end)
+
+            it("should return true when the item filter is on and a tracked quest has a usable item", function()
+                trackerQuests = {[1] = _IncompleteQuest(1), [2] = _IncompleteQuest(2)}
+
+                assert.is_true(TrackerUtils.HasQuest())
+            end)
+
+            it("should return false when the item filter is on and no tracked quest has a usable item even though complete quests show", function()
+                trackerQuests = {[2] = _IncompleteQuest(2)}
+
+                assert.is_false(TrackerUtils.HasQuest())
+            end)
+
+            it("should return true when the item filter hides every quest but an achievement is tracked for WotLK", function()
+                trackerQuests = {[2] = _IncompleteQuest(2)}
+                achievementIds = {1}
+                Questie.IsWotlk = true
+                Expansions.Current = Expansions.Wotlk
+
+                assert.is_true(TrackerUtils.HasQuest())
+            end)
+        end)
     end)
 
     describe("focus without verified enrichment", function()
@@ -1808,6 +1894,19 @@ describe("TrackerUtils", function()
                 Questie.db.profile.trackerShowCompleteQuests = false
                 trackerQuests[5] = _NewQuest(5, "Alpha", 1)
                 trackerQuests[5].isComplete = true
+
+                local sortedIds = TrackerUtils:GetSortedQuestIds()
+
+                assert.are.same({3, 1, 5, 2, 4}, sortedIds)
+            end)
+
+            it("excludes quests hidden by the item filter from a group's nearest distance", function()
+                local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
+                QuestieDB.itemClasses = {QUEST = 12}
+                QuestieDB.QueryItemSingle = function() return 12 end
+                Questie.db.profile.trackerShowOnlyQuestsWithItems = true
+                trackerQuests[5] = _NewQuest(5, "Alpha", 1)
+                TrackerUtils.GetQuestItemIds = function(quest) return quest.Id ~= 5 and {9} or {} end
 
                 local sortedIds = TrackerUtils:GetSortedQuestIds()
 
