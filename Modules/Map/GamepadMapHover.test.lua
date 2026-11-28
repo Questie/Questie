@@ -13,6 +13,7 @@ describe("GamepadMapHover", function()
     local originalCreateFrame, originalGetCVarBool
     local tooltip
     local tooltipShown
+    local tooltipCreations
     local resetData
     local pins
     local cursorX, cursorY
@@ -36,6 +37,7 @@ describe("GamepadMapHover", function()
 
     before_each(function()
         tooltipShown = true
+        tooltipCreations = 0
         tooltip = {
             IsShown = function() return tooltipShown end,
             SetAnchorType = spy.new(function() end),
@@ -45,6 +47,7 @@ describe("GamepadMapHover", function()
         originalCreateFrame = _G.CreateFrame
         _G.CreateFrame = function(frameType)
             if frameType == "GameTooltip" then
+                tooltipCreations = tooltipCreations + 1
                 return tooltip
             end
             return {SetScript = function() end}
@@ -90,6 +93,26 @@ describe("GamepadMapHover", function()
         _G.WorldMapFrame = nil
         _G.SoftCursor = nil
         _G.InputUtil = nil
+    end)
+
+    it("should not create a tooltip until a gamepad pin is hovered", function()
+        assert.are.equal(0, tooltipCreations)
+        assert.is_nil(_GamepadMapHover.tooltip)
+        gamepadUIEnabled = false
+        pins = {CreatePin(100, 100)}
+        _GamepadMapHover.Update()
+        GamepadMapHover.RefreshQuest(5)
+        assert.are.equal(0, tooltipCreations)
+        gamepadUIEnabled = true
+        _GamepadMapHover.Update()
+        assert.are.equal(1, tooltipCreations)
+        assert.are.equal(tooltip, _GamepadMapHover.tooltip)
+        cursorX = 200
+        _GamepadMapHover.Update()
+        cursorX = 100
+        _GamepadMapHover.Update()
+        assert.are.equal(1, tooltipCreations)
+        assert.spy(MapIconTooltip.ShowOnTooltip).was.called(2)
     end)
 
     it("should show the Questie tooltip on the private tooltip for the icon under the cursor", function()
